@@ -1,0 +1,26 @@
+lobbytime: 60
+friendlyfire: false
+bungeecord: false
+ressource:
+    bronze:
+        spawninterval: 1000
+        amount: 2
+    iron:
+        spawninterval: 5000
+        amount: 1
+    gold:
+        spawninterval: 10000
+        amount: 1
+texts:
+    gamecheck:
+        LOC_NOT_SET_ERROR: Locations for the region were not set properly!
+        TEAM_SIZE_LOW_ERROR: You have to set more teams!
+        NO_RES_SPAWNER_ERROR: You didn't set any resource spawner!
+        NO_LOBBY_SET: You didn't set a lobby!
+shop:
+    armor:
+        item: DIAMOND_CHESTPLATE
+        name: Rüstung
+        offers:
+            - CLAY_BRICK;10;DIAMOND_CHESTPLATE;1
+            - CLAY_BRICK;20;DIAMOND_HELMET;1

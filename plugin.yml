@@ -1,0 +1,70 @@
+name: BedwarsReloaded
+main: io.github.yannici.bedwarsreloaded.Main
+version: 0.0.1
+depend: []
+softdepend: [Vault, Multiverse-Core]
+commands:
+    bw:
+        description: Base command for all Test-Plugin commands
+        usage: /<command> help
+        permission: bw.base
+    bw info:
+        description: This is a demo command.
+        usage: /<command> help
+        permission: bw.base
+    bw setspawner:
+        description: Sets a ressource spawn point of a specific type
+        usage: /<command> [Game] [bronze;iron;gold]
+        permission: bw.setup
+    bw addgame:
+        description: Add a new game
+        usage: /<command> [Name]
+        permission: bw.setup
+    bw start:
+        description: Starts a game
+        usage: /<command> [Game]
+        permission: bw.setup
+    bw addteam:
+        description: Adds a team to a game
+        usage: /<command> [Name] [Color]
+        permission: bw.setup
+    bw savegame:
+        description: Saves a game to config files
+        usage: /<command> [Name]
+        permission: bw.setup
+    bw setregion:
+        description: Sets one of the two possible region of the game
+        usage: /<command> [Name] [loc1;loc2]
+        permission: bw.setup
+    bw join:
+        description: Joins a specific team in a game
+        usage: /<command> [Game] [Team]
+        permission: bw.base
+    bw setspawn:
+        description: Sets the spawn of a team
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
+    bw setlobby:
+        description: Sets the lobby location of a game
+        usage: /<command> [Game]
+        permission: bw.setup
+    bw leave:
+        description: Leaves the current game
+        usage: /<command>
+        permission: bw.base
+permissions:
+    bw.*:
+        description: Gives all permissions for Bedwars Reloaded
+        children:
+            bw.vip: true
+            bw.setup: true
+            bw.base: true
+        bw.base:
+            description: Allows you to show to play games
+            default: true
+        bw.setup:
+            description: Allows you to set up new or existing games
+            default: op
+        bw.vip:
+            description: Allows special user permissions
+            default: op
