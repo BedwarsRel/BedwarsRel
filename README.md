@@ -20,6 +20,11 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * World reset + editable while plugin is activated
 * Many commands for game setup
 
+### Ideas / Suggestions
+
+If you got ideas or suggestions, please tell me! If you want to contact me, you can easily send
+a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
+
 ## TODO's
 
 * Game Countdown (Max length of game)
@@ -37,4 +42,4 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 
 ## What to join?
 
-**I'm still looking for contributors or developer which are want to help me with development. Also I'm looking for tester which testing my plugin meticulously**
+**I'm still looking for contributors or developers which are want to help me with development. Also I'm looking for tester which testing my plugin meticulously**
