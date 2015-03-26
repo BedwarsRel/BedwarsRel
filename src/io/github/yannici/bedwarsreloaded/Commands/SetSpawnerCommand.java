@@ -13,6 +13,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SetSpawnerCommand extends BaseCommand {
 
@@ -72,19 +73,27 @@ public class SetSpawnerCommand extends BaseCommand {
         }
 
         Material droppingMaterial = null;
+        String name = "Ress";
         switch(material) {
         case "gold":
             droppingMaterial = Material.GOLD_INGOT;
+            name = ChatColor.GOLD + "Gold";
             break;
         case "iron":
             droppingMaterial = Material.IRON_INGOT;
+            name = ChatColor.GRAY + "Silver";
             break;
         case "bronze":
             droppingMaterial = Material.CLAY_BRICK;
+            name = ChatColor.DARK_RED + "Bronze";
             break;
         }
 
         ItemStack stack = new ItemStack(droppingMaterial, this.getPlugin().getConfig().getInt("ressource." + material + ".amount"));
+        ItemMeta meta = stack.getItemMeta();
+        meta.setDisplayName(name);
+        stack.setItemMeta(meta);
+        
         int interval = this.getPlugin().getConfig().getInt("ressource." + material + ".spawninterval");
         Block downBlock = player.getLocation().getBlock();
 
