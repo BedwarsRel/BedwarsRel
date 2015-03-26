@@ -9,6 +9,7 @@ import io.github.yannici.bedwarsreloaded.Game.GameState;
 import io.github.yannici.bedwarsreloaded.Game.Team;
 import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
 
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -165,6 +166,7 @@ public class PlayerListener extends BaseListener {
 	 */
 	
 	@SuppressWarnings("incomplete-switch")
+	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent pie) {
 		Player player = pie.getPlayer();
 		Game g = Game.getGameOfPlayer(player);
@@ -177,8 +179,8 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		if(pie.getAction() != Action.RIGHT_CLICK_BLOCK 
-				&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
+		if(pie.getAction() != Action.LEFT_CLICK_BLOCK 
+				&& pie.getAction() != Action.LEFT_CLICK_AIR) {
 			return;
 		}
 		
@@ -191,7 +193,7 @@ public class PlayerListener extends BaseListener {
 			case DIAMOND:
 				pie.setCancelled(true);
 				if(player.isOp() || player.hasPermission("bw.setup")) {
-					g.run(player);
+					g.start(player);
 				}
 				break;
 		}
@@ -217,8 +219,11 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
+		game.nonFreePlayer(player);
 		team.addPlayer(player);
-		player.sendMessage(ChatWriter.pluginMessage("You successfully joined the team: " + team.getChatColor() + team.getName()));
+		
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "You successfully joined the team: " + team.getChatColor() + team.getName()));
+		player.closeInventory();
 	}
 	
 	@EventHandler

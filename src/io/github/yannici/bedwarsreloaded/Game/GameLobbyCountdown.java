@@ -35,11 +35,12 @@ public class GameLobbyCountdown extends BukkitRunnable {
 
         if(players.size() < this.game.getMinPlayers()) {
             this.game.broadcast(ChatColor.RED + "More players needed: Countdown was cancelled!", players);
+            this.counter = this.lobbytime;
             this.cancel();
         }
 
-        if(this.counter <= 5 && this.counter > 0) {
-            this.game.broadcast(ChatColor.YELLOW + "Game will start in " + this.counter + " seconds!", players);
+        if(this.counter <= 10 && this.counter > 0) {
+            this.game.broadcast(ChatColor.YELLOW + "Game will start in " + ChatColor.RED + this.counter + ChatColor.YELLOW + " seconds!", players);
             
             for(Player player : players) {
                 player.playSound(player.getLocation(), Sound.CLICK, 20.0F, 20.0F);

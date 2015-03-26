@@ -98,7 +98,7 @@ public class Game {
         if(this.minPlayers == 0) {
             this.minPlayers = 1; //Math.round(this.getMaxPlayers()/2);
         }
-
+        
         this.state = GameState.WAITING;
         return true;
     }
@@ -299,10 +299,6 @@ public class Game {
         	return teamCheck;
         }
         
-        if(this.itemshop == null || this.itemshop.size() == 0) {
-        	return GameCheckCode.NO_ITEMSHOP_CATEGORIES;
-        }
-
         if(this.getRessourceSpawner().size() == 0) {
             return GameCheckCode.NO_RES_SPAWNER_ERROR;
         }
@@ -315,7 +311,9 @@ public class Game {
     }
 
     public void nonFreePlayer(Player p) {
-        this.freePlayers.remove(p);
+        if(this.freePlayers.contains(p)) {
+            this.freePlayers.remove(p);
+        }
     }
     
     public void loadItemShopCategories() {
