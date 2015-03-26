@@ -2,22 +2,29 @@ package io.github.yannici.bedwarsreloaded.Listener;
 
 import java.lang.reflect.Method;
 
+import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 import io.github.yannici.bedwarsreloaded.Game.GameState;
+import io.github.yannici.bedwarsreloaded.Game.Team;
 import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
 
+import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener extends BaseListener {
@@ -57,17 +64,23 @@ public class PlayerListener extends BaseListener {
 		MerchantCategory.openCategorySelection(player, game);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent ice) {
 	    Player player = (Player)ice.getWhoClicked();
 	    Game game = Game.getGameOfPlayer(player);
 	    
-	    if(game.getState() != GameState.RUNNING) {
-	        return;
+	    if(game.getState() == GameState.WAITING) {
+	        this.onLobbyInventoryClick(ice, player, game);
 	    }
 	    
-	    if(!ice.getInventory().getName().equals("Itemshop")) {
+	    if(game.getState() == GameState.RUNNING) {
+	    	this.onIngameInventoryClick(ice, player, game);
+	    }
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
+		if(!ice.getInventory().getName().equals("Itemshop")) {
 	        return;
 	    }
 	    
@@ -130,6 +143,8 @@ public class PlayerListener extends BaseListener {
 		}
  	}
 	
+	
+	@EventHandler
 	public void onFly(PlayerToggleFlightEvent tfe) {
 		Player p = tfe.getPlayer();
 		
@@ -148,6 +163,63 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * LOBBY
 	 */
+	
+	@SuppressWarnings("incomplete-switch")
+	public void onPlayerInteract(PlayerInteractEvent pie) {
+		Player player = pie.getPlayer();
+		Game g = Game.getGameOfPlayer(player);
+		
+		if(g == null) {
+			return;
+		}
+		
+		if(g.getState() != GameState.WAITING) {
+			return;
+		}
+		
+		if(pie.getAction() != Action.RIGHT_CLICK_BLOCK 
+				&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
+			return;
+		}
+		
+		Material interactingMaterial = pie.getMaterial();
+		switch(interactingMaterial) {
+			case BED:
+				pie.setCancelled(true);
+				g.getPlayerStorage(player).openTeamSelection(g);
+				break;
+			case DIAMOND:
+				pie.setCancelled(true);
+				if(player.isOp() || player.hasPermission("bw.setup")) {
+					g.run(player);
+				}
+				break;
+		}
+			
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
+		Inventory inv = ice.getInventory();
+		ItemStack clickedStack = ice.getCurrentItem();
+		
+		if(!inv.getTitle().equals("Choose a team")) {
+			return;
+		}
+		
+		if(clickedStack.getType() != Material.WOOL) {
+			return;
+		}
+		
+		ice.setCancelled(true);
+		Team team = game.getTeamByColor(DyeColor.getByData(clickedStack.getData().getData()).toString());
+		if(team == null) {
+			return;
+		}
+		
+		team.addPlayer(player);
+		player.sendMessage(ChatWriter.pluginMessage("You successfully joined the team: " + team.getChatColor() + team.getName()));
+	}
 	
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent die) {
