@@ -57,7 +57,8 @@ public class VillagerItemShop {
         // As task because of inventory issues
         new BukkitRunnable() {
             
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public void run() {
                 try {
                 EntityVillager entityVillager = VillagerItemShop.this.createVillager();

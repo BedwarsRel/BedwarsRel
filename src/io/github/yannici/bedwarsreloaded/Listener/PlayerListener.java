@@ -57,6 +57,7 @@ public class PlayerListener extends BaseListener {
 		MerchantCategory.openCategorySelection(player, game);
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent ice) {
 	    Player player = (Player)ice.getWhoClicked();

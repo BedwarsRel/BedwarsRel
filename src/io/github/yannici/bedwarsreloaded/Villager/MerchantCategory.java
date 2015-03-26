@@ -49,7 +49,7 @@ public class MerchantCategory {
             ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
             
             for(Object offer : section.getList(cat + ".offers")) {
-                LinkedHashMap<String, Object> offerSection = (LinkedHashMap)offer;
+                LinkedHashMap<String, Object> offerSection = (LinkedHashMap<String, Object>)offer;
                 
                 if(!offerSection.containsKey("item1") || !offerSection.containsKey("reward")) {
                     continue;
