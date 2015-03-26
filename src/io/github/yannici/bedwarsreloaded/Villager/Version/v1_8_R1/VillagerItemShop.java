@@ -2,14 +2,14 @@ package io.github.yannici.bedwarsreloaded.Villager.Version.v1_8_R1;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityVillager;
-import net.minecraft.server.v1_8_R2.MerchantRecipe;
-import net.minecraft.server.v1_8_R2.MerchantRecipeList;
-import net.minecraft.server.v1_8_R2.StatisticList;
+import net.minecraft.server.v1_8_R1.EntityHuman;
+import net.minecraft.server.v1_8_R1.EntityVillager;
+import net.minecraft.server.v1_8_R1.MerchantRecipe;
+import net.minecraft.server.v1_8_R1.MerchantRecipeList;
+import net.minecraft.server.v1_8_R1.StatisticList;
 
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -68,7 +68,7 @@ public class VillagerItemShop {
                 recipeList.clear();
                 
                 for(io.github.yannici.bedwarsreloaded.Villager.VillagerTrade trade : VillagerItemShop.this.category.getOffers()) {
-                    recipeList.add((MerchantRecipe)trade.getHandle().getInstance());//mrl.add(trade.getHandle());
+                    recipeList.add((MerchantRecipe)trade.getHandle().getInstance());
                 }
 
                 entityVillager.a_(entityHuman);

@@ -1,19 +1,24 @@
 package io.github.yannici.bedwarsreloaded.Listener;
 
+import java.lang.reflect.Method;
+
 import io.github.yannici.bedwarsreloaded.Main;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 import io.github.yannici.bedwarsreloaded.Game.GameState;
+import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener extends BaseListener {
 
@@ -42,13 +47,50 @@ public class PlayerListener extends BaseListener {
 	 * GAME
 	 */
 	
-	private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game, Player player) {
+    private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game, Player player) {
 		if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
 	      return;
 	    }
 		
-		// TODO: Create Itemshop and open it
 		iee.setCancelled(true);
+		
+		MerchantCategory.openCategorySelection(player, game);
+	}
+	
+	@EventHandler
+	public void onInventoryClick(InventoryClickEvent ice) {
+	    Player player = (Player)ice.getWhoClicked();
+	    Game game = Game.getGameOfPlayer(player);
+	    
+	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    if(!ice.getInventory().getName().equals("Itemshop")) {
+	        return;
+	    }
+	    
+	    ice.setCancelled(true);
+	    ItemStack clickedStack = ice.getCurrentItem();
+	    
+	    if(clickedStack == null) {
+	        return;
+	    }
+	    
+	    try {
+	        MerchantCategory cat = game.getItemShopCategories().get(clickedStack.getType());
+	        if(cat == null) {
+	            return;
+	        }
+	        
+	        Class clazz = Class.forName("io.github.yannici.bedwarsreloaded.Villager.Version." + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
+	        Object villagerItemShop = clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class).newInstance(game, player, cat);
+	        
+	        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
+	        openTrade.invoke(villagerItemShop, new Object[]{});
+	    } catch(Exception ex) {
+	        ex.printStackTrace();
+	    }
 	}
 	
 	/*

@@ -4,11 +4,13 @@ import io.github.yannici.bedwarsreloaded.Game.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +34,7 @@ public class MerchantCategory {
         this.offers = offers;
     }
     
+    @SuppressWarnings("unchecked")
     public static HashMap<Material, MerchantCategory> loadCategories(FileConfiguration cfg) {
         if(cfg.getConfigurationSection("shop") == null) {
             return new HashMap<Material, MerchantCategory>();
@@ -46,18 +49,29 @@ public class MerchantCategory {
             ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
             
             for(Object offer : section.getList(cat + ".offers")) {
-                String trade = (String)offer;
-                String[] tradeArr = trade.split(";");
-                VillagerTrade tradeObj = null;
+                LinkedHashMap<String, Object> offerSection = (LinkedHashMap)offer;
                 
-                if(tradeArr.length < 4 || tradeArr.length > 6) {
+                if(!offerSection.containsKey("item1") || !offerSection.containsKey("reward")) {
                     continue;
                 }
                 
-                if(tradeArr.length == 4) {
-                    tradeObj = new VillagerTrade(new ItemStack(Material.getMaterial(tradeArr[0]), Integer.parseInt(tradeArr[1])), new ItemStack(Material.getMaterial(tradeArr[2]), Integer.parseInt(tradeArr[3])));
-                } else if(tradeArr.length == 3) {
-                    tradeObj = new VillagerTrade(new ItemStack(Material.getMaterial(tradeArr[0]), Integer.parseInt(tradeArr[1])), new ItemStack(Material.getMaterial(tradeArr[2]), Integer.parseInt(tradeArr[3])), new ItemStack(Material.getMaterial(tradeArr[4]), Integer.parseInt(tradeArr[5])));
+                ItemStack item1 = MerchantCategory.createItemStackByConfig(offerSection.get("item1"));
+                ItemStack item2 = null;
+                if(offerSection.containsKey("item2")) {
+                    item2 = MerchantCategory.createItemStackByConfig(offerSection.get("item2"));
+                }
+                ItemStack reward = MerchantCategory.createItemStackByConfig(offerSection.get("reward"));
+                
+                if(item1 == null || reward == null) {
+                    continue;
+                }
+                
+                VillagerTrade tradeObj = null;
+                
+                if(item2 != null) {
+                    tradeObj = new VillagerTrade(item1, item2, reward);
+                } else {
+                    tradeObj = new VillagerTrade(item1, reward);
                 }
                 
                 offers.add(tradeObj);
@@ -67,6 +81,39 @@ public class MerchantCategory {
         }
         
         return mc;
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static ItemStack createItemStackByConfig(Object section) {
+        if(!(section instanceof LinkedHashMap)) {
+            return null;
+        }
+        
+        try {
+            LinkedHashMap<String, Object> cfgSection = (LinkedHashMap<String, Object>)section;
+            Material material = Material.getMaterial(cfgSection.get("item").toString().toUpperCase());
+            int amount = Integer.valueOf(cfgSection.get("amount").toString());
+            
+            ItemStack finalStack = new ItemStack(material, amount);
+            
+            if(cfgSection.containsKey("enchants")) {
+                Object cfgEnchants = cfgSection.get("enchants");
+                
+                if(cfgEnchants instanceof LinkedHashMap) {
+                    LinkedHashMap<String, Object> enchantSection = (LinkedHashMap)cfgEnchants;
+                    for(String key : enchantSection.keySet()) {
+                        finalStack.addEnchantment(Enchantment.getByName(key.toUpperCase()) , Integer.valueOf(enchantSection.get(key).toString()));
+                    }
+                }
+            }
+            
+            return finalStack;
+            
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return null;
     }
     
     public static void openCategorySelection(Player p, Game g) {

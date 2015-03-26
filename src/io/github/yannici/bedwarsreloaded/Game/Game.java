@@ -110,8 +110,10 @@ public class Game {
         }
 
         this.broadcast(ChatColor.GREEN + "Game starting ...");
-        this.scoreboard.getTeams().forEach((team) -> team.setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire")));
-        this.storages.forEach((player,storage) -> storage.clean());
+        
+        this.setTeamsFriendlyFire();
+        this.cleanUsersInventory();
+        
         this.moveFreePlayersToTeam();
         this.resetRegion();
         this.startRessourceSpawners();
@@ -119,6 +121,7 @@ public class Game {
         this.teleportPlayersToTeamSpawn();
 
         this.state = GameState.RUNNING;
+        this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game " + this.name + " has just started!"));
         return true;
     }
 
@@ -182,16 +185,6 @@ public class Game {
 
         return true;
     }
-
-    private void resetRegion() {
-        if(this.region == null) {
-            return;
-        }
-
-        File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
-        this.region.reset(file);
-    }
-
     public int getMaxPlayers() {
         int max = 0;
         for(Team t : this.teams.values()) {
@@ -439,6 +432,27 @@ public class Game {
     /*
      * PRIVATE
      */
+    
+    private void setTeamsFriendlyFire() {
+        for(org.bukkit.scoreboard.Team team : this.scoreboard.getTeams()) {
+            team.setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
+        }
+    }
+    
+    private void cleanUsersInventory() {
+        for(PlayerStorage storage : this.storages.values()) {
+            storage.clean();
+        }
+    }
+    
+    private void resetRegion() {
+        if(this.region == null) {
+            return;
+        }
+
+        File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
+        this.region.reset(file);
+    }
 
     private void createGameConfig(File config) {
         YamlConfiguration yml = new YamlConfiguration();
@@ -495,8 +509,6 @@ public class Game {
             rs.setGame(this);
             this.runningTasks.add(this.getPlugin().getServer().getScheduler().runTaskTimer(this.getPlugin(), rs, ((long)(1000/1000)*20), ((long)(rs.getInterval()/1000)*20)));
         }
-
-        this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game " + this.name + " has just started!"));
     }
 
     private void teleportPlayersToTeamSpawn() {

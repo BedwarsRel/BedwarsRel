@@ -40,12 +40,19 @@ public class GameLobbyCountdown extends BukkitRunnable {
 
         if(this.counter <= 5 && this.counter > 0) {
             this.game.broadcast(ChatColor.YELLOW + "Game will start in " + this.counter + " seconds!", players);
-            players.forEach((p) -> p.playSound(p.getLocation(), Sound.LEVEL_UP, 20.0F, 20.0F));
+            
+            for(Player player : players) {
+                player.playSound(player.getLocation(), Sound.CLICK, 20.0F, 20.0F);
+            }
         }
 
         if(this.counter == 0) {
-            this.game.start(Main.getInstance().getServer().getConsoleSender());
             this.cancel();
+            for(Player player : players) {
+                player.playSound(player.getLocation(), Sound.LEVEL_UP, 20.0F, 20.0F);
+            }
+            
+            this.game.start(Main.getInstance().getServer().getConsoleSender());
         }
 
         this.counter--;

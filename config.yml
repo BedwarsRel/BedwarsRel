@@ -22,5 +22,12 @@ shop:
         item: DIAMOND_CHESTPLATE
         name: Rüstung
         offers:
-            - CLAY_BRICK;10;DIAMOND_CHESTPLATE;1
-            - CLAY_BRICK;20;DIAMOND_HELMET;1
+            - item1:
+                item: CLAY_BRICK
+                amount: 10
+              reward:
+                item: DIAMOND_SWORD
+                amount: 1
+                enchants:
+                    KNOCKBACK: 2
+                    DAMAGE_ALL: 3
