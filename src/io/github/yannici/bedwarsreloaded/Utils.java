@@ -19,5 +19,14 @@ public final class Utils {
 
         return builder.toString();
     }
+    
+    public static boolean isNumber(String numberString) {
+        try {
+            Integer.parseInt(numberString);
+            return true;
+        } catch(Exception ex) {
+            return false;
+        }
+    }
 
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
+import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -336,10 +337,10 @@ public class Game {
     public HashMap<Material, MerchantCategory> getItemShopCategories() {
         return this.itemshop;
     }
-
-    public Team getTeamByColor(String color) {
+    
+    public Team getTeamByDyeColor(DyeColor dyeColor) {
         for(Team t : this.teams.values()) {
-            if(t.getColor().toString().equals(color)) {
+            if(t.getColor().getDyeColor().equals(dyeColor)) {
                 return t;
             }
         }

@@ -114,6 +114,7 @@ public class PlayerListener extends BaseListener {
 	
 	@EventHandler
 	public void onSleep(PlayerBedEnterEvent bee) {
+	    
 		Player p = bee.getPlayer();
 		
 		Game g = Game.getGameOfPlayer(p);
@@ -215,7 +216,7 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		ice.setCancelled(true);
-		Team team = game.getTeamByColor(DyeColor.getByData(clickedStack.getData().getData()).toString());
+		Team team = game.getTeamByDyeColor(DyeColor.getByData(clickedStack.getData().getData()));
 		if(team == null) {
 			return;
 		}

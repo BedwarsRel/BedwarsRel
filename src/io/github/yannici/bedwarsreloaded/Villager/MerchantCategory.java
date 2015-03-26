@@ -1,5 +1,8 @@
 package io.github.yannici.bedwarsreloaded.Villager;
 
+import io.github.yannici.bedwarsreloaded.ChatWriter;
+import io.github.yannici.bedwarsreloaded.Main;
+import io.github.yannici.bedwarsreloaded.Utils;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,7 +38,7 @@ public class MerchantCategory {
         this.offers = offers;
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "deprecation" })
     public static HashMap<Material, MerchantCategory> loadCategories(FileConfiguration cfg) {
         if(cfg.getConfigurationSection("shop") == null) {
             return new HashMap<Material, MerchantCategory>();
@@ -45,7 +49,15 @@ public class MerchantCategory {
         ConfigurationSection section = cfg.getConfigurationSection("shop");
         for(String cat : section.getKeys(false)) {
             String catName = section.getString(cat + ".name");
-            Material catItem = Material.getMaterial(section.getString(cat + ".item"));
+            Material catItem = null;
+            String item = section.get(cat + ".item").toString();
+            
+            if(!Utils.isNumber(item)) {
+                catItem = Material.getMaterial(section.getString(cat + ".item"));
+            } else {
+                catItem = Material.getMaterial(section.getInt(cat + ".item"));
+            }
+            
             ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
             
             for(Object offer : section.getList(cat + ".offers")) {
@@ -83,28 +95,107 @@ public class MerchantCategory {
         return mc;
     }
     
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
     public static ItemStack createItemStackByConfig(Object section) {
         if(!(section instanceof LinkedHashMap)) {
             return null;
         }
-        
+
         try {
             LinkedHashMap<String, Object> cfgSection = (LinkedHashMap<String, Object>)section;
-            Material material = Material.getMaterial(cfgSection.get("item").toString().toUpperCase());
-            int amount = Integer.valueOf(cfgSection.get("amount").toString());
             
-            ItemStack finalStack = new ItemStack(material, amount);
+            String materialString = cfgSection.get("item").toString();
+            Material material = null;
+            boolean hasMeta = false;
+            boolean hasPotionMeta = false;
+            byte meta = 0;
+            ItemStack finalStack = null;
+            int amount = 1;
+            short potionMeta = 0;
+            
+            if(Utils.isNumber(materialString)) {
+                material = Material.getMaterial(Integer.parseInt(materialString));
+            } else {
+                material = Material.getMaterial(materialString);
+            }
+            
+            try {         
+                if(cfgSection.containsKey("amount")) {
+                    amount = Integer.parseInt(cfgSection.get("amount").toString());
+                }
+            } catch(Exception ex) {
+                amount = 1;
+            }
+            
+            if(cfgSection.containsKey("meta")) {
+                if(!material.equals(Material.POTION)) {
+                    try {
+                        meta = Byte.parseByte(cfgSection.get("meta").toString());
+                        hasMeta = true;
+                    } catch(Exception ex) {
+                        hasMeta = false;
+                    }
+                } else {
+                    hasPotionMeta = true;
+                    potionMeta = Short.parseShort(cfgSection.get("meta").toString());
+                }
+            }
+            
+            if(hasMeta) {
+                finalStack = new ItemStack(material, amount, meta);
+            } else if(hasPotionMeta) {
+                finalStack = new ItemStack(material, amount, potionMeta);
+            } else {
+                finalStack = new ItemStack(material, amount);
+            }
+            
+            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(finalStack.getType().name().toString() + "(" + finalStack.getType().getId() + ")"));
             
             if(cfgSection.containsKey("enchants")) {
                 Object cfgEnchants = cfgSection.get("enchants");
                 
                 if(cfgEnchants instanceof LinkedHashMap) {
-                    LinkedHashMap<String, Object> enchantSection = (LinkedHashMap)cfgEnchants;
-                    for(String key : enchantSection.keySet()) {
-                        finalStack.addEnchantment(Enchantment.getByName(key.toUpperCase()) , Integer.valueOf(enchantSection.get(key).toString()));
+                    LinkedHashMap<Object, Object> enchantSection = (LinkedHashMap)cfgEnchants;
+                    for(Object sKey : enchantSection.keySet()) {
+                        String key = sKey.toString();
+                        
+                        if(finalStack.getType() != Material.POTION) {
+                            Enchantment en = null;
+                            int level = 0;
+                            
+                            if(Utils.isNumber(key)) {
+                                en = Enchantment.getById(Integer.parseInt(key));
+                                level = Integer.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
+                            } else {
+                                en = Enchantment.getByName(key.toUpperCase());
+                                level = Integer.parseInt(enchantSection.get(key).toString())-1;
+                            }
+                            
+                            if(en == null) {
+                                continue;
+                            }
+
+                            finalStack.addUnsafeEnchantment(en, level);
+                        }
                     }
                 }
+            }
+            
+            if(cfgSection.containsKey("name")) {
+                String name = cfgSection.get("name").toString();
+                ItemMeta im = finalStack.getItemMeta();
+                
+                ChatColor color = ChatColor.WHITE;
+                
+                if(cfgSection.containsKey("color")) {
+                    ChatColor setColor = ChatColor.valueOf(cfgSection.get("color").toString());
+                    if(setColor != null) {
+                        color = setColor;
+                    }
+                }
+                
+                im.setDisplayName(color + name);
+                finalStack.setItemMeta(im);
             }
             
             return finalStack;

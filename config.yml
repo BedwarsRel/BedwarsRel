@@ -26,10 +26,318 @@ shop:
         offers:
             - item1:
                 item: CLAY_BRICK
-                amount: 10
+                amount: 1
               reward:
-                item: DIAMOND_SWORD
+                item: LEATHER_HELMET
                 amount: 1
                 enchants:
-                    KNOCKBACK: 2
-                    DAMAGE_ALL: 3
+                    PROTECTION_ENVIRONMENTAL: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: LEATHER_LEGGINGS
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: LEATHER_BOOTS
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 303
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 303
+                amount: 1
+                enchants:
+                    0: 2
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                item: 303
+                amount: 1
+                enchants:
+                    0: 3
+            - item1:
+                item: GOLD_INGOT
+                amount: 10
+              reward:
+                name: Helm
+                color: RED
+                item: 306
+                amount: 1
+                enchants:
+                    0: 2
+    swords:
+        item: DIAMOND_SWORD
+        name: Schwerter
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 8
+              reward:
+                item: 280
+                amount: 1
+                enchants:
+                    19: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 283
+                amount: 1
+                enchants:
+                    16: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 283
+                amount: 1
+                enchants:
+                    16: 2
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                item: 283
+                amount: 1
+                enchants:
+                    16: 3
+            - item1:
+                item: GOLD_INGOT
+                amount: 3
+              reward:
+                item: 267
+                amount: 1
+                enchants:
+                    16: 2
+                    19: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 15
+              reward:
+                name: Axt der Unendlichkeit
+                color: GOLD
+                item: 286
+                amount: 1
+                enchants:
+                    34: 1
+                    16: 1
+                    19: 1
+    bows:
+        item: 261
+        name: Bögen
+        offers:
+            - item1:
+                item: GOLD_INGOT
+                amount: 3
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 7
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    48: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 13
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    48: 2
+            - item1:
+                item: GOLD_INGOT
+                amount: 16
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    50: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 15
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    50: 1
+                    49: 1
+            - item1:
+                item: GOLD_INGOT
+                amount:
+              reward:
+                item: 262
+                amount: 1
+    eat:
+        item: GRILLED_PORK
+        name: Essen
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 4
+              reward:
+                item: GRILLED_PORK
+                amount: 2
+            - item1:
+                item: IRON_INGOT
+                amount: 2
+              reward:
+                item: 322
+                amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 5
+              reward:
+                item: 297
+                amount: 10
+    pickaxes:
+        item: DIAMOND_PICKAXE
+        name: Spitzhacken
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 4
+              reward:
+                item: IRON_PICKAXE
+                amount: 1
+                enchants:
+                    35: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 2
+              reward:
+                item: IRON_PICKAXE
+                amount: 1
+                enchants:
+                    35: 2
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: IRON_PICKAXE
+                amount: 1
+                enchants:
+                    35: 3
+    blocks:
+        item: SANDSTONE
+        name: Blöcke
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: 24
+                meta: 2
+                amount: 2
+            - item1:
+                item: CLAY_BRICK
+                amount: 7
+              reward:
+                item: 121
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 42
+                amount: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 15
+              reward:
+                item: 89
+                amount: 4
+            - item1:
+                item: CLAY_BRICK
+                amount: 4
+              reward:
+                item: 20
+                amount: 1
+    usefulstuff:
+        item: TNT
+        name: Nützliche Sachen
+        offers:
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: TNT
+                amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: 259
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 54
+                amount: 1
+    drinks:
+        item: POTION
+        name: Tränke
+        offers:
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 373
+                amount: 1
+                meta: 8197
+            - item1:
+                item: IRON_INGOT
+                amount: 5
+              reward:
+                item: 373
+                amount: 1
+                meta: 8229
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                item: 373
+                amount: 1
+                meta: 8194
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: 373
+                amount: 1
+                meta: 8201
+            - item1:
+                item: GOLD_INGOT
+                amount: 3
+              reward:
+                item: 373
+                amount: 1
+                meta: 8193
+                
