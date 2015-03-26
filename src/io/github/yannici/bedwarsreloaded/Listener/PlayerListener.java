@@ -112,6 +112,7 @@ public class PlayerListener extends BaseListener {
 	 * LOBBY & GAME
 	 */
 	
+	@EventHandler
 	public void onSleep(PlayerBedEnterEvent bee) {
 		Player p = bee.getPlayer();
 		

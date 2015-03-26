@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -153,6 +154,16 @@ public class GameManager {
         }
 
         this.games.clear();
+    }
+
+    public Game getGameByWorld(World world) {
+        for(Game game : this.games) {
+            if(game.getRegion().getWorld().equals(world)) {
+                return game;
+            }
+        }
+        
+        return null;
     }
 
 }

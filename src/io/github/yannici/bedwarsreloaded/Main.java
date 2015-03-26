@@ -7,6 +7,7 @@ import io.github.yannici.bedwarsreloaded.Game.GameState;
 import io.github.yannici.bedwarsreloaded.Game.RessourceSpawner;
 import io.github.yannici.bedwarsreloaded.Game.Team;
 import io.github.yannici.bedwarsreloaded.Listener.BlockListener;
+import io.github.yannici.bedwarsreloaded.Listener.EntityListener;
 import io.github.yannici.bedwarsreloaded.Listener.PlayerListener;
 import io.github.yannici.bedwarsreloaded.Listener.WeatherListener;
 
@@ -157,6 +158,7 @@ public class Main extends JavaPlugin {
         new WeatherListener();
         new BlockListener();
         new PlayerListener();
+        new EntityListener();
     }
 
     private void registerConfigurationClasses() {
