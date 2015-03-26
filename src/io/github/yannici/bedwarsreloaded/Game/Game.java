@@ -293,6 +293,15 @@ public class Game {
         if(this.teams.size() <= 1) {
             return GameCheckCode.TEAM_SIZE_LOW_ERROR;
         }
+        
+        GameCheckCode teamCheck = this.checkTeams();
+        if(teamCheck != GameCheckCode.OK) {
+        	return teamCheck;
+        }
+        
+        if(this.itemshop == null || this.itemshop.size() == 0) {
+        	return GameCheckCode.NO_ITEMSHOP_CATEGORIES;
+        }
 
         if(this.getRessourceSpawner().size() == 0) {
             return GameCheckCode.NO_RES_SPAWNER_ERROR;
@@ -542,6 +551,16 @@ public class Game {
         }
 
         this.freePlayers = new ArrayList<Player>();
+    }
+    
+    private GameCheckCode checkTeams() {
+    	for(Team t : this.teams.values()) {
+    		if(t.getSpawnLocation() == null) {
+    			return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
+    		}
+    	}
+    	
+    	return GameCheckCode.OK;
     }
 
 }

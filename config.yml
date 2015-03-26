@@ -17,6 +17,8 @@ texts:
         TEAM_SIZE_LOW_ERROR: You have to set more teams!
         NO_RES_SPAWNER_ERROR: You didn't set any resource spawner!
         NO_LOBBY_SET: You didn't set a lobby!
+        TEAMS_WITHOUT_SPAWNS: There are team(s) without a spawn location!
+        NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
 shop:
     armor:
         item: DIAMOND_CHESTPLATE
