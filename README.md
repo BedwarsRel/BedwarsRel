@@ -40,6 +40,6 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 * Spectators
 * Mapvote
 
-## What to join?
+## Want to join?
 
 **I'm still looking for contributors or developers which are want to help me with development. Also I'm looking for tester which testing my plugin meticulously**
