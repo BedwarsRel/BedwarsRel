@@ -37,4 +37,4 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 
 ## What to join?
 
-** I'm still looking for contributors or developer which are want to help me with development. Also I'm looking for tester which testing my plugin meticulously **
+**I'm still looking for contributors or developer which are want to help me with development. Also I'm looking for tester which testing my plugin meticulously**
