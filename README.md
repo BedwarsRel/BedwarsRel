@@ -8,7 +8,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 ## Current features
 
 * Game Lobby with countdown when minimum player amount reached
-* Up to 14 teams with custom amount of players
+* Up to 16 teams with custom amount of players
 * Customizable ressource spawners
     * Location
     * Amount
