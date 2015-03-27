@@ -8,6 +8,7 @@ import io.github.yannici.bedwarsreloaded.Game.Game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,18 +25,22 @@ public class MerchantCategory {
     
     private String name = null;
     private Material item = null;
+    private List<String> lores = null;
     private ArrayList<VillagerTrade> offers = null;
 
     public MerchantCategory(String name, Material item) {
-        this.name = name;
-        this.item = item;
-        this.offers = new ArrayList<VillagerTrade>();
+        this(name, item, new ArrayList<VillagerTrade>(), new ArrayList<String>());
     }
     
-    public MerchantCategory(String name, Material item, ArrayList<VillagerTrade> offers) {
+    public MerchantCategory(String name, Material item, ArrayList<VillagerTrade> offers, List<String> lores) {
         this.name = name;
         this.item = item;
         this.offers = offers;
+        this.lores = lores;
+    }
+    
+    public List<String> getLores() {
+    	return this.lores;
     }
     
     @SuppressWarnings({ "unchecked", "deprecation" })
@@ -50,12 +55,19 @@ public class MerchantCategory {
         for(String cat : section.getKeys(false)) {
             String catName = section.getString(cat + ".name");
             Material catItem = null;
+            List<String> lores = new ArrayList<String>();
             String item = section.get(cat + ".item").toString();
             
             if(!Utils.isNumber(item)) {
                 catItem = Material.getMaterial(section.getString(cat + ".item"));
             } else {
                 catItem = Material.getMaterial(section.getInt(cat + ".item"));
+            }
+            
+            if(section.contains(cat + ".lore")) {
+            	for(Object lore : section.getList(cat + ".lore")) {
+            		lores.add(lore.toString());
+            	}
             }
             
             ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
@@ -89,7 +101,7 @@ public class MerchantCategory {
                 offers.add(tradeObj);
             }
             
-            mc.put(catItem, new MerchantCategory(catName, catItem, offers));
+            mc.put(catItem, new MerchantCategory(catName, catItem, offers, lores));
         }
         
         return mc;
@@ -216,6 +228,7 @@ public class MerchantCategory {
             ItemMeta im = is.getItemMeta();
             
             im.setDisplayName(cat.getName());
+            im.setLore(cat.getLores());
             is.setItemMeta(im);
             
             inv.addItem(is);

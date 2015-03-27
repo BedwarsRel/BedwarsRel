@@ -23,6 +23,8 @@ shop:
     armor:
         item: DIAMOND_CHESTPLATE
         name: Rüstung
+        lore:
+            - Protect yourself with armor! Click here.
         offers:
             - item1:
                 item: CLAY_BRICK
@@ -85,6 +87,8 @@ shop:
     swords:
         item: DIAMOND_SWORD
         name: Schwerter
+        lore:
+            - Click here to get sword for attacking your enemies
         offers:
             - item1:
                 item: CLAY_BRICK
@@ -142,6 +146,8 @@ shop:
     bows:
         item: 261
         name: Bögen
+        lore:
+            - Prove yourself as a marksman with these wonderful bows
         offers:
             - item1:
                 item: GOLD_INGOT
@@ -197,7 +203,9 @@ shop:
     eat:
         item: GRILLED_PORK
         name: Essen
-        offers:
+        lore:
+            - Are you hungry? Get something to eat.
+        offers: 
             - item1:
                 item: CLAY_BRICK
                 amount: 4
@@ -219,6 +227,8 @@ shop:
     pickaxes:
         item: DIAMOND_PICKAXE
         name: Spitzhacken
+        lore:
+            - Destroy others blocks? Use these pickaxes.
         offers:
             - item1:
                 item: CLAY_BRICK
@@ -247,6 +257,8 @@ shop:
     blocks:
         item: SANDSTONE
         name: Blöcke
+        lore:
+            - Get to the others! Possible with blocks.
         offers:
             - item1:
                 item: CLAY_BRICK
@@ -282,6 +294,8 @@ shop:
     usefulstuff:
         item: TNT
         name: Nützliche Sachen
+        lore:
+            - Looking for useful stuff? Here are some!
         offers:
             - item1:
                 item: IRON_INGOT
@@ -304,6 +318,8 @@ shop:
     drinks:
         item: POTION
         name: Tränke
+        lore:
+            - Not enough? Use these potions and you'll feel better!
         offers:
             - item1:
                 item: IRON_INGOT
