@@ -53,7 +53,7 @@ public class MerchantCategory {
         
         ConfigurationSection section = cfg.getConfigurationSection("shop");
         for(String cat : section.getKeys(false)) {
-            String catName = section.getString(cat + ".name");
+            String catName = ChatColor.translateAlternateColorCodes('&', section.getString(cat + ".name"));
             Material catItem = null;
             List<String> lores = new ArrayList<String>();
             String item = section.get(cat + ".item").toString();
@@ -66,7 +66,7 @@ public class MerchantCategory {
             
             if(section.contains(cat + ".lore")) {
             	for(Object lore : section.getList(cat + ".lore")) {
-            		lores.add(lore.toString());
+            		lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
             	}
             }
             
