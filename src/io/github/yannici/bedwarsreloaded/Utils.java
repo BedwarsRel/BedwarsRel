@@ -1,6 +1,11 @@
 package io.github.yannici.bedwarsreloaded;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 public final class Utils {
 
@@ -27,6 +32,20 @@ public final class Utils {
         } catch(Exception ex) {
             return false;
         }
+    }
+    
+    public static Method getColorableMethod(Material mat) {
+        try {
+            ItemStack tempStack = new ItemStack(mat, 1);
+            Method method = tempStack.getItemMeta().getClass().getMethod("setColor", new Class[]{Color.class});
+            if(method != null) {
+                return method;
+            }
+        } catch(Exception ex) {
+            // it's no error
+        }
+        
+        return null;
     }
 
 }

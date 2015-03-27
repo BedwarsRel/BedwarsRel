@@ -79,7 +79,7 @@ shop:
                 amount: 10
               reward:
                 name: Helm
-                color: RED
+                namecolor: RED
                 item: 306
                 amount: 1
                 enchants:
@@ -136,7 +136,7 @@ shop:
                 amount: 15
               reward:
                 name: Axt der Unendlichkeit
-                color: GOLD
+                namecolor: GOLD
                 item: 286
                 amount: 1
                 enchants:

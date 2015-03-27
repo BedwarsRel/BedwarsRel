@@ -132,6 +132,7 @@ public class Game {
         }
 
         this.stopWorkers();
+        this.kickAllPlayers();
         this.state = GameState.STOPPED;
         return true;
     }
@@ -240,7 +241,12 @@ public class Game {
         storage.loadLobbyInventory();
 
         if(this.getPlayers().size() >= this.minPlayers) {
-            this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
+            try {
+                this.glc.getTaskId();
+                // scheduled
+            } catch(Exception ex) {
+                this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
+            }
         }
 
         return true;
@@ -324,6 +330,12 @@ public class Game {
         
         FileConfiguration cfg = Main.getInstance().getConfig();
         this.itemshop = MerchantCategory.loadCategories(cfg);
+    }
+    
+    public void kickAllPlayers() {
+        for(Player p : this.getPlayers()) {
+            this.playerLeave(p);
+        }
     }
 
     /*

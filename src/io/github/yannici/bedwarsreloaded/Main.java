@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -45,6 +44,10 @@ public class Main extends JavaPlugin {
         this.craftbukkit = this.getCraftBukkit();
         this.minecraft = this.getMinecraftPackage();
         this.version = this.loadVersion();
+        
+        /*if(Utils.materialIsColorable(Material.LEATHER_CHESTPLATE)) {
+            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage("COLORABLE!!!!"));
+        }*/
         
         /*for(Constructor m : this.getMinecraftServerClass("EntityVillager").getDeclaredConstructors()) {
             StringBuilder sb = new StringBuilder();
@@ -208,22 +211,6 @@ public class Main extends JavaPlugin {
 
     private void stopTimeListener() {
         this.timeTask.cancel();
-    }
-    
-    public boolean materialIsColorable(Material mat) {
-        try {
-            for(Class<?> iface : mat.getClass().getInterfaces()) {
-                if(iface.getName().equals("Colorable")) {
-                    return true;
-                }
-            }
-            
-            return false;
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
-        
-        return false;
     }
 
 }

@@ -88,9 +88,6 @@ public class SetSpawnerCommand extends BaseCommand {
             name = ChatColor.DARK_RED + "Bronze";
             break;
         }
-        
-        ItemStack stack2 = new ItemStack(Material.POTION, 1);
-        
 
         ItemStack stack = new ItemStack(droppingMaterial, this.getPlugin().getConfig().getInt("ressource." + material + ".amount"));
         ItemMeta meta = stack.getItemMeta();

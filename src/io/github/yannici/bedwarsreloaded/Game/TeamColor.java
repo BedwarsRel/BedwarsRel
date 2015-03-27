@@ -28,10 +28,7 @@ public enum TeamColor {
     private TeamColor(Color color, ChatColor chatColor, DyeColor dye) {
         this.chatColor = chatColor;
         this.color = color;
-        this.dyeColor = DyeColor.getByColor(this.color);
-        if(this.dyeColor == null) {
-            this.dyeColor = dye;
-        }
+        this.dyeColor = dye;
     }
     
     public Color getColor() {

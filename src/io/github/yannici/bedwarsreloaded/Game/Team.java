@@ -73,7 +73,7 @@ public class Team implements ConfigurationSerializable {
     }
 
     public ChatColor getChatColor() {
-        return ChatColor.valueOf(this.color.toString());
+        return this.color.getChatColor();
     }
 
     public String getName() {

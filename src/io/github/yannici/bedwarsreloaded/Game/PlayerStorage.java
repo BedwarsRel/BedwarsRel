@@ -97,6 +97,8 @@ public class PlayerStorage {
             startGame.setItemMeta(im);
             this.player.getInventory().addItem(startGame);
         }
+        
+        this.player.updateInventory();
     }
 
     public void openTeamSelection(Game game) {

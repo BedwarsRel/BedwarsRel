@@ -112,7 +112,7 @@ public class MerchantCategory {
         if(!(section instanceof LinkedHashMap)) {
             return null;
         }
-
+        
         try {
             LinkedHashMap<String, Object> cfgSection = (LinkedHashMap<String, Object>)section;
             
@@ -199,8 +199,8 @@ public class MerchantCategory {
                 
                 ChatColor color = ChatColor.WHITE;
                 
-                if(cfgSection.containsKey("color")) {
-                    ChatColor setColor = ChatColor.valueOf(cfgSection.get("color").toString());
+                if(cfgSection.containsKey("namecolor")) {
+                    ChatColor setColor = ChatColor.valueOf(cfgSection.get("namecolor").toString());
                     if(setColor != null) {
                         color = setColor;
                     }

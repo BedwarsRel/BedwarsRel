@@ -148,9 +148,7 @@ public class GameManager {
 
     public void unloadGames() {
         for(Game g : this.games) {
-            for(Player p : g.getPlayers()) {
-                g.playerLeave(p);
-            }
+            g.kickAllPlayers();
         }
 
         this.games.clear();
