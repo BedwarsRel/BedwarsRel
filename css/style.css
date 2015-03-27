@@ -1,0 +1,26 @@
+/* BEDWARS RELOADED STYLE */
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.head-carousel {
+    min-height: 500px;
+    max-height: 500px;
+    width: 100%;
+}
+
+.carousel.head .carousel-caption h1 {
+    font-size: 90px;
+}
+
+.carousel .carousel-caption {
+    margin-top: 100px;
+}
+
+@media(max-width: 560px) {
+    .carousel.head .carousel-caption h1 {
+        font-size: 60px;
+    }
+}
