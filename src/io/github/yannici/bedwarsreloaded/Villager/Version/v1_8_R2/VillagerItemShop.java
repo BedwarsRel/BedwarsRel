@@ -61,7 +61,6 @@ public class VillagerItemShop {
         // As task because of inventory issues
         new BukkitRunnable() {
             
-            @SuppressWarnings("unchecked")
             @Override
             public void run() {
                 try {
