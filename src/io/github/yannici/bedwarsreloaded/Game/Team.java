@@ -7,10 +7,12 @@ import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Player;
+import org.bukkit.material.Bed;
 
 @SerializableAs("Team")
 public class Team implements ConfigurationSerializable {
@@ -20,6 +22,7 @@ public class Team implements ConfigurationSerializable {
     private String name = null;
     private int maxPlayers = 0;
     private Location spawnLocation = null;
+    private Bed bedBlock = null;
 
     public Team(Map<String, Object> deserialize) {
         this.name = deserialize.get("name").toString();
@@ -48,6 +51,14 @@ public class Team implements ConfigurationSerializable {
 
     public int getMaxPlayers() {
         return this.maxPlayers;
+    }
+    
+    public void setBed(Bed bed) {
+        this.bedBlock = bed;
+    }
+    
+    public Bed getBed() {
+        return this.bedBlock;
     }
 
     public void removePlayer(Player player) {

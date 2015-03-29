@@ -183,6 +183,7 @@ public class Main extends JavaPlugin {
         this.commands.add(new SetSpawnCommand(this));
         this.commands.add(new SetLobbyCommand(this));
         this.commands.add(new LeaveGameCommand(this));
+        this.commands.add(new SetBedCommand(this));
 
         this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
     }

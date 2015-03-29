@@ -3,6 +3,7 @@ package io.github.yannici.bedwarsreloaded.Commands;
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
 import io.github.yannici.bedwarsreloaded.Game.Game;
+import io.github.yannici.bedwarsreloaded.Game.Team;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.material.Bed;
 
 public class SetBedCommand extends BaseCommand implements ICommand {
 
@@ -48,6 +50,7 @@ public class SetBedCommand extends BaseCommand implements ICommand {
         }
 
         Player player = (Player) sender;
+        String team = args.get(1);
 
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
@@ -55,7 +58,17 @@ public class SetBedCommand extends BaseCommand implements ICommand {
             return false;
         }
         
-        Block targetBlock = player.getTargetBlock(new HashSet<Material>(){}, 15);
+        Team gameTeam = game.getTeam(team);
+        
+        if(team == null) {
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given team wasn't found in this game!"));
+            return false;
+        }
+        
+        HashSet<Material> transparent = new HashSet<Material>();
+        transparent.add(Material.AIR);
+        
+        Block targetBlock = player.getTargetBlock(transparent, 15);
         Block standingBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         
         if(targetBlock == null || standingBlock == null) {
@@ -63,12 +76,22 @@ public class SetBedCommand extends BaseCommand implements ICommand {
             return false;
         }
         
-        if(targetBlock.getType() != Material.BED && standingBlock.getType() != Material.BED) {
+        if(targetBlock.getType() != Material.BED_BLOCK && standingBlock.getType() != Material.BED_BLOCK) {
             player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You have to targeting or stand on a Bed!"));
             return false;
         }
-
-        game.setLobby(player);
+        
+        Block theBlock = null;
+        if(targetBlock.getType() == Material.BED_BLOCK) {
+            theBlock = targetBlock;
+        } else {
+            theBlock = standingBlock;
+        }
+        
+        Bed bed = (Bed)theBlock.getState().getData();
+        
+        gameTeam.setBed(bed);
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "You set the bed for team " + gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN + " successfully!"));
         return true;
     }
 
