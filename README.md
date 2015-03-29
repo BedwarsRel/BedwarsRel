@@ -35,7 +35,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
     * Show Kills / Deaths in Chat
     * Bed destroy
 * Setup Commands
-    * Set bed command
+    * Reload config
 * Complete default shop configuration
 * Spectators
 * Mapvote
