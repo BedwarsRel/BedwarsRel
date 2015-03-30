@@ -8,7 +8,6 @@ import io.github.yannici.bedwarsreloaded.Main;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class BungeeGameCycle extends GameCycle {
 

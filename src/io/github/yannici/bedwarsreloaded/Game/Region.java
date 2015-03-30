@@ -194,5 +194,11 @@ public class Region {
 	public World getWorld() {
 		return this.minCorner.getWorld();
 	}
+
+    public void load(File file) {
+        if(file.exists()) {
+            this.getBlocks(false);
+        }
+    }
 	
 }

@@ -13,7 +13,6 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Bed;
 
 @SerializableAs("Team")
 public class Team implements ConfigurationSerializable {

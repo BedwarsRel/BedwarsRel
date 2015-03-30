@@ -47,13 +47,13 @@ public abstract class GameCycle {
 		
 		Team deathTeam = Game.getPlayerTeam(player, this.getGame());
 		if(killer == null) {
-			this.getGame().broadcast(ChatWriter.pluginMessage(ChatColor.GOLD + ">> " + this.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + " died!"));
+			this.getGame().broadcast(ChatColor.GOLD + ">> " + this.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + " died!");
 			return;
 		}
 		
 		Team killerTeam = Game.getPlayerTeam(killer, this.getGame());
 		
-		this.getGame().broadcast(ChatWriter.pluginMessage(ChatColor.GOLD + ">> " + this.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + this.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!"));
+		this.getGame().broadcast(ChatColor.GOLD + ">> " + this.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + this.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!");
 	}
 	
 	private String getPlayerWithTeamString(Player player, Team team) {

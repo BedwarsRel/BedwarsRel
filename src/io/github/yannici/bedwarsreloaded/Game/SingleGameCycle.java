@@ -4,7 +4,6 @@ import io.github.yannici.bedwarsreloaded.ChatWriter;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerRespawnEvent;
 
 public class SingleGameCycle extends GameCycle {
 

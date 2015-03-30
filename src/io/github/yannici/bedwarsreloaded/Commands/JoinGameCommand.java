@@ -58,7 +58,7 @@ public class JoinGameCommand extends BaseCommand {
 
     @Override
     public String getPermission() {
-        return "setup";
+        return "base";
     }
 
 }

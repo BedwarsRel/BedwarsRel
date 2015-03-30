@@ -161,8 +161,6 @@ public class MerchantCategory {
                 finalStack = new ItemStack(material, amount);
             }
             
-            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(finalStack.getType().name().toString() + "(" + finalStack.getType().getId() + ")"));
-            
             if(cfgSection.containsKey("enchants")) {
                 Object cfgEnchants = cfgSection.get("enchants");
                 

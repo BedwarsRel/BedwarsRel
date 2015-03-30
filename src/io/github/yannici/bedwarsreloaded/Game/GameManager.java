@@ -150,6 +150,7 @@ public class GameManager {
     public void unloadGames() {
         for(Game g : this.games) {
             g.kickAllPlayers();
+            g.resetRegion();
         }
 
         this.games.clear();

@@ -14,7 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Bed;
 
 public class SetBedCommand extends BaseCommand implements ICommand {
 
@@ -41,8 +40,7 @@ public class SetBedCommand extends BaseCommand implements ICommand {
     public String[] getArguments() {
         return new String[]{"game", "team"};
     }
-
-    @SuppressWarnings("serial")
+    
     @Override
     public boolean execute(CommandSender sender, ArrayList<String> args) {
         if(!super.hasPermission(sender)) {

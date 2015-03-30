@@ -57,18 +57,12 @@ commands:
         usage: /<command>
         permission: bw.base
 permissions:
-    bw.*:
-        description: Gives all permissions for Bedwars Reloaded
-        children:
-            bw.vip: true
-            bw.setup: true
-            bw.base: true
-        bw.base:
-            description: Allows you to show to play games
-            default: true
-        bw.setup:
-            description: Allows you to set up new or existing games
-            default: op
-        bw.vip:
-            description: Allows special user permissions
-            default: op
+    bw.base:
+        description: Allows you to show to play games
+        default: true
+    bw.setup:
+        description: Allows you to set up new or existing games
+        default: op
+    bw.vip:
+        description: Allows special user permissions
+        default: op

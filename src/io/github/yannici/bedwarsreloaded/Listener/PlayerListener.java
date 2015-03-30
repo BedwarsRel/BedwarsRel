@@ -81,6 +81,7 @@ public class PlayerListener extends BaseListener {
     	
     	if(game.getState() == GameState.RUNNING) {
     		game.getCycle().onPlayerRespawn(pre, p);
+    		return;
     	}
     	
     	if(game.getState() == GameState.WAITING) {

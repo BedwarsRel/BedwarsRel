@@ -71,6 +71,14 @@ public class Game {
     /*
      * STATIC
      */
+    
+    public static String bedLostString() {
+        return ChatColor.RED + "✘";
+    }
+    
+    public static String bedExistString() {
+        return ChatColor.GREEN + "✔";
+    }
 
     public static Game getGameOfPlayer(Player p) {
         for(Game g : Main.getInstance().getGameManager().getGames()) {
@@ -102,6 +110,7 @@ public class Game {
             return false;
         }
 
+        this.loadRegion();
         if(!this.saveGame(sender, false)) {
             return false;
         }
@@ -240,7 +249,7 @@ public class Game {
             return false;
         }
 
-        if(this.cycle.onPlayerJoins(p)) {
+        if(!this.cycle.onPlayerJoins(p)) {
             return false;
         }
 
@@ -282,7 +291,7 @@ public class Game {
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
         
         this.cycle.onPlayerLeave(p);
-        this.broadcast(ChatWriter.pluginMessage(ChatColor.RED + "Player \"" + p.getName() + "\" has left the game!"));
+        this.broadcast(ChatColor.RED + "Player \"" + p.getName() + "\" has left the game!");
         return true;
     }
 
@@ -494,6 +503,16 @@ public class Game {
      * PRIVATE
      */
     
+    private void loadRegion() {
+        if(this.region == null) {
+            this.region = new Region(this.loc1, this.loc2);
+        }
+
+        File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
+
+        this.region.load(file);
+    }
+    
     private void setPlayersScoreboard() {
     	Objective obj = this.scoreboard.registerNewObjective("display", "dummy");
     	obj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -501,7 +520,7 @@ public class Game {
     	obj.setDisplayName("Teams");
     	
     	for(Team t : this.teams.values()) {
-    		Score score = obj.getScore(ChatColor.RED + "✘ " + t.getChatColor() + t.getName() + ChatColor.RED);
+    		Score score = obj.getScore(Game.bedExistString() + t.getChatColor() + t.getName() + ChatColor.RED);
     		score.setScore(t.getPlayers().size());
     	}
     	
