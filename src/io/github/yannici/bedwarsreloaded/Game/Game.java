@@ -19,6 +19,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 public class Game {
@@ -128,6 +131,7 @@ public class Game {
         this.cycle.onGameStart();
         
         this.startRessourceSpawners();
+        this.setPlayersScoreboard();
         this.teleportPlayersToTeamSpawn();
 
         this.state = GameState.RUNNING;
@@ -275,6 +279,8 @@ public class Game {
         PlayerStorage storage = this.storages.get(p);
         storage.restore();
         
+        p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
+        
         this.cycle.onPlayerLeave(p);
         this.broadcast(ChatWriter.pluginMessage(ChatColor.RED + "Player \"" + p.getName() + "\" has left the game!"));
         return true;
@@ -392,8 +398,19 @@ public class Game {
         return this.region;
     }
 
+    public ArrayList<Player> getTeamPlayers() {
+        ArrayList<Player> players = new ArrayList<>();
+
+        for(Team team : this.teams.values()) {
+            players.addAll(team.getPlayers());
+        }
+
+        return players;
+    }
+    
     public ArrayList<Player> getPlayers() {
         ArrayList<Player> players = new ArrayList<>();
+        
         players.addAll(this.freePlayers);
 
         for(Team team : this.teams.values()) {
@@ -476,6 +493,22 @@ public class Game {
     /*
      * PRIVATE
      */
+    
+    private void setPlayersScoreboard() {
+    	Objective obj = this.scoreboard.registerNewObjective("display", "dummy");
+    	obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+    	
+    	obj.setDisplayName("Teams");
+    	
+    	for(Team t : this.teams.values()) {
+    		Score score = obj.getScore(ChatColor.RED + "✘ " + t.getChatColor() + t.getName() + ChatColor.RED);
+    		score.setScore(t.getPlayers().size());
+    	}
+    	
+    	for(Player player : this.getPlayers()) {
+    		player.setScoreboard(this.scoreboard);
+    	}
+    }
     
     private void setTeamsFriendlyFire() {
         for(org.bukkit.scoreboard.Team team : this.scoreboard.getTeams()) {
