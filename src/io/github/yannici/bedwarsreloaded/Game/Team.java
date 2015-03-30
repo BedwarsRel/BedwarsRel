@@ -29,6 +29,14 @@ public class Team implements ConfigurationSerializable {
         this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers").toString());
         this.color = TeamColor.valueOf(deserialize.get("color").toString().toUpperCase());
         this.spawnLocation = (Location)deserialize.get("spawn");
+        
+        if(deserialize.containsKey("bed")) {
+            this.bedBlock = ((Location)deserialize.get("bed")).getBlock();
+            if(this.bedBlock.getType() != Material.BED_BLOCK) {
+                this.bedBlock = null;
+            }
+        }
+        
     }
 
     public Team(String name, TeamColor color, int maxPlayers, org.bukkit.scoreboard.Team sTeam) {
@@ -123,6 +131,7 @@ public class Team implements ConfigurationSerializable {
         team.put("color", this.color.toString());
         team.put("maxplayers", this.maxPlayers);
         team.put("spawn", this.spawnLocation);
+        team.put("bed", this.bedBlock.getLocation());
         return team;
     }
 
