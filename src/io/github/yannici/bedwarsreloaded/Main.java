@@ -95,6 +95,18 @@ public class Main extends JavaPlugin {
     public String getCurrentVersion() {
         return this.version;
     }
+    
+    public boolean isBungee() {
+    	return this.getConfig().getBoolean("bungeecord.enabled");
+    }
+    
+    public String getBungeeHub() {
+    	if(this.getConfig().contains("bungeecord.hubserver")) {
+    		return this.getConfig().getString("bungeecord.hubserver");
+    	}
+    	
+    	return null;
+    }
 
     public Package getCraftBukkit() {
         try {

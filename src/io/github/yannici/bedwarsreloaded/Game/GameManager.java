@@ -84,6 +84,8 @@ public class GameManager {
         for(Game g : this.games) {
             if(!g.run(Main.getInstance().getServer().getConsoleSender())) {
                 Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't start up the game!"));
+            } else {
+            	g.getCycle().onGameLoaded();
             }
         }
     }

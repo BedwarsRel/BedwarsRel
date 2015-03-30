@@ -1,6 +1,7 @@
 package io.github.yannici.bedwarsreloaded.Listener;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
@@ -12,18 +13,20 @@ import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,14 +43,16 @@ public class PlayerListener extends BaseListener {
 
 	@EventHandler
 	public void onJoin(PlayerJoinEvent je) {
-		FileConfiguration cfg = Main.getInstance().getConfig();
-		Player player = je.getPlayer();
-		
-		if(cfg.contains("bungeecord")) {
-			if(cfg.getBoolean("bungeecord")) {
-				Game game = Main.getInstance().getGameManager().getGames().get(0);
-				game.playerJoins(player);
+		if(Main.getInstance().isBungee()) {
+			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
+			if(games.size() == 0) {
+				return;
 			}
+			
+			Player player = je.getPlayer();
+			Game firstGame = games.get(0);
+			
+			firstGame.playerJoins(player);
 		}
 	}
 	
@@ -64,11 +69,50 @@ public class PlayerListener extends BaseListener {
 		
 		MerchantCategory.openCategorySelection(player, game);
 	}
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerRespawn(PlayerRespawnEvent pre) {
+    	Player p = pre.getPlayer();
+    	Game game = Game.getGameOfPlayer(p);
+    	
+    	if(game == null) {
+    		return;
+    	}
+    	
+    	if(game.getState() == GameState.RUNNING) {
+    		game.getCycle().onPlayerRespawn(pre, p);
+    	}
+    	
+    	if(game.getState() == GameState.WAITING) {
+    		pre.setRespawnLocation(game.getLobby());
+    	}
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerDie(PlayerDeathEvent pde) {
+    	Player player = pde.getEntity();
+    	Game game = Game.getGameOfPlayer(player);
+    	
+    	if(game == null) {
+    		return;
+    	}
+    	
+    	if(game.getState() == GameState.RUNNING) {
+    		pde.setDroppedExp(0);
+    		pde.setDeathMessage(null);
+    		pde.setKeepInventory(false);
+    		game.getCycle().onPlayerDies(player, player.getKiller());
+    	}
+    }
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent ice) {
 	    Player player = (Player)ice.getWhoClicked();
 	    Game game = Game.getGameOfPlayer(player);
+	    
+	    if(game == null) {
+	    	return;
+	    }
 	    
 	    if(game.getState() == GameState.WAITING) {
 	        this.onLobbyInventoryClick(ice, player, game);

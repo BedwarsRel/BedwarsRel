@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
@@ -22,7 +23,7 @@ public class Team implements ConfigurationSerializable {
     private String name = null;
     private int maxPlayers = 0;
     private Location spawnLocation = null;
-    private Bed bedBlock = null;
+    private Block bedBlock = null;
 
     public Team(Map<String, Object> deserialize) {
         this.name = deserialize.get("name").toString();
@@ -53,21 +54,21 @@ public class Team implements ConfigurationSerializable {
         return this.maxPlayers;
     }
     
-    public void setBed(Bed bed) {
+    public void setBed(Block bed) {
         this.bedBlock = bed;
     }
     
-    public Bed getBed() {
+    public Block getBed() {
         return this.bedBlock;
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(OfflinePlayer player) {
         if(this.scoreboardTeam.hasPlayer(player)) {
             this.scoreboardTeam.removePlayer(player);
         }
     }
 
-    public boolean isInTeam(Player p) {
+    public boolean isInTeam(OfflinePlayer p) {
         if(this.scoreboardTeam.getPlayers().contains(p)) {
             return true;
         }
@@ -77,6 +78,7 @@ public class Team implements ConfigurationSerializable {
 
     public void setScoreboardTeam(org.bukkit.scoreboard.Team sbt) {
         this.scoreboardTeam = sbt;
+        sbt.setDisplayName(this.getChatColor() + this.name);
     }
 
     public TeamColor getColor() {
@@ -108,6 +110,10 @@ public class Team implements ConfigurationSerializable {
 
     public void setSpawnLocation(Location spawn) {
         this.spawnLocation = spawn;
+    }
+    
+    public boolean isDead() {
+    	return (this.bedBlock.getLocation().getBlock().getType() != Material.BED_BLOCK);
     }
 
     @Override

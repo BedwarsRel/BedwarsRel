@@ -80,7 +80,10 @@ public class PlayerStorage {
 
         this.player.addPotionEffects(this.effects);
         this.player.setExp(this.xp);
-        this.player.teleport(this.left);
+    }
+    
+    public Location getLeft() {
+    	return this.left;
     }
 
     public void loadLobbyInventory() {

@@ -6,6 +6,7 @@ import io.github.yannici.bedwarsreloaded.Game.GameState;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class EntityListener extends BaseListener {
@@ -14,7 +15,7 @@ public class EntityListener extends BaseListener {
         super();
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageEvent ede) {
         if(ede.getEntityType() != EntityType.VILLAGER) {
             return;

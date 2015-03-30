@@ -36,6 +36,7 @@ public class Game {
     private Scoreboard scoreboard = null;
     private GameLobbyCountdown glc = null;
     private HashMap<Material, MerchantCategory> itemshop = null;
+    private GameCycle cycle = null;
 
     private Location loc1 = null;
     private Location loc2 = null;
@@ -44,7 +45,7 @@ public class Game {
 
     public Game(Main plugin, String name) {
         super();
-
+        
         this.plugin = plugin;
         this.name = name;
         this.runningTasks = new ArrayList<BukkitTask>();
@@ -56,6 +57,12 @@ public class Game {
         this.state = GameState.STOPPED;
         this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
         this.glc = new GameLobbyCountdown(this);
+        
+        if(Main.getInstance().getConfig().getBoolean("bungee")) {
+        	this.cycle = new BungeeGameCycle(this);
+        } else {
+        	this.cycle = new SingleGameCycle(this);
+        }
     }
 
     /*
@@ -100,6 +107,8 @@ public class Game {
             this.minPlayers = 1; //Math.round(this.getMaxPlayers()/2);
         }
         
+        this.loadItemShopCategories();
+        
         this.state = GameState.WAITING;
         return true;
     }
@@ -114,11 +123,11 @@ public class Game {
         
         this.setTeamsFriendlyFire();
         this.cleanUsersInventory();
-        
         this.moveFreePlayersToTeam();
-        this.resetRegion();
+        
+        this.cycle.onGameStart();
+        
         this.startRessourceSpawners();
-        this.loadItemShopCategories();
         this.teleportPlayersToTeamSpawn();
 
         this.state = GameState.RUNNING;
@@ -211,6 +220,7 @@ public class Game {
 
     public void addTeam(String name, TeamColor color, int maxPlayers) {
         org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(name);
+        newTeam.setDisplayName(color.getChatColor() + name);
         this.teams.put(name, new Team(name, color, maxPlayers, newTeam));
     }
 
@@ -226,8 +236,7 @@ public class Game {
             return false;
         }
 
-        if(this.isFull()) {
-            p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game is full!"));
+        if(this.cycle.onPlayerJoins(p)) {
             return false;
         }
 
@@ -245,6 +254,7 @@ public class Game {
                 this.glc.getTaskId();
                 // scheduled
             } catch(Exception ex) {
+            	// not scheduled
                 this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
             }
         }
@@ -253,7 +263,7 @@ public class Game {
     }
 
     public boolean playerLeave(Player p) {
-        Team team = Game.getPlayerTeam(p, this);
+    	Team team = Game.getPlayerTeam(p, this);
         if(team != null) {
             team.removePlayer(p);
         }
@@ -264,8 +274,9 @@ public class Game {
 
         PlayerStorage storage = this.storages.get(p);
         storage.restore();
+        
+        this.cycle.onPlayerLeave(p);
         this.broadcast(ChatWriter.pluginMessage(ChatColor.RED + "Player \"" + p.getName() + "\" has left the game!"));
-
         return true;
     }
 
@@ -337,10 +348,23 @@ public class Game {
             this.playerLeave(p);
         }
     }
+    
+    public void resetRegion() {
+        if(this.region == null) {
+            return;
+        }
+
+        File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
+        this.region.reset(file);
+    }
 
     /*
      * GETTER / SETTER
      */
+    
+    public GameCycle getCycle() {
+    	return this.cycle;
+    }
     
     public void setItemShopCategories(HashMap<Material, MerchantCategory> cats) {
         this.itemshop = cats;
@@ -465,15 +489,6 @@ public class Game {
         }
     }
     
-    private void resetRegion() {
-        if(this.region == null) {
-            return;
-        }
-
-        File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
-        this.region.reset(file);
-    }
-
     private void createGameConfig(File config) {
         YamlConfiguration yml = new YamlConfiguration();
         HashMap<String, RessourceSpawner> spawnerMap = new HashMap<>();

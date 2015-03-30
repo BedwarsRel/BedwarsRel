@@ -88,9 +88,7 @@ public class SetBedCommand extends BaseCommand implements ICommand {
             theBlock = standingBlock;
         }
         
-        Bed bed = (Bed)theBlock.getState().getData();
-        
-        gameTeam.setBed(bed);
+        gameTeam.setBed(theBlock);
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "You set the bed for team " + gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN + " successfully!"));
         return true;
     }
