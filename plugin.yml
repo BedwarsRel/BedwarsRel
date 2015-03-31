@@ -28,7 +28,7 @@ commands:
         description: Adds a team to a game
         usage: /<command> [Name] [Color]
         permission: bw.setup
-    bw savegame:
+    bw save:
         description: Saves a game to config files
         usage: /<command> [Name]
         permission: bw.setup

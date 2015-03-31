@@ -149,6 +149,8 @@ public class Region {
 	    Iterator<String> it = data.iterator();
 	    String[] currentData = it.next().split(";");
 	    
+	    ArrayList<Block> blocks = new ArrayList<>();
+	    
 	    for(int x = this.minCorner.getBlockX(); x <= this.maxCorner.getBlockX(); ++x) {
             for(int y = this.minCorner.getBlockY(); y <= this.maxCorner.getBlockY(); ++y) {
                 for(int z = this.minCorner.getBlockZ(); z <= this.maxCorner.getBlockZ(); ++z) {
@@ -166,9 +168,12 @@ public class Region {
                     
                     block.setType(Material.AIR);
                     block.setData(Byte.parseByte("0"));
+                    blocks.add(block);
                 }
             }
         }
+	    
+	    this.blocks = blocks;
 	    
 	    Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 	    while(entityIterator.hasNext()) {
@@ -194,11 +199,5 @@ public class Region {
 	public World getWorld() {
 		return this.minCorner.getWorld();
 	}
-
-    public void load(File file) {
-        if(file.exists()) {
-            this.getBlocks(false);
-        }
-    }
 	
 }

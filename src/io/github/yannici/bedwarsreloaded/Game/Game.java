@@ -20,7 +20,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.Bed;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -126,9 +125,10 @@ public class Game {
             sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game is running! You can't start a running game again!"));
             return false;
         }
-
-        this.loadRegion();
-        if(!this.saveGame(sender, false)) {
+        
+        GameCheckCode gcc = this.checkGame();
+        if(gcc != GameCheckCode.OK) {
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + gcc.getCodeMessage()));
             return false;
         }
         
@@ -158,13 +158,13 @@ public class Game {
         
         this.startRessourceSpawners();
         this.setPlayersScoreboard();
+        this.setPlayersColoredName();
         this.teleportPlayersToTeamSpawn();
 
         this.state = GameState.RUNNING;
         this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game " + this.name + " has just started!"));
         return true;
     }
-
     public boolean stop() {
         if(this.state == GameState.STOPPED) {
             return false;
@@ -255,7 +255,7 @@ public class Game {
     }
 
     public void addTeam(Team team) {
-        org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(team.getName());
+        org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(team.getChatColor() + team.getName());
         team.setScoreboardTeam(newTeam);
         this.teams.put(team.getName(), team);
     }
@@ -329,10 +329,10 @@ public class Game {
         }
     }
     
-    public void broadcastSound(Sound sound) {
+    public void broadcastSound(Sound sound, float volume, float pitch) {
         for(Player p : this.getPlayers()) {
             if(p.isOnline()) {
-                p.playSound(p.getLocation(), sound, 50.0F, 20.0F);
+                p.playSound(p.getLocation(), sound, volume, pitch);
             }
         }
     }
@@ -553,16 +553,6 @@ public class Game {
      * PRIVATE
      */
     
-    private void loadRegion() {
-        if(this.region == null) {
-            this.region = new Region(this.loc1, this.loc2);
-        }
-
-        File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
-
-        this.region.load(file);
-    }
-    
     private void setTeamsFriendlyFire() {
         for(org.bukkit.scoreboard.Team team : this.scoreboard.getTeams()) {
             team.setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
@@ -673,6 +663,10 @@ public class Game {
     	}
     	
     	return GameCheckCode.OK;
+    }
+    
+    private void setPlayersColoredName() {
+        
     }
 
 }

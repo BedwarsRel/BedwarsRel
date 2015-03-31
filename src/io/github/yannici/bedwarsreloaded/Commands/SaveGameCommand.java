@@ -17,7 +17,7 @@ public class SaveGameCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getCommand() {
-        return "savegame";
+        return "save";
     }
 
     @Override
