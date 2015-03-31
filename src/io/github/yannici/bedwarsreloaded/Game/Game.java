@@ -402,9 +402,7 @@ public class Game {
     
     public void setPlayersScoreboard() {
         Objective obj = this.scoreboard.getObjective("display");
-        if(obj != null) {
-            
-        } else {
+        if(obj == null) {
             obj = this.scoreboard.registerNewObjective("display", "dummy");
         }
         
