@@ -1,10 +1,7 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
-import io.github.yannici.bedwarsreloaded.ChatWriter;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 public abstract class GameCycle {
@@ -47,17 +44,13 @@ public abstract class GameCycle {
 		
 		Team deathTeam = Game.getPlayerTeam(player, this.getGame());
 		if(killer == null) {
-			this.getGame().broadcast(ChatColor.GOLD + ">> " + this.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + " died!");
+			this.getGame().broadcast(ChatColor.GOLD + ">> " + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + " died!");
 			return;
 		}
 		
 		Team killerTeam = Game.getPlayerTeam(killer, this.getGame());
 		
-		this.getGame().broadcast(ChatColor.GOLD + ">> " + this.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + this.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!");
-	}
-	
-	private String getPlayerWithTeamString(Player player, Team team) {
-		return team.getChatColor() + player.getDisplayName() + " (" + team.getName() + ")";
+		this.getGame().broadcast(ChatColor.GOLD + ">> " + Game.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!");
 	}
 	
 }

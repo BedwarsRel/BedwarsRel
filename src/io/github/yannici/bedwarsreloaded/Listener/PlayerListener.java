@@ -26,6 +26,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
@@ -101,6 +102,8 @@ public class PlayerListener extends BaseListener {
     	if(game.getState() == GameState.RUNNING) {
     		pde.setDroppedExp(0);
     		pde.setDeathMessage(null);
+    		pde.getDrops().clear();
+    		
     		pde.setKeepInventory(false);
     		game.getCycle().onPlayerDies(player, player.getKiller());
     	}
@@ -286,6 +289,18 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		die.setCancelled(true);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onQuit(PlayerQuitEvent pqe) {
+	    Player player = pqe.getPlayer();
+        Game g = Game.getGameOfPlayer(player);
+        
+        if(g == null) {
+            return;
+        }
+        
+        g.playerLeave(player);
 	}
 	
 	@EventHandler

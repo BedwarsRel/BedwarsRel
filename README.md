@@ -28,17 +28,17 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 ## TODO's
 
 * Game Countdown (Max length of game)
-* Scoreboard (showing which team still is alive)
+* ~~Scoreboard (showing which team still is alive and players amount)~~
 * Game Cycle
-    * Restart when Game is finished
+    * Restart when Game is finished (bungee)
     * Correct logout of player
-    * Show Kills / Deaths in Chat
-    * Bed destroy
+    * ~~Show Kills / Deaths in Chat~~
+    * ~~Bed destroy~~
 * Setup Commands
     * Reload config
-* Complete default shop configuration
+* ~~Complete default shop configuration~~
 * Spectators
-* Mapvote
+* Mapvote(?)
 
 ## Want to join?
 

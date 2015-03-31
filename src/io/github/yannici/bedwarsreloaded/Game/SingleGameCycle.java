@@ -37,7 +37,7 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public void onGameLoaded() {
-		// Nothing to do
+	    this.getGame().resetRegion();
 	}
 
 	@Override

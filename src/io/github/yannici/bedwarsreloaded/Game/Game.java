@@ -13,11 +13,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.Bed;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -72,12 +75,16 @@ public class Game {
      * STATIC
      */
     
+    public static String getPlayerWithTeamString(Player player, Team team) {
+        return team.getChatColor() + player.getDisplayName() + " (" + team.getName() + ")";
+    }
+    
     public static String bedLostString() {
-        return ChatColor.RED + "✘";
+        return ChatColor.RED + "✘ ";
     }
     
     public static String bedExistString() {
-        return ChatColor.GREEN + "✔";
+        return ChatColor.GREEN + "✔ ";
     }
 
     public static Game getGameOfPlayer(Player p) {
@@ -100,6 +107,16 @@ public class Game {
         return null;
     }
 
+    public static Team getTeamOfBed(Game g, Block bed) {
+        for(Team team : g.getTeams().values()) {
+            if(team.getBed().equals(bed)) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+    
     /*
      * PUBLIC
      */
@@ -290,8 +307,10 @@ public class Game {
         
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
         
+        this.setPlayersScoreboard();
+        
         this.cycle.onPlayerLeave(p);
-        this.broadcast(ChatColor.RED + "Player \"" + p.getName() + "\" has left the game!");
+        this.broadcast(ChatColor.RED + "Player \"" +  Game.getPlayerWithTeamString(p, team) + "\" has left the game!");
         return true;
     }
 
@@ -306,6 +325,14 @@ public class Game {
         for(Player p : this.getPlayers()) {
             if(p.isOnline()) {
                 p.sendMessage(ChatWriter.pluginMessage(message));
+            }
+        }
+    }
+    
+    public void broadcastSound(Sound sound) {
+        for(Player p : this.getPlayers()) {
+            if(p.isOnline()) {
+                p.playSound(p.getLocation(), sound, 50.0F, 20.0F);
             }
         }
     }
@@ -371,6 +398,31 @@ public class Game {
 
         File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
         this.region.reset(file);
+    }
+    
+    public void setPlayersScoreboard() {
+        Objective obj = this.scoreboard.getObjective("display");
+        if(obj != null) {
+            
+        } else {
+            obj = this.scoreboard.registerNewObjective("display", "dummy");
+        }
+        
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+        obj.setDisplayName("Teams");
+        
+        for(Team t : this.teams.values()) {
+            this.scoreboard.resetScores(Game.bedExistString() + t.getChatColor() + t.getName());
+            this.scoreboard.resetScores(Game.bedLostString() + t.getChatColor() + t.getName());
+            
+            String teamString = (t.isDead()) ? Game.bedLostString() : Game.bedExistString();
+            Score score = obj.getScore(teamString + t.getChatColor() + t.getName());
+            score.setScore(t.getPlayers().size());
+        }
+        
+        for(Player player : this.getPlayers()) {
+            player.setScoreboard(this.scoreboard);
+        }
     }
 
     /*
@@ -511,22 +563,6 @@ public class Game {
         File file = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/region.bw");
 
         this.region.load(file);
-    }
-    
-    private void setPlayersScoreboard() {
-    	Objective obj = this.scoreboard.registerNewObjective("display", "dummy");
-    	obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-    	
-    	obj.setDisplayName("Teams");
-    	
-    	for(Team t : this.teams.values()) {
-    		Score score = obj.getScore(Game.bedExistString() + t.getChatColor() + t.getName() + ChatColor.RED);
-    		score.setScore(t.getPlayers().size());
-    	}
-    	
-    	for(Player player : this.getPlayers()) {
-    		player.setScoreboard(this.scoreboard);
-    	}
     }
     
     private void setTeamsFriendlyFire() {

@@ -32,9 +32,6 @@ public class Team implements ConfigurationSerializable {
         
         if(deserialize.containsKey("bed")) {
             this.bedBlock = ((Location)deserialize.get("bed")).getBlock();
-            if(this.bedBlock.getType() != Material.BED_BLOCK) {
-                this.bedBlock = null;
-            }
         }
         
     }

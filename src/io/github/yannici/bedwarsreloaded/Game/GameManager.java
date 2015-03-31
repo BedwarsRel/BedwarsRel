@@ -149,6 +149,10 @@ public class GameManager {
 
     public void unloadGames() {
         for(Game g : this.games) {
+            if(g.getState() != GameState.STOPPED) {
+                g.stop();
+            }
+            
             g.kickAllPlayers();
             g.resetRegion();
         }

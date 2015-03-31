@@ -14,6 +14,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.material.Bed;
 
 public class SetBedCommand extends BaseCommand implements ICommand {
 
@@ -84,6 +85,12 @@ public class SetBedCommand extends BaseCommand implements ICommand {
             theBlock = targetBlock;
         } else {
             theBlock = standingBlock;
+        }
+        
+        Bed theBed = (Bed)theBlock.getState().getData();
+        
+        if(!theBed.isHeadOfBed()) {
+            theBlock = theBlock.getRelative(theBed.getFacing());
         }
         
         gameTeam.setBed(theBlock);
