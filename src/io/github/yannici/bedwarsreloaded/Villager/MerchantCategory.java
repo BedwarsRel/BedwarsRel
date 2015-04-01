@@ -55,7 +55,7 @@ public class MerchantCategory {
         Collections.sort(sorted);
 
         for(String cat : sorted) {
-            String catName = ChatColor.translateAlternateColorCodes('&', section.getString(cat + ".name"));
+            String catName = ChatColor.translateAlternateColorCodes('§', section.getString(cat + ".name"));
             Material catItem = null;
             List<String> lores = new ArrayList<String>();
             String item = section.get(cat + ".item").toString();
@@ -68,7 +68,7 @@ public class MerchantCategory {
             
             if(section.contains(cat + ".lore")) {
             	for(Object lore : section.getList(cat + ".lore")) {
-            		lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
+            		lores.add(ChatColor.translateAlternateColorCodes('§', lore.toString()));
             	}
             }
             
@@ -194,19 +194,31 @@ public class MerchantCategory {
             }
             
             if(cfgSection.containsKey("name")) {
-                String name = cfgSection.get("name").toString();
+                String name = ChatColor.translateAlternateColorCodes('§', cfgSection.get("name").toString());
                 ItemMeta im = finalStack.getItemMeta();
                 
-                ChatColor color = ChatColor.WHITE;
+                im.setDisplayName(name);
+                finalStack.setItemMeta(im);
+            } else {
                 
-                if(cfgSection.containsKey("namecolor")) {
-                    ChatColor setColor = ChatColor.valueOf(cfgSection.get("namecolor").toString());
-                    if(setColor != null) {
-                        color = setColor;
-                    }
+                ItemMeta im = finalStack.getItemMeta();
+                String name = im.getDisplayName();
+                
+                switch(finalStack.getType()) {
+                    case CLAY_BRICK:
+                        name = ChatColor.DARK_RED + "Bronze";
+                        break;
+                    case IRON_INGOT:
+                        name = ChatColor.GRAY + "Iron";
+                        break;
+                    case GOLD_INGOT:
+                        name = ChatColor.GOLD + "Gold";
+                        break;
+                    default:
+                        break;
                 }
                 
-                im.setDisplayName(color + name);
+                im.setDisplayName(name);
                 finalStack.setItemMeta(im);
             }
             

@@ -77,7 +77,7 @@ public class Game {
      */
     
     public static String getPlayerWithTeamString(Player player, Team team) {
-        return player.getDisplayName() + " (" + team.getDisplayName() + ")";
+        return player.getDisplayName() + " (" + team.getDisplayName() + ChatColor.RESET + ")";
     }
     
     public static String bedLostString() {
@@ -255,7 +255,7 @@ public class Game {
         org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(name);
         newTeam.setDisplayName(name);
         newTeam.setPrefix(color.getChatColor().toString());
-        newTeam.setSuffix("§r");
+        newTeam.setSuffix("&r");
         
         Team theTeam = new Team(name, color, maxPlayers, newTeam);
         this.teams.put(name, theTeam);
@@ -264,7 +264,7 @@ public class Game {
     public void addTeam(Team team) {
         org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(team.getName());
         newTeam.setDisplayName(team.getName());
-        newTeam.setSuffix("§r");
+        newTeam.setSuffix("&r");
         newTeam.setPrefix(team.getChatColor().toString());
         
         team.setScoreboardTeam(newTeam);
