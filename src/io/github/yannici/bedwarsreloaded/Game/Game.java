@@ -42,6 +42,8 @@ public class Game {
     private GameLobbyCountdown glc = null;
     private HashMap<Material, MerchantCategory> itemshop = null;
     private GameCycle cycle = null;
+    
+    private YamlConfiguration config = null;
 
     private Location loc1 = null;
     private Location loc2 = null;
@@ -75,7 +77,7 @@ public class Game {
      */
     
     public static String getPlayerWithTeamString(Player player, Team team) {
-        return team.getChatColor() + player.getDisplayName() + " (" + team.getName() + ")";
+        return player.getDisplayName() + " (" + team.getDisplayName() + ")";
     }
     
     public static String bedLostString() {
@@ -558,6 +560,14 @@ public class Game {
     public PlayerStorage getPlayerStorage(Player p) {
         return this.storages.get(p);
     }
+    
+    public void setConfig(YamlConfiguration config) {
+        this.config = config;
+    }
+    
+    public YamlConfiguration getConfig() {
+        return this.config;
+    }
 
     /*
      * PRIVATE
@@ -595,6 +605,7 @@ public class Game {
 
         try {
             yml.save(config);
+            this.config = yml;
         } catch (IOException e) {
             Main.getInstance().getLogger().info(ChatWriter.pluginMessage(e.getMessage()));
         }
@@ -669,6 +680,10 @@ public class Game {
     	for(Team t : this.teams.values()) {
     		if(t.getSpawnLocation() == null) {
     			return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
+    		}
+    		
+    		if(t.getBed() == null || (t.getBed().getType() != Material.BED_BLOCK && t.getBed().getType() != Material.BED)) {
+    		    return GameCheckCode.TEAM_NO_WRONG_BED;
     		}
     	}
     	

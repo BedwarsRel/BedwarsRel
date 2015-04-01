@@ -100,6 +100,7 @@ public class GameManager {
             }
 
             Game game = new Game(Main.getInstance(), name);
+            game.setConfig(cfg);
 
             Map<String, Object> teams = new HashMap<String, Object>();
             Map<String, Object> spawner = new HashMap<String, Object>();

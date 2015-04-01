@@ -14,7 +14,8 @@ public enum GameCheckCode {
     NO_RES_SPAWNER_ERROR(402), 
     NO_LOBBY_SET(403),
     TEAMS_WITHOUT_SPAWNS(404),
-    NO_ITEMSHOP_CATEGORIES(405);
+    NO_ITEMSHOP_CATEGORIES(405),
+    TEAM_NO_WRONG_BED(406);
 
     private int code;
     public static HashMap<String, String> GameCheckCodeMessages = null;
