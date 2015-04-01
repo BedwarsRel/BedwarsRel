@@ -19,6 +19,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
     * Customizable Shop Categories
 * World reset + editable while plugin is activated
 * Colored Player Names
+* Game Status in MOTD (only BungeeCord)
 * Many commands for game setup
 
 ### Ideas / Suggestions
