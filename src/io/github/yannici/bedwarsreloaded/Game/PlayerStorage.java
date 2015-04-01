@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -104,6 +105,7 @@ public class PlayerStorage {
         this.player.updateInventory();
     }
 
+    @SuppressWarnings("deprecation")
     public void openTeamSelection(Game game) {
         HashMap<String, Team> teams = game.getTeams();
 
@@ -118,9 +120,22 @@ public class PlayerStorage {
             ItemMeta im = is.getItemMeta();
             im.setDisplayName(team.getChatColor() + team.getName());
             ArrayList<String> teamplayers = new ArrayList<>();
-
+            
+            int teamPlayerSize = team.getPlayers().size();
+            int maxPlayers = team.getMaxPlayers();
+            
+            String current = "0";
+            if (teamPlayerSize >= maxPlayers) {
+                current = ChatColor.RED + String.valueOf(teamPlayerSize);
+            } else {
+                current = ChatColor.YELLOW + String.valueOf(teamPlayerSize);
+            }
+            
+            teamplayers.add(ChatColor.GRAY + "(" + current + ChatColor.GRAY + "/" + ChatColor.YELLOW + String.valueOf(maxPlayers) + ChatColor.GRAY + ")");
+            teamplayers.add(ChatColor.WHITE + "---------");
+            
             for(Player teamPlayer : players) {
-                teamplayers.add(teamPlayer.getName());
+                teamplayers.add(team.getChatColor() + teamPlayer.getName());
             }
 
             im.setLore(teamplayers);
