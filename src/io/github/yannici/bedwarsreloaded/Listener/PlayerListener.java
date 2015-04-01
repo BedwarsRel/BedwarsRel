@@ -146,7 +146,7 @@ public class PlayerListener extends BaseListener {
 	            return;
 	        }
 	        
-	        Class clazz = Class.forName("io.github.yannici.bedwarsreloaded.Villager.Version." + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
+	        Class clazz = Class.forName("io.github.yannici.bedwarsreloaded.Com." + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
 	        Object villagerItemShop = clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class).newInstance(game, player, cat);
 	        
 	        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
@@ -269,6 +269,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
+		player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getPlayerListName()) + ChatColor.RESET);
 		game.nonFreePlayer(player);
 		team.addPlayer(player);
 		

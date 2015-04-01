@@ -157,9 +157,9 @@ public class Game {
         this.cycle.onGameStart();
         
         this.startRessourceSpawners();
-        this.setPlayersScoreboard();
         this.setPlayersColoredName();
         this.teleportPlayersToTeamSpawn();
+        this.setPlayersScoreboard();
 
         this.state = GameState.RUNNING;
         this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game " + this.name + " has just started!"));
@@ -172,6 +172,7 @@ public class Game {
 
         this.stopWorkers();
         this.kickAllPlayers();
+        this.resetRegion();
         this.state = GameState.STOPPED;
         return true;
     }
@@ -250,13 +251,22 @@ public class Game {
 
     public void addTeam(String name, TeamColor color, int maxPlayers) {
         org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(name);
-        newTeam.setDisplayName(color.getChatColor() + name);
-        this.teams.put(name, new Team(name, color, maxPlayers, newTeam));
+        newTeam.setDisplayName(name);
+        newTeam.setPrefix(color.getChatColor().toString());
+        newTeam.setSuffix("§r");
+        
+        Team theTeam = new Team(name, color, maxPlayers, newTeam);
+        this.teams.put(name, theTeam);
     }
 
     public void addTeam(Team team) {
-        org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(team.getChatColor() + team.getName());
+        org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(team.getName());
+        newTeam.setDisplayName(team.getName());
+        newTeam.setSuffix("§r");
+        newTeam.setPrefix(team.getChatColor().toString());
+        
         team.setScoreboardTeam(newTeam);
+        
         this.teams.put(team.getName(), team);
     }
 
@@ -301,12 +311,12 @@ public class Game {
         if(this.freePlayers.contains(p)) {
             this.freePlayers.remove(p);
         }
-
+        
+        p.setDisplayName(ChatColor.stripColor(p.getName()));
         PlayerStorage storage = this.storages.get(p);
         storage.restore();
         
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
-        
         this.setPlayersScoreboard();
         
         this.cycle.onPlayerLeave(p);
@@ -414,7 +424,7 @@ public class Game {
             this.scoreboard.resetScores(Game.bedLostString() + t.getChatColor() + t.getName());
             
             String teamString = (t.isDead()) ? Game.bedLostString() : Game.bedExistString();
-            Score score = obj.getScore(teamString + t.getChatColor() + t.getName());
+            Score score = obj.getScore(teamString + t.getDisplayName());
             score.setScore(t.getPlayers().size());
         }
         

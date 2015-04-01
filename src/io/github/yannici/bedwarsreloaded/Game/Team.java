@@ -46,12 +46,16 @@ public class Team implements ConfigurationSerializable {
     }
 
     public boolean addPlayer(Player player) {
-        if(this.scoreboardTeam.getPlayers().size() == this.maxPlayers) {
+        if(this.scoreboardTeam.getPlayers().size() >= this.maxPlayers) {
             return false;
         }
 
         this.scoreboardTeam.addPlayer(player);
         return true;
+    }
+    
+    public org.bukkit.scoreboard.Team getScoreboardTeam() {
+        return this.scoreboardTeam;
     }
 
     public int getMaxPlayers() {
@@ -130,6 +134,10 @@ public class Team implements ConfigurationSerializable {
         team.put("spawn", this.spawnLocation);
         team.put("bed", this.bedBlock.getLocation());
         return team;
+    }
+
+    public String getDisplayName() {
+        return this.scoreboardTeam.getDisplayName();
     }
 
 }
