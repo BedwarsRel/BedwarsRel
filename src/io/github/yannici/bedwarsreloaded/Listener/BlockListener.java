@@ -99,7 +99,7 @@ public class BlockListener extends BaseListener {
     	}
     	
     	if(game.getState() == GameState.WAITING) {
-    		bpe.setCancelled(false);
+    		bpe.setCancelled(true);
     		bpe.setBuild(false);
     		return;
     	}
