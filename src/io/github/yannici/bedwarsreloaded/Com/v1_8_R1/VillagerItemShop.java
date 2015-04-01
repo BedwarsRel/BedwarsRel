@@ -1,16 +1,16 @@
-package io.github.yannici.bedwarsreloaded.Villager.Version.v1_8_R2;
+package io.github.yannici.bedwarsreloaded.Com.v1_8_R1;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityVillager;
-import net.minecraft.server.v1_8_R2.MerchantRecipe;
-import net.minecraft.server.v1_8_R2.MerchantRecipeList;
-import net.minecraft.server.v1_8_R2.StatisticList;
+import net.minecraft.server.v1_8_R1.EntityHuman;
+import net.minecraft.server.v1_8_R1.EntityVillager;
+import net.minecraft.server.v1_8_R1.MerchantRecipe;
+import net.minecraft.server.v1_8_R1.MerchantRecipeList;
+import net.minecraft.server.v1_8_R1.StatisticList;
 
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -61,6 +61,7 @@ public class VillagerItemShop {
         // As task because of inventory issues
         new BukkitRunnable() {
             
+            @SuppressWarnings("unchecked")
             @Override
             public void run() {
                 try {
