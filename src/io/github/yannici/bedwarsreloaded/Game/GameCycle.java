@@ -1,8 +1,11 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
+import io.github.yannici.bedwarsreloaded.Main;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public abstract class GameCycle {
 	
@@ -63,6 +66,16 @@ public abstract class GameCycle {
 		}
 		
 		this.getGame().broadcast(ChatColor.GOLD + Game.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!");
+		
+		if(this.getGame().isOver()) {
+		    new BukkitRunnable() {
+                
+                @Override
+                public void run() {
+                    GameCycle.this.getGame().kickAllPlayers();
+                }
+            }.runTaskLater(Main.getInstance(), 200); // 10 sek delay
+		}
 	}
 	
 }
