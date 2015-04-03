@@ -1,6 +1,12 @@
 lobbytime: 60
 friendlyfire: false
-bungeecord: false
+bungeecord: 
+    enabled: false
+    hubserver: test
+    motd:
+        waiting: §2[Lobby]
+        running: §e[Running]
+        stopped: §4[Stopped]
 ressource:
     bronze:
         spawninterval: 1000
