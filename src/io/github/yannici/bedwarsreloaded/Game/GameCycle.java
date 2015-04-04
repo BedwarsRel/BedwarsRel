@@ -67,14 +67,15 @@ public abstract class GameCycle {
 		
 		this.getGame().broadcast(ChatColor.GOLD + Game.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!");
 		
-		if(this.getGame().isOver()) {
+		Team winner = this.getGame().isOver();
+		if(winner != null) {
 		    new BukkitRunnable() {
                 
                 @Override
                 public void run() {
                     GameCycle.this.getGame().kickAllPlayers();
                 }
-            }.runTaskLater(Main.getInstance(), 200); // 10 sek delay
+            }.runTaskTimer(Main.getInstance(), 20L, 200L); // 10 sek delay
 		}
 	}
 	

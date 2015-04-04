@@ -159,7 +159,6 @@ public class Game {
         this.cycle.onGameStart();
         
         this.startRessourceSpawners();
-        this.setPlayersColoredName();
         this.teleportPlayersToTeamSpawn();
         this.setPlayersScoreboard();
 
@@ -689,13 +688,33 @@ public class Game {
     	
     	return GameCheckCode.OK;
     }
-    
-    private void setPlayersColoredName() {
-        
-    }
 
-    public boolean isOver() {
-        return false;
+    public Team isOver() {
+    	ArrayList<Player> players = this.getTeamPlayers();
+    	ArrayList<Team> teams = new ArrayList<>();
+    	
+    	if(players.size() == 0 || players.isEmpty()) {
+    		return null;
+    	}
+    	
+    	for(Player player : players) {
+    		Team playerTeam = Game.getPlayerTeam(player, this);
+    		if(teams.contains(playerTeam)) {
+				continue;
+			}
+    		
+    		if(!player.isDead()) {
+    			teams.add(playerTeam);
+    		} else if(!playerTeam.isDead()) {
+    			teams.add(playerTeam);
+    		}
+    	}
+    	
+    	if(teams.size() == 1) {
+    		return teams.get(0);
+    	} else {
+    		return null;
+    	}
     }
 
 }
