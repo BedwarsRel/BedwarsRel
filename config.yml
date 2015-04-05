@@ -1,6 +1,9 @@
 lobbytime: 60
 friendlyfire: false
-bungeecord: false
+gameoverdelay: 10
+bungeecord:
+    enabled: false
+    hubserver: test
 ressource:
     bronze:
         spawninterval: 1000

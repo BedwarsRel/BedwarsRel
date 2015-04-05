@@ -433,6 +433,46 @@ public class Game {
             player.setScoreboard(this.scoreboard);
         }
     }
+    
+    public Team isOver() {
+        ArrayList<Player> players = this.getTeamPlayers();
+        ArrayList<Team> teams = new ArrayList<>();
+        
+        if(players.size() == 0 || players.isEmpty()) {
+            return null;
+        }
+        
+        for(Player player : players) {
+            Team playerTeam = Game.getPlayerTeam(player, this);
+            if(teams.contains(playerTeam)) {
+                continue;
+            }
+            
+            if(!player.isDead()) {
+                teams.add(playerTeam);
+            } else if(!playerTeam.isDead()) {
+                teams.add(playerTeam);
+            }
+        }
+        
+        if(teams.size() == 1) {
+            return teams.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public void allPlayersToLobby() {
+        for(Player player : this.getPlayers()) {
+            player.teleport(this.lobby);
+            PlayerStorage storage = this.getPlayerStorage(player);
+            storage.clean();
+            storage.loadLobbyInventory();
+            
+            this.resetScoreboard();
+            player.setScoreboard(this.scoreboard);
+        }
+    }
 
     /*
      * GETTER / SETTER
@@ -572,6 +612,10 @@ public class Game {
      * PRIVATE
      */
     
+    private void resetScoreboard() {
+        this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
+    }
+    
     private void setTeamsFriendlyFire() {
         for(org.bukkit.scoreboard.Team team : this.scoreboard.getTeams()) {
             team.setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
@@ -687,34 +731,6 @@ public class Game {
     	}
     	
     	return GameCheckCode.OK;
-    }
-
-    public Team isOver() {
-    	ArrayList<Player> players = this.getTeamPlayers();
-    	ArrayList<Team> teams = new ArrayList<>();
-    	
-    	if(players.size() == 0 || players.isEmpty()) {
-    		return null;
-    	}
-    	
-    	for(Player player : players) {
-    		Team playerTeam = Game.getPlayerTeam(player, this);
-    		if(teams.contains(playerTeam)) {
-				continue;
-			}
-    		
-    		if(!player.isDead()) {
-    			teams.add(playerTeam);
-    		} else if(!playerTeam.isDead()) {
-    			teams.add(playerTeam);
-    		}
-    	}
-    	
-    	if(teams.size() == 1) {
-    		return teams.get(0);
-    	} else {
-    		return null;
-    	}
     }
 
 }

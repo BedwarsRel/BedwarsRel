@@ -30,6 +30,8 @@ public class BungeeGameCycle extends GameCycle {
 		if(player.isOnline()) {
 			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
 		}
+		
+		this.checkGameOver();
 	}
 
 	@Override
@@ -80,5 +82,23 @@ public class BungeeGameCycle extends GameCycle {
 	    
 	    return false;
 	  }
+
+    @Override
+    public void onGameOver(GameOverTask task) {
+        if(task.getCounter() == task.getStartCount()) {
+            this.getGame().broadcast(ChatColor.GOLD + "Congratulations! Team " + task.getWinner().getDisplayName() + ChatColor.GOLD + " wins!");
+        }
+        
+        if(task.getCounter() == 0) {
+            this.getGame().kickAllPlayers();
+            this.getGame().setState(GameState.WAITING);
+            this.setEndGameRunning(false);
+            task.cancel();
+        } else {
+            this.getGame().broadcast(ChatColor.AQUA + "Server restart in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");
+        }
+        
+        task.decCounter();
+    }
 
 }
