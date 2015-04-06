@@ -105,6 +105,7 @@ public class Region {
 				location.getBlockZ() <= this.maxCorner.getBlockZ());
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void save(File file, boolean directSave) throws IOException {
 	    FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
 	    
@@ -134,6 +135,7 @@ public class Region {
         cfg.save(file);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void reset(File file) {
 	    if(!file.exists()) {
 	        Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Region file does not exists!"));
@@ -185,6 +187,7 @@ public class Region {
 	    return (Integer.parseInt(data[0]) == x && Integer.parseInt(data[1]) == y && Integer.parseInt(data[2]) == z);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void setBlock(Location location, int typeId, byte data, boolean checkContains) {
 		if(checkContains && !this.isInRegion(location)) {
 			return;

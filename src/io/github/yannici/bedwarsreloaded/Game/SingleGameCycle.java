@@ -31,8 +31,9 @@ public class SingleGameCycle extends GameCycle {
 	public void onPlayerLeave(Player player) {
 		// teleport to join location
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
-		
 		player.teleport(storage.getLeft());
+		
+		this.checkGameOver();
 	}
 
 	@Override
@@ -49,5 +50,23 @@ public class SingleGameCycle extends GameCycle {
 		
 		return true;
 	}
+
+    @Override
+    public void onGameOver(GameOverTask task) {
+        if(task.getCounter() == task.getStartCount()) {
+            this.getGame().broadcast(ChatColor.GOLD + "Congratulations! Team " + task.getWinner().getDisplayName() + ChatColor.GOLD + " wins!");
+        }
+        
+        if(task.getCounter() == 0) {
+            this.getGame().allPlayersToLobby();
+            this.getGame().setState(GameState.WAITING);
+            this.setEndGameRunning(false);
+            task.cancel();
+        } else {
+            this.getGame().broadcast(ChatColor.AQUA + "Back to lobby in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");
+        }
+        
+        task.decCounter();
+    }
 	
 }

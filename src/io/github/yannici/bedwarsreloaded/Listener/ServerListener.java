@@ -23,13 +23,13 @@ public class ServerListener extends BaseListener {
         Game game = Main.getInstance().getGameManager().getGames().get(0);
         switch(game.getState()) {
             case STOPPED:
-                slpe.setMotd(ChatColor.translateAlternateColorCodes('§', Main.getInstance().getConfig().getString("bungeecord.motd.stopped")));
+                slpe.setMotd(ChatColor.RED + "[Stopped]");
                 break;
             case WAITING:
-                slpe.setMotd(ChatColor.translateAlternateColorCodes('§', Main.getInstance().getConfig().getString("bungeecord.motd.waiting")));
+                slpe.setMotd(ChatColor.GREEN + "[Lobby]");
                 break;
             case RUNNING:
-                slpe.setMotd(ChatColor.translateAlternateColorCodes('§', Main.getInstance().getConfig().getString("bungeecord.motd.running")));
+                slpe.setMotd(ChatColor.YELLOW + "[Running]");
                 break;
         }
     }
