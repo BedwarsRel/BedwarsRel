@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -30,6 +31,8 @@ public class BungeeGameCycle extends GameCycle {
 		if(player.isOnline()) {
 			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
 		}
+		
+		this.checkGameOver();
 	}
 
 	@Override
@@ -80,5 +83,22 @@ public class BungeeGameCycle extends GameCycle {
 	    
 	    return false;
 	  }
+
+    @Override
+    public void onGameOver(GameOverTask task) {
+        if(task.getCounter() == task.getStartCount()) {
+            this.getGame().broadcast(ChatColor.GOLD + "Congratulations! Team " + task.getWinner().getDisplayName() + ChatColor.GOLD + " wins!");
+        }
+        
+        // game over
+        if(task.getCounter() == 0) {
+            this.getGame().kickAllPlayers();
+            Bukkit.shutdown();
+        } else {
+            this.getGame().broadcast(ChatColor.AQUA + "Server restart in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");
+        }
+        
+        task.decCounter();
+    }
 
 }
