@@ -305,6 +305,8 @@ public class Game {
 
     public boolean playerLeave(Player p) {
     	Team team = Game.getPlayerTeam(p, this);
+    	
+    	this.broadcast(ChatColor.RED + "Player \"" +  Game.getPlayerWithTeamString(p, team) + "\" has left the game!");
         if(team != null) {
             team.removePlayer(p);
         }
@@ -321,7 +323,6 @@ public class Game {
         this.setPlayersScoreboard();
         
         this.cycle.onPlayerLeave(p);
-        this.broadcast(ChatColor.RED + "Player \"" +  Game.getPlayerWithTeamString(p, team) + "\" has left the game!");
         return true;
     }
 

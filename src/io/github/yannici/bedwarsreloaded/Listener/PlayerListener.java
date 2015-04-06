@@ -269,7 +269,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getPlayerListName()) + ChatColor.RESET);
+		player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getPlayerListName()));
 		game.nonFreePlayer(player);
 		team.addPlayer(player);
 		
