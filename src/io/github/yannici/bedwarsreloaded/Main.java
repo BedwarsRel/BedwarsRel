@@ -25,6 +25,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.google.common.collect.ImmutableMap;
+
 public class Main extends JavaPlugin {
 
     private static Main instance = null;
@@ -133,7 +135,7 @@ public class Main extends JavaPlugin {
                 return this.craftbukkit;
             }
         } catch(Exception ex) {
-            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't fetch craftbukkit package!"));
+            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.packagenotfound", ImmutableMap.of("package", "craftbukkit"))));
             return null;
         }
     }
@@ -146,7 +148,7 @@ public class Main extends JavaPlugin {
                 return this.minecraft;
             }
         } catch(Exception ex) {
-            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't fetch minecraft server package!"));
+            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.packagenotfound", ImmutableMap.of("package", "minecraft server"))));
             return null;
         }
     }
@@ -160,7 +162,7 @@ public class Main extends JavaPlugin {
 
             return Class.forName(this.craftbukkit.getName() + "." + classname);
         } catch(Exception ex) {
-            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't fetch craftbukkit class: " + classname + "!"));
+            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound", ImmutableMap.of("package", "craftbukkit", "class", classname))));
             return null;
         }
     }
@@ -174,7 +176,7 @@ public class Main extends JavaPlugin {
 
             return Class.forName(this.minecraft.getName() + "." + classname);
         } catch(Exception ex) {
-            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't fetch minecraft server class: " + classname + "!"));
+            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound", ImmutableMap.of("package", "minecraft server", "class", classname))));
             return null;
         }
     }

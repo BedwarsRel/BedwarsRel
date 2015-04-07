@@ -23,14 +23,14 @@ public class LeaveGameCommand extends BaseCommand {
 
     @Override
     public String getName() {
-        return "Leave Game";
+        return Main._l("commands.leave.name");
     }
 
     @Override
     public String getDescription() {
-        return "Leave the current game";
+        return Main._l("commands.leave.desc");
     }
-
+    
     @Override
     public String[] getArguments() {
         return new String[]{};
@@ -46,12 +46,12 @@ public class LeaveGameCommand extends BaseCommand {
         Game game = Game.getGameOfPlayer(player);
 
         if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You are currently not in a game!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notingame")));
             return false;
         }
 
         if(game.playerLeave(player)) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "You successfully left the game!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
         }
         return true;
     }

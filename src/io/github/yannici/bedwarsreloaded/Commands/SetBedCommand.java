@@ -16,6 +16,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Bed;
 
+import com.google.common.collect.ImmutableMap;
+
 public class SetBedCommand extends BaseCommand implements ICommand {
 
     public SetBedCommand(Main plugin) {
@@ -29,12 +31,12 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Set bed";
+        return Main._l("commands.setbed.name");
     }
 
     @Override
     public String getDescription() {
-        return "Sets the location of a team's bed";
+        return Main._l("commands.setbed.desc");
     }
 
     @Override
@@ -53,14 +55,14 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
         
         Team gameTeam = game.getTeam(team);
         
         if(team == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given team wasn't found in this game!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
             return false;
         }
         
@@ -71,12 +73,12 @@ public class SetBedCommand extends BaseCommand implements ICommand {
         Block standingBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
         
         if(targetBlock == null || standingBlock == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You have to targeting or stand on a Bed!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
             return false;
         }
         
         if(targetBlock.getType() != Material.BED_BLOCK && standingBlock.getType() != Material.BED_BLOCK) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You have to targeting or stand on a Bed!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
             return false;
         }
         
@@ -94,7 +96,7 @@ public class SetBedCommand extends BaseCommand implements ICommand {
         }
         
         gameTeam.setBed(theBlock);
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "You set the bed for team " + gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN + " successfully!"));
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.bedset", ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
         return true;
     }
 

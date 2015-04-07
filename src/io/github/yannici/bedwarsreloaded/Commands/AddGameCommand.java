@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.google.common.collect.ImmutableMap;
+
 public class AddGameCommand extends BaseCommand {
 
     public AddGameCommand(Main plugin) {
@@ -21,12 +23,12 @@ public class AddGameCommand extends BaseCommand {
 
     @Override
     public String getName() {
-        return "Add Game";
+        return Main._l("commands.addgame.name");
     }
 
     @Override
     public String getDescription() {
-        return "Adds a new game";
+        return Main._l("commands.addgame.desc");
     }
 
     @Override
@@ -43,11 +45,11 @@ public class AddGameCommand extends BaseCommand {
         boolean addGame = this.getPlugin().getGameManager().addGame(args.get(0));
 
         if(addGame == false) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "A game with this name already exists!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameexists")));
             return false;
         }
 
-        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "New game " + args.get(0).toString() + " added"));
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameadded", ImmutableMap.of("game", args.get(0).toString()))));
         return true;
     }
 

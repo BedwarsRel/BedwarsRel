@@ -1,0 +1,68 @@
+errors:
+    argumentslength: Number of arguments does not match the correct amount!
+    packagenotfound: Couldn't fetch %package% package!
+    classnotfound: Couldn't fetch %package% class: %class%!
+    gameexists: A game with this name already exists!
+    gamenotfound: The game "%game%" could not be found!
+    playeramount: The maxium of players can't be lower than 1 or higher than 24!
+    teamcolornotallowed: The given Team color isn't a allowed color
+    teamnamelength: Team name must have between 2 and 20 characters!
+    teamnotfound: The given team was not found!
+    notingame: You are currently not in a game!
+    bedtargeting: You have to targeting or stand on a Bed!
+    regionargument: Your location argument has to be "loc1" or "loc2"!
+    spawnerargument: Your argument have to be one of the following: (gold;iron;bronze)
+    blockdownnotfound: The block you're standing on was not found!
+    gamenotrunning: Game isn't running!
+success:
+    gameadded: New game "%game%" successfully added!
+    teamadded: Team "%team%" successfully added!
+    joined: You successfully joined the game!
+    left: You successfully left the game!
+    saved: Game was successfully saved!
+    bedset: You successfully set the bed for team %team%!
+    regionset: Game region location %location% for Game %game% was set successfully!
+    spawnset: Spawn location for Team %team% was set successfully!
+    spawnerset: Ressource spawn location was set successfully!
+    stopped: Game successfully stopped!
+ressources:
+    gold: §6Gold
+    iron: §7Eisen
+    bronze: §4Bronze
+commands:
+    addgame:
+        name: Add Game
+        desc: Adds a new game
+    addteam:
+        name: Add Team
+        desc: Adds a team to a specific game
+    join:
+        name: Join Game
+        desc: Joins a specific game
+    leave:
+        name: Leave Game
+        desc: Leave the current game
+    save:
+        name: Save Game
+        desc: Saves a game (and map) to config file(s)
+    setbed:
+        name: Set bed
+        desc: Sets the location of a team's bed
+    setlobby:
+        name: Set lobby
+        desc: Sets the location of the gamelobby
+    setregion:
+        name: Sets a region point
+        desc: Sets a region point for the game
+    setspawn:
+        name: Sets a team spawn
+        desc: Sets the spawn of the given team
+    setspawner:
+        name: Set spawner
+        desc: Sets a spawner location of a specific ressource
+    start:
+        name: Start game
+        desc: Starts a game
+    stop:
+        name: Stop game
+        desc: Stops a game

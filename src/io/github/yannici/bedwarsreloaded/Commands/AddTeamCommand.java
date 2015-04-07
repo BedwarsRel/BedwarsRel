@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.google.common.collect.ImmutableMap;
+
 public class AddTeamCommand extends BaseCommand {
 
     public AddTeamCommand(Main plugin) {
@@ -23,12 +25,12 @@ public class AddTeamCommand extends BaseCommand {
 
     @Override
     public String getName() {
-        return "Add Team";
+        return Main._l("commands.addteam.name");
     }
 
     @Override
     public String getDescription() {
-        return "Adds a team to a specific game";
+        return Main._l("commands.addteam.desc");
     }
 
     @Override
@@ -50,29 +52,29 @@ public class AddTeamCommand extends BaseCommand {
         TeamColor tColor = TeamColor.valueOf(color);
 
         if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 
         int playerMax = Integer.parseInt(maxPlayers);
 
-        if(playerMax < 1 || playerMax > 16) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The maxium of players can't be lower than 1 or higher than 8!"));
+        if(playerMax < 1 || playerMax > 24) {
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.playeramount")));
             return false;
         }
 
         if(tColor == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given Team color isn't a allowed color!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamcolornotallowed")));
             return false;
         }
 
-        if(name.length() < 3) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Team name have to be more than 2 characters!"));
+        if(name.length() < 3 || name.length() > 20) {
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnamelength")));
             return false;
         }
 
         game.addTeam(name, tColor, playerMax);
-        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Team \"" + name + "\" successfully added!"));
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamadded", ImmutableMap.of("team", name))));
         return true;
     }
 

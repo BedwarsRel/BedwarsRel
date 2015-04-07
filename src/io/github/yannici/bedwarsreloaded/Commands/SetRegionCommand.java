@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.ImmutableMap;
+
 public class SetRegionCommand extends BaseCommand implements ICommand {
 
     public SetRegionCommand(Main plugin) {
@@ -23,12 +25,12 @@ public class SetRegionCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Set Region Points";
+        return Main._l("commands.setregion.name");
     }
 
     @Override
     public String getDescription() {
-        return "Sets the playing region points";
+        return Main._l("commands.setregion.desc");
     }
 
     @Override
@@ -46,18 +48,18 @@ public class SetRegionCommand extends BaseCommand implements ICommand {
 
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 
         String loc = args.get(1);
         if(!loc.equalsIgnoreCase("loc1") && !loc.equalsIgnoreCase("loc2")) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Your location argument has to be \"loc1\" or \"loc2\"!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.regionargument")));
             return false;
         }
-
+        
         game.setLoc(player.getLocation(), loc);
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game Location " + loc + " for Game " + game.getName() + " was set successfully!"));
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.regionset", ImmutableMap.of("location", loc, "game", game.getName()))));
         return true;
     }
 

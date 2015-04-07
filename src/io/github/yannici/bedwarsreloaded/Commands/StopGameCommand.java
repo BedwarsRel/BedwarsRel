@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.google.common.collect.ImmutableMap;
+
 public class StopGameCommand extends BaseCommand implements ICommand {
 
     public StopGameCommand(Main plugin) {
@@ -22,12 +24,12 @@ public class StopGameCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Stop Game";
+        return Main._l("commands.stop.name");
     }
 
     @Override
     public String getDescription() {
-        return "Stops a game";
+        return Main._l("commands.stop.desc");
     }
 
     @Override
@@ -41,23 +43,18 @@ public class StopGameCommand extends BaseCommand implements ICommand {
             return false;
         }
 
-        if(args.size() == 0) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Arguments length does not match the expected amount!"));
-            return false;
-        }
-
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 
         if(!game.stop()) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game isn't running!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotrunning")));
             return false;
         }
 
-        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game successfully stopped!"));
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.stopped")));
         return true;
     }
 

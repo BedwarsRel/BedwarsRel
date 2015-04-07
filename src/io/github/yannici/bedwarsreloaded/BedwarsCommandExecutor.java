@@ -37,7 +37,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
         for(BaseCommand bCommand : this.plugin.getCommands()) {
             if(bCommand.getCommand().equalsIgnoreCase(command)) {
                 if(bCommand.getArguments().length > arguments.size()) {
-                    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Number of arguments does not match the correct amount!"));
+                    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.argumentslength")));
                     return false;
                 }
 

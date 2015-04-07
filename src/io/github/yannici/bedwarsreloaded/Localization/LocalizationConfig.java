@@ -72,7 +72,7 @@ public class LocalizationConfig extends YamlConfiguration {
 			return this.fallback.getString(path);
 		}
 		
-		return super.getString(path);
+		return ChatColor.translateAlternateColorCodes('&', super.getString(path));
 	} 
 	
 	public String getFormatString(String path, Map<String, String> params) {
@@ -81,6 +81,6 @@ public class LocalizationConfig extends YamlConfiguration {
 			str.replace("%" + key.toLowerCase() + "%", params.get(key));
 		}
 		
-		return str;
+		return ChatColor.translateAlternateColorCodes('&', str);
 	}
 }

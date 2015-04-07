@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.ImmutableMap;
+
 public class SetLobbyCommand extends BaseCommand implements ICommand {
 
     public SetLobbyCommand(Main plugin) {
@@ -23,12 +25,12 @@ public class SetLobbyCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Set lobby";
+        return Main._l("commands.setlobby.name");
     }
 
     @Override
     public String getDescription() {
-        return "Sets the location of the lobby";
+        return Main._l("commands.setlobby.desc");
     }
 
     @Override
@@ -46,7 +48,7 @@ public class SetLobbyCommand extends BaseCommand implements ICommand {
 
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 

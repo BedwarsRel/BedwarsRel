@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.google.common.collect.ImmutableMap;
+
 public class SaveGameCommand extends BaseCommand implements ICommand {
 
     public SaveGameCommand(Main plugin) {
@@ -22,12 +24,12 @@ public class SaveGameCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Save Game";
+        return Main._l("commands.save.name");
     }
 
     @Override
     public String getDescription() {
-        return "Saves a game to config file(s)";
+        return Main._l("commands.save.desc");
     }
 
     @Override
@@ -43,7 +45,7 @@ public class SaveGameCommand extends BaseCommand implements ICommand {
 
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 
@@ -51,7 +53,7 @@ public class SaveGameCommand extends BaseCommand implements ICommand {
             return false;
         }
 
-        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game was saved successfully!"));
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.saved")));
         return true;
     }
 

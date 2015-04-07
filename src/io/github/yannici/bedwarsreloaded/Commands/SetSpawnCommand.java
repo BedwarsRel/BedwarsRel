@@ -11,6 +11,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.ImmutableMap;
+
 public class SetSpawnCommand extends BaseCommand implements ICommand {
 
     public SetSpawnCommand(Main plugin) {
@@ -24,12 +26,12 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Set Team Spawn";
+        return Main._l("commands.setspawn.name");
     }
 
     @Override
     public String getDescription() {
-        return "Sets the spawn of the given team";
+        return Main._l("commands.setspawn.desc");
     }
 
     @Override
@@ -47,18 +49,18 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
 
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 
         Team team = game.getTeam(args.get(1));
         if(team == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given team wasn't found!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
             return false;
         }
 
         team.setSpawnLocation(player.getLocation());
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Spawn location for Team " + team.getName() + " was set successfully!"));
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnset", ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
         return true;
     }
 

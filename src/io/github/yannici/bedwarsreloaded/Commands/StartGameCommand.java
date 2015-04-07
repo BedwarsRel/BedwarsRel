@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import com.google.common.collect.ImmutableMap;
+
 public class StartGameCommand extends BaseCommand implements ICommand {
 
     public StartGameCommand(Main plugin) {
@@ -22,12 +24,12 @@ public class StartGameCommand extends BaseCommand implements ICommand {
 
     @Override
     public String getName() {
-        return "Start Game";
+        return Main._l("commands.start.name");
     }
 
     @Override
     public String getDescription() {
-        return "Starts a game";
+        return Main._l("commands.start.desc");
     }
 
     @Override
@@ -41,14 +43,9 @@ public class StartGameCommand extends BaseCommand implements ICommand {
             return false;
         }
 
-        if(args.size() == 0) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Arguments length does not match the expected amount!"));
-            return false;
-        }
-
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
         if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 

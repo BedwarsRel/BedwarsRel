@@ -10,10 +10,13 @@ import java.util.Arrays;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import com.google.common.collect.ImmutableMap;
 
 public class SetSpawnerCommand extends BaseCommand {
 
@@ -28,12 +31,12 @@ public class SetSpawnerCommand extends BaseCommand {
 
     @Override
     public String getName() {
-        return "Set Spawner";
+        return Main._l("commands.setspawner.name");
     }
 
     @Override
     public String getDescription() {
-        return "Sets the spawner location of a specific element";
+        return Main._l("commands.setspawner.desc");
     }
 
     @Override
@@ -53,22 +56,16 @@ public class SetSpawnerCommand extends BaseCommand {
 
         Player player = (Player) sender;
         ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(this.getRessources()));
-
-        if(args.size() < 2) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The amount of arguments doesn't match! See \"/help TestPlugin\" for more information"));
-            return false;
-        }
-
         String material = args.get(1).toLowerCase();
         Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 
         if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "The given game wasn't found!"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
             return false;
         }
 
         if(!arguments.contains(material)) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Your argument have to be one of the following: (gold;iron;bronze)"));
+            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.spawnerargument")));
             return false;
         }
 
@@ -77,15 +74,15 @@ public class SetSpawnerCommand extends BaseCommand {
         switch(material) {
         case "gold":
             droppingMaterial = Material.GOLD_INGOT;
-            name = ChatColor.GOLD + "Gold";
+            name = ChatColor.translateAlternateColorCodes('§', Main._l("ressources.gold"));
             break;
         case "iron":
             droppingMaterial = Material.IRON_INGOT;
-            name = ChatColor.GRAY + "Silver";
+            name = ChatColor.translateAlternateColorCodes('§', Main._l("ressources.iron"));
             break;
         case "bronze":
             droppingMaterial = Material.CLAY_BRICK;
-            name = ChatColor.DARK_RED + "Bronze";
+            name = ChatColor.translateAlternateColorCodes('§', Main._l("ressources.bronze"));
             break;
         }
 
@@ -95,15 +92,15 @@ public class SetSpawnerCommand extends BaseCommand {
         stack.setItemMeta(meta);
         
         int interval = this.getPlugin().getConfig().getInt("ressource." + material + ".spawninterval");
-        Block downBlock = player.getLocation().getBlock();
+        Block downBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 
         if(downBlock == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatWriter.pluginMessage(ChatColor.RED + "Block right under you wasn't found!")));
+            player.sendMessage(ChatWriter.pluginMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.blockdownnotfound"))));
             return false;
         }
 
         game.addRessourceSpawner(interval, downBlock.getLocation(), stack);
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Ressource spawn location successfully set!"));
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnerset")));
         return true;
     }
 

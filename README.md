@@ -20,6 +20,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * World reset + editable while plugin is activated
 * Colored Player Names
 * Game Status in MOTD (only BungeeCord)
+* Multilanguage (Server locale)
 * Many commands for game setup
 
 ### Ideas / Suggestions
@@ -31,9 +32,9 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 
 * Game Countdown (Max length of game)
 * ~~Scoreboard (showing which team still is alive and players amount)~~
-* Game Cycle
-    * Restart when Game is finished (bungee)
-    * Correct logout of player
+* ~~Game Cycle~~
+    * ~~Restart when Game is finished (bungee)~~
+    * ~~Correct logout of player~~
     * ~~Show Kills / Deaths in Chat~~
     * ~~Bed destroy~~
 * Setup Commands
