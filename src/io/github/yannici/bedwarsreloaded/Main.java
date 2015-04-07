@@ -18,7 +18,9 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.WeatherType;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -236,6 +238,10 @@ public class Main extends JavaPlugin {
                 for(Game g : Main.getInstance().getGameManager().getGames()) {
                     if(g.getState() == GameState.RUNNING) {
                         g.getRegion().getWorld().setTime(1000);
+                        
+                        for(Player player : g.getPlayers()) {
+                        	player.setPlayerWeather(WeatherType.CLEAR);
+                        }
                     }
                 }
             }
