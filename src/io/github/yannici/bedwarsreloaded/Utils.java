@@ -1,12 +1,10 @@
 package io.github.yannici.bedwarsreloaded;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public final class Utils {
@@ -48,21 +46,6 @@ public final class Utils {
         }
         
         return null;
-    }
-    
-    @SuppressWarnings("unchecked")
-	public static String getPlayerLocale(Player player) {
-    	try {
-    		Method getHandleMethod = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer").getMethod("getHandle", new Class[]{});
-        	getHandleMethod.setAccessible(true);
-        	Object nmsPlayer = getHandleMethod.invoke(player, new Object[]{});
-        	
-        	Field localeField = nmsPlayer.getClass().getDeclaredField("locale");
-        	localeField.setAccessible(true);
-        	return localeField.get(nmsPlayer).toString();
-    	} catch(Exception ex) {
-    		return Main.getInstance().getFallbackLocale();
-    	}
     }
     
     public static boolean checkBungeePlugin()

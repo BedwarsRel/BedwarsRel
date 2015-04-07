@@ -8,6 +8,7 @@ bungeecord:
         lobby: §a[Lobby]
         running: §e[Running]
         stopped: §4[Stopped]
+locale: de
 ressource:
     bronze:
         spawninterval: 1000

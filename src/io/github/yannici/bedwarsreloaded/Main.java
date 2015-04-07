@@ -11,8 +11,10 @@ import io.github.yannici.bedwarsreloaded.Listener.EntityListener;
 import io.github.yannici.bedwarsreloaded.Listener.PlayerListener;
 import io.github.yannici.bedwarsreloaded.Listener.ServerListener;
 import io.github.yannici.bedwarsreloaded.Listener.WeatherListener;
+import io.github.yannici.bedwarsreloaded.Localization.LocalizationConfig;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -30,6 +32,7 @@ public class Main extends JavaPlugin {
     private Package craftbukkit = null;
     private Package minecraft = null;
     private String version = null;
+    private LocalizationConfig localization = null;
 
     private ScoreboardManager scoreboardManager = null;
     private GameManager gameManager = null;
@@ -72,7 +75,8 @@ public class Main extends JavaPlugin {
         
         this.registerCommands();
         this.registerListener();
-
+        
+        this.localization = this.loadLocalization();
         this.gameManager = new GameManager(this);
         this.saveDefaultConfig();
         
@@ -86,6 +90,16 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         this.stopTimeListener();
         this.gameManager.unloadGames();
+    }
+    
+    private LocalizationConfig loadLocalization() {
+    	LocalizationConfig config = new LocalizationConfig();
+    	config.loadLocale(this.getConfig().getString("locale"), false);
+    	return config;
+    }
+    
+    public LocalizationConfig getLocalization() {
+    	return this.localization;
     }
     
     private String loadVersion() {
@@ -162,6 +176,10 @@ public class Main extends JavaPlugin {
             return null;
         }
     }
+    
+    public String getFallbackLocale() {
+    	return "en";
+    }
 
     public static Main getInstance() {
         return Main.instance;
@@ -222,6 +240,14 @@ public class Main extends JavaPlugin {
                 }
             }
         }, (long)10*20, (long)10*20);
+    }
+    
+    public static String _l(String localeKey, Map<String, String> params) {
+    	return Main.getInstance().getLocalization().getFormatString(localeKey, params);
+    }
+    
+    public static String _l(String localeKey) {
+    	return Main.getInstance().getLocalization().getString(localeKey);
     }
 
     private void stopTimeListener() {
