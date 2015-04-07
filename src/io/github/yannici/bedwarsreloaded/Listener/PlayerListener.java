@@ -22,6 +22,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -159,6 +160,24 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * LOBBY & GAME
 	 */
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onCommand(PlayerCommandPreprocessEvent pcpe) {
+		Player player = pcpe.getPlayer();
+		Game game = Game.getGameOfPlayer(player);
+		
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() == GameState.STOPPED) {
+			return;
+		}
+		
+		if(!pcpe.getMessage().startsWith("/bw") && !player.hasPermission("bw.cmd")) {
+			return;
+		}
+	}
 	
 	@EventHandler
 	public void onSleep(PlayerBedEnterEvent bee) {

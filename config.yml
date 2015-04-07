@@ -9,6 +9,8 @@ bungeecord:
         running: §e[Running]
         stopped: §4[Stopped]
 locale: de
+permissions:
+    vipCanStart: false
 ressource:
     bronze:
         spawninterval: 1000

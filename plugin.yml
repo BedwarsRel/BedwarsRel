@@ -66,3 +66,6 @@ permissions:
     bw.vip:
         description: Allows special user permissions
         default: op
+    bw.cmd:
+        description: Allows to execute non-bedwars commands ingame
+        default: op
