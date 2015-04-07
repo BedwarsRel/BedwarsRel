@@ -4,6 +4,10 @@ gameoverdelay: 10
 bungeecord:
     enabled: false
     hubserver: test
+    motds:
+        lobby: §a[Lobby]
+        running: §e[Running]
+        stopped: §4[Stopped]
 ressource:
     bronze:
         spawninterval: 1000

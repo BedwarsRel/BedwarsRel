@@ -1,6 +1,7 @@
 package io.github.yannici.bedwarsreloaded.Listener;
 
 import io.github.yannici.bedwarsreloaded.Main;
+import io.github.yannici.bedwarsreloaded.Utils;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 
 import org.bukkit.ChatColor;
@@ -12,9 +13,9 @@ public class ServerListener extends BaseListener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent slpe) {
         // Only enabled on bungeecord
-        /*if(!Main.getInstance().isBungee()) {
+        if(!Main.getInstance().isBungee() || !Utils.checkBungeePlugin()) {
             return;
-        }*/
+        }
         
         if(Main.getInstance().getGameManager().getGames().size() == 0) {
             return;
@@ -23,13 +24,13 @@ public class ServerListener extends BaseListener {
         Game game = Main.getInstance().getGameManager().getGames().get(0);
         switch(game.getState()) {
             case STOPPED:
-                slpe.setMotd(ChatColor.RED + "[Stopped]");
+                slpe.setMotd(ChatColor.RED + ChatColor.translateAlternateColorCodes('§', Main.getInstance().getConfig().getString("bungeecord.motds.stopped")));
                 break;
             case WAITING:
-                slpe.setMotd(ChatColor.GREEN + "[Lobby]");
+                slpe.setMotd(ChatColor.GREEN + ChatColor.translateAlternateColorCodes('§', Main.getInstance().getConfig().getString("bungeecord.motds.lobby")));
                 break;
             case RUNNING:
-                slpe.setMotd(ChatColor.YELLOW + "[Running]");
+                slpe.setMotd(ChatColor.YELLOW + ChatColor.translateAlternateColorCodes('§', Main.getInstance().getConfig().getString("bungeecord.motds.running")));
                 break;
         }
     }

@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
+import io.github.yannici.bedwarsreloaded.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,22 +69,10 @@ public class BungeeGameCycle extends GameCycle {
 	      return;
 	    }
 	    
-	    if ((b != null) && (this.checkBungeePlugin())) {
+	    if ((b != null) && (Utils.checkBungeePlugin())) {
 	      player.sendPluginMessage(Main.getInstance(), "BungeeCord", b.toByteArray());
 	    }
 	}
-	
-	private boolean checkBungeePlugin()
-	  {
-	    try
-	    {
-	      Class.forName("net.md_5.bungee.BungeeCord");
-	      return true;
-	    }
-	    catch (Exception e) {}
-	    
-	    return false;
-	  }
 
     @Override
     public void onGameOver(GameOverTask task) {
