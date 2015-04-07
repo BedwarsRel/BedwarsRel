@@ -20,10 +20,19 @@ public class SingleGameCycle extends GameCycle {
 	public void onGameEnds() {
 		// All players which are in game, kick to lobby
 		for(Player p : this.getGame().getPlayers()) {
-			p.teleport(this.getGame().getLobby());
-			this.getGame().getPlayerStorage(p).loadLobbyInventory();
+			if(!p.isDead()) {
+				p.teleport(this.getGame().getLobby());
+			}
+			
+			PlayerStorage storage = this.getGame().getPlayerStorage(p);
+			storage.clean();
+			storage.loadLobbyInventory();
+			
+			this.getGame().resetScoreboard();
+			p.setScoreboard(this.getGame().getScoreboard());
 		}
 		
+		this.setEndGameRunning(false);
 		this.getGame().setState(GameState.WAITING);
 	}
 
@@ -58,9 +67,7 @@ public class SingleGameCycle extends GameCycle {
         }
         
         if(task.getCounter() == 0) {
-            this.getGame().allPlayersToLobby();
-            this.getGame().setState(GameState.WAITING);
-            this.setEndGameRunning(false);
+            this.onGameEnds();
             task.cancel();
         } else {
             this.getGame().broadcast(ChatColor.AQUA + "Back to lobby in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");

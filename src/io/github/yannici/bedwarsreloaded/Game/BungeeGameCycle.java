@@ -24,6 +24,7 @@ public class BungeeGameCycle extends GameCycle {
 	@Override
 	public void onGameEnds() {
 		this.getGame().kickAllPlayers();
+        Bukkit.shutdown();
 	}
 
 	@Override
@@ -92,8 +93,8 @@ public class BungeeGameCycle extends GameCycle {
         
         // game over
         if(task.getCounter() == 0) {
-            this.getGame().kickAllPlayers();
-            Bukkit.shutdown();
+            this.onGameEnds();
+            task.cancel();
         } else {
             this.getGame().broadcast(ChatColor.AQUA + "Server restart in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");
         }

@@ -462,22 +462,18 @@ public class Game {
             return null;
         }
     }
-
-    public void allPlayersToLobby() {
-        for(Player player : this.getPlayers()) {
-            player.teleport(this.lobby);
-            PlayerStorage storage = this.getPlayerStorage(player);
-            storage.clean();
-            storage.loadLobbyInventory();
-            
-            this.resetScoreboard();
-            player.setScoreboard(this.scoreboard);
-        }
+    
+    public void resetScoreboard() {
+        this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
     }
 
     /*
      * GETTER / SETTER
      */
+    
+    public Scoreboard getScoreboard() {
+    	return this.scoreboard;
+    }
     
     public GameCycle getCycle() {
     	return this.cycle;
@@ -612,10 +608,6 @@ public class Game {
     /*
      * PRIVATE
      */
-    
-    private void resetScoreboard() {
-        this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
-    }
     
     private void setTeamsFriendlyFire() {
         for(org.bukkit.scoreboard.Team team : this.scoreboard.getTeams()) {
