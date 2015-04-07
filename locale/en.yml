@@ -27,7 +27,7 @@ success:
     stopped: Game successfully stopped!
 ressources:
     gold: §6Gold
-    iron: §7Eisen
+    iron: §7Iron
     bronze: §4Bronze
 commands:
     addgame:
