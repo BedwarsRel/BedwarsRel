@@ -54,6 +54,15 @@ public class LocalizationConfig extends YamlConfiguration {
 	}
 	
 	@Override
+	public Object get(String path) {
+		return this.getString(path);
+	}
+	
+	public Object get(String path, Map<String, String> params) {
+		return this.getFormatString(path, params);
+	}
+	
+	@Override
 	public String getString(String path) {
 		if(!this.contains(path)) {
 			if(this.fallback == null) {

@@ -249,11 +249,11 @@ public class Main extends JavaPlugin {
     }
     
     public static String _l(String localeKey, Map<String, String> params) {
-    	return Main.getInstance().getLocalization().getFormatString(localeKey, params);
+    	return (String)Main.getInstance().getLocalization().get(localeKey, params);
     }
     
     public static String _l(String localeKey) {
-    	return Main.getInstance().getLocalization().getString(localeKey);
+    	return (String)Main.getInstance().getLocalization().get(localeKey);
     }
 
     private void stopTimeListener() {
