@@ -270,10 +270,6 @@ public class Main extends JavaPlugin {
                 for(Game g : Main.getInstance().getGameManager().getGames()) {
                     if(g.getState() == GameState.RUNNING) {
                         g.getRegion().getWorld().setTime(1000);
-                        
-                        for(Player player : g.getPlayers()) {
-                        	player.setPlayerWeather(WeatherType.CLEAR);
-                        }
                     }
                 }
             }
