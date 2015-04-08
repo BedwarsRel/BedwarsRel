@@ -138,7 +138,7 @@ public class Region {
 	@SuppressWarnings("deprecation")
 	public void reset(File file) {
 	    if(!file.exists()) {
-	        Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Region file does not exists!"));
+	        Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.regionnotfound")));
 	        return;
 	    }
 	    

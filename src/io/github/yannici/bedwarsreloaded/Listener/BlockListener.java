@@ -1,6 +1,7 @@
 package io.github.yannici.bedwarsreloaded.Listener;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
+import io.github.yannici.bedwarsreloaded.Main;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 import io.github.yannici.bedwarsreloaded.Game.GameState;
 import io.github.yannici.bedwarsreloaded.Game.Team;
@@ -16,13 +17,14 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.material.Bed;
 
+import com.google.common.collect.ImmutableMap;
+
 public class BlockListener extends BaseListener {
 
     public BlockListener() {
         super();
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBreak(BlockBreakEvent e) {
         Player p = e.getPlayer();
@@ -59,7 +61,7 @@ public class BlockListener extends BaseListener {
             }
             
             if(bedBlock.equals(breakBlock)) {
-                p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You can't destroy your own bed!"));
+                p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.blocks.ownbeddestroy")));
                 return;
             }
             
@@ -69,13 +71,13 @@ public class BlockListener extends BaseListener {
             }
             
             breakBlock.getDrops().clear();
-            breakBlock.setTypeId(0);
+            breakBlock.setType(Material.AIR);
             Block neighbor = breakBlock.getRelative(breakBed.getFacing().getOppositeFace());
             neighbor.getDrops().clear();
-            neighbor.setTypeId(0);
+            neighbor.setType(Material.AIR);
             
-            g.broadcast(ChatColor.RED + "The bed of team " + bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED + " has been destroyed!");
-            g.broadcastSound(Sound.ENDERMAN_SCREAM, 30.0F, 20.0F);
+            g.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed", ImmutableMap.of("team", bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED)));
+            g.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 20.0F);
             g.setPlayersScoreboard();
             return;
         }

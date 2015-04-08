@@ -14,6 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.google.common.collect.ImmutableMap;
+
 public class GameManager {
 
     public static String gamesPath = "games";
@@ -83,7 +85,7 @@ public class GameManager {
 
         for(Game g : this.games) {
             if(!g.run(Main.getInstance().getServer().getConsoleSender())) {
-                Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't start up the game!"));
+                Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotloaded")));
             } else {
             	g.getCycle().onGameLoaded();
             }
@@ -142,9 +144,9 @@ public class GameManager {
             
 
             this.games.add(game);
-            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Load Game \"" + game.getName() + "\" successfully!"));
+            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameloaded", ImmutableMap.of("game", game.getName()))));
         } catch(Exception ex) {
-            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Loading game \"" + configFile.getParentFile().getName() + "\" throws an error!"));
+            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameloaderror", ImmutableMap.of("game", Main._l("success.gameloaded", ImmutableMap.of("game", configFile.getParentFile().getName()))))));
         }
     }
 

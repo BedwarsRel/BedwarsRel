@@ -26,6 +26,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import com.google.common.collect.ImmutableMap;
+
 public class Game {
 
     private String name = null;
@@ -124,7 +126,7 @@ public class Game {
 
     public boolean run(CommandSender sender) {
         if(this.state != GameState.STOPPED) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game is running! You can't start a running game again!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantstartagain")));
             return false;
         }
         
@@ -135,7 +137,7 @@ public class Game {
         }
         
         if(this.minPlayers == 0) {
-            this.minPlayers = 1; //Math.round(this.getMaxPlayers()/2);
+            this.minPlayers = Math.round(this.getMaxPlayers()/2);
         }
         
         this.loadItemShopCategories();
@@ -146,11 +148,11 @@ public class Game {
 
     public boolean start(CommandSender sender) {
         if(this.state != GameState.WAITING) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game have to be started out of the waiting mode!"));
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.startoutofwaiting")));
             return false;
         }
 
-        this.broadcast(ChatColor.GREEN + "Game starting ...");
+        this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
         
         this.setTeamsFriendlyFire();
         this.cleanUsersInventory();
@@ -163,7 +165,7 @@ public class Game {
         this.setPlayersScoreboard();
 
         this.state = GameState.RUNNING;
-        this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Game " + this.name + " has just started!"));
+        this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getName()))));
         return true;
     }
     public boolean stop() {
@@ -273,7 +275,7 @@ public class Game {
 
     public boolean playerJoins(Player p) {
         if(this.state != GameState.WAITING) {
-            p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You can't join a running or stopped game!"));
+            p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
             return false;
         }
 
@@ -306,7 +308,7 @@ public class Game {
     public boolean playerLeave(Player p) {
     	Team team = Game.getPlayerTeam(p, this);
     	
-    	this.broadcast(ChatColor.RED + "Player \"" +  Game.getPlayerWithTeamString(p, team) + "\" has left the game!");
+    	this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", Game.getPlayerWithTeamString(p, team))));
         if(team != null) {
             team.removePlayer(p);
         }
@@ -569,19 +571,19 @@ public class Game {
 
         if(this.region != null) {
             if(this.region.getWorld().equals(lobby.getWorld())) {
-                sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Lobby can't be on the game world!"));
+                sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
                 return;
             }
         }
 
         this.lobby = lobby;
-        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Lobby was set successfully!"));
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.lobbyset")));
     }
 
     public void setLobby(Location lobby) {
         if(this.region != null) {
             if(this.region.getWorld().equals(lobby.getWorld())) {
-                Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Lobby can't be on the game world!"));
+                Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
                 return;
             }
         }

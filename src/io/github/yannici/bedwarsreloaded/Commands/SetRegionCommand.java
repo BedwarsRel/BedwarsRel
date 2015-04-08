@@ -35,7 +35,7 @@ public class SetRegionCommand extends BaseCommand implements ICommand {
 
     @Override
     public String[] getArguments() {
-        return new String[]{"game", "location"};
+        return new String[]{"game", "loc1;loc2"};
     }
 
     @Override

@@ -1,11 +1,8 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
-import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
 
 import java.util.HashMap;
-
-import org.bukkit.configuration.file.FileConfiguration;
 
 public enum GameCheckCode {
     OK(200),
@@ -29,27 +26,6 @@ public enum GameCheckCode {
     }
 
     public String getCodeMessage() {
-        if(GameCheckCode.GameCheckCodeMessages == null) {
-            try {
-                GameCheckCode.GameCheckCodeMessages = new HashMap<String, String>();
-                FileConfiguration config = Main.getInstance().getConfig();
-
-                for(GameCheckCode code : GameCheckCode.values()) {
-                    if(code == GameCheckCode.OK) {
-                        continue;
-                    }
-
-                    GameCheckCode.GameCheckCodeMessages.put(code.toString(), config.get("texts.gamecheck." + code.toString()).toString());
-                }
-
-            } catch (Exception e) {
-                GameCheckCode.GameCheckCodeMessages = null;
-                Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage("Game Check Code Messages couldn't be fetched!"));
-                return "ERROR";
-            }
-        }
-
-
-        return GameCheckCode.GameCheckCodeMessages.get(this.toString()).toString();
+        return Main._l("gamecheck." + this.toString());
     }
 }

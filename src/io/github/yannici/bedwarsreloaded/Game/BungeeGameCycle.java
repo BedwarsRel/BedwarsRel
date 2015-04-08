@@ -11,6 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.ImmutableMap;
+
 public class BungeeGameCycle extends GameCycle {
 
 	public BungeeGameCycle(Game game) {
@@ -45,7 +47,7 @@ public class BungeeGameCycle extends GameCycle {
 	@Override
 	public boolean onPlayerJoins(Player player) {
 		if(this.getGame().isFull()) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game is full!"));
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
 			return false;
 		}
 		
@@ -54,7 +56,7 @@ public class BungeeGameCycle extends GameCycle {
 	
 	private void bungeeSendToServer(String server, Player player) {
 		if(server == null) {
-			player.sendMessage(ChatWriter.pluginMessage("Bungeecord Servers wasn't set properly! Talk to the server administrator!"));
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bungeenoserver")));
 			return;
 		}
 		
@@ -77,7 +79,7 @@ public class BungeeGameCycle extends GameCycle {
     @Override
     public void onGameOver(GameOverTask task) {
         if(task.getCounter() == task.getStartCount()) {
-            this.getGame().broadcast(ChatColor.GOLD + "Congratulations! Team " + task.getWinner().getDisplayName() + ChatColor.GOLD + " wins!");
+            this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon", ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
         }
         
         // game over
@@ -85,7 +87,7 @@ public class BungeeGameCycle extends GameCycle {
             this.onGameEnds();
             task.cancel();
         } else {
-            this.getGame().broadcast(ChatColor.AQUA + "Server restart in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");
+            this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart", ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
         }
         
         task.decCounter();

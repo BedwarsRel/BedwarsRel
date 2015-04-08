@@ -14,6 +14,7 @@ import io.github.yannici.bedwarsreloaded.Listener.WeatherListener;
 import io.github.yannici.bedwarsreloaded.Localization.LocalizationConfig;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -207,7 +208,7 @@ public class Main extends JavaPlugin {
     }
 
     private void registerCommands() {
-        this.commands.add(new InfoCommand(this));
+        this.commands.add(new HelpCommand(this));
         this.commands.add(new SetSpawnerCommand(this));
         this.commands.add(new AddGameCommand(this));
         this.commands.add(new StartGameCommand(this));
@@ -226,6 +227,35 @@ public class Main extends JavaPlugin {
 
     public ArrayList<BaseCommand> getCommands() {
         return this.commands;
+    }
+    
+    private ArrayList<BaseCommand> filterCommandsByPermission(ArrayList<BaseCommand> commands, String permission) {
+    	Iterator<BaseCommand> it = commands.iterator();
+    	
+    	while(it.hasNext()) {
+        	BaseCommand command = it.next();
+        	if(!command.getPermission().equals(permission)) {
+        		it.remove();
+        	}
+        }
+    	
+    	return commands;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public ArrayList<BaseCommand> getBaseCommands() {
+        ArrayList<BaseCommand> commands = (ArrayList<BaseCommand>) this.commands.clone();
+        commands = this.filterCommandsByPermission(commands, "base");
+        
+        return commands;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public ArrayList<BaseCommand> getSetupCommands() {
+        ArrayList<BaseCommand> commands = (ArrayList<BaseCommand>) this.commands.clone();
+        commands = this.filterCommandsByPermission(commands, "setup");
+        
+        return commands;
     }
 
     public GameManager getGameManager() {

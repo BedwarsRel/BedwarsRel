@@ -1,5 +1,6 @@
 package io.github.yannici.bedwarsreloaded.Villager;
 
+import io.github.yannici.bedwarsreloaded.Main;
 import io.github.yannici.bedwarsreloaded.Utils;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 
@@ -206,13 +207,13 @@ public class MerchantCategory {
                 
                 switch(finalStack.getType()) {
                     case CLAY_BRICK:
-                        name = ChatColor.DARK_RED + "Bronze";
+                        name = Main._l("ressources.bronze");
                         break;
                     case IRON_INGOT:
-                        name = ChatColor.GRAY + "Iron";
+                        name = Main._l("ressources.iron");
                         break;
                     case GOLD_INGOT:
-                        name = ChatColor.GOLD + "Gold";
+                        name = Main._l("ressources.gold");
                         break;
                     default:
                         break;
@@ -234,7 +235,7 @@ public class MerchantCategory {
     public static void openCategorySelection(Player p, Game g) {
         HashMap<Material, MerchantCategory> cats = g.getItemShopCategories();
         
-        Inventory inv = Bukkit.createInventory(p, (cats.size()-cats.size()%9)+9, "Itemshop");
+        Inventory inv = Bukkit.createInventory(p, (cats.size()-cats.size()%9)+9, Main._l("ingame.shop.name"));
         for(MerchantCategory cat : cats.values()) {
             ItemStack is = new ItemStack(cat.getMaterial(), 1);
             ItemMeta im = is.getItemMeta();

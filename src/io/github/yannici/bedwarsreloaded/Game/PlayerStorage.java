@@ -1,5 +1,7 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
+import io.github.yannici.bedwarsreloaded.Main;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -90,14 +92,14 @@ public class PlayerStorage {
     public void loadLobbyInventory() {
         ItemStack teamSelection = new ItemStack(Material.BED, 1);
         ItemMeta im = teamSelection.getItemMeta();
-        im.setDisplayName("Choose team");
+        im.setDisplayName(Main._l("lobby.chooseteam"));
         teamSelection.setItemMeta(im);
         this.player.getInventory().addItem(teamSelection);
 
         if(this.player.hasPermission("bw.setup")) {
             ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
             im = startGame.getItemMeta();
-            im.setDisplayName("Start game");
+            im.setDisplayName(Main._l("lobby.startgame"));
             startGame.setItemMeta(im);
             this.player.getInventory().addItem(startGame);
         }
@@ -109,7 +111,7 @@ public class PlayerStorage {
     public void openTeamSelection(Game game) {
         HashMap<String, Team> teams = game.getTeams();
 
-        Inventory inv = Bukkit.createInventory(this.player, (teams.size()-teams.size()%9)+9, "Choose a team");
+        Inventory inv = Bukkit.createInventory(this.player, (teams.size()-teams.size()%9)+9, Main._l("lobby.chooseteam"));
         for(Team team : teams.values()) {
             ArrayList<Player> players = team.getPlayers();
             if(players.size() >= team.getMaxPlayers()) {

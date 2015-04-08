@@ -41,7 +41,7 @@ public class SetSpawnerCommand extends BaseCommand {
 
     @Override
     public String[] getArguments() {
-        return new String[]{"type"};
+        return new String[]{"game", "gold;iron;bronze"};
     }
 
     private String[] getRessources() {

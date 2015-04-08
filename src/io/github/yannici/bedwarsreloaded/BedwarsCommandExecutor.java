@@ -25,7 +25,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
         if(!cmd.getName().equalsIgnoreCase("bw")) {
             return false;
         }
-
+        
         if(args.length < 1) {
             return false;
         }

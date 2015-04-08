@@ -33,6 +33,8 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.google.common.collect.ImmutableMap;
+
 public class PlayerListener extends BaseListener {
 
 	public PlayerListener() {
@@ -130,7 +132,7 @@ public class PlayerListener extends BaseListener {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
-		if(!ice.getInventory().getName().equals("Itemshop")) {
+		if(!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
 	        return;
 	    }
 	    
@@ -274,7 +276,7 @@ public class PlayerListener extends BaseListener {
 		Inventory inv = ice.getInventory();
 		ItemStack clickedStack = ice.getCurrentItem();
 		
-		if(!inv.getTitle().equals("Choose a team")) {
+		if(!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
 			return;
 		}
 		
@@ -292,7 +294,7 @@ public class PlayerListener extends BaseListener {
 		game.nonFreePlayer(player);
 		team.addPlayer(player);
 		
-		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "You successfully joined the team: " + team.getChatColor() + team.getName()));
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined", ImmutableMap.of("team", team.getDisplayName()))));
 		player.closeInventory();
 	}
 	

@@ -58,7 +58,7 @@ public class LeaveGameCommand extends BaseCommand {
 
     @Override
     public String getPermission() {
-        return "setup";
+        return "base";
     }
 
 }

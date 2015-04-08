@@ -1,9 +1,12 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
+import io.github.yannici.bedwarsreloaded.Main;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import com.google.common.collect.ImmutableMap;
 
 public class SingleGameCycle extends GameCycle {
 
@@ -63,14 +66,14 @@ public class SingleGameCycle extends GameCycle {
     @Override
     public void onGameOver(GameOverTask task) {
         if(task.getCounter() == task.getStartCount()) {
-            this.getGame().broadcast(ChatColor.GOLD + "Congratulations! Team " + task.getWinner().getDisplayName() + ChatColor.GOLD + " wins!");
+            this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon", ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
         }
         
         if(task.getCounter() == 0) {
             this.onGameEnds();
             task.cancel();
         } else {
-            this.getGame().broadcast(ChatColor.AQUA + "Back to lobby in " + ChatColor.YELLOW + task.getCounter() + ChatColor.AQUA + " second(s)!");
+            this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.backtolobby", ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
         }
         
         task.decCounter();

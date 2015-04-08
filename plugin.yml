@@ -1,6 +1,6 @@
-name: BedwarsReloaded
+name: Bedwars
 main: io.github.yannici.bedwarsreloaded.Main
-version: 0.0.1
+version: 0.1.0
 depend: []
 softdepend: [Vault, Multiverse-Core]
 commands:

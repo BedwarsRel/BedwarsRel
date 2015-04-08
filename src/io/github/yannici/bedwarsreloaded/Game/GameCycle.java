@@ -6,6 +6,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
+import com.google.common.collect.ImmutableMap;
+
 public abstract class GameCycle {
     
     private Game game = null;
@@ -69,17 +71,17 @@ public abstract class GameCycle {
         
         Team deathTeam = Game.getPlayerTeam(player, this.getGame());
         if(killer == null) {
-            this.getGame().broadcast(ChatColor.GOLD + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + " died!");
+            this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.died", ImmutableMap.of("player", Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD)));
             return;
         }
         
         Team killerTeam = Game.getPlayerTeam(killer, this.getGame());
         if(killerTeam == null) {
-            this.getGame().broadcast(ChatColor.GOLD + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + " died!");
+            this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.died", ImmutableMap.of("player", Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD)));
             return;
         }
         
-        this.getGame().broadcast(ChatColor.GOLD + Game.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD + " killed " + Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD + "!");
+        this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.killed", ImmutableMap.of("killer", Game.getPlayerWithTeamString(killer, killerTeam) + ChatColor.GOLD, "player", Game.getPlayerWithTeamString(player, deathTeam) + ChatColor.GOLD)));
         
         this.checkGameOver();
     }

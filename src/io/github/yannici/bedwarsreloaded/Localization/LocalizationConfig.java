@@ -2,15 +2,15 @@ package io.github.yannici.bedwarsreloaded.Localization;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
-
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.craftbukkit.libs.jline.internal.InputStreamReader;
 import org.bukkit.entity.Player;
 
 public class LocalizationConfig extends YamlConfiguration {
@@ -33,15 +33,17 @@ public class LocalizationConfig extends YamlConfiguration {
     }
 	
 	public void loadLocale(String locKey, boolean isFallback) {
-		URL url = getClass().getResource("/locale/de.yml");
-		if(url == null) {
-			url = getClass().getResource("/locale/" + Main.getInstance().getFallbackLocale() + ".yml");
+		InputStream stream = getClass().getResourceAsStream("/locale/" + locKey + ".yml");
+		if(stream == null) {
+			stream = getClass().getResourceAsStream("/locale/" + Main.getInstance().getFallbackLocale() + ".yml");
 		}
 		
-		File file = new File(url.toString());
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		
 		try {
-			this.load(file);
+			this.load(reader);
 		} catch (Exception e) {
+			// no localization file, no translation :D
 			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Failed to load localization language!"));
 			return;
 		}
@@ -64,7 +66,7 @@ public class LocalizationConfig extends YamlConfiguration {
 	
 	@Override
 	public String getString(String path) {
-		if(!this.contains(path)) {
+		if(super.get(path) == null) {
 			if(this.fallback == null) {
 				return "LOCALE_NOT_FOUND";
 			}
@@ -72,15 +74,15 @@ public class LocalizationConfig extends YamlConfiguration {
 			return this.fallback.getString(path);
 		}
 		
-		return ChatColor.translateAlternateColorCodes('&', super.getString(path));
+		return ChatColor.translateAlternateColorCodes('§', ChatColor.translateAlternateColorCodes('&', super.getString(path)));
 	} 
 	
 	public String getFormatString(String path, Map<String, String> params) {
 		String str = this.getString(path);
 		for(String key : params.keySet()) {
-			str.replace("%" + key.toLowerCase() + "%", params.get(key));
+			str.replace("#" + key.toLowerCase() + "#", params.get(key));
 		}
 		
-		return ChatColor.translateAlternateColorCodes('&', str);
+		return ChatColor.translateAlternateColorCodes('§', ChatColor.translateAlternateColorCodes('&', str));
 	}
 }
