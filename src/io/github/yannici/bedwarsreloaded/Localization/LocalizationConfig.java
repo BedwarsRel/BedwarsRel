@@ -80,7 +80,7 @@ public class LocalizationConfig extends YamlConfiguration {
 	public String getFormatString(String path, Map<String, String> params) {
 		String str = this.getString(path);
 		for(String key : params.keySet()) {
-			str.replace("#" + key.toLowerCase() + "#", params.get(key));
+			str.replace("@" + key.toLowerCase() + "@", params.get(key));
 		}
 		
 		return ChatColor.translateAlternateColorCodes('§', ChatColor.translateAlternateColorCodes('&', str));
