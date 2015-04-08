@@ -21,6 +21,8 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * Colored Player Names
 * Game Status in MOTD (only BungeeCord)
 * Multilanguage (Server locale)
+    * English
+    * German (soon)
 * Many commands for game setup
 
 ### Ideas / Suggestions
@@ -31,6 +33,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 ## TODO's
 
 * Game Countdown (Max length of game)
+* Join signs for single server
 * ~~Scoreboard (showing which team still is alive and players amount)~~
 * ~~Game Cycle~~
     * ~~Restart when Game is finished (bungee)~~
