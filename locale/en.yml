@@ -1,9 +1,9 @@
 errors:
     argumentslength: Number of arguments does not match the correct amount!
-    packagenotfound: Couldn't fetch @package@ package!
-    classnotfound: Couldn't fetch @package@ class @class@!
+    packagenotfound: Couldn't fetch $package$ package!
+    classnotfound: Couldn't fetch $package$ class $class$!
     gameexists: A game with this name already exists!
-    gamenotfound: The game "@game@" could not be found!
+    gamenotfound: The game "$game$" could not be found!
     playeramount: The maxium of players can't be lower than 1 or higher than 24!
     teamcolornotallowed: The given Team color isn't a allowed color
     teamnamelength: Team name must have between 2 and 20 characters!
@@ -20,21 +20,21 @@ errors:
     cantjoingame: You can't join a running or stopped game!
     lobbyongameworld: Lobby can't be on the game world!
     gamenotloaded: Couldn't start up the game!
-    gameloaderror: Loading game "@game@" throws an error!
+    gameloaderror: Loading game "$game$" throws an error!
     regionnotfound: Region file does not exists!
 success:
-    gameadded: New game "@game@" successfully added!
-    teamadded: Team "@team@" successfully added!
+    gameadded: New game "$game$" successfully added!
+    teamadded: Team "$team$" successfully added!
     joined: You successfully joined the game!
     left: You successfully left the game!
     saved: Game was successfully saved!
-    bedset: You successfully set the bed for team @team@!
-    regionset: Game region location @location@ for Game @game@ was set successfully!
-    spawnset: Spawn location for Team @team@ was set successfully!
+    bedset: You successfully set the bed for team $team$!
+    regionset: Game region location $location$ for Game $game$ was set successfully!
+    spawnset: Spawn location for Team $team$ was set successfully!
     spawnerset: Ressource spawn location was set successfully!
     stopped: Game successfully stopped!
     lobbyset: Lobby was set successfully!
-    gameloaded: Game "@game@" successfully loaded!
+    gameloaded: Game "$game$" successfully loaded!
 gamecheck:
     LOC_NOT_SET_ERROR: Locations for the region were not set properly!
     TEAM_SIZE_LOW_ERROR: You have to set more teams!
@@ -43,27 +43,27 @@ gamecheck:
     TEAMS_WITHOUT_SPAWNS: There are team(s) without a spawn location!
     NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
 ingame:
-    teamwon: Congratulations! Team @team@ won!
-    serverrestart: Server restart in @sec@ second(s)!
+    teamwon: Congratulations! Team $team$ won!
+    serverrestart: Server restart in $sec$ second(s)!
     gamestarting: Game starting ...
-    gamestarted: Game "@game@" has just started!
-    backtolobby: Back to lobby in @sec@ second(s)!
+    gamestarted: Game "$game$" has just started!
+    backtolobby: Back to lobby in $sec$ second(s)!
     shop:
         name: Itemshop
     player:
-        left: Player @player@ has left the game!
-        died: @player@ died!
-        killed: @killer@ killed @player!
+        left: Player $player$ has left the game!
+        died: $player$ died!
+        killed: $killer$ killed $player$!
     blocks:
         ownbeddestroy: You can't destroy your own bed!
-        beddestroyed: The bed of team @team@ has been destroyed!
+        beddestroyed: The bed of team $team$ has been destroyed!
 lobby:
-    countdown: Game will start in @sec@ second(s)!
+    countdown: Game will start in $sec$ second(s)!
     countdowncancel: More players needed. Countdown was cancelled!
     chooseteam: Choose a team
     startgame: Start game
     gamefull: Game is full!
-    teamjoined: You successfully joined the team @team@
+    teamjoined: You successfully joined the team $team$
 ressources:
     gold: §6Gold
     iron: §7Iron
