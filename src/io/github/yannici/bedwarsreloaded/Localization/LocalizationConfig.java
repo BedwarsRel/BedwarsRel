@@ -2,15 +2,15 @@ package io.github.yannici.bedwarsreloaded.Localization;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
-import java.io.BufferedReader;
-import java.io.InputStream;
+import io.github.yannici.bedwarsreloaded.Utils;
+
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.craftbukkit.libs.jline.internal.InputStreamReader;
 import org.bukkit.entity.Player;
 
 public class LocalizationConfig extends YamlConfiguration {
@@ -33,15 +33,13 @@ public class LocalizationConfig extends YamlConfiguration {
     }
 	
 	public void loadLocale(String locKey, boolean isFallback) {
-		InputStream stream = getClass().getResourceAsStream("/locale/" + locKey + ".yml");
-		if(stream == null) {
-			stream = getClass().getResourceAsStream("/locale/" + Main.getInstance().getFallbackLocale() + ".yml");
+		File locFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + locKey + ".yml");
+		if(!locFile.exists()) {
+			locFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + Main.getInstance().getFallbackLocale() + ".yml");
 		}
 		
-		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-		
 		try {
-			this.load(reader);
+			this.load(locFile);
 		} catch (Exception e) {
 			// no localization file, no translation :D
 			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Failed to load localization language!"));
@@ -51,7 +49,7 @@ public class LocalizationConfig extends YamlConfiguration {
 		if(!isFallback) {
 			// Fallback load
 			this.fallback = new LocalizationConfig();
-			this.fallback.loadLocale(locKey, true);
+			this.fallback.loadLocale(Main.getInstance().getFallbackLocale(), true);
 		}
 	}
 	
@@ -84,5 +82,15 @@ public class LocalizationConfig extends YamlConfiguration {
 		}
 		
 		return ChatColor.translateAlternateColorCodes('§', ChatColor.translateAlternateColorCodes('&', str));
+	}
+
+	public void saveLocales() {
+		try {
+			for(String filename : Utils.getResourceListing(getClass(), "locale/")) {
+				Main.getInstance().saveResource("locale/" + filename, false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

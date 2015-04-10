@@ -79,9 +79,9 @@ public class Main extends JavaPlugin {
         this.registerCommands();
         this.registerListener();
         
-        this.localization = this.loadLocalization();
         this.gameManager = new GameManager(this);
         this.saveDefaultConfig();
+        this.localization = this.loadLocalization();
         
         // Loading
         this.scoreboardManager = Bukkit.getScoreboardManager();
@@ -97,6 +97,8 @@ public class Main extends JavaPlugin {
     
     private LocalizationConfig loadLocalization() {
     	LocalizationConfig config = new LocalizationConfig();
+    	config.saveLocales();
+    	
     	config.loadLocale(this.getConfig().getString("locale"), false);
     	return config;
     }
