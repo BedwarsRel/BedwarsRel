@@ -25,6 +25,8 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
     * German
 * Many commands for game setup
 
+### Only 1.8 compatible at the moment! (Other versions will be added soon)
+
 ### Ideas / Suggestions
 
 If you got ideas or suggestions, please tell me! If you want to contact me, you can easily send
