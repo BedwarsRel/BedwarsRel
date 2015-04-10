@@ -22,7 +22,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * Game Status in MOTD (only BungeeCord)
 * Multilanguage (Server locale)
     * English
-    * German (soon)
+    * German
 * Many commands for game setup
 
 ### Ideas / Suggestions

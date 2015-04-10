@@ -23,88 +23,88 @@ errors:
     gameloaderror: Das Laden des Spiels "$game$" hat einen Fehler verursacht!
     regionnotfound: Region-Datei existiert nicht!
 success:
-    gameadded: New game "$game$" successfully added!
-    teamadded: Team "$team$" successfully added!
-    joined: You successfully joined the game!
-    left: You successfully left the game!
-    saved: Game was successfully saved!
-    bedset: You successfully set the bed for team $team$!
-    regionset: Game region location $location$ for Game $game$ was set successfully!
-    spawnset: Spawn location for Team $team$ was set successfully!
-    spawnerset: Ressource spawn location was set successfully!
-    stopped: Game successfully stopped!
-    lobbyset: Lobby was set successfully!
-    gameloaded: Game "$game$" successfully loaded!
+    gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
+    teamadded: Team $team$ erfolgreich hinzugefügt
+    joined: Du bist dem Spiel beigetreten!
+    left: Du hast das Spiel erfolgreich verlassen!
+    saved: Spiel wurde erfolgreich gespeichert!
+    bedset: Das Bett für Team $team$ wurde erfolgreich gesetzt!
+    regionset: Der Regionspunkt $location$ wurde für das Spiel $game$ erfolgreich gesetzt!
+    spawnset: Spawn-Punkt für Team $team$ wurde erfolgreich gesetzt!
+    spawnerset: Ressource-Spawner wurde erfolgreich gesetzt!
+    stopped: Spiel wurde erfolgreich gestoppt!
+    lobbyset: Lobby wurde erfolgreich gesetzt!
+    gameloaded: Spiel "$game$" wurde erfolgreich geladen!
 gamecheck:
-    LOC_NOT_SET_ERROR: Locations for the region were not set properly!
-    TEAM_SIZE_LOW_ERROR: You have to set more teams!
-    NO_RES_SPAWNER_ERROR: You didn't set any resource spawner!
-    NO_LOBBY_SET: You didn't set a lobby!
-    TEAMS_WITHOUT_SPAWNS: There are team(s) without a spawn location!
-    NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
+    LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
+    TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!
+    NO_RES_SPAWNER_ERROR: Du hast keinen Ressource-Spawner gesetzt!
+    NO_LOBBY_SET: Es wurde keine Lobby gesetzt!
+    TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
+    NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
 ingame:
-    teamwon: Congratulations! Team $team$ won!
-    serverrestart: Server restart in $sec$ second(s)!
-    gamestarting: Game starting ...
-    gamestarted: Game "$game$" has just started!
-    backtolobby: Back to lobby in $sec$ second(s)!
+    teamwon: Glückwunsch! Team $team$ hat gewonnen!
+    serverrestart: Server-Neustart in $sec$ Sekunde(n)!
+    gamestarting: Spiel startet ...
+    gamestarted: Das Spiel "$game$" hat begonnen!
+    backtolobby: Zurück zur Lobby in $sec$ Sekunde(n)
     shop:
         name: Itemshop
     player:
-        left: Player $player$ has left the game!
-        died: $player$ died!
-        killed: $killer$ killed $player$!
+        left: Spieler $player$ hat das Spiel verlassen!
+        died: $player$ ist gestorben!
+        killed: $killer$ tötete $player$!
     blocks:
-        ownbeddestroy: You can't destroy your own bed!
-        beddestroyed: The bed of team $team$ has been destroyed!
+        ownbeddestroy: Du kannst dein eigenes Bett nicht zerstören!
+        beddestroyed: Das Bett von Team $team$ wurde zerstört!
 lobby:
-    countdown: Game will start in $sec$ second(s)!
-    countdowncancel: More players needed. Countdown was cancelled!
-    chooseteam: Choose a team
-    startgame: Start game
-    gamefull: Game is full!
-    teamjoined: You successfully joined the team $team$
+    countdown: Das Spiel startet in $sec$ Sekunde(n)!
+    countdowncancel: Mehr Spieler benötigt. Countdown wurde abgebrochen!
+    chooseteam: Wähle ein Team
+    startgame: Spiel starten
+    gamefull: Das Spiel ist voll!
+    teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
 ressources:
     gold: §6Gold
-    iron: §7Iron
+    iron: §7Eisen
     bronze: §4Bronze
 commands:
     addgame:
-        name: Add Game
-        desc: Adds a new game
+        name: Spiel hinzufügen
+        desc: Fügt ein neues Spiel hinzu
     addteam:
-        name: Add Team
-        desc: Adds a team to a specific game
+        name: Team hinzufügen
+        desc: Fügt ein neues Team zu einem bestimmten Spiel hinzu
     join:
-        name: Join Game
-        desc: Joins a specific game
+        name: Spiel beitreten
+        desc: Einem bestimmten Spiel beitreten
     leave:
-        name: Leave Game
-        desc: Leave the current game
+        name: Spiel verlassen
+        desc: Aktuelle Spiel wird verlassen
     save:
-        name: Save Game
-        desc: Saves a game (and map) to config file(s)
+        name: Spiel speichern
+        desc: Speichert die gewählte Region und Spieleinstellungen
     setbed:
-        name: Set bed
-        desc: Sets the location of a team's bed
+        name: Bett setzen
+        desc: Setzt das Bett eines bestimmten Teams
     setlobby:
-        name: Set lobby
-        desc: Sets the location of the gamelobby
+        name: Lobby setzen
+        desc: Setzt die Position der Lobby
     setregion:
-        name: Sets a region point
-        desc: Sets a region point for the game
+        name: Setzt Regionspunkt
+        desc: Setzt einen der zwei Regionspunkte für ein bestimmtes Spiel
     setspawn:
-        name: Sets a team spawn
-        desc: Sets the spawn of the given team
+        name: Teamspawn setzen
+        desc: Setzt den Spawnpunkt eines bestimmten Teams
     setspawner:
-        name: Set spawner
-        desc: Sets a spawner location of a specific ressource
+        name: Spawner setzen
+        desc: Setzt an der aktuellen Position einen Ressourcen-Spawner
     start:
-        name: Start game
-        desc: Starts a game
+        name: Spiel starten
+        desc: Startet ein Spiel (Lobbymodus)
     stop:
-        name: Stop game
-        desc: Stops a game
+        name: Spiel stoppen
+        desc: Stoppt ein Spiel und kickt alle Spieler
     help:
-        name: Show Help
-        desc: Display information about the plugin and its commands
+        name: Hilfe
+        desc: Zeigt Hilfe zu Kommandos von Bedwars an
