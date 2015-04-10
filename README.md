@@ -25,7 +25,9 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
     * German
 * Many commands for game setup
 
-### Only 1.8 compatible at the moment! (Other versions will be added soon)
+#### Only 1.8 compatible
+
+At the moment this bedwars plugin is compatible only with minecraft server version 1.8 or higher. I will add more version when the plugin is ready to release.
 
 ### Ideas / Suggestions
 
