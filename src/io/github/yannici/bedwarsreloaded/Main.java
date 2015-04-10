@@ -283,7 +283,11 @@ public class Main extends JavaPlugin {
     }
 
     private void stopTimeListener() {
-        this.timeTask.cancel();
+    	try {
+    		this.timeTask.cancel();
+    	} catch(Exception ex) {
+    		// Timer isn't running. Just ignore.
+    	}
     }
 
 }
