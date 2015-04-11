@@ -21,6 +21,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * World reset + editable while plugin is activated
 * Colored Player Names
 * Game Status in MOTD (only BungeeCord)
+* Teamchat or message to all players with an starting @
 * Multilanguage (Server locale)
     * English
     * German
@@ -49,7 +50,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 * Setup Commands
     * Reload config
 * ~~Complete default shop configuration~~
-* Teamchat
+* ~~Teamchat~~
 * Spectators
 * Mapvote(?)
 

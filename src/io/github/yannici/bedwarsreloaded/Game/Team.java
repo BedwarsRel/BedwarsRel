@@ -76,8 +76,8 @@ public class Team implements ConfigurationSerializable {
         }
     }
 
-    public boolean isInTeam(OfflinePlayer p) {
-        if(this.scoreboardTeam.getPlayers().contains(p)) {
+    public boolean isInTeam(Player p) {
+        if(this.scoreboardTeam.hasPlayer(p)) {
             return true;
         }
 

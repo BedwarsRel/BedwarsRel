@@ -44,6 +44,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
 ingame:
     teams: Teams
+    all: All
     teamwon: Congratulations! Team $team$ won!
     serverrestart: Server restart in $sec$ second(s)!
     gamestarting: Game starting ...

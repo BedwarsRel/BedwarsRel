@@ -44,6 +44,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
 ingame:
     teams: Teams
+    all: Alle
     teamwon: Glückwunsch! Team $team$ hat gewonnen!
     serverrestart: Server-Neustart in $sec$ Sekunde(n)!
     gamestarting: Spiel startet ...

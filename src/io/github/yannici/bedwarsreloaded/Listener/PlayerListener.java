@@ -2,6 +2,7 @@ package io.github.yannici.bedwarsreloaded.Listener;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
@@ -21,6 +22,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -165,6 +167,46 @@ public class PlayerListener extends BaseListener {
 	        openTrade.invoke(villagerItemShop, new Object[]{});
 	    } catch(Exception ex) {
 	        ex.printStackTrace();
+	    }
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onChat(AsyncPlayerChatEvent ce) {
+	    Player player = ce.getPlayer();
+	    Game game = Game.getGameOfPlayer(player);
+	    
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    Team team = Game.getPlayerTeam(player, game);
+	    
+	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    String message = ce.getMessage();
+	    if(message.trim().startsWith("@")) {
+	        message = message.trim();
+	        ce.setMessage(message.substring(1, message.length()-1));
+	        ce.setFormat("[" + Main._l("ingame.all") + "] <" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
+	        Iterator<Player> recipiens = ce.getRecipients().iterator();
+	        while(recipiens.hasNext()) {
+	            if(!game.isInGame(recipiens.next())) {
+	                recipiens.remove();
+	            }
+	        }
+	    } else {
+	        message = message.trim();
+	        ce.setMessage(message);
+	        ce.setFormat("<" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
+	        Iterator<Player> recipiens = ce.getRecipients().iterator();
+            while(recipiens.hasNext()) {
+                Player recipient = recipiens.next();
+                if(!game.isInGame(recipient) || !team.isInTeam(recipient)) {
+                    recipiens.remove();
+                }
+            }
 	    }
 	}
 	

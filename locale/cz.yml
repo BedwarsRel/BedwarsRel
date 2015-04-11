@@ -44,6 +44,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: Zadne kategorie obchodu nenalezeny!
 ingame:
     teams: Tymy
+    all: Vše
     teamwon: Gratulace! Tym $team$ vyhral!
     serverrestart: Restart serveru za $sec$ sekund!
     gamestarting: Hra se zapina!
