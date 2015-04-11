@@ -34,6 +34,10 @@ public abstract class GameCycle {
     public abstract void onGameOver(GameOverTask task);
     
     public void checkGameOver() {
+        if(!Main.getInstance().isEnabled()) {
+            return;
+        }
+        
         Team winner = this.getGame().isOver();
         if(winner != null) {
             if(this.isEndGameRunning() == false) {
@@ -72,12 +76,14 @@ public abstract class GameCycle {
         Team deathTeam = Game.getPlayerTeam(player, this.getGame());
         if(killer == null) {
             this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.died", ImmutableMap.of("player", Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
+            this.checkGameOver();
             return;
         }
         
         Team killerTeam = Game.getPlayerTeam(killer, this.getGame());
         if(killerTeam == null) {
             this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.died", ImmutableMap.of("player", Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
+            this.checkGameOver();
             return;
         }
         
