@@ -23,6 +23,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * Multilanguage (Server locale)
     * English
     * German
+    * Czech
 * Many commands for game setup
 
 #### Only 1.8 compatible
@@ -47,6 +48,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 * Setup Commands
     * Reload config
 * ~~Complete default shop configuration~~
+* Teamchat
 * Spectators
 * Mapvote(?)
 
