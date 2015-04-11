@@ -49,7 +49,7 @@ public class AddTeamCommand extends BaseCommand {
         String color = args.get(2);
         String maxPlayers = args.get(3);
 
-        TeamColor tColor = TeamColor.valueOf(color);
+        TeamColor tColor = TeamColor.valueOf(color.toUpperCase());
 
         if(game == null) {
             sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
