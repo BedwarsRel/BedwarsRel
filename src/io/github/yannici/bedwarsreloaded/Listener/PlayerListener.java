@@ -32,6 +32,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -106,6 +107,14 @@ public class PlayerListener extends BaseListener {
     		pde.setDroppedExp(0);
     		pde.setDeathMessage(null);
     		pde.getDrops().clear();
+    		
+    		try { 
+    		Class<?> clazz = Class.forName("io.github.yannici.bedwarsreloaded.Com." + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
+    		BukkitRunnable respawnRunnable = (BukkitRunnable)clazz.getDeclaredConstructor(Player.class).newInstance(player);
+    		respawnRunnable.runTaskLater(Main.getInstance(), 20);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     		
     		pde.setKeepInventory(false);
     		game.getCycle().onPlayerDies(player, player.getKiller());
@@ -340,13 +349,20 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		if(g.getState() != GameState.WAITING) {
+		if(g.getState() == GameState.STOPPED) {
 			return;
 		}
 		
-		if (ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
-		    p.teleport(g.getLobby());
+		if(g.getState() == GameState.RUNNING) {
+		    if(!g.getCycle().isEndGameRunning()) {
+		        return;
+		    }
+		} else if(g.getState() == GameState.WAITING) {
+		    if (ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
+	            p.teleport(g.getLobby());
+	        }
 		}
+		
 		
 		ede.setCancelled(true);
 	}

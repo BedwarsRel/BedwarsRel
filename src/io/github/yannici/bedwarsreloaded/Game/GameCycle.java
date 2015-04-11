@@ -36,7 +36,7 @@ public abstract class GameCycle {
     public void checkGameOver() {
         Team winner = this.getGame().isOver();
         if(winner != null) {
-            if(this.getEndGameRunning() == false) {
+            if(this.isEndGameRunning() == false) {
                 this.setEndGameRunning(true);
                 int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable delay
                 GameOverTask gameOver = new GameOverTask(this, delay, winner);
@@ -90,7 +90,7 @@ public abstract class GameCycle {
         this.endGameRunning = running;
     }
     
-    public boolean getEndGameRunning() {
+    public boolean isEndGameRunning() {
         return this.endGameRunning;
     }
     
