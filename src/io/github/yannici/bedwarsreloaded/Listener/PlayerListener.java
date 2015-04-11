@@ -111,7 +111,7 @@ public class PlayerListener extends BaseListener {
     		try { 
     		Class<?> clazz = Class.forName("io.github.yannici.bedwarsreloaded.Com." + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
     		BukkitRunnable respawnRunnable = (BukkitRunnable)clazz.getDeclaredConstructor(Player.class).newInstance(player);
-    		respawnRunnable.runTaskLater(Main.getInstance(), 40);
+    		respawnRunnable.runTaskLater(Main.getInstance(), 20L);
             } catch (Exception e) {
                 e.printStackTrace();
             }
