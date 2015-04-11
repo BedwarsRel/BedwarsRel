@@ -25,23 +25,39 @@ public class GameLobbyCountdown extends BukkitRunnable {
     @Override
     public void run() {
         ArrayList<Player> players = this.game.getPlayers();
+        float xpPerLevel = 1.0F/this.lobbytime;
+        
+        for(Player p : players) {
+            p.setLevel(this.counter);
+            if(this.counter == this.lobbytime) { 
+                p.setExp(1.0F);
+            } else {
+                p.setExp(p.getExp() - xpPerLevel);
+            }
+            
+        }
         
         if(this.game.getState() != GameState.WAITING) {
             this.cancel();
         }
 
         if(this.counter == this.lobbytime) {
-            this.game.broadcast(ChatColor.YELLOW + Main._l("lobby.countdown", ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter)), players);
+            this.game.broadcast(ChatColor.YELLOW + Main._l("lobby.countdown", ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)), players);
         }
 
         if(players.size() < this.game.getMinPlayers()) {
             this.game.broadcast(ChatColor.RED + Main._l("lobby.countdowncancel"), players);
             this.counter = this.lobbytime;
+            for(Player p : players) {
+                p.setLevel(this.counter);
+                p.setExp(1.0F);
+            }
+            
             this.cancel();
         }
 
         if(this.counter <= 10 && this.counter > 0) {
-            this.game.broadcast(ChatColor.YELLOW + Main._l("lobby.countdown", ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter)), players);
+            this.game.broadcast(ChatColor.YELLOW + Main._l("lobby.countdown", ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)), players);
             
             for(Player player : players) {
                 player.playSound(player.getLocation(), Sound.CLICK, 20.0F, 20.0F);
@@ -52,11 +68,13 @@ public class GameLobbyCountdown extends BukkitRunnable {
             this.cancel();
             for(Player player : players) {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 20.0F, 20.0F);
+                player.setLevel(0);
+                player.setExp(0.0F);
             }
             
             this.game.start(Main.getInstance().getServer().getConsoleSender());
         }
-
+        
         this.counter--;
     }
 
