@@ -1,0 +1,111 @@
+errors:
+    argumentslength: Pocet argumentu prikazu neodpovida spravnemu mnozstvi!
+    packagenotfound: Nelze nacist $package$ package!
+    classnotfound: Nelze nacist $package$ class $class$!
+    gameexists: Hra s timto jmenem jiz existuje!
+    gamenotfound: Hra "$game$" nebyla nalezena!
+    playeramount: Pocet hracu nesmi byt mensi nez 1 a vyssi jak 24!
+    teamcolornotallowed: Tato barva neni pro tymy povolena.
+    teamnamelength: Nazev tymu musi mit 2 - 20 pismen!
+    teamnotfound: Tento tym nebyl nalezen!
+    notingame: Nejsi ve hre!
+    bedtargeting: Musite stat na posteli!
+    regionargument: Muzete zadat pouze "loc1" nebo "loc2"!
+    spawnerargument: Muzete zadat pouze(gold;iron;bronze)
+    blockdownnotfound: Blok na kterem stojite nebyl nalezen!
+    gamenotrunning: Hra nebezi!
+    bungeenoserver: Bungeecord server neni spravne nastaven! Kontaktuj administratora!
+    cantstartagain: Hra jiz bezi! Nemuzes zapnout hru, ktera jiz bezi!
+    startoutofwaiting: Hra bude zapnuta bez cekani!
+    cantjoingame: Nemuzes se pripojit do hry, ktera jiz bezi nebo je vypnuta!
+    lobbyongameworld: Lobby nemuze byt na hernim svete!
+    gamenotloaded: Hru nelze zapnout!
+    gameloaderror: Nacitani hry "$game$" ma problem!
+    regionnotfound: Soubor mapy neexistuje!
+success:
+    gameadded: Nova hra "$game$" uspesne pridana!
+    teamadded: Tym "$team$" uspesne pridan!
+    joined: Pripojil jsi se do hry!
+    left: Odpojil jsi se ze hry :/
+    saved: Hra byla uspesne ulozena!
+    bedset: Uspesne jsi nastavil postel teamu $team$!
+    regionset: Oblast $location$ pro hru $game$ uspesne nastavena!
+    spawnset: Spawn lokace pro tym $team$ uspesne nastavena!
+    spawnerset: Spawn surovin uspesne nastaven!
+    stopped: Hra byla zastavena!
+    lobbyset: Lobby pro hru bylo nastaveno!
+    gameloaded: Hra "$game$" uspesne nactena!
+gamecheck:
+    LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
+    TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
+    NO_RES_SPAWNER_ERROR: Nenastavil jsi zadny spawner surovin!
+    NO_LOBBY_SET: Nenastavil jsi lobby!
+    TEAMS_WITHOUT_SPAWNS: Jsou zde tymy bez spawn lokace!
+    NO_ITEMSHOP_CATEGORIES: Zadne kategorie obchodu nenalezeny!
+ingame:
+    teams: Tymy
+    teamwon: Gratulace! Tym $team$ vyhral!
+    serverrestart: Restart serveru za $sec$ sekund!
+    gamestarting: Hra se restartuje..
+    gamestarted: Hra "$game$" zacala!
+    backtolobby: Teleportace do lobby za $sec$ sekund!
+    shop:
+        name: Obchod
+    player:
+        left: Hrac $player$ opustil hru :/
+        died: $player$ zemrel!
+        killed: $killer$ zabil $player$!
+    blocks:
+        ownbeddestroy: Nemuzes znicit svou postel!
+        beddestroyed: Postel teamu $team$ byla znicena!
+lobby:
+    countdown: Hra zacne za $sec$ sekund!
+    countdowncancel: Je potreba vic hracu! Odpocet byl zastaven.
+    chooseteam: Vyber si team
+    startgame: Spust hru
+    gamefull: Hra je plna!
+    teamjoined: Uspesne jsi se pripojil do teamu $team$
+ressources:
+    gold: §6Zlato
+    iron: §7Zelezo
+    bronze: §Bronz
+commands:
+    addgame:
+        name: Pridat hru
+        desc: Prida novou hru
+    addteam:
+        name: Pridat tyn
+        desc: Prida tym specialne pro arenu
+    join:
+        name: Pripojit do hry
+        desc: Pripoji te do urcite hry
+    leave:
+        name: Odpojit ze hry
+        desc: Odpoji te z aktualni hry
+    save:
+        name: Ulozit hrz
+        desc: Ulozi hru (a mapu) do konfigurace!
+    setbed:
+        name: Nastavit postel
+        desc: Nastavi lokaci postele tymu
+    setlobby:
+        name: Nastavit lobby
+        desc: Nastavi lokaci lobby pro hru
+    setregion:
+        name: Nastavit oblast
+        desc: Nastavi hranice hry
+    setspawn:
+        name: Nastavit spawn tymu
+        desc: Nastavi misto pro spawn urciteho tymu
+    setspawner:
+        name: Nastavit spawner
+        desc: Nastavi misto pro spawnovani surovin
+    start:
+        name: Spustit hru
+        desc: Spusti hru
+    stop:
+        name: Ukoncit hru
+        desc: Ukonci hru
+    help:
+        name: Ukazat pomoc
+        desc: Ukaze informace o tomto pluginu a prikazech
