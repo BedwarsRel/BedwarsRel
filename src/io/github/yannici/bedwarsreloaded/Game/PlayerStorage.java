@@ -28,6 +28,7 @@ public class PlayerStorage {
     private Collection<PotionEffect> effects = null;
     private GameMode mode = null;
     private Location left = null;
+    private int level = 0;
 
     public PlayerStorage(Player p) {
         super();
@@ -42,6 +43,7 @@ public class PlayerStorage {
         this.effects = this.player.getActivePotionEffects();
         this.mode = this.player.getGameMode();
         this.left = this.player.getLocation();
+        this.level = this.player.getLevel();
     }
 
     public void clean() {
@@ -83,6 +85,7 @@ public class PlayerStorage {
 
         this.player.addPotionEffects(this.effects);
         this.player.setExp(this.xp);
+        this.player.setLevel(this.level);
     }
     
     public Location getLeft() {

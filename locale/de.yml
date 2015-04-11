@@ -43,6 +43,7 @@ gamecheck:
     TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
     NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
 ingame:
+    teams: Teams
     teamwon: Glückwunsch! Team $team$ hat gewonnen!
     serverrestart: Server-Neustart in $sec$ Sekunde(n)!
     gamestarting: Spiel startet ...

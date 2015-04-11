@@ -156,6 +156,7 @@ public class GameManager {
                 g.stop();
             }
             
+            g.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
             g.kickAllPlayers();
             g.resetRegion();
         }

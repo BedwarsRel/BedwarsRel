@@ -290,11 +290,14 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getPlayerListName()));
 		game.nonFreePlayer(player);
 		team.addPlayer(player);
 		
-		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined", ImmutableMap.of("team", team.getDisplayName()))));
+		for(Player p : game.getPlayers()) {
+		    p.setScoreboard(game.getScoreboard());
+		}
+		
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined", ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
 		player.closeInventory();
 	}
 	

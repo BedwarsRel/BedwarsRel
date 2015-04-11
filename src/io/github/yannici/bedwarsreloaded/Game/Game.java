@@ -78,8 +78,8 @@ public class Game {
      * STATIC
      */
     
-    public static String getPlayerWithTeamString(Player player, Team team) {
-        return player.getDisplayName() + " (" + team.getDisplayName() + ChatColor.RESET + ")";
+    public static String getPlayerWithTeamString(Player player, Team team, ChatColor before) {
+        return player.getDisplayName() + before + " (" + team.getDisplayName() + before + ")";
     }
     
     public static String bedLostString() {
@@ -301,6 +301,8 @@ public class Game {
                 this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
             }
         }
+        
+        p.setScoreboard(this.scoreboard);
 
         return true;
     }
@@ -308,7 +310,7 @@ public class Game {
     public boolean playerLeave(Player p) {
     	Team team = Game.getPlayerTeam(p, this);
     	
-    	this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", Game.getPlayerWithTeamString(p, team))));
+    	this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
         if(team != null) {
             team.removePlayer(p);
         }
@@ -421,20 +423,24 @@ public class Game {
         }
         
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName("Teams");
+        obj.setDisplayName(Main._l("ingame.teams"));
         
         for(Team t : this.teams.values()) {
             this.scoreboard.resetScores(Game.bedExistString() + t.getChatColor() + t.getName());
             this.scoreboard.resetScores(Game.bedLostString() + t.getChatColor() + t.getName());
             
             String teamString = (t.isDead()) ? Game.bedLostString() : Game.bedExistString();
-            Score score = obj.getScore(teamString + t.getDisplayName());
+            Score score = obj.getScore(teamString + t.getChatColor() + t.getName());
             score.setScore(t.getPlayers().size());
         }
         
         for(Player player : this.getPlayers()) {
             player.setScoreboard(this.scoreboard);
         }
+    }
+    
+    public void setScoreboard(Scoreboard sb) {
+        this.scoreboard = sb;
     }
     
     public Team isOver() {
