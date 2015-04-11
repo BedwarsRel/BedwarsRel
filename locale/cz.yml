@@ -26,7 +26,7 @@ success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
     joined: Pripojil jsi se do hry!
-    left: Odpojil jsi se ze hry :/
+    left: Uspesne jsi se odpojil ze hry.
     saved: Hra byla uspesne ulozena!
     bedset: Uspesne jsi nastavil postel teamu $team$!
     regionset: Oblast $location$ pro hru $game$ uspesne nastavena!
@@ -46,13 +46,13 @@ ingame:
     teams: Tymy
     teamwon: Gratulace! Tym $team$ vyhral!
     serverrestart: Restart serveru za $sec$ sekund!
-    gamestarting: Hra se restartuje..
+    gamestarting: Hra se zapina!
     gamestarted: Hra "$game$" zacala!
     backtolobby: Teleportace do lobby za $sec$ sekund!
     shop:
         name: Obchod
     player:
-        left: Hrac $player$ opustil hru :/
+        left: Hrac $player$ odesel ze hry.
         died: $player$ zemrel!
         killed: $killer$ zabil $player$!
     blocks:
@@ -66,9 +66,9 @@ lobby:
     gamefull: Hra je plna!
     teamjoined: Uspesne jsi se pripojil do teamu $team$
 ressources:
-    gold: ง6Zlato
-    iron: ง7Zelezo
-    bronze: ง4Bronz
+    gold: ยง6Zlato
+    iron: ยง7Zelezo
+    bronze: ยง4Bronz
 commands:
     addgame:
         name: Pridat hru
