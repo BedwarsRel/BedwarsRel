@@ -1,1 +1,110 @@
-name: Bedwars
+errors:
+    argumentslength: Die Argumentenanzahl entspricht nicht der Vorgabe!
+    packagenotfound: Konnte Package $package$ nicht laden!
+    classnotfound: Konnte $package$ Klasse $class$ nicht laden!
+    gameexists: Ein Spiel mit diesem Namen existiert bereits!
+    gamenotfound: Das Spiel "$game$" konnte nicht gefunden werden!
+    playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
+    teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaub!
+    teamnamelength: Teamname muss zwischen 2 und 20 Zeichen haben!
+    teamnotfound: Das angegebene Team konnte nicht gefunden werden!
+    notingame: Du bist zurzeit in keinem Spiel!
+    bedtargeting: Du musst ein Bett anvisieren oder auf einem stehen!
+    regionargument: Dein Location-Parameter muss "loc1" oder "loc2" entsprechen!
+    spawnerargument: Dein Ressourcen-Parameter muss eins der folgenden sein (gold;iron;bronze)
+    blockdownnotfound: Der Block unter dir konnte nicht gefunden werden!
+    gamenotrunning: Spiel läuft nicht!
+    bungeenoserver: Bungeecord Server wurde nicht korrekt konfiguriert. Serveradministrator benachrichten!
+    cantstartagain: Spiel läuft! Du kannst kein laufendes Spiel starten!
+    startoutofwaiting: Ein Spiel muss aus dem Lobby-Status gestartet werden!
+    cantjoingame: Du kannst keinem laufenden oder beendetem Spiel beitreten!
+    lobbyongameworld: Die Lobby darf nicht auf der Welt des Spiels sein!
+    gamenotloaded: Spiel konnte nicht geladen/gestartet werden!
+    gameloaderror: Das Laden des Spiels "$game$" hat einen Fehler verursacht!
+    regionnotfound: Region-Datei existiert nicht!
+success:
+    gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
+    teamadded: Team $team$ erfolgreich hinzugefügt
+    joined: Du bist dem Spiel beigetreten!
+    left: Du hast das Spiel erfolgreich verlassen!
+    saved: Spiel wurde erfolgreich gespeichert!
+    bedset: Das Bett für Team $team$ wurde erfolgreich gesetzt!
+    regionset: Der Regionspunkt $location$ wurde für das Spiel $game$ erfolgreich gesetzt!
+    spawnset: Spawn-Punkt für Team $team$ wurde erfolgreich gesetzt!
+    spawnerset: Ressource-Spawner wurde erfolgreich gesetzt!
+    stopped: Spiel wurde erfolgreich gestoppt!
+    lobbyset: Lobby wurde erfolgreich gesetzt!
+    gameloaded: Spiel "$game$" wurde erfolgreich geladen!
+gamecheck:
+    LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
+    TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!
+    NO_RES_SPAWNER_ERROR: Du hast keinen Ressource-Spawner gesetzt!
+    NO_LOBBY_SET: Es wurde keine Lobby gesetzt!
+    TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
+    NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
+ingame:
+    teamwon: Glückwunsch! Team $team$ hat gewonnen!
+    serverrestart: Server-Neustart in $sec$ Sekunde(n)!
+    gamestarting: Spiel startet ...
+    gamestarted: Das Spiel "$game$" hat begonnen!
+    backtolobby: Zurück zur Lobby in $sec$ Sekunde(n)
+    shop:
+        name: Itemshop
+    player:
+        left: Spieler $player$ hat das Spiel verlassen!
+        died: $player$ ist gestorben!
+        killed: $killer$ tötete $player$!
+    blocks:
+        ownbeddestroy: Du kannst dein eigenes Bett nicht zerstören!
+        beddestroyed: Das Bett von Team $team$ wurde zerstört!
+lobby:
+    countdown: Das Spiel startet in $sec$ Sekunde(n)!
+    countdowncancel: Mehr Spieler benötigt. Countdown wurde abgebrochen!
+    chooseteam: Wähle ein Team
+    startgame: Spiel starten
+    gamefull: Das Spiel ist voll!
+    teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
+ressources:
+    gold: §6Gold
+    iron: §7Eisen
+    bronze: §4Bronze
+commands:
+    addgame:
+        name: Spiel hinzufügen
+        desc: Fügt ein neues Spiel hinzu
+    addteam:
+        name: Team hinzufügen
+        desc: Fügt ein neues Team zu einem bestimmten Spiel hinzu
+    join:
+        name: Spiel beitreten
+        desc: Einem bestimmten Spiel beitreten
+    leave:
+        name: Spiel verlassen
+        desc: Aktuelle Spiel wird verlassen
+    save:
+        name: Spiel speichern
+        desc: Speichert die gewählte Region und Spieleinstellungen
+    setbed:
+        name: Bett setzen
+        desc: Setzt das Bett eines bestimmten Teams
+    setlobby:
+        name: Lobby setzen
+        desc: Setzt die Position der Lobby
+    setregion:
+        name: Setzt Regionspunkt
+        desc: Setzt einen der zwei Regionspunkte für ein bestimmtes Spiel
+    setspawn:
+        name: Teamspawn setzen
+        desc: Setzt den Spawnpunkt eines bestimmten Teams
+    setspawner:
+        name: Spawner setzen
+        desc: Setzt an der aktuellen Position einen Ressourcen-Spawner
+    start:
+        name: Spiel starten
+        desc: Startet ein Spiel (Lobbymodus)
+    stop:
+        name: Spiel stoppen
+        desc: Stoppt ein Spiel und kickt alle Spieler
+    help:
+        name: Hilfe
+        desc: Zeigt Hilfe zu Kommandos von Bedwars an

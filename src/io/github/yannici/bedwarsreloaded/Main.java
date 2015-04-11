@@ -19,9 +19,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.WeatherType;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
@@ -81,9 +79,9 @@ public class Main extends JavaPlugin {
         this.registerCommands();
         this.registerListener();
         
-        this.localization = this.loadLocalization();
         this.gameManager = new GameManager(this);
         this.saveDefaultConfig();
+        this.localization = this.loadLocalization();
         
         // Loading
         this.scoreboardManager = Bukkit.getScoreboardManager();
@@ -99,6 +97,8 @@ public class Main extends JavaPlugin {
     
     private LocalizationConfig loadLocalization() {
     	LocalizationConfig config = new LocalizationConfig();
+    	config.saveLocales();
+    	
     	config.loadLocale(this.getConfig().getString("locale"), false);
     	return config;
     }
@@ -285,7 +285,11 @@ public class Main extends JavaPlugin {
     }
 
     private void stopTimeListener() {
-        this.timeTask.cancel();
+    	try {
+    		this.timeTask.cancel();
+    	} catch(Exception ex) {
+    		// Timer isn't running. Just ignore.
+    	}
     }
 
 }
