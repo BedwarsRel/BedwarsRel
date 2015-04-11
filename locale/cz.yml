@@ -68,7 +68,7 @@ lobby:
 ressources:
     gold: §6Zlato
     iron: §7Zelezo
-    bronze: §Bronz
+    bronze: §4Bronz
 commands:
     addgame:
         name: Pridat hru
