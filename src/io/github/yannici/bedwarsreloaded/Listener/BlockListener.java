@@ -77,7 +77,7 @@ public class BlockListener extends BaseListener {
             neighbor.setType(Material.AIR);
             
             g.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed", ImmutableMap.of("team", bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED)));
-            g.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 20.0F);
+            g.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 10.0F);
             g.setPlayersScoreboard();
             return;
         }

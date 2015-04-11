@@ -14,6 +14,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
     * Amount
     * Spawn Interval
 * Team selection GUI
+* Friendly Fire configurable
 * Only one villager need for trades
     * Customizable Shop Offers
     * Customizable Shop Categories
