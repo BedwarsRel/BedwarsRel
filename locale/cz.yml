@@ -44,7 +44,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: Zadne kategorie obchodu nenalezeny!
 ingame:
     teams: Tymy
-    all: V�e
+    all: Vsichni
     teamwon: Gratulace! Tym $team$ vyhral!
     serverrestart: Restart serveru za $sec$ sekund!
     gamestarting: Hra se zapina!
@@ -67,9 +67,9 @@ lobby:
     gamefull: Hra je plna!
     teamjoined: Uspesne jsi se pripojil do teamu $team$
 ressources:
-    gold: §6Zlato
-    iron: §7Zelezo
-    bronze: §4Bronz
+    gold: Â§6Zlato
+    iron: Â§7Zelezo
+    bronze: Â§4Bronz
 commands:
     addgame:
         name: Pridat hru
