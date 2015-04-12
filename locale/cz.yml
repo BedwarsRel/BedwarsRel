@@ -35,7 +35,7 @@ success:
     stopped: Hra byla zastavena!
     lobbyset: Lobby pro hru bylo nastaveno!
     gameloaded: Hra "$game$" uspesne nactena!
-    reloadconfig: Znovu úspešný!
+    reloadconfig: Konfigurace a jazyky znovu nacteny!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
@@ -112,5 +112,5 @@ commands:
         name: Ukazat pomoc
         desc: Ukaze informace o tomto pluginu a prikazech
     reload:
-        name: Přeložit
-        desc: překládka konfigurace a překlady
+        name: Znovu nacist
+        desc: Znovu nacte vsechnu konfiguraci a jazyky
