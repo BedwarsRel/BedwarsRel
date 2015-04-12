@@ -84,10 +84,10 @@ public class LocalizationConfig extends YamlConfiguration {
 		return ChatColor.translateAlternateColorCodes('§', ChatColor.translateAlternateColorCodes('&', str));
 	}
 
-	public void saveLocales() {
+	public void saveLocales(boolean overwrite) {
 		try {
 			for(String filename : Utils.getResourceListing(getClass(), "locale/")) {
-				Main.getInstance().saveResource("locale/" + filename, false);
+				Main.getInstance().saveResource("locale/" + filename, overwrite);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

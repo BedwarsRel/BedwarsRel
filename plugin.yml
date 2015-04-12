@@ -56,6 +56,10 @@ commands:
         description: Leaves the current game
         usage: /<command>
         permission: bw.base
+    bw reload:
+        description: Reloads the configurations and translations
+        usage: /<command>
+        permission: bw.setup
 permissions:
     bw.base:
         description: Allows you to show to play games

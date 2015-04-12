@@ -97,7 +97,7 @@ public class Main extends JavaPlugin {
     
     private LocalizationConfig loadLocalization() {
     	LocalizationConfig config = new LocalizationConfig();
-    	config.saveLocales();
+    	config.saveLocales(false);
     	
     	config.loadLocale(this.getConfig().getString("locale"), false);
     	return config;
@@ -221,6 +221,7 @@ public class Main extends JavaPlugin {
         this.commands.add(new SetLobbyCommand(this));
         this.commands.add(new LeaveGameCommand(this));
         this.commands.add(new SetBedCommand(this));
+        this.commands.add(new ReloadCommand(this));
 
         this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
     }
@@ -290,6 +291,11 @@ public class Main extends JavaPlugin {
     	} catch(Exception ex) {
     		// Timer isn't running. Just ignore.
     	}
+    }
+
+    public void reloadLocalization() {
+        this.localization.saveLocales(false);
+        this.localization.loadLocale(this.getConfig().getString("locale"), false);
     }
 
 }
