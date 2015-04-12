@@ -287,7 +287,6 @@ public class PlayerListener extends BaseListener {
 	 * LOBBY
 	 */
 	
-	@SuppressWarnings("incomplete-switch")
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent pie) {
 		Player player = pie.getPlayer();
@@ -317,6 +316,12 @@ public class PlayerListener extends BaseListener {
 				if(player.isOp() || player.hasPermission("bw.setup")) {
 					g.start(player);
 				}
+				break;
+			case SLIME_BALL:
+				pie.setCancelled(true);
+				g.playerLeave(player);
+				break;
+			default:
 				break;
 		}
 			

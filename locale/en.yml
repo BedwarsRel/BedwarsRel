@@ -67,6 +67,7 @@ lobby:
     startgame: Start game
     gamefull: Game is full!
     teamjoined: You successfully joined the team $team$
+    leavegame: Leave game
 ressources:
     gold: §6Gold
     iron: §7Iron

@@ -52,30 +52,6 @@ public class Main extends JavaPlugin {
         this.minecraft = this.getMinecraftPackage();
         this.version = this.loadVersion();
         
-        /*if(Utils.materialIsColorable(Material.LEATHER_CHESTPLATE)) {
-            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage("COLORABLE!!!!"));
-        }*/
-        
-        /*for(Constructor m : this.getMinecraftServerClass("EntityVillager").getDeclaredConstructors()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(m.getName() + ": ");
-            for(java.lang.reflect.Parameter p : m.getParameters()) {
-                sb.append(p.getType() + " " + p.getName() + ", ");
-            }
-            
-            this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(sb.toString()));
-        }*/
-        
-        /*for(Method m : this.getMinecraftServerClass("EntityVillager").getMethods()) {
-            if(m.getName().equals("a_")) {
-                StringBuilder sb = new StringBuilder(m.getName() + ": " + m.getReturnType().getName());
-                for(Parameter p : m.getParameters()) {
-                    sb.append(" >> " + p.getType().getName() + " " + p.getName());
-                }
-                this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(sb.toString()));
-            }
-        }*/
-        
         this.registerCommands();
         this.registerListener();
         

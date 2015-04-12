@@ -67,10 +67,11 @@ lobby:
     startgame: Spust hru
     gamefull: Hra je plna!
     teamjoined: Uspesne jsi se pripojil do teamu $team$
+    leavegame: Leave game
 ressources:
-    gold: Â§6Zlato
-    iron: Â§7Zelezo
-    bronze: Â§4Bronz
+    gold: §6Zlato
+    iron: §7Zelezo
+    bronze: §4Bronz
 commands:
     addgame:
         name: Pridat hru

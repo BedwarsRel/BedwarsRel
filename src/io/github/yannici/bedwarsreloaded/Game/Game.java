@@ -309,14 +309,15 @@ public class Game {
 
     public boolean playerLeave(Player p) {
     	Team team = Game.getPlayerTeam(p, this);
-    	
-    	this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
+
         if(team != null) {
             team.removePlayer(p);
+            this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
         }
 
         if(this.freePlayers.contains(p)) {
             this.freePlayers.remove(p);
+            this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", p.getDisplayName())));
         }
         
         p.setDisplayName(ChatColor.stripColor(p.getName()));

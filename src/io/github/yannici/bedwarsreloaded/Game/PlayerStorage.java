@@ -93,20 +93,29 @@ public class PlayerStorage {
     }
 
     public void loadLobbyInventory() {
+    	// Choose team (Wool)
         ItemStack teamSelection = new ItemStack(Material.BED, 1);
         ItemMeta im = teamSelection.getItemMeta();
         im.setDisplayName(Main._l("lobby.chooseteam"));
         teamSelection.setItemMeta(im);
         this.player.getInventory().addItem(teamSelection);
+        
+        // Leave Game (Slimball)
+        ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
+        im = leaveGame.getItemMeta();
+        im.setDisplayName(Main._l("lobby.leavegame"));
+        leaveGame.setItemMeta(im);
+        this.player.getInventory().setItem(8, leaveGame);
 
         if(this.player.hasPermission("bw.setup")) {
+        	// Force start game (Diamond)
             ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
             im = startGame.getItemMeta();
             im.setDisplayName(Main._l("lobby.startgame"));
             startGame.setItemMeta(im);
             this.player.getInventory().addItem(startGame);
         }
-        
+
         this.player.updateInventory();
     }
 
