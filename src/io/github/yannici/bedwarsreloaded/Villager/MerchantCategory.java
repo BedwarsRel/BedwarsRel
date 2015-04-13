@@ -6,6 +6,7 @@ import io.github.yannici.bedwarsreloaded.Game.Game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,8 +53,8 @@ public class MerchantCategory {
         HashMap<Material, MerchantCategory> mc = new HashMap<Material, MerchantCategory>();
         
         ConfigurationSection section = cfg.getConfigurationSection("shop");
-        ArrayList<String> sorted = new ArrayList<>(section.getKeys(false));
-        Collections.sort(sorted);
+        ArrayList<String> sorted = new ArrayList<String>(section.getKeys(false));
+        Collections.sort(sorted, new MerchantCategoryComparator(section));
 
         for(String cat : sorted) {
             String catName = ChatColor.translateAlternateColorCodes('§', section.getString(cat + ".name"));

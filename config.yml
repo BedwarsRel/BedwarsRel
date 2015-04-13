@@ -104,6 +104,9 @@ ressource:
 ###### lore:
 ######  type: list<string>
 ######  The lore (description) the category should have.
+###### order:
+######  type: int
+######  The order the categories will be displayed
 ######### Offers:
 ######### item1 (first trade item):
 #########  item: 
@@ -127,6 +130,7 @@ shop:
     armor:
         item: DIAMOND_CHESTPLATE
         name: Rüstung
+        order: 10
         lore:
             - Protect yourself with armor! Click here.
         offers:
@@ -191,6 +195,7 @@ shop:
     swords:
         item: DIAMOND_SWORD
         name: Schwerter
+        order: 20
         lore:
             - Click here to get sword for attacking your enemies
         offers:
@@ -250,6 +255,7 @@ shop:
     bows:
         item: 261
         name: Bögen
+        order: 30
         lore:
             - Prove yourself as a marksman with these wonderful bows
         offers:
@@ -307,6 +313,7 @@ shop:
     eat:
         item: GRILLED_PORK
         name: Essen
+        order: 40
         lore:
             - Are you hungry? Get something to eat.
         offers: 
@@ -331,6 +338,7 @@ shop:
     pickaxes:
         item: DIAMOND_PICKAXE
         name: Spitzhacken
+        order: 50
         lore:
             - Destroy others blocks? Use these pickaxes.
         offers:
@@ -361,6 +369,7 @@ shop:
     blocks:
         item: SANDSTONE
         name: Blöcke
+        order: 60
         lore:
             - Get to the others! Possible with blocks.
         offers:
@@ -398,6 +407,7 @@ shop:
     usefulstuff:
         item: TNT
         name: Nützliche Sachen
+        order: 70
         lore:
             - Looking for useful stuff? Here are some!
         offers:
@@ -422,6 +432,7 @@ shop:
     drinks:
         item: POTION
         name: Tränke
+        order: 80
         lore:
             - Not enough? Use these potions and you'll feel better!
         offers:
