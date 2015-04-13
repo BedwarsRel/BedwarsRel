@@ -8,6 +8,8 @@
 # string: a normal text (in most cases you can use colorcodes with a beginning §)
 # boolean: true or false (IMPORTANT: true OR false ONLY)
 # list<?>: a list of type ? (? is the type of the list items)
+# byte: a int but limited between -128 ... 127
+# short: a int but limited between -32768 ... 32767
 
 # Lobby Time
 # Type: int
@@ -124,6 +126,9 @@ ressource:
 #########  lore:
 #########   type: list<string> (colorcodes with §)
 #########   The lores this item should have
+#########  meta:
+#########   type: short (potion) or byte (any other item)
+#########   The meta byte which will be added to the item
 ######### item2 (optional, second trade item): See item1
 ######### reward (reward item): See item1
 shop:
