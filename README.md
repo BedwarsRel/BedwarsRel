@@ -52,6 +52,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 * ~~Complete default shop configuration~~
 * ~~Teamchat~~
 * Spectators
+* Team chests (ender chest)
 * Mapvote(?)
 
 ## Want to join?

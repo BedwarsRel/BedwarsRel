@@ -6,11 +6,14 @@ import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameStartEvent;
 import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsPlayerJoinEvent;
 import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
+import io.github.yannici.bedwarsreloaded.Villager.MerchantCategoryComparator;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -46,6 +49,7 @@ public class Game {
     private Scoreboard scoreboard = null;
     private GameLobbyCountdown glc = null;
     private HashMap<Material, MerchantCategory> itemshop = null;
+    private List<MerchantCategory> orderedItemshop = null;
     private GameCycle cycle = null;
     private Location mainLobby = null;
     
@@ -423,6 +427,17 @@ public class Game {
         
         FileConfiguration cfg = Main.getInstance().getConfig();
         this.itemshop = MerchantCategory.loadCategories(cfg);
+        this.orderedItemshop = this.loadOrderedItemShopCategories();
+    }
+    
+    private List<MerchantCategory> loadOrderedItemShopCategories() {
+        List<MerchantCategory> list = new ArrayList<MerchantCategory>(this.itemshop.values());
+        Collections.sort(list, new MerchantCategoryComparator());
+        return list;
+    }
+    
+    public List<MerchantCategory> getOrderedItemShopCategories() {
+        return this.orderedItemshop;
     }
     
     public void kickAllPlayers() {

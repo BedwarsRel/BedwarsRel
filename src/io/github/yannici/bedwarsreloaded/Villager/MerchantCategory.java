@@ -5,7 +5,6 @@ import io.github.yannici.bedwarsreloaded.Utils;
 import io.github.yannici.bedwarsreloaded.Game.Game;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,20 +26,26 @@ public class MerchantCategory {
     private Material item = null;
     private List<String> lores = null;
     private ArrayList<VillagerTrade> offers = null;
+    private int order = 0;
 
     public MerchantCategory(String name, Material item) {
-        this(name, item, new ArrayList<VillagerTrade>(), new ArrayList<String>());
+        this(name, item, new ArrayList<VillagerTrade>(), new ArrayList<String>(), 0);
     }
     
-    public MerchantCategory(String name, Material item, ArrayList<VillagerTrade> offers, List<String> lores) {
+    public MerchantCategory(String name, Material item, ArrayList<VillagerTrade> offers, List<String> lores, int order) {
         this.name = name;
         this.item = item;
         this.offers = offers;
         this.lores = lores;
+        this.order = order;
     }
     
     public List<String> getLores() {
     	return this.lores;
+    }
+    
+    public int getOrder() {
+        return this.order;
     }
     
     @SuppressWarnings({ "unchecked", "deprecation" })
@@ -52,14 +57,13 @@ public class MerchantCategory {
         HashMap<Material, MerchantCategory> mc = new HashMap<Material, MerchantCategory>();
         
         ConfigurationSection section = cfg.getConfigurationSection("shop");
-        ArrayList<String> sorted = new ArrayList<String>(section.getKeys(false));
-        Collections.sort(sorted, new MerchantCategoryComparator(section));
 
-        for(String cat : sorted) {
+        for(String cat : section.getKeys(false)) {
             String catName = ChatColor.translateAlternateColorCodes('§', section.getString(cat + ".name"));
             Material catItem = null;
             List<String> lores = new ArrayList<String>();
             String item = section.get(cat + ".item").toString();
+            int order = 0;
             
             if(!Utils.isNumber(item)) {
                 catItem = Material.getMaterial(section.getString(cat + ".item"));
@@ -71,6 +75,12 @@ public class MerchantCategory {
             	for(Object lore : section.getList(cat + ".lore")) {
             		lores.add(ChatColor.translateAlternateColorCodes('§', lore.toString()));
             	}
+            }
+            
+            if(section.contains(cat + ".order")) {
+                if(section.isInt(cat + ".order")) {
+                    order = section.getInt(cat + ".order");
+                }
             }
             
             ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
@@ -104,7 +114,7 @@ public class MerchantCategory {
                 offers.add(tradeObj);
             }
             
-            mc.put(catItem, new MerchantCategory(catName, catItem, offers, lores));
+            mc.put(catItem, new MerchantCategory(catName, catItem, offers, lores, order));
         }
         
         return mc;
@@ -233,10 +243,10 @@ public class MerchantCategory {
     }
     
     public static void openCategorySelection(Player p, Game g) {
-        HashMap<Material, MerchantCategory> cats = g.getItemShopCategories();
+        List<MerchantCategory> cats = g.getOrderedItemShopCategories();
         
         Inventory inv = Bukkit.createInventory(p, (cats.size()-cats.size()%9)+9, Main._l("ingame.shop.name"));
-        for(MerchantCategory cat : cats.values()) {
+        for(MerchantCategory cat : cats) {
             ItemStack is = new ItemStack(cat.getMaterial(), 1);
             ItemMeta im = is.getItemMeta();
             

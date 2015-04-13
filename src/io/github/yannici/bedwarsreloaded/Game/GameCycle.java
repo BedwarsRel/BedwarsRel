@@ -1,7 +1,6 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
 import io.github.yannici.bedwarsreloaded.Main;
-import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameEndEvent;
 import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameOverEvent;
 
 import org.bukkit.ChatColor;

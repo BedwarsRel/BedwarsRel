@@ -146,7 +146,7 @@ shop:
                 item: LEATHER_HELMET
                 amount: 1
                 enchants:
-                    PROTECTION_ENVIRONMENTAL: 1
+                    0: 1
             - item1:
                 item: CLAY_BRICK
                 amount: 1
