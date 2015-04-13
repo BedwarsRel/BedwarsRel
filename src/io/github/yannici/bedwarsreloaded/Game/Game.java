@@ -2,6 +2,9 @@ package io.github.yannici.bedwarsreloaded.Game;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameStartEvent;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsPlayerJoinEvent;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
 
 import java.io.File;
@@ -152,7 +155,14 @@ public class Game {
             sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.startoutofwaiting")));
             return false;
         }
-
+        
+        BedwarsGameStartEvent startEvent = new BedwarsGameStartEvent(this);
+        Main.getInstance().getServer().getPluginManager().callEvent(startEvent);
+        
+        if(startEvent.isCancelled()) {
+        	return false;
+        }
+        
         this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
         
         this.setTeamsFriendlyFire();
@@ -279,6 +289,9 @@ public class Game {
             p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
             return false;
         }
+        
+        BedwarsPlayerJoinEvent joinEvent = new BedwarsPlayerJoinEvent(this, p);
+        Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 
         if(!this.cycle.onPlayerJoins(p)) {
             return false;
@@ -309,6 +322,9 @@ public class Game {
     }
 
     public boolean playerLeave(Player p) {
+    	BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this, p);
+    	Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
+    	
     	Team team = Game.getPlayerTeam(p, this);
 
         if(team != null) {

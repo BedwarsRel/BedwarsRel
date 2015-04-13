@@ -2,6 +2,7 @@ package io.github.yannici.bedwarsreloaded.Game;
 
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameEndEvent;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -75,6 +76,9 @@ public class SingleGameCycle extends GameCycle {
         }
         
         if(task.getCounter() == 0) {
+        	BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
+            Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
+            
             this.onGameEnds();
             task.cancel();
         } else {

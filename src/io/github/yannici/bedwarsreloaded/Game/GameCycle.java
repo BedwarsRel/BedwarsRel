@@ -1,6 +1,8 @@
 package io.github.yannici.bedwarsreloaded.Game;
 
 import io.github.yannici.bedwarsreloaded.Main;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameEndEvent;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameOverEvent;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -41,6 +43,13 @@ public abstract class GameCycle {
         Team winner = this.getGame().isOver();
         if(winner != null) {
             if(this.isEndGameRunning() == false) {
+            	BedwarsGameOverEvent overEvent = new BedwarsGameOverEvent(this.getGame());
+                Main.getInstance().getServer().getPluginManager().callEvent(overEvent);
+                
+                if(overEvent.isCancelled()) {
+                	return;
+                }
+                
                 this.setEndGameRunning(true);
                 int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable delay
                 GameOverTask gameOver = new GameOverTask(this, delay, winner);

@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import io.github.yannici.bedwarsreloaded.ChatWriter;
 import io.github.yannici.bedwarsreloaded.Main;
 import io.github.yannici.bedwarsreloaded.Utils;
+import io.github.yannici.bedwarsreloaded.Game.Events.BedwarsGameEndEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -85,6 +86,10 @@ public class BungeeGameCycle extends GameCycle {
         // game over
         if(task.getCounter() == 0) {
             this.onGameEnds();
+            
+            BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
+            Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
+            
             task.cancel();
         } else {
             this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart", ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
