@@ -43,6 +43,7 @@ gamecheck:
     NO_LOBBY_SET: You didn't set a lobby!
     TEAMS_WITHOUT_SPAWNS: There are team(s) without a spawn location!
     NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
+    NO_MAIN_LOBBY_SET: You didn't set a main lobby even though you did set "tomainlobby" to true
 ingame:
     teams: Teams
     all: All
@@ -115,3 +116,6 @@ commands:
     reload:
         name: Reload
         desc: Reloads the configurations and translations
+    setmainlobby:
+        name: Set main lobby
+        desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)

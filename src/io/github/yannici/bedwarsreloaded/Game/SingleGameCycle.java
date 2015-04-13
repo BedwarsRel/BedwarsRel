@@ -43,7 +43,12 @@ public class SingleGameCycle extends GameCycle {
 	public void onPlayerLeave(Player player) {
 		// teleport to join location
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
-		player.teleport(storage.getLeft());
+		
+		if(Main.getInstance().toMainLobby()) {
+			player.teleport(this.getGame().getMainLobby());
+		} else {
+			player.teleport(storage.getLeft());
+		}
 		
 		this.checkGameOver();
 	}

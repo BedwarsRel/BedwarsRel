@@ -43,6 +43,7 @@ gamecheck:
     NO_LOBBY_SET: Nenastavil jsi lobby!
     TEAMS_WITHOUT_SPAWNS: Jsou zde tymy bez spawn lokace!
     NO_ITEMSHOP_CATEGORIES: Zadne kategorie obchodu nenalezeny!
+    NO_MAIN_LOBBY_SET: You didn't set a main lobby even though you did set "tomainlobby" to true
 ingame:
     teams: Tymy
     all: Vsichni
@@ -115,3 +116,6 @@ commands:
     reload:
         name: Znovu nacist
         desc: Znovu nacte vsechnu konfiguraci a jazyky
+    setmainlobby:
+        name: Set main lobby
+        desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)

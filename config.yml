@@ -1,17 +1,86 @@
+################################
+######## BEDWARS CONFIG ########
+###### CREATED BY YANNICI ######
+################################
+
+## TYPE HELP ##
+# int: number (not decimal)
+# string: a normal text (in most cases you can use colorcodes with a beginning §)
+# boolean: true or false (IMPORTANT: true OR false ONLY)
+# list<?>: a list of type ? (? is the type of the list items)
+
+# Lobby Time
+# Type: int
+# The lobby time defines how long you have to
+# wait in the lobby until the game starts (when enough players) in seconds.
 lobbytime: 60
+
+# Friendly Fire
+# Type: boolean (true or false)
+# Sets if friendlyfire is enabled (damage team mates)
 friendlyfire: false
+
+# Game over delay
+# Type: int
+# How much time (in seconds) should be waited until all players
+# will be teleported after a game ends.
 gameoverdelay: 10
+
+endgame:
+### Main lobby enabled
+### Type: boolean
+### If you want, that all players will be teleported to a specific
+### location (you can set with /bw setmainlobby {game}) after a game or when a player
+### uses /bw leave. If this is set to false, the player will be teleported to the location
+### where he joined the game!
+    mainlobby-enabled: false
+
+# Bungeecord configurations
 bungeecord:
+### Enable Bungeecord
+### Type: boolean
+### Set to true to enable bungeecord compatibility. Set to false when you have
+### a single server and don't use bungeecord.
     enabled: false
+	
+### Bungeecord Hubserver
+### Type: string
+### The name of the hub/main server of the bungeecord server-farm. This will be
+### the server where the player will be teleported when they leave.
     hubserver: test
+	
+### Message of the Day configuration
+### Type: string (colorcodes with §)
+### Here you can specify the MOTDs which should be used
+### at this bedwars server of your bungeecord server-farm.
+### Useful for bedwars join signs in your lobby
     motds:
         lobby: §a[Lobby]
         running: §e[Running]
         stopped: §4[Stopped]
+### Localization (language)
+### Type: string (length: 2)
+### Sets the localization which should be used. 
+### Check the plugin description for possible languages!
+### The fallback language is en (english).
 locale: de
+
+# Permissions
 permissions:
+### VIP can start
+### Type: boolean
+### Defines if VIP-Users can force start a game!
     vipCanStart: false
+	
+# Ressources config
 ressource:
+### Spawn Interval:
+### Type: int
+### The interval in milliseconds when ressource should spawn!
+### Amount:
+### Type: int
+### The amount of items should spawn 
+### when the interval spawn the ressource
     bronze:
         spawninterval: 1000
         amount: 2
@@ -21,6 +90,39 @@ ressource:
     gold:
         spawninterval: 10000
         amount: 1
+
+### SHOP ###
+### The categories (unique key!)
+###### Categories:
+###### item:
+######  type: string or int
+######  Itemname or Item-ID which should be 
+######  displayed to represent the category
+###### name: 
+######  type: string
+######  Name of the category
+###### lore:
+######  type: list<string>
+######  The lore (description) the category should have.
+######### Offers:
+######### item1 (first trade item):
+#########  item: 
+#########   type: string or int
+#########   Item-Name or Item-ID
+#########  amount: 
+#########   type: int
+#########   The stack amount the item should have
+#########  name:
+#########   type: string (colorcodes with §)
+#########   A specific name for the item
+#########  enchants:
+#########   key: Has to be the enchant-ID or enchant-name!
+#########   value: The level of the enchant
+#########  lore:
+#########   type: list<string> (colorcodes with §)
+#########   The lores this item should have
+######### item2 (optional, second trade item): See item1
+######### reward (reward item): See item1
 shop:
     armor:
         item: DIAMOND_CHESTPLATE

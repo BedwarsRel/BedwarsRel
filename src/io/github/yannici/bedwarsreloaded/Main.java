@@ -198,6 +198,7 @@ public class Main extends JavaPlugin {
         this.commands.add(new LeaveGameCommand(this));
         this.commands.add(new SetBedCommand(this));
         this.commands.add(new ReloadCommand(this));
+        this.commands.add(new SetMainLobbyCommand(this));
 
         this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
     }
@@ -272,6 +273,14 @@ public class Main extends JavaPlugin {
     public void reloadLocalization() {
         this.localization.saveLocales(false);
         this.localization.loadLocale(this.getConfig().getString("locale"), false);
+    }
+    
+    public boolean toMainLobby() {
+    	if(this.getConfig().contains("endgame.mainlobby-enabled")) {
+    		return this.getConfig().getBoolean("endgame.mainlobby-enabled");
+    	}
+    	
+    	return false;
     }
 
 }

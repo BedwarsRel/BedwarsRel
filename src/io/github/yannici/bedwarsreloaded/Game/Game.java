@@ -44,6 +44,7 @@ public class Game {
     private GameLobbyCountdown glc = null;
     private HashMap<Material, MerchantCategory> itemshop = null;
     private GameCycle cycle = null;
+    private Location mainLobby = null;
     
     private YamlConfiguration config = null;
 
@@ -383,6 +384,12 @@ public class Game {
         if(this.lobby == null) {
             return GameCheckCode.NO_LOBBY_SET;
         }
+        
+        if(Main.getInstance().toMainLobby()) {
+        	if(this.mainLobby == null) {
+        		return GameCheckCode.NO_MAIN_LOBBY_SET;
+        	}
+        }
 
         return GameCheckCode.OK;
     }
@@ -613,6 +620,14 @@ public class Game {
     public YamlConfiguration getConfig() {
         return this.config;
     }
+    
+    public Location getMainLobby() {
+    	return this.mainLobby;
+    }
+    
+    public void setMainLobby(Location location) {
+    	this.mainLobby = location;
+    }
 
     /*
      * PRIVATE
@@ -645,6 +660,11 @@ public class Game {
         yml.set("loc1", this.loc1);
         yml.set("loc2", this.loc2);
         yml.set("lobby", this.lobby);
+        
+        if(this.mainLobby != null) {
+        	yml.set("mainlobby", this.mainLobby);
+        }
+        
         yml.createSection("teams", this.teams);
         yml.createSection("spawner", spawnerMap);
 
