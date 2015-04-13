@@ -649,6 +649,7 @@ public class Game {
 
     public void setState(GameState state) {
         this.state = state;
+        this.updateSigns();
     }
 
     public Main getPlugin() {

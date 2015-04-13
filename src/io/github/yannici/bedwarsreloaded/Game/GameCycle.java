@@ -34,6 +34,20 @@ public abstract class GameCycle {
     
     public abstract void onGameOver(GameOverTask task);
     
+    private void runGameOver(Team winner) {
+        BedwarsGameOverEvent overEvent = new BedwarsGameOverEvent(this.getGame());
+        Main.getInstance().getServer().getPluginManager().callEvent(overEvent);
+        
+        if(overEvent.isCancelled()) {
+            return;
+        }
+        
+        this.setEndGameRunning(true);
+        int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable delay
+        GameOverTask gameOver = new GameOverTask(this, delay, winner);
+        gameOver.runTaskTimer(Main.getInstance(), 0L, 20L);
+    }
+    
     public void checkGameOver() {
         if(!Main.getInstance().isEnabled()) {
             return;
@@ -42,17 +56,11 @@ public abstract class GameCycle {
         Team winner = this.getGame().isOver();
         if(winner != null) {
             if(this.isEndGameRunning() == false) {
-            	BedwarsGameOverEvent overEvent = new BedwarsGameOverEvent(this.getGame());
-                Main.getInstance().getServer().getPluginManager().callEvent(overEvent);
-                
-                if(overEvent.isCancelled()) {
-                	return;
-                }
-                
-                this.setEndGameRunning(true);
-                int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable delay
-                GameOverTask gameOver = new GameOverTask(this, delay, winner);
-                gameOver.runTaskTimer(Main.getInstance(), 0L, 20L);
+            	this.runGameOver(winner);
+            }
+        } else {
+            if(this.getGame().getTeamPlayers().size() == 0) {
+                this.runGameOver(null);
             }
         }
     }

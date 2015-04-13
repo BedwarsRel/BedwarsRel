@@ -79,17 +79,16 @@ public class BungeeGameCycle extends GameCycle {
 
     @Override
     public void onGameOver(GameOverTask task) {
-        if(task.getCounter() == task.getStartCount()) {
+        if(task.getCounter() == task.getStartCount() && task.getWinner() != null) {
             this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon", ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
         }
         
         // game over
         if(task.getCounter() == 0) {
-            this.onGameEnds();
-            
             BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
             Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
             
+            this.onGameEnds();
             task.cancel();
         } else {
             this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart", ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
