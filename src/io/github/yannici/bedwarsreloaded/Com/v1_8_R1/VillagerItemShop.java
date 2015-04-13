@@ -1,6 +1,5 @@
 package io.github.yannici.bedwarsreloaded.Com.v1_8_R1;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import net.minecraft.server.v1_8_R1.EntityHuman;
@@ -36,9 +35,6 @@ public class VillagerItemShop {
     private EntityVillager createVillager() {
         try {
             EntityVillager ev = new EntityVillager(((CraftWorld)this.game.getRegion().getWorld()).getHandle());
-            Field careerField = EntityVillager.class.getDeclaredField("by");
-            careerField.setAccessible(true);
-            careerField.set(ev, Integer.valueOf(10));
             
             return ev;
         } catch (Exception e) {
