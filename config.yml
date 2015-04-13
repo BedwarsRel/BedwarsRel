@@ -44,13 +44,13 @@ bungeecord:
 ### Set to true to enable bungeecord compatibility. Set to false when you have
 ### a single server and don't use bungeecord.
     enabled: false
-	
+
 ### Bungeecord Hubserver
 ### Type: string
 ### The name of the hub/main server of the bungeecord server-farm. This will be
 ### the server where the player will be teleported when they leave.
     hubserver: test
-	
+
 ### Message of the Day configuration
 ### Type: string (colorcodes with §)
 ### Here you can specify the MOTDs which should be used
@@ -73,7 +73,7 @@ permissions:
 ### Type: boolean
 ### Defines if VIP-Users can force start a game!
     vipCanStart: false
-	
+
 # Ressources config
 ressource:
 ### Spawn Interval:
