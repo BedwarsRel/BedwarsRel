@@ -62,6 +62,7 @@ public class PlayerStorage {
         this.player.setMaxHealth(20.0D);
         this.player.setHealth(20.0D);
         this.player.setFireTicks(0);
+        this.player.setGameMode(GameMode.SURVIVAL);
 
         if (this.player.isInsideVehicle()) {
             this.player.leaveVehicle();
@@ -100,7 +101,7 @@ public class PlayerStorage {
         teamSelection.setItemMeta(im);
         this.player.getInventory().addItem(teamSelection);
         
-        // Leave Game (Slimball)
+        // Leave Game (Slimeball)
         ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
         im = leaveGame.getItemMeta();
         im.setDisplayName(Main._l("lobby.leavegame"));
