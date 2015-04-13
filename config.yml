@@ -5,7 +5,7 @@
 
 ## TYPE HELP ##
 # int: number (not decimal)
-# string: a normal text (in most cases you can use colorcodes with a beginning §)
+# string: a normal text (in most cases you can use colorcodes with a beginning Â§)
 # boolean: true or false (IMPORTANT: true OR false ONLY)
 # list<?>: a list of type ? (? is the type of the list items)
 # byte: a int but limited between -128 ... 127
@@ -52,14 +52,14 @@ bungeecord:
     hubserver: test
 
 ### Message of the Day configuration
-### Type: string (colorcodes with §)
+### Type: string (colorcodes with Â§)
 ### Here you can specify the MOTDs which should be used
 ### at this bedwars server of your bungeecord server-farm.
 ### Useful for bedwars join signs in your lobby
     motds:
-        lobby: §a[Lobby]
-        running: §e[Running]
-        stopped: §4[Stopped]
+        lobby: Â§a[Lobby]
+        running: Â§e[Running]
+        stopped: Â§4[Stopped]
 ### Localization (language)
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
@@ -118,23 +118,22 @@ ressource:
 #########   type: int
 #########   The stack amount the item should have
 #########  name:
-#########   type: string (colorcodes with §)
+#########   type: string (colorcodes with Â§)
 #########   A specific name for the item
 #########  enchants:
 #########   key: Has to be the enchant-ID or enchant-name!
 #########   value: The level of the enchant
 #########  lore:
-#########   type: list<string> (colorcodes with §)
+#########   type: list<string> (colorcodes with Â§)
 #########   The lores this item should have
 #########  meta:
 #########   type: short (potion) or byte (any other item)
 #########   The meta byte which will be added to the item
 ######### item2 (optional, second trade item): See item1
 ######### reward (reward item): See item1
-shop:
     armor:
         item: DIAMOND_CHESTPLATE
-        name: Rüstung
+        name: Armors
         order: 10
         lore:
             - Protect yourself with armor! Click here.
@@ -191,18 +190,17 @@ shop:
                 item: GOLD_INGOT
                 amount: 10
               reward:
-                name: Helm
-                namecolor: RED
-                item: 306
+                item: 307
                 amount: 1
                 enchants:
-                    0: 2
+                    0: 3
+                    7: 2
     swords:
         item: DIAMOND_SWORD
-        name: Schwerter
+        name: Swords
         order: 20
         lore:
-            - Click here to get sword for attacking your enemies
+            - lick here to get sword for attacking your enemies!
         offers:
             - item1:
                 item: CLAY_BRICK
@@ -247,22 +245,22 @@ shop:
                     19: 1
             - item1:
                 item: GOLD_INGOT
-                amount: 15
+                amount: 20
               reward:
-                name: Axt der Unendlichkeit
+                name: NICITEL
                 namecolor: GOLD
                 item: 286
                 amount: 1
                 enchants:
+                    16: 3
+                    19: 2
                     34: 1
-                    16: 1
-                    19: 1
     bows:
         item: 261
-        name: Bögen
+        name: Bows
         order: 30
         lore:
-            - Prove yourself as a marksman with these wonderful bows
+            - Prove yourself as a marksman with these wonderful bows ^^
         offers:
             - item1:
                 item: GOLD_INGOT
@@ -301,7 +299,7 @@ shop:
                     50: 1
             - item1:
                 item: GOLD_INGOT
-                amount: 15
+                amount: 24
               reward:
                 item: 261
                 amount: 1
@@ -311,13 +309,13 @@ shop:
                     49: 1
             - item1:
                 item: GOLD_INGOT
-                amount:
+                amount: 1
               reward:
                 item: 262
                 amount: 1
     eat:
         item: GRILLED_PORK
-        name: Essen
+        name: Food
         order: 40
         lore:
             - Are you hungry? Get something to eat.
@@ -335,14 +333,14 @@ shop:
                 item: 322
                 amount: 1
             - item1:
-                item: GOLD_INGOT
+                item: IRON_INGOT
                 amount: 5
               reward:
                 item: 297
                 amount: 10
     pickaxes:
         item: DIAMOND_PICKAXE
-        name: Spitzhacken
+        name: Pickaxes
         order: 50
         lore:
             - Destroy others blocks? Use these pickaxes.
@@ -373,7 +371,7 @@ shop:
                     35: 3
     blocks:
         item: SANDSTONE
-        name: Blöcke
+        name: Blocks
         order: 60
         lore:
             - Get to the others! Possible with blocks.
@@ -411,7 +409,7 @@ shop:
                 amount: 1
     usefulstuff:
         item: TNT
-        name: Nützliche Sachen
+        name: Specials
         order: 70
         lore:
             - Looking for useful stuff? Here are some!
@@ -423,6 +421,18 @@ shop:
                 item: TNT
                 amount: 1
             - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 54
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 287
+                amount: 1
+            - item1:
                 item: GOLD_INGOT
                 amount: 1
               reward:
@@ -430,13 +440,13 @@ shop:
                 amount: 1
             - item1:
                 item: IRON_INGOT
-                amount: 1
+                amount: 14
               reward:
-                item: 54
+                item: 368
                 amount: 1
     drinks:
         item: POTION
-        name: Tränke
+        name: Potions
         order: 80
         lore:
             - Not enough? Use these potions and you'll feel better!
