@@ -300,8 +300,8 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		if(pie.getAction() != Action.LEFT_CLICK_BLOCK 
-				&& pie.getAction() != Action.LEFT_CLICK_AIR) {
+		if(pie.getAction() != Action.RIGHT_CLICK_BLOCK 
+				&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
 			return;
 		}
 		
