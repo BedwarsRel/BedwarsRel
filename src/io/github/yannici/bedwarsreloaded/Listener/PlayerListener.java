@@ -14,6 +14,7 @@ import io.github.yannici.bedwarsreloaded.Villager.MerchantCategory;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -293,6 +294,26 @@ public class PlayerListener extends BaseListener {
 		Game g = Game.getGameOfPlayer(player);
 		
 		if(g == null) {
+		    if(pie.getAction() != Action.RIGHT_CLICK_BLOCK 
+	                && pie.getAction() != Action.RIGHT_CLICK_AIR) {
+	            return;
+	        }
+		    
+		    Block clicked = pie.getClickedBlock();
+		    Material type = clicked.getType();
+		    
+		    if(type != Material.SIGN && type != Material.SIGN_POST && type != Material.WALL_SIGN) {
+		        return;
+		    }
+		    
+		    Game game = Main.getInstance().getGameManager().getGameBySignLocation(clicked.getLocation());
+		    if(game == null) {
+		        return;
+		    }
+		    
+		    if(game.playerJoins(player)) {
+	            player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.joined")));
+	        }
 			return;
 		}
 		

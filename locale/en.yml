@@ -4,6 +4,7 @@ errors:
     classnotfound: Couldn't fetch $package$ class $class$!
     gameexists: A game with this name already exists!
     gamenotfound: The game "$game$" could not be found!
+    gamenotfoundsimple: Game not found!
     playeramount: The maxium of players can't be lower than 1 or higher than 24!
     teamcolornotallowed: The given Team color isn't a allowed color
     teamnamelength: Team name must have between 2 and 20 characters!
@@ -22,6 +23,7 @@ errors:
     gamenotloaded: Couldn't start up the game!
     gameloaderror: Loading game "$game$" throws an error!
     regionnotfound: Region file does not exists!
+    savesign: Couldn't create a new sign config file!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!
@@ -69,6 +71,13 @@ lobby:
     gamefull: Game is full!
     teamjoined: You successfully joined the team $team$
     leavegame: Leave game
+sign:
+    firstline: §6[Bedwars]
+    players: Spieler
+    gamestate:
+        stopped: §4Stopped!
+        waiting: §aWaiting ...
+        running: §9Running!
 ressources:
     gold: §6Gold
     iron: §7Iron

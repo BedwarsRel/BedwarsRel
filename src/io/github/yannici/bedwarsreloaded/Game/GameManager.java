@@ -8,10 +8,13 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.collect.ImmutableMap;
@@ -92,6 +95,7 @@ public class GameManager {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void loadGame(File configFile) {
         try {
 
@@ -135,14 +139,32 @@ public class GameManager {
 
             Location loc1 = (Location)cfg.get("loc1");
             Location loc2 = (Location)cfg.get("loc2");
-
+            
+            File signFile = new File(Main.getInstance().getDataFolder() + "/" + GameManager.gamesPath + "/" + game.getName() + "/sign.yml");
+            if(signFile.exists()) {
+                YamlConfiguration signConfig = YamlConfiguration.loadConfiguration(signFile);
+                Set<Object> signs = (Set<Object>)signConfig.get("signs");
+                for(Object sign : signs) {
+                    if(!(sign instanceof Location)) {
+                        continue;
+                    }
+                    
+                    Location signLocation = (Location)sign;
+                    Material type = signLocation.getBlock().getType();
+                    if(type != Material.SIGN && type != Material.WALL_SIGN && type != Material.SIGN_POST) {
+                        continue;
+                    }
+                    
+                    game.addJoinSign((Sign)signLocation.getBlock().getState());
+                }
+            }
+            
+            
             game.setLoc(loc1, "loc1");
             game.setLoc(loc2, "loc2");
             game.setLobby((Location)cfg.get("lobby"));
             game.setRegion(new Region(loc1, loc2));
             
-            
-
             this.games.add(game);
             Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameloaded", ImmutableMap.of("game", game.getName()))));
         } catch(Exception ex) {
@@ -167,6 +189,16 @@ public class GameManager {
     public Game getGameByWorld(World world) {
         for(Game game : this.games) {
             if(game.getRegion().getWorld().equals(world)) {
+                return game;
+            }
+        }
+        
+        return null;
+    }
+
+    public Game getGameBySignLocation(Location location) {
+        for(Game game : this.games) {
+            if(game.getSigns().containsKey(location)) {
                 return game;
             }
         }

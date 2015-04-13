@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -21,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -52,6 +54,7 @@ public class Game {
     private List<MerchantCategory> orderedItemshop = null;
     private GameCycle cycle = null;
     private Location mainLobby = null;
+    private HashMap<Location, GameJoinSign> joinSigns = null;
     
     private YamlConfiguration config = null;
 
@@ -74,6 +77,7 @@ public class Game {
         this.state = GameState.STOPPED;
         this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
         this.glc = new GameLobbyCountdown(this);
+        this.joinSigns = new HashMap<Location, GameJoinSign>();
         
         if(Main.getInstance().getConfig().getBoolean("bungee")) {
         	this.cycle = new BungeeGameCycle(this);
@@ -151,6 +155,7 @@ public class Game {
         this.loadItemShopCategories();
         
         this.state = GameState.WAITING;
+        this.updateSigns();
         return true;
     }
 
@@ -192,6 +197,7 @@ public class Game {
         this.kickAllPlayers();
         this.resetRegion();
         this.state = GameState.STOPPED;
+        this.updateSigns();
         return true;
     }
 
@@ -245,6 +251,7 @@ public class Game {
 
         return true;
     }
+    
     public int getMaxPlayers() {
         int max = 0;
         for(Team t : this.teams.values()) {
@@ -271,7 +278,6 @@ public class Game {
         org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(name);
         newTeam.setDisplayName(name);
         newTeam.setPrefix(color.getChatColor().toString());
-        newTeam.setSuffix("&r");
         
         Team theTeam = new Team(name, color, maxPlayers, newTeam);
         this.teams.put(name, theTeam);
@@ -280,7 +286,6 @@ public class Game {
     public void addTeam(Team team) {
         org.bukkit.scoreboard.Team newTeam = this.scoreboard.registerNewTeam(team.getName());
         newTeam.setDisplayName(team.getName());
-        newTeam.setSuffix("&r");
         newTeam.setPrefix(team.getChatColor().toString());
         
         team.setScoreboardTeam(newTeam);
@@ -321,7 +326,8 @@ public class Game {
         }
         
         p.setScoreboard(this.scoreboard);
-
+        
+        this.updateSigns();
         return true;
     }
 
@@ -348,7 +354,12 @@ public class Game {
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
         this.setPlayersScoreboard();
         
+        if(!Main.getInstance().isBungee() && p.isOnline()) {
+            p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
+        }
+        
         this.cycle.onPlayerLeave(p);
+        this.updateSigns();
         return true;
     }
 
@@ -513,10 +524,64 @@ public class Game {
     public void resetScoreboard() {
         this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
     }
+    
+    public void addJoinSign(Sign sign) {
+        if(this.joinSigns.containsKey(sign.getLocation())) {
+            this.joinSigns.remove(sign.getLocation());
+        }
+        
+        this.joinSigns.put(sign.getLocation(), new GameJoinSign(this, sign));
+        this.updateSignConfig();
+    }
+    
+    private void updateSignConfig() {
+        if(this.joinSigns.size() == 0 || this.joinSigns.isEmpty()) {
+            return;
+        }
+        
+        try {
+            File config = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/sign.yml");
+            
+            YamlConfiguration cfg = new YamlConfiguration();
+            if(config.exists()) {
+                cfg = YamlConfiguration.loadConfiguration(config);
+            }
+            
+            cfg.set("signs", this.joinSigns.keySet());
+            cfg.save(config);
+        } catch(Exception ex) {
+            Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.savesign")));
+        }
+    }
+    
+    public void updateSigns() {
+        boolean removedItem = false;
+        
+        Iterator<GameJoinSign> iterator = this.joinSigns.values().iterator();
+        while(iterator.hasNext()) {
+            GameJoinSign sign = iterator.next();
+            
+            Material type = sign.getSign().getLocation().getBlock().getType();
+            if(type != Material.SIGN && type != Material.WALL_SIGN && type != Material.SIGN_POST) {
+                iterator.remove();
+                removedItem = true;
+                continue;
+            }
+            sign.updateSign();
+        }
+        
+        if(removedItem) {
+            this.updateSignConfig();
+        }
+    }
 
     /*
      * GETTER / SETTER
      */
+    
+    public HashMap<Location, GameJoinSign> getSigns() {
+        return this.joinSigns;
+    }
     
     public Scoreboard getScoreboard() {
     	return this.scoreboard;

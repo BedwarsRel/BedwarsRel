@@ -50,9 +50,7 @@ public class LeaveGameCommand extends BaseCommand {
             return false;
         }
 
-        if(game.playerLeave(player)) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
-        }
+        game.playerLeave(player);
         return true;
     }
 

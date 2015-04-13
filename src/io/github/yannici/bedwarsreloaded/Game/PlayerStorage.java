@@ -87,6 +87,8 @@ public class PlayerStorage {
         this.player.addPotionEffects(this.effects);
         this.player.setExp(this.xp);
         this.player.setLevel(this.level);
+        
+        this.player.updateInventory();
     }
     
     public Location getLeft() {

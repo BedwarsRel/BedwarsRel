@@ -10,6 +10,7 @@ import io.github.yannici.bedwarsreloaded.Listener.BlockListener;
 import io.github.yannici.bedwarsreloaded.Listener.EntityListener;
 import io.github.yannici.bedwarsreloaded.Listener.PlayerListener;
 import io.github.yannici.bedwarsreloaded.Listener.ServerListener;
+import io.github.yannici.bedwarsreloaded.Listener.SignListener;
 import io.github.yannici.bedwarsreloaded.Listener.WeatherListener;
 import io.github.yannici.bedwarsreloaded.Localization.LocalizationConfig;
 
@@ -176,6 +177,7 @@ public class Main extends JavaPlugin {
         new PlayerListener();
         new EntityListener();
         new ServerListener();
+        new SignListener();
     }
 
     private void registerConfigurationClasses() {

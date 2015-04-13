@@ -4,6 +4,7 @@ errors:
     classnotfound: Konnte $package$ Klasse $class$ nicht laden!
     gameexists: Ein Spiel mit diesem Namen existiert bereits!
     gamenotfound: Das Spiel "$game$" konnte nicht gefunden werden!
+    gamenotfoundsimple: Spiel nicht gefunden!
     playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
     teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaub!
     teamnamelength: Teamname muss zwischen 2 und 20 Zeichen haben!
@@ -22,6 +23,7 @@ errors:
     gamenotloaded: Spiel konnte nicht geladen/gestartet werden!
     gameloaderror: Das Laden des Spiels "$game$" hat einen Fehler verursacht!
     regionnotfound: Region-Datei existiert nicht!
+    savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt
@@ -69,6 +71,13 @@ lobby:
     gamefull: Das Spiel ist voll!
     teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
     leavegame: Spiel verlassen
+sign:
+    firstline: §6[Bedwars]
+    players: Spieler
+    gamestate:
+        stopped: §4Stopped!
+        waiting: §aWaiting ...
+        running: §9Running!
 ressources:
     gold: §6Gold
     iron: §7Eisen
