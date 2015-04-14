@@ -31,6 +31,18 @@ public class BlockListener extends BaseListener {
 
         Game g = Game.getGameOfPlayer(p);
         if(g == null) {
+        	Block breaked = e.getBlock();
+        	Material type = e.getBlock().getType();
+        	if(type != Material.SIGN && type != Material.SIGN_POST && type != Material.WALL_SIGN) {
+		        return;
+		    }
+        	
+		    Game game = Main.getInstance().getGameManager().getGameBySignLocation(breaked.getLocation());
+		    if(game == null) {
+		        return;
+		    }
+		    
+		    game.removeJoinSign(breaked.getLocation());
             return;
         }
 

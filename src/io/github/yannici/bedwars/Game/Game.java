@@ -555,6 +555,10 @@ public class Game {
         this.updateSignConfig();
     }
     
+    public void removeJoinSign(Location location) {
+		this.joinSigns.remove(location);
+	}
+    
     private void updateSignConfig() {
         if(this.joinSigns.size() == 0 || this.joinSigns.isEmpty()) {
             return;
