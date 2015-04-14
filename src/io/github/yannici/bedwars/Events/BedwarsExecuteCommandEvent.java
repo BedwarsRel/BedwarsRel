@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Events;
 
+import java.util.ArrayList;
+
 import io.github.yannici.bedwars.Commands.BaseCommand;
 
 import org.bukkit.command.CommandSender;
@@ -12,10 +14,10 @@ public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private CommandSender sender = null;
 	private BaseCommand command = null;
-	private String[] params = null;
+	private ArrayList<String> params = null;
 	private boolean cancelled = false;
 	
-	public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command, String[] params) {
+	public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command, ArrayList<String> params) {
 		this.sender = sender;
 		this.command = command;
 		this.params = params;
@@ -38,7 +40,7 @@ public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 		return this.command;
 	}
 	
-	public String[] getParameter() {
+	public ArrayList<String> getParameter() {
 		return this.params;
 	}
 

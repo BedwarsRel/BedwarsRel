@@ -42,7 +42,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
                     return false;
                 }
                 
-                BedwarsExecuteCommandEvent commandEvent = new BedwarsExecuteCommandEvent(sender, bCommand, (String[])arguments.toArray());
+                BedwarsExecuteCommandEvent commandEvent = new BedwarsExecuteCommandEvent(sender, bCommand, arguments);
                 Main.getInstance().getServer().getPluginManager().callEvent(commandEvent);
                 
                 if(commandEvent.isCancelled()) {
