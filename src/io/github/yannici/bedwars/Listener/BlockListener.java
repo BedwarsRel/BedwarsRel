@@ -125,6 +125,11 @@ public class BlockListener extends BaseListener {
         		bpe.setCancelled(true);
         		bpe.setBuild(false);
         	}
+        	
+        	if(!game.getRegion().isInRegion(placeBlock.getLocation())) {
+        		bpe.setCancelled(true);
+        		bpe.setBuild(false);
+        	}
     	}
     }
 
