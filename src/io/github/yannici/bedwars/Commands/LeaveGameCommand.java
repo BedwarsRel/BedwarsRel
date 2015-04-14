@@ -1,0 +1,62 @@
+package io.github.yannici.bedwars.Commands;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+
+import java.util.ArrayList;
+
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class LeaveGameCommand extends BaseCommand {
+
+    public LeaveGameCommand(Main plugin) {
+        super(plugin);
+    }
+
+    @Override
+    public String getCommand() {
+        return "leave";
+    }
+
+    @Override
+    public String getName() {
+        return Main._l("commands.leave.name");
+    }
+
+    @Override
+    public String getDescription() {
+        return Main._l("commands.leave.desc");
+    }
+    
+    @Override
+    public String[] getArguments() {
+        return new String[]{};
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, ArrayList<String> args) {
+        if(!super.hasPermission(sender)) {
+            return false;
+        }
+
+        Player player = (Player) sender;
+        Game game = Game.getGameOfPlayer(player);
+
+        if(game == null) {
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notingame")));
+            return false;
+        }
+
+        game.playerLeave(player);
+        return true;
+    }
+
+    @Override
+    public String getPermission() {
+        return "base";
+    }
+
+}
