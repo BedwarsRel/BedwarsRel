@@ -50,6 +50,7 @@ public class ListGamesCommand extends BaseCommand {
         
         String paginate;
         int page = 1;
+        ArrayList<Game> showedGames = new ArrayList<Game>();
         
         if(args.size() == 0 || args.size() > 1) {
         	paginate = "1";
@@ -74,6 +75,7 @@ public class ListGamesCommand extends BaseCommand {
         		continue;
         	}
         	
+        	showedGames.add(game);
         	int players = 0;
         	if(game.getState() == GameState.RUNNING) {
         		players = game.getCurrentPlayerAmount();
@@ -84,7 +86,7 @@ public class ListGamesCommand extends BaseCommand {
         	sb.append(ChatColor.YELLOW + game.getName() + " - " + game.getRegion().getWorld().getName() + " - " + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + " - " + Main._l("sign.players") + ": [" + ChatColor.GRAY + players + ChatColor.YELLOW + "/" + ChatColor.GRAY + game.getMaxPlayers() + ChatColor.YELLOW + "]");
         }
         
-        if(games.size() == 0) {
+        if(showedGames.size() == 0) {
         	sb.append(ChatColor.RED + Main._l("errors.nogames"));
         }
         
