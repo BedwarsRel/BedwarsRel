@@ -188,6 +188,10 @@ public class Game {
         this.cycle.onGameStart();
         
         this.startRessourceSpawners();
+        
+        // Update world weather before game starts
+        this.getRegion().getWorld().setTime(1000);
+        
         this.teleportPlayersToTeamSpawn();
         this.setPlayersScoreboard();
         
