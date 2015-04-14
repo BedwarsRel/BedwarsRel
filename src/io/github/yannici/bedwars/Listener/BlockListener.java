@@ -70,11 +70,11 @@ public class BlockListener extends BaseListener {
                 return;
             }
             
-            breakBlock.getDrops().clear();
-            breakBlock.setType(Material.AIR);
             Block neighbor = breakBlock.getRelative(breakBed.getFacing().getOppositeFace());
             neighbor.getDrops().clear();
             neighbor.setType(Material.AIR);
+            breakBlock.getDrops().clear();
+            breakBlock.setType(Material.AIR);
             
             g.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed", ImmutableMap.of("team", bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED)));
             g.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 10.0F);
