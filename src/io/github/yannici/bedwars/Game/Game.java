@@ -561,13 +561,10 @@ public class Game {
     
     public void removeJoinSign(Location location) {
 		this.joinSigns.remove(location);
+		this.updateSignConfig();
 	}
     
     private void updateSignConfig() {
-        if(this.joinSigns.size() == 0 || this.joinSigns.isEmpty()) {
-            return;
-        }
-        
         try {
             File config = new File(this.getPlugin().getDataFolder() + "/" + GameManager.gamesPath + "/" + this.name + "/sign.yml");
             
