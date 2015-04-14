@@ -36,7 +36,7 @@ public abstract class GameCycle {
     public abstract void onGameOver(GameOverTask task);
     
     private void runGameOver(Team winner) {
-        BedwarsGameOverEvent overEvent = new BedwarsGameOverEvent(this.getGame());
+        BedwarsGameOverEvent overEvent = new BedwarsGameOverEvent(this.getGame(), winner);
         Main.getInstance().getServer().getPluginManager().callEvent(overEvent);
         
         if(overEvent.isCancelled()) {

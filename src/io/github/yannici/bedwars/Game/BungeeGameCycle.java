@@ -81,6 +81,8 @@ public class BungeeGameCycle extends GameCycle {
     public void onGameOver(GameOverTask task) {
         if(task.getCounter() == task.getStartCount() && task.getWinner() != null) {
             this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon", ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
+        } else if(task.getCounter() == task.getStartCount() && task.getWinner() == null) {
+        	this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));
         }
         
         // game over

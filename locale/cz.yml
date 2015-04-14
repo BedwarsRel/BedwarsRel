@@ -50,6 +50,7 @@ ingame:
     teams: Tymy
     all: Vsichni
     teamwon: Gratulace! Tym $team$ vyhral!
+    draw: The game ends with a draw!
     serverrestart: Restart serveru za $sec$ sekund!
     gamestarting: Hra se zapina!
     gamestarted: Hra "$game$" zacala!

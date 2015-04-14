@@ -50,6 +50,7 @@ ingame:
     teams: Teams
     all: Alle
     teamwon: Glückwunsch! Team $team$ hat gewonnen!
+    draw: Das Spiel endet mit einem Unentschieden!
     serverrestart: Server-Neustart in $sec$ Sekunde(n)!
     gamestarting: Spiel startet ...
     gamestarted: Das Spiel "$game$" hat begonnen!
