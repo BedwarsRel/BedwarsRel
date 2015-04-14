@@ -6,6 +6,7 @@ import io.github.yannici.bedwars.Events.BedwarsGameStartEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
+import io.github.yannici.bedwars.Shop.NewItemShop;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
 
@@ -59,6 +60,7 @@ public class Game {
     private HashMap<Location, GameJoinSign> joinSigns = null;
     private int timeLeft = 0;
     private boolean isOver = false;
+    private HashMap<Player, NewItemShop> newItemShops = null;
     
     private YamlConfiguration config = null;
 
@@ -84,6 +86,7 @@ public class Game {
         this.joinSigns = new HashMap<Location, GameJoinSign>();
         this.timeLeft = Main.getInstance().getMaxLength();
         this.isOver = false;
+        this.newItemShops = new HashMap<Player, NewItemShop>();
         
         if(Main.getInstance().getConfig().getBoolean("bungee")) {
         	this.cycle = new BungeeGameCycle(this);
@@ -374,6 +377,7 @@ public class Game {
         
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
         this.setPlayersScoreboard();
+        this.removeNewItemShop(p);
         
         if(!Main.getInstance().isBungee() && p.isOnline()) {
             p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
@@ -460,6 +464,13 @@ public class Game {
         FileConfiguration cfg = Main.getInstance().getConfig();
         this.itemshop = MerchantCategory.loadCategories(cfg);
         this.orderedItemshop = this.loadOrderedItemShopCategories();
+    }
+    
+    public NewItemShop openNewItemShop(Player player) {
+        NewItemShop newShop = new NewItemShop(this.orderedItemshop);
+        this.newItemShops.put(player, newShop);
+        
+        return newShop;
     }
     
     private List<MerchantCategory> loadOrderedItemShopCategories() {
@@ -760,6 +771,18 @@ public class Game {
     
     public void setMainLobby(Location location) {
     	this.mainLobby = location;
+    }
+    
+    public NewItemShop getNewItemShop(Player player) {
+        return this.newItemShops.get(player);
+    }
+    
+    public void removeNewItemShop(Player player) {
+        if(!this.newItemShops.containsKey(player)) {
+            return;
+        }
+        
+        this.newItemShops.remove(player);
     }
 
     /*

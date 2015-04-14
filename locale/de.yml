@@ -27,6 +27,7 @@ errors:
     regionnotfound: Region-Datei existiert nicht!
     savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
     nogames: Keine Spiele gefunden!
+    notenoughress: Du hast nicht genug Ressourcen um das zu kaufen!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt

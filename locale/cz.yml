@@ -27,6 +27,7 @@ errors:
     regionnotfound: Soubor mapy neexistuje!
     savesign: Nelze vytvorit novou konfiguraci pro cedulku!
     nogames: Zadna hra neexistuje!
+    notenoughress: You didn't have enough ressource to buy this item!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!

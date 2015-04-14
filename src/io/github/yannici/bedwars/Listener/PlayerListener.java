@@ -10,6 +10,7 @@ import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Shop.NewItemShop;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 import org.bukkit.ChatColor;
@@ -24,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -84,6 +86,13 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		MerchantCategory.openCategorySelection(player, game);
+		/*NewItemShop itemShop = game.getNewItemShop(player);
+		if(itemShop == null) {
+		    itemShop = game.openNewItemShop(player);
+		}
+		
+		itemShop.setCurrentCategory(null);
+		itemShop.openCategoryInventory(player);*/
 	}
     
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -177,6 +186,8 @@ public class PlayerListener extends BaseListener {
 	    } catch(Exception ex) {
 	        ex.printStackTrace();
 	    }
+	    
+	    //game.getNewItemShop(player).handleInventoryClick(ice, game, player);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

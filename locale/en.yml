@@ -27,6 +27,7 @@ errors:
     regionnotfound: Region file does not exists!
     savesign: Couldn't create a new sign config file!
     nogames: No games found!
+    notenoughress: You didn't have enough ressource to buy this item!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!

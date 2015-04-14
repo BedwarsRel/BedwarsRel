@@ -1,18 +1,27 @@
 package io.github.yannici.bedwars.Shop;
 
+import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 import io.github.yannici.bedwars.Villager.VillagerTrade;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class NewItemShop {
@@ -47,6 +56,7 @@ public class NewItemShop {
 		this.addCategoriesToInventory(inventory);
 		
 		inventory.setItem(8+5, new ItemStack(Material.SLIME_BALL, 1));
+		
 		player.openInventory(inventory);
 	}
 	
@@ -54,6 +64,12 @@ public class NewItemShop {
 		for(MerchantCategory category : this.categories) {
 			ItemStack is = new ItemStack(category.getMaterial(), 1);
             ItemMeta im = is.getItemMeta();
+            
+            if(this.currentCategory != null) {
+                if(this.currentCategory.equals(category)) {
+                    im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+                }
+            }
             
             im.setDisplayName(category.getName());
             im.setLore(category.getLores());
@@ -77,23 +93,178 @@ public class NewItemShop {
 			return;
 		}
 		
-		this.openBuyInventory(clickedCategory, player);
+		this.openBuyInventory(clickedCategory, player, game);
 	}
 	
-	private void openBuyInventory(MerchantCategory category, Player player) {
+	private void openBuyInventory(MerchantCategory category, Player player, Game game) {
 		List<VillagerTrade> offers = category.getOffers();
 		int sizeCategories = (this.categories.size()-this.categories.size()%9)+9;
 		int sizeItems =  (offers.size()-offers.size()%9)+9;
 		int totalSize = sizeCategories + sizeItems;
-				
-		Inventory buyInventory = Bukkit.createInventory(player, totalSize);
+		
+		this.currentCategory = category;
+		Inventory buyInventory = Bukkit.createInventory(player, totalSize, Main._l("ingame.shop.name"));
 		this.addCategoriesToInventory(buyInventory);
 		
-		// TODO: Add reward to inventory (lore: item1 and item2)
+		for(int i = 0; i < offers.size(); i++) {
+		    VillagerTrade trade = offers.get(i);
+		    int slot = sizeCategories + i;
+		    ItemStack tradeStack = this.toItemStack(trade, player, game);
+		    
+		    buyInventory.setItem(slot, tradeStack);
+		}
+		
+		player.openInventory(buyInventory);
+	}
+	
+	private ItemStack toItemStack(VillagerTrade trade, Player player, Game game) {
+	    ItemStack tradeStack = trade.getRewardItem();
+        Method colorable = Utils.getColorableMethod(tradeStack.getType());
+        ItemMeta meta = tradeStack.getItemMeta();
+        ItemStack item1 = trade.getItem1();
+        ItemStack item2 = trade.getItem2();
+        
+        if(colorable != null) {
+            colorable.setAccessible(true);
+            try {
+                colorable.invoke(meta, new Object[]{Game.getPlayerTeam(player, game).getColor().getColor()});
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        List<String> lores = meta.getLore();
+        if(lores == null) {
+            lores = new ArrayList<String>();
+        }
+        
+        lores.add(String.valueOf(item1.getAmount()) + " " + item1.getItemMeta().getDisplayName());
+        if(item2 != null) {
+            lores.add(String.valueOf(item2.getAmount()) + " " + item2.getItemMeta().getDisplayName());
+        }
+        
+        tradeStack.setItemMeta(meta);
+        return tradeStack;
 	}
 	
 	private void handleBuyInventoryClick(InventoryClickEvent ice, Game game, Player player) {
-		
+	    int sizeCategories = (this.categories.size()-this.categories.size()%9)+9;
+	    ItemStack item = ice.getCurrentItem();
+	    
+	    if(this.currentCategory == null) {
+	        player.closeInventory();
+	        return;
+	    }
+	    
+	    if(ice.getRawSlot() < sizeCategories) {
+	        // is category click
+	        if(item.getType().equals(this.currentCategory.getMaterial())) {
+	            // back to default category view
+	            this.currentCategory = null;
+	            this.openCategoryInventory(player);
+	        } else {
+	            // open the clicked buy inventory
+	            this.handleCategoryInventoryClick(ice, game, player);
+	        }
+	    } else {
+	        // its a buying item
+	        MerchantCategory category = this.currentCategory;
+	        VillagerTrade trade = this.getTradingItem(category, ice.getCurrentItem(), game, player);
+	        
+	        if(trade == null) {
+	            player.closeInventory();
+	            return;
+	        }
+	        
+	        // enough ressources?
+	        if(!this.hasEnoughRessource(player, trade)) {
+	            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notenoughress")));
+                return;
+	        }
+	        
+	        this.buyItem(item, trade, player);
+	    }
+	}
+	
+    @SuppressWarnings("unchecked")
+    private void buyItem(ItemStack item, VillagerTrade trade, Player player) {
+        PlayerInventory inventory = player.getInventory();
+        
+	    int item1ToPay = trade.getItem1().getAmount();
+	    Iterator<?> stackIterator = player.getInventory().all(trade.getItem1().getType()).entrySet().iterator();
+	    
+	    // pay
+	   while(stackIterator.hasNext()) {
+	        Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator.next();
+	        ItemStack stack = (ItemStack)entry.getValue();
+	        
+	        if(stack.getAmount() > item1ToPay) {
+	            stack.setAmount(stack.getAmount()-item1ToPay);
+	            item1ToPay = 0;
+	            player.getInventory().setItem(entry.getKey(), stack);
+	            break;
+	        } else if(stack.getAmount() == item1ToPay) {
+	            stackIterator.remove();
+	            break;
+	        }
+	        
+	        stackIterator.remove();
+	        item1ToPay = item1ToPay - stack.getAmount();
+	    }
+	    
+	    if(trade.getItem2() != null) {
+	       int item2ToPay = trade.getItem2().getAmount();
+	       
+	       // pay item2
+	        while(stackIterator.hasNext()) {
+	            ItemStack stack = (ItemStack)stackIterator.next();
+	            if(stack.getAmount() > item2ToPay) {
+	                stack.setAmount(stack.getAmount()-item2ToPay);
+	                item2ToPay = 0;
+	                break;
+	            } else if(stack.getAmount() == item2ToPay) {
+	                stackIterator.remove();
+	                break;
+	            }
+	            
+	            stackIterator.remove();
+	            item2ToPay = item2ToPay - stack.getAmount();
+	        }
+	    }
+	    
+	    inventory.addItem(item);
+	    
+	    player.updateInventory();
+	}
+	
+	private boolean hasEnoughRessource(Player player, VillagerTrade trade) {
+	    ItemStack item1 = trade.getItem1();
+        ItemStack item2 = trade.getItem2();
+        PlayerInventory inventory = player.getInventory();
+        
+	    if(item2 != null) {
+            if(!inventory.contains(item1.getType(), item1.getAmount())
+                    || !inventory.contains(item2.getType(), item2.getAmount())) {
+                return false;
+            }
+        } else {
+            if(!inventory.contains(item1.getType(), item1.getAmount())) {
+                return false;
+            }
+        }
+	    
+	    return true;
+	}
+	
+	private VillagerTrade getTradingItem(MerchantCategory category, ItemStack stack, Game game, Player player) {
+	    for(VillagerTrade trade : category.getOffers()) {
+	        ItemStack iStack = this.toItemStack(trade, player, game);
+	        if(iStack.equals(stack)) {
+	            return trade;
+	        }
+	    }
+	    
+	    return null;
 	}
 	
 	private MerchantCategory getCategoryByMaterial(Material material) {
@@ -105,4 +276,8 @@ public class NewItemShop {
 		
 		return null;
 	}
+
+    public void setCurrentCategory(MerchantCategory category) {
+        this.currentCategory = category;
+    }
 }
