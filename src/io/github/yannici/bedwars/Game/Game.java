@@ -29,6 +29,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -56,6 +57,8 @@ public class Game {
     private GameCycle cycle = null;
     private Location mainLobby = null;
     private HashMap<Location, GameJoinSign> joinSigns = null;
+    private int timeLeft = 0;
+    private boolean isOver = false;
     
     private YamlConfiguration config = null;
 
@@ -79,6 +82,8 @@ public class Game {
         this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
         this.glc = new GameLobbyCountdown(this);
         this.joinSigns = new HashMap<Location, GameJoinSign>();
+        this.timeLeft = Main.getInstance().getMaxLength();
+        this.isOver = false;
         
         if(Main.getInstance().getConfig().getBoolean("bungee")) {
         	this.cycle = new BungeeGameCycle(this);
@@ -173,6 +178,7 @@ public class Game {
         	return false;
         }
         
+        this.isOver = false;
         this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
         
         this.setTeamsFriendlyFire();
@@ -184,11 +190,14 @@ public class Game {
         this.startRessourceSpawners();
         this.teleportPlayersToTeamSpawn();
         this.setPlayersScoreboard();
+        
+        this.startTimerCountdown();
 
         this.state = GameState.RUNNING;
         this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getName()))));
         return true;
     }
+    
     public boolean stop() {
         if(this.state == GameState.STOPPED) {
             return false;
@@ -481,7 +490,7 @@ public class Game {
         }
         
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName(Main._l("ingame.teams"));
+        obj.setDisplayName(Main._l("ingame.teams") + " - " + this.getFormattedTimeLeft());
         
         for(Team t : this.teams.values()) {
             this.scoreboard.resetScores(Game.bedExistString() + t.getChatColor() + t.getName());
@@ -502,6 +511,10 @@ public class Game {
     }
     
     public Team isOver() {
+    	if(this.isOver) {
+    		return null;
+    	}
+    	
         ArrayList<Player> players = this.getTeamPlayers();
         ArrayList<Team> teams = new ArrayList<>();
         
@@ -582,10 +595,20 @@ public class Game {
             this.updateSignConfig();
         }
     }
+    
+    public void stopWorkers() {
+        for(BukkitTask task : this.runningTasks) {
+            task.cancel();
+        }
+    }
 
     /*
      * GETTER / SETTER
      */
+    
+    public boolean isOverSet() {
+    	return this.isOver;
+    }
     
     public HashMap<Location, GameJoinSign> getSigns() {
         return this.joinSigns;
@@ -781,12 +804,6 @@ public class Game {
         }
     }
 
-    private void stopWorkers() {
-        for(BukkitTask task : this.runningTasks) {
-            task.cancel();
-        }
-    }
-
     private void saveRegion(boolean direct) {
         try {
 
@@ -858,6 +875,55 @@ public class Game {
     	}
     	
     	return GameCheckCode.OK;
+    }
+    
+    private void updateScoreboardTimer() {
+    	Objective obj = this.scoreboard.getObjective("display");
+        if(obj == null) {
+            obj = this.scoreboard.registerNewObjective("display", "dummy");
+        }
+        
+        obj.setDisplayName(Main._l("ingame.teams") + " - " + this.getFormattedTimeLeft());
+        
+        for(Player player : this.getPlayers()) {
+            player.setScoreboard(this.scoreboard);
+        }
+    }
+    
+    private String getFormattedTimeLeft() {
+    	int min = 0;
+    	int sec = 0;
+    	String minStr = "";
+    	String secStr = "";
+    	
+    	min = (this.timeLeft >= 60 ? this.timeLeft % 60 : this.timeLeft);
+        sec = (this.timeLeft = (this.timeLeft / 60)) >= 60 ? this.timeLeft % 60 : this.timeLeft;
+        
+        minStr = (min >= 10) ? "0" + String.valueOf(min) : String.valueOf(min);
+        secStr = (sec >= 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
+        
+        return minStr + ":" + secStr;
+    }
+    
+    private void startTimerCountdown() {
+    	Game.this.timeLeft = Main.getInstance().getMaxLength();
+    	BukkitRunnable task = new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				Game.this.updateScoreboardTimer();
+				if(Game.this.timeLeft == 0) {
+					Game.this.isOver = true;
+					Game.this.getCycle().checkGameOver();
+					this.cancel();
+					return;
+				}
+				
+				Game.this.timeLeft--;
+			}
+		};
+		
+		this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
     }
 
 }

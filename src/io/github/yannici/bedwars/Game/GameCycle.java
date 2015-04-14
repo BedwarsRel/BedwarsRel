@@ -43,6 +43,7 @@ public abstract class GameCycle {
             return;
         }
         
+        this.getGame().stopWorkers();
         this.setEndGameRunning(true);
         int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable delay
         GameOverTask gameOver = new GameOverTask(this, delay, winner);
@@ -60,7 +61,7 @@ public abstract class GameCycle {
             	this.runGameOver(winner);
             }
         } else {
-            if(this.getGame().getTeamPlayers().size() == 0) {
+            if(this.getGame().getTeamPlayers().size() == 0 || this.getGame().isOverSet()) {
                 this.runGameOver(null);
             }
         }

@@ -11,6 +11,12 @@
 # byte: a int but limited between -128 ... 127
 # short: a int but limited between -32768 ... 32767
 
+# Game length
+# Type: int
+# The time the game should maximum run (in minutes). When the countdown expires
+# the game will end without a winner.
+gamelength: 60
+
 # Lobby Time
 # Type: int
 # The lobby time defines how long you have to
