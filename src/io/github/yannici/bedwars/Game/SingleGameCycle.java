@@ -62,7 +62,7 @@ public class SingleGameCycle extends GameCycle {
 	@Override
 	public boolean onPlayerJoins(Player player) {
 		if(this.getGame().isFull()) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Game is full!"));
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
 			return false;
 		}
 		
