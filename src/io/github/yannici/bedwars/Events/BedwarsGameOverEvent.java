@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Events;
 
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.Team;
 
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -11,9 +12,11 @@ public class BedwarsGameOverEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled = false;
 	private Game game = null;
+	private Team winner = null;
 	
-	public BedwarsGameOverEvent(Game game) {
+	public BedwarsGameOverEvent(Game game, Team winner) {
 		this.game = game;
+		this.winner = winner;
 	}
 
 	@Override
@@ -27,6 +30,10 @@ public class BedwarsGameOverEvent extends Event implements Cancellable {
 	
 	public Game getGame() {
 		return this.game;
+	}
+	
+	public Team getWinner() {
+		return this.winner;
 	}
 
 	@Override
