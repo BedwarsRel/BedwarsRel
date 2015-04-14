@@ -1,8 +1,8 @@
 name: Bedwars
-main: io.github.yannici.bedwarsreloaded.Main
+main: io.github.yannici.bedwars.Main
 version: 0.1.0
 depend: []
-softdepend: [Vault, Multiverse-Core]
+softdepend: [Multiverse-Core]
 commands:
     bw:
         description: Base command for all Test-Plugin commands
