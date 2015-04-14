@@ -4,7 +4,7 @@ errors:
     classnotfound: Nelze nacist $package$ class $class$!
     gameexists: Hra s timto jmenem jiz existuje!
     gamenotfound: Hra "$game$" nebyla nalezena!
-    gamenotfoundsimple: Game not found!
+    gamenotfoundsimple: Hra nenalezena!
     playeramount: Pocet hracu nesmi byt mensi nez 1 a vyssi jak 24!
     teamcolornotallowed: Tato barva neni pro tymy povolena.
     teamnamelength: Nazev tymu musi mit 2 - 20 pismen!
@@ -21,9 +21,9 @@ errors:
     cantjoingame: Nemuzes se pripojit do hry, ktera jiz bezi nebo je vypnuta!
     lobbyongameworld: Lobby nemuze byt na hernim svete!
     gamenotloaded: Hru nelze zapnout!
-    gameloaderror: Nacitani hry "$game$" ma problem!
+    gameloaderror: Nelze nacist hru "$game$"!
     regionnotfound: Soubor mapy neexistuje!
-    savesign: Couldn't create a new sign config file!
+    savesign: Nelze vytvorit novou konfiguraci pro cedulku!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -50,7 +50,7 @@ ingame:
     teams: Tymy
     all: Vsichni
     teamwon: Gratulace! Tym $team$ vyhral!
-    draw: The game ends with a draw!
+    draw: Hra skoncila remizou.
     serverrestart: Restart serveru za $sec$ sekund!
     gamestarting: Hra se zapina!
     gamestarted: Hra "$game$" zacala!
@@ -71,14 +71,14 @@ lobby:
     startgame: Spust hru
     gamefull: Hra je plna!
     teamjoined: Uspesne jsi se pripojil do teamu $team$
-    leavegame: Leave game
+    leavegame: Opustit hru
 sign:
     firstline: §6[Bedwars]
-    players: Spieler
+    players: Hraci
     gamestate:
-        stopped: §4Stopped!
-        waiting: §aWaiting ...
-        running: §9Running!
+        stopped: §4Vypnuto..
+        waiting: §aCekani..
+        running: §9Hra bezi!
 ressources:
     gold: §6Zlato
     iron: §7Zelezo
