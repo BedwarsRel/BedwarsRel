@@ -1,5 +1,5 @@
 default:
-    pages: Page $current$ of $max$
+    pages: Stranka $current$ z $max$
 errors:
     argumentslength: Pocet argumentu prikazu neodpovida spravnemu mnozstvi!
     packagenotfound: Nelze nacist $package$ package!
@@ -26,7 +26,7 @@ errors:
     gameloaderror: Nelze nacist hru "$game$"!
     regionnotfound: Soubor mapy neexistuje!
     savesign: Nelze vytvorit novou konfiguraci pro cedulku!
-    nogames: No games found!
+    nogames: Zadna hra neexistuje!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -79,8 +79,8 @@ sign:
     firstline: §6[Bedwars]
     players: Hraci
     gamestate:
-        stopped: §4Vypnuto..
-        waiting: §aCekani..
+        stopped: §4Hra vypnuta..
+        waiting: §aCekani na hrace..
         running: §9Hra bezi!
 ressources:
     gold: §6Zlato
