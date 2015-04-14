@@ -336,7 +336,7 @@ public class Game {
         p.teleport(this.lobby);
         storage.loadLobbyInventory();
 
-        if(this.getPlayers().size() >= this.minPlayers) {
+        if(this.getTeamsWithPlayersAmount() == this.teams.size()) {
             try {
                 this.glc.getTaskId();
                 // scheduled
@@ -929,6 +929,17 @@ public class Game {
 		};
 		
 		this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
+    }
+    
+    private int getTeamsWithPlayersAmount() {
+        int amount = 0;
+        for(Team team : this.teams.values()) {
+            if(team.getPlayers().size() > 0) {
+                amount++;
+            }
+        }
+        
+        return amount;
     }
 
 }
