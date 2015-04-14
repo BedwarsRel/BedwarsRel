@@ -1,3 +1,5 @@
+default:
+    pages: Page $current$ of $max$
 errors:
     argumentslength: Pocet argumentu prikazu neodpovida spravnemu mnozstvi!
     packagenotfound: Nelze nacist $package$ package!
@@ -24,6 +26,7 @@ errors:
     gameloaderror: Nelze nacist hru "$game$"!
     regionnotfound: Soubor mapy neexistuje!
     savesign: Nelze vytvorit novou konfiguraci pro cedulku!
+    nogames: No games found!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!

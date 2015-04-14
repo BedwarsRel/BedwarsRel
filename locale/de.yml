@@ -1,3 +1,5 @@
+default:
+    pages: Seite $current$ von $max$
 errors:
     argumentslength: Die Argumentenanzahl entspricht nicht der Vorgabe!
     packagenotfound: Konnte Package $package$ nicht laden!
@@ -24,6 +26,7 @@ errors:
     gameloaderror: Das Laden des Spiels "$game$" hat einen Fehler verursacht!
     regionnotfound: Region-Datei existiert nicht!
     savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
+    nogames: Keine Spiele gefunden!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt

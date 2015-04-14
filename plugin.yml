@@ -60,6 +60,10 @@ commands:
         description: Reloads the configurations and translations
         usage: /<command>
         permission: bw.setup
+    bw list:
+        description: List all availabe games
+        usage: /<command>
+        permission: bw.base
 permissions:
     bw.base:
         description: Allows you to show to play games

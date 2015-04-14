@@ -2,8 +2,12 @@ package io.github.yannici.bedwars.Commands;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameCheckCode;
+import io.github.yannici.bedwars.Game.GameState;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,25 +16,25 @@ import org.bukkit.util.ChatPaginator.ChatPage;
 
 import com.google.common.collect.ImmutableMap;
 
-public class HelpCommand extends BaseCommand {
+public class ListGamesCommand extends BaseCommand {
 
-    public HelpCommand(Main plugin) {
+    public ListGamesCommand(Main plugin) {
         super(plugin);
     }
 
     @Override
     public String getCommand() {
-        return "help";
+        return "list";
     }
 
     @Override
     public String getName() {
-        return Main._l("commands.help.name");
+        return Main._l("commands.list.name");
     }
 
     @Override
     public String getDescription() {
-        return Main._l("commands.help.desc");
+        return Main._l("commands.list.desc");
     }
 
     @Override
@@ -62,21 +66,26 @@ public class HelpCommand extends BaseCommand {
         
         page = Integer.parseInt(paginate);
         StringBuilder sb = new StringBuilder();
-        sender.sendMessage(ChatColor.GREEN + "---------- Bedwars Help ----------");
+        sender.sendMessage(ChatColor.GREEN + "---------- Bedwars Games ----------");
         
-        ArrayList<BaseCommand> baseCommands = Main.getInstance().getBaseCommands();
-        ArrayList<BaseCommand> setupCommands = Main.getInstance().getSetupCommands();
-        
-        for(BaseCommand command : baseCommands) {
-        	this.appendCommand(command, sb);
+        List<Game> games = Main.getInstance().getGameManager().getGames();
+        for(Game game : games) {
+        	if(game.checkGame() != GameCheckCode.OK) {
+        		continue;
+        	}
+        	
+        	int players = 0;
+        	if(game.getState() == GameState.RUNNING) {
+        		players = game.getCurrentPlayerAmount();
+        	} else {
+        		players = game.getPlayers().size();
+        	}
+        	
+        	sb.append(ChatColor.YELLOW + game.getName() + " - " + game.getRegion().getWorld().getName() + " - " + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + " - " + Main._l("sign.players") + ": [" + ChatColor.GRAY + players + ChatColor.YELLOW + "/" + ChatColor.GRAY + game.getMaxPlayers() + ChatColor.YELLOW + "]");
         }
         
-        if(sender.hasPermission("bw.setup")) {
-        	sb.append(ChatColor.BLUE + "------- Bedwars Admin Help -------\n");
-        
-	        for(BaseCommand command : setupCommands) {
-	        	this.appendCommand(command, sb);
-	        }
+        if(games.size() == 0) {
+        	sb.append(ChatColor.RED + Main._l("errors.nogames"));
         }
         
         ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
@@ -86,21 +95,6 @@ public class HelpCommand extends BaseCommand {
         sender.sendMessage(ChatColor.GREEN + "---------- " + Main._l("default.pages", ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max", String.valueOf(chatPage.getTotalPages()))) + " ----------");
         
         return true;
-    }
-    
-    private void appendCommand(BaseCommand command, StringBuilder sb) {
-    	String arg = "";
-    	for(String argument : command.getArguments()) {
-    		arg = arg + " {" + argument + "}";
-    	}
-    	
-    	if(command.getCommand().equals("help")) {
-    		arg = " {page?}";
-    	} else if(command.getCommand().equals("list")) {
-    		arg = " {page?}";
-    	}
-    	
-    	sb.append(ChatColor.YELLOW + "/bw " + command.getCommand() + arg + " - " + command.getDescription() + "\n");
     }
 
     @Override
