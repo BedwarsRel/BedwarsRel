@@ -83,7 +83,7 @@ public class ListGamesCommand extends BaseCommand {
         		players = game.getPlayers().size();
         	}
         	
-        	sb.append(ChatColor.YELLOW + game.getName() + " - " + game.getRegion().getWorld().getName() + " - " + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + " - " + Main._l("sign.players") + ": [" + ChatColor.GRAY + players + ChatColor.YELLOW + "/" + ChatColor.GRAY + game.getMaxPlayers() + ChatColor.YELLOW + "]");
+        	sb.append(ChatColor.YELLOW + game.getName() + " - " + game.getRegion().getWorld().getName() + " - " + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + ChatColor.YELLOW + " - " + Main._l("sign.players") + ": " + ChatColor.WHITE + "[" + ChatColor.YELLOW + players + ChatColor.WHITE + "/" + ChatColor.YELLOW + game.getMaxPlayers() + ChatColor.WHITE + "]");
         }
         
         if(showedGames.size() == 0) {
