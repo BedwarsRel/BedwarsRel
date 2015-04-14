@@ -494,7 +494,7 @@ public class Game {
         }
         
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.setDisplayName(Main._l("ingame.teams") + " - " + this.getFormattedTimeLeft());
+        obj.setDisplayName("Bedwars - " + this.getFormattedTimeLeft());
         
         for(Team t : this.teams.values()) {
             this.scoreboard.resetScores(Game.bedExistString() + t.getChatColor() + t.getName());
@@ -891,7 +891,7 @@ public class Game {
             obj = this.scoreboard.registerNewObjective("display", "dummy");
         }
         
-        obj.setDisplayName(Main._l("ingame.teams") + " - " + this.getFormattedTimeLeft());
+        obj.setDisplayName("Bedwars - " + this.getFormattedTimeLeft());
         
         for(Player player : this.getPlayers()) {
             player.setScoreboard(this.scoreboard);
@@ -900,17 +900,17 @@ public class Game {
     
     private String getFormattedTimeLeft() {
     	int min = 0;
-    	int sec = 0;
+    	int sec = this.timeLeft;
     	String minStr = "";
     	String secStr = "";
     	
     	min = (this.timeLeft >= 60 ? this.timeLeft % 60 : this.timeLeft);
-        sec = (this.timeLeft = (this.timeLeft / 60)) >= 60 ? this.timeLeft % 60 : this.timeLeft;
+        sec = (sec = (sec / 60)) >= 60 ? sec % 60 : sec;
         
-        minStr = (min >= 10) ? "0" + String.valueOf(min) : String.valueOf(min);
-        secStr = (sec >= 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
+        minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
+        secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
         
-        return minStr + ":" + secStr;
+        return secStr + ":" + minStr;
     }
     
     private void startTimerCountdown() {
