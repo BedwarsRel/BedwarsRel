@@ -60,7 +60,10 @@ public class Game {
     private HashMap<Location, GameJoinSign> joinSigns = null;
     private int timeLeft = 0;
     private boolean isOver = false;
+    
+    // Itemshops
     private HashMap<Player, NewItemShop> newItemShops = null;
+    private List<Player> useOldItemShop = null;
     
     private YamlConfiguration config = null;
 
@@ -87,6 +90,7 @@ public class Game {
         this.timeLeft = Main.getInstance().getMaxLength();
         this.isOver = false;
         this.newItemShops = new HashMap<Player, NewItemShop>();
+        this.useOldItemShop = new ArrayList<Player>();
         
         if(Main.getInstance().getConfig().getBoolean("bungee")) {
         	this.cycle = new BungeeGameCycle(this);
@@ -621,6 +625,18 @@ public class Game {
     /*
      * GETTER / SETTER
      */
+    
+    public boolean isUsingOldShop(Player player) {
+    	return (this.useOldItemShop.contains(player));
+    }
+    
+    public void notUseOldShop(Player player) {
+    	this.useOldItemShop.remove(player);
+    }
+    
+    public void useOldShop(Player player) {
+    	this.useOldItemShop.add(player);
+    }
     
     public boolean isOverSet() {
     	return this.isOver;

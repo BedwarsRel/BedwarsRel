@@ -25,7 +25,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -85,14 +84,17 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		MerchantCategory.openCategorySelection(player, game);
-		/*NewItemShop itemShop = game.getNewItemShop(player);
-		if(itemShop == null) {
-		    itemShop = game.openNewItemShop(player);
+		if(game.isUsingOldShop(player)) {
+			MerchantCategory.openCategorySelection(player, game);
+		} else {
+			NewItemShop itemShop = game.getNewItemShop(player);
+			if(itemShop == null) {
+			    itemShop = game.openNewItemShop(player);
+			}
+			
+			itemShop.setCurrentCategory(null);
+			itemShop.openCategoryInventory(player);
 		}
-		
-		itemShop.setCurrentCategory(null);
-		itemShop.openCategoryInventory(player);*/
 	}
     
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -172,22 +174,34 @@ public class PlayerListener extends BaseListener {
 	        return;
 	    }
 	    
-	    try {
-	        MerchantCategory cat = game.getItemShopCategories().get(clickedStack.getType());
-	        if(cat == null) {
-	            return;
-	        }
-	        
-	        Class clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
-	        Object villagerItemShop = clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class).newInstance(game, player, cat);
-	        
-	        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
-	        openTrade.invoke(villagerItemShop, new Object[]{});
-	    } catch(Exception ex) {
-	        ex.printStackTrace();
+	    if(game.isUsingOldShop(player)) {
+	    	try {
+	    		if(clickedStack.getType() == Material.SNOW_BALL) {
+	    			game.notUseOldShop(player);
+	    			
+	    			// open new shop
+	    			NewItemShop itemShop = game.openNewItemShop(player);
+	    			itemShop.setCurrentCategory(null);
+	    			itemShop.openCategoryInventory(player);
+	    			return;
+	    		}
+	    		
+		        MerchantCategory cat = game.getItemShopCategories().get(clickedStack.getType());
+		        if(cat == null) {
+		            return;
+		        }
+		        
+		        Class clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
+		        Object villagerItemShop = clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class).newInstance(game, player, cat);
+		        
+		        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
+		        openTrade.invoke(villagerItemShop, new Object[]{});
+		    } catch(Exception ex) {
+		        ex.printStackTrace();
+		    }
+	    } else {
+	    	game.getNewItemShop(player).handleInventoryClick(ice, game, player);
 	    }
-	    
-	    //game.getNewItemShop(player).handleInventoryClick(ice, game, player);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -210,16 +224,20 @@ public class PlayerListener extends BaseListener {
 	        message = message.trim();
 	        ce.setMessage(message.substring(1, message.length()-1));
 	        ce.setFormat("[" + Main._l("ingame.all") + "] <" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
-	        Iterator<Player> recipiens = ce.getRecipients().iterator();
-	        while(recipiens.hasNext()) {
-	            if(!game.isInGame(recipiens.next())) {
-	                recipiens.remove();
-	            }
+	        
+	        if(!Main.getInstance().isBungee()) {
+	        	Iterator<Player> recipiens = ce.getRecipients().iterator();
+		        while(recipiens.hasNext()) {
+		            if(!game.isInGame(recipiens.next())) {
+		                recipiens.remove();
+		            }
+		        }
 	        }
 	    } else {
 	        message = message.trim();
 	        ce.setMessage(message);
 	        ce.setFormat("<" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
+	        
 	        Iterator<Player> recipiens = ce.getRecipients().iterator();
             while(recipiens.hasNext()) {
                 Player recipient = recipiens.next();
@@ -328,6 +346,11 @@ public class PlayerListener extends BaseListener {
 		    Game game = Main.getInstance().getGameManager().getGameBySignLocation(clicked.getLocation());
 		    if(game == null) {
 		        return;
+		    }
+		    
+		    if(game.getState() != GameState.WAITING) {
+		    	player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
+		    	return;
 		    }
 		    
 		    if(game.playerJoins(player)) {

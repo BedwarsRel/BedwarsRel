@@ -61,6 +61,8 @@ ingame:
     backtolobby: Zurück zur Lobby in $sec$ Sekunde(n)
     shop:
         name: Itemshop
+        newshop: Neuer Shop verwenden
+        oldshop: Alten Shop verwenden
     player:
         left: Spieler $player$ hat das Spiel verlassen!
         died: $player$ ist gestorben!

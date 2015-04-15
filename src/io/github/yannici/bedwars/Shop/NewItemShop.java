@@ -55,7 +55,14 @@ public class NewItemShop {
 		
 		this.addCategoriesToInventory(inventory);
 		
-		inventory.setItem(8+5, new ItemStack(Material.SLIME_BALL, 1));
+		ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
+		ItemMeta slimeMeta = slime.getItemMeta();
+		
+		slimeMeta.setDisplayName(Main._l("ingame.shop.oldshop"));
+		slimeMeta.setLore(new ArrayList<String>());
+		slime.setItemMeta(slimeMeta);
+		
+		inventory.setItem(8+5, slime);
 		
 		player.openInventory(inventory);
 	}
@@ -81,10 +88,22 @@ public class NewItemShop {
 	
 	public void handleInventoryClick(InventoryClickEvent ice, Game game, Player player) {
 		if(!this.hasOpenCategory()) {
+			if(ice.getCurrentItem().getType() == Material.SLIME_BALL) {
+				this.changeToOldShop(game, player);
+				return;
+			}
+			
 			this.handleCategoryInventoryClick(ice, game, player);
 		} else {
 			this.handleBuyInventoryClick(ice, game, player);
 		}
+	}
+	
+	private void changeToOldShop(Game game, Player player) {
+		game.useOldShop(player);
+		
+		// open old shop
+		MerchantCategory.openCategorySelection(player, game);
 	}
 	
 	private void handleCategoryInventoryClick(InventoryClickEvent ice, Game game, Player player) {
@@ -191,7 +210,7 @@ public class NewItemShop {
         PlayerInventory inventory = player.getInventory();
         
 	    int item1ToPay = trade.getItem1().getAmount();
-	    Iterator<?> stackIterator = player.getInventory().all(trade.getItem1().getType()).entrySet().iterator();
+	    Iterator<?> stackIterator = inventory.all(trade.getItem1().getType()).entrySet().iterator();
 	    
 	    // pay
 	   while(stackIterator.hasNext()) {
@@ -201,7 +220,7 @@ public class NewItemShop {
 	        if(stack.getAmount() > item1ToPay) {
 	            stack.setAmount(stack.getAmount()-item1ToPay);
 	            item1ToPay = 0;
-	            player.getInventory().setItem(entry.getKey(), stack);
+	            inventory.setItem(entry.getKey(), stack);
 	            break;
 	        } else if(stack.getAmount() == item1ToPay) {
 	            stackIterator.remove();
@@ -214,22 +233,26 @@ public class NewItemShop {
 	    
 	    if(trade.getItem2() != null) {
 	       int item2ToPay = trade.getItem2().getAmount();
+	       stackIterator = inventory.all(trade.getItem2().getType()).entrySet().iterator();
 	       
 	       // pay item2
 	        while(stackIterator.hasNext()) {
-	            ItemStack stack = (ItemStack)stackIterator.next();
-	            if(stack.getAmount() > item2ToPay) {
-	                stack.setAmount(stack.getAmount()-item2ToPay);
-	                item2ToPay = 0;
-	                break;
-	            } else if(stack.getAmount() == item2ToPay) {
-	                stackIterator.remove();
-	                break;
-	            }
-	            
-	            stackIterator.remove();
-	            item2ToPay = item2ToPay - stack.getAmount();
-	        }
+		        Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator.next();
+		        ItemStack stack = (ItemStack)entry.getValue();
+		        
+		        if(stack.getAmount() > item2ToPay) {
+		            stack.setAmount(stack.getAmount()-item2ToPay);
+		            item2ToPay = 0;
+		            inventory.setItem(entry.getKey(), stack);
+		            break;
+		        } else if(stack.getAmount() == item2ToPay) {
+		            inventory.remove(stack);
+		            break;
+		        }
+		        
+		        inventory.remove(stack);
+		        item2ToPay = item2ToPay - stack.getAmount();
+		    }
 	    }
 	    
 	    inventory.addItem(item);

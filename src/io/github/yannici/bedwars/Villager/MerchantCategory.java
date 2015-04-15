@@ -245,7 +245,7 @@ public class MerchantCategory {
     public static void openCategorySelection(Player p, Game g) {
         List<MerchantCategory> cats = g.getOrderedItemShopCategories();
         
-        Inventory inv = Bukkit.createInventory(p, (cats.size()-cats.size()%9)+9, Main._l("ingame.shop.name"));
+        Inventory inv = Bukkit.createInventory(p, (cats.size()-cats.size()%9)+(9*2), Main._l("ingame.shop.name"));
         for(MerchantCategory cat : cats) {
             ItemStack is = new ItemStack(cat.getMaterial(), 1);
             ItemMeta im = is.getItemMeta();
@@ -256,6 +256,15 @@ public class MerchantCategory {
             
             inv.addItem(is);
         }
+        
+        ItemStack snow = new ItemStack(Material.SNOW_BALL, 1);
+        ItemMeta snowMeta = snow.getItemMeta();
+        
+        snowMeta.setDisplayName(Main._l("ingame.shop.newshop"));
+        snowMeta.setLore(new ArrayList<String>());
+        snow.setItemMeta(snowMeta);
+        
+        inv.setItem(8+5, snow);
         p.openInventory(inv);
     }
     

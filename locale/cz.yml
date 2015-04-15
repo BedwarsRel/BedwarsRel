@@ -61,6 +61,8 @@ ingame:
     backtolobby: Teleportace do lobby za $sec$ sekund!
     shop:
         name: Obchod
+        newshop: Use new shop
+        oldshop: Use old shop
     player:
         left: Hrac $player$ odesel ze hry.
         died: $player$ zemrel!

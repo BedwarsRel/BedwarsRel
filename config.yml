@@ -100,6 +100,7 @@ ressource:
         amount: 1
 
 ### SHOP ###
+### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL
 ### The categories (unique key!)
 ###### Categories:
 ###### item:
