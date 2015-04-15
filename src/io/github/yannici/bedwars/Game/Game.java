@@ -336,6 +336,10 @@ public class Game {
     	PlayerStorage storage = this.getPlayerStorage(player);
     	if(storage != null) {
     		storage.clean();
+    	} else {
+    		storage = this.addPlayerStorage(player);
+    		storage.store();
+    		storage.clean();
     	}
     	
     	player.setAllowFlight(true);
