@@ -377,6 +377,7 @@ public class Game {
         if(this.state == GameState.RUNNING) {
         	this.toSpectator(p);
         	p.teleport(((Team)this.teams.values().toArray()[Utils.randInt(0, this.teams.size()-1)]).getSpawnLocation());
+        	p.setScoreboard(this.scoreboard);
         } else {
         	this.freePlayers.add(p);
 
