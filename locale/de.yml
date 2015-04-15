@@ -28,6 +28,7 @@ errors:
     savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
     nogames: Keine Spiele gefunden!
     notenoughress: Du hast nicht genug Ressourcen um das zu kaufen!
+    teamnameinuse: Team mit diesem Namen existiert bereits!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt
@@ -50,6 +51,7 @@ gamecheck:
     TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
     NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
     NO_MAIN_LOBBY_SET: Du hast keine Main-Lobby gesetzt, obwohl "tomainlobby" auf true gesetzt wurde!
+    TEAM_NO_WRONG_BED: Ein oder mehrere Teams haben kein Bett gesetzt bekommen!
 ingame:
     teams: Teams
     all: Alle

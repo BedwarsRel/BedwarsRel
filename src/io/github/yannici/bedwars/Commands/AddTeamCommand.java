@@ -72,6 +72,11 @@ public class AddTeamCommand extends BaseCommand {
             sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnamelength")));
             return false;
         }
+        
+        if(game.getTeam(name) != null) {
+        	sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnameinuse")));
+            return false;
+        }
 
         game.addTeam(name, tColor, playerMax);
         sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamadded", ImmutableMap.of("team", name))));

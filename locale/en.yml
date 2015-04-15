@@ -28,6 +28,7 @@ errors:
     savesign: Couldn't create a new sign config file!
     nogames: No games found!
     notenoughress: You didn't have enough ressource to buy this item!
+    teamnameinuse: Team name is already in use!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!
@@ -50,6 +51,7 @@ gamecheck:
     TEAMS_WITHOUT_SPAWNS: There are team(s) without a spawn location!
     NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
     NO_MAIN_LOBBY_SET: You didn't set a main lobby even though you did set "tomainlobby" to true
+    TEAM_NO_WRONG_BED: One or more teams have no bed set!
 ingame:
     teams: Teams
     all: All
