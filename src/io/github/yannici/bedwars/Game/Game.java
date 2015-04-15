@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Game;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameStartEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
@@ -30,6 +31,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -320,9 +322,43 @@ public class Game {
         
         this.teams.put(team.getName(), team);
     }
+    
+    public void toSpectator(Player player) {
+    	Team playerTeam = Game.getPlayerTeam(player, this);
+    	if(playerTeam != null) {
+    		playerTeam.removePlayer(player);
+    	}
+    	
+    	if(!this.freePlayers.contains(player)) {
+    		this.freePlayers.add(player);
+    	}
+    	
+    	PlayerStorage storage = this.getPlayerStorage(player);
+    	if(storage != null) {
+    		storage.clean();
+    	}
+    	
+    	player.setAllowFlight(true);
+    	for(Player p :  this.getPlayers()) {
+    		 p.hidePlayer(player);
+    	}
+    	
+    	// Leave Game (Slimeball)
+        ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
+        ItemMeta im = leaveGame.getItemMeta();
+        im.setDisplayName(Main._l("lobby.leavegame"));
+        leaveGame.setItemMeta(im);
+        player.getInventory().setItem(8, leaveGame);
+        
+        player.updateInventory();
+    }
+    
+    public boolean isSpectator(Player player) {
+    	return (this.getState() == GameState.RUNNING && this.freePlayers.contains(player));
+    }
 
     public boolean playerJoins(Player p) {
-        if(this.state != GameState.WAITING) {
+        if(this.state == GameState.RUNNING && !Main.getInstance().spectationEnabled()) {
             p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
             return false;
         }
@@ -333,29 +369,35 @@ public class Game {
         if(!this.cycle.onPlayerJoins(p)) {
             return false;
         }
+        
+        if(this.state == GameState.RUNNING) {
+        	this.toSpectator(p);
+        	p.teleport(((Team)this.teams.values().toArray()[Utils.randInt(0, this.teams.size()-1)]).getSpawnLocation());
+        } else {
+        	this.freePlayers.add(p);
 
-        this.freePlayers.add(p);
+            PlayerStorage storage = this.addPlayerStorage(p);
+            storage.store();
+            storage.clean();
 
-        PlayerStorage storage = this.addPlayerStorage(p);
-        storage.store();
-        storage.clean();
+            p.teleport(this.lobby);
+            storage.loadLobbyInventory();
 
-        p.teleport(this.lobby);
-        storage.loadLobbyInventory();
-
-        if(this.getTeamsWithPlayersAmount() == this.teams.size()) {
-            try {
-                this.glc.getTaskId();
-                // scheduled
-            } catch(Exception ex) {
-            	// not scheduled
-                this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
+            if(this.getTeamsWithPlayersAmount() == this.teams.size()) {
+                try {
+                    this.glc.getTaskId();
+                    // scheduled
+                } catch(Exception ex) {
+                	// not scheduled
+                    this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
+                }
             }
+            
+            p.setScoreboard(this.scoreboard);
+            
+            this.updateSigns();
         }
         
-        p.setScoreboard(this.scoreboard);
-        
-        this.updateSigns();
         return true;
     }
 

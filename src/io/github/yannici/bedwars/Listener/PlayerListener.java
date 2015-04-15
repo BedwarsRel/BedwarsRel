@@ -32,6 +32,7 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
@@ -61,6 +62,10 @@ public class PlayerListener extends BaseListener {
 			
 			Player player = je.getPlayer();
 			Game firstGame = games.get(0);
+			
+			if(firstGame.getState() == GameState.STOPPED) {
+				return;
+			}
 			
 			firstGame.playerJoins(player);
 		}
@@ -220,10 +225,18 @@ public class PlayerListener extends BaseListener {
 	    }
 	    
 	    String message = ce.getMessage();
-	    if(message.trim().startsWith("@")) {
+	    boolean isSpectator = game.isSpectator(player);
+	    
+	    if(message.trim().startsWith("@") || isSpectator) {
 	        message = message.trim();
 	        ce.setMessage(message.substring(1, message.length()-1));
-	        ce.setFormat("[" + Main._l("ingame.all") + "] <" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
+	        
+	        if(!isSpectator) {
+	        	ce.setFormat("[" + Main._l("ingame.all") + "] <" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
+	        } else {
+	        	ce.setFormat("[" + Main._l("ingame.all") + "] <" + Main._l("ingame.spectator") + ">" + "%1$s" + ChatColor.RESET + ": %2$s");
+	        }
+	        
 	        
 	        if(!Main.getInstance().isBungee()) {
 	        	Iterator<Player> recipiens = ce.getRecipients().iterator();
@@ -246,6 +259,26 @@ public class PlayerListener extends BaseListener {
                 }
             }
 	    }
+	}
+	
+	@EventHandler
+	public void onPickup(PlayerPickupItemEvent ppie) {
+		Player player = ppie.getPlayer();
+		Game game = Game.getGameOfPlayer(player);
+		
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() != GameState.WAITING) {
+			if(game.isSpectator(player)) {
+				ppie.setCancelled(true);
+			}
+			
+			return;
+		}
+		
+		ppie.setCancelled(true);
 	}
 	
 	/*
@@ -359,7 +392,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		if(g.getState() != GameState.WAITING) {
+		if(g.getState() == GameState.STOPPED) {
 			return;
 		}
 		
@@ -369,25 +402,33 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		Material interactingMaterial = pie.getMaterial();
-		switch(interactingMaterial) {
-			case BED:
-				pie.setCancelled(true);
-				g.getPlayerStorage(player).openTeamSelection(g);
-				break;
-			case DIAMOND:
-				pie.setCancelled(true);
-				if(player.isOp() || player.hasPermission("bw.setup")) {
-					g.start(player);
-				}
-				break;
-			case SLIME_BALL:
-				pie.setCancelled(true);
+		
+		if(g.getState() == GameState.RUNNING) {
+			if(interactingMaterial == Material.SLIME_BALL) {
 				g.playerLeave(player);
-				break;
-			default:
-				break;
-		}
+			}
 			
+			return;
+		} else if(g.getState() == GameState.WAITING) {
+			switch(interactingMaterial) {
+				case BED:
+					pie.setCancelled(true);
+					g.getPlayerStorage(player).openTeamSelection(g);
+					break;
+				case DIAMOND:
+					pie.setCancelled(true);
+					if(player.isOp() || player.hasPermission("bw.setup")) {
+						g.start(player);
+					}
+					break;
+				case SLIME_BALL:
+					pie.setCancelled(true);
+					g.playerLeave(player);
+					break;
+				default:
+					break;
+			}
+		}
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -429,6 +470,10 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		if(g.getState() != GameState.WAITING) {
+			if(g.isSpectator(p)) {
+				die.setCancelled(true);
+			}
+			
 			return;
 		}
 		

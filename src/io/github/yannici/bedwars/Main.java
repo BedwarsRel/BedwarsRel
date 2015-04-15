@@ -278,6 +278,16 @@ public class Main extends JavaPlugin {
         this.localization.loadLocale(this.getConfig().getString("locale"), false);
     }
     
+    public boolean spectationEnabled() {
+    	if(this.getConfig().contains("spectation-enabled")) {
+    		if(this.getConfig().isBoolean("spectation-enabled")) {
+    			return this.getConfig().getBoolean("spectation-enabled");
+    		}
+    	}
+    	
+    	return true;
+    }
+    
     public boolean toMainLobby() {
     	if(this.getConfig().contains("endgame.mainlobby-enabled")) {
     		return this.getConfig().getBoolean("endgame.mainlobby-enabled");

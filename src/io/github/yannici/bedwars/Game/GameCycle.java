@@ -74,16 +74,26 @@ public abstract class GameCycle {
         }
         
         if(team.isDead()) {
-            // TODO: Player to spectator
-            
             PlayerStorage storage = this.getGame().getPlayerStorage(player);
-            if(storage != null) {
-                if(storage.getLeft() != null) {
-                    pre.setRespawnLocation(storage.getLeft());
+            
+            if(Main.getInstance().spectationEnabled()) {
+            	if(storage != null) {
+                    if(storage.getLeft() != null) {
+                        pre.setRespawnLocation(team.getSpawnLocation());
+                    }
                 }
+            	
+            	this.getGame().toSpectator(player);
+            } else {
+            	if(storage != null) {
+                    if(storage.getLeft() != null) {
+                        pre.setRespawnLocation(storage.getLeft());
+                    }
+                }
+                
+                this.getGame().playerLeave(player);
             }
             
-            this.getGame().playerLeave(player);
         } else {
             pre.setRespawnLocation(team.getSpawnLocation());
         }

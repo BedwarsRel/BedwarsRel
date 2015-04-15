@@ -59,6 +59,7 @@ ingame:
     gamestarting: Game starting ...
     gamestarted: Game "$game$" has just started!
     backtolobby: Back to lobby in $sec$ second(s)!
+    spectator: Spectator
     shop:
         name: Itemshop
         newshop: Use new shop

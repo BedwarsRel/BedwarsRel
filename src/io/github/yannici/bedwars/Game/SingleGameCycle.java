@@ -26,6 +26,8 @@ public class SingleGameCycle extends GameCycle {
 		for(Player p : this.getGame().getPlayers()) {
 			if(!p.isDead()) {
 				p.teleport(this.getGame().getLobby());
+			} else {
+				this.getGame().playerLeave(p);
 			}
 			
 			PlayerStorage storage = this.getGame().getPlayerStorage(p);

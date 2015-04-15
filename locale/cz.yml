@@ -59,6 +59,7 @@ ingame:
     gamestarting: Hra se zapina!
     gamestarted: Hra "$game$" zacala!
     backtolobby: Teleportace do lobby za $sec$ sekund!
+    spectator: Spectator
     shop:
         name: Obchod
         newshop: Use new shop
