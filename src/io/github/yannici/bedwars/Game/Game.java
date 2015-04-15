@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -342,9 +343,22 @@ public class Game {
     		storage.clean();
     	}
     	
-    	player.setAllowFlight(true);
+    	new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				player.setAllowFlight(true);
+		    	player.setFlying(true);
+		    	player.setGameMode(GameMode.CREATIVE);
+			}
+		}.runTaskLater(Main.getInstance(), 20L);
+    	
     	for(Player p :  this.getPlayers()) {
-    		 p.hidePlayer(player);
+    		if(p.equals(player)) {
+    			continue;
+    		}
+    		
+    		p.hidePlayer(player);
     	}
     	
     	// Leave Game (Slimeball)
@@ -411,6 +425,16 @@ public class Game {
     	Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
     	
     	Team team = Game.getPlayerTeam(p, this);
+    	
+    	if(this.isSpectator(p)) {
+    		for(Player player : this.getPlayers()) {
+    			if(player.equals(p)) {
+    				continue;
+    			}
+    			
+    			player.showPlayer(p);
+    		}
+    	}
 
         if(team != null) {
             team.removePlayer(p);
@@ -848,6 +872,10 @@ public class Game {
         
         this.newItemShops.remove(player);
     }
+    
+    public List<Player> getFreePlayers() {
+		return this.freePlayers;
+	}
 
     /*
      * PRIVATE
@@ -880,6 +908,11 @@ public class Game {
         yml.set("loc1", this.loc1);
         yml.set("loc2", this.loc2);
         yml.set("lobby", this.lobby);
+        
+        if(this.mainLobby != null) {
+        	yml.set("mainlobby", this.mainLobby);
+        }
+        
         
         if(this.mainLobby != null) {
         	yml.set("mainlobby", this.mainLobby);

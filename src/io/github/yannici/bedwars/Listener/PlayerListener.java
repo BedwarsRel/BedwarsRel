@@ -25,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -101,6 +102,24 @@ public class PlayerListener extends BaseListener {
 			itemShop.openCategoryInventory(player);
 		}
 	}
+    
+    @EventHandler 
+    public void openInventory(InventoryOpenEvent ioe) {
+    	if(!(ioe.getPlayer() instanceof Player)) {
+    		return;
+    	}
+    	
+    	Player player = (Player)ioe.getPlayer();
+    	Game game = Game.getGameOfPlayer(player);
+    	
+    	if(game == null) {
+    		return;
+    	}
+    	
+    	if(game.isSpectator(player)) {
+    		ioe.setCancelled(true);
+    	}
+    }
     
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent pre) {
@@ -351,6 +370,10 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
+		if(g.getState() == GameState.RUNNING && g.isSpectator(p)) {
+			return;
+		}
+		
 		tfe.setCancelled(true);
 	}
 
@@ -379,11 +402,6 @@ public class PlayerListener extends BaseListener {
 		    Game game = Main.getInstance().getGameManager().getGameBySignLocation(clicked.getLocation());
 		    if(game == null) {
 		        return;
-		    }
-		    
-		    if(game.getState() != GameState.WAITING) {
-		    	player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
-		    	return;
 		    }
 		    
 		    if(game.playerJoins(player)) {

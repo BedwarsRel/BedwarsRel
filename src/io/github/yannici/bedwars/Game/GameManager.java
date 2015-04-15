@@ -165,6 +165,10 @@ public class GameManager {
             game.setLobby((Location)cfg.get("lobby"));
             game.setRegion(new Region(loc1, loc2));
             
+            if(cfg.contains("mainlobby")) {
+            	game.setMainLobby((Location)cfg.get("mainlobby"));
+            }
+            
             this.games.add(game);
             Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameloaded", ImmutableMap.of("game", game.getName()))));
         } catch(Exception ex) {

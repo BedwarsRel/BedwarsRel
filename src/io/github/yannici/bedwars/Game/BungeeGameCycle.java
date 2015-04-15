@@ -27,7 +27,12 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public void onGameEnds() {
-		this.getGame().kickAllPlayers();
+		for(Player player : this.getGame().getPlayers()) {
+			for(Player freePlayer : this.getGame().getFreePlayers()) {
+				player.showPlayer(freePlayer);
+			}
+			this.getGame().playerLeave(player);
+		}
         Bukkit.shutdown();
 	}
 

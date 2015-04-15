@@ -24,6 +24,10 @@ public class SingleGameCycle extends GameCycle {
 	public void onGameEnds() {
 		// All players which are in game, kick to lobby
 		for(Player p : this.getGame().getPlayers()) {
+			for(Player freePlayer : this.getGame().getFreePlayers()) {
+				p.showPlayer(freePlayer);
+			}
+			
 			if(!p.isDead()) {
 				p.teleport(this.getGame().getLobby());
 			} else {
