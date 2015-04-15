@@ -382,6 +382,7 @@ public class Game {
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
         this.setPlayersScoreboard();
         this.removeNewItemShop(p);
+        this.notUseOldShop(p);
         
         if(!Main.getInstance().isBungee() && p.isOnline()) {
             p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
