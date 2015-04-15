@@ -37,7 +37,9 @@ public class BungeeGameCycle extends GameCycle {
 			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
 		}
 		
-		this.checkGameOver();
+		if(this.getGame().getState() == GameState.RUNNING) {
+			this.checkGameOver();
+		}
 	}
 
 	@Override

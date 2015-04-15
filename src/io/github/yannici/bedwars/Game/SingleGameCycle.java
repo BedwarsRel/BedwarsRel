@@ -51,7 +51,9 @@ public class SingleGameCycle extends GameCycle {
 			player.teleport(storage.getLeft());
 		}
 		
-		this.checkGameOver();
+		if(this.getGame().getState() == GameState.RUNNING) {
+			this.checkGameOver();
+		}
 	}
 
 	@Override
