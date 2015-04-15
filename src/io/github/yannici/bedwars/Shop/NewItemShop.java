@@ -137,7 +137,7 @@ public class NewItemShop {
 	}
 	
 	private ItemStack toItemStack(VillagerTrade trade, Player player, Game game) {
-	    ItemStack tradeStack = trade.getRewardItem();
+	    ItemStack tradeStack = trade.getRewardItem().clone();
         Method colorable = Utils.getColorableMethod(tradeStack.getType());
         ItemMeta meta = tradeStack.getItemMeta();
         ItemStack item1 = trade.getItem1();
@@ -161,6 +161,8 @@ public class NewItemShop {
         if(item2 != null) {
             lores.add(String.valueOf(item2.getAmount()) + " " + item2.getItemMeta().getDisplayName());
         }
+        
+        meta.setLore(lores);
         
         tradeStack.setItemMeta(meta);
         return tradeStack;
@@ -195,13 +197,19 @@ public class NewItemShop {
 	            return;
 	        }
 	        
-	        // enough ressources?
+	     // enough ressources?
 	        if(!this.hasEnoughRessource(player, trade)) {
 	            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notenoughress")));
                 return;
 	        }
 	        
-	        this.buyItem(item, trade, player);
+	        if(ice.isShiftClick()) {
+	        	while(this.hasEnoughRessource(player, trade)) {
+	        		this.buyItem(item, trade, player);
+	        	}
+	        } else {
+	        	this.buyItem(item, trade, player);
+	        }
 	    }
 	}
 	
@@ -217,18 +225,18 @@ public class NewItemShop {
 	        Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator.next();
 	        ItemStack stack = (ItemStack)entry.getValue();
 	        
-	        if(stack.getAmount() > item1ToPay) {
-	            stack.setAmount(stack.getAmount()-item1ToPay);
-	            item1ToPay = 0;
-	            inventory.setItem(entry.getKey(), stack);
-	            break;
-	        } else if(stack.getAmount() == item1ToPay) {
-	            stackIterator.remove();
-	            break;
+	        int endAmount = stack.getAmount()-item1ToPay;
+	        if(endAmount < 0) {
+	        	endAmount = 0;
 	        }
 	        
-	        stackIterator.remove();
 	        item1ToPay = item1ToPay - stack.getAmount();
+	        stack.setAmount(endAmount);
+	        inventory.setItem(entry.getKey(), stack);
+	        
+	        if(item1ToPay <= 0) {
+	        	break;
+	        }
 	    }
 	    
 	    if(trade.getItem2() != null) {
@@ -240,18 +248,18 @@ public class NewItemShop {
 		        Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator.next();
 		        ItemStack stack = (ItemStack)entry.getValue();
 		        
-		        if(stack.getAmount() > item2ToPay) {
-		            stack.setAmount(stack.getAmount()-item2ToPay);
-		            item2ToPay = 0;
-		            inventory.setItem(entry.getKey(), stack);
-		            break;
-		        } else if(stack.getAmount() == item2ToPay) {
-		            inventory.remove(stack);
-		            break;
+		        int endAmount = stack.getAmount()-item2ToPay;
+		        if(endAmount < 0) {
+		        	endAmount = 0;
 		        }
 		        
-		        inventory.remove(stack);
 		        item2ToPay = item2ToPay - stack.getAmount();
+		        stack.setAmount(endAmount);
+		        inventory.setItem(entry.getKey(), stack);
+		        
+		        if(item2ToPay <= 0) {
+		        	break;
+		        }
 		    }
 	    }
 	    
