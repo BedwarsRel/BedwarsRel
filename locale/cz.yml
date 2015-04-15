@@ -27,7 +27,7 @@ errors:
     regionnotfound: Soubor mapy neexistuje!
     savesign: Nelze vytvorit novou konfiguraci pro cedulku!
     nogames: Zadna hra neexistuje!
-    notenoughress: You didn't have enough ressource to buy this item!
+    notenoughress: Nemas dostatek surovin pro koupi tohoto predmetu!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -59,21 +59,21 @@ ingame:
     gamestarting: Hra se zapina!
     gamestarted: Hra "$game$" zacala!
     backtolobby: Teleportace do lobby za $sec$ sekund!
-    spectator: Spectator
+    spectator: Sledujici
     shop:
         name: Obchod
-        newshop: Use new shop
-        oldshop: Use old shop
+        newshop: Pouzij novy obchod
+        oldshop: Pouzij stary obchod
     player:
         left: Hrac $player$ odesel ze hry.
         died: $player$ zemrel!
         killed: $killer$ zabil $player$!
     blocks:
         ownbeddestroy: Nemuzes znicit svou postel!
-        beddestroyed: Postel teamu $team$ byla znicena!
+        beddestroyed: Postel tymu $team$ byla znicena!
 lobby:
     countdown: Hra zacne za $sec$ sekund!
-    countdowncancel: Je potreba vic hracu! Odpocet byl zastaven.
+    countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
     chooseteam: Vyber si team
     startgame: Spust hru
     gamefull: Hra je plna!
