@@ -29,6 +29,7 @@ errors:
     nogames: Zadna hra neexistuje!
     notenoughress: Nemas dostatek surovin pro koupi tohoto predmetu!
     teamnameinuse: Jmeno tymu je jiz pouzito!
+    minplayersmustnumber: Min players must be a number!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -138,3 +139,6 @@ commands:
     setmainlobby:
         name: Nastavit Main lobby
         desc: Nastavi hlavni lobby, kam se po hre teleportuji hraci. (je potreba pokud je mainlobby-enabled nastaveno na true)
+    list:
+        name: List games
+        desc: Lists all available games

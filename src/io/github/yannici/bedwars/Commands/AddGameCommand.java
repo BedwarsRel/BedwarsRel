@@ -2,6 +2,8 @@ package io.github.yannici.bedwars.Commands;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
 
 import java.util.ArrayList;
 
@@ -33,7 +35,7 @@ public class AddGameCommand extends BaseCommand {
 
     @Override
     public String[] getArguments() {
-        return new String[]{"name"};
+        return new String[]{"name", "minplayers"};
     }
 
     @Override
@@ -42,13 +44,25 @@ public class AddGameCommand extends BaseCommand {
             return false;
         }
 
-        boolean addGame = this.getPlugin().getGameManager().addGame(args.get(0));
-
-        if(addGame == false) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameexists")));
+        Game addGame = this.getPlugin().getGameManager().addGame(args.get(0));
+        String minPlayers = args.get(1);
+        
+        if(!Utils.isNumber(minPlayers)) {
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.minplayersmustnumber")));
             return false;
         }
 
+        if(addGame == null) {
+            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameexists")));
+            return false;
+        }
+        
+        int min = Integer.parseInt(minPlayers);
+        if(min <= 0) {
+            min = 1;
+        }
+        
+        addGame.setMinPlayers(min);
         sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameadded", ImmutableMap.of("game", args.get(0).toString()))));
         return true;
     }

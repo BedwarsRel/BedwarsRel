@@ -29,6 +29,7 @@ errors:
     nogames: No games found!
     notenoughress: You didn't have enough ressource to buy this item!
     teamnameinuse: Team name is already in use!
+    minplayersmustnumber: Min players must be a number!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!
@@ -138,3 +139,6 @@ commands:
     setmainlobby:
         name: Set main lobby
         desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)
+    list:
+        name: List games
+        desc: Lists all available games

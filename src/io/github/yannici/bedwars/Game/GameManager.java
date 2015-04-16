@@ -31,14 +31,15 @@ public class GameManager {
         this.games = new ArrayList<Game>();
     }
 
-    public boolean addGame(String name) {
+    public Game addGame(String name) {
         Game existing = this.getGame(name);
         if(existing != null) {
-            return false;
+            return null;
         }
 
-        this.games.add(new Game(this.plugin, name));
-        return true;
+        Game newGame = new Game(this.plugin, name);
+        this.games.add(newGame);
+        return newGame;
     }
 
     public ArrayList<Game> getGames() {
@@ -164,6 +165,10 @@ public class GameManager {
             game.setLoc(loc2, "loc2");
             game.setLobby((Location)cfg.get("lobby"));
             game.setRegion(new Region(loc1, loc2));
+            
+            if(cfg.contains("minplayers")) {
+                game.setMinPlayers(cfg.getInt("minplayers"));
+            }
             
             if(cfg.contains("mainlobby")) {
             	game.setMainLobby((Location)cfg.get("mainlobby"));

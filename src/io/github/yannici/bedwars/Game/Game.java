@@ -164,10 +164,6 @@ public class Game {
             return false;
         }
         
-        if(this.minPlayers == 0) {
-            this.minPlayers = Math.round(this.getMaxPlayers()/2);
-        }
-        
         this.loadItemShopCategories();
         
         this.state = GameState.WAITING;
@@ -401,14 +397,18 @@ public class Game {
 
             p.teleport(this.lobby);
             storage.loadLobbyInventory();
-
-            if(this.getTeamsWithPlayersAmount() == this.teams.size()) {
-                try {
-                    this.glc.getTaskId();
-                    // scheduled
-                } catch(Exception ex) {
-                	// not scheduled
-                    this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
+            
+            GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
+            if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME) {
+                if(rule.isRuleMet(this)) {
+                    try {
+                        this.glc.getTaskId();
+                        // scheduled
+                    } catch(Exception ex) {
+                        // not scheduled
+                        this.glc.setRule(rule);
+                        this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
+                    }
                 }
             }
             
@@ -877,6 +877,10 @@ public class Game {
 		return this.freePlayers;
 	}
 
+    public GameLobbyCountdown getLobbyCountdown() {
+        return this.glc;
+    }
+    
     /*
      * PRIVATE
      */
@@ -908,6 +912,7 @@ public class Game {
         yml.set("loc1", this.loc1);
         yml.set("loc2", this.loc2);
         yml.set("lobby", this.lobby);
+        yml.set("minplayers", this.getMinPlayers());
         
         if(this.mainLobby != null) {
         	yml.set("mainlobby", this.mainLobby);
@@ -1049,17 +1054,6 @@ public class Game {
 		};
 		
 		this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
-    }
-    
-    private int getTeamsWithPlayersAmount() {
-        int amount = 0;
-        for(Team team : this.teams.values()) {
-            if(team.getPlayers().size() > 0) {
-                amount++;
-            }
-        }
-        
-        return amount;
     }
 
 }

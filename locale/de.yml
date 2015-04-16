@@ -29,6 +29,7 @@ errors:
     nogames: Keine Spiele gefunden!
     notenoughress: Du hast nicht genug Ressourcen um das zu kaufen!
     teamnameinuse: Team mit diesem Namen existiert bereits!
+    minplayersmustnumber: Die min. Spieler muss eine Nummer sein!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt
@@ -138,3 +139,6 @@ commands:
     setmainlobby:
         name: Main Lobby setzen
         desc: Setzt die Main Lobby eines Spiels (notwendig wenn mainlobby-enabled auf true gesetzt)
+    list:
+        name: Spiele auflisten
+        desc: Listet alle verfügbaren Spiele auf!

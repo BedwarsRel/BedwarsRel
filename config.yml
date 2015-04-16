@@ -23,6 +23,13 @@ gamelength: 60
 # wait in the lobby until the game starts (when enough players) in seconds.
 lobbytime: 60
 
+# Countdown start rule
+# Type: int
+# Countdown start options:
+# 0 = If all teams got min. 1 player, the game start countdown starts
+# 1 = If min. X (addgame parameter) players joined the game, game countdown starts
+lobbycountdown-rule: 0
+
 # Friendly Fire
 # Type: boolean (true or false)
 # Sets if friendlyfire is enabled (damage team mates)

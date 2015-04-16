@@ -8,6 +8,7 @@ import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
@@ -487,6 +488,20 @@ public class PlayerListener extends BaseListener {
 		
 		game.nonFreePlayer(player);
 		team.addPlayer(player);
+		
+		GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
+        if(rule == GameLobbyCountdownRule.TEAMS_HAVE_PLAYERS) {
+            if(rule.isRuleMet(game)) {
+                try {
+                    // scheduled
+                    game.getLobbyCountdown().getTaskId();
+                } catch(Exception ex) {
+                    // not scheduled
+                    game.getLobbyCountdown().setRule(rule);
+                    game.getLobbyCountdown().runTaskTimer(Main.getInstance(), 20L, 20L);
+                }
+            }
+        }
 		
 		for(Player p : game.getPlayers()) {
 		    p.setScoreboard(game.getScoreboard());
