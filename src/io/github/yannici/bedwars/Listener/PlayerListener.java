@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -563,9 +564,17 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		if(g.getState() == GameState.RUNNING) {
-		    if(g.isSpectator(p)) {
-		        ede.setCancelled(true);
-		        return;
+		    if(ede instanceof EntityDamageByEntityEvent) {
+		        EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)ede;
+		        
+		        if(edbee.getDamager() instanceof Player) {
+		            Player damager = (Player)edbee.getDamager();
+	                if(g.isSpectator(damager)) {
+	                    ede.setCancelled(true);
+	                    return;
+	                }
+		        }
+		        
 		    }
 		    
 		    if(!g.getCycle().isEndGameRunning()) {

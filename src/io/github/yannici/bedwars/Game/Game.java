@@ -204,6 +204,8 @@ public class Game {
         this.startTimerCountdown();
 
         this.state = GameState.RUNNING;
+        
+        this.updateSigns();
         this.getPlugin().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getName()))));
         return true;
     }
@@ -441,7 +443,7 @@ public class Game {
             team.removePlayer(p);
             this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
         }
-
+        
         if(this.freePlayers.contains(p)) {
             this.freePlayers.remove(p);
             this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", p.getDisplayName())));
