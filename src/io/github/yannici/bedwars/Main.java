@@ -64,7 +64,6 @@ public class Main extends JavaPlugin {
         this.scoreboardManager = Bukkit.getScoreboardManager();
         this.gameManager.loadGames();
         this.startTimeListener();
-
     }
     
 	public boolean isSpigot() {

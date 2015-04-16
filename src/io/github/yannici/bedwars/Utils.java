@@ -16,6 +16,7 @@ import java.util.jar.JarFile;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public final class Utils {
@@ -34,6 +35,18 @@ public final class Utils {
         }
 
         return builder.toString();
+    }
+    
+    public static Object getCraftPlayer(Player player) {
+    	try {
+    		Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
+			Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[]{});
+			getHandle.setAccessible(true);
+			
+			return getHandle.invoke(player, new Object[]{});
+		} catch (Exception e) {
+			return null;
+		}
     }
     
     public static boolean isNumber(String numberString) {
