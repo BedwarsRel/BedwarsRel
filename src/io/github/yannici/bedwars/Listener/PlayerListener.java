@@ -563,6 +563,11 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		if(g.getState() == GameState.RUNNING) {
+		    if(g.isSpectator(p)) {
+		        ede.setCancelled(true);
+		        return;
+		    }
+		    
 		    if(!g.getCycle().isEndGameRunning()) {
 		        return;
 		    }

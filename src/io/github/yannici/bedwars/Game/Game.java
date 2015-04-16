@@ -346,16 +346,17 @@ public class Game {
 				player.setAllowFlight(true);
 		    	player.setFlying(true);
 		    	player.setGameMode(GameMode.CREATIVE);
+		    	
+		    	for(Player p :  Game.this.getPlayers()) {
+	                if(p.equals(player)) {
+	                    continue;
+	                }
+	                
+	                p.hidePlayer(player);
+	            }
 			}
-		}.runTaskLater(Main.getInstance(), 20L);
-    	
-    	for(Player p :  this.getPlayers()) {
-    		if(p.equals(player)) {
-    			continue;
-    		}
-    		
-    		p.hidePlayer(player);
-    	}
+
+		}.runTaskLater(Main.getInstance(), 5L);
     	
     	// Leave Game (Slimeball)
         ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
@@ -587,7 +588,7 @@ public class Game {
             this.scoreboard.resetScores(Game.bedExistString() + t.getChatColor() + t.getName());
             this.scoreboard.resetScores(Game.bedLostString() + t.getChatColor() + t.getName());
             
-            String teamString = (t.isDead()) ? Game.bedLostString() : Game.bedExistString();
+            String teamString = (t.isDead() && this.getState() == GameState.RUNNING) ? Game.bedLostString() : Game.bedExistString();
             Score score = obj.getScore(teamString + t.getChatColor() + t.getName());
             score.setScore(t.getPlayers().size());
         }
@@ -634,7 +635,8 @@ public class Game {
     }
     
     public void resetScoreboard() {
-        this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
+        this.timeLeft = Main.getInstance().getMaxLength();
+        this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
     }
     
     public void addJoinSign(Sign sign) {

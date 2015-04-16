@@ -30,6 +30,7 @@ public class PlayerStorage {
     private GameMode mode = null;
     private Location left = null;
     private int level = 0;
+    private String displayName = null;
 
     public PlayerStorage(Player p) {
         super();
@@ -45,6 +46,7 @@ public class PlayerStorage {
         this.mode = this.player.getGameMode();
         this.left = this.player.getLocation();
         this.level = this.player.getLevel();
+        this.displayName = this.player.getDisplayName();
     }
 
     public void clean() {
@@ -88,6 +90,7 @@ public class PlayerStorage {
         this.player.addPotionEffects(this.effects);
         this.player.setExp(this.xp);
         this.player.setLevel(this.level);
+        this.player.setDisplayName(this.displayName);
         
         this.player.updateInventory();
     }
