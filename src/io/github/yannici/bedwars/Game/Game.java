@@ -88,7 +88,7 @@ public class Game {
         this.storages = new HashMap<Player, PlayerStorage>();
         this.state = GameState.STOPPED;
         this.scoreboard = Main.getInstance().getScoreboardManager().getNewScoreboard();
-        this.glc = new GameLobbyCountdown(this);
+        this.glc = null;
         this.joinSigns = new HashMap<Location, GameJoinSign>();
         this.timeLeft = Main.getInstance().getMaxLength();
         this.isOver = false;
@@ -298,9 +298,13 @@ public class Game {
 
         return amount;
     }
+    
+    public int getPlayerAmount() {
+        return this.getPlayers().size();
+    }
 
     public boolean isFull() {
-        return (this.getMaxPlayers() <= this.getCurrentPlayerAmount());
+        return (this.getMaxPlayers() <= this.getPlayerAmount());
     }
 
     public void addTeam(String name, TeamColor color, int maxPlayers) {
@@ -380,12 +384,12 @@ public class Game {
             return false;
         }
         
-        BedwarsPlayerJoinEvent joinEvent = new BedwarsPlayerJoinEvent(this, p);
-        Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
-
         if(!this.cycle.onPlayerJoins(p)) {
             return false;
         }
+        
+        BedwarsPlayerJoinEvent joinEvent = new BedwarsPlayerJoinEvent(this, p);
+        Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
         
         if(this.state == GameState.RUNNING) {
         	this.toSpectator(p);
@@ -404,11 +408,8 @@ public class Game {
             GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
             if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME) {
                 if(rule.isRuleMet(this)) {
-                    try {
-                        this.glc.getTaskId();
-                        // scheduled
-                    } catch(Exception ex) {
-                        // not scheduled
+                    if(this.glc == null) {
+                        this.glc = new GameLobbyCountdown(this);
                         this.glc.setRule(rule);
                         this.glc.runTaskTimer(Main.getInstance(), 20L, 20L);
                     }
@@ -449,12 +450,15 @@ public class Game {
             this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player", p.getDisplayName())));
         }
         
-        p.setDisplayName(ChatColor.stripColor(p.getName()));
         PlayerStorage storage = this.storages.get(p);
         storage.restore();
         
         p.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
-        this.setPlayersScoreboard();
+        
+        if(this.getState() == GameState.RUNNING) {
+            this.setPlayersScoreboard();
+        }
+        
         this.removeNewItemShop(p);
         this.notUseOldShop(p);
         
@@ -463,6 +467,7 @@ public class Game {
         }
         
         this.cycle.onPlayerLeave(p);
+        this.storages.remove(p);
         this.updateSigns();
         return true;
     }
@@ -701,6 +706,10 @@ public class Game {
     /*
      * GETTER / SETTER
      */
+    
+    public void setGameLobbyCountdown(GameLobbyCountdown countdown) {
+        this.glc = countdown;
+    }
     
     public boolean isUsingOldShop(Player player) {
     	return (this.useOldItemShop.contains(player));

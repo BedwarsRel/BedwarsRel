@@ -89,6 +89,7 @@ sign:
         stopped: §4Hra vypnuta..
         waiting: §aCekani na hrace..
         running: §9VE HRE!
+        full: Full!
 ressources:
     gold: §6Zlato
     iron: §7Zelezo

@@ -86,6 +86,10 @@ public class PlayerListener extends BaseListener {
 		
 		iee.setCancelled(true);
 		
+	    if(game.isSpectator(player)) {
+            return;
+        }
+		
 		BedwarsOpenShopEvent openShopEvent = new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(), iee.getRightClicked());
 		Main.getInstance().getServer().getPluginManager().callEvent(openShopEvent);
 		
@@ -268,7 +272,7 @@ public class PlayerListener extends BaseListener {
 	    
 	    if(message.trim().startsWith("@") || isSpectator) {
 	        message = message.trim();
-	        ce.setMessage(message.substring(1, message.length()-1));
+	        ce.setMessage(message.substring(1, message.length()));
 	        
 	        if(!isSpectator) {
 	        	ce.setFormat("[" + Main._l("ingame.all") + "] <" + team.getDisplayName() + ChatColor.RESET + ">" + "%1$s" + ChatColor.RESET + ": %2$s");

@@ -19,6 +19,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 
 public class Region {
 	
@@ -179,6 +180,11 @@ public class Region {
 	        Entity e = entityIterator.next();
 	        if(e instanceof Item) {
 	            e.remove();
+	        }
+	        
+	        if(e instanceof LivingEntity) {
+	            LivingEntity le = (LivingEntity)e;
+	            le.setRemoveWhenFarAway(false);
 	        }
 	    }
 	}

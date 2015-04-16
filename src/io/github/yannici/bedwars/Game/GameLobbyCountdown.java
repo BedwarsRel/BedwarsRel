@@ -45,6 +45,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
         }
         
         if(this.game.getState() != GameState.WAITING) {
+            this.game.setGameLobbyCountdown(null);
             this.cancel();
         }
 
@@ -60,6 +61,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
                 p.setExp(1.0F);
             }
             
+            this.game.setGameLobbyCountdown(null);
             this.cancel();
         }
 
@@ -72,6 +74,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
         }
 
         if(this.counter == 0) {
+            this.game.setGameLobbyCountdown(null);
             this.cancel();
             for(Player player : players) {
                 player.playSound(player.getLocation(), Sound.LEVEL_UP, 20.0F, 20.0F);

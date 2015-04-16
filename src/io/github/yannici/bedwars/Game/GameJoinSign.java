@@ -38,15 +38,24 @@ public class GameJoinSign {
         }
         
         String current = "0";
+        String max = String.valueOf(maxPlayers);
+        
         if (currentPlayers >= maxPlayers) {
             current = ChatColor.RED + String.valueOf(currentPlayers);
+            max = ChatColor.RED + max;
         } else {
             current = ChatColor.AQUA + String.valueOf(currentPlayers);
+            max = ChatColor.AQUA + max;
         }
         
-        String playerString =  ChatColor.GRAY + "[" + current + ChatColor.GRAY + "/" + ChatColor.AQUA + String.valueOf(maxPlayers) + ChatColor.GRAY + "]";
+        String playerString =  ChatColor.GRAY + "[" + current + ChatColor.GRAY + "/" + max + ChatColor.GRAY + "]";
         sign[2] = Main._l("sign.players") + " " + playerString;
-        sign[3] = Main._l("sign.gamestate." + this.game.getState().toString().toLowerCase());
+        if(this.game.getState() == GameState.WAITING && this.game.isFull()) {
+            sign[3] = ChatColor.RED + Main._l("sign.gamestate.full");
+        } else {
+            sign[3] = Main._l("sign.gamestate." + this.game.getState().toString().toLowerCase());
+        }
+        
         
         return sign;
     }

@@ -11,6 +11,7 @@ import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -54,13 +55,40 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public boolean onPlayerJoins(Player player) {
-		if(this.getGame().isFull() && this.getGame().getState() == GameState.WAITING) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
-			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
-			return false;
-		}
+	    if(this.getGame().isFull()) {
+            if(this.getGame().getState() != GameState.RUNNING || !Main.getInstance().spectationEnabled()) {
+                this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
+                new BukkitRunnable() {
+                    
+                    @Override
+                    public void run() {
+                        BungeeGameCycle.this.sendBungeeMessage(player, ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
+                    }
+                }.runTaskLater(Main.getInstance(), 40L);
+                
+                return false;
+            }
+        }
 		
 		return true;
+	}
+	
+	private void sendBungeeMessage(Player player, String message) {
+	    ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+        
+        try {
+          out.writeUTF("Message");
+          out.writeUTF(player.getName());
+          out.writeUTF(message);
+        } catch (Exception e) {
+          e.printStackTrace();
+          return;
+        }
+        
+        if ((b != null) && (Utils.checkBungeePlugin())) {
+          player.sendPluginMessage(Main.getInstance(), "BungeeCord", b.toByteArray());
+        }
 	}
 	
 	private void bungeeSendToServer(String server, Player player) {

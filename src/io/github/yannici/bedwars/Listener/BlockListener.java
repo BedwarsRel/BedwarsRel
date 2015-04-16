@@ -54,6 +54,11 @@ public class BlockListener extends BaseListener {
             e.setCancelled(true);
             return;
         }
+        
+        if(g.isSpectator(p)) {
+            e.setCancelled(true);
+            return;
+        }
 
         if(e.getBlock().getType() == Material.BED_BLOCK) {
             e.setCancelled(true);
@@ -119,6 +124,12 @@ public class BlockListener extends BaseListener {
     	}
     	
     	if(game.getState() == GameState.RUNNING) {
+    	    if(game.isSpectator(player)) {
+                bpe.setCancelled(true);
+                bpe.setBuild(false);
+                return;
+            }
+    	    
     		Block placeBlock = bpe.getBlockPlaced();
         	
         	if(placeBlock.getType() == Material.BED || placeBlock.getType() == Material.BED_BLOCK) {

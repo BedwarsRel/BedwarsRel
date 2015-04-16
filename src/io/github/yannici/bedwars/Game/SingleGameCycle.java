@@ -22,28 +22,43 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public void onGameEnds() {
-		// All players which are in game, kick to lobby
-		for(Player p : this.getGame().getPlayers()) {
-			for(Player freePlayer : this.getGame().getFreePlayers()) {
-				p.showPlayer(freePlayer);
-			}
-			
-			if(!p.isDead()) {
-				p.teleport(this.getGame().getLobby());
-			} else {
-				this.getGame().playerLeave(p);
-			}
-			
-			PlayerStorage storage = this.getGame().getPlayerStorage(p);
-			storage.clean();
-			storage.loadLobbyInventory();
-			
-			this.getGame().resetScoreboard();
-			p.setScoreboard(this.getGame().getScoreboard());
+	    // Reset scoreboard first
+	    this.getGame().resetScoreboard();
+	    
+		// First team players, they get a reserved slot in lobby
+		for(Player p : this.getGame().getTeamPlayers()) {
+			this.kickPlayer(p, false);
 		}
 		
+		// and now the spectators
+		for(Player p : this.getGame().getFreePlayers()) {
+            this.kickPlayer(p, true);
+        }
+		
+		// reset countdown prevention breaks 
 		this.setEndGameRunning(false);
-		this.getGame().setState(GameState.WAITING);
+		
+		// set state and with that, the sign
+        this.getGame().setState(GameState.WAITING);
+	}
+	
+	private void kickPlayer(Player player, boolean wasSpectator) {
+	    for(Player freePlayer : this.getGame().getFreePlayers()) {
+            player.showPlayer(freePlayer);
+        }
+        
+	    if(wasSpectator && this.getGame().isFull()) {
+	        this.getGame().playerLeave(player);
+	        return;
+	    }
+	    
+	    player.teleport(this.getGame().getLobby());
+        
+        PlayerStorage storage = this.getGame().getPlayerStorage(player);
+        storage.clean();
+        storage.loadLobbyInventory();
+
+        player.setScoreboard(this.getGame().getScoreboard());
 	}
 
 	@Override
@@ -70,8 +85,10 @@ public class SingleGameCycle extends GameCycle {
 	@Override
 	public boolean onPlayerJoins(Player player) {
 		if(this.getGame().isFull()) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
-			return false;
+		    if(this.getGame().getState() != GameState.RUNNING || !Main.getInstance().spectationEnabled()) {
+		        player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
+	            return false;
+		    }
 		}
 		
 		return true;

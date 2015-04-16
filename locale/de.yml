@@ -89,6 +89,7 @@ sign:
         stopped: §4Stopped!
         waiting: §aWaiting ...
         running: §9Running!
+        full: Voll!
 ressources:
     gold: §6Gold
     iron: §7Eisen
