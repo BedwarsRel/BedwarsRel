@@ -45,6 +45,7 @@ public class ReloadCommand extends BaseCommand {
             return false;
         }
         
+        Main.getInstance().saveDefaultConfig();
         Main.getInstance().reloadConfig();
         Main.getInstance().reloadLocalization();
         sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.reloadconfig")));
