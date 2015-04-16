@@ -18,6 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -411,9 +412,12 @@ public class PlayerListener extends BaseListener {
 	        }
 		    
 		    Block clicked = pie.getClickedBlock();
-		    Material type = clicked.getType();
 		    
-		    if(type != Material.SIGN && type != Material.SIGN_POST && type != Material.WALL_SIGN) {
+		    if(clicked == null) {
+		        return;
+		    }
+		    
+		    if(!(clicked.getState() instanceof Sign)) {
 		        return;
 		    }
 		    
@@ -440,7 +444,7 @@ public class PlayerListener extends BaseListener {
 		Material interactingMaterial = pie.getMaterial();
 		
 		if(g.getState() == GameState.RUNNING) {
-			if(interactingMaterial == Material.SLIME_BALL) {
+			if(interactingMaterial == Material.SLIME_BALL && g.isSpectator(player)) {
 				g.playerLeave(player);
 			}
 			
