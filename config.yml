@@ -37,7 +37,7 @@ gameoverdelay: 10
 # Spectation enabled
 # Type: boolean
 # Defines it spectators are allowed
-spectation-enabled: true
+spectation-enabled: false
 
 endgame:
 ### Main lobby enabled
