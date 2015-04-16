@@ -64,6 +64,21 @@ public class Main extends JavaPlugin {
         this.scoreboardManager = Bukkit.getScoreboardManager();
         this.gameManager.loadGames();
         this.startTimeListener();
+
+    }
+    
+	public boolean isSpigot() {
+    	try {
+    		Package spigotPackage = Package.getPackage("org.spigotmc");
+    		if(spigotPackage == null) {
+    			return false;
+    		}
+    		
+    		return true;
+    	} catch (Exception e) {
+    		return false;
+    	}
+    	
     }
 
     @Override

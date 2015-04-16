@@ -155,9 +155,20 @@ public class PlayerListener extends BaseListener {
     		pde.getDrops().clear();
     		
     		try { 
-    		Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
-    		BukkitRunnable respawnRunnable = (BukkitRunnable)clazz.getDeclaredConstructor(Player.class).newInstance(player);
-    		respawnRunnable.runTaskLater(Main.getInstance(), 20L);
+			if(!Main.getInstance().isSpigot()) {
+				Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
+	    		BukkitRunnable respawnRunnable = (BukkitRunnable)clazz.getDeclaredConstructor(Player.class).newInstance(player);
+	    		respawnRunnable.runTaskLater(Main.getInstance(), 20L);
+			} else {
+				new BukkitRunnable() {
+					
+					@Override
+					public void run() {
+						player.spigot().respawn();
+					}
+				}.runTaskLater(Main.getInstance(), 20L);
+			}
+    		
             } catch (Exception e) {
                 e.printStackTrace();
             }
