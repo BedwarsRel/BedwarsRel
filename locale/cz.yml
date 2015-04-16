@@ -28,7 +28,7 @@ errors:
     savesign: Nelze vytvorit novou konfiguraci pro cedulku!
     nogames: Zadna hra neexistuje!
     notenoughress: Nemas dostatek surovin pro koupi tohoto predmetu!
-    teamnameinuse: Team name is already in use!
+    teamnameinuse: Jmeno tymu je jiz pouzito!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -51,7 +51,7 @@ gamecheck:
     TEAMS_WITHOUT_SPAWNS: Jsou zde tymy bez spawn lokace!
     NO_ITEMSHOP_CATEGORIES: Zadne kategorie obchodu nenalezeny!
     NO_MAIN_LOBBY_SET: Nenastavil jsi Main lobby (hlavni lobby) nebo jsi v nastaveni nepovolil "tomainlobby" na true (povoleno)
-    TEAM_NO_WRONG_BED: One or more teams have no bed set!
+    TEAM_NO_WRONG_BED: Jeden nebo vice tymu nemaji nastavenou postel!
 ingame:
     teams: Tymy
     all: Vsichni
@@ -79,7 +79,7 @@ lobby:
     chooseteam: Vyber si team
     startgame: Spust hru
     gamefull: Hra je plna!
-    teamjoined: Uspesne jsi se pripojil do teamu $team$
+    teamjoined: Uspesne jsi se pripojil do tymu $team$
     leavegame: Opustit hru
 sign:
     firstline: §6[Bedwars]
@@ -87,7 +87,7 @@ sign:
     gamestate:
         stopped: §4Hra vypnuta..
         waiting: §aCekani na hrace..
-        running: §9Hra bezi!
+        running: §9VE HRE!
 ressources:
     gold: §6Zlato
     iron: §7Zelezo
