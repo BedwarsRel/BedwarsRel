@@ -187,6 +187,7 @@ public class GameManager {
                 g.stop();
             }
             
+            g.setState(GameState.STOPPED);
             g.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
             g.kickAllPlayers();
             g.resetRegion();
