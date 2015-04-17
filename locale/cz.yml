@@ -29,7 +29,7 @@ errors:
     nogames: Zadna hra neexistuje!
     notenoughress: Nemas dostatek surovin pro koupi tohoto predmetu!
     teamnameinuse: Jmeno tymu je jiz pouzito!
-    minplayersmustnumber: Min players must be a number!
+    minplayersmustnumber: Minimalni pocet hracu musi byt cislo!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -86,10 +86,10 @@ sign:
     firstline: §6[Bedwars]
     players: Hraci
     gamestate:
-        stopped: §4Hra vypnuta..
-        waiting: §aCekani na hrace..
+        stopped: §4VYPNUTO
+        waiting: §aCEKANI
         running: §9VE HRE!
-        full: Full!
+        full: PLNO!
 ressources:
     gold: §6Zlato
     iron: §7Zelezo
@@ -108,7 +108,7 @@ commands:
         name: Odpojit ze hry
         desc: Odpoji te z aktualni hry
     save:
-        name: Ulozit hrz
+        name: Ulozit hru
         desc: Ulozi hru (a mapu) do konfigurace!
     setbed:
         name: Nastavit postel
