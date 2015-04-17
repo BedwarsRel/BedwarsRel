@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Listener;
 
+import java.util.List;
+
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
@@ -98,6 +100,22 @@ public class BlockListener extends BaseListener {
             g.setPlayersScoreboard();
             return;
         }
+        
+        if(e.getBlock().getType() == Material.ENDER_CHEST) {
+        	Team playerTeam = Game.getPlayerTeam(p, g);
+        	Block breakedBlock = e.getBlock();
+        	
+        	if(playerTeam.getInventory() == null) {
+        		playerTeam.createTeamInventory();
+        	}
+        	
+        	for(Team team : g.getTeams().values()) {
+        		List<Block> teamChests = team.getChests();
+        		if(teamChests.contains(breakedBlock)) {
+        			team.removeChest(breakedBlock);
+        		}
+        	}
+        }
 
         if(g.getRegion().getBlocks(false).contains(e.getBlock())) {
             e.setCancelled(true);
@@ -141,6 +159,15 @@ public class BlockListener extends BaseListener {
         		bpe.setCancelled(true);
         		bpe.setBuild(false);
         	}
+        	
+        	if(placeBlock.getType() == Material.ENDER_CHEST) {
+            	Team playerTeam = Game.getPlayerTeam(player, game);
+            	if(playerTeam.getInventory() == null) {
+            		playerTeam.createTeamInventory();
+            	}
+            	
+            	playerTeam.addChest(placeBlock);
+            }
     	}
     }
 

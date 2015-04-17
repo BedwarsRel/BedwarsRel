@@ -563,14 +563,20 @@ public class Game {
         return list;
     }
     
-    public List<MerchantCategory> getOrderedItemShopCategories() {
-        return this.orderedItemshop;
-    }
-    
     public void kickAllPlayers() {
         for(Player p : this.getPlayers()) {
             this.playerLeave(p);
         }
+    }
+    
+    public Team getTeamOfEnderChest(Block chest) {
+    	for(Team team : this.teams.values()) {
+    		if(team.getChests().contains(chest)) {
+    			return team;
+    		}
+    	}
+    	
+    	return null;
     }
     
     public void resetRegion() {
@@ -706,6 +712,10 @@ public class Game {
     /*
      * GETTER / SETTER
      */
+    
+    public List<MerchantCategory> getOrderedItemShopCategories() {
+        return this.orderedItemshop;
+    }
     
     public void setGameLobbyCountdown(GameLobbyCountdown countdown) {
         this.glc = countdown;

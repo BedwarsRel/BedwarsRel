@@ -63,6 +63,8 @@ ingame:
     gamestarted: Hra "$game$" zacala!
     backtolobby: Teleportace do lobby za $sec$ sekund!
     spectator: Sledujici
+    teamchest: Team chest
+    noturteamchest: This chest isn't a chest of your team!
     shop:
         name: Obchod
         newshop: Pouzij novy obchod

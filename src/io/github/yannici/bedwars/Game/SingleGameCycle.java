@@ -38,6 +38,12 @@ public class SingleGameCycle extends GameCycle {
 		// reset countdown prevention breaks 
 		this.setEndGameRunning(false);
 		
+		// Reset team chests
+		for(Team team : this.getGame().getTeams().values()) {
+        	team.setInventory(null);
+        	team.getChests().clear();
+        }
+		
 		// set state and with that, the sign
         this.getGame().setState(GameState.WAITING);
 	}

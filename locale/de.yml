@@ -63,6 +63,8 @@ ingame:
     gamestarted: Das Spiel "$game$" hat begonnen!
     backtolobby: Zurück zur Lobby in $sec$ Sekunde(n)
     spectator: Zuschauer
+    teamchest: Teamkiste
+    noturteamchest: Diese Kiste gehört nicht deinem Team!
     shop:
         name: Itemshop
         newshop: Neuer Shop verwenden

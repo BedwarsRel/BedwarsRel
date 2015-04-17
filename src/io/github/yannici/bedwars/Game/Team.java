@@ -1,18 +1,23 @@
 package io.github.yannici.bedwars.Game;
 
+import io.github.yannici.bedwars.Main;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 
 @SerializableAs("Team")
 public class Team implements ConfigurationSerializable {
@@ -23,12 +28,15 @@ public class Team implements ConfigurationSerializable {
     private int maxPlayers = 0;
     private Location spawnLocation = null;
     private Block bedBlock = null;
+    private Inventory inventory = null;
+    private List<Block> chests = null;
 
     public Team(Map<String, Object> deserialize) {
         this.name = deserialize.get("name").toString();
         this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers").toString());
         this.color = TeamColor.valueOf(deserialize.get("color").toString().toUpperCase());
         this.spawnLocation = (Location)deserialize.get("spawn");
+        this.chests = new ArrayList<Block>();
         
         if(deserialize.containsKey("bed")) {
             this.bedBlock = ((Location)deserialize.get("bed")).getBlock();
@@ -41,8 +49,7 @@ public class Team implements ConfigurationSerializable {
         this.color = color;
         this.maxPlayers = maxPlayers;
         this.scoreboardTeam = sTeam;
-
-        ConfigurationSerialization.registerClass(Team.class);
+        this.chests = new ArrayList<Block>();
     }
 
     public boolean addPlayer(Player player) {
@@ -139,5 +146,33 @@ public class Team implements ConfigurationSerializable {
     public String getDisplayName() {
         return this.scoreboardTeam.getDisplayName();
     }
+
+	public void setInventory(Inventory inv) {
+		this.inventory = inv;
+	}
+	
+	public Inventory getInventory() {
+		return this.inventory;
+	}
+	
+	public void addChest(Block chestBlock) {
+		this.chests.add(chestBlock);
+	}
+	
+	public void removeChest(Block chest) {
+		this.chests.remove(chest);
+		if(this.chests.size() == 0) {
+			this.inventory = null;
+		}
+	}
+	
+	public List<Block> getChests() {
+		return this.chests;
+	}
+	
+	public void createTeamInventory() {
+		Inventory inv = Bukkit.createInventory(null, InventoryType.ENDER_CHEST, Main._l("ingame.teamchest"));
+		this.inventory = inv;
+	}
 
 }
