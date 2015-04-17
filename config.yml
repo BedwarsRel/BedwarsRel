@@ -11,6 +11,14 @@
 # byte: a int but limited between -128 ... 127
 # short: a int but limited between -32768 ... 32767
 
+# Enabled Metrics
+# type: boolean
+# Plugin Metrics sending anonymous data about your server
+# to store statistics about the bedwars plugin. This is really
+# helpful for me (Yannici, the developer of bedwars). You can
+# disable it anyway, that won't be a disadvantage
+plugin-metrics: true
+
 # Game length
 # Type: int
 # The time the game should maximum run (in minutes). When the countdown expires

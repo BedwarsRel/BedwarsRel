@@ -65,6 +65,7 @@ public class Main extends JavaPlugin {
 		this.scoreboardManager = Bukkit.getScoreboardManager();
 		this.gameManager.loadGames();
 		this.startTimeListener();
+		this.startMetricsIfEnabled();
 	}
 
 	public boolean isSpigot() {
@@ -213,6 +214,27 @@ public class Main extends JavaPlugin {
 		}
 
 		return GameLobbyCountdownRule.getById(id);
+	}
+	
+	public boolean metricsEnabled() {
+		if(this.getConfig().contains("plugin-metrics")) {
+			if(this.getConfig().isBoolean("plugin-metrics")) {
+				return this.getConfig().getBoolean("plugin-metrics");
+			}
+		}
+		
+		return false;
+	}
+	
+	public void startMetricsIfEnabled() {
+		if(this.metricsEnabled()) {
+			try {
+		        Metrics metrics = new Metrics(this);
+		        metrics.start();
+			} catch(Exception ex) {
+				this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Metrics are enabled, but couldn't send data!"));
+			}
+		}
 	}
 
 	public String getFallbackLocale() {
