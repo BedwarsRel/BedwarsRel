@@ -113,6 +113,7 @@ public class SingleGameCycle extends GameCycle {
 											.of("team", task.getWinner()
 													.getDisplayName()
 													+ ChatColor.GOLD)));
+			this.getGame().stopWorkers();
 		} else if (task.getCounter() == task.getStartCount()
 				&& task.getWinner() == null) {
 			this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));

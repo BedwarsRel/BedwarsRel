@@ -750,6 +750,8 @@ public class Game {
 		for (BukkitTask task : this.runningTasks) {
 			task.cancel();
 		}
+		
+		this.runningTasks.clear();
 	}
 
 	/*
