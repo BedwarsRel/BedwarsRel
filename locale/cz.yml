@@ -63,8 +63,8 @@ ingame:
     gamestarted: Hra "$game$" zacala!
     backtolobby: Teleportace do lobby za $sec$ sekund!
     spectator: Sledujici
-    teamchest: Team chest
-    noturteamchest: This chest isn't a chest of your team!
+    teamchest: Tymova truhla
+    noturteamchest: Tato truhla nepatri tvemu tymu!
     shop:
         name: Obchod
         newshop: Pouzij novy obchod
@@ -143,5 +143,5 @@ commands:
         name: Nastavit Main lobby
         desc: Nastavi hlavni lobby, kam se po hre teleportuji hraci. (je potreba pokud je mainlobby-enabled nastaveno na true)
     list:
-        name: List games
-        desc: Lists all available games
+        name: List her
+        desc: Zobrazi vsechny dostupne hry
