@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
+import io.github.yannici.bedwars.Game.GameLobbyCountdown;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
