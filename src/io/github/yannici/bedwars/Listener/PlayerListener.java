@@ -553,7 +553,7 @@ public class PlayerListener extends BaseListener {
 				.getLobbyCountdownRule();
 		if (rule == GameLobbyCountdownRule.TEAMS_HAVE_PLAYERS) {
 			if (rule.isRuleMet(game)) {
-				if (game.getLobbyCountdownRule() == null) {
+				if (game.getLobbyCountdown() == null) {
 					GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(game);
 					lobbyCountdown.setRule(rule);
 					lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
