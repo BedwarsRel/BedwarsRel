@@ -955,6 +955,10 @@ public class Game {
 	public GameLobbyCountdown getLobbyCountdown() {
 		return this.glc;
 	}
+	
+	public void setLobbyCountdown(GameLobbyCountdown glc) {
+		this.glc = glc;
+	}
 
 	/*
 	 * PRIVATE

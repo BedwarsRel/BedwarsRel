@@ -552,14 +552,11 @@ public class PlayerListener extends BaseListener {
 				.getLobbyCountdownRule();
 		if (rule == GameLobbyCountdownRule.TEAMS_HAVE_PLAYERS) {
 			if (rule.isRuleMet(game)) {
-				try {
-					// scheduled
-					game.getLobbyCountdown().getTaskId();
-				} catch (Exception ex) {
-					// not scheduled
-					game.getLobbyCountdown().setRule(rule);
-					game.getLobbyCountdown().runTaskTimer(Main.getInstance(),
-							20L, 20L);
+				if (game.getLobbyCountdownRule() == null) {
+					GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
+					lobbyCountdown.setRule(rule);
+					lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+					game.setLobbyCountdown(lobbyCountdown);
 				}
 			}
 		}
