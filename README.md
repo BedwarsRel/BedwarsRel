@@ -7,7 +7,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 
 ## Current features
 
-* Game Lobby with countdown when minimum player amount reached
+* Game Lobby with countdown (Levels + 2 possiblities configurable)
 * Up to 15 teams with custom amount of players
 * Customizable ressource spawners
     * Location
@@ -18,6 +18,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * Only one villager need for trades
     * Customizable Shop Offers
     * Customizable Shop Categories
+* NEW SHOP (like on Rewinside.tv)
 * World reset + editable while plugin is activated
 * Colored Player Names
 * Game Status in MOTD (only BungeeCord)
@@ -26,11 +27,14 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
     * English
     * German
     * Czech
+* Events for plugin developers
+* Spectators
+* Team chests (Ender chest)
 * Many commands for game setup
 
-#### Only 1.8 compatible
+#### Compatibility
 
-At the moment this bedwars plugin is compatible only with minecraft server version 1.8 or higher. I will add more version when the plugin is ready to release.
+I added compatibility for Minecraft Versions 1.8 and 1.7, try it now :)
 
 ### Ideas / Suggestions
 
@@ -51,8 +55,8 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
     * ~~Reload config~~
 * ~~Complete default shop configuration~~
 * ~~Teamchat~~
-* Spectators
-* Team chests (ender chest)
+* ~~Spectators~~
+* ~~Team chests (ender chest)~~
 * Mapvote(?)
 
 ## Want to join?
