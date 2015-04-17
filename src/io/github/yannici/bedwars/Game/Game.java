@@ -397,6 +397,12 @@ public class Game {
 	}
 
 	public boolean playerJoins(Player p) {
+		if(this.state == GameState.STOPPED) {
+			p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.cantjoingame")));
+			return false;
+		}
+		
 		if (this.state == GameState.RUNNING
 				&& !Main.getInstance().spectationEnabled()) {
 			p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
