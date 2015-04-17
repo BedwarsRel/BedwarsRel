@@ -14,15 +14,16 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class BedwarsOpenShopEvent extends Event implements Cancellable {
-	
+
 	private static final HandlerList handlers = new HandlerList();
 	private Player player = null;
 	private Game game = null;
 	private HashMap<Material, MerchantCategory> itemshop = null;
 	private Entity clickedEntity = null;
 	private boolean cancelled = false;
-	
-	public BedwarsOpenShopEvent(Game game, Player player, HashMap<Material, MerchantCategory> itemshop, Entity clickedEntity) {
+
+	public BedwarsOpenShopEvent(Game game, Player player,
+			HashMap<Material, MerchantCategory> itemshop, Entity clickedEntity) {
 		this.player = player;
 		this.game = game;
 		this.itemshop = itemshop;
@@ -33,23 +34,23 @@ public class BedwarsOpenShopEvent extends Event implements Cancellable {
 	public HandlerList getHandlers() {
 		return BedwarsOpenShopEvent.handlers;
 	}
-	
+
 	public static HandlerList getHandlerList() {
 		return BedwarsOpenShopEvent.handlers;
 	}
-	
+
 	public CommandSender getPlayer() {
 		return this.player;
 	}
-	
+
 	public Game getGame() {
 		return this.game;
 	}
-	
+
 	public HashMap<Material, MerchantCategory> getItemshop() {
 		return this.itemshop;
 	}
-	
+
 	public Entity getEntity() {
 		return this.clickedEntity;
 	}
@@ -63,5 +64,5 @@ public class BedwarsOpenShopEvent extends Event implements Cancellable {
 	public void setCancelled(boolean cancel) {
 		this.cancelled = cancel;
 	}
-	
+
 }

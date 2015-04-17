@@ -18,90 +18,106 @@ import com.google.common.collect.ImmutableMap;
 
 public class ListGamesCommand extends BaseCommand {
 
-    public ListGamesCommand(Main plugin) {
-        super(plugin);
-    }
+	public ListGamesCommand(Main plugin) {
+		super(plugin);
+	}
 
-    @Override
-    public String getCommand() {
-        return "list";
-    }
+	@Override
+	public String getCommand() {
+		return "list";
+	}
 
-    @Override
-    public String getName() {
-        return Main._l("commands.list.name");
-    }
+	@Override
+	public String getName() {
+		return Main._l("commands.list.name");
+	}
 
-    @Override
-    public String getDescription() {
-        return Main._l("commands.list.desc");
-    }
+	@Override
+	public String getDescription() {
+		return Main._l("commands.list.desc");
+	}
 
-    @Override
-    public String[] getArguments() {
-        return new String[]{};
-    }
+	@Override
+	public String[] getArguments() {
+		return new String[] {};
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, ArrayList<String> args) {
-        if(!sender.hasPermission("bw." + this.getPermission())) {
-            return false;
-        }
-        
-        String paginate;
-        int page = 1;
-        ArrayList<Game> showedGames = new ArrayList<Game>();
-        
-        if(args.size() == 0 || args.size() > 1) {
-        	paginate = "1";
-        } else {
-        	paginate = args.get(0);
-        	if(paginate.isEmpty()) {
-            	paginate = "1";
-            }
-        	
-        	if(!Utils.isNumber(paginate)) {
-        		paginate = "1";
-        	}
-        }
-        
-        page = Integer.parseInt(paginate);
-        StringBuilder sb = new StringBuilder();
-        sender.sendMessage(ChatColor.GREEN + "---------- Bedwars Games ----------");
-        
-        List<Game> games = Main.getInstance().getGameManager().getGames();
-        for(Game game : games) {
-        	if(game.checkGame() != GameCheckCode.OK) {
-        		continue;
-        	}
-        	
-        	showedGames.add(game);
-        	int players = 0;
-        	if(game.getState() == GameState.RUNNING) {
-        		players = game.getCurrentPlayerAmount();
-        	} else {
-        		players = game.getPlayers().size();
-        	}
-        	
-        	sb.append(ChatColor.YELLOW + game.getName() + " - " + game.getRegion().getWorld().getName() + " - " + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + ChatColor.YELLOW + " - " + Main._l("sign.players") + ": " + ChatColor.WHITE + "[" + ChatColor.YELLOW + players + ChatColor.WHITE + "/" + ChatColor.YELLOW + game.getMaxPlayers() + ChatColor.WHITE + "]");
-        }
-        
-        if(showedGames.size() == 0) {
-        	sb.append(ChatColor.RED + Main._l("errors.nogames"));
-        }
-        
-        ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
-        for(String line : chatPage.getLines()) {
-        	sender.sendMessage(line);
-        }
-        sender.sendMessage(ChatColor.GREEN + "---------- " + Main._l("default.pages", ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max", String.valueOf(chatPage.getTotalPages()))) + " ----------");
-        
-        return true;
-    }
+	@Override
+	public boolean execute(CommandSender sender, ArrayList<String> args) {
+		if (!sender.hasPermission("bw." + this.getPermission())) {
+			return false;
+		}
 
-    @Override
-    public String getPermission() {
-        return "base";
-    }
+		String paginate;
+		int page = 1;
+		ArrayList<Game> showedGames = new ArrayList<Game>();
+
+		if (args.size() == 0 || args.size() > 1) {
+			paginate = "1";
+		} else {
+			paginate = args.get(0);
+			if (paginate.isEmpty()) {
+				paginate = "1";
+			}
+
+			if (!Utils.isNumber(paginate)) {
+				paginate = "1";
+			}
+		}
+
+		page = Integer.parseInt(paginate);
+		StringBuilder sb = new StringBuilder();
+		sender.sendMessage(ChatColor.GREEN
+				+ "---------- Bedwars Games ----------");
+
+		List<Game> games = Main.getInstance().getGameManager().getGames();
+		for (Game game : games) {
+			if (game.checkGame() != GameCheckCode.OK) {
+				continue;
+			}
+
+			showedGames.add(game);
+			int players = 0;
+			if (game.getState() == GameState.RUNNING) {
+				players = game.getCurrentPlayerAmount();
+			} else {
+				players = game.getPlayers().size();
+			}
+
+			sb.append(ChatColor.YELLOW
+					+ game.getName()
+					+ " - "
+					+ game.getRegion().getWorld().getName()
+					+ " - "
+					+ Main._l("sign.gamestate."
+							+ game.getState().toString().toLowerCase())
+					+ ChatColor.YELLOW + " - " + Main._l("sign.players") + ": "
+					+ ChatColor.WHITE + "[" + ChatColor.YELLOW + players
+					+ ChatColor.WHITE + "/" + ChatColor.YELLOW
+					+ game.getMaxPlayers() + ChatColor.WHITE + "]");
+		}
+
+		if (showedGames.size() == 0) {
+			sb.append(ChatColor.RED + Main._l("errors.nogames"));
+		}
+
+		ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
+		for (String line : chatPage.getLines()) {
+			sender.sendMessage(line);
+		}
+		sender.sendMessage(ChatColor.GREEN
+				+ "---------- "
+				+ Main._l("default.pages", ImmutableMap.of("current",
+						String.valueOf(chatPage.getPageNumber()), "max",
+						String.valueOf(chatPage.getTotalPages())))
+				+ " ----------");
+
+		return true;
+	}
+
+	@Override
+	public String getPermission() {
+		return "base";
+	}
 
 }

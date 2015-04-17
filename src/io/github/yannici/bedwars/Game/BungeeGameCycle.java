@@ -28,22 +28,22 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public void onGameEnds() {
-		for(Player player : this.getGame().getPlayers()) {
-			for(Player freePlayer : this.getGame().getFreePlayers()) {
+		for (Player player : this.getGame().getPlayers()) {
+			for (Player freePlayer : this.getGame().getFreePlayers()) {
 				player.showPlayer(freePlayer);
 			}
 			this.getGame().playerLeave(player);
 		}
-        Bukkit.shutdown();
+		Bukkit.shutdown();
 	}
 
 	@Override
 	public void onPlayerLeave(Player player) {
-		if(player.isOnline()) {
+		if (player.isOnline()) {
 			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
 		}
-		
-		if(this.getGame().getState() == GameState.RUNNING) {
+
+		if (this.getGame().getState() == GameState.RUNNING) {
 			this.checkGameOver();
 		}
 	}
@@ -55,84 +55,110 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public boolean onPlayerJoins(Player player) {
-	    if(this.getGame().isFull()) {
-            if(this.getGame().getState() != GameState.RUNNING || !Main.getInstance().spectationEnabled()) {
-                this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
-                new BukkitRunnable() {
-                    
-                    @Override
-                    public void run() {
-                        BungeeGameCycle.this.sendBungeeMessage(player, ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
-                    }
-                }.runTaskLater(Main.getInstance(), 40L);
-                
-                return false;
-            }
-        }
-		
+		if (this.getGame().isFull()) {
+			if (this.getGame().getState() != GameState.RUNNING
+					|| !Main.getInstance().spectationEnabled()) {
+				this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
+						player);
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						BungeeGameCycle.this.sendBungeeMessage(
+								player,
+								ChatWriter.pluginMessage(ChatColor.RED
+										+ Main._l("lobby.gamefull")));
+					}
+				}.runTaskLater(Main.getInstance(), 40L);
+
+				return false;
+			}
+		}
+
 		return true;
 	}
-	
+
 	private void sendBungeeMessage(Player player, String message) {
-	    ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
-        
-        try {
-          out.writeUTF("Message");
-          out.writeUTF(player.getName());
-          out.writeUTF(message);
-        } catch (Exception e) {
-          e.printStackTrace();
-          return;
-        }
-        
-        if ((b != null) && (Utils.checkBungeePlugin())) {
-          player.sendPluginMessage(Main.getInstance(), "BungeeCord", b.toByteArray());
-        }
-	}
-	
-	private void bungeeSendToServer(String server, Player player) {
-		if(server == null) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bungeenoserver")));
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(b);
+
+		try {
+			out.writeUTF("Message");
+			out.writeUTF(player.getName());
+			out.writeUTF(message);
+		} catch (Exception e) {
+			e.printStackTrace();
 			return;
 		}
-		
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-	    DataOutputStream out = new DataOutputStream(b);
-	    
-	    try {
-	      out.writeUTF("Connect");
-	      out.writeUTF(server);
-	    } catch (Exception e) {
-	      e.printStackTrace();
-	      return;
-	    }
-	    
-	    if ((b != null) && (Utils.checkBungeePlugin())) {
-	      player.sendPluginMessage(Main.getInstance(), "BungeeCord", b.toByteArray());
-	    }
+
+		if ((b != null) && (Utils.checkBungeePlugin())) {
+			player.sendPluginMessage(Main.getInstance(), "BungeeCord",
+					b.toByteArray());
+		}
 	}
 
-    @Override
-    public void onGameOver(GameOverTask task) {
-        if(task.getCounter() == task.getStartCount() && task.getWinner() != null) {
-            this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon", ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
-        } else if(task.getCounter() == task.getStartCount() && task.getWinner() == null) {
-        	this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));
-        }
-        
-        // game over
-        if(task.getCounter() == 0) {
-            BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
-            Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
-            
-            this.onGameEnds();
-            task.cancel();
-        } else {
-            this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart", ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
-        }
-        
-        task.decCounter();
-    }
+	private void bungeeSendToServer(String server, Player player) {
+		if (server == null) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.bungeenoserver")));
+			return;
+		}
+
+		ByteArrayOutputStream b = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(b);
+
+		try {
+			out.writeUTF("Connect");
+			out.writeUTF(server);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}
+
+		if ((b != null) && (Utils.checkBungeePlugin())) {
+			player.sendPluginMessage(Main.getInstance(), "BungeeCord",
+					b.toByteArray());
+		}
+	}
+
+	@Override
+	public void onGameOver(GameOverTask task) {
+		if (task.getCounter() == task.getStartCount()
+				&& task.getWinner() != null) {
+			this.getGame()
+					.broadcast(
+							ChatColor.GOLD
+									+ Main._l("ingame.teamwon", ImmutableMap
+											.of("team", task.getWinner()
+													.getDisplayName()
+													+ ChatColor.GOLD)));
+		} else if (task.getCounter() == task.getStartCount()
+				&& task.getWinner() == null) {
+			this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));
+		}
+
+		// game over
+		if (task.getCounter() == 0) {
+			BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(
+					this.getGame());
+			Main.getInstance().getServer().getPluginManager()
+					.callEvent(endEvent);
+
+			this.onGameEnds();
+			task.cancel();
+		} else {
+			this.getGame().broadcast(
+					ChatColor.AQUA
+							+ Main._l(
+									"ingame.serverrestart",
+									ImmutableMap.of(
+											"sec",
+											ChatColor.YELLOW.toString()
+													+ task.getCounter()
+													+ ChatColor.AQUA)));
+		}
+
+		task.decCounter();
+	}
 
 }

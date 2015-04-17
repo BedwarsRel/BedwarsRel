@@ -12,51 +12,52 @@ import org.bukkit.entity.Player;
 
 public class LeaveGameCommand extends BaseCommand {
 
-    public LeaveGameCommand(Main plugin) {
-        super(plugin);
-    }
+	public LeaveGameCommand(Main plugin) {
+		super(plugin);
+	}
 
-    @Override
-    public String getCommand() {
-        return "leave";
-    }
+	@Override
+	public String getCommand() {
+		return "leave";
+	}
 
-    @Override
-    public String getName() {
-        return Main._l("commands.leave.name");
-    }
+	@Override
+	public String getName() {
+		return Main._l("commands.leave.name");
+	}
 
-    @Override
-    public String getDescription() {
-        return Main._l("commands.leave.desc");
-    }
-    
-    @Override
-    public String[] getArguments() {
-        return new String[]{};
-    }
+	@Override
+	public String getDescription() {
+		return Main._l("commands.leave.desc");
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, ArrayList<String> args) {
-        if(!super.hasPermission(sender)) {
-            return false;
-        }
+	@Override
+	public String[] getArguments() {
+		return new String[] {};
+	}
 
-        Player player = (Player) sender;
-        Game game = Game.getGameOfPlayer(player);
+	@Override
+	public boolean execute(CommandSender sender, ArrayList<String> args) {
+		if (!super.hasPermission(sender)) {
+			return false;
+		}
 
-        if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notingame")));
-            return false;
-        }
+		Player player = (Player) sender;
+		Game game = Game.getGameOfPlayer(player);
 
-        game.playerLeave(player);
-        return true;
-    }
+		if (game == null) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.notingame")));
+			return false;
+		}
 
-    @Override
-    public String getPermission() {
-        return "base";
-    }
+		game.playerLeave(player);
+		return true;
+	}
+
+	@Override
+	public String getPermission() {
+		return "base";
+	}
 
 }

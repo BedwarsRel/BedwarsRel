@@ -15,58 +15,65 @@ import com.google.common.collect.ImmutableMap;
 
 public class SetSpawnCommand extends BaseCommand implements ICommand {
 
-    public SetSpawnCommand(Main plugin) {
-        super(plugin);
-    }
+	public SetSpawnCommand(Main plugin) {
+		super(plugin);
+	}
 
-    @Override
-    public String getCommand() {
-        return "setspawn";
-    }
+	@Override
+	public String getCommand() {
+		return "setspawn";
+	}
 
-    @Override
-    public String getName() {
-        return Main._l("commands.setspawn.name");
-    }
+	@Override
+	public String getName() {
+		return Main._l("commands.setspawn.name");
+	}
 
-    @Override
-    public String getDescription() {
-        return Main._l("commands.setspawn.desc");
-    }
+	@Override
+	public String getDescription() {
+		return Main._l("commands.setspawn.desc");
+	}
 
-    @Override
-    public String[] getArguments() {
-        return new String[]{"game", "team"};
-    }
+	@Override
+	public String[] getArguments() {
+		return new String[] { "game", "team" };
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, ArrayList<String> args) {
-        if(!super.hasPermission(sender)) {
-            return false;
-        }
+	@Override
+	public boolean execute(CommandSender sender, ArrayList<String> args) {
+		if (!super.hasPermission(sender)) {
+			return false;
+		}
 
-        Player player = (Player) sender;
+		Player player = (Player) sender;
 
-        Game game = this.getPlugin().getGameManager().getGame(args.get(0));
-        if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-            return false;
-        }
+		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
+		if (game == null) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.gamenotfound",
+							ImmutableMap.of("game", args.get(0).toString()))));
+			return false;
+		}
 
-        Team team = game.getTeam(args.get(1));
-        if(team == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
-            return false;
-        }
+		Team team = game.getTeam(args.get(1));
+		if (team == null) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.teamnotfound")));
+			return false;
+		}
 
-        team.setSpawnLocation(player.getLocation());
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnset", ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
-        return true;
-    }
+		team.setSpawnLocation(player.getLocation());
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+				+ Main._l(
+						"success.spawnset",
+						ImmutableMap.of("team", team.getDisplayName()
+								+ ChatColor.GREEN))));
+		return true;
+	}
 
-    @Override
-    public String getPermission() {
-        return "setup";
-    }
+	@Override
+	public String getPermission() {
+		return "setup";
+	}
 
 }

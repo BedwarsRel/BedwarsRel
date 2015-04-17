@@ -13,47 +13,51 @@ import org.bukkit.command.CommandSender;
 
 public class BedwarsCommandExecutor implements CommandExecutor {
 
-    private Main plugin = null;
+	private Main plugin = null;
 
-    public BedwarsCommandExecutor(Main plugin) {
-        super();
+	public BedwarsCommandExecutor(Main plugin) {
+		super();
 
-        this.plugin = plugin;
-    }
+		this.plugin = plugin;
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        if(!cmd.getName().equalsIgnoreCase("bw")) {
-            return false;
-        }
-        
-        if(args.length < 1) {
-            return false;
-        }
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd,
+			String commandLabel, String[] args) {
+		if (!cmd.getName().equalsIgnoreCase("bw")) {
+			return false;
+		}
 
-        String command = args[0].toString();
-        ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(args));
-        arguments.remove(0);
+		if (args.length < 1) {
+			return false;
+		}
 
-        for(BaseCommand bCommand : this.plugin.getCommands()) {
-            if(bCommand.getCommand().equalsIgnoreCase(command)) {
-                if(bCommand.getArguments().length > arguments.size()) {
-                    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.argumentslength")));
-                    return false;
-                }
-                
-                BedwarsExecuteCommandEvent commandEvent = new BedwarsExecuteCommandEvent(sender, bCommand, arguments);
-                Main.getInstance().getServer().getPluginManager().callEvent(commandEvent);
-                
-                if(commandEvent.isCancelled()) {
-                	return true;
-                }
-                
-                return bCommand.execute(sender, arguments);
-            }
-        }
+		String command = args[0].toString();
+		ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(args));
+		arguments.remove(0);
 
-        return false;
-    }
+		for (BaseCommand bCommand : this.plugin.getCommands()) {
+			if (bCommand.getCommand().equalsIgnoreCase(command)) {
+				if (bCommand.getArguments().length > arguments.size()) {
+					sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+							+ Main._l("errors.argumentslength")));
+					return false;
+				}
+
+				BedwarsExecuteCommandEvent commandEvent = new BedwarsExecuteCommandEvent(
+						sender, bCommand, arguments);
+				Main.getInstance().getServer().getPluginManager()
+						.callEvent(commandEvent);
+
+				if (commandEvent.isCancelled()) {
+					return true;
+				}
+
+				return bCommand.execute(sender, arguments);
+			}
+		}
+
+		return false;
+	}
 
 }

@@ -7,11 +7,11 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class BedwarsGameStartEvent extends Event implements Cancellable {
-	
+
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled = false;
 	private Game game = null;
-	
+
 	public BedwarsGameStartEvent(Game game) {
 		this.game = game;
 	}
@@ -20,11 +20,11 @@ public class BedwarsGameStartEvent extends Event implements Cancellable {
 	public HandlerList getHandlers() {
 		return BedwarsGameStartEvent.handlers;
 	}
-	
+
 	public static HandlerList getHandlerList() {
 		return BedwarsGameStartEvent.handlers;
 	}
-	
+
 	public Game getGame() {
 		return this.game;
 	}

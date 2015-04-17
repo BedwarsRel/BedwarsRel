@@ -21,157 +21,163 @@ import org.bukkit.potion.PotionEffect;
 
 public class PlayerStorage {
 
-    private Player player = null;
+	private Player player = null;
 
-    private ItemStack[] inventory = null;
-    private ItemStack[] armor = null;
-    private float xp = 0.0F;
-    private Collection<PotionEffect> effects = null;
-    private GameMode mode = null;
-    private Location left = null;
-    private int level = 0;
-    private String displayName = null;
+	private ItemStack[] inventory = null;
+	private ItemStack[] armor = null;
+	private float xp = 0.0F;
+	private Collection<PotionEffect> effects = null;
+	private GameMode mode = null;
+	private Location left = null;
+	private int level = 0;
+	private String displayName = null;
 
-    public PlayerStorage(Player p) {
-        super();
+	public PlayerStorage(Player p) {
+		super();
 
-        this.player = p;
-    }
+		this.player = p;
+	}
 
-    public void store() {
-        this.inventory = this.player.getInventory().getContents();
-        this.armor = this.player.getInventory().getArmorContents();
-        this.xp = Float.valueOf(this.player.getExp());
-        this.effects = this.player.getActivePotionEffects();
-        this.mode = this.player.getGameMode();
-        this.left = this.player.getLocation();
-        this.level = this.player.getLevel();
-        this.displayName = this.player.getDisplayName();
-    }
+	public void store() {
+		this.inventory = this.player.getInventory().getContents();
+		this.armor = this.player.getInventory().getArmorContents();
+		this.xp = Float.valueOf(this.player.getExp());
+		this.effects = this.player.getActivePotionEffects();
+		this.mode = this.player.getGameMode();
+		this.left = this.player.getLocation();
+		this.level = this.player.getLevel();
+		this.displayName = this.player.getDisplayName();
+	}
 
-    public void clean() {
+	public void clean() {
 
-        PlayerInventory inv = this.player.getInventory();
-        inv.setArmorContents(new ItemStack[4]);
-        inv.setContents(new ItemStack[]{});
+		PlayerInventory inv = this.player.getInventory();
+		inv.setArmorContents(new ItemStack[4]);
+		inv.setContents(new ItemStack[] {});
 
-        this.player.setAllowFlight(false);
-        this.player.setFlying(false);
-        this.player.setExp(0.0F);
-        this.player.setLevel(0);
-        this.player.setSneaking(false);
-        this.player.setSprinting(false);
-        this.player.setFoodLevel(20);
-        this.player.setMaxHealth(20.0D);
-        this.player.setHealth(20.0D);
-        this.player.setFireTicks(0);
-        this.player.setGameMode(GameMode.SURVIVAL);
+		this.player.setAllowFlight(false);
+		this.player.setFlying(false);
+		this.player.setExp(0.0F);
+		this.player.setLevel(0);
+		this.player.setSneaking(false);
+		this.player.setSprinting(false);
+		this.player.setFoodLevel(20);
+		this.player.setMaxHealth(20.0D);
+		this.player.setHealth(20.0D);
+		this.player.setFireTicks(0);
+		this.player.setGameMode(GameMode.SURVIVAL);
 
-        if (this.player.isInsideVehicle()) {
-            this.player.leaveVehicle();
-        }
+		if (this.player.isInsideVehicle()) {
+			this.player.leaveVehicle();
+		}
 
-        for (PotionEffect e : this.player.getActivePotionEffects()) {
-            this.player.removePotionEffect(e.getType());
-        }
+		for (PotionEffect e : this.player.getActivePotionEffects()) {
+			this.player.removePotionEffect(e.getType());
+		}
 
-        this.player.updateInventory();
-    }
+		this.player.updateInventory();
+	}
 
-    public void restore() {
-        this.player.getInventory().setContents(this.inventory);
-        this.player.getInventory().setArmorContents(this.armor);
-        this.player.setGameMode(this.mode);
+	public void restore() {
+		this.player.getInventory().setContents(this.inventory);
+		this.player.getInventory().setArmorContents(this.armor);
+		this.player.setGameMode(this.mode);
 
-        if (this.mode == GameMode.CREATIVE) {
-            this.player.setAllowFlight(true);
-        }
+		if (this.mode == GameMode.CREATIVE) {
+			this.player.setAllowFlight(true);
+		}
 
-        this.player.addPotionEffects(this.effects);
-        this.player.setExp(this.xp);
-        this.player.setLevel(this.level);
-        this.player.setDisplayName(this.displayName);
-        
-        this.player.updateInventory();
-    }
-    
-    public Location getLeft() {
-    	return this.left;
-    }
+		this.player.addPotionEffects(this.effects);
+		this.player.setExp(this.xp);
+		this.player.setLevel(this.level);
+		this.player.setDisplayName(this.displayName);
 
-    public void loadLobbyInventory() {
-    	// Choose team (Wool)
-        ItemStack teamSelection = new ItemStack(Material.BED, 1);
-        ItemMeta im = teamSelection.getItemMeta();
-        im.setDisplayName(Main._l("lobby.chooseteam"));
-        teamSelection.setItemMeta(im);
-        this.player.getInventory().addItem(teamSelection);
-        
-        // Leave Game (Slimeball)
-        ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
-        im = leaveGame.getItemMeta();
-        im.setDisplayName(Main._l("lobby.leavegame"));
-        leaveGame.setItemMeta(im);
-        this.player.getInventory().setItem(8, leaveGame);
+		this.player.updateInventory();
+	}
 
-        if(this.player.hasPermission("bw.setup")) {
-        	// Force start game (Diamond)
-            ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
-            im = startGame.getItemMeta();
-            im.setDisplayName(Main._l("lobby.startgame"));
-            startGame.setItemMeta(im);
-            this.player.getInventory().addItem(startGame);
-        }
+	public Location getLeft() {
+		return this.left;
+	}
 
-        this.player.updateInventory();
-    }
+	public void loadLobbyInventory() {
+		// Choose team (Wool)
+		ItemStack teamSelection = new ItemStack(Material.BED, 1);
+		ItemMeta im = teamSelection.getItemMeta();
+		im.setDisplayName(Main._l("lobby.chooseteam"));
+		teamSelection.setItemMeta(im);
+		this.player.getInventory().addItem(teamSelection);
 
-    @SuppressWarnings("deprecation")
-    public void openTeamSelection(Game game) {
-    	BedwarsOpenTeamSelectionEvent openEvent = new BedwarsOpenTeamSelectionEvent(game, this.player);
-    	Main.getInstance().getServer().getPluginManager().callEvent(openEvent);
-    	
-    	if(openEvent.isCancelled()) {
-    		return;
-    	}
-    	
-        HashMap<String, Team> teams = game.getTeams();
+		// Leave Game (Slimeball)
+		ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
+		im = leaveGame.getItemMeta();
+		im.setDisplayName(Main._l("lobby.leavegame"));
+		leaveGame.setItemMeta(im);
+		this.player.getInventory().setItem(8, leaveGame);
 
-        Inventory inv = Bukkit.createInventory(this.player, (teams.size()-teams.size()%9)+9, Main._l("lobby.chooseteam"));
-        for(Team team : teams.values()) {
-            ArrayList<Player> players = team.getPlayers();
-            if(players.size() >= team.getMaxPlayers()) {
-                continue;
-            }
+		if (this.player.hasPermission("bw.setup")) {
+			// Force start game (Diamond)
+			ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
+			im = startGame.getItemMeta();
+			im.setDisplayName(Main._l("lobby.startgame"));
+			startGame.setItemMeta(im);
+			this.player.getInventory().addItem(startGame);
+		}
 
-            ItemStack is = new ItemStack(Material.WOOL, 1, team.getColor().getDyeColor().getData());
-            ItemMeta im = is.getItemMeta();
-            im.setDisplayName(team.getChatColor() + team.getName());
-            ArrayList<String> teamplayers = new ArrayList<>();
-            
-            int teamPlayerSize = team.getPlayers().size();
-            int maxPlayers = team.getMaxPlayers();
-            
-            String current = "0";
-            if (teamPlayerSize >= maxPlayers) {
-                current = ChatColor.RED + String.valueOf(teamPlayerSize);
-            } else {
-                current = ChatColor.YELLOW + String.valueOf(teamPlayerSize);
-            }
-            
-            teamplayers.add(ChatColor.GRAY + "(" + current + ChatColor.GRAY + "/" + ChatColor.YELLOW + String.valueOf(maxPlayers) + ChatColor.GRAY + ")");
-            teamplayers.add(ChatColor.WHITE + "---------");
-            
-            for(Player teamPlayer : players) {
-                teamplayers.add(team.getChatColor() + teamPlayer.getName());
-            }
+		this.player.updateInventory();
+	}
 
-            im.setLore(teamplayers);
-            is.setItemMeta(im);
-            inv.addItem(is);
-        }
+	@SuppressWarnings("deprecation")
+	public void openTeamSelection(Game game) {
+		BedwarsOpenTeamSelectionEvent openEvent = new BedwarsOpenTeamSelectionEvent(
+				game, this.player);
+		Main.getInstance().getServer().getPluginManager().callEvent(openEvent);
 
-        this.player.openInventory(inv);
-    }
+		if (openEvent.isCancelled()) {
+			return;
+		}
+
+		HashMap<String, Team> teams = game.getTeams();
+
+		Inventory inv = Bukkit.createInventory(this.player,
+				(teams.size() - teams.size() % 9) + 9,
+				Main._l("lobby.chooseteam"));
+		for (Team team : teams.values()) {
+			ArrayList<Player> players = team.getPlayers();
+			if (players.size() >= team.getMaxPlayers()) {
+				continue;
+			}
+
+			ItemStack is = new ItemStack(Material.WOOL, 1, team.getColor()
+					.getDyeColor().getData());
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(team.getChatColor() + team.getName());
+			ArrayList<String> teamplayers = new ArrayList<>();
+
+			int teamPlayerSize = team.getPlayers().size();
+			int maxPlayers = team.getMaxPlayers();
+
+			String current = "0";
+			if (teamPlayerSize >= maxPlayers) {
+				current = ChatColor.RED + String.valueOf(teamPlayerSize);
+			} else {
+				current = ChatColor.YELLOW + String.valueOf(teamPlayerSize);
+			}
+
+			teamplayers.add(ChatColor.GRAY + "(" + current + ChatColor.GRAY
+					+ "/" + ChatColor.YELLOW + String.valueOf(maxPlayers)
+					+ ChatColor.GRAY + ")");
+			teamplayers.add(ChatColor.WHITE + "---------");
+
+			for (Player teamPlayer : players) {
+				teamplayers.add(team.getChatColor() + teamPlayer.getName());
+			}
+
+			im.setLore(teamplayers);
+			is.setItemMeta(im);
+			inv.addItem(is);
+		}
+
+		this.player.openInventory(inv);
+	}
 
 }

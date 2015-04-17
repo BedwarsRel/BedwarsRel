@@ -14,53 +14,56 @@ import com.google.common.collect.ImmutableMap;
 
 public class JoinGameCommand extends BaseCommand {
 
-    public JoinGameCommand(Main plugin) {
-        super(plugin);
-    }
+	public JoinGameCommand(Main plugin) {
+		super(plugin);
+	}
 
-    @Override
-    public String getCommand() {
-        return "join";
-    }
+	@Override
+	public String getCommand() {
+		return "join";
+	}
 
-    @Override
-    public String getName() {
-        return Main._l("commands.join.name");
-    }
+	@Override
+	public String getName() {
+		return Main._l("commands.join.name");
+	}
 
-    @Override
-    public String getDescription() {
-        return Main._l("commands.join.desc");
-    }
+	@Override
+	public String getDescription() {
+		return Main._l("commands.join.desc");
+	}
 
-    @Override
-    public String[] getArguments() {
-        return new String[]{"game"};
-    }
+	@Override
+	public String[] getArguments() {
+		return new String[] { "game" };
+	}
 
-    @Override
-    public boolean execute(CommandSender sender, ArrayList<String> args) {
-        if(!super.hasPermission(sender)) {
-            return false;
-        }
+	@Override
+	public boolean execute(CommandSender sender, ArrayList<String> args) {
+		if (!super.hasPermission(sender)) {
+			return false;
+		}
 
-        Player player = (Player) sender;
-        Game game = this.getPlugin().getGameManager().getGame(args.get(0));
+		Player player = (Player) sender;
+		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 
-        if(game == null) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-            return false;
-        }
+		if (game == null) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.gamenotfound",
+							ImmutableMap.of("game", args.get(0).toString()))));
+			return false;
+		}
 
-        if(game.playerJoins(player)) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.joined")));
-        }
-        return true;
-    }
+		if (game.playerJoins(player)) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+					+ Main._l("success.joined")));
+		}
+		return true;
+	}
 
-    @Override
-    public String getPermission() {
-        return "base";
-    }
+	@Override
+	public String getPermission() {
+		return "base";
+	}
 
 }

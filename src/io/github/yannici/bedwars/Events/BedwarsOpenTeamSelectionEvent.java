@@ -9,12 +9,12 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class BedwarsOpenTeamSelectionEvent extends Event implements Cancellable {
-	
+
 	private static final HandlerList handlers = new HandlerList();
 	private Player player = null;
 	private Game game = null;
 	private boolean cancelled = false;
-	
+
 	public BedwarsOpenTeamSelectionEvent(Game game, Player player) {
 		this.player = player;
 		this.game = game;
@@ -24,15 +24,15 @@ public class BedwarsOpenTeamSelectionEvent extends Event implements Cancellable 
 	public HandlerList getHandlers() {
 		return BedwarsOpenTeamSelectionEvent.handlers;
 	}
-	
+
 	public static HandlerList getHandlerList() {
 		return BedwarsOpenTeamSelectionEvent.handlers;
 	}
-	
+
 	public CommandSender getPlayer() {
 		return this.player;
 	}
-	
+
 	public Game getGame() {
 		return this.game;
 	}
@@ -46,5 +46,5 @@ public class BedwarsOpenTeamSelectionEvent extends Event implements Cancellable 
 	public void setCancelled(boolean cancel) {
 		this.cancelled = cancel;
 	}
-	
+
 }

@@ -11,44 +11,46 @@ import org.bukkit.entity.Player;
 
 public abstract class BaseCommand implements ICommand {
 
-    private Main plugin = null;
+	private Main plugin = null;
 
-    public BaseCommand(Main plugin) {
-        this.plugin = plugin;
-    }
+	public BaseCommand(Main plugin) {
+		this.plugin = plugin;
+	}
 
-    protected Main getPlugin() {
-        return this.plugin;
-    }
+	protected Main getPlugin() {
+		return this.plugin;
+	}
 
-    @Override
-    public abstract String getCommand();
+	@Override
+	public abstract String getCommand();
 
-    @Override
-    public abstract String getName();
+	@Override
+	public abstract String getName();
 
-    @Override
-    public abstract String getDescription();
+	@Override
+	public abstract String getDescription();
 
-    @Override
-    public abstract String[] getArguments();
+	@Override
+	public abstract String[] getArguments();
 
-    @Override
-    public abstract boolean execute(CommandSender sender, ArrayList<String> args);
+	@Override
+	public abstract boolean execute(CommandSender sender, ArrayList<String> args);
 
-    @Override
-    public boolean hasPermission(CommandSender sender) {
-        if(!(sender instanceof Player)) {
-            sender.sendMessage(ChatWriter.pluginMessage("Only players should execute this command!"));
-            return false;
-        }
+	@Override
+	public boolean hasPermission(CommandSender sender) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(ChatWriter
+					.pluginMessage("Only players should execute this command!"));
+			return false;
+		}
 
-        if(!sender.hasPermission("bw." + this.getPermission())) {
-            sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "You don't have permission to execute this command!"));
-            return false;
-        }
+		if (!sender.hasPermission("bw." + this.getPermission())) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ "You don't have permission to execute this command!"));
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
 }

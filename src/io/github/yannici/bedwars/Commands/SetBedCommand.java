@@ -20,89 +20,100 @@ import com.google.common.collect.ImmutableMap;
 
 public class SetBedCommand extends BaseCommand implements ICommand {
 
-    public SetBedCommand(Main plugin) {
-        super(plugin);
-    }
+	public SetBedCommand(Main plugin) {
+		super(plugin);
+	}
 
-    @Override
-    public String getCommand() {
-        return "setbed";
-    }
+	@Override
+	public String getCommand() {
+		return "setbed";
+	}
 
-    @Override
-    public String getName() {
-        return Main._l("commands.setbed.name");
-    }
+	@Override
+	public String getName() {
+		return Main._l("commands.setbed.name");
+	}
 
-    @Override
-    public String getDescription() {
-        return Main._l("commands.setbed.desc");
-    }
+	@Override
+	public String getDescription() {
+		return Main._l("commands.setbed.desc");
+	}
 
-    @Override
-    public String[] getArguments() {
-        return new String[]{"game", "team"};
-    }
-    
-    @Override
-    public boolean execute(CommandSender sender, ArrayList<String> args) {
-        if(!super.hasPermission(sender)) {
-            return false;
-        }
+	@Override
+	public String[] getArguments() {
+		return new String[] { "game", "team" };
+	}
 
-        Player player = (Player) sender;
-        String team = args.get(1);
+	@Override
+	public boolean execute(CommandSender sender, ArrayList<String> args) {
+		if (!super.hasPermission(sender)) {
+			return false;
+		}
 
-        Game game = this.getPlugin().getGameManager().getGame(args.get(0));
-        if(game == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-            return false;
-        }
-        
-        Team gameTeam = game.getTeam(team);
-        
-        if(team == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
-            return false;
-        }
-        
-        HashSet<Material> transparent = new HashSet<Material>();
-        transparent.add(Material.AIR);
-        
-        Block targetBlock = player.getTargetBlock(transparent, 15);
-        Block standingBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        
-        if(targetBlock == null || standingBlock == null) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
-            return false;
-        }
-        
-        if(targetBlock.getType() != Material.BED_BLOCK && standingBlock.getType() != Material.BED_BLOCK) {
-            player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
-            return false;
-        }
-        
-        Block theBlock = null;
-        if(targetBlock.getType() == Material.BED_BLOCK) {
-            theBlock = targetBlock;
-        } else {
-            theBlock = standingBlock;
-        }
-        
-        Bed theBed = (Bed)theBlock.getState().getData();
-        
-        if(!theBed.isHeadOfBed()) {
-            theBlock = theBlock.getRelative(theBed.getFacing());
-        }
-        
-        gameTeam.setBed(theBlock);
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.bedset", ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
-        return true;
-    }
+		Player player = (Player) sender;
+		String team = args.get(1);
 
-    @Override
-    public String getPermission() {
-        return "setup";
-    }
+		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
+		if (game == null) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.gamenotfound",
+							ImmutableMap.of("game", args.get(0).toString()))));
+			return false;
+		}
+
+		Team gameTeam = game.getTeam(team);
+
+		if (team == null) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.teamnotfound")));
+			return false;
+		}
+
+		HashSet<Material> transparent = new HashSet<Material>();
+		transparent.add(Material.AIR);
+
+		Block targetBlock = player.getTargetBlock(transparent, 15);
+		Block standingBlock = player.getLocation().getBlock()
+				.getRelative(BlockFace.DOWN);
+
+		if (targetBlock == null || standingBlock == null) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.bedtargeting")));
+			return false;
+		}
+
+		if (targetBlock.getType() != Material.BED_BLOCK
+				&& standingBlock.getType() != Material.BED_BLOCK) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.bedtargeting")));
+			return false;
+		}
+
+		Block theBlock = null;
+		if (targetBlock.getType() == Material.BED_BLOCK) {
+			theBlock = targetBlock;
+		} else {
+			theBlock = standingBlock;
+		}
+
+		Bed theBed = (Bed) theBlock.getState().getData();
+
+		if (!theBed.isHeadOfBed()) {
+			theBlock = theBlock.getRelative(theBed.getFacing());
+		}
+
+		gameTeam.setBed(theBlock);
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+				+ Main._l(
+						"success.bedset",
+						ImmutableMap.of("team", gameTeam.getChatColor()
+								+ gameTeam.getName() + ChatColor.GREEN))));
+		return true;
+	}
+
+	@Override
+	public String getPermission() {
+		return "setup";
+	}
 
 }

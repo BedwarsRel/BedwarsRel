@@ -484,11 +484,11 @@ public class PlayerListener extends BaseListener {
 			if (interactingMaterial == Material.ENDER_CHEST
 					&& !g.isSpectator(player)) {
 				pie.setCancelled(true);
-				
+
 				Block chest = pie.getClickedBlock();
 				Team chestTeam = g.getTeamOfEnderChest(chest);
 				Team playerTeam = Game.getPlayerTeam(player, g);
-				
+
 				if (chestTeam == null) {
 					return;
 				}

@@ -10,14 +10,15 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
-	
+
 	private static final HandlerList handlers = new HandlerList();
 	private CommandSender sender = null;
 	private BaseCommand command = null;
 	private ArrayList<String> params = null;
 	private boolean cancelled = false;
-	
-	public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command, ArrayList<String> params) {
+
+	public BedwarsExecuteCommandEvent(CommandSender sender,
+			BaseCommand command, ArrayList<String> params) {
 		this.sender = sender;
 		this.command = command;
 		this.params = params;
@@ -27,19 +28,19 @@ public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 	public HandlerList getHandlers() {
 		return BedwarsExecuteCommandEvent.handlers;
 	}
-	
+
 	public static HandlerList getHandlerList() {
 		return BedwarsExecuteCommandEvent.handlers;
 	}
-	
+
 	public CommandSender getSender() {
 		return this.sender;
 	}
-	
+
 	public BaseCommand getCommand() {
 		return this.command;
 	}
-	
+
 	public ArrayList<String> getParameter() {
 		return this.params;
 	}
@@ -53,5 +54,5 @@ public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 	public void setCancelled(boolean cancel) {
 		this.cancelled = cancel;
 	}
-	
+
 }
