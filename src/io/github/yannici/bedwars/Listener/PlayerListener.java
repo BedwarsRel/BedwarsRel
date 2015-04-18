@@ -290,7 +290,12 @@ public class PlayerListener extends BaseListener {
 
 		if (message.trim().startsWith("@") || isSpectator) {
 			message = message.trim();
-			ce.setMessage(message.substring(1, message.length()));
+			if(!isSpectator) {
+			    ce.setMessage(message.substring(1, message.length()));
+			} else {
+			    ce.setMessage(message);
+			}
+			
 
 			if (!isSpectator) {
 				ce.setFormat("[" + Main._l("ingame.all") + "] <"
