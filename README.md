@@ -35,6 +35,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 #### Compatibility
 
 I added compatibility for Minecraft Versions 1.8 and 1.7, try it now :)
+**!!! IMPORTANT !!!** Spectators are not compatible with 1.7 **!!! IMPORTANT !!!*
 
 ### Ideas / Suggestions
 

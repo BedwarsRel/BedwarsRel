@@ -361,7 +361,9 @@ public class Game {
 			storage.store();
 			storage.clean();
 		}
-
+		
+		player.setGameMode(GameMode.SPECTATOR);
+		
 		new BukkitRunnable() {
 
 			@Override
@@ -418,10 +420,10 @@ public class Game {
 		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 
 		if (this.state == GameState.RUNNING) {
-			this.toSpectator(p);
-			p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
-					this.teams.size() - 1)]).getSpawnLocation());
-			p.setScoreboard(this.scoreboard);
+	        this.toSpectator(p);
+            p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
+                    this.teams.size() - 1)]).getSpawnLocation());
+            p.setScoreboard(this.scoreboard);
 		} else {
 			this.freePlayers.add(p);
 
