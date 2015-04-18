@@ -518,6 +518,10 @@ public class PlayerListener extends BaseListener {
 				g.playerLeave(player);
 				return;
 			}
+			
+			if(clickedBlock == null) {
+				return;
+			}
 
 			if (clickedBlock.getType() == Material.ENDER_CHEST
 					&& !g.isSpectator(player)) {
