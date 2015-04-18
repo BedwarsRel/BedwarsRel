@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class Region {
 	private Location maxCorner = null;
 	private World world = null;
 	private List<Block> placedBlocks = null;
+	private List<Block> breakedBeds = null;
+	private HashMap<Block, Integer> breakedBedsTypes = null;
+	private HashMap<Block, Byte> breakedBedsData = null;
 
 	public Region(Location pos1, Location pos2) {
 		if (pos1 == null || pos2 == null) {
@@ -31,6 +35,9 @@ public class Region {
 		this.world = pos1.getWorld();
 		this.setMinMax(pos1, pos2);
 		this.placedBlocks = new ArrayList<Block>();
+		this.breakedBeds = new ArrayList<Block>();
+		this.breakedBedsTypes = new HashMap<Block, Integer>();
+		this.breakedBedsData = new HashMap<Block, Byte>();
 	}
 
 	public Region(World w, int x1, int y1, int z1, int x2, int y2, int z2) {
@@ -69,7 +76,8 @@ public class Region {
 				.getBlockZ() <= this.maxCorner.getBlockZ());
 	}
 
-	public void reset() {
+	@SuppressWarnings("deprecation")
+    public void reset() {
 		for(Block placed : this.placedBlocks) {
 		    Block blockInWorld = this.world.getBlockAt(placed.getLocation());
 		    if(blockInWorld.getType() == Material.AIR) {
@@ -82,6 +90,14 @@ public class Region {
 		}
 		
 		this.placedBlocks.clear();
+		
+		for(Block bedBlock : this.breakedBeds) {
+		    Block oldBlock = this.getWorld().getBlockAt(bedBlock.getLocation());
+		    oldBlock.setTypeId(this.breakedBedsTypes.get(bedBlock));
+		    oldBlock.setData(this.breakedBedsData.get(bedBlock));
+		}
+		
+		this.breakedBeds.clear();
 
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {
@@ -111,6 +127,13 @@ public class Region {
     
     public void removePlacedBlock(Block block) {
         this.placedBlocks.remove(block);
+    }
+    
+    @SuppressWarnings("deprecation")
+    public void addBreakedBedBlock(Block bedBlock) {
+        this.breakedBedsTypes.put(bedBlock, bedBlock.getTypeId());
+        this.breakedBedsData.put(bedBlock, bedBlock.getData());
+        this.breakedBeds.add(bedBlock);
     }
 
 }

@@ -93,8 +93,13 @@ public class BlockListener extends BaseListener {
 				return;
 			}
 
+
 			Block neighbor = breakBlock.getRelative(breakBed.getFacing()
 					.getOppositeFace());
+			
+			g.getRegion().addBreakedBedBlock(neighbor);
+            g.getRegion().addBreakedBedBlock(breakBlock);
+            
 			neighbor.getDrops().clear();
 			neighbor.setType(Material.AIR);
 			breakBlock.getDrops().clear();
