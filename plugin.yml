@@ -76,4 +76,4 @@ permissions:
         default: op
     bw.cmd:
         description: Allows to execute non-bedwars commands ingame
-        default: true
+        default: op
