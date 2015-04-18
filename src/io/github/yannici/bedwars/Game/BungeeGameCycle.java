@@ -34,6 +34,8 @@ public class BungeeGameCycle extends GameCycle {
 			}
 			this.getGame().playerLeave(player);
 		}
+		
+		this.getGame().resetRegion();
 		Bukkit.shutdown();
 	}
 
