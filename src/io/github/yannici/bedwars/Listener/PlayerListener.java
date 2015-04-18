@@ -370,6 +370,7 @@ public class PlayerListener extends BaseListener {
 
 		if (!pcpe.getMessage().startsWith("/bw")
 				&& !player.hasPermission("bw.cmd")) {
+		    pcpe.setCancelled(true);
 			return;
 		}
 	}
