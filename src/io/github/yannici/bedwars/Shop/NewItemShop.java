@@ -281,7 +281,16 @@ public class NewItemShop {
 			}
 		}
 
-		inventory.addItem(item);
+		// cloning stack
+		ItemStack addingItem = item.clone();
+		ItemMeta itemMeta = addingItem.getItemMeta();
+		List<String> lore = itemMeta.getLore();
+		
+		lore.remove(lore.size()-1);
+		itemMeta.setLore(lore);
+		addingItem.setItemMeta(itemMeta);
+		
+		inventory.addItem(addingItem);
 
 		player.updateInventory();
 	}
@@ -311,6 +320,8 @@ public class NewItemShop {
 			ItemStack iStack = this.toItemStack(trade, player, game);
 			if (iStack.equals(stack)) {
 				return trade;
+			} else if(iStack.getType() == Material.ENDER_CHEST && stack.getType() == Material.ENDER_CHEST) {
+			    return trade;
 			}
 		}
 

@@ -29,8 +29,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
@@ -128,10 +130,37 @@ public class PlayerListener extends BaseListener {
 		if (game == null) {
 			return;
 		}
+		
+		if(game.getState() == GameState.STOPPED) {
+		    return;
+		}
+		
+		if(ioe.getInventory().getType() == InventoryType.ENCHANTING
+		        || ioe.getInventory().getType() == InventoryType.BREWING
+		        || ioe.getInventory().getType() == InventoryType.CRAFTING) {
+		    ioe.setCancelled(true);
+		    return;
+		}
 
 		if (game.isSpectator(player)) {
 			ioe.setCancelled(true);
 		}
+	}
+	
+	@EventHandler
+	public void onCraft(CraftItemEvent cie) {
+	    Player player = (Player)cie.getWhoClicked();
+        Game game = Game.getGameOfPlayer(player);
+        
+        if(game == null) {
+            return;
+        }
+        
+        if(game.getState() == GameState.STOPPED) {
+            return;
+        }
+        
+        cie.setCancelled(true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -354,7 +383,7 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * LOBBY & GAME
 	 */
-
+	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCommand(PlayerCommandPreprocessEvent pcpe) {
 		Player player = pcpe.getPlayer();
@@ -477,6 +506,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		Material interactingMaterial = pie.getMaterial();
+		Block clickedBlock = pie.getClickedBlock();
 
 		if (g.getState() == GameState.RUNNING) {
 			if (g.isSpectator(player)) {
@@ -489,7 +519,7 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 
-			if (interactingMaterial == Material.ENDER_CHEST
+			if (clickedBlock.getType() == Material.ENDER_CHEST
 					&& !g.isSpectator(player)) {
 				pie.setCancelled(true);
 
