@@ -9,7 +9,7 @@ public class ChatWriter {
 	}
 
 	public static String pluginMessage(String str) {
-		return ChatColor.GOLD + "[" + Main.getInstance().getName() + "] "
+		return ChatColor.GOLD + "[Bedwars] "
 				+ ChatColor.WHITE + str;
 	}
 

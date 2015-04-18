@@ -1,4 +1,4 @@
-name: Bedwars
+name: BedwarsReloaded
 main: io.github.yannici.bedwars.Main
 version: 0.1.0
 depend: []
