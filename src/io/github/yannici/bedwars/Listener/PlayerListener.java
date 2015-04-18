@@ -17,6 +17,7 @@ import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -500,6 +501,20 @@ public class PlayerListener extends BaseListener {
 					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 							+ Main._l("ingame.noturteamchest")));
 				}
+			}
+			
+			// Spectators want to block
+			for(Player p : g.getFreePlayers()) {
+			    if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
+			        Location oldLocation = p.getLocation();
+			        if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
+			            oldLocation.setY(oldLocation.getY()+2);
+			        } else {
+			            oldLocation.setY(oldLocation.getY()-2);
+			        }
+			        
+			        p.teleport(oldLocation);
+			    }
 			}
 
 			return;
