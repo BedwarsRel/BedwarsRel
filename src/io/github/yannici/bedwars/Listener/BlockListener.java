@@ -111,10 +111,11 @@ public class BlockListener extends BaseListener {
 			g.setPlayersScoreboard();
 			return;
 		}
-
+		
+		Block breakedBlock = e.getBlock();
+		
 		if (e.getBlock().getType() == Material.ENDER_CHEST) {
 			Team playerTeam = Game.getPlayerTeam(p, g);
-			Block breakedBlock = e.getBlock();
 
 			if (playerTeam.getInventory() == null) {
 				playerTeam.createTeamInventory();
@@ -127,9 +128,13 @@ public class BlockListener extends BaseListener {
 				}
 			}
 		}
+		
+		
 
-		if (g.getRegion().getBlocks(false).contains(e.getBlock())) {
+		if (!g.getRegion().isPlacedBlock(breakedBlock)) {
 			e.setCancelled(true);
+		} else {
+		    g.getRegion().removePlacedBlock(breakedBlock);
 		}
 	}
 
@@ -179,6 +184,10 @@ public class BlockListener extends BaseListener {
 				}
 
 				playerTeam.addChest(placeBlock);
+			}
+			
+			if(!bpe.isCancelled()) {
+			    game.getRegion().addPlacedBlock(placeBlock);
 			}
 		}
 	}

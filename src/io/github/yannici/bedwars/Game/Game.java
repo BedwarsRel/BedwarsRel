@@ -621,9 +621,7 @@ public class Game {
 			return;
 		}
 
-		File file = new File(this.getPlugin().getDataFolder() + "/"
-				+ GameManager.gamesPath + "/" + this.name + "/region.bw");
-		this.region.reset(file);
+		this.region.reset();
 	}
 
 	public void setPlayersScoreboard() {
@@ -1021,23 +1019,8 @@ public class Game {
 	}
 
 	private void saveRegion(boolean direct) {
-		try {
-
-			if (this.region == null || direct) {
-				this.region = new Region(this.loc1, this.loc2);
-			}
-
-			File file = new File(this.getPlugin().getDataFolder() + "/"
-					+ GameManager.gamesPath + "/" + this.name + "/region.bw");
-
-			if (file.exists()) {
-				file.delete();
-			}
-
-			this.region.save(file, direct);
-		} catch (IOException e) {
-			Main.getInstance().getLogger()
-					.info(ChatWriter.pluginMessage(e.getMessage()));
+		if (this.region == null || direct) {
+			this.region = new Region(this.loc1, this.loc2);
 		}
 	}
 
