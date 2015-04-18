@@ -362,15 +362,13 @@ public class Game {
 			storage.clean();
 		}
 		
-		player.setGameMode(GameMode.SPECTATOR);
-		
 		new BukkitRunnable() {
 
 			@Override
 			public void run() {
 				player.setAllowFlight(true);
 				player.setFlying(true);
-				player.setGameMode(GameMode.CREATIVE);
+				player.setGameMode(GameMode.SPECTATOR);
 
 				for (Player p : Game.this.getPlayers()) {
 					if (p.equals(player)) {
