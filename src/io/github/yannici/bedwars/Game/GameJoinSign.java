@@ -27,7 +27,7 @@ public class GameJoinSign {
 	private String[] getSignLines() {
 		String[] sign = new String[4];
 		sign[0] = Main._l("sign.firstline");
-		sign[1] = this.game.getRegion().getWorld().getName();
+		sign[1] = this.game.getRegion().getName();
 
 		int maxPlayers = this.game.getMaxPlayers();
 		int currentPlayers = 0;

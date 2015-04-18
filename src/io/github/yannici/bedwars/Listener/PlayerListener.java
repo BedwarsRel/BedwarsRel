@@ -589,6 +589,10 @@ public class PlayerListener extends BaseListener {
 		if (!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
 			return;
 		}
+		
+		if(clickedStack == null) {
+			return;
+		}
 
 		if (clickedStack.getType() != Material.WOOL) {
 			return;

@@ -281,6 +281,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new ReloadCommand(this));
 		this.commands.add(new SetMainLobbyCommand(this));
 		this.commands.add(new ListGamesCommand(this));
+		this.commands.add(new RegionNameCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}

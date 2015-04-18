@@ -8,33 +8,34 @@ import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableMap;
 
-public class SaveGameCommand extends BaseCommand implements ICommand {
+public class RegionNameCommand extends BaseCommand implements ICommand {
 
-	public SaveGameCommand(Main plugin) {
+	public RegionNameCommand(Main plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public String getCommand() {
-		return "save";
+		return "regionname";
 	}
 
 	@Override
 	public String getName() {
-		return Main._l("commands.save.name");
+		return Main._l("commands.regionname.name");
 	}
 
 	@Override
 	public String getDescription() {
-		return Main._l("commands.save.desc");
+		return Main._l("commands.regionname.desc");
 	}
 
 	@Override
 	public String[] getArguments() {
-		return new String[] { "game" };
+		return new String[] { "game", "name" };
 	}
 
 	@Override
@@ -43,20 +44,25 @@ public class SaveGameCommand extends BaseCommand implements ICommand {
 			return false;
 		}
 
+		Player player = (Player) sender;
+
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
+		String name = args.get(1).toString();
+		
 		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.gamenotfound",
 							ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
-
-		if (!game.saveGame(sender, true)) {
-			return false;
+		
+		if(name.length() > 15) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.toolongregionname")));
+			return true;
 		}
 
-		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.saved")));
+		game.setRegionName(name);
 		return true;
 	}
 

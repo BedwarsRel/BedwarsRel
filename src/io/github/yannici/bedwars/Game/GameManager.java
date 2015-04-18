@@ -175,8 +175,15 @@ public class GameManager {
 			game.setLoc(loc1, "loc1");
 			game.setLoc(loc2, "loc2");
 			game.setLobby((Location) cfg.get("lobby"));
-			game.setRegion(new Region(loc1, loc2));
-
+			
+			String regionName = loc1.getWorld().getName();
+			
+			if(cfg.contains("regionname")) {
+				regionName = cfg.getString("regionname");
+			}
+			
+			game.setRegion(new Region(loc1, loc2, regionName));
+			
 			if (cfg.contains("minplayers")) {
 				game.setMinPlayers(cfg.getInt("minplayers"));
 			}
@@ -184,7 +191,10 @@ public class GameManager {
 			if (cfg.contains("mainlobby")) {
 				game.setMainLobby((Location) cfg.get("mainlobby"));
 			}
-
+			
+			game.getFreePlayers().clear();
+			game.updateSigns();
+			
 			this.games.add(game);
 			Main.getInstance()
 					.getServer()
@@ -219,7 +229,7 @@ public class GameManager {
 			if (g.getState() != GameState.STOPPED) {
 				g.stop();
 			}
-
+			
 			g.setState(GameState.STOPPED);
 			g.setScoreboard(Main.getInstance().getScoreboardManager()
 					.getNewScoreboard());

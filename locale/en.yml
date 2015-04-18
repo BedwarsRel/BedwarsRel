@@ -30,6 +30,7 @@ errors:
     notenoughress: You didn't have enough ressource to buy this item!
     teamnameinuse: Team name is already in use!
     minplayersmustnumber: Min players must be a number!
+    toolongregionname: Maximum length of region name are 15 characters!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!
@@ -145,3 +146,6 @@ commands:
     list:
         name: List games
         desc: Lists all available games
+    regionname:
+        name: Set region name
+        desc: Sets an individual region name (instead of world name)

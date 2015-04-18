@@ -30,6 +30,7 @@ errors:
     notenoughress: Nemas dostatek surovin pro koupi tohoto predmetu!
     teamnameinuse: Jmeno tymu je jiz pouzito!
     minplayersmustnumber: Minimalni pocet hracu musi byt cislo!
+    toolongregionname: Maximum length of region name are 15 characters!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -145,3 +146,6 @@ commands:
     list:
         name: List her
         desc: Zobrazi vsechny dostupne hry
+    regionname:
+        name: Set region name
+        desc: Sets an individual region name (instead of world name)

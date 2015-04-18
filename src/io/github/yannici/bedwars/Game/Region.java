@@ -18,12 +18,13 @@ public class Region {
 	private Location minCorner = null;
 	private Location maxCorner = null;
 	private World world = null;
+	private String name = null;
 	private List<Block> placedBlocks = null;
 	private List<Block> breakedBeds = null;
 	private HashMap<Block, Integer> breakedBedsTypes = null;
 	private HashMap<Block, Byte> breakedBedsData = null;
 
-	public Region(Location pos1, Location pos2) {
+	public Region(Location pos1, Location pos2, String name) {
 		if (pos1 == null || pos2 == null) {
 			return;
 		}
@@ -38,10 +39,11 @@ public class Region {
 		this.breakedBeds = new ArrayList<Block>();
 		this.breakedBedsTypes = new HashMap<Block, Integer>();
 		this.breakedBedsData = new HashMap<Block, Byte>();
+		this.name = name;
 	}
 
 	public Region(World w, int x1, int y1, int z1, int x2, int y2, int z2) {
-		this(new Location(w, x1, y1, z1), new Location(w, x2, y2, z2));
+		this(new Location(w, x1, y1, z1), new Location(w, x2, y2, z2), w.getName());
 	}
 
 	public boolean check() {
@@ -127,6 +129,14 @@ public class Region {
     
     public void removePlacedBlock(Block block) {
         this.placedBlocks.remove(block);
+    }
+    
+    public String getName() {
+    	if(this.name == null) {
+    		this.name = this.world.getName();
+    	}
+    	
+    	return this.name;
     }
     
     @SuppressWarnings("deprecation")

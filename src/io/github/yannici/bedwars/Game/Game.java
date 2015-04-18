@@ -63,6 +63,8 @@ public class Game {
 	private HashMap<Location, GameJoinSign> joinSigns = null;
 	private int timeLeft = 0;
 	private boolean isOver = false;
+	
+	private String regionName = null;
 
 	// Itemshops
 	private HashMap<Player, NewItemShop> newItemShops = null;
@@ -836,7 +838,7 @@ public class Game {
 
 	public ArrayList<Player> getPlayers() {
 		ArrayList<Player> players = new ArrayList<>();
-
+		
 		players.addAll(this.freePlayers);
 
 		for (Team team : this.teams.values()) {
@@ -963,6 +965,10 @@ public class Game {
 	public void setLobbyCountdown(GameLobbyCountdown glc) {
 		this.glc = glc;
 	}
+	
+	public void setRegionName(String name) {
+		this.regionName = name;
+	}
 
 	/*
 	 * PRIVATE
@@ -997,11 +1003,13 @@ public class Game {
 		yml.set("loc2", this.loc2);
 		yml.set("lobby", this.lobby);
 		yml.set("minplayers", this.getMinPlayers());
-
-		if (this.mainLobby != null) {
-			yml.set("mainlobby", this.mainLobby);
+		
+		if(this.regionName == null) {
+			this.regionName = this.region.getWorld().getName();
 		}
-
+		
+		yml.set("regionname", this.regionName);
+		
 		if (this.mainLobby != null) {
 			yml.set("mainlobby", this.mainLobby);
 		}
@@ -1020,8 +1028,14 @@ public class Game {
 
 	private void saveRegion(boolean direct) {
 		if (this.region == null || direct) {
-			this.region = new Region(this.loc1, this.loc2);
+			if(this.regionName == null) {
+				this.regionName = this.loc1.getWorld().getName();
+			}
+			
+			this.region = new Region(this.loc1, this.loc2, this.regionName);
 		}
+		
+		this.updateSigns();
 	}
 
 	private void startRessourceSpawners() {

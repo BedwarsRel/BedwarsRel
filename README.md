@@ -58,6 +58,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 * ~~Teamchat~~
 * ~~Spectators~~
 * ~~Team chests (ender chest)~~
+* Respawn protection
 * Mapvote(?)
 
 ## Want to join?
