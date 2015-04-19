@@ -2,7 +2,7 @@ name: BedwarsRel
 main: io.github.yannici.bedwars.Main
 version: 0.1.0
 depend: []
-softdepend: [Multiverse-Core]
+softdepend: [Multiverse-Core, Multiworld]
 commands:
     bw:
         description: Base command for all Test-Plugin commands
