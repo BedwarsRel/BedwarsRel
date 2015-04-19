@@ -240,6 +240,16 @@ public class Main extends JavaPlugin {
 	public String getFallbackLocale() {
 		return "en";
 	}
+	
+	public boolean allPlayersBackToMainLobby() {
+        if(this.getConfig().contains("endgame.all-players-to-mainlobby")) {
+            if(this.getConfig().isBoolean("endgame.all-players-to-mainlobby")) {
+                return this.getConfig().getBoolean("endgame.all-players-to-mainlobby");
+            }
+        }
+        
+        return false;
+    }
 
 	public static Main getInstance() {
 		return Main.instance;

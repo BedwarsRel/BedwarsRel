@@ -51,7 +51,7 @@ gameoverdelay: 10
 
 # Spectation enabled
 # Type: boolean
-# Defines it spectators are allowed
+# Defines if spectators are allowed
 spectation-enabled: false
 
 endgame:
@@ -62,6 +62,13 @@ endgame:
 ### uses /bw leave. If this is set to false, the player will be teleported to the location
 ### where he joined the game!
     mainlobby-enabled: false
+    
+### All players to mainlobby
+### Type: boolean
+### Configures if all players will be teleported to mainlobby after game
+### if false, all players will be teleported back to lobby to restart
+### a new game. This is only recognized if mainlobby-enabled set to true
+    all-players-to-mainlobby: false 
 
 # Bungeecord configurations
 bungeecord:

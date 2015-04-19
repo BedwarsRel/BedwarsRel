@@ -57,9 +57,17 @@ public class SingleGameCycle extends GameCycle {
 			this.getGame().playerLeave(player);
 			return;
 		}
-
-		player.teleport(this.getGame().getLobby());
-
+		
+		if(Main.getInstance().toMainLobby()) {
+		    if(Main.getInstance().allPlayersBackToMainLobby()) {
+		        this.getGame().playerLeave(player);
+		    } else {
+		        player.teleport(this.getGame().getLobby());
+		    }
+		} else {
+		    player.teleport(this.getGame().getLobby());
+		}
+		
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
 		storage.clean();
 		storage.loadLobbyInventory();
