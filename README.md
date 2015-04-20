@@ -45,22 +45,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 
 ## TODO's
 
-* ~~Game Countdown (Max length of game)~~
-* ~~Join signs for single server~~
-* ~~Scoreboard (showing which team still is alive and players amount)~~
-* ~~Game Cycle~~
-    * ~~Restart when Game is finished (bungee)~~
-    * ~~Correct logout of player~~
-    * ~~Show Kills / Deaths in Chat~~
-    * ~~Bed destroy~~
-* ~~Setup Commands~~
-    * ~~Reload config~~
-* ~~Complete default shop configuration~~
-* ~~Teamchat~~
-* ~~Spectators~~
-* ~~Team chests (ender chest)~~
-* Respawn protection
-* Mapvote(?)
+All TODO's you can find in the **issue tracker**!
 
 ## Metrics
 
