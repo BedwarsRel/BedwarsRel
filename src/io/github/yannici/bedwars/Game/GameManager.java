@@ -55,6 +55,11 @@ public class GameManager {
 
 		return null;
 	}
+	
+	public void reloadGames() {
+	    this.unloadGames();
+	    this.loadGames();
+	}
 
 	public void loadGames() {
 		String path = Main.getInstance().getDataFolder() + "/"
