@@ -401,6 +401,10 @@ public class PlayerListener extends BaseListener {
 		if (!message.startsWith("/bw")) {
 			
 			for(String allowed : Main.getInstance().getAllowedCommands()) {
+				if(!allowed.startsWith("/")) {
+					allowed = "/" + allowed;
+				}
+				
 				if(message.startsWith(allowed.trim())) {
 					return;
 				}

@@ -56,7 +56,8 @@ spectation-enabled: false
 
 # Allowed ingame commands
 # type: List<String>
-# Defines a list of commands which are allowed for all for default
+# Defines a list of commands which are allowed for all for default.
+# Can be set with an starting / or without
 allowed-commands:
     - /lobby
     - /server lobby
