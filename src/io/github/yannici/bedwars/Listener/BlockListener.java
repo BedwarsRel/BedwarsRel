@@ -203,6 +203,14 @@ public class BlockListener extends BaseListener {
 	
 	@EventHandler
     public void onExplodeDestroy(EntityExplodeEvent eev) {
+	    if(eev.getEntity() == null) {
+	        return;
+	    }
+	    
+	    if(eev.getEntity().getWorld() == null) {
+	        return;
+	    }
+	    
     	Game game = Main.getInstance().getGameManager().getGameByWorld(eev.getEntity().getWorld());
     	
     	if(game == null) {
