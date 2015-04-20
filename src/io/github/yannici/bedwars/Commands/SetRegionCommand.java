@@ -3,6 +3,7 @@ package io.github.yannici.bedwars.Commands;
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 
 import java.util.ArrayList;
 
@@ -51,6 +52,12 @@ public class SetRegionCommand extends BaseCommand implements ICommand {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.gamenotfound",
 							ImmutableMap.of("game", args.get(0).toString()))));
+			return false;
+		}
+		
+		if(game.getState() == GameState.RUNNING) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
 

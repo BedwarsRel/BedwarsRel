@@ -31,6 +31,8 @@ errors:
     teamnameinuse: Team mit diesem Namen existiert bereits!
     minplayersmustnumber: Die min. Spieler muss eine Nummer sein!
     toolongregionname: Region-Name darf nur maximal 15 Zeichen haben!
+    notwhilegamerunning: Das kannst du nicht während das Spiel läuft!
+    notwhileingame: Das kannst du nicht während du in einem Spiel bist!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt

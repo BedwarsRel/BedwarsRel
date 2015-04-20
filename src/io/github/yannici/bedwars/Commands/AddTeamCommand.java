@@ -3,6 +3,7 @@ package io.github.yannici.bedwars.Commands;
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.TeamColor;
 
 import java.util.ArrayList;
@@ -55,6 +56,12 @@ public class AddTeamCommand extends BaseCommand {
 			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.gamenotfound",
 							ImmutableMap.of("game", args.get(0).toString()))));
+			return false;
+		}
+		
+		if(game.getState() != GameState.STOPPED) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
 

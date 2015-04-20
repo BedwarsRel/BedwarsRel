@@ -31,6 +31,8 @@ errors:
     teamnameinuse: Team name is already in use!
     minplayersmustnumber: Min players must be a number!
     toolongregionname: Maximum length of region name are 15 characters!
+    notwhilegamerunning: Cannot do that while game is running!
+    notwhileingame: Cannot do that while you're in a running game!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!

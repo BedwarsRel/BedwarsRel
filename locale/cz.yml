@@ -31,6 +31,8 @@ errors:
     teamnameinuse: Jmeno tymu je jiz pouzito!
     minplayersmustnumber: Minimalni pocet hracu musi byt cislo!
     toolongregionname: Maximum length of region name are 15 characters!
+    notwhilegamerunning: Cannot do that while game is running!
+    notwhileingame: Cannot do that while you're in a running game!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
