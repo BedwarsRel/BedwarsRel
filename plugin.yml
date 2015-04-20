@@ -1,6 +1,6 @@
 name: BedwarsRel
 main: io.github.yannici.bedwars.Main
-version: 1.0.8
+version: 1.0.9
 depend: []
 softdepend: [Multiverse-Core, Multiworld]
 commands:

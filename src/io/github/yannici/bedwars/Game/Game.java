@@ -204,7 +204,8 @@ public class Game {
 		this.cycle.onGameStart();
 
 		this.startRessourceSpawners();
-
+		
+		this.resetRegion();
 		// Update world weather before game starts
 		this.getRegion().getWorld().setTime(1000);
 
@@ -397,6 +398,7 @@ public class Game {
 		player.getInventory().setItem(8, leaveGame);
 
 		player.updateInventory();
+		this.setPlayersScoreboard();
 	}
 
 	public boolean isSpectator(Player player) {
