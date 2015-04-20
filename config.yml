@@ -54,6 +54,14 @@ gameoverdelay: 10
 # Defines if spectators are allowed
 spectation-enabled: false
 
+# Allowed ingame commands
+# type: List<String>
+# Defines a list of commands which are allowed for all for default
+allowed-commands:
+    - /lobby
+    - /server lobby
+    - /spawn
+
 endgame:
 ### Main lobby enabled
 ### Type: boolean

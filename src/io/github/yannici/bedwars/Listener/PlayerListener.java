@@ -396,9 +396,20 @@ public class PlayerListener extends BaseListener {
 		if (game.getState() == GameState.STOPPED) {
 			return;
 		}
-
-		if (!pcpe.getMessage().startsWith("/bw")
-				&& !player.hasPermission("bw.cmd")) {
+		
+		String message = pcpe.getMessage();
+		if (!message.startsWith("/bw")) {
+			
+			for(String allowed : Main.getInstance().getAllowedCommands()) {
+				if(message.startsWith(allowed.trim())) {
+					return;
+				}
+			}
+			
+			if(player.hasPermission("bw.cmd")) {
+				return;
+			}
+			
 		    pcpe.setCancelled(true);
 			return;
 		}

@@ -17,10 +17,12 @@ import io.github.yannici.bedwars.Localization.LocalizationConfig;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -250,6 +252,17 @@ public class Main extends JavaPlugin {
         
         return false;
     }
+	
+	public List<String> getAllowedCommands() {
+		FileConfiguration config = this.getConfig();
+		if(config.contains("allowed-commands")) {
+			if(config.isList("allowed-commands")) {
+				return config.getStringList("allowed-commands");
+			}
+		}
+		
+		return new ArrayList<String>();
+	}
 
 	public static Main getInstance() {
 		return Main.instance;
