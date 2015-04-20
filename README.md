@@ -64,7 +64,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 
 ## Metrics
 
-![alt tag](http://i.mcstats.org/BedwarsRel/Auth+Mode.borderless.png)
+![alt tag](http://i.mcstats.org/BedwarsRel/Global+Statistics@1.0x.borderless.png)
 
 ## Want to join?
 
