@@ -7,7 +7,6 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 
 ## Current features
 
-* World reset
 * Game Lobby with countdown (Levels + 2 possiblities configurable)
 * Up to 15 teams with custom amount of players
 * Customizable ressource spawners
@@ -36,6 +35,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 #### Compatibility
 
 I added compatibility for Minecraft Versions 1.8 and 1.7, try it now :)
+
 **!!! IMPORTANT !!!** Spectators are not compatible with 1.7 **!!! IMPORTANT !!!**
 
 ### Ideas / Suggestions
