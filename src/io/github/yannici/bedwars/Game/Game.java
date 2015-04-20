@@ -219,7 +219,7 @@ public class Game {
 				.broadcastMessage(
 						ChatWriter.pluginMessage(ChatColor.GREEN
 								+ Main._l("ingame.gamestarted",
-										ImmutableMap.of("game", this.getName()))));
+										ImmutableMap.of("game", this.getRegion().getName()))));
 		return true;
 	}
 
