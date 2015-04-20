@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
@@ -20,9 +21,9 @@ public class Region {
 	private World world = null;
 	private String name = null;
 	private List<Block> placedBlocks = null;
-	private List<Block> breakedBeds = null;
-	private HashMap<Block, Integer> breakedBedsTypes = null;
-	private HashMap<Block, Byte> breakedBedsData = null;
+	private List<Block> breakedBlocks = null;
+	private HashMap<Block, Integer> breakedBlockTypes = null;
+	private HashMap<Block, Byte> breakedBlockData = null;
 
 	public Region(Location pos1, Location pos2, String name) {
 		if (pos1 == null || pos2 == null) {
@@ -36,9 +37,9 @@ public class Region {
 		this.world = pos1.getWorld();
 		this.setMinMax(pos1, pos2);
 		this.placedBlocks = new ArrayList<Block>();
-		this.breakedBeds = new ArrayList<Block>();
-		this.breakedBedsTypes = new HashMap<Block, Integer>();
-		this.breakedBedsData = new HashMap<Block, Byte>();
+		this.breakedBlocks = new ArrayList<Block>();
+		this.breakedBlockTypes = new HashMap<Block, Integer>();
+		this.breakedBlockData = new HashMap<Block, Byte>();
 		this.name = name;
 	}
 
@@ -93,13 +94,13 @@ public class Region {
 		
 		this.placedBlocks.clear();
 		
-		for(Block bedBlock : this.breakedBeds) {
-		    Block oldBlock = this.getWorld().getBlockAt(bedBlock.getLocation());
-		    oldBlock.setTypeId(this.breakedBedsTypes.get(bedBlock));
-		    oldBlock.setData(this.breakedBedsData.get(bedBlock));
+		for(Block block : this.breakedBlocks) {
+		    Block theBlock = this.getWorld().getBlockAt(block.getLocation());
+		    theBlock.setTypeId(this.breakedBlockTypes.get(block));
+		    theBlock.setData(this.breakedBlockData.get(block));
 		}
 		
-		this.breakedBeds.clear();
+		this.breakedBlocks.clear();
 
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {
@@ -123,8 +124,14 @@ public class Region {
        return this.placedBlocks.contains(block);
     }
 
-    public void addPlacedBlock(Block placeBlock) {
+    @SuppressWarnings("deprecation")
+	public void addPlacedBlock(Block placeBlock, BlockState replacedBlock) {
         this.placedBlocks.add(placeBlock);
+        if(replacedBlock != null) {
+        	this.breakedBlockTypes.put(replacedBlock.getBlock(), replacedBlock.getTypeId());
+        	this.breakedBlockData.put(replacedBlock.getBlock(), replacedBlock.getData().getData());
+        	this.breakedBlocks.add(replacedBlock.getBlock());
+        }
     }
     
     public void removePlacedBlock(Block block) {
@@ -140,10 +147,10 @@ public class Region {
     }
     
     @SuppressWarnings("deprecation")
-    public void addBreakedBedBlock(Block bedBlock) {
-        this.breakedBedsTypes.put(bedBlock, bedBlock.getTypeId());
-        this.breakedBedsData.put(bedBlock, bedBlock.getData());
-        this.breakedBeds.add(bedBlock);
+    public void addBreakedBlock(Block bedBlock) {
+        this.breakedBlockTypes.put(bedBlock, bedBlock.getTypeId());
+        this.breakedBlockData.put(bedBlock, bedBlock.getData());
+        this.breakedBlocks.add(bedBlock);
     }
 
 }

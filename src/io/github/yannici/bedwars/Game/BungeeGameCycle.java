@@ -52,7 +52,7 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public void onGameLoaded() {
-		this.getGame().resetRegion();
+		// Reset on game end
 	}
 
 	@Override

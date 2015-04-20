@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Listener;
 
+import java.util.Iterator;
 import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.material.Bed;
 
@@ -97,8 +99,8 @@ public class BlockListener extends BaseListener {
 			Block neighbor = breakBlock.getRelative(breakBed.getFacing()
 					.getOppositeFace());
 			
-			g.getRegion().addBreakedBedBlock(neighbor);
-            g.getRegion().addBreakedBedBlock(breakBlock);
+			g.getRegion().addBreakedBlock(neighbor);
+            g.getRegion().addBreakedBlock(breakBlock);
             
 			neighbor.getDrops().clear();
 			neighbor.setType(Material.AIR);
@@ -175,13 +177,15 @@ public class BlockListener extends BaseListener {
 					|| placeBlock.getType() == Material.BED_BLOCK) {
 				bpe.setCancelled(true);
 				bpe.setBuild(false);
+				return;
 			}
 
 			if (!game.getRegion().isInRegion(placeBlock.getLocation())) {
 				bpe.setCancelled(true);
 				bpe.setBuild(false);
+				return;
 			}
-
+			
 			if (placeBlock.getType() == Material.ENDER_CHEST) {
 				Team playerTeam = Game.getPlayerTeam(player, game);
 				if (playerTeam.getInventory() == null) {
@@ -192,9 +196,30 @@ public class BlockListener extends BaseListener {
 			}
 			
 			if(!bpe.isCancelled()) {
-			    game.getRegion().addPlacedBlock(placeBlock);
+			    game.getRegion().addPlacedBlock(placeBlock, bpe.getBlockReplacedState());
 			}
 		}
 	}
+	
+	@EventHandler
+    public void onExplodeDestroy(BlockExplodeEvent bev) {
+    	Game game = Main.getInstance().getGameManager().getGameByWorld(bev.getBlock().getWorld());
+    	
+    	if(game == null) {
+    		return;
+    	}
+    	
+    	if(game.getState() == GameState.STOPPED) {
+    		return;
+    	}
+    	
+    	Iterator<Block> explodeBlocks = bev.blockList().iterator();
+    	while(explodeBlocks.hasNext()) {
+    		Block exploding = explodeBlocks.next();
+    		if(game.getRegion().isInRegion(exploding.getLocation())) {
+    			explodeBlocks.remove();
+    		}
+    	}
+    }
 
 }
