@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.material.Bed;
@@ -217,7 +216,8 @@ public class BlockListener extends BaseListener {
     	Iterator<Block> explodeBlocks = eev.blockList().iterator();
     	while(explodeBlocks.hasNext()) {
     		Block exploding = explodeBlocks.next();
-    		if(game.getRegion().isInRegion(exploding.getLocation())) {
+    		if(game.getRegion().isInRegion(exploding.getLocation())
+    				&& !game.getRegion().isPlacedBlock(exploding)) {
     			explodeBlocks.remove();
     		}
     	}
