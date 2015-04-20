@@ -63,6 +63,7 @@ public class Game {
 	private HashMap<Location, GameJoinSign> joinSigns = null;
 	private int timeLeft = 0;
 	private boolean isOver = false;
+	private boolean isStopping = false;
 	
 	private String regionName = null;
 
@@ -173,6 +174,7 @@ public class Game {
 
 		this.loadItemShopCategories();
 
+		this.isStopping = false;
 		this.state = GameState.WAITING;
 		this.updateSigns();
 		return true;
@@ -227,12 +229,16 @@ public class Game {
 		if (this.state == GameState.STOPPED) {
 			return false;
 		}
+		
+		this.isStopping = true;
 
 		this.stopWorkers();
 		this.kickAllPlayers();
 		this.resetRegion();
 		this.state = GameState.STOPPED;
 		this.updateSigns();
+		
+		this.isStopping = false;
 		return true;
 	}
 
@@ -498,7 +504,7 @@ public class Game {
 
 		this.removeNewItemShop(p);
 		this.notUseOldShop(p);
-
+		
 		if (!Main.getInstance().isBungee() && p.isOnline()) {
 			p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 					+ Main._l("success.left")));
@@ -763,6 +769,10 @@ public class Game {
 	/*
 	 * GETTER / SETTER
 	 */
+	
+	public boolean isStopping() {
+	    return this.isStopping;
+	}
 
 	public List<MerchantCategory> getOrderedItemShopCategories() {
 		return this.orderedItemshop;

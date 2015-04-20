@@ -1,6 +1,5 @@
 package io.github.yannici.bedwars.Listener;
 
-import java.util.Iterator;
 import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
@@ -18,7 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Bed;
 
 import com.google.common.collect.ImmutableMap;
@@ -120,27 +120,31 @@ public class BlockListener extends BaseListener {
 		}
 		
 		Block breakedBlock = e.getBlock();
-		
-		if (e.getBlock().getType() == Material.ENDER_CHEST) {
-			Team playerTeam = Game.getPlayerTeam(p, g);
-
-			if (playerTeam.getInventory() == null) {
-				playerTeam.createTeamInventory();
-			}
-
-			for (Team team : g.getTeams().values()) {
-				List<Block> teamChests = team.getChests();
-				if (teamChests.contains(breakedBlock)) {
-					team.removeChest(breakedBlock);
-				}
-			}
-		}
-		
-		
 
 		if (!g.getRegion().isPlacedBlock(breakedBlock)) {
 			e.setCancelled(true);
 		} else {
+		    
+		    if (e.getBlock().getType() == Material.ENDER_CHEST) {
+	            for (Team team : g.getTeams().values()) {
+	                List<Block> teamChests = team.getChests();
+	                if (teamChests.contains(breakedBlock)) {
+	                    team.removeChest(breakedBlock);
+	                }
+	            }
+	            
+	            // Drop ender chest
+	            ItemStack enderChest = new ItemStack(Material.ENDER_CHEST, 1);
+	            ItemMeta meta = enderChest.getItemMeta();
+	            meta.setDisplayName(Main._l("ingame.teamchest"));
+	            enderChest.setItemMeta(meta);
+	            
+	            e.setCancelled(true);
+	            breakedBlock.getDrops().clear();
+	            breakedBlock.setType(Material.AIR);
+	            breakedBlock.getWorld().dropItemNaturally(breakedBlock.getLocation(), enderChest);
+	        }
+		    
 		    g.getRegion().removePlacedBlock(breakedBlock);
 		}
 	}
@@ -200,35 +204,5 @@ public class BlockListener extends BaseListener {
 			}
 		}
 	}
-	
-	@EventHandler
-    public void onExplodeDestroy(EntityExplodeEvent eev) {
-	    if(eev.getEntity() == null) {
-	        return;
-	    }
-	    
-	    if(eev.getEntity().getWorld() == null) {
-	        return;
-	    }
-	    
-    	Game game = Main.getInstance().getGameManager().getGameByWorld(eev.getEntity().getWorld());
-    	
-    	if(game == null) {
-    		return;
-    	}
-    	
-    	if(game.getState() == GameState.STOPPED) {
-    		return;
-    	}
-    	
-    	Iterator<Block> explodeBlocks = eev.blockList().iterator();
-    	while(explodeBlocks.hasNext()) {
-    		Block exploding = explodeBlocks.next();
-    		if(game.getRegion().isInRegion(exploding.getLocation())
-    				&& !game.getRegion().isPlacedBlock(exploding)) {
-    			explodeBlocks.remove();
-    		}
-    	}
-    }
 
 }

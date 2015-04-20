@@ -696,6 +696,11 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (g.getState() == GameState.RUNNING) {
+		    if(g.isSpectator(p)) {
+		        ede.setCancelled(true);
+		        return;
+		    }
+		    
 			if (ede instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
 

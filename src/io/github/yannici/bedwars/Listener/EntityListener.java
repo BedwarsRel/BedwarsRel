@@ -1,13 +1,17 @@
 package io.github.yannici.bedwars.Listener;
 
+import java.util.Iterator;
+
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class EntityListener extends BaseListener {
 
@@ -34,5 +38,35 @@ public class EntityListener extends BaseListener {
 
 		ede.setCancelled(true);
 	}
+	
+	@EventHandler
+    public void onExplodeDestroy(EntityExplodeEvent eev) {
+        if(eev.getEntity() == null) {
+            return;
+        }
+        
+        if(eev.getEntity().getWorld() == null) {
+            return;
+        }
+        
+        Game game = Main.getInstance().getGameManager().getGameByWorld(eev.getEntity().getWorld());
+        
+        if(game == null) {
+            return;
+        }
+        
+        if(game.getState() == GameState.STOPPED) {
+            return;
+        }
+        
+        Iterator<Block> explodeBlocks = eev.blockList().iterator();
+        while(explodeBlocks.hasNext()) {
+            Block exploding = explodeBlocks.next();
+            if(game.getRegion().isInRegion(exploding.getLocation())
+                    && !game.getRegion().isPlacedBlock(exploding)) {
+                explodeBlocks.remove();
+            }
+        }
+    }
 
 }

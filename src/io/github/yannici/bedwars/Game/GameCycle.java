@@ -1,6 +1,9 @@
 package io.github.yannici.bedwars.Game;
 
+import java.util.Collection;
+
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameOverEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerKilledEvent;
 
@@ -73,6 +76,10 @@ public abstract class GameCycle {
 	public void onPlayerRespawn(PlayerRespawnEvent pre, Player player) {
 		Team team = Game.getPlayerTeam(player, this.getGame());
 		if (team == null) {
+		    if(this.getGame().isSpectator(player)) {
+		        Collection<Team> teams = this.getGame().getTeams().values();
+		        pre.setRespawnLocation(((Team)teams.toArray()[Utils.randInt(0, teams.size()-1)]).getSpawnLocation());
+		    }
 			return;
 		}
 
