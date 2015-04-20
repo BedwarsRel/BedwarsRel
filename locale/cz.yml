@@ -30,16 +30,16 @@ errors:
     notenoughress: Nemas dostatek surovin pro koupi tohoto predmetu!
     teamnameinuse: Jmeno tymu je jiz pouzito!
     minplayersmustnumber: Minimalni pocet hracu musi byt cislo!
-    toolongregionname: Maximum length of region name are 15 characters!
-    notwhilegamerunning: Cannot do that while game is running!
-    notwhileingame: Cannot do that while you're in a running game!
+    toolongregionname: Maximalni delka muze byt 15 pismen dlouha!
+    notwhilegamerunning: Nelze provest pokud hra bezi!
+    notwhileingame: Nelze provest pokud jsi ve hre.
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
     joined: Pripojil jsi se do hry!
     left: Uspesne jsi se odpojil ze hry.
     saved: Hra byla uspesne ulozena!
-    bedset: Uspesne jsi nastavil postel teamu $team$!
+    bedset: Uspesne jsi nastavil postel tymu $team$!
     regionset: Oblast $location$ pro hru $game$ uspesne nastavena!
     spawnset: Spawn lokace pro tym $team$ uspesne nastavena!
     spawnerset: Spawn surovin uspesne nastaven!
@@ -83,7 +83,7 @@ lobby:
     countdown: Hra zacne za $sec$ sekund!
     countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
     chooseteam: Vyber si team
-    startgame: Spust hru
+    startgame: Spustit hru
     gamefull: Hra je plna!
     teamjoined: Uspesne jsi se pripojil do tymu $team$
     leavegame: Opustit hru
@@ -149,5 +149,5 @@ commands:
         name: List her
         desc: Zobrazi vsechny dostupne hry
     regionname:
-        name: Set region name
-        desc: Sets an individual region name (instead of world name)
+        name: Nastavit jmeno regionu
+        desc: Nastavi individualni jmeno hry (nezalezi na svetu)
