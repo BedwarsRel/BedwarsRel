@@ -19,6 +19,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.material.Bed;
 
 import com.google.common.collect.ImmutableMap;
@@ -202,8 +203,8 @@ public class BlockListener extends BaseListener {
 	}
 	
 	@EventHandler
-    public void onExplodeDestroy(BlockExplodeEvent bev) {
-    	Game game = Main.getInstance().getGameManager().getGameByWorld(bev.getBlock().getWorld());
+    public void onExplodeDestroy(EntityExplodeEvent eev) {
+    	Game game = Main.getInstance().getGameManager().getGameByWorld(eev.getEntity().getWorld());
     	
     	if(game == null) {
     		return;
@@ -213,7 +214,7 @@ public class BlockListener extends BaseListener {
     		return;
     	}
     	
-    	Iterator<Block> explodeBlocks = bev.blockList().iterator();
+    	Iterator<Block> explodeBlocks = eev.blockList().iterator();
     	while(explodeBlocks.hasNext()) {
     		Block exploding = explodeBlocks.next();
     		if(game.getRegion().isInRegion(exploding.getLocation())) {
