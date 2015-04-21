@@ -68,6 +68,8 @@ ingame:
     spectator: Sledujici
     teamchest: Tymova truhla
     noturteamchest: Tato truhla nepatri tvemu tymu!
+    protectionleft: Invulnerable for §c$length$§f second(s)!
+    protectionend: You're now §cvulnerable§f again!
     shop:
         name: Obchod
         newshop: Pouzij novy obchod

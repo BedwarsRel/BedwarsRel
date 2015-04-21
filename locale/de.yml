@@ -68,6 +68,8 @@ ingame:
     spectator: Zuschauer
     teamchest: Teamkiste
     noturteamchest: Diese Kiste gehört nicht deinem Team!
+    protectionleft: Unverwundbar für §c$length$§f Sekunde(n)!
+    protectionend: Du bist wieder §cverwundbar§f!
     shop:
         name: Itemshop
         newshop: Neuer Shop verwenden

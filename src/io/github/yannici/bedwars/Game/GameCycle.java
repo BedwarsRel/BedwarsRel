@@ -117,6 +117,10 @@ public abstract class GameCycle {
 			}
 
 		} else {
+			if(Main.getInstance().getRespawnProtectionTime() > 0) {
+				RespawnProtectionRunnable protection = this.getGame().addProtection(player);
+				protection.runProtection();
+			}
 			pre.setRespawnLocation(team.getSpawnLocation());
 		}
 	}

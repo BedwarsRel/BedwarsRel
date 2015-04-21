@@ -68,6 +68,8 @@ ingame:
     spectator: Spectator
     teamchest: Team chest
     noturteamchest: This chest isn't a chest of your team!
+    protectionleft: Invulnerable for §c$length$§f second(s)!
+    protectionend: You're now §cvulnerable§f again!
     shop:
         name: Itemshop
         newshop: Use new shop

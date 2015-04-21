@@ -29,6 +29,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -701,6 +702,11 @@ public class PlayerListener extends BaseListener {
 		        return;
 		    }
 		    
+		    if(g.isProtected(p) && ede.getCause() != DamageCause.VOID) {
+		    	ede.setCancelled(true);
+		    	return;
+		    }
+		    
 			if (ede instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
 
@@ -713,7 +719,7 @@ public class PlayerListener extends BaseListener {
 				}
 
 			}
-
+			
 			if (!g.getCycle().isEndGameRunning()) {
 				return;
 			}

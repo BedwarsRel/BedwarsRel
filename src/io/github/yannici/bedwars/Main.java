@@ -422,4 +422,15 @@ public class Main extends JavaPlugin {
 		return 60 * 60 * 60;
 	}
 
+	public Integer getRespawnProtectionTime() {
+		FileConfiguration config = this.getConfig();
+		if(config.contains("respawn-protection")) {
+			if(config.isInt("respawn-protection")) {
+				return config.getInt("respawn-protection");
+			}
+		}
+		
+		return 0;
+	}
+
 }

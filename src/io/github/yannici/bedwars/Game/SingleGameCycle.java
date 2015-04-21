@@ -43,6 +43,9 @@ public class SingleGameCycle extends GameCycle {
 			team.setInventory(null);
 			team.getChests().clear();
 		}
+		
+		// clear protections
+		this.getGame().clearProtections();
 
 		// set state and with that, the sign
 		this.getGame().setState(GameState.WAITING);

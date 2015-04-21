@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -65,6 +66,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private Map<Player, RespawnProtectionRunnable> respawnProtected = null;
+	
 	private String regionName = null;
 
 	// Itemshops
@@ -98,6 +101,7 @@ public class Game {
 		this.isOver = false;
 		this.newItemShops = new HashMap<Player, NewItemShop>();
 		this.useOldItemShop = new ArrayList<Player>();
+		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 
 		if (Main.getInstance().getConfig().getBoolean("bungee")) {
 			this.cycle = new BungeeGameCycle(this);
@@ -199,10 +203,11 @@ public class Game {
 
 		this.setTeamsFriendlyFire();
 		this.cleanUsersInventory();
+		this.clearProtections();
 		this.moveFreePlayersToTeam();
 
 		this.cycle.onGameStart();
-
+		
 		this.startRessourceSpawners();
 		
 		this.resetRegion();
@@ -234,6 +239,7 @@ public class Game {
 		this.isStopping = true;
 
 		this.stopWorkers();
+		this.clearProtections();
 		this.kickAllPlayers();
 		this.resetRegion();
 		this.state = GameState.STOPPED;
@@ -478,6 +484,10 @@ public class Game {
 				player.showPlayer(p);
 			}
 		}
+		
+		if(this.isProtected(p)) {
+			this.removeProtection(p);
+		}
 
 		if (team != null) {
 			team.removePlayer(p);
@@ -511,7 +521,7 @@ public class Game {
 			p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 					+ Main._l("success.left")));
 		}
-
+		
 		this.cycle.onPlayerLeave(p);
 		this.storages.remove(p);
 		this.updateSigns();
@@ -767,10 +777,49 @@ public class Game {
 		
 		this.runningTasks.clear();
 	}
+	
+	public boolean isProtected(Player player) {
+		return (this.respawnProtected.containsKey(player) 
+				&& this.getState() == GameState.RUNNING);
+	}
+	
+	public void clearProtections() {
+		for(RespawnProtectionRunnable protection : this.respawnProtected.values()) {
+			try {
+				protection.cancel();
+			} catch(Exception ex) {
+				// isn't running, ignore
+			}
+		}
+		
+		this.respawnProtected.clear();
+	}
 
 	/*
 	 * GETTER / SETTER
 	 */
+	
+	public void removeProtection(Player player) {
+		RespawnProtectionRunnable rpr = this.respawnProtected.get(player);
+		if(rpr == null) {
+			return;
+		}
+		
+		try {
+			rpr.cancel();
+		} catch(Exception ex) {
+			// isn't running, ignore
+		}
+		
+		this.respawnProtected.remove(player);
+	}
+	
+	public RespawnProtectionRunnable addProtection(Player player) {
+		RespawnProtectionRunnable rpr = new RespawnProtectionRunnable(this, player, Main.getInstance().getRespawnProtectionTime());
+		this.respawnProtected.put(player, rpr);
+		
+		return rpr;
+	}
 	
 	public boolean isStopping() {
 	    return this.isStopping;
@@ -1160,5 +1209,4 @@ public class Game {
 
 		this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
 	}
-
 }

@@ -240,6 +240,7 @@ public class GameManager {
 					.getNewScoreboard());
 			g.kickAllPlayers();
 			g.resetRegion();
+			g.updateSigns();
 		}
 
 		this.games.clear();

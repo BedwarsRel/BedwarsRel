@@ -54,6 +54,12 @@ gameoverdelay: 10
 # Defines if spectators are allowed
 spectation-enabled: false
 
+# Respawn protection
+# Type: int
+# The time which players are protected after respawn in seconds
+# Set it to 0 to disable respawn protection.
+respawn-protection: 0
+
 # Allowed ingame commands
 # type: List<String>
 # Defines a list of commands which are allowed for all for default.
