@@ -49,6 +49,69 @@ friendlyfire: false
 # will be teleported after a game ends.
 gameoverdelay: 10
 
+# Statistic-Configuration
+statistics:
+    # Statistics enable
+    # type: boolean
+    # Set to true to enable statistics. Otherwise set to false
+    enabled: false
+    
+    # Achievements storage type
+    # type: string
+    # yaml or database
+    # Set to yaml to store statistics in a Yaml-Configuration file or
+    # set to database to store statistics in the defined database. If no database
+    # configured, the statistics will be stored in Yaml-Files
+    storage: database
+    
+# Database (currently only mysql) configuration
+database:
+
+    # Database host
+    # type: string
+    # Hostname of your database
+    host: localhost
+    
+    # Database port
+    # type: int
+    # Port of your database. Default mysql port: 3306
+    port: 3306
+    
+    # Database name
+    # type: string
+    # The name of your database
+    db: database
+    
+    # Database user
+    # type: string
+    # User for database authentication
+    user: root
+    
+    # Database password
+    # type: string
+    # Password of database user for authentication
+    password: secret
+    
+    # Connection-Pooling configuration (only professional use)
+    # For bungeecord servers it is recommended to use lower pool sizes because
+    # they have only one bedwars game per server and only need a 
+    # very small amount of connections
+    connection-pooling:
+    
+        # Min connection pool size
+        # type: int
+        # Defines how large the min pool size for connections should be
+        # the higher the value the higher the load of the database server
+        min-pool-size: 3
+        
+        # Max connection pool size
+        # type: int
+        # Defines how large the max pool size for connections should be
+        # the higher the value the higher is the security that no connection locks
+        # will occur. But the load of the database server will be higher when 
+        # many connections are used!
+        max-pool-size: 15
+        
 # Spectation enabled
 # Type: boolean
 # Defines if spectators are allowed
@@ -124,6 +187,7 @@ permissions:
 
 # Ressources config
 ressource:
+
 ### Spawn Interval:
 ### Type: int
 ### The interval in milliseconds when ressource should spawn!

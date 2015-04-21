@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars;
 
 import io.github.yannici.bedwars.Commands.*;
+import io.github.yannici.bedwars.Database.DatabaseManager;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameManager;
@@ -15,6 +16,11 @@ import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
 
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -40,6 +46,7 @@ public class Main extends JavaPlugin {
 	private Package minecraft = null;
 	private String version = null;
 	private LocalizationConfig localization = null;
+	private DatabaseManager dbManager = null;
 
 	private ScoreboardManager scoreboardManager = null;
 	private GameManager gameManager = null;
@@ -51,6 +58,8 @@ public class Main extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Main.instance = this;
+		
+		this.loadDatabase();
 
 		this.craftbukkit = this.getCraftBukkit();
 		this.minecraft = this.getMinecraftPackage();
@@ -69,6 +78,95 @@ public class Main extends JavaPlugin {
 		this.startTimeListener();
 		this.startMetricsIfEnabled();
 	}
+	
+	@Override
+	public void onDisable() {
+		this.stopTimeListener();
+		this.gameManager.unloadGames();
+		this.cleanDatabase();
+	}
+
+	private LocalizationConfig loadLocalization() {
+		LocalizationConfig config = new LocalizationConfig();
+		config.saveLocales(false);
+
+		config.loadLocale(this.getConfig().getString("locale"), false);
+		return config;
+	}
+	
+	private void loadDatabase() {
+		if(!this.getBooleanConfig("statistics.enabled", false)
+				|| !this.getStringConfig("statistics.storage","yaml").equals("database")) {
+			return;
+		}
+		
+		this.loadingRequiredLibs();
+		
+		String host = this.getStringConfig("database.host", null);
+		int port = this.getIntConfig("database.port", 3306);
+		String user = this.getStringConfig("database.user", null);
+		String password = this.getStringConfig("database.password", null);
+		String db = this.getStringConfig("database.db", null);
+		
+		if(host == null || user == null || password == null || db == null) {
+			return;
+		}
+		
+		this.dbManager = new DatabaseManager(host, port, user, password, db);
+		this.dbManager.initialize();
+	}
+	
+	private void cleanDatabase() {
+		if(this.dbManager != null) {
+			this.dbManager.cleanUp();
+		}
+	}
+	
+	private void loadingRequiredLibs() {
+		try {
+            final File[] libs = new File[] {
+                    new File(this.getDataFolder() + "/lib/", "c3p0-0.9.5.jar"),
+                    new File(this.getDataFolder() + "/lib/", "mchange-commons-java-0.2.9.jar")};
+            for (final File lib : libs) {
+                if (!lib.exists()) {
+                    JarUtils.extractFromJar(lib.getName(),
+                            lib.getAbsolutePath());
+                }
+            }
+            for (final File lib : libs) {
+                if (!lib.exists()) {
+                    this.getLogger().warning(
+                            "There was a critical error loading bedwars plugin! Could not find lib: "
+                                    + lib.getName());
+                    Bukkit.getServer().getPluginManager().disablePlugin(this);
+                    return;
+                }
+                this.addClassPath(JarUtils.getJarUrl(lib));
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void addClassPath(final URL url) throws IOException {
+        final URLClassLoader sysloader = (URLClassLoader) ClassLoader
+                .getSystemClassLoader();
+        final Class<URLClassLoader> sysclass = URLClassLoader.class;
+        try {
+            final Method method = sysclass.getDeclaredMethod("addURL",
+                    new Class[] { URL.class });
+            method.setAccessible(true);
+            method.invoke(sysloader, new Object[] { url });
+        } catch (final Throwable t) {
+            t.printStackTrace();
+            throw new IOException("Error adding " + url
+                    + " to system classloader");
+        }
+    }
+	
+	public DatabaseManager getDatabaseManager() {
+		return this.dbManager;
+	}
 
 	public boolean isSpigot() {
 		try {
@@ -83,19 +181,38 @@ public class Main extends JavaPlugin {
 		}
 
 	}
-
-	@Override
-	public void onDisable() {
-		this.stopTimeListener();
-		this.gameManager.unloadGames();
+	
+	public int getIntConfig(String key, int defaultInt) {
+		FileConfiguration config = this.getConfig();
+		if(config.contains(key)) {
+			if(config.isInt(key)) {
+				return config.getInt(key);
+			}
+		}
+		
+		return defaultInt;
 	}
-
-	private LocalizationConfig loadLocalization() {
-		LocalizationConfig config = new LocalizationConfig();
-		config.saveLocales(false);
-
-		config.loadLocale(this.getConfig().getString("locale"), false);
-		return config;
+	
+	public String getStringConfig(String key, String defaultString) {
+		FileConfiguration config = this.getConfig();
+		if(config.contains(key)) {
+			if(config.isString(key)) {
+				return config.getString(key);
+			}
+		}
+		
+		return defaultString;
+	}
+	
+	public boolean getBooleanConfig(String key, boolean defaultBool) {
+		FileConfiguration config = this.getConfig();
+		if(config.contains(key)) {
+			if(config.isBoolean(key)) {
+				return config.getBoolean(key);
+			}
+		}
+		
+		return defaultBool;
 	}
 
 	public LocalizationConfig getLocalization() {

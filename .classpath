@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="C:/Users/1200kiz-sya/Downloads/spigot-1.7.5-R0.1-SNAPSHOT-1387.jar"/>
 	<classpathentry kind="lib" path="C:/Users/1200kiz-sya/Downloads/spigot-1.7.9-R0.3-SNAPSHOTBuild1543.jar"/>
 	<classpathentry kind="lib" path="C:/Users/1200kiz-sya/Downloads/spigot-1.7.10-R0.1-SNAPSHOTBuild1646.jar"/>
+	<classpathentry kind="lib" path="C:/Users/1200kiz-sya/Downloads/c3p0-0.9.5.bin/c3p0-0.9.5/lib/c3p0-0.9.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
