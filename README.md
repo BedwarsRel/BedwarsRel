@@ -49,7 +49,7 @@ All TODO's you can find in the **issue tracker**!
 
 ## Metrics
 
-![alt tag](http://i.mcstats.org/BedwarsRel/Global+Statistics@1.0x.borderless.png)
+**[Go to the plugin metrics](http://mcstats.org/plugin/BedwarsRel)**
 
 ## Want to join?
 
