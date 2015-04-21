@@ -95,9 +95,21 @@ public abstract class GameCycle {
 
 				this.getGame().toSpectator(player);
 			} else {
-				if (storage != null) {
-					if (storage.getLeft() != null) {
-						pre.setRespawnLocation(storage.getLeft());
+				if(!Main.getInstance().toMainLobby()) {
+					if (storage != null) {
+						if (storage.getLeft() != null) {
+							pre.setRespawnLocation(storage.getLeft());
+						}
+					}
+				} else {
+					if(this.getGame().getMainLobby() != null) {
+						pre.setRespawnLocation(this.getGame().getMainLobby());
+					} else {
+						if (storage != null) {
+							if (storage.getLeft() != null) {
+								pre.setRespawnLocation(storage.getLeft());
+							}
+						}
 					}
 				}
 

@@ -101,7 +101,7 @@ public class NewItemShop {
 			this.handleBuyInventoryClick(ice, game, player);
 		}
 	}
-
+	
 	private void changeToOldShop(Game game, Player player) {
 		game.useOldShop(player);
 
@@ -182,6 +182,9 @@ public class NewItemShop {
 	private void handleBuyInventoryClick(InventoryClickEvent ice, Game game,
 			Player player) {
 		int sizeCategories = (this.categories.size() - this.categories.size() % 9) + 9;
+		List<VillagerTrade> offers = this.currentCategory.getOffers();
+		int sizeItems = (offers.size() - offers.size() % 9) + 9;
+		int totalSize = sizeCategories + sizeItems;
 		ItemStack item = ice.getCurrentItem();
 
 		if (this.currentCategory == null) {
@@ -191,6 +194,8 @@ public class NewItemShop {
 
 		if (ice.getRawSlot() < sizeCategories) {
 			// is category click
+			ice.setCancelled(true);
+			
 			if (item.getType().equals(this.currentCategory.getMaterial())) {
 				// back to default category view
 				this.currentCategory = null;
@@ -199,8 +204,10 @@ public class NewItemShop {
 				// open the clicked buy inventory
 				this.handleCategoryInventoryClick(ice, game, player);
 			}
-		} else {
+		} else if(ice.getRawSlot() < totalSize) {
 			// its a buying item
+			ice.setCancelled(true);
+			
 			MerchantCategory category = this.currentCategory;
 			VillagerTrade trade = this.getTradingItem(category,
 					ice.getCurrentItem(), game, player);
@@ -224,6 +231,8 @@ public class NewItemShop {
 			} else {
 				this.buyItem(item, trade, player);
 			}
+		} else {
+			return;
 		}
 	}
 

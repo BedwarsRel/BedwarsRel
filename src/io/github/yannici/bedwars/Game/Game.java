@@ -887,7 +887,7 @@ public class Game {
 
 	public void setMinPlayers(int players) {
 		int max = this.getMaxPlayers();
-		if (max < players) {
+		if (max < players && max > 0) {
 			players = max;
 		}
 
