@@ -102,7 +102,7 @@ public class Game {
 		this.newItemShops = new HashMap<Player, NewItemShop>();
 		this.useOldItemShop = new ArrayList<Player>();
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
-
+		
 		if (Main.getInstance().getConfig().getBoolean("bungee")) {
 			this.cycle = new BungeeGameCycle(this);
 		} else {

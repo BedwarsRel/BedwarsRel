@@ -15,6 +15,7 @@ import io.github.yannici.bedwars.Listener.ServerListener;
 import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
+import io.github.yannici.bedwars.Statistics.StorageType;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class Main extends JavaPlugin {
 
 		this.gameManager = new GameManager(this);
 		this.saveDefaultConfig();
+		this.loadStatistics();
 		this.localization = this.loadLocalization();
 
 		// Loading
@@ -94,6 +96,18 @@ public class Main extends JavaPlugin {
 		return config;
 	}
 	
+	private void loadStatistics() {
+		if(Main.getInstance().getStatisticStorageType() != StorageType.YAML) {
+			return;
+		}
+		
+		//File file = new File(Main.getInstance().getDataFolder() + "/database/" + DatabaseManager.DBPrefix + PlayerStatistic.tableName + ".yml");
+		
+		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Loading statistics from YAML-File ..."));
+		//this.playerStatistics = Statistic.loadAll(PlayerStatistic.class, file);
+		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
+	}
+	
 	private void loadDatabase() {
 		if(!this.getBooleanConfig("statistics.enabled", false)
 				|| !this.getStringConfig("statistics.storage","yaml").equals("database")) {
@@ -114,6 +128,11 @@ public class Main extends JavaPlugin {
 		
 		this.dbManager = new DatabaseManager(host, port, user, password, db);
 		this.dbManager.initialize();
+	}
+	
+	public StorageType getStatisticStorageType() {
+		String storage = this.getStringConfig("statistic.storage", "yaml");
+		return StorageType.getByName(storage);
 	}
 	
 	private void cleanDatabase() {

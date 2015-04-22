@@ -21,6 +21,8 @@ public class DatabaseManager {
 	
 	private static DatabaseManager instance = null;
 
+	public static String DBPrefix = "bw_";
+	
 	public DatabaseManager(String host, int port, String user,
 			String password, String database) {
 		this.host = host;
