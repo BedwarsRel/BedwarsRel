@@ -46,11 +46,11 @@ import com.google.common.collect.ImmutableMap;
 public class Game {
 
 	private String name = null;
-	private ArrayList<RessourceSpawner> resSpawner = null;
-	private ArrayList<BukkitTask> runningTasks = null;
+	private List<RessourceSpawner> resSpawner = null;
+	private List<BukkitTask> runningTasks = null;
 	private GameState state = null;
 	private HashMap<String, Team> teams = null;
-	private ArrayList<Player> freePlayers = null;
+	private List<Player> freePlayers = null;
 	private int minPlayers = 0;
 	private Region region = null;
 	private Location lobby = null;
@@ -269,7 +269,7 @@ public class Game {
 		this.resSpawner.add(rs);
 	}
 
-	public ArrayList<RessourceSpawner> getRessourceSpawner() {
+	public List<RessourceSpawner> getRessourceSpawner() {
 		return this.resSpawner;
 	}
 

@@ -1,12 +1,17 @@
 package io.github.yannici.bedwars.Game;
 
+import io.github.yannici.bedwars.Utils;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 @SerializableAs("RessourceSpawner")
 public class RessourceSpawner implements Runnable, ConfigurationSerializable {
@@ -41,8 +46,15 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
 	@Override
 	public void run() {
-		this.game.getRegion().getWorld()
-				.dropItemNaturally(this.location, this.itemstack);
+		Location dropLocation = this.location.getBlock().getRelative(BlockFace.UP).getLocation();
+		Item item = this.game.getRegion().getWorld()
+				.dropItemNaturally(dropLocation, this.itemstack);
+		
+		double vectorX = 0.08*(Utils.randInt(-1, 1));
+		double vectorZ = 0.08*(Utils.randInt(-1, 1));
+		
+		item.teleport(dropLocation);
+		item.setVelocity(new Vector(vectorX, 0.1, vectorZ));
 	}
 
 	@Override
