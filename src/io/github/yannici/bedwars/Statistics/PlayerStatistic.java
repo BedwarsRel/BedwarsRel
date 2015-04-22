@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Statistics;
 
+import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
 
@@ -8,8 +9,6 @@ import org.bukkit.OfflinePlayer;
 public class PlayerStatistic extends Statistic {
 
 	private OfflinePlayer player = null;
-	
-	public static String tableName = "stats_players";
 	
 	// Statistics
 	private int kills = 0;
@@ -114,9 +113,14 @@ public class PlayerStatistic extends Statistic {
 		return "uuid";
 	}
 
-	@Override
-	public String getTableName() {
-		return PlayerStatistic.tableName;
-	}
+    @Override
+    public void load() {
+        Main.getInstance().getPlayerStatisticManager().loadStatistic(this);
+    }
+
+    @Override
+    public void store() {
+        Main.getInstance().getPlayerStatisticManager().storeStatistic(this);
+    }
 	
 }

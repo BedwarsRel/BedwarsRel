@@ -62,7 +62,7 @@ statistics:
     # Set to yaml to store statistics in a Yaml-Configuration file or
     # set to database to store statistics in the defined database. If no database
     # configured, the statistics will be stored in Yaml-Files
-    storage: database
+    storage: yaml
     
 # Database (currently only mysql) configuration
 database:

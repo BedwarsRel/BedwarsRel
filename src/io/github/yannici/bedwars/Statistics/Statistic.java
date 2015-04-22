@@ -1,25 +1,22 @@
 package io.github.yannici.bedwars.Statistics;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Database.DBField;
 import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
+import io.github.yannici.bedwars.Database.DatabaseObject;
 
-public abstract class Statistic {
+public abstract class Statistic extends DatabaseObject {
 
 	private Map<String, DBField> fields = null;
 
 	public Statistic() {
+	    this.fields = new HashMap<String, DBField>();
 		this.loadFields();
 	}
 
@@ -27,8 +24,8 @@ public abstract class Statistic {
 		this.fields.clear();
 		
 		for(Method method : this.getClass().getMethods()) {
-			DBGetField getAnnotation = method.getAnnotation(DBGetField.class);
-			DBSetField setAnnotation = method.getAnnotation(DBSetField.class);
+			DBGetField getAnnotation = method.getDeclaredAnnotation(DBGetField.class);
+			DBSetField setAnnotation = method.getDeclaredAnnotation(DBSetField.class);
 			
 			if(getAnnotation == null && setAnnotation == null) {
 				continue;
@@ -62,52 +59,11 @@ public abstract class Statistic {
 		return this.fields;
 	}
 
-	public abstract String getTableName();
-
 	public abstract String getKeyField();
 
-	public void load() {
-		if(Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
-			
-		}
-	}
+	public abstract void load();
 	
-	public void load(String key) {
-		
-	}
-	
-	public static Map<OfflinePlayer, Statistic> loadAll(Class<? extends Statistic> clazz, File ymlFile) {
-		try {
-			YamlConfiguration config = null;
-			Map<OfflinePlayer, Statistic> map = new HashMap<OfflinePlayer, Statistic>();
-			
-			if(!ymlFile.exists()) {
-				config = new YamlConfiguration();
-				config.createSection("data");
-				config.save(ymlFile);
-			} else {
-				config = YamlConfiguration.loadConfiguration(ymlFile);
-			}
-			
-			ConfigurationSection dataSection = config.getConfigurationSection("data");
-			
-			for(String key : dataSection.getKeys(false)) {
-				Statistic statistic = clazz.newInstance();
-				ConfigurationSection dataEntry = dataSection.getConfigurationSection(key);
-				
-				for(String field : statistic.getFields().keySet()) {
-					Object value = dataEntry.get(field);
-					statistic.setValue(field, value);
-				}
-			}
-			
-			return map;
-		} catch(Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		return new HashMap<OfflinePlayer, Statistic>();
-	}
+	public abstract void store();
 
 	public Object getValue(String field) {
 		try {

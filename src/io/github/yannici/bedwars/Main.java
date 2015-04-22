@@ -15,7 +15,9 @@ import io.github.yannici.bedwars.Listener.ServerListener;
 import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
+import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Statistics.StorageType;
+import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +31,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,7 +51,9 @@ public class Main extends JavaPlugin {
 	private String version = null;
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
-
+	
+	private PlayerStatisticManager playerStatisticManager = null;
+	
 	private ScoreboardManager scoreboardManager = null;
 	private GameManager gameManager = null;
 
@@ -56,11 +61,26 @@ public class Main extends JavaPlugin {
 		this.registerConfigurationClasses();
 	}
 
-	@Override
+	@SuppressWarnings("deprecation")
+    @Override
 	public void onEnable() {
 		Main.instance = this;
 		
 		this.loadDatabase();
+		
+		this.playerStatisticManager = new PlayerStatisticManager();
+		this.playerStatisticManager.initialize();
+		
+		OfflinePlayer player = this.getServer().getOfflinePlayer("Yannici");
+		PlayerStatistic stat = new PlayerStatistic(player);
+		stat.setDeaths(1);
+		stat.setKills(3);
+		stat.setGames(1);
+		stat.setScore(100);
+		stat.setWins(1);
+		stat.setLoses(0);
+		stat.setDestroyedBeds(0);
+		stat.store();
 
 		this.craftbukkit = this.getCraftBukkit();
 		this.minecraft = this.getMinecraftPackage();
@@ -86,6 +106,10 @@ public class Main extends JavaPlugin {
 		this.stopTimeListener();
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
+	}
+	
+	public PlayerStatisticManager getPlayerStatisticManager() {
+	    return this.playerStatisticManager;
 	}
 
 	private LocalizationConfig loadLocalization() {
