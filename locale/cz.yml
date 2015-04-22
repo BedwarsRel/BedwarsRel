@@ -33,7 +33,7 @@ errors:
     toolongregionname: Maximalni delka muze byt 15 pismen dlouha!
     notwhilegamerunning: Nelze provest pokud hra bezi!
     notwhileingame: Nelze provest pokud jsi ve hre.
-    teamnotfound: Team not found!
+    teamnotfound: Tym nenalezen!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -48,8 +48,8 @@ success:
     lobbyset: Lobby pro hru bylo nastaveno!
     gameloaded: Hra "$game$" uspesne nactena!
     reloadconfig: Konfigurace a jazyky znovu nacteny!
-    teamremoved: Team was successfully removed!
-    gameremoved: Game was successfully removed!
+    teamremoved: Tyym byl uspesne odstranen!
+    gameremoved: Hra byla uspesne odstranena!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
@@ -71,8 +71,8 @@ ingame:
     spectator: Sledujici
     teamchest: Tymova truhla
     noturteamchest: Tato truhla nepatri tvemu tymu!
-    protectionleft: Invulnerable for �c$length$�f second(s)!
-    protectionend: You're now �cvulnerable�f again!
+    protectionleft: Jsi nezranitelny na §c$length$§f sekund!
+    protectionend: Nyni jsi opet §czranitelny§f!
     shop:
         name: Obchod
         newshop: Pouzij novy obchod
@@ -93,17 +93,17 @@ lobby:
     teamjoined: Uspesne jsi se pripojil do tymu $team$
     leavegame: Opustit hru
 sign:
-    firstline: §6[Bedwars]
+    firstline: Â§6[Bedwars]
     players: Hraci
     gamestate:
-        stopped: §4VYPNUTO
-        waiting: §aCEKANI
-        running: §9VE HRE!
+        stopped: Â§4VYPNUTO
+        waiting: Â§aCEKANI
+        running: Â§9VE HRE!
         full: PLNO!
 ressources:
-    gold: §6Zlato
-    iron: §7Zelezo
-    bronze: §4Bronz
+    gold: Â§6Zlato
+    iron: Â§7Zelezo
+    bronze: Â§4Bronz
 commands:
     addgame:
         name: Pridat hru
