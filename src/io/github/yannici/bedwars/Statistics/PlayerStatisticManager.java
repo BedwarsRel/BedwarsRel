@@ -116,6 +116,7 @@ public class PlayerStatisticManager {
                     statistic.setValue(field, value);
                 }
                 
+                statistic.setId(1);
                 map.put(Main.getInstance().getServer().getOfflinePlayer(UUID.fromString(key)), statistic);
             }
             

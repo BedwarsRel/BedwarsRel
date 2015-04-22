@@ -8,10 +8,12 @@ public abstract class DatabaseObject {
 		this.id = 0;
 	}
 
+	@DBGetField(name = "id")
 	public int getId() {
 		return this.id;
 	}
 
+	@DBSetField(name = "id")
 	public void setId(int id) {
 		this.id = id;
 	}
