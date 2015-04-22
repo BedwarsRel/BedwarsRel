@@ -794,6 +794,11 @@ public class Game {
 		
 		this.respawnProtected.clear();
 	}
+	
+	public void removeTeam(Team team) {
+		this.teams.remove(team);
+		this.updateSigns();
+	}
 
 	/*
 	 * GETTER / SETTER

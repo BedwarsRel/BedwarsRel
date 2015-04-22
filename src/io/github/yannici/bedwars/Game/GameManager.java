@@ -60,6 +60,34 @@ public class GameManager {
 	    this.unloadGames();
 	    this.loadGames();
 	}
+	
+	public void removeGame(Game game) {
+		if(game == null) {
+			return;
+		}
+		
+		File configs = new File(Main.getInstance().getDataFolder() + "/"
+				+ GameManager.gamesPath + "/" + game.getName());
+		
+		if(configs.exists()) {
+			configs.delete();
+		}
+		
+		this.games.remove(game);
+	}
+	
+	public void unloadGame(Game game) {
+		if (game.getState() != GameState.STOPPED) {
+			game.stop();
+		}
+		
+		game.setState(GameState.STOPPED);
+		game.setScoreboard(Main.getInstance().getScoreboardManager()
+				.getNewScoreboard());
+		game.kickAllPlayers();
+		game.resetRegion();
+		game.updateSigns();
+	}
 
 	public void loadGames() {
 		String path = Main.getInstance().getDataFolder() + "/"
@@ -231,16 +259,7 @@ public class GameManager {
 
 	public void unloadGames() {
 		for (Game g : this.games) {
-			if (g.getState() != GameState.STOPPED) {
-				g.stop();
-			}
-			
-			g.setState(GameState.STOPPED);
-			g.setScoreboard(Main.getInstance().getScoreboardManager()
-					.getNewScoreboard());
-			g.kickAllPlayers();
-			g.resetRegion();
-			g.updateSigns();
+			this.unloadGame(g);
 		}
 
 		this.games.clear();

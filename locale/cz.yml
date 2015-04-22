@@ -33,6 +33,7 @@ errors:
     toolongregionname: Maximalni delka muze byt 15 pismen dlouha!
     notwhilegamerunning: Nelze provest pokud hra bezi!
     notwhileingame: Nelze provest pokud jsi ve hre.
+    teamnotfound: Team not found!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -47,6 +48,8 @@ success:
     lobbyset: Lobby pro hru bylo nastaveno!
     gameloaded: Hra "$game$" uspesne nactena!
     reloadconfig: Konfigurace a jazyky znovu nacteny!
+    teamremoved: Team was successfully removed!
+    gameremoved: Game was successfully removed!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!

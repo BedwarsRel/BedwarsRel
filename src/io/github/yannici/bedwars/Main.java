@@ -422,6 +422,8 @@ public class Main extends JavaPlugin {
 		this.commands.add(new SetMainLobbyCommand(this));
 		this.commands.add(new ListGamesCommand(this));
 		this.commands.add(new RegionNameCommand(this));
+		this.commands.add(new RemoveTeamCommand(this));
+		this.commands.add(new RemoveGameCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}
