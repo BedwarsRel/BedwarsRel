@@ -15,7 +15,6 @@ import io.github.yannici.bedwars.Listener.ServerListener;
 import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
-import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Statistics.StorageType;
 import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 
@@ -31,7 +30,6 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -61,27 +59,12 @@ public class Main extends JavaPlugin {
 		this.registerConfigurationClasses();
 	}
 
-	@SuppressWarnings("deprecation")
     @Override
 	public void onEnable() {
 		Main.instance = this;
 		
 		this.loadDatabase();
 		
-		this.playerStatisticManager = new PlayerStatisticManager();
-		this.playerStatisticManager.initialize();
-		
-		OfflinePlayer player = this.getServer().getOfflinePlayer("Yannici");
-		PlayerStatistic stat = new PlayerStatistic(player);
-		stat.setDeaths(1);
-		stat.setKills(3);
-		stat.setGames(1);
-		stat.setScore(100);
-		stat.setWins(1);
-		stat.setLoses(0);
-		stat.setDestroyedBeds(0);
-		stat.store();
-
 		this.craftbukkit = this.getCraftBukkit();
 		this.minecraft = this.getMinecraftPackage();
 		this.version = this.loadVersion();
@@ -125,11 +108,8 @@ public class Main extends JavaPlugin {
 			return;
 		}
 		
-		//File file = new File(Main.getInstance().getDataFolder() + "/database/" + DatabaseManager.DBPrefix + PlayerStatistic.tableName + ".yml");
-		
-		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Loading statistics from YAML-File ..."));
-		//this.playerStatistics = Statistic.loadAll(PlayerStatistic.class, file);
-		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
+		this.playerStatisticManager = new PlayerStatisticManager();
+		this.playerStatisticManager.initialize();
 	}
 	
 	private void loadDatabase() {

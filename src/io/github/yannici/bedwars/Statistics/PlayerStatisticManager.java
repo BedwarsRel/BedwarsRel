@@ -74,7 +74,39 @@ public class PlayerStatisticManager {
     }
     
     private void loadYamlStatistic(PlayerStatistic statistic) {
+    	if(this.playerStatistic.containsKey(statistic.getPlayer())) {
+    		PlayerStatistic existing = this.playerStatistic.get(statistic.getPlayer());
+    		for(String field : statistic.getFields().keySet()) {
+            	statistic.setValue(field, existing.getValue(field));
+            }
+    		
+    		statistic.setId(1);
+    		return;
+    	}
+    	
+    	String keyValue = statistic.getValue(statistic.getKeyField()).toString();
+    	statistic.setDefault();
+    	
+        if(this.fileDatabase.contains("data." + keyValue)) {
+        	return;
+        }
         
+        for(String field : statistic.getFields().keySet()) {
+        	if(!this.fileDatabase.contains("data." + keyValue + "." + field)) {
+        		continue;
+        	}
+        	
+        	statistic.setValue(field, this.fileDatabase.get("data." + keyValue + "." + field));
+        	statistic.setId(1);
+        }
+        
+        this.playerStatistic.put(statistic.getPlayer(), statistic);
+    }
+    
+    public void unloadStatistic(OfflinePlayer player) {
+    	if(Main.getInstance().getStatisticStorageType() != StorageType.YAML) {
+    		this.playerStatistic.remove(player);
+    	}
     }
     
     private void loadDatabaseStatistic(PlayerStatistic statistic) {
@@ -91,6 +123,8 @@ public class PlayerStatisticManager {
     
     private void loadYml(File ymlFile) {
         try {
+        	Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Loading statistics from YAML-File ..."));
+        	
             YamlConfiguration config = null;
             Map<OfflinePlayer, PlayerStatistic> map = new HashMap<OfflinePlayer, PlayerStatistic>();
             
@@ -124,6 +158,8 @@ public class PlayerStatisticManager {
         } catch(Exception ex) {
             ex.printStackTrace();
         }
+        
+        Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done!"));
     }
 
 }

@@ -64,6 +64,8 @@ public abstract class Statistic extends DatabaseObject {
 	public abstract void load();
 	
 	public abstract void store();
+	
+	public abstract void setDefault();
 
 	public Object getValue(String field) {
 		try {
@@ -82,8 +84,32 @@ public abstract class Statistic extends DatabaseObject {
 		try {
 			Method setter = this.fields.get(field).getSetter();
 			
+			if(setter == null) {
+				return;
+			}
+			
 			setter.setAccessible(true);
-			setter.invoke(this, new Object[]{value});
+			
+			Class<?> paramType = setter.getParameterTypes()[0];
+			
+			try {
+				if(value instanceof Number) {
+					String classname = value.getClass().getSimpleName().toLowerCase();
+					if(value.getClass().equals(Integer.class)) {
+						classname = "int";
+					}
+					
+					Method castNumber = value.getClass().getMethod(classname + "Value", new Class<?>[]{});
+					castNumber.setAccessible(true);
+					setter.invoke(this, new Object[]{castNumber.invoke(value, new Object[]{})});
+					return;
+				}
+				
+				value = paramType.cast(value);
+				setter.invoke(this, new Object[]{value});
+			} catch(Exception ex) {
+				Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage("Couldn't cast value for field: " + field));
+			}
 		} catch(Exception ex) {
 			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage("Couldn't set value of field: " + field));
 		}

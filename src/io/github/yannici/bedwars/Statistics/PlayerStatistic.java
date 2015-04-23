@@ -122,5 +122,16 @@ public class PlayerStatistic extends Statistic {
     public void store() {
         Main.getInstance().getPlayerStatisticManager().storeStatistic(this);
     }
+
+    @Override
+	public void setDefault() {
+		this.kills = 0;
+		this.deaths = 0;
+		this.destroyedBeds = 0;
+		this.games = 0;
+		this.loses = 0;
+		this.wins = 0;
+		this.score = 0;
+	}
 	
 }
