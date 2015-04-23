@@ -187,23 +187,44 @@ permissions:
 
 # Ressources config
 ressource:
-
-### Spawn Interval:
-### Type: int
-### The interval in milliseconds when ressource should spawn!
-### Amount:
-### Type: int
-### The amount of items should spawn 
-### when the interval spawn the ressource
+## Custom spawners list
+### Spawners (unique key!):
+###  item: 
+###   type: string or int
+###   Item-Name or Item-ID !! UNIQUE !!
+###  spawn-interval:
+###   type: int
+###   The interval in milliseconds the ressource should spawn
+###  amount: 
+###   type: int
+###   The stack amount the item should have
+###  name:
+###   type: string (color codes with §)
+###   The name for the ressource which will be displayed
+###  enchants:
+###   key: Has to be the enchant-ID or enchant-name!
+###   value: The level of the enchant
+###  lore:
+###   type: list<string> (colorcodes with §)
+###   The lores this item should have
+###  meta:
+###   type: short (potion) or byte (any other item)
+###   The meta byte which should be added to the item
     bronze:
-        spawninterval: 1000
+        item: CLAY_BRICK
+        spawn-interval: 1000
         amount: 2
+        name: §4Bronze
     iron:
-        spawninterval: 5000
+        item: IRON_INGOT
+        spawn-interval: 8000
         amount: 1
+        name: §7Iron
     gold:
-        spawninterval: 10000
+        item: GOLD_INGOT
+        spawn-interval: 15000
         amount: 1
+        name: §6Gold
 
 ### SHOP ###
 ### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL
@@ -241,7 +262,7 @@ ressource:
 #########   The lores this item should have
 #########  meta:
 #########   type: short (potion) or byte (any other item)
-#########   The meta byte which will be added to the item
+#########   The meta byte which should be added to the item
 ######### item2 (optional, second trade item): See item1
 ######### reward (reward item): See item1
 shop:

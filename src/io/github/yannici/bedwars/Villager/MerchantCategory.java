@@ -233,20 +233,23 @@ public class MerchantCategory {
 				ItemMeta im = finalStack.getItemMeta();
 				String name = im.getDisplayName();
 
-				switch (finalStack.getType()) {
-				case CLAY_BRICK:
-					name = Main._l("ressources.bronze");
-					break;
-				case IRON_INGOT:
-					name = Main._l("ressources.iron");
-					break;
-				case GOLD_INGOT:
-					name = Main._l("ressources.gold");
-					break;
-				default:
-					break;
+				// check if is ressource
+				ConfigurationSection ressourceSection = Main.getInstance().getConfig().getConfigurationSection("ressource");
+				for(String key : ressourceSection.getKeys(false)) {
+					Material ressMaterial = null;
+					String itemType = ressourceSection.getString(key + ".item");
+					
+					if(Utils.isNumber(itemType)) {
+						ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
+					} else {
+						ressMaterial = Material.getMaterial(itemType);
+					}
+					
+					if(finalStack.getType().equals(ressMaterial)) {
+						name = ChatColor.translateAlternateColorCodes('§', ressourceSection.getString(key + ".name"));
+					}
 				}
-
+				
 				im.setDisplayName(name);
 				finalStack.setItemMeta(im);
 			}

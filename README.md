@@ -9,10 +9,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 
 * Game Lobby with countdown (Levels + 2 possiblities configurable)
 * Up to 15 teams with custom amount of players
-* Customizable ressource spawners
-    * Location
-    * Amount
-    * Spawn Interval
+* Fully customizable ressource spawners
 * Team selection GUI
 * Friendly Fire configurable
 * Only one villager need for trades

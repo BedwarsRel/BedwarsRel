@@ -50,6 +50,7 @@ success:
     reloadconfig: Neu laden erfolgreich!
     teamremoved: Team wurde erfolgreich entfernt!
     gameremoved: Spiel wurde erfolgreich entfernt!
+    spawnercleared: Alle Ressource-Spawner wurden erfolgreich entfernt!
 gamecheck:
     LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
     TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!

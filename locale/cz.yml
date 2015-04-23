@@ -50,6 +50,7 @@ success:
     reloadconfig: Konfigurace a jazyky znovu nacteny!
     teamremoved: Tyym byl uspesne odstranen!
     gameremoved: Hra byla uspesne odstranena!
+    spawnercleared: All ressource spawners has been removed!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
