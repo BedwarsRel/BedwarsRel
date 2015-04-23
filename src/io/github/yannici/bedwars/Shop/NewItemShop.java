@@ -166,10 +166,10 @@ public class NewItemShop {
 			lores = new ArrayList<String>();
 		}
 
-		lores.add(String.valueOf(item1.getAmount()) + " "
+		lores.add(ChatColor.WHITE + String.valueOf(item1.getAmount()) + " "
 				+ item1.getItemMeta().getDisplayName());
 		if (item2 != null) {
-			lores.add(String.valueOf(item2.getAmount()) + " "
+			lores.add(ChatColor.WHITE + String.valueOf(item2.getAmount()) + " "
 					+ item2.getItemMeta().getDisplayName());
 		}
 
