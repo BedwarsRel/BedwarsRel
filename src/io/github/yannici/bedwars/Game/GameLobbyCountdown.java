@@ -28,12 +28,17 @@ public class GameLobbyCountdown extends BukkitRunnable {
 	public void setRule(GameLobbyCountdownRule rule) {
 		this.rule = rule;
 	}
-
+	
 	@Override
 	public void run() {
 		ArrayList<Player> players = this.game.getPlayers();
 		float xpPerLevel = 1.0F / this.lobbytime;
-
+		
+		if (this.game.getState() != GameState.WAITING) {
+			this.game.setGameLobbyCountdown(null);
+			this.cancel();
+		}
+		
 		for (Player p : players) {
 			p.setLevel(this.counter);
 			if (this.counter == this.lobbytime) {
@@ -42,11 +47,6 @@ public class GameLobbyCountdown extends BukkitRunnable {
 				p.setExp(p.getExp() - xpPerLevel);
 			}
 
-		}
-
-		if (this.game.getState() != GameState.WAITING) {
-			this.game.setGameLobbyCountdown(null);
-			this.cancel();
 		}
 
 		if (this.counter == this.lobbytime) {

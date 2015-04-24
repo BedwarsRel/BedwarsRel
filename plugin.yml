@@ -1,6 +1,6 @@
 name: BedwarsRel
 main: io.github.yannici.bedwars.Main
-version: 1.0.20
+version: 1.0.21
 depend: []
 softdepend: [Multiverse-Core, Multiworld]
 commands:
@@ -14,7 +14,7 @@ commands:
         permission: bw.base
     bw setspawner:
         description: Sets a ressource spawn point of a specific type
-        usage: /<command> [Game] [bronze;iron;gold]
+        usage: /<command> [Game] [Ressource]
         permission: bw.setup
     bw addgame:
         description: Add a new game

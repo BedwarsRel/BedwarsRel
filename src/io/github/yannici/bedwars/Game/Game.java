@@ -203,7 +203,7 @@ public class Game {
 
 		this.isOver = false;
 		this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
-
+		
 		this.setTeamsFriendlyFire();
 		this.cleanUsersInventory();
 		this.clearProtections();
@@ -214,7 +214,7 @@ public class Game {
 		this.startRessourceSpawners();
 		
 		this.resetRegion();
-		// Update world weather before game starts
+		// Update world time before game starts
 		this.getRegion().getWorld().setTime(1000);
 
 		this.teleportPlayersToTeamSpawn();
