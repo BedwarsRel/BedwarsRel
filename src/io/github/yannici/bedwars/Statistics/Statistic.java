@@ -24,8 +24,8 @@ public abstract class Statistic extends DatabaseObject {
 		this.fields.clear();
 		
 		for(Method method : this.getClass().getMethods()) {
-			DBGetField getAnnotation = method.getDeclaredAnnotation(DBGetField.class);
-			DBSetField setAnnotation = method.getDeclaredAnnotation(DBSetField.class);
+			DBGetField getAnnotation = method.getAnnotation(DBGetField.class);
+			DBSetField setAnnotation = method.getAnnotation(DBSetField.class);
 			
 			if(getAnnotation == null && setAnnotation == null) {
 				continue;

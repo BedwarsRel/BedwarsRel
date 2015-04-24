@@ -832,7 +832,8 @@ public class Game {
 	}
 	
 	public void setPlayerDamager(Player p, Player damager) {
-		this.playerDamages.replace(p, damager);
+		this.playerDamages.remove(p);
+		this.playerDamages.put(p, damager);
 	}
 	
 	public void removeProtection(Player player) {
