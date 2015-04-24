@@ -8,15 +8,39 @@ import io.github.yannici.bedwars.Game.GameState;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 
 public class EntityListener extends BaseListener {
 
 	public EntityListener() {
 		super();
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onRegainHealth(EntityRegainHealthEvent rhe) {
+		if(rhe.getEntityType() != EntityType.PLAYER) {
+			return;
+		}
+		
+		Player player = (Player)rhe.getEntity();
+		Game game = Game.getGameOfPlayer(player);
+		
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() != GameState.RUNNING) {
+			return;
+		}
+		
+		if(player.getHealth() >= player.getMaxHealth()) {
+			game.setPlayerDamager(player, null);
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

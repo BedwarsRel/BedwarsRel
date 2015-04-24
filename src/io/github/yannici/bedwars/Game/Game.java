@@ -66,6 +66,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private Map<Player, Player> playerDamages = null;
+	
 	private Map<Player, RespawnProtectionRunnable> respawnProtected = null;
 	
 	private String regionName = null;
@@ -102,6 +104,7 @@ public class Game {
 		this.newItemShops = new HashMap<Player, NewItemShop>();
 		this.useOldItemShop = new ArrayList<Player>();
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
+		this.playerDamages = new HashMap<Player, Player>();
 		
 		if (Main.getInstance().getConfig().getBoolean("bungee")) {
 			this.cycle = new BungeeGameCycle(this);
@@ -175,7 +178,7 @@ public class Game {
 					+ gcc.getCodeMessage()));
 			return false;
 		}
-
+		
 		this.loadItemShopCategories();
 
 		this.isStopping = false;
@@ -432,7 +435,10 @@ public class Game {
 
 		BedwarsPlayerJoinEvent joinEvent = new BedwarsPlayerJoinEvent(this, p);
 		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
-
+		
+		// add damager and set it to null
+		this.playerDamages.put(p, null);
+		
 		if (this.state == GameState.RUNNING) {
 	        this.toSpectator(p);
             p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
@@ -461,10 +467,9 @@ public class Game {
 			}
 
 			p.setScoreboard(this.scoreboard);
-
-			this.updateSigns();
 		}
 
+		this.updateSigns();
 		return true;
 	}
 
@@ -488,7 +493,8 @@ public class Game {
 		if(this.isProtected(p)) {
 			this.removeProtection(p);
 		}
-
+		
+		this.playerDamages.remove(p);
 		if (team != null) {
 			team.removePlayer(p);
 			this.broadcast(ChatColor.RED
@@ -499,9 +505,6 @@ public class Game {
 
 		if (this.freePlayers.contains(p)) {
 			this.freePlayers.remove(p);
-			this.broadcast(ChatColor.RED
-					+ Main._l("ingame.player.left",
-							ImmutableMap.of("player", p.getDisplayName())));
 		}
 
 		PlayerStorage storage = this.storages.get(p);
@@ -803,6 +806,18 @@ public class Game {
 	/*
 	 * GETTER / SETTER
 	 */
+	
+	public Map<Player, Player> getPlayerDamages() {
+		return this.playerDamages;
+	}
+	
+	public Player getPlayerDamager(Player p) {
+		return this.playerDamages.get(p);
+	}
+	
+	public void setPlayerDamager(Player p, Player damager) {
+		this.playerDamages.replace(p, damager);
+	}
 	
 	public void removeProtection(Player player) {
 		RespawnProtectionRunnable rpr = this.respawnProtected.get(player);

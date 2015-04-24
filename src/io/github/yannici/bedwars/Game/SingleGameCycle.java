@@ -72,6 +72,8 @@ public class SingleGameCycle extends GameCycle {
 		    player.teleport(this.getGame().getLobby());
 		}
 		
+		this.getGame().setPlayerDamager(player, null);
+		
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
         storage.clean();
         storage.loadLobbyInventory();
@@ -90,7 +92,9 @@ public class SingleGameCycle extends GameCycle {
 			player.teleport(storage.getLeft());
 		}
 
-		if (this.getGame().getState() == GameState.RUNNING && !this.getGame().isStopping()) {
+		if (this.getGame().getState() == GameState.RUNNING 
+				&& !this.getGame().isStopping() 
+				&& !this.getGame().isSpectator(player)) {
 			this.checkGameOver();
 		}
 	}

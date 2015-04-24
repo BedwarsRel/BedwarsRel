@@ -75,6 +75,10 @@ public abstract class GameCycle {
 
 	public void onPlayerRespawn(PlayerRespawnEvent pre, Player player) {
 		Team team = Game.getPlayerTeam(player, this.getGame());
+		
+		// reset damager
+		this.getGame().setPlayerDamager(player, null);
+		
 		if (team == null) {
 		    if(this.getGame().isSpectator(player)) {
 		        Collection<Team> teams = this.getGame().getTeams().values();

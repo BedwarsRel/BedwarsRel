@@ -228,7 +228,13 @@ public class PlayerListener extends BaseListener {
 			}
 
 			pde.setKeepInventory(false);
-			game.getCycle().onPlayerDies(player, player.getKiller());
+			
+			Player killer = player.getKiller();
+			if(killer == null) {
+				killer = game.getPlayerDamager(player);
+			}
+			
+			game.getCycle().onPlayerDies(player, killer);
 		}
 	}
 
@@ -716,6 +722,8 @@ public class PlayerListener extends BaseListener {
 						ede.setCancelled(true);
 						return;
 					}
+					
+					g.setPlayerDamager(p, damager);
 				}
 
 			}

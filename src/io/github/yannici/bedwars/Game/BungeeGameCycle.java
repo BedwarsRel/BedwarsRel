@@ -28,11 +28,15 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public void onGameEnds() {
-		for (Player player : this.getGame().getPlayers()) {
+		for (Player player : this.getGame().getTeamPlayers()) {
 			for (Player freePlayer : this.getGame().getFreePlayers()) {
 				player.showPlayer(freePlayer);
 			}
 			this.getGame().playerLeave(player);
+		}
+		
+		for (Player freePlayer : this.getGame().getFreePlayers()) {
+			this.getGame().playerLeave(freePlayer);
 		}
 		
 		this.getGame().resetRegion();
