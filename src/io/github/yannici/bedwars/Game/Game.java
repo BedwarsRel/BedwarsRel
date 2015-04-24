@@ -220,7 +220,7 @@ public class Game {
 		
 		this.resetRegion();
 		// Update world time before game starts
-		this.getRegion().getWorld().setTime(1000);
+		this.getRegion().getWorld().setTime(this.time);
 
 		this.teleportPlayersToTeamSpawn();
 		this.setPlayersScoreboard();
