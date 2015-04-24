@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -172,6 +173,17 @@ public class Game {
 			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.cantstartagain")));
 			return false;
+		}
+		
+		// load bed chunks
+		if(this.region != null) {
+			for(Team team : this.teams.values()) {
+				if(team.getBed() == null) {
+					continue;
+				}
+				
+				team.getBed().getChunk().load(true);
+			}
 		}
 
 		GameCheckCode gcc = this.checkGame();
@@ -533,9 +545,10 @@ public class Game {
 					+ Main._l("success.left")));
 		}
 		
+		this.updateSigns();
+		
 		this.cycle.onPlayerLeave(p);
 		this.storages.remove(p);
-		this.updateSigns();
 		return true;
 	}
 

@@ -35,6 +35,8 @@ public class GameJoinSign {
 			currentPlayers = this.game.getTeamPlayers().size();
 		} else if (this.game.getState() == GameState.WAITING) {
 			currentPlayers = this.game.getPlayers().size();
+		} else {
+			currentPlayers = 0;
 		}
 
 		String current = "0";
