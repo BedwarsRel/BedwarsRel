@@ -1,23 +1,23 @@
 default:
     pages: Seite $current$ von $max$
 errors:
-    argumentslength: Die Argumentenanzahl entspricht nicht der Vorgabe!
+    argumentslength: Die Anzahl der Argumente entspricht nicht der Vorgabe!
     packagenotfound: Konnte Package $package$ nicht laden!
     classnotfound: Konnte $package$ Klasse $class$ nicht laden!
     gameexists: Ein Spiel mit diesem Namen existiert bereits!
     gamenotfound: Das Spiel "$game$" konnte nicht gefunden werden!
     gamenotfoundsimple: Spiel nicht gefunden!
     playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
-    teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaub!
-    teamnamelength: Teamname muss zwischen 2 und 20 Zeichen haben!
+    teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaubt!
+    teamnamelength: Der Teamname muss zwischen 2 und 20 Zeichen haben!
     teamnotfound: Das angegebene Team konnte nicht gefunden werden!
     notingame: Du bist zurzeit in keinem Spiel!
     bedtargeting: Du musst ein Bett anvisieren oder auf einem stehen!
     regionargument: Dein Location-Parameter muss "loc1" oder "loc2" entsprechen!
-    spawnerargument: Dein Ressourcen-Parameter muss eins der folgenden sein (gold;iron;bronze)
+    spawnerargument: Dein Ressourcen-Parameter muss eines der folgenden sein (gold;iron;bronze)
     blockdownnotfound: Der Block unter dir konnte nicht gefunden werden!
     gamenotrunning: Spiel läuft nicht!
-    bungeenoserver: Bungeecord Server wurde nicht korrekt konfiguriert. Serveradministrator benachrichten!
+    bungeenoserver: Der Bungeecord Server wurde nicht korrekt konfiguriert. Bitte benachrichtige den Serveradministrator!
     cantstartagain: Spiel läuft! Du kannst kein laufendes Spiel starten!
     startoutofwaiting: Ein Spiel muss aus dem Lobby-Status gestartet werden!
     cantjoingame: Du kannst keinem laufenden oder beendetem Spiel beitreten!
@@ -28,36 +28,36 @@ errors:
     savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
     nogames: Keine Spiele gefunden!
     notenoughress: Du hast nicht genug Ressourcen um das zu kaufen!
-    teamnameinuse: Team mit diesem Namen existiert bereits!
+    teamnameinuse: Ein Team mit diesem Namen existiert bereits!
     minplayersmustnumber: Die min. Spieler muss eine Nummer sein!
     toolongregionname: Region-Name darf nur maximal 15 Zeichen haben!
-    notwhilegamerunning: Das kannst du nicht während das Spiel läuft!
-    notwhileingame: Das kannst du nicht während du in einem Spiel bist!
+    notwhilegamerunning: Das kannst du nicht tun während das Spiel läuft!
+    notwhileingame: Das kannst du nicht tun während du in einem Spiel bist!
     teamnotfound: Team nicht gefunden!
     timeincorrect: Die Zeit muss eine Zahl sein (0 ... 23000), "day" oder "night"
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
-    teamadded: Team $team$ erfolgreich hinzugefügt
+    teamadded: Team $team$ erfolgreich hinzugefügt!
     joined: Du bist dem Spiel beigetreten!
     left: Du hast das Spiel erfolgreich verlassen!
     saved: Spiel wurde erfolgreich gespeichert!
     bedset: Das Bett für Team $team$ wurde erfolgreich gesetzt!
     regionset: Der Regionspunkt $location$ wurde für das Spiel $game$ erfolgreich gesetzt!
     spawnset: Spawn-Punkt für Team $team$ wurde erfolgreich gesetzt!
-    spawnerset: Ressource-Spawner wurde erfolgreich gesetzt!
+    spawnerset: Ressourcen-Spawner wurde erfolgreich gesetzt!
     stopped: Spiel wurde erfolgreich gestoppt!
     lobbyset: Lobby wurde erfolgreich gesetzt!
     gameloaded: Spiel "$game$" wurde erfolgreich geladen!
     reloadconfig: Neu laden erfolgreich!
     teamremoved: Team wurde erfolgreich entfernt!
     gameremoved: Spiel wurde erfolgreich entfernt!
-    spawnercleared: Alle Ressource-Spawner wurden erfolgreich entfernt!
+    spawnercleared: Alle Ressourcen-Spawner wurden erfolgreich entfernt!
     gamerun: Du hast das Spiel gestartet, Spieler können nun beitreten!
     timeset: Spiel-Zeit wurde erfolgreich gesetzt!
 gamecheck:
     LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
     TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!
-    NO_RES_SPAWNER_ERROR: Du hast keinen Ressource-Spawner gesetzt!
+    NO_RES_SPAWNER_ERROR: Du hast keinen Ressourcen-Spawner gesetzt!
     NO_LOBBY_SET: Es wurde keine Lobby gesetzt!
     TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
     NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
@@ -84,7 +84,7 @@ ingame:
     player:
         left: Spieler $player$ hat das Spiel verlassen!
         died: $player$ ist gestorben!
-        killed: $killer$ tötete $player$!
+        killed: $player$ wurde von $killer$ getötet!
     blocks:
         ownbeddestroy: Du kannst dein eigenes Bett nicht zerstören!
         beddestroyed: Das Bett von Team $team$ wurde zerstört!
@@ -101,9 +101,9 @@ sign:
     firstline: §6[Bedwars]
     players: Spieler
     gamestate:
-        stopped: §4Stopped!
-        waiting: §aWaiting ...
-        running: §9Running!
+        stopped: §4Gestoppt!
+        waiting: §aWarten ...
+        running: §9Gestartet!
         full: Voll!
 ressources:
     gold: §6Gold
@@ -121,7 +121,7 @@ commands:
         desc: Einem bestimmten Spiel beitreten
     leave:
         name: Spiel verlassen
-        desc: Aktuelle Spiel wird verlassen
+        desc: Aktuelles Spiel verlassen
     save:
         name: Spiel speichern
         desc: Speichert die gewählte Region und Spieleinstellungen
@@ -163,13 +163,13 @@ commands:
         desc: Setzt einen individuellen Namen (statt Weltnamen) für die Region
     removeteam:
         name: Team entfernen
-        desc: Entfernt ein Team vom Spiel (Nur wenn Spiel gestoppt)
+        desc: Entfernt ein Team vom Spiel (Nur wenn das Spiel gestoppt ist)
     removegame:
         name: Spiel entfernen
         desc: Entfernt das Spiel und alle Konfigurationen
     clearspawner:
         name: Spawner löschen
-        desc: Entfernt alle Ressource-Spawner vom Spiel
+        desc: Entfernt alle Ressourcen-Spawner vom Spiel
     gametime:
         name: Spiel-Zeit setzen
         desc: Setzt die Spiel-Zeit, die auf der Spielwelt verwendet werden soll.
