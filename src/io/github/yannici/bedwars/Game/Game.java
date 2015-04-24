@@ -445,8 +445,9 @@ public class Game {
                     this.teams.size() - 1)]).getSpawnLocation());
             p.setScoreboard(this.scoreboard);
 		} else {
+			this.broadcast(ChatColor.GREEN + Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
 			this.freePlayers.add(p);
-
+			
 			PlayerStorage storage = this.addPlayerStorage(p);
 			storage.store();
 			storage.clean();

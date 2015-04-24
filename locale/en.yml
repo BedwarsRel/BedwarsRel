@@ -93,6 +93,7 @@ lobby:
     gamefull: Game is full!
     teamjoined: You successfully joined the team $team$
     leavegame: Leave game
+    playerjoin: Player $player$ joined the game!
 sign:
     firstline: §6[Bedwars]
     players: Players
