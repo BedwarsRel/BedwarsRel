@@ -34,6 +34,7 @@ errors:
     notwhilegamerunning: Das kannst du nicht während das Spiel läuft!
     notwhileingame: Das kannst du nicht während du in einem Spiel bist!
     teamnotfound: Team nicht gefunden!
+    timeincorrect: Die Zeit muss eine Zahl sein (0 ... 23000), "day" oder "night"
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt
@@ -51,6 +52,7 @@ success:
     teamremoved: Team wurde erfolgreich entfernt!
     gameremoved: Spiel wurde erfolgreich entfernt!
     spawnercleared: Alle Ressource-Spawner wurden erfolgreich entfernt!
+    gamerun: Du hast das Spiel gestartet, Spieler können nun beitreten!
 gamecheck:
     LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
     TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!
@@ -158,3 +160,15 @@ commands:
     regionname:
         name: Region-Name setzen
         desc: Setzt einen individuellen Namen (statt Weltnamen) für die Region
+    removeteam:
+        name: Team entfernen
+        desc: Entfernt ein Team vom Spiel (Nur wenn Spiel gestoppt)
+    removegame:
+        name: Spiel entfernen
+        desc: Entfernt das Spiel und alle Konfigurationen
+    clearspawner:
+        name: Spawner löschen
+        desc: Entfernt alle Ressource-Spawner vom Spiel
+    gametime:
+        name: Spiel-Zeit setzen
+        desc: Setzt die Spiel-Zeit, die auf der Spielwelt verwendet werden soll.

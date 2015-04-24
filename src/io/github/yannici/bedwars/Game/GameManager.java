@@ -215,6 +215,10 @@ public class GameManager {
 				regionName = cfg.getString("regionname");
 			}
 			
+			if(cfg.contains("time") && cfg.isInt("time")) {
+				game.setTime(cfg.getInt("time"));
+			}
+			
 			game.setRegion(new Region(loc1, loc2, regionName));
 			
 			if (cfg.contains("minplayers")) {

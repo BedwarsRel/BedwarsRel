@@ -34,6 +34,7 @@ errors:
     notwhilegamerunning: Cannot do that while game is running!
     notwhileingame: Cannot do that while you're in a running game!
     teamnotfound: Team not found!
+    timeincorrect: Time has to be a number (0 ... 23000), "day" or "night"!
 success:
     gameadded: New game "$game$" successfully added!
     teamadded: Team "$team$" successfully added!
@@ -51,6 +52,7 @@ success:
     teamremoved: Team was successfully removed!
     gameremoved: Game was successfully removed!
     spawnercleared: All ressource spawners has been removed!
+    gamerun: You started the game, players can now join!
 gamecheck:
     LOC_NOT_SET_ERROR: Locations for the region were not set properly!
     TEAM_SIZE_LOW_ERROR: You have to set more teams!
@@ -164,3 +166,9 @@ commands:
     removegame:
         name: Remove game
         desc: Removes a game and every configuration
+    clearspawner:
+        name: Clear spawners
+        desc: Removes all spawners from the game. Saving needed.
+    gametime:
+        name: Set game time
+        desc: Sets the game time which should be used in the game-world

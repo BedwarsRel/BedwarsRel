@@ -66,6 +66,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private int time = 1000;
+	
 	private Map<Player, Player> playerDamages = null;
 	
 	private Map<Player, RespawnProtectionRunnable> respawnProtected = null;
@@ -180,7 +182,10 @@ public class Game {
 		}
 		
 		this.loadItemShopCategories();
-
+		
+		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+				+ Main._l("success.gamerun")));
+		
 		this.isStopping = false;
 		this.state = GameState.WAITING;
 		this.updateSigns();
@@ -808,6 +813,14 @@ public class Game {
 	 * GETTER / SETTER
 	 */
 	
+	public void setTime(int time) {
+		this.time = time;
+	}
+	
+	public int getTime() {
+		return this.time;
+	}
+	
 	public Map<Player, Player> getPlayerDamages() {
 		return this.playerDamages;
 	}
@@ -1091,6 +1104,7 @@ public class Game {
 		}
 		
 		yml.set("regionname", this.getRegion().getName());
+		yml.set("time", this.time);
 		
 		if (this.mainLobby != null) {
 			yml.set("mainlobby", this.mainLobby);

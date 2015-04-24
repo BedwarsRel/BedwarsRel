@@ -448,6 +448,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new RemoveTeamCommand(this));
 		this.commands.add(new RemoveGameCommand(this));
 		this.commands.add(new ClearSpawnerCommand(this));
+		this.commands.add(new GameTimeCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}
@@ -501,7 +502,7 @@ public class Main extends JavaPlugin {
 						for (Game g : Main.getInstance().getGameManager()
 								.getGames()) {
 							if (g.getState() == GameState.RUNNING) {
-								g.getRegion().getWorld().setTime(1000);
+								g.getRegion().getWorld().setTime(g.getTime());
 							}
 						}
 					}

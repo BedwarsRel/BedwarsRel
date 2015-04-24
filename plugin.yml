@@ -1,6 +1,6 @@
 name: BedwarsRel
 main: io.github.yannici.bedwars.Main
-version: 1.0.21
+version: 1.0.22
 depend: []
 softdepend: [Multiverse-Core, Multiworld]
 commands:
@@ -78,6 +78,10 @@ commands:
         permission: bw.setup
     bw clearspawner:
         description: Removes all ressource spawners from the game
+        usage: /<command>
+        permission: bw.setup
+    bw gametime:
+        description: Sets the time for the game used in the world
         usage: /<command>
         permission: bw.setup
 permissions:
