@@ -53,6 +53,7 @@ success:
     gameremoved: Hra byla uspesne odstranena!
     spawnercleared: Vsechny spawnery surovin byly odstraneny!
     gamerun: You started the game, players can now join!
+    timeset: Game time was successfully set!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!

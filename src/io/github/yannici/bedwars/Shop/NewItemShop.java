@@ -232,6 +232,7 @@ public class NewItemShop {
 				this.buyItem(item, trade, player);
 			}
 		} else {
+		    ice.setCancelled(false);
 			return;
 		}
 	}

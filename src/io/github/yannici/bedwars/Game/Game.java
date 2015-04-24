@@ -183,8 +183,10 @@ public class Game {
 		
 		this.loadItemShopCategories();
 		
-		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.gamerun")));
+		if(sender instanceof Player) {
+		    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+	                + Main._l("success.gamerun")));
+		}
 		
 		this.isStopping = false;
 		this.state = GameState.WAITING;
@@ -506,7 +508,7 @@ public class Game {
 			this.broadcast(ChatColor.RED
 					+ Main._l("ingame.player.left", ImmutableMap
 							.of("player", Game.getPlayerWithTeamString(p, team,
-									ChatColor.RED))));
+									ChatColor.RED) + ChatColor.RED)));
 		}
 
 		if (this.freePlayers.contains(p)) {
