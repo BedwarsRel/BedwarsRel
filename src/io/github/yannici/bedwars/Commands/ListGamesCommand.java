@@ -72,7 +72,8 @@ public class ListGamesCommand extends BaseCommand {
 
 		List<Game> games = Main.getInstance().getGameManager().getGames();
 		for (Game game : games) {
-			if (game.checkGame() != GameCheckCode.OK) {
+			GameCheckCode code = game.checkGame();
+			if (code != GameCheckCode.OK && !sender.hasPermission("bw.setup")) {
 				continue;
 			}
 
@@ -85,7 +86,7 @@ public class ListGamesCommand extends BaseCommand {
 			}
 
 			sb.append(ChatColor.YELLOW
-					+ game.getName()
+					+ ((code != GameCheckCode.OK) ? ChatColor.RED + game.getName() + ChatColor.YELLOW : game.getName())
 					+ " - "
 					+ game.getRegion().getWorld().getName()
 					+ " - "
@@ -94,13 +95,13 @@ public class ListGamesCommand extends BaseCommand {
 					+ ChatColor.YELLOW + " - " + Main._l("sign.players") + ": "
 					+ ChatColor.WHITE + "[" + ChatColor.YELLOW + players
 					+ ChatColor.WHITE + "/" + ChatColor.YELLOW
-					+ game.getMaxPlayers() + ChatColor.WHITE + "]");
+					+ game.getMaxPlayers() + ChatColor.WHITE + "]\n");
 		}
 
 		if (showedGames.size() == 0) {
 			sb.append(ChatColor.RED + Main._l("errors.nogames"));
 		}
-
+		
 		ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
 		for (String line : chatPage.getLines()) {
 			sender.sendMessage(line);
