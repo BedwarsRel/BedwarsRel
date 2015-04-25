@@ -700,7 +700,7 @@ public class Game {
 	}
 
 	public Team isOver() {
-		if (this.isOver) {
+		if (this.isOver || this.state != GameState.RUNNING) {
 			return null;
 		}
 
