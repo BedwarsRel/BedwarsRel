@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -777,6 +778,11 @@ public class Game {
 		Iterator<GameJoinSign> iterator = this.joinSigns.values().iterator();
 		while (iterator.hasNext()) {
 			GameJoinSign sign = iterator.next();
+			
+			Chunk signChunk = sign.getSign().getLocation().getChunk();
+			if(!signChunk.isLoaded()) {
+				signChunk.load(true);
+			}
 
 			Material type = sign.getSign().getLocation().getBlock().getType();
 			if (type != Material.SIGN && type != Material.WALL_SIGN

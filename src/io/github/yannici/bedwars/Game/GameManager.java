@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -195,6 +196,11 @@ public class GameManager {
 					}
 
 					Location signLocation = (Location) sign;
+					Chunk signChunk = signLocation.getChunk();
+					if(!signChunk.isLoaded()) {
+						signChunk.load(true);
+					}
+					
 					Material type = signLocation.getBlock().getType();
 					if (type != Material.SIGN && type != Material.WALL_SIGN
 							&& type != Material.SIGN_POST) {
