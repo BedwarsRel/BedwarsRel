@@ -16,6 +16,8 @@ public class GameJoinSign {
 	}
 
 	public void updateSign() {
+		this.sign.getChunk().load(true);
+		
 		String[] signLines = this.getSignLines();
 		for (int i = 0; i < signLines.length; i++) {
 			this.sign.setLine(i, signLines[i]);

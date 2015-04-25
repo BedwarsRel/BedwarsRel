@@ -790,9 +790,8 @@ public class Game {
 				signChunk.load(true);
 			}
 
-			Material type = sign.getSign().getLocation().getBlock().getType();
-			if (type != Material.SIGN && type != Material.WALL_SIGN
-					&& type != Material.SIGN_POST) {
+			Block signBlock = sign.getSign().getLocation().getBlock();
+			if (!(signBlock.getState() instanceof Sign)) {
 				iterator.remove();
 				removedItem = true;
 				continue;

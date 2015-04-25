@@ -15,6 +15,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -201,13 +202,13 @@ public class GameManager {
 						signChunk.load(true);
 					}
 					
-					Material type = signLocation.getBlock().getType();
-					if (type != Material.SIGN && type != Material.WALL_SIGN
-							&& type != Material.SIGN_POST) {
+					Block signBlock = signLocation.getBlock();
+					if (!(signBlock.getState() instanceof Sign)) {
 						continue;
 					}
-
-					game.addJoinSign((Sign) signLocation.getBlock().getState());
+					
+					signBlock.getState().update();
+					game.addJoinSign((Sign) signBlock.getState());
 				}
 			}
 
