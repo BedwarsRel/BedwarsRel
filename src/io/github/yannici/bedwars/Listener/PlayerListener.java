@@ -261,6 +261,10 @@ public class PlayerListener extends BaseListener {
 			Game game) {
 		if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
 	        if(game.isSpectator(player)) {
+	        	if(ice.getCurrentItem() == null) {
+	        		return;
+	        	}
+	        	
 	            Material clickedMat = ice.getCurrentItem().getType();
 	            if(clickedMat.equals(Material.SLIME_BALL)) {
 	                game.playerLeave(player);
