@@ -27,7 +27,8 @@ public class Team implements ConfigurationSerializable {
 	private String name = null;
 	private int maxPlayers = 0;
 	private Location spawnLocation = null;
-	private Block bedBlock = null;
+	private Location bedHeadBlock = null;
+	private Location bedFeedBlock = null;
 	private Inventory inventory = null;
 	private List<Block> chests = null;
 
@@ -40,8 +41,9 @@ public class Team implements ConfigurationSerializable {
 		this.spawnLocation = (Location) deserialize.get("spawn");
 		this.chests = new ArrayList<Block>();
 
-		if (deserialize.containsKey("bed")) {
-			this.bedBlock = ((Location) deserialize.get("bed")).getBlock();
+		if (deserialize.containsKey("bedhead") && deserialize.containsKey("bedfeed")) {
+			this.bedHeadBlock = ((Location) deserialize.get("bedhead"));
+			this.bedFeedBlock = ((Location) deserialize.get("bedfeed"));
 		}
 
 	}
@@ -72,12 +74,27 @@ public class Team implements ConfigurationSerializable {
 		return this.maxPlayers;
 	}
 
-	public void setBed(Block bed) {
-		this.bedBlock = bed;
+	public void setBeds(Block head, Block feed) {
+		this.bedHeadBlock = head.getLocation();
+		this.bedFeedBlock = feed.getLocation();
 	}
 
-	public Block getBed() {
-		return this.bedBlock;
+	public Block getHeadBed() {
+		if(this.bedHeadBlock == null) {
+			return null;
+		}
+		
+		this.bedHeadBlock.getBlock().getChunk().load(true);
+		return this.bedHeadBlock.getBlock();
+	}
+	
+	public Block getFeedBed() {
+		if(this.bedFeedBlock == null) {
+			return null;
+		}
+		
+		this.bedHeadBlock.getBlock().getChunk().load(true);
+		return this.bedFeedBlock.getBlock();
 	}
 
 	public void removePlayer(OfflinePlayer player) {
@@ -131,7 +148,11 @@ public class Team implements ConfigurationSerializable {
 	}
 
 	public boolean isDead() {
-		return (this.bedBlock.getLocation().getBlock().getType() != Material.BED_BLOCK);
+		this.bedHeadBlock.getBlock().getChunk().load(true);
+		this.bedFeedBlock.getBlock().getChunk().load(true);
+		
+		return (this.bedHeadBlock.getBlock().getType() != Material.BED_BLOCK
+				&& this.bedFeedBlock.getBlock().getType() != Material.BED_BLOCK);
 	}
 
 	@Override
@@ -142,7 +163,8 @@ public class Team implements ConfigurationSerializable {
 		team.put("color", this.color.toString());
 		team.put("maxplayers", this.maxPlayers);
 		team.put("spawn", this.spawnLocation);
-		team.put("bed", this.bedBlock.getLocation());
+		team.put("bedhead", this.bedHeadBlock);
+		team.put("bedfeed", this.bedFeedBlock);
 		return team;
 	}
 

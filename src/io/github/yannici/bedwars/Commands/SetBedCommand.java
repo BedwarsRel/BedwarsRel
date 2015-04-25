@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Commands;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
@@ -103,13 +104,17 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 			theBlock = standingBlock;
 		}
 
+		Block neighbor = null;
 		Bed theBed = (Bed) theBlock.getState().getData();
 
 		if (!theBed.isHeadOfBed()) {
-			theBlock = theBlock.getRelative(theBed.getFacing());
+			neighbor = theBlock;
+			theBlock = Utils.getBedNeighbor(neighbor);
+		} else {
+			neighbor = Utils.getBedNeighbor(theBlock);
 		}
 
-		gameTeam.setBed(theBlock);
+		gameTeam.setBeds(theBlock, neighbor);
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l(
 						"success.bedset",

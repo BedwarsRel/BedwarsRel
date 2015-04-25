@@ -156,7 +156,7 @@ public class Game {
 
 	public static Team getTeamOfBed(Game g, Block bed) {
 		for (Team team : g.getTeams().values()) {
-			if (team.getBed().equals(bed)) {
+			if (team.getHeadBed().equals(bed)) {
 				return team;
 			}
 		}
@@ -178,11 +178,17 @@ public class Game {
 		// load bed chunks
 		if(this.region != null) {
 			for(Team team : this.teams.values()) {
-				if(team.getBed() == null) {
+				if(team.getHeadBed() == null && team.getFeedBed() == null) {
 					continue;
 				}
 				
-				team.getBed().getChunk().load(true);
+				if(team.getHeadBed() != null) {
+					team.getHeadBed().getChunk().load(true);
+				}
+				
+				if(team.getFeedBed() != null) {
+					team.getFeedBed().getChunk().load(true);
+				}
 			}
 		}
 
@@ -665,7 +671,7 @@ public class Game {
 			return;
 		}
 
-		this.region.reset();
+		this.region.reset(this);
 	}
 
 	public void setPlayersScoreboard() {
@@ -1207,9 +1213,10 @@ public class Game {
 				return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
 			}
 
-			if (t.getBed() == null
-					|| (t.getBed().getType() != Material.BED_BLOCK && t
-							.getBed().getType() != Material.BED)) {
+			if ((t.getHeadBed() == null 
+					|| t.getFeedBed() == null)
+					|| (!Utils.isBedBlock(t.getHeadBed()) 
+							|| !Utils.isBedBlock(t.getFeedBed()))) {
 				return GameCheckCode.TEAM_NO_WRONG_BED;
 			}
 		}

@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
@@ -65,7 +66,7 @@ public class BlockListener extends BaseListener {
 		if (g.isSpectator(p)) {
 			e.setCancelled(true);
 			return;
-		}
+		} 
 
 		if (e.getBlock().getType() == Material.BED_BLOCK) {
 			e.setCancelled(true);
@@ -75,15 +76,18 @@ public class BlockListener extends BaseListener {
 				return;
 			}
 
-			Block bedBlock = team.getBed();
+			Block bedBlock = team.getHeadBed();
 			Block breakBlock = e.getBlock();
-			Bed breakBed = (Bed) e.getBlock().getState().getData();
+			Block neighbor = null;
+			Bed breakBed = (Bed) breakBlock.getState().getData();
 
 			if (!breakBed.isHeadOfBed()) {
-				breakBlock = breakBlock.getRelative(breakBed.getFacing());
-				breakBed = (Bed) breakBlock.getState().getData();
+				neighbor = breakBlock;
+				breakBlock = Utils.getBedNeighbor(neighbor);
+			} else {
+				neighbor = Utils.getBedNeighbor(breakBlock);
 			}
-
+			
 			if (bedBlock.equals(breakBlock)) {
 				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 						+ Main._l("ingame.blocks.ownbeddestroy")));
@@ -94,13 +98,10 @@ public class BlockListener extends BaseListener {
 			if (bedDestroyTeam == null) {
 				return;
 			}
-
-
-			Block neighbor = breakBlock.getRelative(breakBed.getFacing()
-					.getOppositeFace());
 			
-			g.getRegion().addBreakedBlock(neighbor);
-            g.getRegion().addBreakedBlock(breakBlock);
+			// not used anymore
+			//g.getRegion().addBreakedBlock(neighbor);
+            //g.getRegion().addBreakedBlock(breakBlock);
             
 			neighbor.getDrops().clear();
 			neighbor.setType(Material.AIR);

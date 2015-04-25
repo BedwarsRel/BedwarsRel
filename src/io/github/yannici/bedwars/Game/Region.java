@@ -13,6 +13,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.material.Bed;
 
 public class Region {
 
@@ -80,7 +81,7 @@ public class Region {
 	}
 
 	@SuppressWarnings("deprecation")
-    public void reset() {
+    public void reset(Game game) {
 		for(Block placed : this.placedBlocks) {
 		    Block blockInWorld = this.world.getBlockAt(placed.getLocation());
 		    if(blockInWorld.getType() == Material.AIR) {
@@ -101,6 +102,36 @@ public class Region {
 		}
 		
 		this.breakedBlocks.clear();
+		
+		for(Team team : game.getTeams().values()) {
+			if(team.getHeadBed() == null || team.getFeedBed() == null) {
+				continue;
+			}
+			
+			Block blockHead = this.world.getBlockAt(team.getHeadBed().getLocation());
+			Block blockFeed = this.world.getBlockAt(team.getFeedBed().getLocation());
+			BlockState headState = blockHead.getState();
+			BlockState feedState = blockFeed.getState();
+			
+			headState.setType(Material.BED_BLOCK);
+			feedState.setType(Material.BED_BLOCK);
+			headState.setRawData((byte)0x0);
+			feedState.setRawData((byte)0x8);
+			feedState.update(true, false);
+			headState.update(true, false);
+			
+			Bed bedHead = (Bed)headState.getData();
+			bedHead.setHeadOfBed(true);
+			bedHead.setFacingDirection(blockHead.getFace(blockFeed).getOppositeFace());
+			
+			Bed bedFeed = (Bed)feedState.getData();
+			bedFeed.setHeadOfBed(false);
+			bedFeed.setFacingDirection(blockFeed.getFace(blockHead));
+			
+			feedState.update(true, false);
+			headState.update(true, true);
+			
+		}
 
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {

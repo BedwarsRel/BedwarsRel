@@ -16,6 +16,8 @@ import java.util.jar.JarFile;
 
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -35,6 +37,23 @@ public final class Utils {
 		}
 
 		return builder.toString();
+	}
+	
+	public static Block getBedNeighbor(Block head) {
+		if(Utils.isBedBlock(head.getRelative(BlockFace.EAST))) {
+			return head.getRelative(BlockFace.EAST);
+		} else if(Utils.isBedBlock(head.getRelative(BlockFace.WEST))) {
+			return head.getRelative(BlockFace.WEST);
+		} else if(Utils.isBedBlock(head.getRelative(BlockFace.SOUTH))) {
+			return head.getRelative(BlockFace.SOUTH);
+		} else {
+			return head.getRelative(BlockFace.NORTH);
+		}
+	}
+	
+	public static boolean isBedBlock(Block isBed) {
+		return (isBed.getType() == Material.BED 
+				|| isBed.getType() == Material.BED_BLOCK);
 	}
 
 	public static Object getCraftPlayer(Player player) {
