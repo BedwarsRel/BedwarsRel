@@ -75,8 +75,8 @@ ingame:
     spectator: Sledujici
     teamchest: Tymova truhla
     noturteamchest: Tato truhla nepatri tvemu tymu!
-    protectionleft: Jsi nezranitelny na §c$length$§f sekund!
-    protectionend: Nyni jsi opet §czranitelny§f!
+    protectionleft: Jsi nezranitelny na �c$length$�f sekund!
+    protectionend: Nyni jsi opet �czranitelny�f!
     shop:
         name: Obchod
         newshop: Pouzij novy obchod
@@ -98,17 +98,17 @@ lobby:
     leavegame: Opustit hru
     playerjoin: Hrac $player$ se pripojil do hry!
 sign:
-    firstline: Â§6[Bedwars]
+    firstline: Â�6[Bedwars]
     players: Hraci
     gamestate:
-        stopped: Â§4VYPNUTO
-        waiting: Â§aCEKANI
-        running: Â§9VE HRE!
+        stopped: Â�4VYPNUTO
+        waiting: Â�aCEKANI
+        running: Â�9VE HRE!
         full: PLNO!
 ressources:
-    gold: Â§6Zlato
-    iron: Â§7Zelezo
-    bronze: Â§4Bronz
+    gold: Â�6Zlato
+    iron: Â�7Zelezo
+    bronze: Â�4Bronz
 commands:
     addgame:
         name: Pridat hru

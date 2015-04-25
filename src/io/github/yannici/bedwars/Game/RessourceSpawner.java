@@ -175,7 +175,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			}
 
 			if (cfgSection.containsKey("name")) {
-				String name = ChatColor.translateAlternateColorCodes('ยง',
+				String name = ChatColor.translateAlternateColorCodes('ง',
 						cfgSection.get("name").toString());
 				ItemMeta im = finalStack.getItemMeta();
 				

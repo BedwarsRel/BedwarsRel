@@ -7,7 +7,7 @@ errors:
     gameexists: Ein Spiel mit diesem Namen existiert bereits!
     gamenotfound: Das Spiel "$game$" konnte nicht gefunden werden!
     gamenotfoundsimple: Spiel nicht gefunden!
-    playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht grÃ¶ÃŸer als 24 sein!
+    playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größŸer als 24 sein!
     teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaubt!
     teamnamelength: Der Teamname muss zwischen 2 und 20 Zeichen haben!
     teamnotfound: Das angegebene Team konnte nicht gefunden werden!
@@ -16,34 +16,34 @@ errors:
     regionargument: Dein Location-Parameter muss "loc1" oder "loc2" entsprechen!
     spawnerargument: Dein Ressourcen-Parameter muss eines der folgenden sein (gold;iron;bronze)
     blockdownnotfound: Der Block unter dir konnte nicht gefunden werden!
-    gamenotrunning: Spiel lÃ¤uft nicht!
+    gamenotrunning: Spiel läuft nicht!
     bungeenoserver: Der Bungeecord Server wurde nicht korrekt konfiguriert. Bitte benachrichtige den Serveradministrator!
-    cantstartagain: Spiel lÃ¤uft! Du kannst kein laufendes Spiel starten!
+    cantstartagain: Spiel läuft! Du kannst kein laufendes Spiel starten!
     startoutofwaiting: Ein Spiel muss aus dem Lobby-Status gestartet werden!
     cantjoingame: Du kannst keinem laufenden oder beendetem Spiel beitreten!
     lobbyongameworld: Die Lobby darf nicht auf der Welt des Spiels sein!
     gamenotloaded: Spiel konnte nicht geladen/gestartet werden!
     gameloaderror: Das Laden des Spiels "$game$" hat einen Fehler verursacht!
     regionnotfound: Region-Datei existiert nicht!
-    savesign: Speichern der Schilder nicht mÃ¶glich (Datei konnte nicht erstellt werden)!
+    savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
     nogames: Keine Spiele gefunden!
     notenoughress: Du hast nicht genug Ressourcen um das zu kaufen!
     teamnameinuse: Ein Team mit diesem Namen existiert bereits!
     minplayersmustnumber: Die min. Spieler muss eine Nummer sein!
     toolongregionname: Region-Name darf nur maximal 15 Zeichen haben!
-    notwhilegamerunning: Das kannst du nicht tun wÃ¤hrend das Spiel lÃ¤uft!
-    notwhileingame: Das kannst du nicht tun wÃ¤hrend du in einem Spiel bist!
+    notwhilegamerunning: Das kannst du nicht tun während das Spiel läuft!
+    notwhileingame: Das kannst du nicht tun während du in einem Spiel bist!
     teamnotfound: Team nicht gefunden!
     timeincorrect: Die Zeit muss eine Zahl sein (0 ... 23000), "day" oder "night"
 success:
-    gameadded: Neues Spiel "$game$" erfolgreich hinzugefÃ¼gt!
-    teamadded: Team $team$ erfolgreich hinzugefÃ¼gt!
+    gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
+    teamadded: Team $team$ erfolgreich hinzugefügt!
     joined: Du bist dem Spiel beigetreten!
     left: Du hast das Spiel erfolgreich verlassen!
     saved: Spiel wurde erfolgreich gespeichert!
-    bedset: Das Bett fÃ¼r Team $team$ wurde erfolgreich gesetzt!
-    regionset: Der Regionspunkt $location$ wurde fÃ¼r das Spiel $game$ erfolgreich gesetzt!
-    spawnset: Spawn-Punkt fÃ¼r Team $team$ wurde erfolgreich gesetzt!
+    bedset: Das Bett für Team $team$ wurde erfolgreich gesetzt!
+    regionset: Der Regionspunkt $location$ wurde für das Spiel $game$ erfolgreich gesetzt!
+    spawnset: Spawn-Punkt für Team $team$ wurde erfolgreich gesetzt!
     spawnerset: Ressourcen-Spawner wurde erfolgreich gesetzt!
     stopped: Spiel wurde erfolgreich gestoppt!
     lobbyset: Lobby wurde erfolgreich gesetzt!
@@ -52,11 +52,11 @@ success:
     teamremoved: Team wurde erfolgreich entfernt!
     gameremoved: Spiel wurde erfolgreich entfernt!
     spawnercleared: Alle Ressourcen-Spawner wurden erfolgreich entfernt!
-    gamerun: Du hast das Spiel gestartet, Spieler kÃ¶nnen nun beitreten!
+    gamerun: Du hast das Spiel gestartet, Spieler können nun beitreten!
     timeset: Spiel-Zeit wurde erfolgreich gesetzt!
 gamecheck:
     LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
-    TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufÃ¼gen!
+    TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!
     NO_RES_SPAWNER_ERROR: Du hast keinen Ressourcen-Spawner gesetzt!
     NO_LOBBY_SET: Es wurde keine Lobby gesetzt!
     TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
@@ -66,17 +66,17 @@ gamecheck:
 ingame:
     teams: Teams
     all: Alle
-    teamwon: GlÃ¼ckwunsch! Team $team$ hat gewonnen!
+    teamwon: Glückwunsch! Team $team$ hat gewonnen!
     draw: Das Spiel endet mit einem Unentschieden!
     serverrestart: Server-Neustart in $sec$ Sekunde(n)!
     gamestarting: Spiel startet ...
     gamestarted: Das Spiel "$game$" hat begonnen!
-    backtolobby: ZurÃ¼ck zur Lobby in $sec$ Sekunde(n)
+    backtolobby: Zurück zur Lobby in $sec$ Sekunde(n)
     spectator: Zuschauer
     teamchest: Teamkiste
-    noturteamchest: Diese Kiste gehÃ¶rt nicht deinem Team!
-    protectionleft: Unverwundbar fÃ¼r Â§c$length$Â§f Sekunde(n)!
-    protectionend: Du bist wieder Â§cverwundbarÂ§f!
+    noturteamchest: Diese Kiste gehört nicht deinem Team!
+    protectionleft: Unverwundbar für §c$length$§f Sekunde(n)!
+    protectionend: Du bist wieder §cverwundbar§f!
     shop:
         name: Itemshop
         newshop: Neuer Shop verwenden
@@ -84,38 +84,38 @@ ingame:
     player:
         left: Spieler $player$ hat das Spiel verlassen!
         died: $player$ ist gestorben!
-        killed: $player$ wurde von $killer$ getÃ¶tet!
+        killed: $player$ wurde von $killer$ getötet!
     blocks:
-        ownbeddestroy: Du kannst dein eigenes Bett nicht zerstÃ¶ren!
-        beddestroyed: Das Bett von Team $team$ wurde zerstÃ¶rt!
+        ownbeddestroy: Du kannst dein eigenes Bett nicht zerstören!
+        beddestroyed: Das Bett von Team $team$ wurde zerstört!
 lobby:
     countdown: Das Spiel startet in $sec$ Sekunde(n)!
-    countdowncancel: Mehr Spieler benÃ¶tigt. Countdown wurde abgebrochen!
-    chooseteam: WÃ¤hle ein Team
+    countdowncancel: Mehr Spieler benötigt. Countdown wurde abgebrochen!
+    chooseteam: Wähle ein Team
     startgame: Spiel starten
     gamefull: Das Spiel ist voll!
     teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
     leavegame: Spiel verlassen
     playerjoin: $player$ ist dem Spiel beigetreten!
 sign:
-    firstline: Â§6[Bedwars]
+    firstline: §6[Bedwars]
     players: Spieler
     gamestate:
-        stopped: Â§4Gestoppt!
-        waiting: Â§aWarten ...
-        running: Â§9Gestartet!
+        stopped: §4Gestoppt!
+        waiting: §aWarten ...
+        running: §9Gestartet!
         full: Voll!
 ressources:
-    gold: Â§6Gold
-    iron: Â§7Eisen
-    bronze: Â§4Bronze
+    gold: §6Gold
+    iron: §7Eisen
+    bronze: §4Bronze
 commands:
     addgame:
-        name: Spiel hinzufÃ¼gen
-        desc: FÃ¼gt ein neues Spiel hinzu
+        name: Spiel hinzufügen
+        desc: Fügt ein neues Spiel hinzu
     addteam:
-        name: Team hinzufÃ¼gen
-        desc: FÃ¼gt ein neues Team zu einem bestimmten Spiel hinzu
+        name: Team hinzufügen
+        desc: Fügt ein neues Team zu einem bestimmten Spiel hinzu
     join:
         name: Spiel beitreten
         desc: Einem bestimmten Spiel beitreten
@@ -124,7 +124,7 @@ commands:
         desc: Aktuelles Spiel verlassen
     save:
         name: Spiel speichern
-        desc: Speichert die gewÃ¤hlte Region und Spieleinstellungen
+        desc: Speichert die gewählte Region und Spieleinstellungen
     setbed:
         name: Bett setzen
         desc: Setzt das Bett eines bestimmten Teams
@@ -133,7 +133,7 @@ commands:
         desc: Setzt die Position der Lobby
     setregion:
         name: Setzt Regionspunkt
-        desc: Setzt einen der zwei Regionspunkte fÃ¼r ein bestimmtes Spiel
+        desc: Setzt einen der zwei Regionspunkte für ein bestimmtes Spiel
     setspawn:
         name: Teamspawn setzen
         desc: Setzt den Spawnpunkt eines bestimmten Teams
@@ -151,16 +151,16 @@ commands:
         desc: Zeigt Hilfe zu Kommandos von Bedwars an
     reload:
         name: Neu laden
-        desc: LÃ¤dt die Konfiguration und Ãœbersetzungen neu
+        desc: Lädt die Konfiguration und Ãœbersetzungen neu
     setmainlobby:
         name: Main Lobby setzen
         desc: Setzt die Main Lobby eines Spiels (notwendig wenn mainlobby-enabled auf true gesetzt)
     list:
         name: Spiele auflisten
-        desc: Listet alle verfÃ¼gbaren Spiele auf!
+        desc: Listet alle verfügbaren Spiele auf!
     regionname:
         name: Region-Name setzen
-        desc: Setzt einen individuellen Namen (statt Weltnamen) fÃ¼r die Region
+        desc: Setzt einen individuellen Namen (statt Weltnamen) für die Region
     removeteam:
         name: Team entfernen
         desc: Entfernt ein Team vom Spiel (Nur wenn das Spiel gestoppt ist)
@@ -168,7 +168,7 @@ commands:
         name: Spiel entfernen
         desc: Entfernt das Spiel und alle Konfigurationen
     clearspawner:
-        name: Spawner lÃ¶schen
+        name: Spawner löschen
         desc: Entfernt alle Ressourcen-Spawner vom Spiel
     gametime:
         name: Spiel-Zeit setzen

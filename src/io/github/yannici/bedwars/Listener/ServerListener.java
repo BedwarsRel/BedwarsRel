@@ -26,21 +26,21 @@ public class ServerListener extends BaseListener {
 		case STOPPED:
 			slpe.setMotd(ChatColor.RED
 					+ ChatColor.translateAlternateColorCodes(
-							'ยง',
+							'ง',
 							Main.getInstance().getConfig()
 									.getString("bungeecord.motds.stopped")));
 			break;
 		case WAITING:
 			slpe.setMotd(ChatColor.GREEN
 					+ ChatColor.translateAlternateColorCodes(
-							'ยง',
+							'ง',
 							Main.getInstance().getConfig()
 									.getString("bungeecord.motds.lobby")));
 			break;
 		case RUNNING:
 			slpe.setMotd(ChatColor.YELLOW
 					+ ChatColor.translateAlternateColorCodes(
-							'ยง',
+							'ง',
 							Main.getInstance().getConfig()
 									.getString("bungeecord.motds.running")));
 			break;

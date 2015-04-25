@@ -5,7 +5,7 @@
 
 ## TYPE HELP ##
 # int: number (not decimal)
-# string: a normal text (in most cases you can use colorcodes with a beginning Â§)
+# string: a normal text (in most cases you can use colorcodes with a beginning §)
 # boolean: true or false (IMPORTANT: true OR false ONLY)
 # list<?>: a list of type ? (? is the type of the list items)
 # byte: a int but limited between -128 ... 127
@@ -163,14 +163,14 @@ bungeecord:
     hubserver: test
 
 ### Message of the Day configuration
-### Type: string (colorcodes with Â§)
+### Type: string (colorcodes with §)
 ### Here you can specify the MOTDs which should be used
 ### at this bedwars server of your bungeecord server-farm.
 ### Useful for bedwars join signs in your lobby
     motds:
-        lobby: Â§a[Lobby]
-        running: Â§e[Running]
-        stopped: Â§4[Stopped]
+        lobby: §a[Lobby]
+        running: §e[Running]
+        stopped: §4[Stopped]
 ### Localization (language)
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
@@ -199,13 +199,13 @@ ressource:
 ###   type: int
 ###   The stack amount the item should have
 ###  name:
-###   type: string (color codes with Â§)
+###   type: string (color codes with §)
 ###   The name for the ressource which will be displayed
 ###  enchants:
 ###   key: Has to be the enchant-ID or enchant-name!
 ###   value: The level of the enchant
 ###  lore:
-###   type: list<string> (colorcodes with Â§)
+###   type: list<string> (colorcodes with §)
 ###   The lores this item should have
 ###  meta:
 ###   type: short (potion) or byte (any other item)
@@ -214,17 +214,17 @@ ressource:
         item: CLAY_BRICK
         spawn-interval: 1000
         amount: 2
-        name: Â§4Bronze
+        name: §4Bronze
     iron:
         item: IRON_INGOT
         spawn-interval: 8000
         amount: 1
-        name: Â§7Iron
+        name: §7Iron
     gold:
         item: GOLD_INGOT
         spawn-interval: 15000
         amount: 1
-        name: Â§6Gold
+        name: §6Gold
 
 ### SHOP ###
 ### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL
@@ -252,13 +252,13 @@ ressource:
 #########   type: int
 #########   The stack amount the item should have
 #########  name:
-#########   type: string (colorcodes with Â§)
+#########   type: string (colorcodes with §)
 #########   A specific name for the item
 #########  enchants:
 #########   key: Has to be the enchant-ID or enchant-name!
 #########   value: The level of the enchant
 #########  lore:
-#########   type: list<string> (colorcodes with Â§)
+#########   type: list<string> (colorcodes with §)
 #########   The lores this item should have
 #########  meta:
 #########   type: short (potion) or byte (any other item)
@@ -268,7 +268,7 @@ ressource:
 shop:
     armor:
         item: DIAMOND_CHESTPLATE
-        name: RÃ¼stung
+        name: Rüstung
         order: 10
         lore:
             - Protect yourself with armor! Click here.
@@ -393,7 +393,7 @@ shop:
                     19: 1
     bows:
         item: 261
-        name: BÃ¶gen
+        name: Bögen
         order: 30
         lore:
             - Prove yourself as a marksman with these wonderful bows
@@ -507,7 +507,7 @@ shop:
                     35: 3
     blocks:
         item: SANDSTONE
-        name: BlÃ¶cke
+        name: Blöcke
         order: 60
         lore:
             - Get to the others! Possible with blocks.
@@ -545,7 +545,7 @@ shop:
                 amount: 1
     usefulstuff:
         item: TNT
-        name: NÃ¼tzliche Sachen
+        name: Nützliche Sachen
         order: 70
         lore:
             - Looking for useful stuff? Here are some!
@@ -570,7 +570,7 @@ shop:
                 amount: 1
     drinks:
         item: POTION
-        name: TrÃ¤nke
+        name: Tränke
         order: 80
         lore:
             - Not enough? Use these potions and you'll feel better!

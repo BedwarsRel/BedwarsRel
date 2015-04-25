@@ -85,7 +85,7 @@ public class LocalizationConfig extends YamlConfiguration {
 		}
 
 		return ChatColor.translateAlternateColorCodes(
-				'ยง',
+				'ง',
 				ChatColor.translateAlternateColorCodes('&',
 						super.getString(path)));
 	}
@@ -96,7 +96,7 @@ public class LocalizationConfig extends YamlConfiguration {
 			str = str.replace("$" + key.toLowerCase() + "$", params.get(key));
 		}
 
-		return ChatColor.translateAlternateColorCodes('ยง',
+		return ChatColor.translateAlternateColorCodes('ง',
 				ChatColor.translateAlternateColorCodes('&', str));
 	}
 
