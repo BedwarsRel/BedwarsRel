@@ -44,7 +44,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			if (this.counter == this.lobbytime) {
 				p.setExp(1.0F);
 			} else {
-				p.setExp(p.getExp() - xpPerLevel);
+				p.setExp(1.0F - (xpPerLevel*(this.lobbytime-this.counter)));
 			}
 
 		}
