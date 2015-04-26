@@ -114,6 +114,7 @@ public class NewItemShop {
 		MerchantCategory clickedCategory = this.getCategoryByMaterial(ice
 				.getCurrentItem().getType());
 		if (clickedCategory == null) {
+		    ice.setCancelled(false);
 			return;
 		}
 

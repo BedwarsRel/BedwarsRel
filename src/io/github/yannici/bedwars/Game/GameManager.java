@@ -188,6 +188,7 @@ public class GameManager {
 			if (signFile.exists()) {
 				YamlConfiguration signConfig = YamlConfiguration
 						.loadConfiguration(signFile);
+				
 				List<Object> signs = (List<Object>) signConfig.get("signs");
 				for (Object sign : signs) {
 					if (!(sign instanceof Location)) {
