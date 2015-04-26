@@ -114,6 +114,13 @@ public class NewItemShop {
 
 	private void handleCategoryInventoryClick(InventoryClickEvent ice,
 			Game game, Player player) {
+	    
+	    int sizeCategories = (this.categories.size() - this.categories.size() % 9) + 9;
+	    if(ice.getRawSlot() >= sizeCategories) {
+	        ice.setCancelled(false);
+	        return;
+	    }
+	    
 		MerchantCategory clickedCategory = this.getCategoryByMaterial(ice
 				.getCurrentItem().getType());
 		if (clickedCategory == null) {
