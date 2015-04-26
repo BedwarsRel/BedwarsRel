@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -105,6 +106,8 @@ public class NewItemShop {
 	private void changeToOldShop(Game game, Player player) {
 		game.useOldShop(player);
 
+		player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+		
 		// open old shop
 		MerchantCategory.openCategorySelection(player, game);
 	}
@@ -127,7 +130,9 @@ public class NewItemShop {
 		int sizeCategories = (this.categories.size() - this.categories.size() % 9) + 9;
 		int sizeItems = (offers.size() - offers.size() % 9) + 9;
 		int totalSize = sizeCategories + sizeItems;
-
+		
+		player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+		
 		this.currentCategory = category;
 		Inventory buyInventory = Bukkit.createInventory(player, totalSize,
 				Main._l("ingame.shop.name"));
@@ -217,6 +222,8 @@ public class NewItemShop {
 				player.closeInventory();
 				return;
 			}
+			
+			player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 10.0F, 1.0F);
 
 			// enough ressources?
 			if (!this.hasEnoughRessource(player, trade)) {
