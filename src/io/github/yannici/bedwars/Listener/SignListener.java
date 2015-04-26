@@ -4,7 +4,6 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 
 import org.bukkit.ChatColor;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.SignChangeEvent;
@@ -44,7 +43,7 @@ public class SignListener extends BaseListener {
 		}
 
 		sce.setCancelled(true);
-		game.addJoinSign((Sign) sce.getBlock().getState());
+		game.addJoinSign(sce.getBlock().getLocation());
 		game.updateSigns();
 	}
 

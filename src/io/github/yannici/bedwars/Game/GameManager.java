@@ -7,13 +7,11 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -190,25 +188,22 @@ public class GameManager {
 			if (signFile.exists()) {
 				YamlConfiguration signConfig = YamlConfiguration
 						.loadConfiguration(signFile);
-				Set<Object> signs = (Set<Object>) signConfig.get("signs");
+				List<Object> signs = (List<Object>) signConfig.get("signs");
 				for (Object sign : signs) {
 					if (!(sign instanceof Location)) {
 						continue;
 					}
 
 					Location signLocation = (Location) sign;
-					Chunk signChunk = signLocation.getChunk();
-					if(!signChunk.isLoaded()) {
-						signChunk.load(true);
-					}
+					signLocation.getChunk().load(true);
 					
 					Block signBlock = signLocation.getBlock();
 					if (!(signBlock.getState() instanceof Sign)) {
 						continue;
 					}
 					
-					signBlock.getState().update();
-					game.addJoinSign((Sign) signBlock.getState());
+					signBlock.getState().update(true, true);
+					game.addJoinSign(signBlock.getLocation());
 				}
 			}
 

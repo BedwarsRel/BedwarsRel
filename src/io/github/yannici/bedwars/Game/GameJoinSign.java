@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.block.Sign;
 
 import io.github.yannici.bedwars.Main;
@@ -8,22 +9,23 @@ import io.github.yannici.bedwars.Main;
 public class GameJoinSign {
 
 	private Game game = null;
-	private Sign sign = null;
+	private Location signLocation = null;
 
-	public GameJoinSign(Game game, Sign sign) {
+	public GameJoinSign(Game game, Location sign) {
 		this.game = game;
-		this.sign = sign;
+		this.signLocation = sign;
 	}
 
 	public void updateSign() {
-		this.sign.getChunk().load(true);
+		this.signLocation.getChunk().load(true);
+		Sign sign = (Sign) this.signLocation.getBlock().getState();
 		
 		String[] signLines = this.getSignLines();
 		for (int i = 0; i < signLines.length; i++) {
-			this.sign.setLine(i, signLines[i]);
+		    sign.setLine(i, signLines[i]);
 		}
-
-		this.sign.update(true);
+		
+		sign.update(true, true);
 	}
 
 	private String[] getSignLines() {
@@ -64,9 +66,9 @@ public class GameJoinSign {
 
 		return sign;
 	}
-
+	
 	public Sign getSign() {
-		return this.sign;
+	    return (Sign)this.signLocation.getBlock().getState();
 	}
 
 }

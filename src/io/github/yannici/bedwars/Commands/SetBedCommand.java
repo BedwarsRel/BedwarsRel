@@ -71,7 +71,7 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 
 		Team gameTeam = game.getTeam(team);
 
-		if (team == null) {
+		if (gameTeam == null) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.teamnotfound")));
 			return false;

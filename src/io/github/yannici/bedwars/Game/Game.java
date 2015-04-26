@@ -742,12 +742,12 @@ public class Game {
 		this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
 	}
 
-	public void addJoinSign(Sign sign) {
-		if (this.joinSigns.containsKey(sign.getLocation())) {
-			this.joinSigns.remove(sign.getLocation());
+	public void addJoinSign(Location signLocation) {
+		if (this.joinSigns.containsKey(signLocation)) {
+			this.joinSigns.remove(signLocation);
 		}
 
-		this.joinSigns.put(sign.getLocation(), new GameJoinSign(this, sign));
+		this.joinSigns.put(signLocation, new GameJoinSign(this, signLocation));
 		this.updateSignConfig();
 	}
 
@@ -766,7 +766,7 @@ public class Game {
 				cfg = YamlConfiguration.loadConfiguration(config);
 			}
 
-			cfg.set("signs", this.joinSigns.keySet());
+			cfg.set("signs", new ArrayList<Location>(this.joinSigns.keySet()));
 			cfg.save(config);
 		} catch (Exception ex) {
 			Main.getInstance()
