@@ -34,7 +34,7 @@ errors:
     notwhilegamerunning: Nelze provest pokud hra bezi!
     notwhileingame: Nelze provest pokud jsi ve hre.
     teamnotfound: Tym nenalezen!
-    timeincorrect: Time has to be a number (0 ... 23000), "day" or "night"!
+    timeincorrect: Cas musi byt: cislo (0 ... 23000), "day" nebo "night"!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -52,8 +52,8 @@ success:
     teamremoved: Tyym byl uspesne odstranen!
     gameremoved: Hra byla uspesne odstranena!
     spawnercleared: Vsechny spawnery surovin byly odstraneny!
-    gamerun: You started the game, players can now join!
-    timeset: Game time was successfully set!
+    gamerun: Hra byla zapnuta, hraci jiz mohou hrat!
+    timeset: Cas hry byl uspesne nastaven!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
@@ -75,8 +75,8 @@ ingame:
     spectator: Sledujici
     teamchest: Tymova truhla
     noturteamchest: Tato truhla nepatri tvemu tymu!
-    protectionleft: Jsi nezranitelny na �c$length$�f sekund!
-    protectionend: Nyni jsi opet �czranitelny�f!
+    protectionleft: Jsi nezranitelny na §c$length$§f sekund!
+    protectionend: Nyni jsi opet §czranitelny§f!
     shop:
         name: Obchod
         newshop: Pouzij novy obchod
@@ -98,17 +98,17 @@ lobby:
     leavegame: Opustit hru
     playerjoin: Hrac $player$ se pripojil do hry!
 sign:
-    firstline: Â�6[Bedwars]
+    firstline: Ă‚§6[Bedwars]
     players: Hraci
     gamestate:
-        stopped: Â�4VYPNUTO
-        waiting: Â�aCEKANI
-        running: Â�9VE HRE!
+        stopped: Ă‚§4VYPNUTO
+        waiting: Ă‚§aCEKANI
+        running: Ă‚§9VE HRE!
         full: PLNO!
 ressources:
-    gold: Â�6Zlato
-    iron: Â�7Zelezo
-    bronze: Â�4Bronz
+    gold: Ă‚§6Zlato
+    iron: Ă‚§7Zelezo
+    bronze: Ă‚§4Bronz
 commands:
     addgame:
         name: Pridat hru
@@ -162,14 +162,14 @@ commands:
         name: Nastavit jmeno regionu
         desc: Nastavi individualni jmeno hry (nezalezi na svetu)
     removeteam:
-        name: Remove team
-        desc: Removes a team from the game (only in stopped mode)
+        name: Odstranit tym
+        desc: Smaze tym ze hry (pouze ve vyple hre)
     removegame:
-        name: Remove game
-        desc: Removes a game and every configuration
+        name: Odstranit hru
+        desc: Smaze hru a konfiguraci
     clearspawner:
-        name: Clear spawners
-        desc: Removes all spawners from the game. Saving needed.
+        name: Smazat spawnery
+        desc: Odstrani vsechny spawnery surovin. Ulozeny areny je nutne.
     gametime:
-        name: Set game time
-        desc: Sets the game time which should be used in the game-world
+        name: Nastavit cas hry
+        desc: Nastavi cas, ktery bude v arene po dobu hry
