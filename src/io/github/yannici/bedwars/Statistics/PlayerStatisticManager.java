@@ -204,8 +204,14 @@ public class PlayerStatisticManager {
     	
     	String keyValue = statistic.getValue(statistic.getKeyField()).toString();
     	statistic.setDefault();
+		
+		if(this.fileDatabase == null) {
+			this.playerStatistic.put(statistic.getPlayer(), statistic);
+			return;
+		}
     	
         if(!this.fileDatabase.contains("data." + keyValue)) {
+			this.playerStatistic.put(statistic.getPlayer(), statistic);
         	return;
         }
         
@@ -306,6 +312,8 @@ public class PlayerStatisticManager {
             this.databaseFile = ymlFile;
             
             if(!ymlFile.exists()) {
+				ymlFile.mkdirs();
+				
                 config = new YamlConfiguration();
                 config.createSection("data");
                 config.save(ymlFile);

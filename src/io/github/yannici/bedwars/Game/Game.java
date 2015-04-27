@@ -238,7 +238,9 @@ public class Game {
 		// set statistics
 		for(Player player : this.getTeamPlayers()) {
 		    PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-		    statistic.setGames(statistic.getGames()+1);
+			if(statistic != null) {
+				statistic.setGames(statistic.getGames()+1);
+			}
 		}
 
 		this.cycle.onGameStart();
