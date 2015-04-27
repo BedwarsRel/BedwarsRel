@@ -52,25 +52,22 @@ public abstract class GameCycle {
 		this.setEndGameRunning(true);
 		int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
 																			// delay
-
 		if (Main.getInstance().statisticsEnabled()) {
 			if (winner != null) {
 				for (Player player : winner.getPlayers()) {
 					PlayerStatistic statistic = Main.getInstance()
 							.getPlayerStatisticManager().getStatistic(player);
 					statistic.setWins(statistic.getWins() + 1);
-					statistic.setGames(statistic.getGames() + 1);
 					statistic.setScore(statistic.getScore()
 							+ Main.getInstance().getIntConfig(
 									"statistics.scores.win", 50));
 				}
-			} else {
-				for(Player player : this.game.getTeamPlayers()) {
-					PlayerStatistic statistic = Main.getInstance()
-							.getPlayerStatisticManager().getStatistic(player);
-					
-					statistic.setGames(statistic.getGames()+1);
-				}
+			}
+			
+			for(Player player : this.game.getPlayers()) {
+			    PlayerStatistic statistic = Main.getInstance()
+                        .getPlayerStatisticManager().getStatistic(player);
+			    statistic.store();
 			}
 		}
 
@@ -116,7 +113,6 @@ public abstract class GameCycle {
 			
 			if(Main.getInstance().statisticsEnabled()) {
 				PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-				statistic.setGames(statistic.getGames()+1);
 				statistic.setLoses(statistic.getLoses()+1);
 			}
 

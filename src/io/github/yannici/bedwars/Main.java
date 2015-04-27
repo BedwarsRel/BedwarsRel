@@ -510,7 +510,7 @@ public class Main extends JavaPlugin {
 							}
 						}
 					}
-				}, (long) 10 * 20, (long) 10 * 20);
+				}, (long) 5 * 20, (long) 5 * 20);
 	}
 
 	public static String _l(String localeKey, Map<String, String> params) {

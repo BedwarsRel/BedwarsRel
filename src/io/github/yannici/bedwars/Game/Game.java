@@ -234,6 +234,12 @@ public class Game {
 		this.cleanUsersInventory();
 		this.clearProtections();
 		this.moveFreePlayersToTeam();
+		
+		// set statistics
+		for(Player player : this.getTeamPlayers()) {
+		    PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(player);
+		    statistic.setGames(statistic.getGames()+1);
+		}
 
 		this.cycle.onGameStart();
 		
@@ -530,7 +536,6 @@ public class Game {
 				if(!team.isDead() && !p.isDead()) {
 					if(Main.getInstance().statisticsEnabled()) {
 						statistic.setLoses(statistic.getLoses()+1);
-						statistic.setGames(statistic.getGames()+1);
 						statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.lose", 0));
 					}
 				}

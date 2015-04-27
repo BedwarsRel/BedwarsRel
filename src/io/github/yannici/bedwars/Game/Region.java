@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.material.Bed;
@@ -136,8 +137,24 @@ public class Region {
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {
 			Entity e = entityIterator.next();
+			
+			if(!this.isInRegion(e.getLocation())) {
+			    continue;
+			}
+			
 			if (e instanceof Item) {
 				e.remove();
+				continue;
+			}
+			
+			if(e.getType().equals(EntityType.CREEPER)
+			        || e.getType().equals(EntityType.CAVE_SPIDER)
+			        || e.getType().equals(EntityType.SPIDER)
+			        || e.getType().equals(EntityType.ZOMBIE)
+			        || e.getType().equals(EntityType.SKELETON)
+			        || e.getType().equals(EntityType.SILVERFISH)) {
+			    e.remove();
+			    continue;
 			}
 
 			if (e instanceof LivingEntity) {

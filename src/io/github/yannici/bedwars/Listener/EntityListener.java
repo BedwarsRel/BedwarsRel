@@ -14,11 +14,33 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 
 public class EntityListener extends BaseListener {
 
 	public EntityListener() {
 		super();
+	}
+	
+	@EventHandler
+	public void onEntitySpawn(EntitySpawnEvent ese) {
+	    Game game = Main.getInstance().getGameManager().getGameByWorld(ese.getLocation().getWorld());
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() == GameState.STOPPED) {
+	       return; 
+	    }
+	    
+	    if(ese.getEntityType().equals(EntityType.CREEPER)
+                || ese.getEntityType().equals(EntityType.CAVE_SPIDER)
+                || ese.getEntityType().equals(EntityType.SPIDER)
+                || ese.getEntityType().equals(EntityType.ZOMBIE)
+                || ese.getEntityType().equals(EntityType.SKELETON)
+                || ese.getEntityType().equals(EntityType.SILVERFISH)) {
+	        ese.setCancelled(true);
+	    }
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
