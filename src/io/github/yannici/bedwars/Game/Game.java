@@ -8,6 +8,7 @@ import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
 import io.github.yannici.bedwars.Shop.NewItemShop;
+import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
 
@@ -461,6 +462,11 @@ public class Game {
 		BedwarsPlayerJoinEvent joinEvent = new BedwarsPlayerJoinEvent(this, p);
 		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 		
+		if(Main.getInstance().statisticsEnabled()) {
+			// load statistics
+			Main.getInstance().getPlayerStatisticManager().getStatistic(p);
+		}
+		
 		// add damager and set it to null
 		this.playerDamages.put(p, null);
 		
@@ -505,6 +511,11 @@ public class Game {
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
 
 		Team team = Game.getPlayerTeam(p, this);
+		
+		PlayerStatistic statistic = null;
+		if(Main.getInstance().statisticsEnabled()) {
+			statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
+		}
 
 		if (this.isSpectator(p)) {
 			for (Player player : this.getPlayers()) {
@@ -513,6 +524,16 @@ public class Game {
 				}
 
 				player.showPlayer(p);
+			}
+		} else {
+			if(this.state == GameState.RUNNING) {
+				if(!team.isDead() && !p.isDead()) {
+					if(Main.getInstance().statisticsEnabled()) {
+						statistic.setLoses(statistic.getLoses()+1);
+						statistic.setGames(statistic.getGames()+1);
+						statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.lose", 0));
+					}
+				}
 			}
 		}
 		
@@ -531,6 +552,12 @@ public class Game {
 
 		if (this.freePlayers.contains(p)) {
 			this.freePlayers.remove(p);
+		}
+		
+		if(Main.getInstance().statisticsEnabled()) {
+			// store statistics and unload
+			statistic.store();
+			Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
 		}
 
 		PlayerStorage storage = this.storages.get(p);

@@ -104,10 +104,6 @@ public class Main extends JavaPlugin {
 	}
 	
 	private void loadStatistics() {
-		if(Main.getInstance().getStatisticStorageType() != StorageType.YAML) {
-			return;
-		}
-		
 		this.playerStatisticManager = new PlayerStatisticManager();
 		this.playerStatisticManager.initialize();
 	}
@@ -117,6 +113,8 @@ public class Main extends JavaPlugin {
 				|| !this.getStringConfig("statistics.storage","yaml").equals("database")) {
 			return;
 		}
+		
+		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Initialize database ..."));
 		
 		this.loadingRequiredLibs();
 		
@@ -132,11 +130,17 @@ public class Main extends JavaPlugin {
 		
 		this.dbManager = new DatabaseManager(host, port, user, password, db);
 		this.dbManager.initialize();
+		
+		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
 	}
 	
 	public StorageType getStatisticStorageType() {
-		String storage = this.getStringConfig("statistic.storage", "yaml");
+		String storage = this.getStringConfig("statistics.storage", "yaml");
 		return StorageType.getByName(storage);
+	}
+	
+	public boolean statisticsEnabled() {
+		return this.getBooleanConfig("statistics.enabled", false);
 	}
 	
 	private void cleanDatabase() {

@@ -7,7 +7,9 @@ import io.github.yannici.bedwars.Database.DBSetField;
 import org.bukkit.OfflinePlayer;
 
 public class PlayerStatistic extends Statistic {
-
+	
+	public static final String tableName = "stats_players";
+	
 	private OfflinePlayer player = null;
 	
 	// Statistics
@@ -33,12 +35,12 @@ public class PlayerStatistic extends Statistic {
 		return this.player;
 	}
 	
-	@DBGetField(name = "uuid")
+	@DBGetField(name = "uuid", dbType = "VARCHAR(255)")
 	public String getUUID() {
 		return this.player.getUniqueId().toString();
 	}
 
-	@DBGetField(name = "kills")
+	@DBGetField(name = "kills", dbType = "INT(11)", defaultValue = "0")
 	public int getKills() {
 		return kills;
 	}
@@ -48,7 +50,7 @@ public class PlayerStatistic extends Statistic {
 		this.kills = kills;
 	}
 	
-	@DBGetField(name = "deaths")
+	@DBGetField(name = "deaths", dbType = "INT(11)", defaultValue = "0")
 	public int getDeaths() {
 		return deaths;
 	}
@@ -58,7 +60,7 @@ public class PlayerStatistic extends Statistic {
 		this.deaths = deaths;
 	}
 
-	@DBGetField(name = "destroyedBeds")
+	@DBGetField(name = "destroyedBeds", dbType = "INT(11)", defaultValue = "0")
 	public int getDestroyedBeds() {
 		return destroyedBeds;
 	}
@@ -68,7 +70,7 @@ public class PlayerStatistic extends Statistic {
 		this.destroyedBeds = destroyedBeds;
 	}
 
-	@DBGetField(name = "wins")
+	@DBGetField(name = "wins", dbType = "INT(11)", defaultValue = "0")
 	public int getWins() {
 		return wins;
 	}
@@ -78,7 +80,7 @@ public class PlayerStatistic extends Statistic {
 		this.wins = wins;
 	}
 
-	@DBGetField(name = "loses")
+	@DBGetField(name = "loses", dbType = "INT(11)", defaultValue = "0")
 	public int getLoses() {
 		return loses;
 	}
@@ -88,7 +90,7 @@ public class PlayerStatistic extends Statistic {
 		this.loses = loses;
 	}
 
-	@DBGetField(name = "games")
+	@DBGetField(name = "games", dbType = "INT(11)", defaultValue = "0")
 	public int getGames() {
 		return games;
 	}
@@ -98,7 +100,7 @@ public class PlayerStatistic extends Statistic {
 		this.games = games;
 	}
 
-	@DBGetField(name = "score")
+	@DBGetField(name = "score", dbType = "INT(11)", defaultValue = "0")
 	public int getScore() {
 		return score;
 	}
@@ -132,6 +134,11 @@ public class PlayerStatistic extends Statistic {
 		this.loses = 0;
 		this.wins = 0;
 		this.score = 0;
+	}
+
+	@Override
+	public String getTableName() {
+		return "stats_players";
 	}
 	
 }

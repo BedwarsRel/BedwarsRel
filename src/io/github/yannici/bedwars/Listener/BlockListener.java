@@ -8,6 +8,7 @@ import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -97,6 +98,13 @@ public class BlockListener extends BaseListener {
 			Team bedDestroyTeam = Game.getTeamOfBed(g, breakBlock);
 			if (bedDestroyTeam == null) {
 				return;
+			}
+			
+			// set statistics
+			if(Main.getInstance().statisticsEnabled()) {
+				PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
+				statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
+				statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
 			}
 			
 			// not used anymore

@@ -9,7 +9,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 
 * Game Lobby with countdown (Levels + 2 possiblities configurable)
 * Up to 15 teams with custom amount of players
-* Fully customizable ressource spawners
+* Fully customizable ressource spawners (other ressource than bronze, iron, gold possible)
 * Team selection GUI
 * Friendly Fire configurable
 * Only one villager need for trades
@@ -27,7 +27,9 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * Events for plugin developers
 * Spectators
 * Team chests (Ender chest)
+* Game time configurable
 * Many commands for game setup
+* Statistics with MySQL or Yaml-files
 
 #### Compatibility
 

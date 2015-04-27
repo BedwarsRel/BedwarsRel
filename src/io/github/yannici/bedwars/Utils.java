@@ -159,5 +159,31 @@ public final class Utils {
 
 		return randomNum;
 	}
+	
+	public static Class<?> getPrimitiveWrapper(Class<?> primitive) {
+		if(!primitive.isPrimitive()) {
+			return primitive;
+		}
+		
+		if(primitive.getSimpleName().equals("int")) {
+			return Integer.class;
+		} else if(primitive.getSimpleName().equals("long")) {
+			return Long.class;
+		} else if(primitive.getSimpleName().equals("short")) {
+			return Short.class;
+		} else if(primitive.getSimpleName().equals("byte")) {
+			return Byte.class;
+		} else if(primitive.getSimpleName().equals("float")) {
+			return Float.class;
+		} else if(primitive.getSimpleName().equals("boolean")) {
+			return Boolean.class;
+		} else if(primitive.getSimpleName().equals("char")) {
+			return Character.class;
+		} else if(primitive.getSimpleName().equals("double")) {
+			return Double.class;
+		} else {
+			return primitive;
+		}
+	}
 
 }

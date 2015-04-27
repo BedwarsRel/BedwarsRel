@@ -58,6 +58,8 @@ public abstract class Statistic extends DatabaseObject {
 	public Map<String, DBField> getFields() {
 		return this.fields;
 	}
+	
+	public abstract String getTableName();
 
 	public abstract String getKeyField();
 
@@ -101,6 +103,13 @@ public abstract class Statistic extends DatabaseObject {
 					
 					Method castNumber = value.getClass().getMethod(classname + "Value", new Class<?>[]{});
 					castNumber.setAccessible(true);
+					
+					Class<?> returningNumberType = castNumber.getReturnType();
+					if(!paramType.equals(returningNumberType)) {
+						setter.invoke(this, new Object[]{paramType.cast(castNumber.invoke(value, new Object[]{}))});
+						return;
+					}
+					
 					setter.invoke(this, new Object[]{castNumber.invoke(value, new Object[]{})});
 					return;
 				}

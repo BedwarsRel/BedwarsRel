@@ -1,7 +1,9 @@
 package io.github.yannici.bedwars.Database;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.bukkit.ChatColor;
 
@@ -87,5 +89,134 @@ public class DatabaseManager {
 		if(this.dataSource != null) {
 			this.dataSource.close();
 		}
+	}
+
+	public void clean(Connection dbConnection) {
+		try {
+			if(dbConnection == null) {
+				return;
+			}
+			
+			if(!dbConnection.isClosed()) {
+				dbConnection.close();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void cleanStatement(Statement statement) {
+		try {
+			if(statement == null) {
+				return;
+			}
+			
+			if(!statement.isClosed()) {
+				statement.close();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void cleanResult(ResultSet result) {
+		try {
+			if(result == null) {
+				return;
+			}
+			
+			if(!result.isClosed()) {
+				result.close();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void execute(String... sqls) {
+		Connection con = null;
+		Statement statement = null;
+		
+		if(sqls.length == 0)  {
+			return;
+		}
+		
+		try {
+			con = this.getDataSourceConnection();
+			statement = con.createStatement();
+			
+			if(sqls.length == 1) {
+				statement.execute(sqls[0]);
+			} else {
+				for(String sql : sqls) {
+					statement.addBatch(sql);
+				}
+				
+				statement.executeBatch();
+			}
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			this.clean(con);
+			this.cleanStatement(statement);
+		}
+	}
+	
+	public ResultSet query(String sql)  {
+		Connection con = null;
+		Statement statement = null;
+		ResultSet result = null;
+		
+		try {
+			con = this.getDataSourceConnection();
+			statement = con.createStatement();
+			result = statement.executeQuery(sql);
+			
+			return result;
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			this.clean(con);
+		}
+		
+		return null;
+	}
+	
+	public int getRowCount(ResultSet result) {
+    	int size = 0;
+    	try {
+    		result.last();
+    		size = result.getRow();
+    		result.beforeFirst();
+    		
+    		return size;
+    	} catch(Exception ex) {
+    		return 0;
+    	}
+    }
+	
+	public void update(String sql) {
+		Connection con = null;
+		Statement statement = null;
+		
+		try {
+			con = this.getDataSourceConnection();
+			statement = con.createStatement();
+			
+			statement.executeUpdate(sql);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			this.clean(con);
+			this.cleanStatement(statement);
+		}
+	}
+	
+	public void insert(String sql) {
+		this.update(sql);
+	}
+	
+	public void delete(String sql) {
+		this.update(sql);
 	}
 }

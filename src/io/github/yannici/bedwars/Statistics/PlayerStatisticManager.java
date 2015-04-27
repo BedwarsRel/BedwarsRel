@@ -2,9 +2,14 @@ package io.github.yannici.bedwars.Statistics;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Database.DBField;
+import io.github.yannici.bedwars.Database.DBGetField;
+import io.github.yannici.bedwars.Database.DBSetField;
 import io.github.yannici.bedwars.Database.DatabaseManager;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,8 +21,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class PlayerStatisticManager {
-    
-    public static String tableName = "stats_players";
     
     private Map<OfflinePlayer, PlayerStatistic> playerStatistic = null;
     private FileConfiguration fileDatabase = null;
@@ -34,9 +37,60 @@ public class PlayerStatisticManager {
         }
         
         if(Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
-            File file = new File(Main.getInstance().getDataFolder() + "/database/" + DatabaseManager.DBPrefix + PlayerStatisticManager.tableName + ".yml");
+            File file = new File(Main.getInstance().getDataFolder() + "/database/" + DatabaseManager.DBPrefix + PlayerStatistic.tableName + ".yml");
             this.loadYml(file);
         }
+        
+        if(Main.getInstance().getStatisticStorageType() == StorageType.DATABASE) {
+        	this.initializeDatabase();
+        }
+    }
+    
+    public void initializeDatabase() {
+    	Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Loading Statistics from Database ..."));
+    	
+    	// create table if not exists
+    	String sql = this.getTableSql(new PlayerStatistic());
+    	Main.getInstance().getDatabaseManager().execute(sql);
+    	Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
+    }
+    
+    private String getTableSql(Statistic statistic) {
+    	StringBuilder builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
+    	String tablename = DatabaseManager.DBPrefix + statistic.getTableName();
+    	
+    	builder.append("`" + tablename + "` (");
+    	for(DBField field : statistic.getFields().values()) {
+    		Method getter = field.getGetter();
+    		
+    		DBGetField fieldAno = getter.getAnnotation(DBGetField.class);
+    		if(fieldAno == null) {
+    			continue;
+    		}
+    		
+    		builder.append("`" + fieldAno.name() + "` ");
+    		builder.append(fieldAno.dbType() + " ");
+    		builder.append((fieldAno.notNull()) ? "NOT NULL" : "NULL");
+    		
+    		if(!fieldAno.defaultValue().equals("")) {
+    			builder.append(" DEFAULT '" + fieldAno.defaultValue() + "' ");
+    		}
+    		
+    		if(fieldAno.autoInc()) {
+    			builder.append(" AUTO_INCREMENT");
+    		}
+    		
+    		builder.append(",");
+    	}
+    	
+    	if(statistic.getKeyField() != null) {
+    		builder.append("UNIQUE (" + statistic.getKeyField() + "),");
+    	}
+    	
+    	builder.append("PRIMARY KEY (id)");
+    	builder.append(");");
+    	
+    	return builder.toString();
     }
     
     public void storeStatistic(PlayerStatistic statistic) {
@@ -62,7 +116,71 @@ public class PlayerStatisticManager {
     }
     
     private void storeDatabaseStatistic(PlayerStatistic statistic) {
+        if(!this.playerStatistic.containsKey(statistic.getPlayer())) {
+        	return;
+        }
         
+        String updateSql = this.getStoreSQL(statistic);
+        Main.getInstance().getDatabaseManager().update(updateSql);
+    }
+    
+    private String getStoreSQL(Statistic statistic) {
+    	StringBuilder sql = new StringBuilder();
+    	
+    	if(statistic.isNew()) {
+    		StringBuilder insertFields = new StringBuilder();
+    		StringBuilder fieldValues = new StringBuilder();
+    		
+    		sql.append("INSERT INTO `" + DatabaseManager.DBPrefix + statistic.getTableName() + "` (");
+    		for(DBField field : statistic.getFields().values()) {
+    			DBGetField anoGet = field.getGetter().getAnnotation(DBGetField.class);
+    			
+    			if(anoGet == null) {
+    				continue;
+    			}
+    			
+    			if(anoGet.name().equals("id")) {
+    				continue;
+    			}
+    			
+    			insertFields.append("`" + anoGet.name() + "`,");
+    			fieldValues.append("'" + statistic.getValue(anoGet.name()) + "',");
+    		}
+    		
+    		String ifields = insertFields.toString();
+    		String fvalues = fieldValues.toString();
+    		
+    		ifields = ifields.trim().substring(0, ifields.length()-1);
+    		fvalues = fvalues.trim().substring(0, fvalues.length()-1);
+    		
+    		sql.append(ifields + ") VALUES (");
+    		sql.append(fvalues + ")");
+    	} else {
+    		StringBuilder updateString = new StringBuilder();
+    	
+    		sql.append("UPDATE `" + DatabaseManager.DBPrefix + statistic.getTableName() + "` SET ");
+    		for(DBField field : statistic.getFields().values()) {
+    			DBGetField anoGet = field.getGetter().getAnnotation(DBGetField.class);
+    			
+    			if(anoGet == null) {
+    				continue;
+    			}
+    			
+    			if(anoGet.name().equals("id") 
+    					|| anoGet.name().equals(statistic.getKeyField())) {
+    				continue;
+    			}
+    			
+    			updateString.append("`" + anoGet.name() + "` = '" + statistic.getValue(anoGet.name()) + "',");
+    		}
+    		
+    		String update = updateString.toString().trim();
+    		update = update.substring(0, update.length()-1);
+    		
+    		sql.append(update + " WHERE `" + statistic.getKeyField() + "` = '" + statistic.getValue(statistic.getKeyField()) + "'");
+    	}
+    	
+    	return sql.toString();
     }
     
     public void loadStatistic(PlayerStatistic statistic) {
@@ -87,7 +205,7 @@ public class PlayerStatisticManager {
     	String keyValue = statistic.getValue(statistic.getKeyField()).toString();
     	statistic.setDefault();
     	
-        if(this.fileDatabase.contains("data." + keyValue)) {
+        if(!this.fileDatabase.contains("data." + keyValue)) {
         	return;
         }
         
@@ -110,10 +228,67 @@ public class PlayerStatisticManager {
     }
     
     private void loadDatabaseStatistic(PlayerStatistic statistic) {
+        if(this.playerStatistic.containsKey(statistic.getPlayer())) {
+        	return;
+        }
         
+        ResultSet playerStatistic = null;
+        
+        try {
+        	playerStatistic = Main.getInstance().getDatabaseManager().query("SELECT * FROM"
+            		+ " `" + DatabaseManager.DBPrefix + statistic.getTableName() + "`"
+            				+ " WHERE `" + statistic.getKeyField() + "` = '" + statistic.getValue(statistic.getKeyField()) + "'");
+        	
+        	// get size
+        	if(Main.getInstance().getDatabaseManager().getRowCount(playerStatistic) == 0) {
+        		statistic.setDefault();
+        		this.playerStatistic.put(statistic.getPlayer(), statistic);
+        		return;
+        	}
+        	
+        	playerStatistic.first();
+        	for(DBField field : statistic.getFields().values()) {
+        		if(field.getSetter() == null) {
+        			continue;
+        		}
+        		
+        		DBSetField setField = field.getSetter().getAnnotation(DBSetField.class);
+        		
+        		if(setField == null) {
+        			continue;
+        		}
+        		
+        		if(field.getSetter().getParameterTypes().length == 0) {
+        			continue;
+        		}
+        		
+        		//Class<?> setterType = field.getSetter().getParameterTypes()[0];
+        		statistic.setValue(setField.name(), playerStatistic.getObject(setField.name()));
+        	}
+        } catch(Exception ex) {
+        	ex.printStackTrace();
+        	return;
+        } finally {
+        	try {
+        		Main.getInstance().getDatabaseManager().clean(playerStatistic.getStatement().getConnection());
+        	} catch(Exception ex) {
+        		ex.printStackTrace();
+        	}
+        }
+        
+        this.playerStatistic.put(statistic.getPlayer(), statistic);
     }
     
     public PlayerStatistic getStatistic(OfflinePlayer player) { 
+    	if(player == null) {
+    		return null;
+    	}
+    	
+    	if(!this.playerStatistic.containsKey(player)) {
+    		PlayerStatistic statistic = new PlayerStatistic(player);
+    		statistic.load();
+    	}
+    	
         return this.playerStatistic.get(player);
     }
     
