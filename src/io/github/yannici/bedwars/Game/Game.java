@@ -128,11 +128,11 @@ public class Game {
 	}
 
 	public static String bedLostString() {
-		return ChatColor.RED + "✘ ";
+		return ChatColor.RED + "\u2718 ";
 	}
 
 	public static String bedExistString() {
-		return ChatColor.GREEN + "✔ ";
+		return ChatColor.GREEN + "\u2714 ";
 	}
 
 	public static Game getGameOfPlayer(Player p) {
