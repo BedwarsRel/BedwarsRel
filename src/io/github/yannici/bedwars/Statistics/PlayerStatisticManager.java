@@ -312,7 +312,8 @@ public class PlayerStatisticManager {
             this.databaseFile = ymlFile;
             
             if(!ymlFile.exists()) {
-				ymlFile.mkdirs();
+				ymlFile.getParentFile().mkdirs();
+				ymlFile.createNewFile();
 				
                 config = new YamlConfiguration();
                 config.createSection("data");

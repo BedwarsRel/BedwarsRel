@@ -100,6 +100,7 @@ public class Region {
 		    Block theBlock = this.getWorld().getBlockAt(block.getLocation());
 		    theBlock.setTypeId(this.breakedBlockTypes.get(block));
 		    theBlock.setData(this.breakedBlockData.get(block));
+		    theBlock.getState().update(true, true);
 		}
 		
 		this.breakedBlocks.clear();
