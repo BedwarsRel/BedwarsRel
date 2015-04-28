@@ -23,6 +23,7 @@
 		<tstamp />
 		<!-- Create the build directory structure used by compile -->
 		<mkdir dir="${build}" />
+		<delete dir="${dist}" />
 	</target>
 
 	<target name="compile" depends="init" description="compile the source ">
