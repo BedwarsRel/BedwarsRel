@@ -1165,7 +1165,7 @@ public class Game {
 			this.regionName = this.region.getWorld().getName();
 		}
 		
-		yml.set("regionname", this.getRegion().getName());
+		yml.set("regionname", this.regionName);
 		yml.set("time", this.time);
 		
 		if (this.mainLobby != null) {

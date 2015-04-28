@@ -222,6 +222,7 @@ public class GameManager {
 				game.setTime(cfg.getInt("time"));
 			}
 			
+			game.setRegionName(regionName);
 			game.setRegion(new Region(loc1, loc2, regionName));
 			
 			if (cfg.contains("minplayers")) {
