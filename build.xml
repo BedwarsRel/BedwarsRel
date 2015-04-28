@@ -38,7 +38,13 @@
 		<mkdir dir="${dist}" />
 
 		<!-- Put everything in ${build} into the BedwarsRel-${version}.jar file -->
-		<jar jarfile="${dist}/BedwarsRel-${version}.jar" basedir="${build}" />
+		<jar jarfile="${dist}/BedwarsRel-${version}.jar" basedir="${build}">
+			<fileset dir="./">
+			    <include name="config.yml" />
+				<include name="plugin.yml" />
+			</fileset>
+			<fileset dir="locale" includes="**/*.yml" />
+		</jar>
 	</target>
 
 	<target name="clean" description="clean up">
