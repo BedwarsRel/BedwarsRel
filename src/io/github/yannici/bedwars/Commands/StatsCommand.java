@@ -8,6 +8,7 @@ import io.github.yannici.bedwars.Statistics.StatField;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -160,7 +161,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
             }
         };
         
-        ordered.sort(statComparator);
+        Collections.sort(ordered, statComparator);
         
         for(StatField statField : ordered) {
             Method valueMethod = values.get(statField);
