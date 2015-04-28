@@ -43,7 +43,6 @@
 			    <include name="config.yml" />
 				<include name="plugin.yml" />
 				<include name="**/locale/**" />
-				<include name="**/lib/**" />
 			</fileset>
 		</jar>
 	</target>
