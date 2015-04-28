@@ -42,9 +42,9 @@
 			<fileset dir="./">
 			    <include name="config.yml" />
 				<include name="plugin.yml" />
+				<include name="**/locale/**" />
+				<include name="**/lib/**" />
 			</fileset>
-			
-			<fileset dir="locale" includes="locale/*.yml" />
 		</jar>
 	</target>
 
