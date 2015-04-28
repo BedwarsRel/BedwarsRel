@@ -1,38 +1,48 @@
 <project name="BedwarsRel" default="dist" basedir=".">
-    <description>
+	<description>
         jenkins ant build file for Bedwars
     </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="./"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
-  <property name="version" value="1.0.40"/>
+	<!-- set global properties for this build -->
+	<property name="src" location="./" />
+	<property name="build" location="build" />
+	<property name="dist" location="dist" />
+	<property name="version" value="1.0.40" />
 
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-  </target>
+	<path id="bedwars.classpath">
+		<pathelement location="bin" />
+		<pathelement location="lib/c3p0-0.9.5.jar" />
+		<pathelement location="lib/spigot-1.8-R0.1-SNAPSHOT-latest.jar" />
+		<pathelement location="lib/spigot-1.8.3-R0.1-SNAPSHOT-latest .jar" />
+		<pathelement location="lib/spigot-1.7.10-R0.1-SNAPSHOTBuild1646.jar" />
+		<pathelement location="lib/spigot-1.7.2-R0.4-SNAPSHOT-1339.jar" />
+		<pathelement location="lib/spigot-1.7.5-R0.1-SNAPSHOT-1387.jar" />
+		<pathelement location="lib/spigot-1.7.9-R0.3-SNAPSHOTBuild1543.jar" />
+	</path>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}" encoding="iso-8859-1" />
-  </target>
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp />
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${build}" />
+	</target>
 
-  <target name="dist" depends="compile"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
-    <mkdir dir="${dist}"/>
+	<target name="compile" depends="init" description="compile the source ">
+		<!-- Compile the java code from ${src} into ${build} -->
+		<javac srcdir="${src}" destdir="${build}" encoding="iso-8859-1">
+			<classpath refid="bedwars.classpath" />
+		</javac>
+	</target>
 
-    <!-- Put everything in ${build} into the BedwarsRel-${version}.jar file -->
-    <jar jarfile="${dist}/BedwarsRel-${version}.jar" basedir="${build}"/>
-  </target>
+	<target name="dist" depends="compile" description="generate the distribution">
+		<!-- Create the distribution directory -->
+		<mkdir dir="${dist}" />
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-  </target>
+		<!-- Put everything in ${build} into the BedwarsRel-${version}.jar file -->
+		<jar jarfile="${dist}/BedwarsRel-${version}.jar" basedir="${build}" />
+	</target>
+
+	<target name="clean" description="clean up">
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${build}" />
+	</target>
 </project>
