@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Statistics;
 
+import java.math.BigDecimal;
+
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
@@ -41,6 +43,7 @@ public class PlayerStatistic extends Statistic {
 	}
 
 	@DBGetField(name = "kills", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "kills", order = 10)
 	public int getKills() {
 		return kills;
 	}
@@ -51,8 +54,24 @@ public class PlayerStatistic extends Statistic {
 	}
 	
 	@DBGetField(name = "deaths", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "deaths", order = 20)
 	public int getDeaths() {
 		return deaths;
+	}
+	
+	@StatField(name = "kd", order = 25)
+	public String getKD() {
+	    double kd = 0;
+        if(this.getDeaths() == 0) {
+            kd = this.getDeaths();
+        } else if(this.getKills() == 0) {
+            kd = 0;
+        } else {
+            kd = this.getKills()/this.getDeaths();
+        }
+        
+        BigDecimal bd = BigDecimal.valueOf(kd).setScale(2, BigDecimal.ROUND_HALF_UP);
+        return bd.toPlainString();
 	}
 
 	@DBSetField(name = "deaths")
@@ -61,6 +80,7 @@ public class PlayerStatistic extends Statistic {
 	}
 
 	@DBGetField(name = "destroyedBeds", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "destroyedBeds", order = 30)
 	public int getDestroyedBeds() {
 		return destroyedBeds;
 	}
@@ -71,6 +91,7 @@ public class PlayerStatistic extends Statistic {
 	}
 
 	@DBGetField(name = "wins", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "wins", order = 40)
 	public int getWins() {
 		return wins;
 	}
@@ -81,6 +102,7 @@ public class PlayerStatistic extends Statistic {
 	}
 
 	@DBGetField(name = "loses", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "loses", order = 50)
 	public int getLoses() {
 		return loses;
 	}
@@ -91,6 +113,7 @@ public class PlayerStatistic extends Statistic {
 	}
 
 	@DBGetField(name = "games", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "games", order = 60)
 	public int getGames() {
 		return games;
 	}
@@ -101,6 +124,7 @@ public class PlayerStatistic extends Statistic {
 	}
 
 	@DBGetField(name = "score", dbType = "INT(11)", defaultValue = "0")
+	@StatField(name = "score", order = 70)
 	public int getScore() {
 		return score;
 	}

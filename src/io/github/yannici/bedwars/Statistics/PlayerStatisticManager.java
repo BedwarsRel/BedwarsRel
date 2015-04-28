@@ -330,6 +330,10 @@ public class PlayerStatisticManager {
                 ConfigurationSection dataEntry = dataSection.getConfigurationSection(key);
                 
                 for(String field : statistic.getFields().keySet()) {
+                    if(!dataEntry.contains(field)) {
+                        continue;
+                    }
+                    
                     Object value = dataEntry.get(field);
                     statistic.setValue(field, value);
                 }

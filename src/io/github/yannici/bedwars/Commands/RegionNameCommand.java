@@ -70,6 +70,7 @@ public class RegionNameCommand extends BaseCommand implements ICommand {
 		}
 
 		game.setRegionName(name);
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.regionnameset")));
 		return true;
 	}
 

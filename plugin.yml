@@ -1,6 +1,6 @@
 name: BedwarsRel
 main: io.github.yannici.bedwars.Main
-version: 1.0.44
+version: 1.0.45
 depend: []
 softdepend: [Multiverse-Core, Multiworld]
 commands:
@@ -84,6 +84,10 @@ commands:
         description: Sets the time for the game used in the world
         usage: /<command>
         permission: bw.setup
+    bw stats:
+        description: Shows the stats of bedwars
+        usage: /<command>
+        permission: bw.base
 permissions:
     bw.base:
         description: Allows you to show to play games
@@ -96,4 +100,7 @@ permissions:
         default: op
     bw.cmd:
         description: Allows to execute non-bedwars commands ingame
+        default: op
+    bw.otherstats:
+        description: Allows to show stats of other players
         default: op

@@ -54,6 +54,7 @@ success:
     spawnercleared: Vsechny spawnery surovin byly odstraneny!
     gamerun: Hra byla zapnuta, hraci jiz mohou hrat!
     timeset: Cas hry byl uspesne nastaven!
+    regionnameset: Region name was set successfully!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
@@ -105,6 +106,18 @@ sign:
         waiting: Ă‚§aCEKANI
         running: Ă‚§9VE HRE!
         full: PLNO!
+stats:
+    header: Bedwars Stats
+    kd: K/D
+    statsnotfound: Statistics of $player$ not found!
+    name: Name
+    kills: Kills
+    deaths: Deaths
+    wins: Wins
+    loses: Loses
+    score: Scores
+    destroyedBeds: Destroyed Beds
+    games: Games
 ressources:
     gold: Ă‚§6Zlato
     iron: Ă‚§7Zelezo

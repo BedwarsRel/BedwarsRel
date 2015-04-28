@@ -54,6 +54,7 @@ success:
     spawnercleared: Alle Ressourcen-Spawner wurden erfolgreich entfernt!
     gamerun: Du hast das Spiel gestartet, Spieler können nun beitreten!
     timeset: Spiel-Zeit wurde erfolgreich gesetzt!
+    regionnameset: Region name was set successfully!
 gamecheck:
     LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
     TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!
@@ -105,6 +106,18 @@ sign:
         waiting: §aWarten ...
         running: §9Gestartet!
         full: Voll!
+stats:
+    header: Bedwars Stats
+    kd: K/D
+    statsnotfound: Statistik von $player$ nicht gefunden!
+    name: Name
+    kills: Kills
+    deaths: Tote
+    wins: Gewonnen
+    loses: Verloren
+    score: Punkte
+    destroyedBeds: zerstörte Betten
+    games: Spiele
 ressources:
     gold: §6Gold
     iron: §7Eisen
