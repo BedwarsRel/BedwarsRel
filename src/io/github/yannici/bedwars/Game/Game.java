@@ -396,20 +396,22 @@ public class Game {
 	}
 
 	public void toSpectator(Player player) {
-		Team playerTeam = Game.getPlayerTeam(player, this);
+		final Player p = player;
+		
+		Team playerTeam = Game.getPlayerTeam(p, this);
 		if (playerTeam != null) {
-			playerTeam.removePlayer(player);
+			playerTeam.removePlayer(p);
 		}
 
-		if (!this.freePlayers.contains(player)) {
-			this.freePlayers.add(player);
+		if (!this.freePlayers.contains(p)) {
+			this.freePlayers.add(p);
 		}
 
-		PlayerStorage storage = this.getPlayerStorage(player);
+		PlayerStorage storage = this.getPlayerStorage(p);
 		if (storage != null) {
 			storage.clean();
 		} else {
-			storage = this.addPlayerStorage(player);
+			storage = this.addPlayerStorage(p);
 			storage.store();
 			storage.clean();
 		}
@@ -418,16 +420,16 @@ public class Game {
 
 			@Override
 			public void run() {
-				player.setAllowFlight(true);
-				player.setFlying(true);
-				player.setGameMode(GameMode.SPECTATOR);
+				p.setAllowFlight(true);
+				p.setFlying(true);
+				p.setGameMode(GameMode.SPECTATOR);
 
-				for (Player p : Game.this.getPlayers()) {
-					if (p.equals(player)) {
+				for (Player pl : Game.this.getPlayers()) {
+					if (pl.equals(p)) {
 						continue;
 					}
 
-					p.hidePlayer(player);
+					pl.hidePlayer(p);
 				}
 			}
 
@@ -438,9 +440,9 @@ public class Game {
 		ItemMeta im = leaveGame.getItemMeta();
 		im.setDisplayName(Main._l("lobby.leavegame"));
 		leaveGame.setItemMeta(im);
-		player.getInventory().setItem(8, leaveGame);
+		p.getInventory().setItem(8, leaveGame);
 
-		player.updateInventory();
+		p.updateInventory();
 		this.setPlayersScoreboard();
 	}
 

@@ -61,17 +61,19 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public boolean onPlayerJoins(Player player) {
+		final Player p = player;
+		
 		if (this.getGame().isFull()) {
 			if (this.getGame().getState() != GameState.RUNNING
 					|| !Main.getInstance().spectationEnabled()) {
 				this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
-						player);
+						p);
 				new BukkitRunnable() {
 
 					@Override
 					public void run() {
 						BungeeGameCycle.this.sendBungeeMessage(
-								player,
+								p,
 								ChatWriter.pluginMessage(ChatColor.RED
 										+ Main._l("lobby.gamefull")));
 					}

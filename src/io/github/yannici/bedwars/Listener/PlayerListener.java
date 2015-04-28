@@ -185,7 +185,7 @@ public class PlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerDie(PlayerDeathEvent pde) {
-		Player player = pde.getEntity();
+		final Player player = pde.getEntity();
 		Game game = Game.getGameOfPlayer(player);
 
 		if (game == null) {
