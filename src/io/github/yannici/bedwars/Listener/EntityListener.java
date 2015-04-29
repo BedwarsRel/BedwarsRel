@@ -11,6 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
@@ -77,11 +78,29 @@ public class EntityListener extends BaseListener {
 			return;
 		}
 
-		if (game.getState() != GameState.WAITING
-				&& game.getState() != GameState.RUNNING) {
+		if (game.getState() == GameState.STOPPED) {
+			return;
+		}
+		
+		ede.setCancelled(true);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent ede) {
+		if (ede.getEntityType() != EntityType.VILLAGER) {
 			return;
 		}
 
+		Game game = Main.getInstance().getGameManager()
+				.getGameByWorld(ede.getEntity().getWorld());
+		if (game == null) {
+			return;
+		}
+
+		if (game.getState() == GameState.STOPPED) {
+			return;
+		}
+		
 		ede.setCancelled(true);
 	}
 	

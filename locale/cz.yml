@@ -186,3 +186,6 @@ commands:
     gametime:
         name: Nastavit cas hry
         desc: Nastavi cas, ktery bude v arene po dobu hry
+    stats:
+        name: Statistics
+        desc: Shows your statistics

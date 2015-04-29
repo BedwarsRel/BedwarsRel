@@ -186,3 +186,6 @@ commands:
     gametime:
         name: Spiel-Zeit setzen
         desc: Setzt die Spiel-Zeit, die auf der Spielwelt verwendet werden soll.
+    stats:
+        name: Statistik
+        desc: Zeigt deine Statistik an.

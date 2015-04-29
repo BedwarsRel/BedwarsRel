@@ -186,3 +186,6 @@ commands:
     gametime:
         name: Set game time
         desc: Sets the game time which should be used in the game-world
+    stats:
+        name: Statistics
+        desc: Shows your statistics

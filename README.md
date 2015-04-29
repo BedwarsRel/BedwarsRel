@@ -42,9 +42,9 @@ I added compatibility for Minecraft Versions 1.8 and 1.7, try it now :)
 If you got ideas or suggestions, please tell me! If you want to contact me, you can easily send
 a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 
-## TODO's
+## Download from Jenkins
 
-All TODO's you can find in the **issue tracker**!
+To download the current development version use the jenkins server: **[Click here](http://31.220.15.15/jenkins/)**
 
 ## Metrics
 
