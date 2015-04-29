@@ -1,1 +1,1 @@
-### Watch the Github Project page: <http://yannici.github.com/bedwars-reloaded>
+### Watch the Github Project page: <http://yannici.github.io/bedwars-reloaded>
