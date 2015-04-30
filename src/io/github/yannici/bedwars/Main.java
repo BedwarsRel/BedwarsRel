@@ -3,6 +3,7 @@ package io.github.yannici.bedwars;
 import io.github.yannici.bedwars.Commands.*;
 import io.github.yannici.bedwars.Database.DatabaseManager;
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameCheckCode;
 import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameManager;
 import io.github.yannici.bedwars.Game.GameState;
@@ -49,6 +50,7 @@ public class Main extends JavaPlugin {
 	private String version = null;
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
+	private BukkitTask signTask = null;
 	
 	private PlayerStatisticManager playerStatisticManager = null;
 	
@@ -512,6 +514,23 @@ public class Main extends JavaPlugin {
 						}
 					}
 				}, (long) 5 * 20, (long) 5 * 20);
+		
+		this.signTask = this.getServer().getScheduler()
+		        .runTaskTimerAsynchronously(this, new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        for (Game g : Main.getInstance().getGameManager()
+                                .getGames()) {
+                            if(g.getState() != GameState.RUNNING
+                                    || g.checkGame() != GameCheckCode.OK) {
+                                continue;
+                            }
+                            
+                            g.updateSigns();
+                        }
+                    }
+                }, (long) 30 * 20, (long) 30 * 20);
 	}
 
 	public static String _l(String localeKey, Map<String, String> params) {
@@ -528,6 +547,12 @@ public class Main extends JavaPlugin {
 			this.timeTask.cancel();
 		} catch (Exception ex) {
 			// Timer isn't running. Just ignore.
+		}
+		
+		try {
+		    this.signTask.cancel();
+		} catch(Exception ex) {
+		 // Timer isn't running. Just ignore.
 		}
 	}
 

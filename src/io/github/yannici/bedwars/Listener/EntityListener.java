@@ -25,6 +25,18 @@ public class EntityListener extends BaseListener {
 	
 	@EventHandler
 	public void onEntitySpawn(EntitySpawnEvent ese) {
+	    if(Main.getInstance().getGameManager() == null) {
+	        return;
+	    }
+	    
+	    if(ese.getLocation() == null) {
+	        return;
+	    }
+	    
+	    if(ese.getLocation().getWorld() == null) {
+	        return;
+	    }
+	    
 	    Game game = Main.getInstance().getGameManager().getGameByWorld(ese.getLocation().getWorld());
 	    if(game == null) {
 	        return;

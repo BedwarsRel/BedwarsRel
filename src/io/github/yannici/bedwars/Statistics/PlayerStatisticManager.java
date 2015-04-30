@@ -103,6 +103,9 @@ public class PlayerStatisticManager {
     
     private synchronized void storeYamlStatistic(PlayerStatistic statistic) {
         String keyValue = String.valueOf(statistic.getValue(statistic.getKeyField()));
+        if(keyValue == null || keyValue.equals("null")) {
+            return;
+        }
         
         try {
             for(String field : statistic.getFields().keySet()) {
