@@ -516,7 +516,7 @@ public class Main extends JavaPlugin {
 				}, (long) 5 * 20, (long) 5 * 20);
 		
 		this.signTask = this.getServer().getScheduler()
-		        .runTaskTimerAsynchronously(this, new Runnable() {
+		        .runTaskTimer(this, new Runnable() {
                     
                     @Override
                     public void run() {
