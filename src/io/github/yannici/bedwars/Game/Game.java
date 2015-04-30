@@ -1004,6 +1004,20 @@ public class Game {
 
 		return players;
 	}
+	
+	public ArrayList<Player> getNonVipPlayers() {
+		ArrayList<Player> players = this.getPlayers();
+		
+		Iterator<Player> playerIterator = players.iterator();
+		while(playerIterator.hasNext()) {
+			Player player = playerIterator.next();
+			if(player.hasPermission("bw.vip")) {
+				playerIterator.remove();
+			}
+		}
+
+		return players;
+	}
 
 	public int getMinPlayers() {
 		return this.minPlayers;

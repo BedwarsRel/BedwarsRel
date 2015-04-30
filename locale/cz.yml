@@ -98,6 +98,7 @@ lobby:
     teamjoined: Uspesne jsi se pripojil do tymu $team$
     leavegame: Opustit hru
     playerjoin: Hrac $player$ se pripojil do hry!
+    kickedbyvip: You were kicked by a vip player which has joined the full game!
 sign:
     firstline: Ă‚§6[Bedwars]
     players: Hraci

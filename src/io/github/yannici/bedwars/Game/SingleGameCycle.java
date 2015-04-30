@@ -1,7 +1,10 @@
 package io.github.yannici.bedwars.Game;
 
+import java.util.List;
+
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
 
 import org.bukkit.ChatColor;
@@ -106,12 +109,32 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public boolean onPlayerJoins(Player player) {
-		if (this.getGame().isFull()) {
+		if (this.getGame().isFull() && !player.hasPermission("bw.vip")) {
 			if (this.getGame().getState() != GameState.RUNNING
 					|| !Main.getInstance().spectationEnabled()) {
 				player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 						+ Main._l("lobby.gamefull")));
 				return false;
+			}
+		} else if(this.getGame().isFull() && player.hasPermission("bw.vip")) {
+			if(this.getGame().getState() == GameState.WAITING) {
+				List<Player> players = this.getGame().getNonVipPlayers();
+				
+				if(players.size() == 0) {
+					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+							+ Main._l("lobby.gamefull")));
+					return false;
+				}
+				
+				Player kickPlayer = null;
+				if(players.size() == 1) {
+					kickPlayer = players.get(0);
+				} else {
+					kickPlayer = players.get(Utils.randInt(0, players.size()-1));
+				}
+				
+				kickPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
+				this.getGame().playerLeave(kickPlayer);
 			}
 		}
 

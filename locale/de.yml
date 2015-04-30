@@ -98,6 +98,7 @@ lobby:
     teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
     leavegame: Spiel verlassen
     playerjoin: $player$ ist dem Spiel beigetreten!
+    kickedbyvip: Du wurdest von einem VIP-Spieler rausgeworfen, der dem vollen Spiel beigetreten ist.
 sign:
     firstline: §6[Bedwars]
     players: Spieler

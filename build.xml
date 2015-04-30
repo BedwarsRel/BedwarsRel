@@ -6,7 +6,7 @@
 	<property name="src" location="./" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
-	<property name="version" value="1.0.46" />
+	<property name="version" value="1.0.47" />
 
 	<path id="bedwars.classpath">
 		<pathelement location="lib/c3p0-0.9.5.jar" />

@@ -98,6 +98,7 @@ lobby:
     teamjoined: You successfully joined the team $team$
     leavegame: Leave game
     playerjoin: Player $player$ joined the game!
+    kickedbyvip: You were kicked by a vip player which has joined the full game!
 sign:
     firstline: §6[Bedwars]
     players: Players
