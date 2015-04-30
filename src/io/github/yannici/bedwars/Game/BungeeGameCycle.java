@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Game;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
@@ -63,7 +64,7 @@ public class BungeeGameCycle extends GameCycle {
 	public boolean onPlayerJoins(Player player) {
 		final Player p = player;
 		
-		if (this.getGame().isFull()) {
+		if (this.getGame().isFull() && !player.hasPermission("bw.vip")) {
 			if (this.getGame().getState() != GameState.RUNNING
 					|| !Main.getInstance().spectationEnabled()) {
 				this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
@@ -80,6 +81,63 @@ public class BungeeGameCycle extends GameCycle {
 				}.runTaskLater(Main.getInstance(), 40L);
 
 				return false;
+			}
+		} else if(this.getGame().isFull() && player.hasPermission("bw.vip")) {
+			if(this.getGame().getState() == GameState.WAITING) {
+				List<Player> players = this.getGame().getNonVipPlayers();
+				
+				if(players.size() == 0) {
+					this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
+							p);
+					new BukkitRunnable() {
+
+						@Override
+						public void run() {
+							BungeeGameCycle.this.sendBungeeMessage(
+									p,
+									ChatWriter.pluginMessage(ChatColor.RED
+											+ Main._l("lobby.gamefull")));
+						}
+					}.runTaskLater(Main.getInstance(), 40L);
+					return false;
+				}
+				
+				Player kickPlayer = null;
+				if(players.size() == 1) {
+					kickPlayer = players.get(0);
+				} else {
+					kickPlayer = players.get(Utils.randInt(0, players.size()-1));
+				}
+				
+				final Player kickedPlayer = kickPlayer;
+				
+				this.getGame().playerLeave(kickedPlayer);
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						BungeeGameCycle.this.sendBungeeMessage(
+								kickedPlayer,
+								ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
+					}
+				}.runTaskLater(Main.getInstance(), 40L);
+			} else {
+				if(this.getGame().getState() == GameState.RUNNING
+						&& !Main.getInstance().spectationEnabled()) {
+					this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
+							p);
+					new BukkitRunnable() {
+
+						@Override
+						public void run() {
+							BungeeGameCycle.this.sendBungeeMessage(
+									p,
+									ChatWriter.pluginMessage(ChatColor.RED
+											+ Main._l("lobby.gamefull")));
+						}
+					}.runTaskLater(Main.getInstance(), 40L);
+					return false;
+				}
 			}
 		}
 
