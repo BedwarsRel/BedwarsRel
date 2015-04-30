@@ -522,8 +522,7 @@ public class Main extends JavaPlugin {
                     public void run() {
                         for (Game g : Main.getInstance().getGameManager()
                                 .getGames()) {
-                            if(g.getState() != GameState.RUNNING
-                                    || g.checkGame() != GameCheckCode.OK) {
+                            if(g.getSigns().size() == 0) {
                                 continue;
                             }
                             
