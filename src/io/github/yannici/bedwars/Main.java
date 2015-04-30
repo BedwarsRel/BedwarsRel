@@ -3,7 +3,6 @@ package io.github.yannici.bedwars;
 import io.github.yannici.bedwars.Commands.*;
 import io.github.yannici.bedwars.Database.DatabaseManager;
 import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameCheckCode;
 import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameManager;
 import io.github.yannici.bedwars.Game.GameState;

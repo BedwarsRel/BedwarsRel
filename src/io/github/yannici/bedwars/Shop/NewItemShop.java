@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Villager.VillagerTrade;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -199,6 +200,7 @@ public class NewItemShop {
 		int sizeItems = (offers.size() - offers.size() % 9) + 9;
 		int totalSize = sizeCategories + sizeItems;
 		ItemStack item = ice.getCurrentItem();
+		boolean cancel = false;
 
 		if (this.currentCategory == null) {
 			player.closeInventory();
@@ -240,8 +242,8 @@ public class NewItemShop {
 			}
 
 			if (ice.isShiftClick()) {
-				while (this.hasEnoughRessource(player, trade)) {
-					this.buyItem(item, trade, player);
+				while (this.hasEnoughRessource(player, trade) && !cancel) {
+					cancel = !this.buyItem(item, trade, player);
 				}
 			} else {
 				this.buyItem(item, trade, player);
@@ -253,30 +255,36 @@ public class NewItemShop {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void buyItem(ItemStack item, VillagerTrade trade, Player player) {
+	private boolean buyItem(ItemStack item, VillagerTrade trade, Player player) {
 		PlayerInventory inventory = player.getInventory();
+		boolean success = true;
 
 		int item1ToPay = trade.getItem1().getAmount();
 		Iterator<?> stackIterator = inventory.all(trade.getItem1().getType())
 				.entrySet().iterator();
+		
+		int firstItem1 = inventory.first(trade.getItem1());
+		if(firstItem1 > -1) {
+			inventory.clear(firstItem1);
+		} else {
+			// pay
+			while (stackIterator.hasNext()) {
+				Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator
+						.next();
+				ItemStack stack = (ItemStack) entry.getValue();
 
-		// pay
-		while (stackIterator.hasNext()) {
-			Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator
-					.next();
-			ItemStack stack = (ItemStack) entry.getValue();
+				int endAmount = stack.getAmount() - item1ToPay;
+				if (endAmount < 0) {
+					endAmount = 0;
+				}
 
-			int endAmount = stack.getAmount() - item1ToPay;
-			if (endAmount < 0) {
-				endAmount = 0;
-			}
+				item1ToPay = item1ToPay - stack.getAmount();
+				stack.setAmount(endAmount);
+				inventory.setItem(entry.getKey(), stack);
 
-			item1ToPay = item1ToPay - stack.getAmount();
-			stack.setAmount(endAmount);
-			inventory.setItem(entry.getKey(), stack);
-
-			if (item1ToPay <= 0) {
-				break;
+				if (item1ToPay <= 0) {
+					break;
+				}
 			}
 		}
 
@@ -284,24 +292,29 @@ public class NewItemShop {
 			int item2ToPay = trade.getItem2().getAmount();
 			stackIterator = inventory.all(trade.getItem2().getType())
 					.entrySet().iterator();
+			
+			int firstItem2 = inventory.first(trade.getItem2());
+			if(firstItem2 > -1) {
+				inventory.clear(firstItem2);
+			} else {
+				// pay item2
+				while (stackIterator.hasNext()) {
+					Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator
+							.next();
+					ItemStack stack = (ItemStack) entry.getValue();
 
-			// pay item2
-			while (stackIterator.hasNext()) {
-				Entry<Integer, ? extends ItemStack> entry = (Entry<Integer, ? extends ItemStack>) stackIterator
-						.next();
-				ItemStack stack = (ItemStack) entry.getValue();
+					int endAmount = stack.getAmount() - item2ToPay;
+					if (endAmount < 0) {
+						endAmount = 0;
+					}
 
-				int endAmount = stack.getAmount() - item2ToPay;
-				if (endAmount < 0) {
-					endAmount = 0;
-				}
+					item2ToPay = item2ToPay - stack.getAmount();
+					stack.setAmount(endAmount);
+					inventory.setItem(entry.getKey(), stack);
 
-				item2ToPay = item2ToPay - stack.getAmount();
-				stack.setAmount(endAmount);
-				inventory.setItem(entry.getKey(), stack);
-
-				if (item2ToPay <= 0) {
-					break;
+					if (item2ToPay <= 0) {
+						break;
+					}
 				}
 			}
 		}
@@ -315,9 +328,24 @@ public class NewItemShop {
 		itemMeta.setLore(lore);
 		addingItem.setItemMeta(itemMeta);
 		
-		inventory.addItem(addingItem);
+		HashMap<Integer, ItemStack> notStored = inventory.addItem(addingItem);
+		if(notStored.size() > 0) {
+			ItemStack notAddedItem = notStored.get(0);
+			int removingAmount = addingItem.getAmount() - notAddedItem.getAmount();
+			addingItem.setAmount(removingAmount);
+			inventory.removeItem(addingItem);
+			
+			// restore
+			inventory.addItem(trade.getItem1());
+			if(trade.getItem2() != null) {
+				inventory.addItem(trade.getItem2());
+			}
+			
+			success = false;
+		}
 
 		player.updateInventory();
+		return success;
 	}
 
 	private boolean hasEnoughRessource(Player player, VillagerTrade trade) {
