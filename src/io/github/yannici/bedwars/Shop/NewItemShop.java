@@ -249,7 +249,12 @@ public class NewItemShop {
 				this.buyItem(item, trade, player);
 			}
 		} else {
-		    ice.setCancelled(false);
+			if(ice.isShiftClick()) {
+				ice.setCancelled(true);
+			} else {
+				ice.setCancelled(false);
+			}
+			
 			return;
 		}
 	}
