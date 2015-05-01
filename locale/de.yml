@@ -90,7 +90,7 @@ ingame:
         killed: $player$ wurde von $killer$ getötet!
     blocks:
         ownbeddestroy: Du kannst dein eigenes Bett nicht zerstören!
-        beddestroyed: Das Bett von Team $team$ wurde zerstört!
+        beddestroyed: Das Bett von Team $team$ wurde von $player$ zerstört!
 lobby:
     countdown: Das Spiel startet in $sec$ Sekunde(n)!
     countdowncancel: Mehr Spieler benötigt. Countdown wurde abgebrochen!

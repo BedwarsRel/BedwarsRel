@@ -90,7 +90,7 @@ ingame:
         killed: $killer$ zabil $player$!
     blocks:
         ownbeddestroy: Nemuzes znicit svou postel!
-        beddestroyed: Postel tymu $team$ byla znicena!
+        beddestroyed: $player$ destroyed bed of team $team$!
 lobby:
     countdown: Hra zacne za $sec$ sekund!
     countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.

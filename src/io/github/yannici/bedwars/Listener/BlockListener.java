@@ -122,7 +122,9 @@ public class BlockListener extends BaseListener {
 							ImmutableMap.of("team",
 									bedDestroyTeam.getChatColor()
 											+ bedDestroyTeam.getName()
-											+ ChatColor.RED)));
+											+ ChatColor.RED,
+											"player",
+                                            Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
 			g.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 10.0F);
 			g.setPlayersScoreboard();
 			return;
