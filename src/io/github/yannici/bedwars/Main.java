@@ -455,6 +455,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new ClearSpawnerCommand(this));
 		this.commands.add(new GameTimeCommand(this));
 		this.commands.add(new StatsCommand(this));
+		this.commands.add(new SetMinPlayersCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}

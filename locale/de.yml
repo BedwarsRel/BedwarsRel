@@ -35,6 +35,7 @@ errors:
     notwhileingame: Das kannst du nicht tun während du in einem Spiel bist!
     teamnotfound: Team nicht gefunden!
     timeincorrect: Die Zeit muss eine Zahl sein (0 ... 23000), "day" oder "night"
+    minplayersnumeric: Die Mindestanzahl der Spieler muss numerisch sein!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefügt!
@@ -55,6 +56,7 @@ success:
     gamerun: Du hast das Spiel gestartet, Spieler können nun beitreten!
     timeset: Spiel-Zeit wurde erfolgreich gesetzt!
     regionnameset: Region name was set successfully!
+    minplayersset: Die Mindestanzahl der Spieler wurde erfolgreich gesetzt!
 gamecheck:
     LOC_NOT_SET_ERROR: Die Regionspunkte wurden nicht korrekt gesetzt!
     TEAM_SIZE_LOW_ERROR: Du musst mehr Teams hinzufügen!

@@ -1,6 +1,6 @@
 name: BedwarsRel
 main: io.github.yannici.bedwars.Main
-version: 1.0.53
+version: 1.0.54
 depend: []
 softdepend: [Multiverse-Core, Multiworld]
 commands:
@@ -88,6 +88,10 @@ commands:
         description: Shows the stats of bedwars
         usage: /<command>
         permission: bw.base
+    bw setminplayers:
+        description: Sets the min player amount for a game
+        usage: /<command>
+        permission: bw.setup
 permissions:
     bw.base:
         description: Allows you to show to play games
