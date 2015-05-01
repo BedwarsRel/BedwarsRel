@@ -35,7 +35,7 @@ errors:
     notwhileingame: Nelze provest pokud jsi ve hre.
     teamnotfound: Tym nenalezen!
     timeincorrect: Cas musi byt: cislo (0 ... 23000), "day" nebo "night"!
-    minplayersnumeric: The min-players parameter must be numeric!
+    minplayersnumeric: Pocet minimalnich hracu musi byt cislo!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!
@@ -55,8 +55,8 @@ success:
     spawnercleared: Vsechny spawnery surovin byly odstraneny!
     gamerun: Hra byla zapnuta, hraci jiz mohou hrat!
     timeset: Cas hry byl uspesne nastaven!
-    regionnameset: Region name was set successfully!
-    minplayersset: Min players was set successfully!
+    regionnameset: Jmeno regionu uspesne nastaveno!
+    minplayersset: Min. pocet hracu nastaven!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
@@ -100,27 +100,27 @@ lobby:
     teamjoined: Uspesne jsi se pripojil do tymu $team$
     leavegame: Opustit hru
     playerjoin: Hrac $player$ se pripojil do hry!
-    kickedbyvip: You were kicked by a vip player which has joined the full game!
+    kickedbyvip: Byl jsi vyhozen ze hry, protoze se pripojil VIP hrac.
 sign:
-    firstline: Ă‚§6[Bedwars]
+    firstline: §6[Bedwars]
     players: Hraci
     gamestate:
-        stopped: Ă‚§4VYPNUTO
-        waiting: Ă‚§aCEKANI
-        running: Ă‚§9VE HRE!
+        stopped: §4VYPNUTO
+        waiting: §aCEKANI
+        running: §9VE HRE!
         full: PLNO!
 stats:
-    header: Bedwars Stats
+    header: BedWars statistiky
     kd: K/D
-    statsnotfound: Statistics of $player$ not found!
-    name: Name
-    kills: Kills
-    deaths: Deaths
-    wins: Wins
-    loses: Loses
-    score: Scores
-    destroyedBeds: Destroyed Beds
-    games: Games
+    statsnotfound: Statistika hrace $player$ nenalezena!
+    name: Jmeno
+    kills: Zabiti
+    deaths: Smrti
+    wins: Vyhry
+    loses: Prohry
+    score: Skore
+    destroyedBeds: Znicene postele
+    games: Hrane hry
 ressources:
     gold: Ă‚§6Zlato
     iron: Ă‚§7Zelezo
@@ -190,5 +190,5 @@ commands:
         name: Nastavit cas hry
         desc: Nastavi cas, ktery bude v arene po dobu hry
     stats:
-        name: Statistics
-        desc: Shows your statistics
+        name: Statistiky
+        desc: Zobrazi tve statistiky
