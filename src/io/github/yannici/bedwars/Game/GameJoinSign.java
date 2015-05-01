@@ -17,7 +17,6 @@ public class GameJoinSign {
 	}
 
 	public void updateSign() {
-		this.signLocation.getChunk().load(true);
 		Sign sign = (Sign) this.signLocation.getBlock().getState();
 		
 		String[] signLines = this.getSignLines();

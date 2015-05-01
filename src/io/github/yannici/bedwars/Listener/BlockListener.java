@@ -14,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -38,10 +39,12 @@ public class BlockListener extends BaseListener {
 		Game g = Game.getGameOfPlayer(p);
 		if (g == null) {
 			Block breaked = e.getBlock();
-			Material type = e.getBlock().getType();
-			if (type != Material.SIGN && type != Material.SIGN_POST
-					&& type != Material.WALL_SIGN) {
+			if (!(breaked.getState() instanceof Sign)) {
 				return;
+			}
+			
+			if(!p.hasPermission("bw.setup") || e.isCancelled()) {
+			    return;
 			}
 
 			Game game = Main.getInstance().getGameManager()
