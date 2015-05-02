@@ -75,6 +75,12 @@ public class Main extends JavaPlugin {
 
 		this.gameManager = new GameManager(this);
 		this.saveDefaultConfig();
+		
+		// bungeecord
+        if(Main.getInstance().isBungee()) {
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        }
+		
 		this.loadStatistics();
 		this.localization = this.loadLocalization();
 

@@ -110,7 +110,7 @@ public class Game {
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 		this.playerDamages = new HashMap<Player, Player>();
 		
-		if (Main.getInstance().getConfig().getBoolean("bungee")) {
+		if (Main.getInstance().isBungee()) {
 			this.cycle = new BungeeGameCycle(this);
 		} else {
 			this.cycle = new SingleGameCycle(this);

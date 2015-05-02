@@ -28,7 +28,7 @@ public class BungeeGameCycle extends GameCycle {
 	}
 
 	@Override
-	public void onGameEnds() {
+	public synchronized void onGameEnds() {
 		for (Player player : this.getGame().getTeamPlayers()) {
 			for (Player freePlayer : this.getGame().getFreePlayers()) {
 				player.showPlayer(freePlayer);
@@ -41,7 +41,14 @@ public class BungeeGameCycle extends GameCycle {
 		}
 		
 		this.getGame().resetRegion();
-		Bukkit.shutdown();
+		new BukkitRunnable() {
+            
+            @Override
+            public void run() {
+                Bukkit.shutdown();
+            }
+        }.runTaskLater(Main.getInstance(), 20L);
+		
 	}
 
 	@Override
@@ -157,7 +164,7 @@ public class BungeeGameCycle extends GameCycle {
 			return;
 		}
 
-		if ((b != null) && (Utils.checkBungeePlugin())) {
+		if (b != null) {
 			player.sendPluginMessage(Main.getInstance(), "BungeeCord",
 					b.toByteArray());
 		}
@@ -181,7 +188,7 @@ public class BungeeGameCycle extends GameCycle {
 			return;
 		}
 
-		if ((b != null) && (Utils.checkBungeePlugin())) {
+		if (b != null) {
 			player.sendPluginMessage(Main.getInstance(), "BungeeCord",
 					b.toByteArray());
 		}

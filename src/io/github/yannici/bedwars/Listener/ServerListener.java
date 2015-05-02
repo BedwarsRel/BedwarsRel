@@ -1,7 +1,6 @@
 package io.github.yannici.bedwars.Listener;
 
 import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 
 import org.bukkit.ChatColor;
@@ -13,7 +12,7 @@ public class ServerListener extends BaseListener {
 	@EventHandler
 	public void onServerListPing(ServerListPingEvent slpe) {
 		// Only enabled on bungeecord
-		if (!Main.getInstance().isBungee() || !Utils.checkBungeePlugin()) {
+		if (!Main.getInstance().isBungee()) {
 			return;
 		}
 
@@ -26,21 +25,21 @@ public class ServerListener extends BaseListener {
 		case STOPPED:
 			slpe.setMotd(ChatColor.RED
 					+ ChatColor.translateAlternateColorCodes(
-							'ง',
+							'ยง',
 							Main.getInstance().getConfig()
 									.getString("bungeecord.motds.stopped")));
 			break;
 		case WAITING:
 			slpe.setMotd(ChatColor.GREEN
 					+ ChatColor.translateAlternateColorCodes(
-							'ง',
+							'ยง',
 							Main.getInstance().getConfig()
 									.getString("bungeecord.motds.lobby")));
 			break;
 		case RUNNING:
 			slpe.setMotd(ChatColor.YELLOW
 					+ ChatColor.translateAlternateColorCodes(
-							'ง',
+							'ยง',
 							Main.getInstance().getConfig()
 									.getString("bungeecord.motds.running")));
 			break;
