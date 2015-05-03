@@ -54,7 +54,7 @@ public class SetSpawnerCommand extends BaseCommand {
 		
 		List<String> ressources = new ArrayList<String>();
 		for(String key : section.getKeys(false)) {
-			ressources.add(key);
+			ressources.add(key.toLowerCase());
 		}
 		
 		return ressources.toArray(new String[ressources.size()]);
@@ -69,7 +69,7 @@ public class SetSpawnerCommand extends BaseCommand {
 		Player player = (Player) sender;
 		ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(this
 				.getRessources()));
-		String material = args.get(1);
+		String material = args.get(1).toString().toLowerCase();
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		
 		if (game == null) {

@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
@@ -34,7 +35,8 @@ public class SingleGameCycle extends GameCycle {
 		}
 
 		// and now the spectators
-		for (Player p : this.getGame().getFreePlayers()) {
+		List<Player> freePlayers = new ArrayList<Player>(this.getGame().getFreePlayers());
+		for (Player p : freePlayers) {
 			this.kickPlayer(p, true);
 		}
 
