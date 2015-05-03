@@ -78,8 +78,8 @@ ingame:
     spectator: Spectator
     teamchest: Team chest
     noturteamchest: This chest isn't a chest of your team!
-    protectionleft: Invulnerable for §c$length$§f second(s)!
-    protectionend: You're now §cvulnerable§f again!
+    protectionleft: Invulnerable for Â§c$length$Â§f second(s)!
+    protectionend: You're now Â§cvulnerableÂ§f again!
     shop:
         name: Itemshop
         newshop: Use new shop
@@ -102,12 +102,12 @@ lobby:
     playerjoin: Player $player$ joined the game!
     kickedbyvip: You were kicked by a vip player which has joined the full game!
 sign:
-    firstline: §6[Bedwars]
+    firstline: Â§6[Bedwars]
     players: Players
     gamestate:
-        stopped: §4Stopped!
-        waiting: §aWaiting ...
-        running: §9Running!
+        stopped: Â§4Stopped!
+        waiting: Â§aWaiting ...
+        running: Â§9Running!
         full: Full!
 stats:
     header: Bedwars Stats
@@ -122,9 +122,9 @@ stats:
     destroyedBeds: Destroyed Beds
     games: Games
 ressources:
-    gold: §6Gold
-    iron: §7Iron
-    bronze: §4Bronze
+    gold: Â§6Gold
+    iron: Â§7Iron
+    bronze: Â§4Bronze
 commands:
     addgame:
         name: Add Game
