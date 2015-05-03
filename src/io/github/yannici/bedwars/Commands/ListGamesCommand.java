@@ -51,18 +51,22 @@ public class ListGamesCommand extends BaseCommand {
 		String paginate;
 		int page = 1;
 		ArrayList<Game> showedGames = new ArrayList<Game>();
+		
+		if(args != null) {
+		    if (args.size() == 0 || args.size() > 1) {
+	            paginate = "1";
+	        } else {
+	            paginate = args.get(0);
+	            if (paginate.isEmpty()) {
+	                paginate = "1";
+	            }
 
-		if (args.size() == 0 || args.size() > 1) {
-			paginate = "1";
+	            if (!Utils.isNumber(paginate)) {
+	                paginate = "1";
+	            }
+	        }
 		} else {
-			paginate = args.get(0);
-			if (paginate.isEmpty()) {
-				paginate = "1";
-			}
-
-			if (!Utils.isNumber(paginate)) {
-				paginate = "1";
-			}
+		    paginate = "1";
 		}
 
 		page = Integer.parseInt(paginate);
@@ -88,7 +92,7 @@ public class ListGamesCommand extends BaseCommand {
 			sb.append(ChatColor.YELLOW
 					+ ((code != GameCheckCode.OK) ? ChatColor.RED + game.getName() + ChatColor.YELLOW : game.getName())
 					+ " - "
-					+ game.getRegion().getWorld().getName()
+					+ game.getRegion().getName()
 					+ " - "
 					+ Main._l("sign.gamestate."
 							+ game.getState().toString().toLowerCase())

@@ -118,6 +118,10 @@ public class EntityListener extends BaseListener {
 	
 	@EventHandler
     public void onExplodeDestroy(EntityExplodeEvent eev) {
+	    if(eev.isCancelled()) {
+	        return;
+	    }
+	    
         if(eev.getEntity() == null) {
             return;
         }

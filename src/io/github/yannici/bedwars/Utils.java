@@ -52,6 +52,10 @@ public final class Utils {
 	}
 	
 	public static boolean isBedBlock(Block isBed) {
+	    if(isBed == null) {
+	        return false;
+	    }
+	    
 		return (isBed.getType() == Material.BED 
 				|| isBed.getType() == Material.BED_BLOCK);
 	}

@@ -630,6 +630,10 @@ public class Game {
 			return GameCheckCode.LOC_NOT_SET_ERROR;
 		}
 
+		if(this.teams == null) {
+		    return GameCheckCode.TEAM_SIZE_LOW_ERROR;
+		}
+		
 		if (this.teams.size() <= 1) {
 			return GameCheckCode.TEAM_SIZE_LOW_ERROR;
 		}
