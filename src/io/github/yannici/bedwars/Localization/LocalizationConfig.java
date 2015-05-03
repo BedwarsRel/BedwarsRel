@@ -4,7 +4,10 @@ import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -43,9 +46,10 @@ public class LocalizationConfig extends YamlConfiguration {
 					+ "/locale/" + Main.getInstance().getFallbackLocale()
 					+ ".yml");
 		}
-
+		
 		try {
-			this.load(locFile);
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(locFile), "UTF-8"));
+			this.load(reader);
 		} catch (Exception e) {
 			// no localization file, no translation :D
 			Main.getInstance()

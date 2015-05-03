@@ -18,8 +18,11 @@ import io.github.yannici.bedwars.Localization.LocalizationConfig;
 import io.github.yannici.bedwars.Statistics.StorageType;
 import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -64,6 +67,10 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		Main.instance = this;
 		
+		// load config in utf-8
+		this.saveDefaultConfig();
+		this.loadConfigInUTF();
+		
 		this.loadDatabase();
 		
 		this.craftbukkit = this.getCraftBukkit();
@@ -74,7 +81,6 @@ public class Main extends JavaPlugin {
 		this.registerListener();
 
 		this.gameManager = new GameManager(this);
-		this.saveDefaultConfig();
 		
 		// bungeecord
         if(Main.getInstance().isBungee()) {
@@ -96,6 +102,20 @@ public class Main extends JavaPlugin {
 		this.stopTimeListener();
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
+	}
+	
+	private void loadConfigInUTF() {
+	    File configFile = new File(this.getDataFolder(), "config.yml");
+	    if(!configFile.exists()) {
+	        return;
+	    }
+	    
+	    try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(configFile), "UTF-8"));
+            this.getConfig().load(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	
 	public PlayerStatisticManager getPlayerStatisticManager() {
