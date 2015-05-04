@@ -180,8 +180,8 @@ public class GameManager {
 				game.addRessourceSpawner(rs);
 			}
 
-			Location loc1 = (Location) cfg.get("loc1");
-			Location loc2 = (Location) cfg.get("loc2");
+			Location loc1 = Utils.locationDeserialize(cfg.get("loc1"));
+			Location loc2 = Utils.locationDeserialize(cfg.get("loc2"));
 
 			File signFile = new File(Main.getInstance().getDataFolder() + "/"
 					+ GameManager.gamesPath + "/" + game.getName()
@@ -211,7 +211,7 @@ public class GameManager {
 
 			game.setLoc(loc1, "loc1");
 			game.setLoc(loc2, "loc2");
-			game.setLobby((Location) cfg.get("lobby"));
+			game.setLobby(Utils.locationDeserialize(cfg.get("lobby")));
 			
 			String regionName = loc1.getWorld().getName();
 			
@@ -231,7 +231,7 @@ public class GameManager {
 			}
 
 			if (cfg.contains("mainlobby")) {
-				game.setMainLobby((Location) cfg.get("mainlobby"));
+				game.setMainLobby(Utils.locationDeserialize(cfg.get("mainlobby")));
 			}
 			
 			game.getFreePlayers().clear();
