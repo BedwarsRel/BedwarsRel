@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Game;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -191,11 +192,11 @@ public class GameManager {
 				
 				List<Object> signs = (List<Object>) signConfig.get("signs");
 				for (Object sign : signs) {
-					if (!(sign instanceof Location)) {
+					Location signLocation = Utils.locationDeserialize(sign);
+					if(signLocation == null) {
 						continue;
 					}
-
-					Location signLocation = (Location) sign;
+					
 					signLocation.getChunk().load(true);
 					
 					Block signBlock = signLocation.getBlock();
