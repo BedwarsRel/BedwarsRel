@@ -811,8 +811,13 @@ public class Game {
 			if (config.exists()) {
 				cfg = YamlConfiguration.loadConfiguration(config);
 			}
+			
+			List<Map<String, Object>> locList = new ArrayList<Map<String, Object>>();
+			for(Location loc : this.joinSigns.keySet()) {
+				locList.add(Utils.locationSerialize(loc));
+			}
 
-			cfg.set("signs", new ArrayList<Location>(this.joinSigns.keySet()));
+			cfg.set("signs", locList);
 			cfg.save(config);
 		} catch (Exception ex) {
 			Main.getInstance()
@@ -1180,9 +1185,9 @@ public class Game {
 
 		yml.set("name", this.name);
 		yml.set("world", this.getRegion().getWorld().getName());
-		yml.set("loc1", this.loc1);
-		yml.set("loc2", this.loc2);
-		yml.set("lobby", this.lobby);
+		yml.set("loc1", Utils.locationSerialize(this.loc1));
+		yml.set("loc2", Utils.locationSerialize(this.loc2));
+		yml.set("lobby", Utils.locationSerialize(this.lobby));
 		yml.set("minplayers", this.getMinPlayers());
 		
 		if(this.regionName == null) {
@@ -1193,7 +1198,7 @@ public class Game {
 		yml.set("time", this.time);
 		
 		if (this.mainLobby != null) {
-			yml.set("mainlobby", this.mainLobby);
+			yml.set("mainlobby", Utils.locationSerialize(this.mainLobby));
 		}
 
 		yml.createSection("teams", this.teams);

@@ -256,12 +256,7 @@ public class GameManager {
 											"errors.gameloaderror",
 											ImmutableMap.of(
 													"game",
-													Main._l("success.gameloaded",
-															ImmutableMap
-																	.of("game",
-																			configFile
-																					.getParentFile()
-																					.getName()))))));
+													configFile.getParentFile().getName()))));
 		}
 	}
 

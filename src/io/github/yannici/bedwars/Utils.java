@@ -9,16 +9,21 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -163,6 +168,85 @@ public final class Utils {
 		int randomNum = rand.nextInt((max - min) + 1) + min;
 
 		return randomNum;
+	}
+	
+	public static Map<String, Object> locationSerialize(Location location) {
+		Map<String, Object> section = new HashMap<String, Object>();
+		section.put("x", location.getX());
+		section.put("y", location.getY());
+		section.put("z", location.getZ());
+		section.put("pitch", (double)location.getPitch());
+		section.put("yaw", (double)location.getYaw());
+		section.put("world", location.getWorld().getName());
+		
+		return section;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Location locationDeserialize(Object obj) {
+		if(obj instanceof Location) {
+			return (Location)obj;
+		}
+		
+		try {
+			Map<String, Object> section = (Map<String, Object>)obj;
+			if(section == null) {
+				return null;
+			}
+		
+			double x = Double.valueOf(section.get("x").toString());
+			double y = Double.valueOf(section.get("y").toString());
+			double z = Double.valueOf(section.get("z").toString());
+			float yaw =  Float.valueOf(section.get("yaw").toString());
+			float pitch = Float.valueOf(section.get("pitch").toString());
+			World world = Main.getInstance().getServer().getWorld(section.get("world").toString());
+			
+			if(world == null) {
+				return null;
+			}
+			
+			return new Location(world, x, y, z, yaw, pitch);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Location locationDeserialize(String key, FileConfiguration config) {
+		if(!config.contains(key)) {
+			return null;
+		}
+		
+		Object locSec = config.get(key);
+		if(locSec instanceof Location) {
+			return (Location)locSec;
+		}
+		
+		try {
+			Map<String, Object> section = (Map<String, Object>)config.get(key);
+			if(section == null) {
+				return null;
+			}
+		
+			double x = Double.valueOf(section.get("x").toString());
+			double y = Double.valueOf(section.get("y").toString());
+			double z = Double.valueOf(section.get("z").toString());
+			float yaw =  Float.valueOf(section.get("yaw").toString());
+			float pitch = Float.valueOf(section.get("pitch").toString());
+			World world = Main.getInstance().getServer().getWorld(section.get("world").toString());
+			
+			if(world == null) {
+				return null;
+			}
+			
+			return new Location(world, x, y, z, yaw, pitch);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public static Class<?> getPrimitiveWrapper(Class<?> primitive) {

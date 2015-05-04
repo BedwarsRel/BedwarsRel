@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -53,6 +54,8 @@ public class Main extends JavaPlugin {
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
 	private BukkitTask signTask = null;
+	
+	private static Boolean locationSerializable = null;
 	
 	private PlayerStatisticManager playerStatisticManager = null;
 	
@@ -79,7 +82,7 @@ public class Main extends JavaPlugin {
 
 		this.registerCommands();
 		this.registerListener();
-
+		
 		this.gameManager = new GameManager(this);
 		
 		// bungeecord
@@ -630,6 +633,19 @@ public class Main extends JavaPlugin {
 		}
 		
 		return 0;
+	}
+	
+	public boolean isLocationSerializable() {
+		if(Main.locationSerializable == null) {
+			try {
+				Location.class.getMethod("serialize", new Class<?>[0]);
+				Main.locationSerializable = true;
+			} catch(Exception ex) {
+				Main.locationSerializable = false;
+			}
+		}
+		
+		return Main.locationSerializable;
 	}
 
 }

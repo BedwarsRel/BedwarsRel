@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +39,12 @@ public class Team implements ConfigurationSerializable {
 				.toString());
 		this.color = TeamColor.valueOf(deserialize.get("color").toString()
 				.toUpperCase());
-		this.spawnLocation = (Location) deserialize.get("spawn");
+		this.spawnLocation = Utils.locationDeserialize(deserialize.get("spawn"));
 		this.chests = new ArrayList<Block>();
 
 		if (deserialize.containsKey("bedhead") && deserialize.containsKey("bedfeed")) {
-			this.bedHeadBlock = ((Location) deserialize.get("bedhead"));
-			this.bedFeedBlock = ((Location) deserialize.get("bedfeed"));
+			this.bedHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
+			this.bedFeedBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
 		}
 
 	}
@@ -162,9 +163,9 @@ public class Team implements ConfigurationSerializable {
 		team.put("name", this.name);
 		team.put("color", this.color.toString());
 		team.put("maxplayers", this.maxPlayers);
-		team.put("spawn", this.spawnLocation);
-		team.put("bedhead", this.bedHeadBlock);
-		team.put("bedfeed", this.bedFeedBlock);
+		team.put("spawn", Utils.locationSerialize(this.spawnLocation));
+		team.put("bedhead", Utils.locationSerialize(this.bedHeadBlock));
+		team.put("bedfeed", Utils.locationSerialize(this.bedFeedBlock));
 		return team;
 	}
 

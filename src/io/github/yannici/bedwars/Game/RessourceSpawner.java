@@ -28,7 +28,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 	private ItemStack itemstack;
 
 	public RessourceSpawner(Map<String, Object> deserialize) {
-		this.location = (Location) deserialize.get("location");
+		this.location = Utils.locationDeserialize(deserialize.get("location"));
 		this.itemstack = (ItemStack) deserialize.get("itemstack");
 		this.interval = Integer
 				.parseInt(deserialize.get("interval").toString());
@@ -67,7 +67,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 	public Map<String, Object> serialize() {
 		HashMap<String, Object> rs = new HashMap<>();
 
-		rs.put("location", this.location);
+		rs.put("location", Utils.locationSerialize(this.location));
 		rs.put("interval", this.interval);
 		rs.put("itemstack", this.itemstack);
 		return rs;
