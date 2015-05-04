@@ -49,6 +49,10 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
+		if(!game.getRegion().isInRegion(block.getLocation())) {
+			return;
+		}
+		
 		bbe.setCancelled(true);
 		return;
 	}
