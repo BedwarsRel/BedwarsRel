@@ -88,7 +88,16 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 		
 		// 1.7 compatible
 		try {
-			targetBlockMethod = player.getClass().getMethod("getTargetBlock", new Class<?>[]{Set.class, int.class});
+			try {
+				targetBlockMethod = player.getClass().getMethod("getTargetBlock", new Class<?>[]{HashSet.class, int.class});
+			} catch(Exception ex) {
+				try {
+					targetBlockMethod = player.getClass().getMethod("getTargetBlock", new Class<?>[]{Set.class, int.class});
+				} catch(Exception exc) {
+					exc.printStackTrace();
+				}
+			}
+			
 			if(hashsetType.equals(Byte.class)) {
 				targetBlock = (Block)targetBlockMethod.invoke(player, new Object[]{null, 15});
 			} else {
