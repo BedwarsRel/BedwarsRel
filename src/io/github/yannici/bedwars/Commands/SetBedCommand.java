@@ -7,8 +7,10 @@ import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -79,8 +81,24 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 
 		HashSet<Material> transparent = new HashSet<Material>();
 		transparent.add(Material.AIR);
-
-		Block targetBlock = player.getTargetBlock(transparent, 15);
+		
+		Class<?> hashsetType = Utils.getGenericTypeOfParameter(player.getClass(), "getTargetBlock", 0);
+		Method targetBlockMethod = null;
+		Block targetBlock = null;
+		
+		// 1.7 compatible
+		try {
+			targetBlockMethod = player.getClass().getMethod("getTargetBlock", new Class<?>[]{Set.class, int.class});
+			if(hashsetType.equals(Byte.class)) {
+				targetBlock = (Block)targetBlockMethod.invoke(player, new Object[]{null, 15});
+			} else {
+				targetBlock = (Block)targetBlockMethod.invoke(player, new Object[]{transparent, 15});
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		Block standingBlock = player.getLocation().getBlock()
 				.getRelative(BlockFace.DOWN);
 

@@ -3,6 +3,7 @@ package io.github.yannici.bedwars;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -188,6 +189,25 @@ public final class Utils {
 		} else {
 			return primitive;
 		}
+	}
+
+	public static Class<?> getGenericTypeOfParameter(Class<?> clazz,
+			String method, int parameterIndex) {
+		try {
+			Method m = clazz.getMethod(method, new Class<?>[]{Set.class, int.class});
+			ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
+			return (Class<?>) type.getActualTypeArguments()[0];
+		} catch (Exception e) {
+			try {
+				Method m = clazz.getMethod(method, new Class<?>[]{HashSet.class, int.class});
+				ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
+				return (Class<?>) type.getActualTypeArguments()[0];
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return null;
 	}
 
 }

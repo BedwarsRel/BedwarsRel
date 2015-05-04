@@ -422,7 +422,13 @@ public class Game {
 			public void run() {
 				p.setAllowFlight(true);
 				p.setFlying(true);
-				p.setGameMode(GameMode.SPECTATOR);
+				
+				// 1.7 compatible
+				try {
+					p.setGameMode(GameMode.valueOf("SPECTATOR"));
+				} catch(Exception ex) {
+					p.setGameMode(GameMode.CREATIVE);
+				}
 
 				for (Player pl : Game.this.getPlayers()) {
 					if (pl.equals(p)) {

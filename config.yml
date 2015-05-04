@@ -595,6 +595,12 @@ shop:
               reward:
                 item: 54
                 amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: 130
+                amount: 1
     drinks:
         item: POTION
         name: Tränke
