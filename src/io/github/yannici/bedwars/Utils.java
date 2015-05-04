@@ -23,6 +23,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -188,12 +190,26 @@ public final class Utils {
 			return (Location)obj;
 		}
 		
+		Map<String, Object> section = new HashMap<String, Object>();
+		if(obj instanceof MemorySection) {
+			MemorySection sec = (MemorySection)obj;
+			for(String key : sec.getKeys(false)) {
+				section.put(key, sec.get(key));
+			}
+		} else if(obj instanceof ConfigurationSection) {
+			ConfigurationSection sec = (ConfigurationSection)obj;
+			for(String key : sec.getKeys(false)) {
+				section.put(key, sec.get(key));
+			}
+		} else {
+			section = (Map<String, Object>)obj;
+		}
+		
 		try {
-			Map<String, Object> section = (Map<String, Object>)obj;
 			if(section == null) {
 				return null;
 			}
-		
+			
 			double x = Double.valueOf(section.get("x").toString());
 			double y = Double.valueOf(section.get("y").toString());
 			double z = Double.valueOf(section.get("z").toString());
