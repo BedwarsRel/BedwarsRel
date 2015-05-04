@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,11 +32,53 @@ public class BlockListener extends BaseListener {
 	public BlockListener() {
 		super();
 	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onBurn(BlockBurnEvent bbe) {
+		Block block = bbe.getBlock();
+		if(block == null) {
+			return;
+		}
+		
+		Game game = Main.getInstance().getGameManager().getGameByWorld(block.getWorld());
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() != GameState.RUNNING) {
+			return;
+		}
+		
+		bbe.setCancelled(true);
+		return;
+	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBreak(BlockBreakEvent e) {
+		if(e.isCancelled()) {
+			return;
+		}
+		
 		Player p = e.getPlayer();
-
+		if(p == null) {
+			Block block = e.getBlock();
+			if(block == null) {
+				return;
+			}
+			
+			Game game = Main.getInstance().getGameManager().getGameByWorld(block.getWorld());
+			if(game == null) {
+				return;
+			}
+			
+			if(game.getState() != GameState.RUNNING) {
+				return;
+			}
+			
+			e.setCancelled(true);
+			return;
+		}
+		
 		Game g = Game.getGameOfPlayer(p);
 		if (g == null) {
 			Block breaked = e.getBlock();
