@@ -226,8 +226,13 @@ public class PlayerListener extends BaseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			pde.setKeepInventory(false);
+			
+			try {
+				pde.getClass().getMethod("setKeepInventory", new Class<?>[]{boolean.class});
+				pde.setKeepInventory(false);
+			} catch(Exception ex) {
+				player.getInventory().clear();
+			}
 			
 			Player killer = player.getKiller();
 			if(killer == null) {
