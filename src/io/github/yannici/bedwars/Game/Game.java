@@ -5,6 +5,7 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameStartEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
+import io.github.yannici.bedwars.Events.BedwarsPlayerJoinedEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
 import io.github.yannici.bedwars.Shop.NewItemShop;
@@ -474,9 +475,13 @@ public class Game {
 		if (!this.cycle.onPlayerJoins(p)) {
 			return false;
 		}
-
-		BedwarsPlayerJoinEvent joinEvent = new BedwarsPlayerJoinEvent(this, p);
-		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
+		
+		BedwarsPlayerJoinEvent joiningEvent = new BedwarsPlayerJoinEvent(this, p);
+		Main.getInstance().getServer().getPluginManager().callEvent(joiningEvent);
+		
+		if(joiningEvent.isCancelled()) {
+			return false;
+		}
 		
 		if(Main.getInstance().statisticsEnabled()) {
 			// load statistics
@@ -516,6 +521,9 @@ public class Game {
 
 			p.setScoreboard(this.scoreboard);
 		}
+		
+		BedwarsPlayerJoinedEvent joinEvent = new BedwarsPlayerJoinedEvent(this, p);
+		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 
 		this.updateSigns();
 		return true;
