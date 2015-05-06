@@ -155,23 +155,23 @@ respawn-protection: 0
 # Defines a list of commands which are allowed for all for default.
 # Can be set with an starting / or without
 allowed-commands:
-    - /lobby
-    - /server lobby
-    - /spawn
+    - /help
 
 endgame:
 ### Main lobby enabled
 ### Type: boolean
+### Not available with bungeecord!
 ### If you want, that all players will be teleported to a specific
 ### location (you can set with /bw setmainlobby {game}) after a game or when a player
-### uses /bw leave. If this is set to false, the player will be teleported to the location
-### where he joined the game!
+### uses /bw leave. If this is set to false, the players will be teleported to the location
+### where they joined the game!
     mainlobby-enabled: false
     
 ### All players to mainlobby
 ### Type: boolean
-### Configures if all players will be teleported to mainlobby after game
-### if false, all players will be teleported back to lobby to restart
+### Not available with bungeecord!
+### Configures if all players will be teleported to mainlobby after game.
+### If false, all players will be teleported back to lobby to restart
 ### a new game. This is only recognized if mainlobby-enabled set to true
     all-players-to-mainlobby: false 
 
@@ -187,7 +187,7 @@ bungeecord:
 ### Type: string
 ### The name of the hub/main server of the bungeecord server-farm. This will be
 ### the server where the player will be teleported when they leave.
-    hubserver: test
+    hubserver: hub
 
 ### Message of the Day configuration
 ### Type: string (colorcodes with §)
@@ -198,12 +198,13 @@ bungeecord:
         lobby: §a[Lobby]
         running: §e[Running]
         stopped: §4[Stopped]
+        
 ### Localization (language)
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
 ### Check the plugin description for possible languages!
 ### The fallback language is en (english).
-locale: de
+locale: en
 
 # Permissions
 permissions:

@@ -31,6 +31,7 @@ public class PlayerStorage {
     private Location left = null;
     private int level = 0;
     private String displayName = null;
+    private int foodLevel = 0;
 
     public PlayerStorage(Player p) {
         super();
@@ -47,6 +48,7 @@ public class PlayerStorage {
         this.left = this.player.getLocation();
         this.level = this.player.getLevel();
         this.displayName = this.player.getDisplayName();
+        this.foodLevel = this.player.getFoodLevel();
     }
 
     public void clean() {
@@ -91,6 +93,7 @@ public class PlayerStorage {
         this.player.setExp(this.xp);
         this.player.setLevel(this.level);
         this.player.setDisplayName(this.displayName);
+        this.player.setFoodLevel(this.foodLevel);
 
         this.player.updateInventory();
     }

@@ -125,6 +125,11 @@ public abstract class GameCycle {
 
 				this.getGame().toSpectator(player);
 			} else {
+				if(this.game.getCycle() instanceof BungeeGameCycle) {
+					this.getGame().playerLeave(player);
+					return;
+				}
+				
 				if (!Main.getInstance().toMainLobby()) {
 					if (storage != null) {
 						if (storage.getLeft() != null) {

@@ -28,6 +28,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
@@ -498,6 +499,30 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * LOBBY
 	 */
+	
+	@EventHandler
+	public void onHunger(FoodLevelChangeEvent flce) {
+		if(!(flce.getEntity() instanceof Player)) {
+			return;
+		}
+		
+		if(flce.isCancelled()) {
+			return;
+		}
+		
+		Player player = (Player) flce.getEntity();
+		Game game = Game.getGameOfPlayer(player);
+		
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() == GameState.RUNNING) {
+			return;
+		}
+		
+		flce.setCancelled(true);
+	}
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent pie) {
