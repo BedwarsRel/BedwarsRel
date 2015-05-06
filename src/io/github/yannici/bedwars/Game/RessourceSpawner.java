@@ -55,12 +55,9 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		Location dropLocation = this.location.getBlock().getRelative(BlockFace.UP).getLocation();
 		Item item = this.game.getRegion().getWorld()
 				.dropItemNaturally(dropLocation, this.itemstack);
-		
-		double vectorX = 0.08*(Utils.randInt(-1, 1));
-		double vectorZ = 0.08*(Utils.randInt(-1, 1));
-		
+
 		item.teleport(dropLocation);
-		item.setVelocity(new Vector(vectorX, 0.1, vectorZ));
+		item.setVelocity(new Vector(0, 0, 0));
 	}
 
 	@Override
