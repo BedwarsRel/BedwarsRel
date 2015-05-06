@@ -80,6 +80,7 @@ public class GameTimeCommand extends BaseCommand implements ICommand {
 		}
 		
 		game.setTime(time);
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gametimeset")));
 		return true;
 	}
 

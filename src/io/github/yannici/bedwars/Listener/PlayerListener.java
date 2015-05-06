@@ -324,6 +324,10 @@ public class PlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent ce) {
+		if(ce.isCancelled()) {
+			return;
+		}
+		
 		Player player = ce.getPlayer();
 		Game game = Game.getGameOfPlayer(player);
 
@@ -339,8 +343,9 @@ public class PlayerListener extends BaseListener {
 
 		String message = ce.getMessage();
 		boolean isSpectator = game.isSpectator(player);
+		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
 
-		if (message.trim().startsWith("@") || isSpectator) {
+		if (message.trim().startsWith(toAllPrefix) || isSpectator) {
 			message = message.trim();
 			if(!isSpectator) {
 			    ce.setMessage(message.substring(1, message.length()));

@@ -57,6 +57,8 @@ success:
     timeset: Game time was successfully set!
     regionnameset: Region name was set successfully!
     minplayersset: Min players was set successfully!
+    mainlobbyset: Mainlobby was set successfully!
+    gametimeset: Game time was set successfully!
 gamecheck:
     LOC_NOT_SET_ERROR: Locations for the region were not set properly!
     TEAM_SIZE_LOW_ERROR: You have to set more teams!

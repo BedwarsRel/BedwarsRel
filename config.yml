@@ -10,6 +10,7 @@
 # list<?>: a list of type ? (? is the type of the list items)
 # byte: a int but limited between -128 ... 127
 # short: a int but limited between -32768 ... 32767
+# char: one character
 
 # Enabled Metrics
 # type: boolean
@@ -48,6 +49,12 @@ friendlyfire: false
 # How much time (in seconds) should be waited until all players
 # will be teleported after a game ends.
 gameoverdelay: 10
+
+# Chat to all prefix
+# type: char
+# The prefix character which indicates to chat
+# to all ingame players (not only team)
+chat-to-all-prefix: @
 
 # Statistic-Configuration
 statistics:

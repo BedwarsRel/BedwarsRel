@@ -62,6 +62,7 @@ public class SetMainLobbyCommand extends BaseCommand implements ICommand {
 		}
 
 		game.setMainLobby(player.getLocation());
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.mainlobbyset")));
 		return true;
 	}
 
