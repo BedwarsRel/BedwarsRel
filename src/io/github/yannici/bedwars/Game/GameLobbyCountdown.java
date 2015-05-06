@@ -37,6 +37,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 		if (this.game.getState() != GameState.WAITING) {
 			this.game.setGameLobbyCountdown(null);
 			this.cancel();
+			return;
 		}
 		
 		for (Player p : players) {
@@ -102,6 +103,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			}
 
 			this.game.start(Main.getInstance().getServer().getConsoleSender());
+			return;
 		}
 
 		this.counter--;
