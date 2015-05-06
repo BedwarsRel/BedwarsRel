@@ -57,7 +57,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 				.dropItemNaturally(dropLocation, this.itemstack);
 
 		item.teleport(dropLocation);
-		item.setVelocity(new Vector(0, 0, 0));
+		item.setVelocity(new Vector(item.getVelocity().getX()/2, item.getVelocity().getY(), item.getVelocity().getZ()/2));
+		item.setPickupDelay(0);
 	}
 
 	@Override
