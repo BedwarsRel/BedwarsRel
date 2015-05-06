@@ -612,6 +612,10 @@ public class PlayerListener extends BaseListener {
 			
 			// Spectators want to block
 			for(Player p : g.getFreePlayers()) {
+			    if(!p.getWorld().equals(g.getRegion().getWorld())) {
+			        continue;
+			    }
+			    
 			    if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
 			        Location oldLocation = p.getLocation();
 			        if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
