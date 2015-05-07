@@ -12,6 +12,11 @@
 # short: a int but limited between -32768 ... 32767
 # char: one character
 
+# Chat prefix system messages
+# type: string
+# Prefix for every chat message sent by the bedwars plugin
+chat-prefix: §7[§bBedWars§7]§f
+
 # Enabled Metrics
 # type: boolean
 # Plugin Metrics sending anonymous data about your server
