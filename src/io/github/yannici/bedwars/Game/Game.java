@@ -1302,7 +1302,7 @@ public class Game {
 			obj = this.scoreboard.registerNewObjective("display", "dummy");
 		}
 
-		obj.setDisplayName("Bedwars - " + this.getFormattedTimeLeft());
+		obj.setDisplayName(this.getRegion().getName() + " - " + this.getFormattedTimeLeft());
 
 		for (Player player : this.getPlayers()) {
 			player.setScoreboard(this.scoreboard);
