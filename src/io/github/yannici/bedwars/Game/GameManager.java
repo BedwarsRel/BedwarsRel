@@ -271,6 +271,14 @@ public class GameManager {
 
 	public Game getGameByWorld(World world) {
 		for (Game game : this.games) {
+			if(game.getRegion() == null) {
+				continue;
+			}
+			
+			if(game.getRegion().getWorld() == null) {
+				continue;
+			}
+			
 			if (game.getRegion().getWorld().equals(world)) {
 				return game;
 			}
