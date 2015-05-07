@@ -735,7 +735,7 @@ public class Game {
 		}
 
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		obj.setDisplayName("Bedwars - " + this.getFormattedTimeLeft());
+		obj.setDisplayName(this.getRegion().getName() + " - " + this.getFormattedTimeLeft());
 
 		for (Team t : this.teams.values()) {
 			this.scoreboard.resetScores(Game.bedExistString()
