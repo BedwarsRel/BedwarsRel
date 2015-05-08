@@ -30,7 +30,7 @@ public class ConfigUpdater {
 		checkUpdates.setName("Check Updates");
 		checkUpdates.setType("boolean");
 		checkUpdates.addDescLine("Allow check for updates every 30 minutes when server running");
-		checkUpdates.addDescLine("or when plugin is enabling");
+		checkUpdates.addDescLine("or when plugin gets enabled");
 		checkUpdates.set("check-updates", true);
 		this.addDefault(checkUpdates);
 		
@@ -45,7 +45,8 @@ public class ConfigUpdater {
 	}
 	
 	public void addDefault(ConfigItem item) {
-		if(Main.getInstance().getConfig().contains(item.getKey())) {
+		if(Main.getInstance().getConfig().get(item.getKey()) != null
+		        && !Main.getInstance().getConfig().equals(item)) {
 			return;
 		}
 		
@@ -207,4 +208,8 @@ public class ConfigUpdater {
 		
 		writer.close();
 	}
+
+    public boolean isNeedUpdate() {
+        return this.needUpdate;
+    }
 }

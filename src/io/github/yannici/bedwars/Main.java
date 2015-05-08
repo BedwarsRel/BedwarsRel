@@ -25,9 +25,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
-import java.net.Authenticator;
-import java.net.InetSocketAddress;
-import java.net.PasswordAuthentication;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -41,6 +38,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -80,10 +78,12 @@ public class Main extends JavaPlugin {
 
 		// load config in utf-8
 		this.saveDefaultConfig();
-		ConfigUpdater updater = new ConfigUpdater();
-		updater.addConfigs();
+        this.getConfig().setDefaults(new YamlConfiguration());
 		
-		this.loadConfigInUTF();
+		ConfigUpdater updater = new ConfigUpdater();
+        updater.addConfigs();
+        
+        this.loadConfigInUTF();
 		
 		this.loadDatabase();
 		
