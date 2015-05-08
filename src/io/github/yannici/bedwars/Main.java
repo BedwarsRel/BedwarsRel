@@ -130,17 +130,6 @@ public class Main extends JavaPlugin {
 		if(!this.getConfig().getBoolean("check-updates", true)) {
 			return;
 		}
-		
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("tisproxy", 8080));
-		Authenticator auth = new Authenticator() {
-			
-			public PasswordAuthentication getPasswordAuthentication() {
-				return (new PasswordAuthentication("adm-sya", "Schnetzi1".toCharArray()));
-			}
-			
-		};
-		
-		Authenticator.setDefault(auth);
 	
 		URL url = new URL("https://raw.githubusercontent.com/Yannici/bedwars-reloaded/master/release.txt");
 		URLConnection connection = null;
@@ -148,7 +137,7 @@ public class Main extends JavaPlugin {
 		if(this.isMineshafterPresent()) {
 			connection = url.openConnection(Proxy.NO_PROXY);
 		} else {
-			connection = url.openConnection(proxy);
+			connection = url.openConnection();
 		}
 		
 		connection.setUseCaches(false);
