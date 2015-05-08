@@ -1,7 +1,7 @@
-################################
-######## BEDWARS CONFIG ########
-###### CREATED BY YANNICI ######
-################################
+# ###############################
+# ####### BEDWARS CONFIG ########
+# ##### CREATED BY YANNICI ######
+# ###############################
 
 ## TYPE HELP ##
 # int: number (not decimal)
@@ -265,6 +265,12 @@ ressource:
         spawn-interval: 15000
         amount: 1
         name: §6Gold
+
+# Check Updates
+# type: boolean
+# Allow check for updates every 30 minutes when server running
+# or when plugin gets enabled
+check-updates: true
 
 ### SHOP ###
 ### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL

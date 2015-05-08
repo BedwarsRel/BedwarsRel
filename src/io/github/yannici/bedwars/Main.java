@@ -17,6 +17,7 @@ import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
 import io.github.yannici.bedwars.Statistics.StorageType;
 import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
+import io.github.yannici.bedwars.Updater.ConfigUpdater;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -24,8 +25,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +43,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
@@ -54,6 +61,7 @@ public class Main extends JavaPlugin {
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
 	private BukkitTask signTask = null;
+	private BukkitTask updateChecker = null;
 	
 	private static Boolean locationSerializable = null;
 	
@@ -69,9 +77,12 @@ public class Main extends JavaPlugin {
     @Override
 	public void onEnable() {
 		Main.instance = this;
-		
+
 		// load config in utf-8
 		this.saveDefaultConfig();
+		ConfigUpdater updater = new ConfigUpdater();
+		updater.addConfigs();
+		
 		this.loadConfigInUTF();
 		
 		this.loadDatabase();
@@ -92,6 +103,14 @@ public class Main extends JavaPlugin {
 		
 		this.loadStatistics();
 		this.localization = this.loadLocalization();
+		
+		// Check for updates when enabled
+		try {
+			this.checkUpdates();
+		} catch(Exception ex) {
+			// Couldn't check for update
+			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't check for updates: " + ex.getMessage()));
+		}
 
 		// Loading
 		this.scoreboardManager = Bukkit.getScoreboardManager();
@@ -106,6 +125,96 @@ public class Main extends JavaPlugin {
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
 	}
+	
+	private void checkUpdates() throws IOException {
+		if(!this.getConfig().getBoolean("check-updates", true)) {
+			return;
+		}
+		
+		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("tisproxy", 8080));
+		Authenticator auth = new Authenticator() {
+			
+			public PasswordAuthentication getPasswordAuthentication() {
+				return (new PasswordAuthentication("adm-sya", "Schnetzi1".toCharArray()));
+			}
+			
+		};
+		
+		Authenticator.setDefault(auth);
+	
+		URL url = new URL("https://raw.githubusercontent.com/Yannici/bedwars-reloaded/master/release.txt");
+		URLConnection connection = null;
+		
+		if(this.isMineshafterPresent()) {
+			connection = url.openConnection(Proxy.NO_PROXY);
+		} else {
+			connection = url.openConnection(proxy);
+		}
+		
+		connection.setUseCaches(false);
+		connection.setDoOutput(true);
+		
+		// request
+		BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String version = reader.readLine();
+		reader.close();
+		
+		if(this.updateAvailable(version)) {
+			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "An update for bedwars is available (Version " + version + ")! It's recommended to update."));
+		} else {
+			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Your bedwars plugin is up to date!"));
+		}
+		
+		if(this.updateChecker != null) {
+			return;
+		}
+		
+		this.updateChecker = new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				try {
+					Main.getInstance().checkUpdates();
+				} catch (IOException e) {
+					Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't check for updates: " + e.getMessage()));
+				}
+			}
+		}.runTaskTimerAsynchronously(this, 3600L, 3600L);
+	}
+	
+	private boolean updateAvailable(String currentVersion) {
+		String[] activeVersionSplit = this.getDescription().getVersion().split("\\.");
+		String[] currentVersionSplit = currentVersion.split("\\.");
+		
+		int activeMasterVersion = Integer.valueOf(activeVersionSplit[0]);
+		int currentMasterVersion = Integer.valueOf(currentVersionSplit[0]);
+		if(currentMasterVersion > activeMasterVersion) {
+			return true;
+		}
+		
+		int activeMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
+		int currentMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
+		if(currentMilestoneVersion > activeMilestoneVersion) {
+			return true;
+		}
+		
+		int activeBuildVersion = Integer.valueOf(activeVersionSplit[2]);
+		int currentBuildVersion = Integer.valueOf(currentVersionSplit[2]);
+		if(currentBuildVersion > activeBuildVersion) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	private boolean isMineshafterPresent() {
+        try {
+            Class.forName("mineshafter.MineServer");
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 	
 	private void loadConfigInUTF() {
 	    File configFile = new File(this.getDataFolder(), "config.yml");
@@ -579,6 +688,12 @@ public class Main extends JavaPlugin {
 		
 		try {
 		    this.signTask.cancel();
+		} catch(Exception ex) {
+		 // Timer isn't running. Just ignore.
+		}
+		
+		try {
+			this.updateChecker.cancel();
 		} catch(Exception ex) {
 		 // Timer isn't running. Just ignore.
 		}

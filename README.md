@@ -30,6 +30,7 @@ A good friend of mine playing a lot of minecraft and he's telling me a lot about
 * Game time configurable
 * Many commands for game setup
 * Statistics with MySQL or Yaml-files
+* Update checker
 
 #### Compatibility
 
