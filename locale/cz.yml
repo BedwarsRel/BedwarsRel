@@ -1,3 +1,7 @@
+# ###############################
+# ####### CZECH LOCALE ########
+# ## TRANSLATED BY GRANIK24 ##
+# ###############################
 default:
     pages: Stranka $current$ z $max$
 errors:
@@ -57,8 +61,8 @@ success:
     timeset: Cas hry byl uspesne nastaven!
     regionnameset: Jmeno regionu uspesne nastaveno!
     minplayersset: Min. pocet hracu nastaven!
-    mainlobbyset: Mainlobby was set successfully!
-    gametimeset: Game time was set successfully!
+    mainlobbyset: Mainlobby uspesne nastaveno!
+    gametimeset: Cas hry uspesne nastaven!
 gamecheck:
     LOC_NOT_SET_ERROR: Lokace pro tuto hru nebyla dobre nastavena!
     TEAM_SIZE_LOW_ERROR: Musis nastavit vice tymu!
@@ -124,9 +128,9 @@ stats:
     destroyedBeds: Znicene postele
     games: Hrane hry
 ressources:
-    gold: Ă‚§6Zlato
-    iron: Ă‚§7Zelezo
-    bronze: Ă‚§4Bronz
+    gold: §6Zlato
+    iron: §7Zelezo
+    bronze: §4Bronz
 commands:
     addgame:
         name: Pridat hru
