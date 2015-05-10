@@ -6,6 +6,7 @@ import io.github.yannici.bedwars.Events.BedwarsOpenTeamSelectionEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -146,7 +147,7 @@ public class PlayerStorage {
                 (teams.size() - teams.size() % 9) + 9,
                 Main._l("lobby.chooseteam"));
         for (Team team : teams.values()) {
-            ArrayList<Player> players = team.getPlayers();
+            List<Player> players = team.getPlayers();
             if (players.size() >= team.getMaxPlayers()) {
                 continue;
             }

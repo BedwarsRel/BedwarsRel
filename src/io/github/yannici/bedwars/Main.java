@@ -15,6 +15,7 @@ import io.github.yannici.bedwars.Listener.ServerListener;
 import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
+import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Statistics.StorageType;
 import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 import io.github.yannici.bedwars.Updater.ConfigUpdater;
@@ -551,6 +552,8 @@ public class Main extends JavaPlugin {
 		new EntityListener();
 		new ServerListener();
 		new SignListener();
+		
+		SpecialItem.loadSpecials();
 	}
 
 	private void registerConfigurationClasses() {

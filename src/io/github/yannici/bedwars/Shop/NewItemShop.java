@@ -61,12 +61,12 @@ public class NewItemShop {
 
 		ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
 		ItemMeta slimeMeta = slime.getItemMeta();
-
+		
 		slimeMeta.setDisplayName(Main._l("ingame.shop.oldshop"));
 		slimeMeta.setLore(new ArrayList<String>());
 		slime.setItemMeta(slimeMeta);
 
-		inventory.setItem(8 + 5, slime);
+		inventory.setItem(size - 5, slime);
 
 		player.openInventory(inventory);
 	}

@@ -231,7 +231,7 @@ public class Game {
 		this.isOver = false;
 		this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
 		
-		this.setTeamsFriendlyFire();
+		this.makeTeamsReady();
 		this.cleanUsersInventory();
 		this.clearProtections();
 		this.moveFreePlayersToTeam();
@@ -1168,9 +1168,9 @@ public class Game {
 	 * PRIVATE
 	 */
 
-	private void setTeamsFriendlyFire() {
-		for (org.bukkit.scoreboard.Team team : this.scoreboard.getTeams()) {
-			team.setAllowFriendlyFire(Main.getInstance().getConfig()
+	private void makeTeamsReady() {
+		for (Team team : this.teams.values()) {
+			team.getScoreboardTeam().setAllowFriendlyFire(Main.getInstance().getConfig()
 					.getBoolean("friendlyfire"));
 		}
 	}

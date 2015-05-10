@@ -61,11 +61,11 @@ public class PlayerStatistic extends Statistic {
 	
 	@StatField(name = "kd", order = 25)
 	public String getKD() {
-	    double kd = 0;
+	    double kd = 0.0;
         if(this.getDeaths() == 0) {
-            kd = this.getDeaths();
+            kd = this.getKills();
         } else if(this.getKills() == 0) {
-            kd = 0;
+            kd = 0.0;
         } else {
             kd = this.getKills()/this.getDeaths();
         }

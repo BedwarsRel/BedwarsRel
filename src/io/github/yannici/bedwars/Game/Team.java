@@ -129,8 +129,8 @@ public class Team implements ConfigurationSerializable {
 		return this.name;
 	}
 
-	public ArrayList<Player> getPlayers() {
-		ArrayList<Player> players = new ArrayList<>();
+	public List<Player> getPlayers() {
+		List<Player> players = new ArrayList<>();
 		for (OfflinePlayer player : this.scoreboardTeam.getPlayers()) {
 			if (player.isOnline()) {
 				players.add(player.getPlayer());
@@ -138,6 +138,15 @@ public class Team implements ConfigurationSerializable {
 		}
 
 		return players;
+	}
+	
+	public List<OfflinePlayer> getTeamPlayers() {
+	    List<OfflinePlayer> players = new ArrayList<>();
+        for (OfflinePlayer player : this.scoreboardTeam.getPlayers()) {
+            players.add(player);
+        }
+        
+        return players;
 	}
 
 	public Location getSpawnLocation() {

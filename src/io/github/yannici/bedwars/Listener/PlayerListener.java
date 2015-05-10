@@ -779,6 +779,8 @@ public class PlayerListener extends BaseListener {
 			
 			if (!g.getCycle().isEndGameRunning()) {
 				return;
+			} else if(ede.getCause() == DamageCause.VOID) {
+			    p.teleport(Game.getPlayerTeam(p, g).getSpawnLocation());
 			}
 		} else if (g.getState() == GameState.WAITING) {
 			if (ede.getCause() == EntityDamageEvent.DamageCause.VOID) {

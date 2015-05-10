@@ -40,6 +40,7 @@ errors:
     teamnotfound: Tym nenalezen!
     timeincorrect: Cas musi byt: cislo (0 ... 23000), "day" nebo "night"!
     minplayersnumeric: Pocet minimalnich hracu musi byt cislo!
+    notinair: You're not in the air!
 success:
     gameadded: Nova hra "$game$" uspesne pridana!
     teamadded: Tym "$team$" uspesne pridan!

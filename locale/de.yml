@@ -36,6 +36,7 @@ errors:
     teamnotfound: Team nicht gefunden!
     timeincorrect: Die Zeit muss eine Zahl sein (0 ... 23000), "day" oder "night"
     minplayersnumeric: Die Mindestanzahl der Spieler muss numerisch sein!
+    notinair: Du bist nicht in der Luft!
 success:
     gameadded: Neues Spiel "$game$" erfolgreich hinzugefügt!
     teamadded: Team $team$ erfolgreich hinzugefägt!

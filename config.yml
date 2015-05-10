@@ -272,6 +272,11 @@ ressource:
 # or when plugin gets enabled
 check-updates: true
 
+# Special items
+specials:
+    # Rescue platform settings
+    rescue-platform:
+
 ### SHOP ###
 ### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL
 ### The categories (unique key!)

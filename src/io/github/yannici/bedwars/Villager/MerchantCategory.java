@@ -188,6 +188,19 @@ public class MerchantCategory {
 			} else {
 				finalStack = new ItemStack(material, amount);
 			}
+			
+			if (cfgSection.containsKey("lore")) {
+			    List<String> lores = new ArrayList<String>();
+			    ItemMeta im = finalStack.getItemMeta();
+			    
+                for (Object lore : (List<String>)cfgSection.get("lore")) {
+                    lores.add(ChatColor.translateAlternateColorCodes('§',
+                            lore.toString()));
+                }
+                
+                im.setLore(lores);
+                finalStack.setItemMeta(im);
+            }
 
 			if (cfgSection.containsKey("enchants")) {
 				Object cfgEnchants = cfgSection.get("enchants");

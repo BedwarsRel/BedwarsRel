@@ -143,6 +143,7 @@ public class Region {
 			    continue;
 			}
 			
+			e.getLocation().getChunk().load(true);
 			if (e instanceof Item) {
 				e.remove();
 				continue;
