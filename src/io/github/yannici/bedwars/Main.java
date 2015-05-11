@@ -22,7 +22,6 @@ import io.github.yannici.bedwars.Updater.ConfigUpdater;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
@@ -39,7 +38,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -76,15 +74,14 @@ public class Main extends JavaPlugin {
     @Override
 	public void onEnable() {
 		Main.instance = this;
-
-		// load config in utf-8
-		this.saveDefaultConfig();
-        this.getConfig().setDefaults(new YamlConfiguration());
 		
-		ConfigUpdater updater = new ConfigUpdater();
-        updater.addConfigs();
-        
-        this.loadConfigInUTF();
+		this.saveDefaultConfig();
+		this.getConfig().options().copyDefaults(true);
+		this.getConfig().options().copyHeader(true);
+		
+		ConfigUpdater configUpdater = new ConfigUpdater();
+		configUpdater.addConfigs();
+		this.saveConfig();
 		
 		this.loadDatabase();
 		
@@ -152,7 +149,9 @@ public class Main extends JavaPlugin {
 		if(this.updateAvailable(version)) {
 			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "An update for bedwars is available (Version " + version + ")! It's recommended to update."));
 		} else {
-			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Your bedwars plugin is up to date!"));
+			if(this.updateChecker == null) {
+				this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Your bedwars plugin is up to date!"));
+			}
 		}
 		
 		if(this.updateChecker != null) {
@@ -205,20 +204,6 @@ public class Main extends JavaPlugin {
             return false;
         }
     }
-	
-	private void loadConfigInUTF() {
-	    File configFile = new File(this.getDataFolder(), "config.yml");
-	    if(!configFile.exists()) {
-	        return;
-	    }
-	    
-	    try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(configFile), "UTF-8"));
-            this.getConfig().load(reader);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-	}
 	
 	public PlayerStatisticManager getPlayerStatisticManager() {
 	    return this.playerStatisticManager;

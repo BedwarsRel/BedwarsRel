@@ -7,6 +7,8 @@ import io.github.yannici.bedwars.Utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -48,8 +50,7 @@ public class LocalizationConfig extends YamlConfiguration {
 		}
 		
 		try {
-		    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(locFile), "UTF-8"));
-			this.load(reader);
+			this.load(locFile);
 		} catch (Exception e) {
 			// no localization file, no translation :D
 			Main.getInstance()
@@ -88,10 +89,8 @@ public class LocalizationConfig extends YamlConfiguration {
 			return this.fallback.getString(path);
 		}
 
-		return ChatColor.translateAlternateColorCodes(
-				'§',
-				ChatColor.translateAlternateColorCodes('&',
-						super.getString(path)));
+		return ChatColor.translateAlternateColorCodes('&',
+						super.getString(path));
 	}
 
 	public String getFormatString(String path, Map<String, String> params) {
@@ -100,16 +99,55 @@ public class LocalizationConfig extends YamlConfiguration {
 			str = str.replace("$" + key.toLowerCase() + "$", params.get(key));
 		}
 
-		return ChatColor.translateAlternateColorCodes('§',
-				ChatColor.translateAlternateColorCodes('&', str));
+		return ChatColor.translateAlternateColorCodes('&', str);
+	}
+	
+	private void compareLocale(String filename) throws IOException {
+		InputStream stream = Main.getInstance().getClass().getResourceAsStream("/locale/" + filename);
+		InputStreamReader isr = new InputStreamReader(stream);
+		BufferedReader referenceReader = new BufferedReader(isr);
+		YamlConfiguration referenceConfig = YamlConfiguration.loadConfiguration(referenceReader);
+		File currentFile = new File(Main.getInstance().getDataFolder() + "/locale", filename);
+		
+		BufferedReader currentReader = new BufferedReader(new InputStreamReader(new FileInputStream(currentFile)));
+		YamlConfiguration currentConfig = YamlConfiguration.loadConfiguration(currentReader);
+		
+		for(String key : referenceConfig.getKeys(true)) {
+			if(currentConfig.contains(key)) {
+				continue;
+			}
+			
+			currentConfig.set(key, referenceConfig.get(key));
+		}
+		
+		for(String key : currentConfig.getKeys(true)) {
+			if(referenceConfig.contains(key)) {
+				continue;
+			}
+			
+			currentConfig.set(key, null);
+		}
+		
+		referenceReader.close();
+		isr.close();
+		stream.close();
+		currentReader.close();
+		
+		currentConfig.save(currentFile);
 	}
 
 	public void saveLocales(boolean overwrite) {
 		try {
 			for (String filename : Utils.getResourceListing(getClass(),
 					"locale/")) {
-				Main.getInstance()
-						.saveResource("locale/" + filename, overwrite);
+				
+				File file = new File(Main.getInstance().getDataFolder() + "/locale", filename);
+				if(!file.exists() || overwrite) {
+					Main.getInstance()
+					.saveResource("locale/" + filename, overwrite);
+				}
+				
+				this.compareLocale(filename);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,26 +2,19 @@
 # ####### BEDWARS CONFIG ########
 # ##### CREATED BY YANNICI ######
 # ###############################
+# ###### EXPLANATION ABOUT ######
+# ##### EVERY CONFIGURATION #####
+# ### YOU CAN FIND ON GITHUB ####
+# ############ WIKI #############
+# ###############################
 
-## TYPE HELP ##
-# int: number (not decimal)
-# string: a normal text (in most cases you can use colorcodes with a beginning §)
-# boolean: true or false (IMPORTANT: true OR false ONLY)
-# list<?>: a list of type ? (? is the type of the list items)
-# byte: a int but limited between -128 ... 127
-# short: a int but limited between -32768 ... 32767
-# char: one character
-
-# Chat prefix system messages
-# type: string
-# Prefix for every chat message sent by the bedwars plugin
-chat-prefix: §7[§bBedWars§7]§f
+chat-prefix: "&7[&bBedWars&7]&f"
 
 # Enabled Metrics
 # type: boolean
 # Plugin Metrics sending anonymous data about your server
 # to store statistics about the bedwars plugin. This is really
-# helpful for me (Yannici, the developer of bedwars). You can
+# helpful for me (Yannici, the developer of this plugin). You can
 # disable it anyway, that won't be a disadvantage
 plugin-metrics: true
 
@@ -59,7 +52,7 @@ gameoverdelay: 10
 # type: char
 # The prefix character which indicates to chat
 # to all ingame players (not only team)
-chat-to-all-prefix: '@'
+chat-to-all-prefix: "@"
 
 # Statistic-Configuration
 statistics:
@@ -202,14 +195,14 @@ bungeecord:
     hubserver: hub
 
 ### Message of the Day configuration
-### Type: string (colorcodes with §)
+### Type: string (colorcodes with &)
 ### Here you can specify the MOTDs which should be used
 ### at this bedwars server of your bungeecord server-farm.
 ### Useful for bedwars join signs in your lobby
     motds:
-        lobby: §a[Lobby]
-        running: §1[Running]
-        stopped: §c[Stopped]
+        lobby: "&a[Lobby]"
+        running: "&1[Running]"
+        stopped: "&c[Stopped]"
         
 ### Localization (language)
 ### Type: string (length: 2)
@@ -217,13 +210,6 @@ bungeecord:
 ### Check the plugin description for possible languages!
 ### The fallback language is en (english).
 locale: en
-
-# Permissions
-permissions:
-### VIP can start
-### Type: boolean
-### Defines if VIP-Users can force start a game!
-    vipCanStart: false
 
 # Ressources config
 ressource:
@@ -239,13 +225,13 @@ ressource:
 ###   type: int
 ###   The stack amount the item should have
 ###  name:
-###   type: string (color codes with §)
+###   type: string (color codes with &)
 ###   The name for the ressource which will be displayed
 ###  enchants:
 ###   key: Has to be the enchant-ID or enchant-name!
 ###   value: The level of the enchant
 ###  lore:
-###   type: list<string> (colorcodes with §)
+###   type: list<string> (colorcodes with &)
 ###   The lores this item should have
 ###  meta:
 ###   type: short (potion) or byte (any other item)
@@ -254,17 +240,17 @@ ressource:
         item: CLAY_BRICK
         spawn-interval: 1000
         amount: 2
-        name: §4Bronze
+        name: "&4Bronze"
     iron:
         item: IRON_INGOT
         spawn-interval: 8000
         amount: 1
-        name: §7Iron
+        name: "&7Iron"
     gold:
         item: GOLD_INGOT
         spawn-interval: 15000
         amount: 1
-        name: §6Gold
+        name: "&6Gold"
 
 # Check Updates
 # type: boolean
@@ -276,6 +262,17 @@ check-updates: true
 specials:
     # Rescue platform settings
     rescue-platform:
+        # Remove platform time
+        # type: int
+        # The time in seconds when the platform will be break after using
+        # the rescue platform
+        break-time: 10
+        
+        # Using wait time
+        # type: int
+        # The seconds how long a player has to wait until he can 
+        # use a rescue platform again
+        using-wait-time: 20
 
 ### SHOP ###
 ### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL
@@ -303,13 +300,13 @@ specials:
 #########   type: int
 #########   The stack amount the item should have
 #########  name:
-#########   type: string (colorcodes with §)
+#########   type: string (colorcodes with &)
 #########   A specific name for the item
 #########  enchants:
 #########   key: Has to be the enchant-ID or enchant-name!
 #########   value: The level of the enchant
 #########  lore:
-#########   type: list<string> (colorcodes with §)
+#########   type: list<string> (colorcodes with &)
 #########   The lores this item should have
 #########  meta:
 #########   type: short (potion) or byte (any other item)
@@ -319,7 +316,7 @@ specials:
 shop:
     armor:
         item: DIAMOND_CHESTPLATE
-        name: Rüstung
+        name: R�stung
         order: 10
         lore:
             - Protect yourself with armor! Click here.
@@ -444,7 +441,7 @@ shop:
                     19: 1
     bows:
         item: 261
-        name: Bögen
+        name: B�gen
         order: 30
         lore:
             - Prove yourself as a marksman with these wonderful bows
@@ -558,7 +555,7 @@ shop:
                     35: 3
     blocks:
         item: SANDSTONE
-        name: Blöcke
+        name: Bl�cke
         order: 60
         lore:
             - Get to the others! Possible with blocks.
@@ -596,7 +593,7 @@ shop:
                 amount: 1
     usefulstuff:
         item: TNT
-        name: Nützliche Sachen
+        name: N�tzliche Sachen
         order: 70
         lore:
             - Looking for useful stuff? Here are some!
@@ -627,7 +624,7 @@ shop:
                 amount: 1
     drinks:
         item: POTION
-        name: Tränke
+        name: Tr�nke
         order: 80
         lore:
             - Not enough? Use these potions and you'll feel better!

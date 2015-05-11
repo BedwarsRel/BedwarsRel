@@ -111,14 +111,14 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public boolean onPlayerJoins(Player player) {
-		if (this.getGame().isFull() && !player.hasPermission("bw.vip")) {
+		if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
 			if (this.getGame().getState() != GameState.RUNNING
 					|| !Main.getInstance().spectationEnabled()) {
 				player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 						+ Main._l("lobby.gamefull")));
 				return false;
 			}
-		} else if(this.getGame().isFull() && player.hasPermission("bw.vip")) {
+		} else if(this.getGame().isFull() && player.hasPermission("bw.vip.joinfull")) {
 			if(this.getGame().getState() == GameState.WAITING) {
 				List<Player> players = this.getGame().getNonVipPlayers();
 				

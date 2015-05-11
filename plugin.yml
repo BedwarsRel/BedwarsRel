@@ -1,8 +1,14 @@
 name: BedwarsRel
+description: Destroy other's beds with bedwars reloaded
+author: Yannici
+website: http://www.spigotmc.org/resources/bedwars-rel.6799/
+
 main: io.github.yannici.bedwars.Main
-version: 1.1.3
+version: 1.1.4
+
 depend: []
 softdepend: [Multiverse-Core, Multiworld]
+
 commands:
     bw:
         description: Base command for all Test-Plugin commands
@@ -99,9 +105,12 @@ permissions:
     bw.setup:
         description: Allows you to set up new or existing games
         default: op
-    bw.vip:
+    bw.vip.*:
         description: Allows special user permissions
         default: op
+        children:
+            bw.vip.joinfull: true
+            bw.vip.forcestart: true
     bw.cmd:
         description: Allows to execute non-bedwars commands ingame
         default: op

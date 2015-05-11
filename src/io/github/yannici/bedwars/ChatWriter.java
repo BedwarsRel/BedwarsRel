@@ -9,7 +9,7 @@ public class ChatWriter {
 	}
 
 	public static String pluginMessage(String str) {
-		return Main.getInstance().getConfig().getString("chat-prefix", ChatColor.GRAY + "[" + ChatColor.AQUA + "BedWars" + ChatColor.GRAY + "]") + " "
+		return ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("chat-prefix", ChatColor.GRAY + "[" + ChatColor.AQUA + "BedWars" + ChatColor.GRAY + "]")) + " "
 				+ ChatColor.WHITE + str;
 	}
 

@@ -1,21 +1,20 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
-import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
+import org.bukkit.event.Event;
 
-public abstract class SpecialItem implements Listener {
+public abstract class SpecialItem {
     
     public SpecialItem() {
-        Main.getInstance().getServer().getPluginManager()
-        .registerEvents(this, Main.getInstance());
+        super();
     }
     
     public abstract Material getItemMaterial();
+    public abstract void executeEvent(Event event);
     
     public boolean returnPlayerEvent(Player player) {
         if(!player.getItemInHand().getType().equals(this.getItemMaterial())) {

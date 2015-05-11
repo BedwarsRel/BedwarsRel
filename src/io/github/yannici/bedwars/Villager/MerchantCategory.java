@@ -62,7 +62,7 @@ public class MerchantCategory {
 		ConfigurationSection section = cfg.getConfigurationSection("shop");
 
 		for (String cat : section.getKeys(false)) {
-			String catName = ChatColor.translateAlternateColorCodes('§',
+			String catName = ChatColor.translateAlternateColorCodes('&',
 					section.getString(cat + ".name"));
 			Material catItem = null;
 			List<String> lores = new ArrayList<String>();
@@ -78,7 +78,7 @@ public class MerchantCategory {
 
 			if (section.contains(cat + ".lore")) {
 				for (Object lore : section.getList(cat + ".lore")) {
-					lores.add(ChatColor.translateAlternateColorCodes('§',
+					lores.add(ChatColor.translateAlternateColorCodes('&',
 							lore.toString()));
 				}
 			}
@@ -194,7 +194,7 @@ public class MerchantCategory {
 			    ItemMeta im = finalStack.getItemMeta();
 			    
                 for (Object lore : (List<String>)cfgSection.get("lore")) {
-                    lores.add(ChatColor.translateAlternateColorCodes('§',
+                    lores.add(ChatColor.translateAlternateColorCodes('&',
                             lore.toString()));
                 }
                 
@@ -235,7 +235,7 @@ public class MerchantCategory {
 			}
 
 			if (cfgSection.containsKey("name")) {
-				String name = ChatColor.translateAlternateColorCodes('§',
+				String name = ChatColor.translateAlternateColorCodes('&',
 						cfgSection.get("name").toString());
 				ItemMeta im = finalStack.getItemMeta();
 
@@ -259,7 +259,7 @@ public class MerchantCategory {
 					}
 					
 					if(finalStack.getType().equals(ressMaterial)) {
-						name = ChatColor.translateAlternateColorCodes('§', ressourceSection.getString(key + ".name"));
+						name = ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
 					}
 				}
 				

@@ -638,7 +638,11 @@ public class Game {
 			}
 		}
 	}
-
+	
+	public void addRunningTask(BukkitTask task) {
+		this.runningTasks.add(task);
+	}
+ 
 	public GameCheckCode checkGame() {
 		if (this.loc1 == null || this.loc2 == null) {
 			return GameCheckCode.LOC_NOT_SET_ERROR;
@@ -1034,7 +1038,7 @@ public class Game {
 		Iterator<Player> playerIterator = players.iterator();
 		while(playerIterator.hasNext()) {
 			Player player = playerIterator.next();
-			if(player.hasPermission("bw.vip")) {
+			if(player.hasPermission("bw.vip.joinfull") || player.hasPermission("bw.vip.forcestart")) {
 				playerIterator.remove();
 			}
 		}

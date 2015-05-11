@@ -637,7 +637,7 @@ public class PlayerListener extends BaseListener {
 				break;
 			case DIAMOND:
 				pie.setCancelled(true);
-				if (player.isOp() || player.hasPermission("bw.setup") || player.hasPermission("bw.vip")) {
+				if (player.isOp() || player.hasPermission("bw.setup") || player.hasPermission("bw.vip.forcestart")) {
 					g.start(player);
 				}
 				break;

@@ -10,9 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
+import org.bukkit.event.Event;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class RescuePlatform extends SpecialItem {
     
@@ -25,8 +25,13 @@ public class RescuePlatform extends SpecialItem {
         return Material.BLAZE_ROD;
     }
     
-    @EventHandler(priority = EventPriority.HIGH)
-    public void onInteract(PlayerInteractEvent ev) {
+    @Override
+    public void executeEvent(Event event) {
+    	if(!(event instanceof PlayerInteractEvent)) {
+    		return;
+    	}
+    	
+    	PlayerInteractEvent ev = (PlayerInteractEvent)event;
         if(super.returnPlayerEvent(ev.getPlayer())) {
             return;
         }
@@ -42,6 +47,7 @@ public class RescuePlatform extends SpecialItem {
         Location mid = player.getLocation().clone();
         mid.setY(mid.getY()-1.0D);
         
+        player.getInventory().remove(new ItemStack(this.getItemMaterial(), 1));
         for(BlockFace face : BlockFace.values()) {
             if(face.equals(BlockFace.DOWN) || face.equals(BlockFace.UP)) {
                 continue;
@@ -54,7 +60,7 @@ public class RescuePlatform extends SpecialItem {
             
             placed.setType(Material.GLASS);
             
-            game.getRegion().addPlacedBlock(placed, null);
+            game.getRegion().addPlacedUnbreakableBlock(placed, null);
         }
     }
 

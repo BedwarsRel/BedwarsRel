@@ -26,6 +26,7 @@ public class Region {
 	private List<Block> breakedBlocks = null;
 	private HashMap<Block, Integer> breakedBlockTypes = null;
 	private HashMap<Block, Byte> breakedBlockData = null;
+	private List<Block> placedUnbreakableBlocks = null;
 
 	public Region(Location pos1, Location pos2, String name) {
 		if (pos1 == null || pos2 == null) {
@@ -42,6 +43,7 @@ public class Region {
 		this.breakedBlocks = new ArrayList<Block>();
 		this.breakedBlockTypes = new HashMap<Block, Integer>();
 		this.breakedBlockData = new HashMap<Block, Byte>();
+		this.placedUnbreakableBlocks = new ArrayList<Block>();
 		this.name = name;
 	}
 
@@ -95,6 +97,19 @@ public class Region {
 		}
 		
 		this.placedBlocks.clear();
+		
+		for(Block placed : this.placedUnbreakableBlocks) {
+		    Block blockInWorld = this.world.getBlockAt(placed.getLocation());
+		    if(blockInWorld.getType() == Material.AIR) {
+		        continue;
+		    }
+		    
+		    if(blockInWorld.getLocation().equals(placed.getLocation())) {
+		        blockInWorld.setType(Material.AIR);
+		    }
+		}
+		
+		this.placedUnbreakableBlocks.clear();
 		
 		for(Block block : this.breakedBlocks) {
 		    Block theBlock = this.getWorld().getBlockAt(block.getLocation());
@@ -202,5 +217,12 @@ public class Region {
         this.breakedBlockData.put(bedBlock, bedBlock.getData());
         this.breakedBlocks.add(bedBlock);
     }
+    
+	public void addPlacedUnbreakableBlock(Block placed, Block replaced) {
+		this.placedUnbreakableBlocks.add(placed);
+        if(replaced != null) {
+        	this.addBreakedBlock(replaced);
+        }
+	}
 
 }

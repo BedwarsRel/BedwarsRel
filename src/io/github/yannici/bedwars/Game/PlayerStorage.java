@@ -119,7 +119,7 @@ public class PlayerStorage {
         this.player.getInventory().setItem(8, leaveGame);
 
         if (this.player.hasPermission("bw.setup") || this.player.isOp()
-                || this.player.hasPermission("bw.vip")) {
+                || this.player.hasPermission("bw.vip.forcestart")) {
             // Force start game (Diamond)
             ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
             im = startGame.getItemMeta();
