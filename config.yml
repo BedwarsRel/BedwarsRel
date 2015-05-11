@@ -30,6 +30,19 @@ gamelength: 60
 # wait in the lobby until the game starts (when enough players) in seconds.
 lobbytime: 60
 
+# TNT Behaviour
+tnt:
+    # Destroy world blocks
+    # type: boolean
+    # Set to true to allow destroying region blocks
+    # Set to false to prevent block destroying in region
+    destroy-worldblocks: false
+    
+    # Destroy beds
+    # type: boolean
+    # Set to true, to allow players to destroy beds with tnt
+    destroy-beds: false
+
 # Countdown start rule
 # Type: int
 # Countdown start options:
@@ -635,6 +648,16 @@ shop:
                 amount: 1
               reward:
                 item: 130
+                amount: 1
+            - item1:
+                name: '&cRettungsplattform'
+                lore:
+                    - Rette dich vor dem Abstürzen
+                    - mit der Rettungsplattform
+                item: IRON_INGOT
+                amount: 10
+              reward:
+                item: 369
                 amount: 1
     drinks:
         item: POTION

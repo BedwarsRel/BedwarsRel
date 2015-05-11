@@ -98,6 +98,9 @@ ingame:
     blocks:
         ownbeddestroy: "Nemuzes znicit svou postel!"
         beddestroyed: "$player$ destroyed bed of team $team$!"
+    specials:
+        rescue-platform:
+            left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."

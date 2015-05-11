@@ -918,6 +918,10 @@ public class Game {
 		return this.time;
 	}
 	
+	public List<SpecialItem> getSpecialItems() {
+		return this.currentSpecials;
+	}
+	
 	public Map<Player, Player> getPlayerDamages() {
 		return this.playerDamages;
 	}

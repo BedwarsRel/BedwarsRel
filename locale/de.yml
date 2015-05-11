@@ -94,6 +94,9 @@ ingame:
     blocks:
         ownbeddestroy: "Du kannst dein eigenes Bett nicht zerstören!"
         beddestroyed: "Das Bett von Team $team$ wurde von $player$ zerstört!"
+    specials:
+        rescue-platform:
+            left: "Du musst noch $time$ Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!"
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"

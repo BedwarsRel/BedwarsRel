@@ -1,11 +1,14 @@
 package io.github.yannici.bedwars.Game;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameOverEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerKilledEvent;
+import io.github.yannici.bedwars.Shop.Specials.RescuePlatform;
+import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 
 import org.bukkit.ChatColor;
@@ -173,6 +176,19 @@ public abstract class GameCycle {
 
 		PlayerStatistic diePlayer = null;
 		PlayerStatistic killerPlayer = null;
+		
+		Iterator<SpecialItem> itemIterator = this.game.getSpecialItems().iterator();
+		while(itemIterator.hasNext()) {
+			SpecialItem item = itemIterator.next();
+			if(!(item instanceof RescuePlatform)) {
+				continue;
+			}
+			
+			RescuePlatform rescue = (RescuePlatform)item;
+			if(rescue.getPlayer().equals(player)) {
+				itemIterator.remove();
+			}
+		}
 
 		if (Main.getInstance().statisticsEnabled()) {
 			diePlayer = Main.getInstance().getPlayerStatisticManager()

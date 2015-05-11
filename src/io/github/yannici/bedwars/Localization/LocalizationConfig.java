@@ -103,7 +103,7 @@ public class LocalizationConfig extends YamlConfiguration {
 	}
 	
 	private void compareLocale(String filename) throws IOException {
-		InputStream stream = Main.getInstance().getClass().getResourceAsStream("/locale/" + filename);
+		InputStream stream = Main.getInstance().getResource("locale/" + filename);
 		InputStreamReader isr = new InputStreamReader(stream);
 		BufferedReader referenceReader = new BufferedReader(isr);
 		YamlConfiguration referenceConfig = YamlConfiguration.loadConfiguration(referenceReader);

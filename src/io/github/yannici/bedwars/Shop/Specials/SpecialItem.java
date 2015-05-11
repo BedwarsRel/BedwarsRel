@@ -20,8 +20,7 @@ public abstract class SpecialItem {
     
     public abstract Material getItemMaterial();
     public abstract boolean executeEvent(Event event);
-    public abstract void cycle();
-    
+
     public boolean returnPlayerEvent(Player player) {
         if(!player.getItemInHand().getType().equals(this.getItemMaterial())) {
             return true;
@@ -42,6 +41,10 @@ public abstract class SpecialItem {
     
     public static void loadSpecials() {
         SpecialItem.availableSpecials.add(RescuePlatform.class);
+    }
+    
+    public static List<Class<? extends SpecialItem>> getSpecials() {
+    	return SpecialItem.availableSpecials;
     }
     
 }

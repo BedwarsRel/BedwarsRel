@@ -6,6 +6,7 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -141,11 +142,37 @@ public class EntityListener extends BaseListener {
         }
         
         Iterator<Block> explodeBlocks = eev.blockList().iterator();
+        boolean tntDestroyEnabled = Main.getInstance().getBooleanConfig("tnt.destroy-worldblocks", false);
+        boolean tntDestroyBeds = Main.getInstance().getBooleanConfig("tnt.destroy-beds", false);
+        
+        if(!Main.getInstance().getBooleanConfig("tnt.drop-blocks", false)) {
+        	eev.setYield(0F);
+        }
         while(explodeBlocks.hasNext()) {
             Block exploding = explodeBlocks.next();
-            if(game.getRegion().isInRegion(exploding.getLocation())
-                    && !game.getRegion().isPlacedBlock(exploding)) {
-                explodeBlocks.remove();
+            if(!game.getRegion().isInRegion(exploding.getLocation())) {
+            	continue;
+            }
+            
+            if(!tntDestroyEnabled) {
+            	if(!game.getRegion().isPlacedBlock(exploding)) {
+                    explodeBlocks.remove();
+                } else {
+                	game.getRegion().removePlacedBlock(exploding);
+                }
+            } else {
+            	if(game.getRegion().isPlacedBlock(exploding)) {
+            		game.getRegion().removePlacedBlock(exploding);
+            	} else {
+            		if(exploding.getType().equals(Material.BED)
+            				|| exploding.getType().equals(Material.BED_BLOCK)) {
+            			if(!tntDestroyBeds) {
+            				explodeBlocks.remove();
+            			}
+            		} else {
+            			game.getRegion().addBreakedBlock(exploding);
+            		}
+            	}
             }
         }
     }

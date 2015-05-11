@@ -13,6 +13,7 @@ import io.github.yannici.bedwars.Game.GameLobbyCountdown;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
+import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 import org.bukkit.ChatColor;
@@ -584,6 +585,18 @@ public class PlayerListener extends BaseListener {
 					&& g.isSpectator(player)) {
 				g.playerLeave(player);
 				return;
+			}
+			
+			// Special items
+			for(Class<? extends SpecialItem> clazz : SpecialItem.getSpecials()) {
+				try {
+					SpecialItem instance = (SpecialItem)clazz.newInstance();
+					if(interactingMaterial.equals(instance.getItemMaterial())) {
+						instance.executeEvent(pie);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			
 			if(clickedBlock == null) {
