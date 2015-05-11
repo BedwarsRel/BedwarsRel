@@ -112,9 +112,6 @@ sign:
         waiting: "&aWarten ..."
         running: "&9Gestartet!"
         full: "Voll!"
-        noohoho: "Yes hehehe"
-absolute:
-    vodka: "Russisch"
 stats:
     header: "Bedwars Stats"
     kd: "K/D"

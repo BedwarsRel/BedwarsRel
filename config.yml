@@ -273,6 +273,20 @@ specials:
         # The seconds how long a player has to wait until he can 
         # use a rescue platform again
         using-wait-time: 20
+        
+# Sign configuration
+# You can use following placeholder (colors with &):
+# $gamename$ - display game name
+# $regionname$ - display region name
+# $maxplayers$ - display max players amount (color overwrite when full)
+# $currentplayers$ - display current players in game (color overwrite when full)
+# $status$ - display current game status (lobby, running or waiting)
+# $title$ - display bedwars title (sign.firstline of locale file)
+sign:
+    first-line: '$title$'
+    second-line: '$regionname$'
+    third-line: 'Players &7[&b$currentplayers$&7/&b$maxplayers$&7]'
+    fourth-line: '$status$'
 
 ### SHOP ###
 ### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL

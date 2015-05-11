@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Events.BedwarsPlayerJoinedEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
 import io.github.yannici.bedwars.Shop.NewItemShop;
+import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
@@ -69,6 +70,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private List<SpecialItem> currentSpecials = null;
+	
 	private int time = 1000;
 	
 	private Map<Player, Player> playerDamages = null;
@@ -110,6 +113,7 @@ public class Game {
 		this.useOldItemShop = new ArrayList<Player>();
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 		this.playerDamages = new HashMap<Player, Player>();
+		this.currentSpecials = new ArrayList<SpecialItem>();
 		
 		if (Main.getInstance().isBungee()) {
 			this.cycle = new BungeeGameCycle(this);
@@ -231,6 +235,7 @@ public class Game {
 		this.isOver = false;
 		this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
 		
+		this.runningTasks.clear();
 		this.makeTeamsReady();
 		this.cleanUsersInventory();
 		this.clearProtections();
@@ -896,6 +901,10 @@ public class Game {
 		this.teams.remove(team);
 		this.updateSigns();
 	}
+	
+	public void removeRunningTask(BukkitRunnable bukkitRunnable) {
+        this.runningTasks.remove(bukkitRunnable);
+    }
 
 	/*
 	 * GETTER / SETTER
@@ -1130,6 +1139,14 @@ public class Game {
 
 	public YamlConfiguration getConfig() {
 		return this.config;
+	}
+	
+	public void addSpecialItem(SpecialItem item) {
+	    this.currentSpecials.add(item);
+	}
+	
+	public void removeSpecialItem(SpecialItem item) {
+	    this.currentSpecials.remove(item);
 	}
 
 	public Location getMainLobby() {

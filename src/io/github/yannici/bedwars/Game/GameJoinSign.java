@@ -29,41 +29,74 @@ public class GameJoinSign {
 
 	private String[] getSignLines() {
 		String[] sign = new String[4];
-		sign[0] = Main._l("sign.firstline");
-		sign[1] = this.game.getRegion().getName();
-
-		int maxPlayers = this.game.getMaxPlayers();
-		int currentPlayers = 0;
-		if (this.game.getState() == GameState.RUNNING) {
-			currentPlayers = this.game.getTeamPlayers().size();
-		} else if (this.game.getState() == GameState.WAITING) {
-			currentPlayers = this.game.getPlayers().size();
-		} else {
-			currentPlayers = 0;
-		}
-
-		String current = "0";
-		String max = String.valueOf(maxPlayers);
-
-		if (currentPlayers >= maxPlayers) {
-			current = ChatColor.RED + String.valueOf(currentPlayers);
-			max = ChatColor.RED + max;
-		} else {
-			current = ChatColor.AQUA + String.valueOf(currentPlayers);
-			max = ChatColor.AQUA + max;
-		}
-
-		String playerString = ChatColor.GRAY + "[" + current + ChatColor.GRAY
-				+ "/" + max + ChatColor.GRAY + "]";
-		sign[2] = Main._l("sign.players") + " " + playerString;
-		if (this.game.getState() == GameState.WAITING && this.game.isFull()) {
-			sign[3] = ChatColor.RED + Main._l("sign.gamestate.full");
-		} else {
-			sign[3] = Main._l("sign.gamestate."
-					+ this.game.getState().toString().toLowerCase());
-		}
+		sign[0] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("sign.first-line")));
+		sign[1] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("sign.second-line")));
+		sign[2] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("sign.third-line")));
+		sign[3] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&', Main.getInstance().getConfig().getString("sign.fourth-line")));
 
 		return sign;
+	}
+	
+	private String getMaxPlayersString() {
+	    int maxPlayers = this.game.getMaxPlayers();
+        int currentPlayers = 0;
+        if (this.game.getState() == GameState.RUNNING) {
+            currentPlayers = this.game.getTeamPlayers().size();
+        } else if (this.game.getState() == GameState.WAITING) {
+            currentPlayers = this.game.getPlayers().size();
+        } else {
+            currentPlayers = 0;
+        }
+
+        String max = String.valueOf(maxPlayers);
+
+        if (currentPlayers >= maxPlayers) {
+            max = ChatColor.RED + max + ChatColor.WHITE;
+        }
+        
+        return max;
+	}
+	
+	private String getCurrentPlayersString() {
+	    int maxPlayers = this.game.getMaxPlayers();
+        int currentPlayers = 0;
+        if (this.game.getState() == GameState.RUNNING) {
+            currentPlayers = this.game.getTeamPlayers().size();
+        } else if (this.game.getState() == GameState.WAITING) {
+            currentPlayers = this.game.getPlayers().size();
+        } else {
+            currentPlayers = 0;
+        }
+
+        String current = "0";
+        if (currentPlayers >= maxPlayers) {
+            current = ChatColor.RED + String.valueOf(currentPlayers) + ChatColor.WHITE;
+        }
+        
+        return current;
+	}
+	
+	private String getStatus() {
+	    String status = null;
+	    if (this.game.getState() == GameState.WAITING && this.game.isFull()) {
+            status = ChatColor.RED + Main._l("sign.gamestate.full");
+        } else {
+            status = Main._l("sign.gamestate."
+                    + this.game.getState().toString().toLowerCase());
+        }
+	    
+	    return status;
+	}
+	
+	private String replacePlaceholder(String line) {
+	    line = line.replace("$title$", Main._l("sign.firstline"));
+	    line = line.replace("$gamename$", this.game.getName());
+	    line = line.replace("$regionname$", this.game.getRegion().getName());
+	    line = line.replace("$maxplayers$", this.getMaxPlayersString());
+	    line = line.replace("$currentplayers$", this.getCurrentPlayersString());
+	    line = line.replace("$status$", this.getStatus());
+	    
+	    return line;
 	}
 	
 	public Sign getSign() {
