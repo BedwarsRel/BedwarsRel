@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -81,6 +82,17 @@ public class Region {
 				&& location.getBlockY() <= this.maxCorner.getBlockY()
 				&& location.getBlockZ() >= this.minCorner.getBlockZ() && location
 				.getBlockZ() <= this.maxCorner.getBlockZ());
+	}
+	
+	public boolean chunkIsInRegion(Chunk chunk) {
+	    if(chunk.getX() >= this.minCorner.getX()
+	            && chunk.getX() <= this.maxCorner.getX()
+	            && chunk.getZ() >= this.minCorner.getZ()
+	            && chunk.getZ() <= this.maxCorner.getZ()) {
+	        return true;
+	    }
+	    
+	    return false;
 	}
 
 	@SuppressWarnings("deprecation")

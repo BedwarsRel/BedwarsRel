@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.RessourceSpawner;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Listener.BlockListener;
+import io.github.yannici.bedwars.Listener.ChunkListener;
 import io.github.yannici.bedwars.Listener.EntityListener;
 import io.github.yannici.bedwars.Listener.PlayerListener;
 import io.github.yannici.bedwars.Listener.ServerListener;
@@ -638,6 +639,7 @@ public class Main extends JavaPlugin {
 		new EntityListener();
 		new ServerListener();
 		new SignListener();
+		new ChunkListener();
 		
 		SpecialItem.loadSpecials();
 	}
