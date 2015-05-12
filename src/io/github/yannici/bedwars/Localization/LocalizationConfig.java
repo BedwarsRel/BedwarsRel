@@ -5,14 +5,10 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -114,78 +110,16 @@ public class LocalizationConfig extends YamlConfiguration {
 
 		return ChatColor.translateAlternateColorCodes('&', str);
 	}
-	
-	private void compareLocale(String filename) throws IOException {
-		boolean needUpdate = false;
-		InputStream stream = Main.getInstance().getResource("locale/" + filename);
-		InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
-		BufferedReader referenceReader = new BufferedReader(isr);
-		YamlConfiguration referenceConfig = YamlConfiguration.loadConfiguration(referenceReader);
-		File currentFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale", filename);
-		
-		BufferedReader currentReader = new BufferedReader(new InputStreamReader(new FileInputStream(currentFile)));
-		YamlConfiguration currentConfig = YamlConfiguration.loadConfiguration(currentReader);
-		
-		for(String key : referenceConfig.getKeys(true)) {
-			if(currentConfig.contains(key)) {
-				continue;
-			}
-			
-			needUpdate = true;
-			currentConfig.addDefault(key, referenceConfig.get(key));
-		}
-		
-		for(String key : currentConfig.getKeys(true)) {
-			if(referenceConfig.contains(key)) {
-				continue;
-			}
-			
-			needUpdate = true;
-			currentConfig.set(key, null);
-		}
-		
-		referenceReader.close();
-		isr.close();
-		stream.close();
-		currentReader.close();
-		
-		if(needUpdate) {
-			this.saveLocale(currentFile, currentConfig);
-		}
-	}
-	
-	private void saveLocale(File file, YamlConfiguration config) throws IOException {
-		file.getParentFile().mkdirs();
-		
-		config.options().copyDefaults(true);
-		String data = Main.getInstance().getYamlDump(config, true);
-		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
-		
-		try {
-			writer.write(data);
-		} catch(Exception ex) {
-			// write failed
-		} finally {
-			if(writer != null) {
-				writer.close();
-			}
-		}
-	}
-
 	public void saveLocales(boolean overwrite) {
 		try {
 			for (String filename : Utils.getResourceListing(getClass(),
 					"locale/")) {
 				
-				File file = new File(Main.getInstance().getDataFolder().getPath() + "/locale", filename);
+				File file = new File(Main.getInstance().getDataFolder() + "/locale", filename);
 				if(!file.exists() || overwrite) {
-					file.getParentFile().mkdirs();
-					
 					Main.getInstance()
 					.saveResource("locale/" + filename, overwrite);
 				}
-				
-				this.compareLocale(filename);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
