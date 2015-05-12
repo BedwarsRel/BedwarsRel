@@ -5,14 +5,19 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
+
+import com.google.common.io.Files;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -49,8 +54,10 @@ public class LocalizationConfig extends YamlConfiguration {
 					+ ".yml");
 		}
 		
+		BufferedReader reader = null;
 		try {
-			this.load(locFile);
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(locFile), "UTF-8"));
+			this.load(reader);
 		} catch (Exception e) {
 			// no localization file, no translation :D
 			Main.getInstance()
@@ -60,6 +67,14 @@ public class LocalizationConfig extends YamlConfiguration {
 							ChatWriter.pluginMessage(ChatColor.RED
 									+ "Failed to load localization language!"));
 			return;
+		} finally {
+			if(reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 
 		if (!isFallback) {
@@ -103,8 +118,9 @@ public class LocalizationConfig extends YamlConfiguration {
 	}
 	
 	private void compareLocale(String filename) throws IOException {
+		boolean needUpdate = false;
 		InputStream stream = Main.getInstance().getResource("locale/" + filename);
-		InputStreamReader isr = new InputStreamReader(stream);
+		InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
 		BufferedReader referenceReader = new BufferedReader(isr);
 		YamlConfiguration referenceConfig = YamlConfiguration.loadConfiguration(referenceReader);
 		File currentFile = new File(Main.getInstance().getDataFolder() + "/locale", filename);
@@ -117,7 +133,8 @@ public class LocalizationConfig extends YamlConfiguration {
 				continue;
 			}
 			
-			currentConfig.set(key, referenceConfig.get(key));
+			needUpdate = true;
+			currentConfig.addDefault(key, referenceConfig.get(key));
 		}
 		
 		for(String key : currentConfig.getKeys(true)) {
@@ -125,6 +142,7 @@ public class LocalizationConfig extends YamlConfiguration {
 				continue;
 			}
 			
+			needUpdate = true;
 			currentConfig.set(key, null);
 		}
 		
@@ -133,7 +151,27 @@ public class LocalizationConfig extends YamlConfiguration {
 		stream.close();
 		currentReader.close();
 		
-		currentConfig.save(currentFile);
+		if(needUpdate) {
+			this.saveLocale(currentFile, currentConfig);
+		}
+	}
+	
+	private void saveLocale(File file, YamlConfiguration config) throws IOException {
+		Files.createParentDirs(file);
+		
+		config.options().copyDefaults(true);
+		String data = Main.getInstance().getYamlDump(config, true);
+		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+		
+		try {
+			writer.write(data);
+		} catch(Exception ex) {
+			// write failed
+		} finally {
+			if(writer != null) {
+				writer.close();
+			}
+		}
 	}
 
 	public void saveLocales(boolean overwrite) {

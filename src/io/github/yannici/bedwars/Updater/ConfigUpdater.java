@@ -16,9 +16,9 @@ public class ConfigUpdater {
 		// <1.1.4>
 		Main.getInstance().getConfig().addDefault("specials.rescue-platform.break-time", 10);
 		Main.getInstance().getConfig().addDefault("specials.rescue-platform.using-wait-time", 20);
-		Main.getInstance().getConfig().addDefault("tnt.destroy-worldblocks", false);
-		Main.getInstance().getConfig().addDefault("tnt.destroy-beds", false);
-		Main.getInstance().getConfig().addDefault("tnt.drop-blocks", false);
+		Main.getInstance().getConfig().addDefault("explodes.destroy-worldblocks", false);
+		Main.getInstance().getConfig().addDefault("explodes.destroy-beds", false);
+		Main.getInstance().getConfig().addDefault("explodes.drop-blocking", false);
 		// </1.1.4>
 	}
 }

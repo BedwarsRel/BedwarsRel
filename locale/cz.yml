@@ -3,7 +3,7 @@
 # ## TRANSLATED BY GRANIK24 ##
 # ###############################
 default:
-    pages: "Stranka $current$ z $max$"
+    pages: "Stranka $current$ z $max$ "
 errors:
     argumentslength: "Pocet argumentu prikazu neodpovida spravnemu mnozstvi!"
     packagenotfound: "Nelze nacist $package$ package!"

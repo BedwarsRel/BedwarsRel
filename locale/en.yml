@@ -1,7 +1,7 @@
 default:
-    pages: "Page $current$ of $max$"
+    pages: "Page $current$ of $max$ "
 errors:
-    argumentslength: "Number of arguments does not match the correct amount!"
+    argumentslength: "Nümber of arguments does not match the correct amount!"
     packagenotfound: "Couldn't fetch $package$ package!"
     classnotfound: "Couldn't fetch $package$ class $class$!"
     gameexists: "A game with this name already exists!"

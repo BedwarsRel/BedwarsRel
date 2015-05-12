@@ -8,7 +8,7 @@
 # ############ WIKI #############
 # ###############################
 
-chat-prefix: "&7[&bBedWars&7]&f"
+chat-prefix: "&7[&bBedWars&7]&f" 
 
 # Enabled Metrics
 # type: boolean
@@ -30,8 +30,8 @@ gamelength: 60
 # wait in the lobby until the game starts (when enough players) in seconds.
 lobbytime: 60
 
-# TNT Behaviour
-tnt:
+# Explode Behaviour
+explodes:
     # Destroy world blocks
     # type: boolean
     # Set to true to allow destroying region blocks
@@ -42,6 +42,12 @@ tnt:
     # type: boolean
     # Set to true, to allow players to destroy beds with tnt
     destroy-beds: false
+    
+    # Block drops
+    # type: boolean
+    # If set to true, blocks will be dropping on explosions
+    # on false, exploded blocks won't drop anything
+    drop-blocking: false
 
 # Countdown start rule
 # Type: int
@@ -343,7 +349,7 @@ sign:
 shop:
     armor:
         item: DIAMOND_CHESTPLATE
-        name: Rüstung
+        name: RÃ¼stung 
         order: 10
         lore:
             - Protect yourself with armor! Click here.
@@ -468,7 +474,7 @@ shop:
                     19: 1
     bows:
         item: 261
-        name: Bögen
+        name: BÃ¶gen
         order: 30
         lore:
             - Prove yourself as a marksman with these wonderful bows
@@ -582,7 +588,7 @@ shop:
                     35: 3
     blocks:
         item: SANDSTONE
-        name: Blöcke
+        name: BlÃ¶cke
         order: 60
         lore:
             - Get to the others! Possible with blocks.
@@ -620,7 +626,7 @@ shop:
                 amount: 1
     usefulstuff:
         item: TNT
-        name: Nützliche Sachen
+        name: NÃ¼tzliche Sachen
         order: 70
         lore:
             - Looking for useful stuff? Here are some!
@@ -652,7 +658,7 @@ shop:
             - item1:
                 name: '&cRettungsplattform'
                 lore:
-                    - Rette dich vor dem Abstürzen
+                    - Rette dich vor dem AbstÃ¼rzen
                     - mit der Rettungsplattform
                 item: IRON_INGOT
                 amount: 10
@@ -661,7 +667,7 @@ shop:
                 amount: 1
     drinks:
         item: POTION
-        name: Tränke
+        name: TrÃ¤nke
         order: 80
         lore:
             - Not enough? Use these potions and you'll feel better!

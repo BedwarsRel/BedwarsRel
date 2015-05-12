@@ -22,8 +22,10 @@ import io.github.yannici.bedwars.Updater.ConfigUpdater;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.Method;
 import java.net.Proxy;
 import java.net.URL;
@@ -38,6 +40,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -75,13 +78,15 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		Main.instance = this;
 		
+		// save default config
 		this.saveDefaultConfig();
+		
 		this.getConfig().options().copyDefaults(true);
 		this.getConfig().options().copyHeader(true);
 		
 		ConfigUpdater configUpdater = new ConfigUpdater();
 		configUpdater.addConfigs();
-		this.saveConfig();
+		this.saveConfiguration();
 		
 		this.loadDatabase();
 		
@@ -122,6 +127,99 @@ public class Main extends JavaPlugin {
 		this.stopTimeListener();
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
+	}
+	
+	public void saveConfiguration() {
+		File file = new File(Main.getInstance().getDataFolder(), "config.yml");
+		try {
+			file.mkdirs();
+			
+			String data = this.getYamlDump((YamlConfiguration)this.getConfig(), false);
+			
+			FileOutputStream stream = new FileOutputStream(file);
+			OutputStreamWriter writer = new OutputStreamWriter(stream);
+			
+			try {
+				writer.write(data);
+			} finally {
+				writer.close();
+				stream.close();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public String getYamlDump(YamlConfiguration config, boolean replaceOnly) {
+		try {
+			/*Field options = config.getClass().getDeclaredField("yamlOptions");
+			options.setAccessible(true);
+			
+			DumperOptions yamlOptions = (DumperOptions) options.get(config);
+			yamlOptions.setIndent(config.options().indent());
+			yamlOptions.setAllowUnicode(true);
+			yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+			
+			// representer
+			Field representer = config.getClass().getDeclaredField("yamlRepresenter");
+			representer.setAccessible(true);
+			
+			Representer yamlRepresenter = (Representer) representer.get(config);
+			yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+			
+			Method buildHeader = config.getClass().getDeclaredMethod("buildHeader", new Class<?>[0]);
+			buildHeader.setAccessible(true);
+			
+			Field yamlField = config.getClass().getDeclaredField("yaml");
+			yamlField.setAccessible(true);
+			
+			Yaml yaml = (Yaml) yamlField.get(config);
+			String header = (String)buildHeader.invoke(config, new Object[0]);
+			String dump = yaml.dump(config);*/
+			
+			//fullstring = fullstring.replace("\\xc3", "");
+			/*fullstring = fullstring.replace("\\xbc", "ü");
+			fullstring = fullstring.replace("\\xb6", "ö");
+			fullstring = fullstring.replace("\\xa4", "ä");
+			fullstring = fullstring.replace("\\u201e", "Ä");
+			fullstring = fullstring.replace("\\u2013", "Ö");
+			fullstring = fullstring.replace("\\u0153", "Ü");
+			fullstring = fullstring.replace("\\u0178", "ß");*/
+
+			/*Pattern unicode = Pattern.compile("\\[u]{1}([0-9a-z]{4})");
+			String endstring = new String(fullstring);
+			Matcher m = unicode.matcher(fullstring);
+			
+			while(m.find()) {
+				String code = m.group(1);
+				int charCode = Integer.valueOf("0x" + code);
+				
+				endstring.replace("\\u" + code, Character.toString((char)charCode));
+			}*/
+			
+			String fullstring = config.saveToString();
+			String endstring = fullstring;
+			if(!replaceOnly) {
+				endstring = Utils.unescape_perl_string(fullstring);
+			} else {
+				endstring = endstring.replace("\\xc3", "");
+				endstring = endstring.replace("\\xb6", "ö");
+				endstring = endstring.replace("\\xbc", "ü");
+				endstring = endstring.replace("\\u0153", "Ü");
+				endstring = endstring.replace("\\xa4", "ä");
+				endstring = endstring.replace("\\xd6", "Ö");
+				endstring = endstring.replace("\\xc4", "Ä");
+				endstring = endstring.replace("\\u0178", "ß");
+				endstring = endstring.replace("\\u201e", "Ä");
+				endstring = endstring.replace("\\u2013", "Ö");
+			}
+			
+			return endstring;
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	private void checkUpdates() throws IOException {
