@@ -1,5 +1,8 @@
 package io.github.yannici.bedwars.Updater;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.yannici.bedwars.Main;
 
 public class ConfigUpdater {
@@ -23,6 +26,12 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("explodes.destroy-worldblocks", false);
 		Main.getInstance().getConfig().addDefault("explodes.destroy-beds", false);
 		Main.getInstance().getConfig().addDefault("explodes.drop-blocking", false);
+		Main.getInstance().getConfig().addDefault("rewards.enabled", false);
+		
+		List<String> defaultRewards = new ArrayList<String>();
+		defaultRewards.add("/example {player} {score}");
+		Main.getInstance().getConfig().addDefault("rewards.player-win", defaultRewards);
+		Main.getInstance().getConfig().addDefault("rewards.player-end-game", defaultRewards);
 		// </1.1.4>
 	}
 }

@@ -21,6 +21,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Bed;
@@ -45,7 +46,7 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		if(game.getState() != GameState.RUNNING) {
+		if(game.getState() == GameState.STOPPED) {
 			return;
 		}
 		
@@ -55,6 +56,20 @@ public class BlockListener extends BaseListener {
 		
 		bbe.setCancelled(true);
 		return;
+	}
+	
+	@EventHandler
+	public void onSpread(BlockSpreadEvent spread) {
+	    Game game = Main.getInstance().getGameManager().getGameByWorld(spread.getBlock().getWorld());
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    game.getRegion().addPlacedUnbreakableBlock(spread.getBlock(), spread.getBlock().getState());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

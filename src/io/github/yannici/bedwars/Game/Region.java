@@ -218,10 +218,13 @@ public class Region {
         this.breakedBlocks.add(bedBlock);
     }
     
-	public void addPlacedUnbreakableBlock(Block placed, Block replaced) {
+	@SuppressWarnings("deprecation")
+    public void addPlacedUnbreakableBlock(Block placed, BlockState replaced) {
 		this.placedUnbreakableBlocks.add(placed);
         if(replaced != null) {
-        	this.addBreakedBlock(replaced);
+            this.breakedBlockTypes.put(replaced.getBlock(), replaced.getTypeId());
+            this.breakedBlockData.put(replaced.getBlock(), replaced.getData().getData());
+            this.breakedBlocks.add(replaced.getBlock());
         }
 	}
 

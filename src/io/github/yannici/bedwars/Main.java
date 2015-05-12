@@ -22,6 +22,7 @@ import io.github.yannici.bedwars.Updater.ConfigUpdater;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -80,6 +81,7 @@ public class Main extends JavaPlugin {
 		
 		// save default config
 		this.saveDefaultConfig();
+		this.loadConfigInUTF();
 		
 		this.getConfig().options().copyDefaults(true);
 		this.getConfig().options().copyHeader(true);
@@ -107,8 +109,6 @@ public class Main extends JavaPlugin {
 		this.loadStatistics();
 		this.localization = this.loadLocalization();
 		
-		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(Main._l("errors.notinair2")));
-		
 		// Check for updates when enabled
 		try {
 			this.checkUpdates();
@@ -131,15 +131,29 @@ public class Main extends JavaPlugin {
 		this.cleanDatabase();
 	}
 	
+	private void loadConfigInUTF() {
+        File configFile = new File(this.getDataFolder(), "config.yml");
+        if(!configFile.exists()) {
+            return;
+        }
+        
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(configFile), "UTF-8"));
+            this.getConfig().load(reader);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+	
 	public void saveConfiguration() {
 		File file = new File(Main.getInstance().getDataFolder(), "config.yml");
 		try {
 			file.mkdirs();
 			
-			String data = this.getYamlDump((YamlConfiguration)this.getConfig(), false);
+			String data = this.getYamlDump((YamlConfiguration)this.getConfig());
 			
 			FileOutputStream stream = new FileOutputStream(file);
-			OutputStreamWriter writer = new OutputStreamWriter(stream);
+			OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
 			
 			try {
 				writer.write(data);
@@ -152,7 +166,7 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public String getYamlDump(YamlConfiguration config, boolean replaceOnly) {
+	public String getYamlDump(YamlConfiguration config) {
 		try {
 			/*Field options = config.getClass().getDeclaredField("yamlOptions");
 			options.setAccessible(true);
@@ -201,20 +215,7 @@ public class Main extends JavaPlugin {
 			
 			String fullstring = config.saveToString();
 			String endstring = fullstring;
-			if(!replaceOnly) {
-				endstring = Utils.unescape_perl_string(fullstring);
-			} else {
-				endstring = endstring.replace("\\xc3", "");
-				endstring = endstring.replace("\\xb6", "ö");
-				endstring = endstring.replace("\\xbc", "ü");
-				endstring = endstring.replace("\\u0153", "Ü");
-				endstring = endstring.replace("\\xa4", "ä");
-				endstring = endstring.replace("\\xd6", "Ö");
-				endstring = endstring.replace("\\xc4", "Ä");
-				endstring = endstring.replace("\\u0178", "ß");
-				endstring = endstring.replace("\\u201e", "Ä");
-				endstring = endstring.replace("\\u2013", "Ö");
-			}
+			endstring = Utils.unescape_perl_string(fullstring);
 			
 			return endstring;
 		} catch(Exception ex) {

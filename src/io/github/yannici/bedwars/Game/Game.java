@@ -162,7 +162,8 @@ public class Game {
 
 	public static Team getTeamOfBed(Game g, Block bed) {
 		for (Team team : g.getTeams().values()) {
-			if (team.getHeadBed().equals(bed)) {
+			if (team.getHeadBed().equals(bed)
+			        || team.getFeedBed().equals(bed)) {
 				return team;
 			}
 		}

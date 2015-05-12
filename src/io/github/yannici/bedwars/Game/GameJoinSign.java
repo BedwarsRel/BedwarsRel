@@ -71,6 +71,8 @@ public class GameJoinSign {
         String current = "0";
         if (currentPlayers >= maxPlayers) {
             current = ChatColor.RED + String.valueOf(currentPlayers) + ChatColor.WHITE;
+        } else {
+            current = String.valueOf(currentPlayers);
         }
         
         return current;

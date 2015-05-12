@@ -1,7 +1,9 @@
 package io.github.yannici.bedwars.Game;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
@@ -42,7 +44,8 @@ public abstract class GameCycle {
 
 	public abstract void onGameOver(GameOverTask task);
 
-	private void runGameOver(Team winner) {
+	@SuppressWarnings("unchecked")
+    private void runGameOver(Team winner) {
 		BedwarsGameOverEvent overEvent = new BedwarsGameOverEvent(
 				this.getGame(), winner);
 		Main.getInstance().getServer().getPluginManager().callEvent(overEvent);
@@ -55,28 +58,64 @@ public abstract class GameCycle {
 		this.setEndGameRunning(true);
 		int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
 																			// delay
-		if (Main.getInstance().statisticsEnabled()) {
+		if (Main.getInstance().statisticsEnabled()
+		        || Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
 			if (winner != null) {
 				for (Player player : winner.getPlayers()) {
-					PlayerStatistic statistic = Main.getInstance()
+				    if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+	                    List<String> commands = new ArrayList<String>();
+	                    commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-win");
+	                    for(String command : commands) {
+	                        Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), this.replaceRewardPlaceholders(command, player));
+	                    }
+	                }
+				    
+				    if(Main.getInstance().statisticsEnabled()) {
+				        PlayerStatistic statistic = Main.getInstance()
 							.getPlayerStatisticManager().getStatistic(player);
-					statistic.setWins(statistic.getWins() + 1);
-					statistic.addCurrentScore(Main.getInstance().getIntConfig(
-									"statistics.scores.win", 50));
+    					statistic.setWins(statistic.getWins() + 1);
+    					statistic.addCurrentScore(Main.getInstance().getIntConfig(
+    									"statistics.scores.win", 50));
+				    }
 				}
 			}
 			
 			for(Player player : this.game.getPlayers()) {
-			    PlayerStatistic statistic = Main.getInstance()
-                        .getPlayerStatisticManager().getStatistic(player);
-			    statistic.setScore(statistic.getCurrentScore());
-			    statistic.setCurrentScore(0);
-			    statistic.store();
+			    if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+                    List<String> commands = new ArrayList<String>();
+                    commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-end-game");
+                    for(String command : commands) {
+                        Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), this.replaceRewardPlaceholders(command, player));
+                    }
+                }
+			    
+			    if(Main.getInstance().statisticsEnabled()) {
+			        PlayerStatistic statistic = Main.getInstance()
+	                        .getPlayerStatisticManager().getStatistic(player);
+    			    statistic.setScore(statistic.getCurrentScore());
+    			    statistic.setCurrentScore(0);
+    			    statistic.store();
+			    }
 			}
 		}
+		
 
 		GameOverTask gameOver = new GameOverTask(this, delay, winner);
 		gameOver.runTaskTimer(Main.getInstance(), 0L, 20L);
+	}
+	
+	private String replaceRewardPlaceholders(String command, Player player) {
+	    command = command.replace("{player}", player.getName());
+	    if(Main.getInstance().statisticsEnabled()) {
+	        PlayerStatistic statistic = Main.getInstance()
+                    .getPlayerStatisticManager().getStatistic(player);
+	        command = command.replace("{score}", String.valueOf(statistic.getCurrentScore()));
+	    }
+	    if(command.startsWith("/")) {
+	        command = command.substring(1, command.length());
+	    }
+	    
+	    return command;
 	}
 
 	public void checkGameOver() {

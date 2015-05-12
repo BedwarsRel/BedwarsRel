@@ -227,6 +227,7 @@ bungeecord:
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
 ### Check the plugin description for possible languages!
+### Currently available languages: de (german), en (english), cz (czech)
 ### The fallback language is en (english).
 locale: en
 
@@ -276,6 +277,32 @@ ressource:
 # Allow check for updates every 30 minutes when server running
 # or when plugin gets enabled
 check-updates: true
+
+# Reward commands
+# It is prerequisite that every command can be executed from the console (sender).
+# These placeholder can be used in every command:
+# {player} - the player for which the command will be executed
+# {score} - the current game score of the player (ONLY WHEN STATISTICS ENABLED!)
+rewards:
+    # Enable rewards
+    # type: boolean
+    # Enables reward commands
+    enabled: false
+    
+    # Game win
+    # type: List<string>
+    # Commands which will be executed for every player which wins
+    # possible placeholders: {player}, {score}
+    player-win:
+        - /example {player} 200
+    
+    # Game end (every player in game)
+    # type: List<string>
+    # Commands which will be execute for every player in game
+    # after the game has end
+    # possible placeholders: {player}, {score}
+    player-end-game:
+        - /example {player} {score}
 
 # Special items
 specials:
@@ -656,13 +683,13 @@ shop:
                 item: 130
                 amount: 1
             - item1:
+                item: IRON_INGOT
+                amount: 15
+              reward:
                 name: '&cRettungsplattform'
                 lore:
                     - Rette dich vor dem Abstürzen
                     - mit der Rettungsplattform
-                item: IRON_INGOT
-                amount: 10
-              reward:
                 item: 369
                 amount: 1
     drinks:
