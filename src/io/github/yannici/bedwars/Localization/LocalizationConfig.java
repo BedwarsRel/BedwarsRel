@@ -155,7 +155,7 @@ public class LocalizationConfig extends YamlConfiguration {
 	}
 	
 	private void saveLocale(File file, YamlConfiguration config) throws IOException {
-		file.mkdirs();
+		file.getParentFile().mkdirs();
 		
 		config.options().copyDefaults(true);
 		String data = Main.getInstance().getYamlDump(config, true);
@@ -177,8 +177,10 @@ public class LocalizationConfig extends YamlConfiguration {
 			for (String filename : Utils.getResourceListing(getClass(),
 					"locale/")) {
 				
-				File file = new File(Main.getInstance().getDataFolder() + "/locale", filename);
+				File file = new File(Main.getInstance().getDataFolder().getPath() + "/locale", filename);
 				if(!file.exists() || overwrite) {
+					file.getParentFile().mkdirs();
+					
 					Main.getInstance()
 					.saveResource("locale/" + filename, overwrite);
 				}
