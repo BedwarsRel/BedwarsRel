@@ -17,8 +17,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import com.google.common.io.Files;
-
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -157,7 +155,7 @@ public class LocalizationConfig extends YamlConfiguration {
 	}
 	
 	private void saveLocale(File file, YamlConfiguration config) throws IOException {
-		Files.createParentDirs(file);
+		file.mkdirs();
 		
 		config.options().copyDefaults(true);
 		String data = Main.getInstance().getYamlDump(config, true);
