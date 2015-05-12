@@ -107,6 +107,8 @@ public class Main extends JavaPlugin {
 		this.loadStatistics();
 		this.localization = this.loadLocalization();
 		
+		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(Main._l("errors.notinair2")));
+		
 		// Check for updates when enabled
 		try {
 			this.checkUpdates();

@@ -116,6 +116,12 @@ public class RescuePlatform extends SpecialItem {
     }
     
     public void runTask() {
+    	if(Main.getInstance().getConfig().getInt("specials.rescue-platform.break-time", 10) == 0
+    			&& Main.getInstance().getConfig().getInt("specials.rescue-platform.useing-wait-time", 20) == 0) {
+    		// not break and no wait time ;)
+    		return;
+    	}
+    	
         this.task = new BukkitRunnable() {
 			
 			@Override
@@ -125,6 +131,7 @@ public class RescuePlatform extends SpecialItem {
 					for(Block block : RescuePlatform.this.platformBlocks) {
 						block.getChunk().load(true);
 						block.setType(Material.AIR);
+						RescuePlatform.this.game.getRegion().removePlacedUnbreakableBlock(block);
 					}
 				}
 				

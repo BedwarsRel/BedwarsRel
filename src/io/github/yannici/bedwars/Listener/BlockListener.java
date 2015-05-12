@@ -154,7 +154,7 @@ public class BlockListener extends BaseListener {
 			if(Main.getInstance().statisticsEnabled()) {
 				PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
 				statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
-				statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+				statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
 			}
 			
 			// not used anymore

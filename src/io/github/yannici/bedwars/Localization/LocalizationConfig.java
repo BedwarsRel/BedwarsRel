@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -74,8 +75,28 @@ public class LocalizationConfig extends YamlConfiguration {
 		if (!isFallback) {
 			// Fallback load
 			this.fallback = new LocalizationConfig();
-			this.fallback.loadLocale(Main.getInstance().getFallbackLocale(),
-					true);
+			InputStream stream = null;
+			try {
+				stream = Main.getInstance().getResource("locale/" + locKey + ".yml");
+				if(stream == null) {
+					this.fallback = null;
+					return;
+				}
+				
+				reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
+				this.fallback.load(reader);
+			} catch(Exception ex) {
+				// read failed
+			} finally {
+				if(reader != null) {
+					try {
+						reader.close();
+						stream.close();
+					} catch (IOException e) {
+						// already closed
+					}
+				}
+			}
 		}
 	}
 

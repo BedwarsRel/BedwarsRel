@@ -225,4 +225,8 @@ public class Region {
         }
 	}
 
+	public void removePlacedUnbreakableBlock(Block block) {
+		this.placedUnbreakableBlocks.remove(block);
+	}
+
 }

@@ -22,6 +22,7 @@ public class PlayerStatistic extends Statistic {
 	private int loses = 0;
 	private int games = 0;
 	private int score = 0;
+	private int currentScore = 0;
 	
 	public PlayerStatistic() {
 		super();
@@ -35,6 +36,18 @@ public class PlayerStatistic extends Statistic {
 	
 	public OfflinePlayer getPlayer() {
 		return this.player;
+	}
+	
+	public int getCurrentScore() {
+		return this.currentScore;
+	}
+	
+	public void addCurrentScore(int score) {
+		this.currentScore += score;
+	}
+	
+	public void setCurrentScore(int score) {
+		this.currentScore = score;
 	}
 	
 	@DBGetField(name = "uuid", dbType = "VARCHAR(255)")

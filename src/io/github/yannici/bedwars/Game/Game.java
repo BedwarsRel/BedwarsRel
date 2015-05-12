@@ -559,7 +559,7 @@ public class Game {
 				if(!team.isDead() && !p.isDead()) {
 					if(Main.getInstance().statisticsEnabled()) {
 						statistic.setLoses(statistic.getLoses()+1);
-						statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.lose", 0));
+						statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
 					}
 				}
 			}
@@ -584,6 +584,8 @@ public class Game {
 		
 		if(Main.getInstance().statisticsEnabled()) {
 			// store statistics and unload
+			statistic.setScore(statistic.getCurrentScore());
+			statistic.setCurrentScore(0);
 			statistic.store();
 			Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
 		}

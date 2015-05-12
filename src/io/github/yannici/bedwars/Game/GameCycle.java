@@ -61,8 +61,7 @@ public abstract class GameCycle {
 					PlayerStatistic statistic = Main.getInstance()
 							.getPlayerStatisticManager().getStatistic(player);
 					statistic.setWins(statistic.getWins() + 1);
-					statistic.setScore(statistic.getScore()
-							+ Main.getInstance().getIntConfig(
+					statistic.addCurrentScore(Main.getInstance().getIntConfig(
 									"statistics.scores.win", 50));
 				}
 			}
@@ -70,6 +69,8 @@ public abstract class GameCycle {
 			for(Player player : this.game.getPlayers()) {
 			    PlayerStatistic statistic = Main.getInstance()
                         .getPlayerStatisticManager().getStatistic(player);
+			    statistic.setScore(statistic.getCurrentScore());
+			    statistic.setCurrentScore(0);
 			    statistic.store();
 			}
 		}
@@ -197,9 +198,7 @@ public abstract class GameCycle {
 					.getStatistic(player);
 
 			diePlayer.setDeaths(diePlayer.getDeaths() + 1);
-			diePlayer.setScore(diePlayer.getScore()
-					+ Main.getInstance().getIntConfig("statistics.scores.die",
-							0));
+			diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
 		}
 
 		Team deathTeam = Game.getPlayerTeam(player, this.getGame());
@@ -215,8 +214,7 @@ public abstract class GameCycle {
 
 			if (killerPlayer != null && Main.getInstance().statisticsEnabled()) {
 				killerPlayer.setKills(killerPlayer.getKills() + 1);
-				killerPlayer.setScore(killerPlayer.getScore()
-						+ Main.getInstance().getIntConfig(
+				killerPlayer.addCurrentScore(Main.getInstance().getIntConfig(
 								"statistics.scores.kill", 10));
 			}
 
