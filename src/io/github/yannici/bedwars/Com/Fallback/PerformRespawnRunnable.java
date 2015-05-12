@@ -38,7 +38,8 @@ public class PerformRespawnRunnable extends BukkitRunnable {
 				}
 			}
 
-			List<Object> constants = Arrays.asList(enumClientCommand
+			@SuppressWarnings("unchecked")
+            List<Object> constants = (List<Object>) Arrays.asList(enumClientCommand
 					.getEnumConstants());
 			Object respawnObject = null;
 

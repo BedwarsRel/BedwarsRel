@@ -736,7 +736,11 @@ public class Game {
 		if (this.region == null) {
 			return;
 		}
-
+		
+		for(RessourceSpawner loc : this.getRessourceSpawner()) {
+		    loc.getLocation().getChunk().load(true);
+		}
+		
 		this.region.reset(this);
 	}
 
