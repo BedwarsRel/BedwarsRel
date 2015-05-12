@@ -123,7 +123,7 @@ public class LocalizationConfig extends YamlConfiguration {
 		InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
 		BufferedReader referenceReader = new BufferedReader(isr);
 		YamlConfiguration referenceConfig = YamlConfiguration.loadConfiguration(referenceReader);
-		File currentFile = new File(Main.getInstance().getDataFolder() + "/locale", filename);
+		File currentFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale", filename);
 		
 		BufferedReader currentReader = new BufferedReader(new InputStreamReader(new FileInputStream(currentFile)));
 		YamlConfiguration currentConfig = YamlConfiguration.loadConfiguration(currentReader);
