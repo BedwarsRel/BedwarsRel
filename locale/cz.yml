@@ -40,7 +40,7 @@ errors:
     teamnotfound: "Tym nenalezen!"
     timeincorrect: "Cas musi byt: cislo (0 ... 23000), 'day' nebo 'night'!"
     minplayersnumeric: "Pocet minimalnich hracu musi byt cislo!"
-    notinair: "You're not in the air!"
+    notinair: "Nejsi ve vzduchu!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -100,7 +100,7 @@ ingame:
         beddestroyed: "$player$ destroyed bed of team $team$!"
     specials:
         rescue-platform:
-            left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
+            left: "Musis pockat &c$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."
