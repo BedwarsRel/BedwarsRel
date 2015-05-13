@@ -60,6 +60,10 @@ public class BlockListener extends BaseListener {
 	
 	@EventHandler
 	public void onSpread(BlockSpreadEvent spread) {
+	    if(spread.isCancelled()) {
+	        return;
+	    }
+	    
 	    Game game = Main.getInstance().getGameManager().getGameByWorld(spread.getBlock().getWorld());
 	    if(game == null) {
 	        return;
@@ -198,9 +202,8 @@ public class BlockListener extends BaseListener {
 		Block breakedBlock = e.getBlock();
 
 		if (!g.getRegion().isPlacedBlock(breakedBlock)) {
-			e.setCancelled(true);
+	        e.setCancelled(true); 
 		} else {
-		    
 		    if (e.getBlock().getType() == Material.ENDER_CHEST) {
 	            for (Team team : g.getTeams().values()) {
 	                List<Block> teamChests = team.getChests();

@@ -8,6 +8,15 @@
 # ############ WIKI #############
 # ###############################
 
+# # TYPE HELP # #
+# int: number (not decimal)
+# string: a normal text (in most cases you can use colorcodes with a beginning §)
+# boolean: true or false (IMPORTANT: true OR false ONLY)
+# list<?>: a list of type ? (? is the type of the list items)
+# byte: a int but limited between -128 ... 127
+# short: a int but limited between -32768 ... 32767
+# char: one character
+
 chat-prefix: "&7[&bBedWars&7]&f" 
 
 # Enabled Metrics
@@ -345,8 +354,8 @@ player-settings:
 
     # Shop: One Stack on shift click
     # type: boolean
-    # Only one full stack when doing a shift click
-    # to buy items. This prevents directly full inventory
+    # Only one full stack when doing a shift click to buy items.
+    # Player can change that in shop, this is just a default
     one-stack-on-shift: false
 
 ### SHOP ###
