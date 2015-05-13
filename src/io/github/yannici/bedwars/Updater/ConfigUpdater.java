@@ -33,5 +33,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("rewards.player-win", defaultRewards);
 		Main.getInstance().getConfig().addDefault("rewards.player-end-game", defaultRewards);
 		// </1.1.4>
+		
+		// <1.1.6>
+		Main.getInstance().getConfig().addDefault("global-messages", true);
+		Main.getInstance().getConfig().addDefault("player-settings.one-stack-on-shift", false);
+		// </1.1.6>
 	}
 }

@@ -65,8 +65,37 @@ public class NewItemShop {
 		slimeMeta.setDisplayName(Main._l("ingame.shop.oldshop"));
 		slimeMeta.setLore(new ArrayList<String>());
 		slime.setItemMeta(slimeMeta);
-
-		inventory.setItem(size - 5, slime);
+		
+		Game game = Game.getGameOfPlayer(player);
+		ItemStack stack = null;
+		
+		if(game != null) {
+		    if(game.getPlayerSettings(player).oneStackPerShift()) {
+		        stack = new ItemStack(Material.BUCKET, 1);
+		        ItemMeta meta = stack.getItemMeta();
+		        
+		        meta.setDisplayName(ChatColor.AQUA + Main._l("default.currently") + ": " + ChatColor.WHITE + Main._l("ingame.shop.onestackpershift"));
+		        meta.setLore(new ArrayList<String>());
+		        stack.setItemMeta(meta);
+		    } else {
+		        stack = new ItemStack(Material.LAVA_BUCKET, 1);
+                ItemMeta meta = stack.getItemMeta();
+                
+                meta.setDisplayName(ChatColor.AQUA + Main._l("default.currently") + ": " + ChatColor.WHITE + Main._l("ingame.shop.fullstackpershift"));
+                meta.setLore(new ArrayList<String>());
+                stack.setItemMeta(meta);
+		    }
+		    
+		    if(stack != null) {
+		        inventory.setItem(size - 4, stack);
+		    }
+		}
+		
+		if(stack == null) {
+		    inventory.setItem(size - 5, slime);
+		} else {
+		    inventory.setItem(size - 6, slime);
+		}
 
 		player.openInventory(inventory);
 	}
@@ -96,6 +125,18 @@ public class NewItemShop {
 			if (ice.getCurrentItem().getType() == Material.SLIME_BALL) {
 				this.changeToOldShop(game, player);
 				return;
+			}
+			
+			if(ice.getCurrentItem().getType() == Material.BUCKET) {
+			    game.getPlayerSettings(player).setOneStackPerShift(false);
+			    player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+			    this.openCategoryInventory(player);
+			    return;
+			} else if(ice.getCurrentItem().getType() == Material.LAVA_BUCKET) {
+			    game.getPlayerSettings(player).setOneStackPerShift(true);
+			    player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+			    this.openCategoryInventory(player);
+			    return;
 			}
 
 			this.handleCategoryInventoryClick(ice, game, player);
@@ -201,6 +242,8 @@ public class NewItemShop {
 		int totalSize = sizeCategories + sizeItems;
 		ItemStack item = ice.getCurrentItem();
 		boolean cancel = false;
+		int bought = 0;
+		boolean oneStackPerShift = game.getPlayerSettings(player).oneStackPerShift();
 
 		if (this.currentCategory == null) {
 			player.closeInventory();
@@ -244,7 +287,13 @@ public class NewItemShop {
 			if (ice.isShiftClick()) {
 				while (this.hasEnoughRessource(player, trade) && !cancel) {
 					cancel = !this.buyItem(item, trade, player);
+					if(!cancel && oneStackPerShift) {
+				        bought = bought+item.getAmount();
+				        cancel = ((bought + item.getAmount()) > 64);
+					}
 				}
+				
+				bought = 0;
 			} else {
 				this.buyItem(item, trade, player);
 			}

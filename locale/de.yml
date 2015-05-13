@@ -1,5 +1,6 @@
 default:
     pages: "Seite $current$ von $max$"
+    currently: Aktuell
 errors:
     argumentslength: "Die Anzahl der Argumente entspricht nicht der Vorgabe!"
     packagenotfound: "Konnte Package $package$ nicht laden!"
@@ -87,6 +88,8 @@ ingame:
         name: "Itemshop"
         newshop: "Neuer Shop verwenden"
         oldshop: "Alten Shop verwenden"
+        fullstackpershift: Multiply stacks per shift click
+        onestackpershift: One stack per shift click
     player:
         left: "Spieler $player$ hat das Spiel verlassen!"
         died: "$player$ ist gestorben!"
@@ -107,6 +110,8 @@ lobby:
     leavegame: "Spiel verlassen"
     playerjoin: "$player$ ist dem Spiel beigetreten!"
     kickedbyvip: "Du wurdest von einem VIP-Spieler rausgeworfen, der dem vollen Spiel beigetreten ist."
+    notenoughplayers-rule0: "Es werden mehr Spieler benötigt, um das Spiel zu starten!"
+    notenoughplayers-rule1: "Jedes Team benötigt mindestens einen Spieler, um das Spiel zu starten!"
 sign:
     firstline: "&6[Bedwars]"
     players: "Spieler"

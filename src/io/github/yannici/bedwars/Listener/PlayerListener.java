@@ -567,14 +567,25 @@ public class PlayerListener extends BaseListener {
 		if (g.getState() == GameState.STOPPED) {
 			return;
 		}
+		
+		Material interactingMaterial = pie.getMaterial();
+        Block clickedBlock = pie.getClickedBlock();
 
 		if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
 				&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
+		    if(g.getState() == GameState.RUNNING) {
+		        if(clickedBlock != null) {
+		            if(clickedBlock.getType().equals(Material.FIRE)) {
+		                if(!g.getRegion().isPlacedBlock(clickedBlock))  {
+		                    pie.setCancelled(true);
+		                } else {
+		                    g.getRegion().removePlacedBlock(clickedBlock);
+		                }
+		            }
+		        }
+		    }
 			return;
 		}
-
-		Material interactingMaterial = pie.getMaterial();
-		Block clickedBlock = pie.getClickedBlock();
 
 		if (g.getState() == GameState.RUNNING) {
 			if (g.isSpectator(player)) {
@@ -650,8 +661,19 @@ public class PlayerListener extends BaseListener {
 				break;
 			case DIAMOND:
 				pie.setCancelled(true);
-				if (player.isOp() || player.hasPermission("bw.setup") || player.hasPermission("bw.vip.forcestart")) {
+				if (player.isOp() || player.hasPermission("bw.setup")) {
 					g.start(player);
+				} else if(player.hasPermission("bw.vip.forcestart")) {
+				    GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
+				    if(rule.isRuleMet(g)) {
+				        g.start(player);
+				    } else {
+				       if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME) {
+				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
+				       } else {
+				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
+				       }
+				    }
 				}
 				break;
 			case SLIME_BALL:

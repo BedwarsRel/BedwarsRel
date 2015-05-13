@@ -4,6 +4,8 @@ import io.github.yannici.bedwars.Main;
 
 import java.util.HashMap;
 
+import com.google.common.collect.ImmutableMap;
+
 public enum GameCheckCode {
 	OK(200), LOC_NOT_SET_ERROR(400), TEAM_SIZE_LOW_ERROR(401), NO_RES_SPAWNER_ERROR(
 			402), NO_LOBBY_SET(403), TEAMS_WITHOUT_SPAWNS(404), NO_ITEMSHOP_CATEGORIES(
@@ -20,7 +22,11 @@ public enum GameCheckCode {
 		return this.code;
 	}
 
+	public String getCodeMessage(ImmutableMap<String, String> map) {
+		return Main._l("gamecheck." + this.toString(), map);
+	}
+	
 	public String getCodeMessage() {
-		return Main._l("gamecheck." + this.toString());
+	    return Main._l("gamecheck." + this.toString());
 	}
 }

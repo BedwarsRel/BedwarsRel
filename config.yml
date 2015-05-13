@@ -18,6 +18,12 @@ chat-prefix: "&7[&bBedWars&7]&f"
 # disable it anyway, that won't be a disadvantage
 plugin-metrics: true
 
+# Global send messages
+# type: boolean
+# Send messages (like game started messages)
+# in global chat
+global-messages: true
+
 # Game length
 # Type: int
 # The time the game should maximum run (in minutes). When the countdown expires
@@ -334,8 +340,17 @@ sign:
     third-line: 'Players &7[&b$currentplayers$&7/&b$maxplayers$&7]'
     fourth-line: '$status$'
 
+# Configure player default settings    
+player-settings:
+
+    # Shop: One Stack on shift click
+    # type: boolean
+    # Only one full stack when doing a shift click
+    # to buy items. This prevents directly full inventory
+    one-stack-on-shift: false
+
 ### SHOP ###
-### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL
+### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL, BUCKET, LAVA_BUCKET
 ### The categories (unique key!)
 ###### Categories:
 ###### item:

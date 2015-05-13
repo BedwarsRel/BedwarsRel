@@ -83,13 +83,14 @@ public class Main extends JavaPlugin {
 		// save default config
 		this.saveDefaultConfig();
 		this.loadConfigInUTF();
-		
+
 		this.getConfig().options().copyDefaults(true);
 		this.getConfig().options().copyHeader(true);
 		
 		ConfigUpdater configUpdater = new ConfigUpdater();
 		configUpdater.addConfigs();
 		this.saveConfiguration();
+	    this.loadConfigInUTF();
 		
 		this.loadDatabase();
 		
@@ -132,7 +133,7 @@ public class Main extends JavaPlugin {
 		this.cleanDatabase();
 	}
 	
-	private void loadConfigInUTF() {
+	public void loadConfigInUTF() {
         File configFile = new File(this.getDataFolder(), "config.yml");
         if(!configFile.exists()) {
             return;

@@ -46,7 +46,7 @@ public class ReloadCommand extends BaseCommand {
 		}
 
 		Main.getInstance().saveDefaultConfig();
-		Main.getInstance().reloadConfig();
+		Main.getInstance().loadConfigInUTF();
 		Main.getInstance().reloadLocalization();
 		Main.getInstance().getGameManager().reloadGames();
 		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN

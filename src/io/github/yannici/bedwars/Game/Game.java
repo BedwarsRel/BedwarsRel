@@ -70,6 +70,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private Map<Player, PlayerSettings> playerSettings = null;
+	
 	private List<SpecialItem> currentSpecials = null;
 	
 	private int time = 1000;
@@ -114,6 +116,8 @@ public class Game {
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 		this.playerDamages = new HashMap<Player, Player>();
 		this.currentSpecials = new ArrayList<SpecialItem>();
+		
+		this.playerSettings = new HashMap<Player, PlayerSettings>();
 		
 		if (Main.getInstance().isBungee()) {
 			this.cycle = new BungeeGameCycle(this);
@@ -266,12 +270,15 @@ public class Game {
 		this.state = GameState.RUNNING;
 
 		this.updateSigns();
-		this.getPlugin()
-				.getServer()
-				.broadcastMessage(
-						ChatWriter.pluginMessage(ChatColor.GREEN
-								+ Main._l("ingame.gamestarted",
-										ImmutableMap.of("game", this.getRegion().getName()))));
+		
+		if(Main.getInstance().getBooleanConfig("global-messages", true)) {
+		    this.getPlugin()
+            .getServer()
+            .broadcastMessage(
+                    ChatWriter.pluginMessage(ChatColor.GREEN
+                            + Main._l("ingame.gamestarted",
+                                    ImmutableMap.of("game", this.getRegion().getName()))));
+		}
 		return true;
 	}
 
@@ -497,6 +504,9 @@ public class Game {
 		// add damager and set it to null
 		this.playerDamages.put(p, null);
 		
+		// add player settings
+		this.addPlayerSettings(p);
+		
 		if (this.state == GameState.RUNNING) {
 	        this.toSpectator(p);
             p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
@@ -593,7 +603,8 @@ public class Game {
 
 		PlayerStorage storage = this.storages.get(p);
 		storage.restore();
-
+		this.playerSettings.remove(p);
+		
 		p.setScoreboard(Main.getInstance().getScoreboardManager()
 				.getNewScoreboard());
 
@@ -1139,7 +1150,19 @@ public class Game {
 	public Team getTeam(String name) {
 		return this.teams.get(name);
 	}
-
+	
+	public void removePlayerSettings(Player player) {
+	    this.playerSettings.remove(player);
+	}
+	
+	public void addPlayerSettings(Player player) {
+	    this.playerSettings.put(player, new PlayerSettings(player));
+	}
+	
+	public PlayerSettings getPlayerSettings(Player player) {
+	    return this.playerSettings.get(player);
+	}
+ 
 	public PlayerStorage getPlayerStorage(Player p) {
 		return this.storages.get(p);
 	}
