@@ -1,6 +1,7 @@
 # ###############################
 # ####### CZECH LOCALE ########
 # ## TRANSLATED BY GRANIK24 ##
+# ## http://hryozivot.cz/ ##
 # ###############################
 default:
     pages: "Stranka $current$ z $max$"
