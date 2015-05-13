@@ -1,10 +1,11 @@
 # ###############################
 # ####### CZECH LOCALE ########
 # ## TRANSLATED BY GRANIK24 ##
+# ## http://hryozivot.cz/ ##
 # ###############################
 default:
     pages: "Stranka $current$ z $max$"
-    currently: Currently
+    currently: Aktualni
 errors:
     argumentslength: "Pocet argumentu prikazu neodpovida spravnemu mnozstvi!"
     packagenotfound: "Nelze nacist $package$ package!"
@@ -92,8 +93,8 @@ ingame:
         name: "Obchod"
         newshop: "Pouzij novy obchod"
         oldshop: "Pouzij stary obchod"
-        fullstackpershift: Multiply stacks per shift click
-        onestackpershift: One stack per shift click
+        fullstackpershift: Vice stacku za shift click
+        onestackpershift: Jeden stack za shift click
     player:
         left: "Hrac $player$ odesel ze hry."
         died: "$player$ zemrel!"
@@ -114,8 +115,8 @@ lobby:
     leavegame: "Opustit hru"
     playerjoin: "Hrac $player$ se pripojil do hry!"
     kickedbyvip: "Byl jsi vyhozen ze hry, protoze se pripojil VIP hrac."
-    notenoughplayers-rule0: "More players are needed to start the game!"
-    notenoughplayers-rule1: "Every team needs one ore more players to start the game!"
+    notenoughplayers-rule0: "Pro start hry je potreba vice hracu!"
+    notenoughplayers-rule1: "Kazdy tym musi mit nejmene jednoho hrace!"
 sign:
     firstline: "&6[Bedwars]"
     players: "Hraci"
