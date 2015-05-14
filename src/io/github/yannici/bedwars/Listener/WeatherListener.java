@@ -15,6 +15,10 @@ public class WeatherListener extends BaseListener {
 
 	@EventHandler
 	public void onWeatherEvent(WeatherChangeEvent we) {
+	    if(we.isCancelled()) {
+	        return;
+	    }
+	    
 	    Game game = Main.getInstance().getGameManager().getGameByWorld(we.getWorld());
 	    
 	    if(game == null) {

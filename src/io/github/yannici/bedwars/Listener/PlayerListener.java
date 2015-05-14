@@ -21,6 +21,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -573,17 +574,38 @@ public class PlayerListener extends BaseListener {
 
 		if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
 				&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
-		    if(g.getState() == GameState.RUNNING) {
-		        if(clickedBlock != null) {
-		            if(clickedBlock.getType().equals(Material.FIRE)) {
-		                if(!g.getRegion().isPlacedBlock(clickedBlock))  {
-		                    pie.setCancelled(true);
-		                } else {
-		                    g.getRegion().removePlacedBlock(clickedBlock);
-		                }
-		            }
-		        }
+		    if(pie.getAction() != Action.LEFT_CLICK_BLOCK) {
+		        return;
 		    }
+		    
+	        if(g.getState() != GameState.RUNNING) {
+	            return;
+	        }
+	        
+            if(clickedBlock == null) {
+                return;
+            }
+            
+            for(BlockFace face : BlockFace.values()) {
+                if(!face.equals(BlockFace.UP)
+                        && !face.equals(BlockFace.DOWN)
+                        && !face.equals(BlockFace.EAST)
+                        && !face.equals(BlockFace.WEST)
+                        && !face.equals(BlockFace.NORTH)
+                        && !face.equals(BlockFace.SOUTH)) {
+                    continue;
+                }
+                
+                Block relative = clickedBlock.getRelative(face);
+                if(relative.getType().equals(Material.FIRE)) {
+                    g.getRegion().addBreakedBlock(relative);
+                    if(!g.getRegion().isPlacedBlock(clickedBlock))  {
+                        pie.setCancelled(true);
+                    } else {
+                        g.getRegion().removePlacedBlock(clickedBlock);
+                    }
+                }
+            }
 			return;
 		}
 
