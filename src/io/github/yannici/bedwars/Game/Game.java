@@ -522,7 +522,8 @@ public class Game {
 
 			GameLobbyCountdownRule rule = Main.getInstance()
 					.getLobbyCountdownRule();
-			if (rule == GameLobbyCountdownRule.PLAYERS_IN_GAME) {
+			if (rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
+			        || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
 				if (rule.isRuleMet(this)) {
 					if (this.glc == null) {
 						this.glc = new GameLobbyCountdown(this);

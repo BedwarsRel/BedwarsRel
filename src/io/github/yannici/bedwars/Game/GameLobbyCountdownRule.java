@@ -29,14 +29,18 @@ public enum GameLobbyCountdownRule {
 			break;
 		case ENOUGH_TEAMS_AND_PLAYERS:
 			int teamsWithPlayers = 0;
+			int teamsWithoutPlayers = 0;
 			for (Team team : game.getTeams().values()) {
 				if (team.getPlayers().size() > 0) {
 					teamsWithPlayers++;
+				} else {
+				    teamsWithoutPlayers++;
 				}
 			}
 			
 			if (game.getMinPlayers() > game.getPlayers().size()
-					|| teamsWithPlayers < 2) {
+					|| (teamsWithPlayers == 1 
+					    && teamsWithoutPlayers > game.getFreePlayers().size())) {
 				return false;
 			}
 		}
