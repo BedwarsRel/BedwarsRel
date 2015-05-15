@@ -41,16 +41,12 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		Game game = Main.getInstance().getGameManager().getGameByWorld(block.getWorld());
+		Game game = Main.getInstance().getGameManager().getGameByLocation(block.getLocation());
 		if(game == null) {
 			return;
 		}
 		
 		if(game.getState() == GameState.STOPPED) {
-			return;
-		}
-		
-		if(!game.getRegion().isInRegion(block.getLocation())) {
 			return;
 		}
 		
@@ -64,7 +60,7 @@ public class BlockListener extends BaseListener {
 	        return;
 	    }
 	    
-	    Game game = Main.getInstance().getGameManager().getGameByWorld(spread.getBlock().getWorld());
+	    Game game = Main.getInstance().getGameManager().getGameByLocation(spread.getBlock().getLocation());
 	    if(game == null) {
 	        return;
 	    }
@@ -89,7 +85,7 @@ public class BlockListener extends BaseListener {
 				return;
 			}
 			
-			Game game = Main.getInstance().getGameManager().getGameByWorld(block.getWorld());
+			Game game = Main.getInstance().getGameManager().getGameByLocation(block.getLocation());
 			if(game == null) {
 				return;
 			}

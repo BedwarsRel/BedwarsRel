@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Listener;
 
+import java.util.List;
+
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
@@ -12,17 +14,20 @@ public class ChunkListener implements Listener {
 
     @EventHandler
     public void onUnload(ChunkUnloadEvent unload) {
-        Game game = Main.getInstance().getGameManager().getGameByWorld(unload.getWorld());
-        if(game == null) {
+        List<Game> games = Main.getInstance().getGameManager().getGamesByWorld(unload.getWorld());
+        if(games.size() == 0) {
             return;
         }
         
-        if(game.getState() == GameState.STOPPED) {
-            return;
-        }
-        
-        if(game.getRegion().chunkIsInRegion(unload.getChunk())) {
-            unload.setCancelled(true);
+        for(Game game : games) {
+        	if(game.getState() == GameState.STOPPED) {
+                continue;
+            }
+            
+            if(game.getRegion().chunkIsInRegion(unload.getChunk())) {
+                unload.setCancelled(true);
+                return;
+            }
         }
     }
 

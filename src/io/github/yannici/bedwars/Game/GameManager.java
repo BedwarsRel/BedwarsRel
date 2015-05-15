@@ -269,7 +269,7 @@ public class GameManager {
 		this.games.clear();
 	}
 
-	public Game getGameByWorld(World world) {
+	public Game getGameByLocation(Location loc) {
 		for (Game game : this.games) {
 			if(game.getRegion() == null) {
 				continue;
@@ -279,7 +279,7 @@ public class GameManager {
 				continue;
 			}
 			
-			if (game.getRegion().getWorld().equals(world)) {
+			if (game.getRegion().isInRegion(loc)) {
 				return game;
 			}
 		}
@@ -295,6 +295,26 @@ public class GameManager {
 		}
 
 		return null;
+	}
+
+	public List<Game> getGamesByWorld(World world) {
+		List<Game> games = new ArrayList<Game>();
+		
+		for (Game game : this.games) {
+			if(game.getRegion() == null) {
+				continue;
+			}
+			
+			if(game.getRegion().getWorld() == null) {
+				continue;
+			}
+			
+			if (game.getRegion().getWorld().equals(world)) {
+				games.add(game);
+			}
+		}
+
+		return games;
 	}
 
 }

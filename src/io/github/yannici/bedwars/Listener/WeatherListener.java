@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Listener;
 
+import java.util.List;
+
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
@@ -19,17 +21,20 @@ public class WeatherListener extends BaseListener {
 	        return;
 	    }
 	    
-	    Game game = Main.getInstance().getGameManager().getGameByWorld(we.getWorld());
+	    List<Game> games = Main.getInstance().getGameManager().getGamesByWorld(we.getWorld());
 	    
-	    if(game == null) {
+	    if(games.size() == 0) {
 	        return;
 	    }
 	    
-	    if(game.getState() == GameState.STOPPED) {
-	        return;
+	    for(Game game : games) {
+	    	if(game.getState() == GameState.STOPPED) {
+		        continue;
+		    }
+	    	
+	    	we.setCancelled(true);
+	    	return;
 	    }
-	    
-		we.setCancelled(true);
 	}
 
 }

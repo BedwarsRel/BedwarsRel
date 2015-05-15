@@ -48,7 +48,7 @@ public class EntityListener extends BaseListener {
 	        return;
 	    }
 	    
-	    Game game = Main.getInstance().getGameManager().getGameByWorld(ese.getLocation().getWorld());
+	    Game game = Main.getInstance().getGameManager().getGameByLocation(ese.getLocation());
 	    if(game == null) {
 	        return;
 	    }
@@ -96,7 +96,7 @@ public class EntityListener extends BaseListener {
 		}
 
 		Game game = Main.getInstance().getGameManager()
-				.getGameByWorld(ede.getEntity().getWorld());
+				.getGameByLocation(ede.getEntity().getLocation());
 		if (game == null) {
 			return;
 		}
@@ -115,7 +115,7 @@ public class EntityListener extends BaseListener {
 		}
 
 		Game game = Main.getInstance().getGameManager()
-				.getGameByWorld(ede.getEntity().getWorld());
+				.getGameByLocation(ede.getEntity().getLocation());
 		if (game == null) {
 			return;
 		}
@@ -141,7 +141,7 @@ public class EntityListener extends BaseListener {
             return;
         }
         
-        Game game = Main.getInstance().getGameManager().getGameByWorld(eev.getEntity().getWorld());
+        Game game = Main.getInstance().getGameManager().getGameByLocation(eev.getEntity().getLocation());
         
         if(game == null) {
             return;
@@ -161,6 +161,7 @@ public class EntityListener extends BaseListener {
         while(explodeBlocks.hasNext()) {
             Block exploding = explodeBlocks.next();
             if(!game.getRegion().isInRegion(exploding.getLocation())) {
+            	explodeBlocks.remove();
             	continue;
             }
             
