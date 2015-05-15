@@ -77,6 +77,10 @@ public class SingleGameCycle extends GameCycle {
 		    player.teleport(this.getGame().getLobby());
 		}
 		
+		if(Main.getInstance().statisticsEnabled()) {
+			Main.getInstance().getServer().dispatchCommand(player, "bw stats");
+		}
+		
 		this.getGame().setPlayerDamager(player, null);
 		
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);

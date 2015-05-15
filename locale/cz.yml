@@ -108,6 +108,10 @@ ingame:
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."
+    cancelcountdown:
+        TEAMS_HAVE_PLAYERS: "Minimum one team got no players. Countdown cancelled!"
+        PLAYERS_IN_GAME: "Je potreba vice hracu! Odpocet byl zastaven."
+        ENOUGH_TEAMS_AND_PLAYERS: "Only one team have players or more players are needed. Countdown cancelled!"
     chooseteam: "Vyber si team"
     startgame: "Spustit hru"
     gamefull: "Hra je plna!"

@@ -103,6 +103,10 @@ ingame:
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"
+    cancelcountdown:
+        TEAMS_HAVE_PLAYERS: "Mindestens ein Team hat keine Spieler. Countdown abgebrochen!"
+        PLAYERS_IN_GAME: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"
+        ENOUGH_TEAMS_AND_PLAYERS: "Nur ein Team hat Spieler und/oder mehr Spieler benötigt. Countdown abgebrochen!"
     chooseteam: "Wähle ein Team"
     startgame: "Spiel starten"
     gamefull: "Das Spiel ist voll!"

@@ -1,7 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
 public enum GameLobbyCountdownRule {
-	TEAMS_HAVE_PLAYERS(0), PLAYERS_IN_GAME(1);
+	TEAMS_HAVE_PLAYERS(0), PLAYERS_IN_GAME(1), ENOUGH_TEAMS_AND_PLAYERS(2);
 
 	private int type = 0;
 
@@ -27,6 +27,18 @@ public enum GameLobbyCountdownRule {
 				return false;
 			}
 			break;
+		case ENOUGH_TEAMS_AND_PLAYERS:
+			int teamsWithPlayers = 0;
+			for (Team team : game.getTeams().values()) {
+				if (team.getPlayers().size() > 0) {
+					teamsWithPlayers++;
+				}
+			}
+			
+			if (game.getMinPlayers() > game.getPlayers().size()
+					|| teamsWithPlayers < 2) {
+				return false;
+			}
 		}
 
 		return true;

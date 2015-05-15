@@ -64,7 +64,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 
 		if (!this.rule.isRuleMet(this.game)) {
 			this.game.broadcast(
-					ChatColor.RED + Main._l("lobby.countdowncancel"), players);
+					ChatColor.RED + Main._l("lobby.cancelcountdown." + this.rule.name()), players);
 			this.counter = this.lobbytime;
 			for (Player p : players) {
 				p.setLevel(this.lobbytime);

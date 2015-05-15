@@ -598,6 +598,8 @@ public class Game {
 			statistic.setScore(statistic.getCurrentScore());
 			statistic.setCurrentScore(0);
 			statistic.store();
+			
+			Main.getInstance().getServer().dispatchCommand(p, "bw stats");
 			Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
 		}
 

@@ -6,6 +6,7 @@ import io.github.yannici.bedwars.Database.DBField;
 import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
 import io.github.yannici.bedwars.Database.DatabaseManager;
+import io.github.yannici.bedwars.Game.Game;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -19,6 +20,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 public class PlayerStatisticManager {
     
@@ -242,6 +244,7 @@ public class PlayerStatisticManager {
         }
         
         ResultSet playerStatistic = null;
+        Game game = null;
         
         try {
         	playerStatistic = Main.getInstance().getDatabaseManager().query("SELECT * FROM"
@@ -285,6 +288,16 @@ public class PlayerStatisticManager {
         	}
         }
         
+        if(statistic.getPlayer().isOnline()) {
+        	Player p = statistic.getPlayer().getPlayer();
+        	game = Game.getGameOfPlayer(p);
+        }
+        
+        if(game == null) {
+        	statistic.setOnce(true);
+        	return;
+        }
+        
         this.playerStatistic.put(statistic.getPlayer(), statistic);
     }
     
@@ -296,6 +309,9 @@ public class PlayerStatisticManager {
     	if(!this.playerStatistic.containsKey(player)) {
     		PlayerStatistic statistic = new PlayerStatistic(player);
     		statistic.load();
+    		if(statistic.isOnce()) {
+    			return statistic;
+    		}
     	}
     	
         return this.playerStatistic.get(player);

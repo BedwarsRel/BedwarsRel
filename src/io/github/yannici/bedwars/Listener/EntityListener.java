@@ -180,7 +180,8 @@ public class EntityListener extends BaseListener {
             				explodeBlocks.remove();
             			} else {
             			    // only destroyable by tnt
-            			    if(!eev.getEntityType().equals(EntityType.PRIMED_TNT)) {
+            			    if(!eev.getEntityType().equals(EntityType.PRIMED_TNT)
+            			    		&& !eev.getEntityType().equals(EntityType.MINECART_TNT)) {
             			        explodeBlocks.remove();
             			        continue;
             			    }

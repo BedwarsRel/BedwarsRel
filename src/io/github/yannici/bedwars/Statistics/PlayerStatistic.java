@@ -24,6 +24,8 @@ public class PlayerStatistic extends Statistic {
 	private int score = 0;
 	private int currentScore = 0;
 	
+	private boolean once = false;
+	
 	public PlayerStatistic() {
 		super();
 	}
@@ -155,6 +157,14 @@ public class PlayerStatistic extends Statistic {
     @Override
     public void load() {
         Main.getInstance().getPlayerStatisticManager().loadStatistic(this);
+    }
+    
+    public void setOnce(boolean once) {
+    	this.once = once;
+    }
+    
+    public boolean isOnce() {
+    	return this.once;
     }
 
     @Override
