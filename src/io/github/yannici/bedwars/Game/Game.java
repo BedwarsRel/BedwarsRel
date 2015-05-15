@@ -91,12 +91,9 @@ public class Game {
 	private Location loc1 = null;
 	private Location loc2 = null;
 
-	private Main plugin = null;
-
-	public Game(Main plugin, String name) {
+	public Game(String name) {
 		super();
 
-		this.plugin = plugin;
 		this.name = name;
 		this.runningTasks = new ArrayList<BukkitTask>();
 
@@ -272,7 +269,7 @@ public class Game {
 		this.updateSigns();
 		
 		if(Main.getInstance().getBooleanConfig("global-messages", true)) {
-		    this.getPlugin()
+		    Main.getInstance()
             .getServer()
             .broadcastMessage(
                     ChatWriter.pluginMessage(ChatColor.GREEN
@@ -348,7 +345,7 @@ public class Game {
 			return false;
 		}
 
-		File gameConfig = new File(this.getPlugin().getDataFolder() + "/"
+		File gameConfig = new File(Main.getInstance().getDataFolder() + "/"
 				+ GameManager.gamesPath + "/" + this.name + "/game.yml");
 		gameConfig.mkdirs();
 
@@ -841,7 +838,7 @@ public class Game {
 
 	private void updateSignConfig() {
 		try {
-			File config = new File(this.getPlugin().getDataFolder() + "/"
+			File config = new File(Main.getInstance().getDataFolder() + "/"
 					+ GameManager.gamesPath + "/" + this.name + "/sign.yml");
 
 			YamlConfiguration cfg = new YamlConfiguration();
@@ -1092,10 +1089,6 @@ public class Game {
 		this.updateSigns();
 	}
 
-	public Main getPlugin() {
-		return this.plugin;
-	}
-
 	public String getName() {
 		return this.name;
 	}
@@ -1293,12 +1286,11 @@ public class Game {
 	private void startRessourceSpawners() {
 		for (RessourceSpawner rs : this.getRessourceSpawner()) {
 			rs.setGame(this);
-			this.runningTasks.add(this
-					.getPlugin()
+			this.runningTasks.add(Main.getInstance()
 					.getServer()
 					.getScheduler()
-					.runTaskTimer(this.getPlugin(), rs,
-							((long) (1000 / 1000) * 20),
+					.runTaskTimer(Main.getInstance(), rs,
+							20L,
 							((long) (rs.getInterval() / 1000) * 20)));
 		}
 	}
@@ -1307,6 +1299,7 @@ public class Game {
 		for (Team team : this.teams.values()) {
 			for (Player player : team.getPlayers()) {
 				player.teleport(team.getSpawnLocation());
+				this.getPlayerStorage(player).clean();
 			}
 		}
 	}
@@ -1368,21 +1361,21 @@ public class Game {
 
 	private String getFormattedTimeLeft() {
 		int min = 0;
-		int sec = this.timeLeft;
+		int sec = 0;
 		String minStr = "";
 		String secStr = "";
-
-		min = (this.timeLeft >= 60 ? this.timeLeft % 60 : this.timeLeft);
-		sec = (sec = (sec / 60)) >= 60 ? sec % 60 : sec;
+		
+		min = (int) Math.floor(this.timeLeft / 60);
+		sec = this.timeLeft % 60;
 
 		minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
 		secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
 
-		return secStr + ":" + minStr;
+		return minStr + ":" + secStr;
 	}
 
 	private void startTimerCountdown() {
-		Game.this.timeLeft = Main.getInstance().getMaxLength();
+		this.timeLeft = Main.getInstance().getMaxLength();
 		BukkitRunnable task = new BukkitRunnable() {
 
 			@Override

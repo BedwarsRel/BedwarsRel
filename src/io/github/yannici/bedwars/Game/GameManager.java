@@ -25,10 +25,8 @@ public class GameManager {
 	public static String gamesPath = "games";
 
 	private ArrayList<Game> games = null;
-	private Main plugin = null;
 
-	public GameManager(Main plugin) {
-		this.plugin = plugin;
+	public GameManager() {
 		this.games = new ArrayList<Game>();
 	}
 
@@ -38,7 +36,7 @@ public class GameManager {
 			return null;
 		}
 
-		Game newGame = new Game(this.plugin, name);
+		Game newGame = new Game(name);
 		this.games.add(newGame);
 		return newGame;
 	}
@@ -147,7 +145,7 @@ public class GameManager {
 				return;
 			}
 
-			Game game = new Game(Main.getInstance(), name);
+			Game game = new Game(name);
 			game.setConfig(cfg);
 
 			Map<String, Object> teams = new HashMap<String, Object>();

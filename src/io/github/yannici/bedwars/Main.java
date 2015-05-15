@@ -101,7 +101,7 @@ public class Main extends JavaPlugin {
 		this.registerCommands();
 		this.registerListener();
 		
-		this.gameManager = new GameManager(this);
+		this.gameManager = new GameManager();
 		
 		// bungeecord
         if(Main.getInstance().isBungee()) {
@@ -278,22 +278,26 @@ public class Main extends JavaPlugin {
 		String[] activeVersionSplit = this.getDescription().getVersion().split("\\.");
 		String[] currentVersionSplit = currentVersion.split("\\.");
 		
-		int activeMasterVersion = Integer.valueOf(activeVersionSplit[0]);
-		int currentMasterVersion = Integer.valueOf(currentVersionSplit[0]);
-		if(currentMasterVersion > activeMasterVersion) {
-			return true;
-		}
-		
-		int activeMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
-		int currentMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
-		if(currentMilestoneVersion > activeMilestoneVersion) {
-			return true;
-		}
-		
-		int activeBuildVersion = Integer.valueOf(activeVersionSplit[2]);
-		int currentBuildVersion = Integer.valueOf(currentVersionSplit[2]);
-		if(currentBuildVersion > activeBuildVersion) {
-			return true;
+		try {
+			int activeMasterVersion = Integer.valueOf(activeVersionSplit[0]);
+			int currentMasterVersion = Integer.valueOf(currentVersionSplit[0]);
+			if(currentMasterVersion > activeMasterVersion) {
+				return true;
+			}
+			
+			int activeMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
+			int currentMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
+			if(currentMilestoneVersion > activeMilestoneVersion) {
+				return true;
+			}
+			
+			int activeBuildVersion = Integer.valueOf(activeVersionSplit[2]);
+			int currentBuildVersion = Integer.valueOf(currentVersionSplit[2]);
+			if(currentBuildVersion > activeBuildVersion) {
+				return true;
+			}
+		} catch(Exception ex) {
+			// just error handling
 		}
 		
 		return false;
@@ -812,12 +816,12 @@ public class Main extends JavaPlugin {
 	public int getMaxLength() {
 		if (this.getConfig().contains("gamelength")) {
 			if (this.getConfig().isInt("gamelength")) {
-				return this.getConfig().getInt("gamelength") * 60 * 60;
+				return this.getConfig().getInt("gamelength") * 60;
 			}
 		}
 
 		// fallback time is 60 minutes
-		return 60 * 60 * 60;
+		return 60 * 60;
 	}
 
 	public Integer getRespawnProtectionTime() {
