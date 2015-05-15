@@ -10,6 +10,7 @@
 
 	<path id="bedwars.classpath">
 		<pathelement location="lib/c3p0-0.9.5.jar" />
+		<pathelement location="lib/mchange-commons-java-0.2.9.jar" />
 		<pathelement location="lib/spigot-1.8-R0.1-SNAPSHOT-latest.jar" />
 		<pathelement location="lib/spigot-1.8.3-R0.1-SNAPSHOT-latest .jar" />
 		<pathelement location="lib/spigot-1.7.10-R0.1-SNAPSHOTBuild1646.jar" />
@@ -43,6 +44,8 @@
 			    <include name="config.yml" />
 				<include name="plugin.yml" />
 				<include name="**/locale/**" />
+				<include name="**/lib/mchange-commons-java-0.2.9.jar" />
+				<include name="**/lib/c3p0-0.9.5.jar" />
 			</fileset>
 		</jar>
 	</target>
