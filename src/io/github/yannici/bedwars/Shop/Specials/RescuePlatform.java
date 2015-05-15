@@ -70,7 +70,7 @@ public class RescuePlatform extends SpecialItem {
         	
         	RescuePlatform platformItem = (RescuePlatform)item;
         	
-        	int waitleft = Main.getInstance().getConfig().getInt("specials.rescue-platform.useing-wait-time", 20) - platformItem.getLivingTime();
+        	int waitleft = Main.getInstance().getConfig().getInt("specials.rescue-platform.using-wait-time", 20) - platformItem.getLivingTime();
         	player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left", ImmutableMap.of("time", String.valueOf(waitleft)))));
         	return false;
         }
@@ -117,7 +117,7 @@ public class RescuePlatform extends SpecialItem {
     
     public void runTask() {
     	if(Main.getInstance().getConfig().getInt("specials.rescue-platform.break-time", 10) == 0
-    			&& Main.getInstance().getConfig().getInt("specials.rescue-platform.useing-wait-time", 20) == 0) {
+    			&& Main.getInstance().getConfig().getInt("specials.rescue-platform.using-wait-time", 20) == 0) {
     		// not break and no wait time ;)
     		return;
     	}
@@ -135,7 +135,7 @@ public class RescuePlatform extends SpecialItem {
 					}
 				}
 				
-				int wait = Main.getInstance().getConfig().getInt("specials.rescue-platform.useing-wait-time", 20);
+				int wait = Main.getInstance().getConfig().getInt("specials.rescue-platform.using-wait-time", 20);
 				if(RescuePlatform.this.livingTime >= wait
 						&& wait > 0) {
 					RescuePlatform.this.game.removeRunningTask(this);
