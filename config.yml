@@ -191,6 +191,12 @@ database:
 # Defines if spectators are allowed
 spectation-enabled: false
 
+# Seperate spectator chat
+# type: boolean
+# If set to true, spectators and game-players are seperated
+# and players don't see spectators chat
+seperate-spectator-chat: false
+
 # Respawn protection
 # Type: int
 # The time which players are protected after respawn in seconds

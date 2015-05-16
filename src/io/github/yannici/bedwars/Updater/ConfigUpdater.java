@@ -41,6 +41,7 @@ public class ConfigUpdater {
 		
 		// <1.1.8>
 		Main.getInstance().getConfig().addDefault("seperate-game-chat", true);
+		Main.getInstance().getConfig().addDefault("seperate-spectator-chat", false);
 		// </1.1.8>
 	}
 }

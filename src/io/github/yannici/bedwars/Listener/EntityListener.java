@@ -1,6 +1,8 @@
 package io.github.yannici.bedwars.Listener;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
@@ -110,10 +112,18 @@ public class EntityListener extends BaseListener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent ede) {
-		if (ede.getEntityType() != EntityType.VILLAGER) {
+	    List<EntityType> notAllowedTypes = Arrays.asList(
+	            EntityType.ARROW,
+	            EntityType.FISHING_HOOK,
+	            EntityType.BLAZE,
+	            EntityType.PLAYER, // important lol
+	            EntityType.VILLAGER // important lol
+        );
+	    
+		if (notAllowedTypes.contains(ede.getEntityType())) {
 			return;
 		}
-
+		
 		Game game = Main.getInstance().getGameManager()
 				.getGameByLocation(ede.getEntity().getLocation());
 		if (game == null) {
