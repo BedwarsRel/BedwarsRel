@@ -38,5 +38,9 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("global-messages", true);
 		Main.getInstance().getConfig().addDefault("player-settings.one-stack-on-shift", false);
 		// </1.1.6>
+		
+		// <1.1.8>
+		Main.getInstance().getConfig().addDefault("seperate-game-chat", true);
+		// </1.1.8>
 	}
 }

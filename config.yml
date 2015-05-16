@@ -90,6 +90,12 @@ gameoverdelay: 10
 # to all ingame players (not only team)
 chat-to-all-prefix: "@"
 
+# Seperate game chat
+# type: boolean
+# Configure to false if players in games can read all messages of server
+# Configure to true if players receive only game messages
+seperate-game-chat: true
+
 # Statistic-Configuration
 statistics:
     # Statistics enable

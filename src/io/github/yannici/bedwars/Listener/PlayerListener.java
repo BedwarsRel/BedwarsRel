@@ -334,6 +334,19 @@ public class PlayerListener extends BaseListener {
 		Game game = Game.getGameOfPlayer(player);
 
 		if (game == null) {
+		    boolean seperateGameChat = Main.getInstance().getBooleanConfig("seperate-game-chat", true);
+		    if(!seperateGameChat) {
+		        return;
+		    }
+		    
+		    Iterator<Player> recipiens = ce.getRecipients().iterator();
+		    while(recipiens.hasNext()) {
+		        Player recipient = recipiens.next();
+		        Game recipientGame = Game.getGameOfPlayer(recipient);
+		        if(recipientGame != null) {
+		            recipiens.remove();
+		        }
+		    }
 			return;
 		}
 
