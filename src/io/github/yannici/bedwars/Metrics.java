@@ -333,11 +333,11 @@ public class Metrics {
      */
     private int getOnlinePlayers() {
         try {
-            Method onlinePlayerMethod = Server.class.getMethod("getOnlinePlayers", new Class<?>[0]);
+            Method onlinePlayerMethod = Server.class.getMethod("getOnlinePlayers");
             if(onlinePlayerMethod.getReturnType().equals(Collection.class)) {
-                return ((Collection<?>)onlinePlayerMethod.invoke(Bukkit.getServer(), new Object[0])).size();
+                return ((Collection<?>)onlinePlayerMethod.invoke(Bukkit.getServer())).size();
             } else {
-                return ((Player[])onlinePlayerMethod.invoke(Bukkit.getServer(), new Object[0])).length;
+                return ((Player[])onlinePlayerMethod.invoke(Bukkit.getServer())).length;
             }
         } catch (Exception ex) {
             if (debug) {

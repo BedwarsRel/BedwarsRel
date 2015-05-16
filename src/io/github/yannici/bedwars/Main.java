@@ -185,14 +185,14 @@ public class Main extends JavaPlugin {
 			Representer yamlRepresenter = (Representer) representer.get(config);
 			yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 			
-			Method buildHeader = config.getClass().getDeclaredMethod("buildHeader", new Class<?>[0]);
+			Method buildHeader = config.getClass().getDeclaredMethod("buildHeader");
 			buildHeader.setAccessible(true);
 			
 			Field yamlField = config.getClass().getDeclaredField("yaml");
 			yamlField.setAccessible(true);
 			
 			Yaml yaml = (Yaml) yamlField.get(config);
-			String header = (String)buildHeader.invoke(config, new Object[0]);
+			String header = (String)buildHeader.invoke(config);
 			String dump = yaml.dump(config);*/
 			
 			//fullstring = fullstring.replace("\\xc3", "");
@@ -838,7 +838,7 @@ public class Main extends JavaPlugin {
 	public boolean isLocationSerializable() {
 		if(Main.locationSerializable == null) {
 			try {
-				Location.class.getMethod("serialize", new Class<?>[0]);
+				Location.class.getMethod("serialize");
 				Main.locationSerializable = true;
 			} catch(Exception ex) {
 				Main.locationSerializable = false;

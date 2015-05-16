@@ -40,10 +40,9 @@ public class MerchantRecipe {
 
 	public Object getItem1() {
 		try {
-			Method m = this.merchantRecipe.getDeclaredMethod("getBuyItem1",
-					new Class[0]);
+			Method m = this.merchantRecipe.getDeclaredMethod("getBuyItem1");
 			m.setAccessible(true);
-			return m.invoke(this.merchantRecipe, new Object[0]);
+			return m.invoke(this.merchantRecipe);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,10 +51,9 @@ public class MerchantRecipe {
 
 	public Object getItem2() {
 		try {
-			Method m = this.merchantRecipe.getDeclaredMethod("getBuyItem2",
-					new Class[0]);
+			Method m = this.merchantRecipe.getDeclaredMethod("getBuyItem2");
 			m.setAccessible(true);
-			return m.invoke(this.merchantRecipe, new Object[0]);
+			return m.invoke(this.merchantRecipe);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,10 +62,9 @@ public class MerchantRecipe {
 
 	public Object getRewardItem() {
 		try {
-			Method m = this.merchantRecipe.getDeclaredMethod("getBuyItem3",
-					new Class[0]);
+			Method m = this.merchantRecipe.getDeclaredMethod("getBuyItem3");
 			m.setAccessible(true);
-			return m.invoke(this.merchantRecipe, new Object[0]);
+			return m.invoke(this.merchantRecipe);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
