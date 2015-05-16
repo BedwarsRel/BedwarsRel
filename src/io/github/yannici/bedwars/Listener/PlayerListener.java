@@ -361,6 +361,8 @@ public class PlayerListener extends BaseListener {
 		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
 
 		if (message.trim().startsWith(toAllPrefix) || isSpectator) {
+		    boolean seperateSpectatorChat = Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
+		    
 			message = message.trim();
 			if(!isSpectator) {
 			    ce.setMessage(message.substring(1, message.length()));
@@ -379,11 +381,23 @@ public class PlayerListener extends BaseListener {
 						+ ChatColor.RESET + ": %2$s");
 			}
 
-			if (!Main.getInstance().isBungee()) {
+			if (!Main.getInstance().isBungee() || seperateSpectatorChat) {
 				Iterator<Player> recipiens = ce.getRecipients().iterator();
 				while (recipiens.hasNext()) {
-					if (!game.isInGame(recipiens.next())) {
+				    Player recipient = recipiens.next();
+					if (!game.isInGame(recipient)) {
 						recipiens.remove();
+						continue;
+					}
+					
+					if(!seperateSpectatorChat) {
+					    continue;
+					}
+					
+					if(isSpectator && !game.isSpectator(recipient)) {
+					    recipiens.remove();
+					} else if(!isSpectator && game.isSpectator(recipient)) {
+					    recipiens.remove();
 					}
 				}
 			}
@@ -513,7 +527,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		//tfe.setCancelled(true);
+		tfe.setCancelled(true);
 	}
 
 	/*

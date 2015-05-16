@@ -96,6 +96,12 @@ chat-to-all-prefix: "@"
 # Configure to true if players receive only game messages
 seperate-game-chat: true
 
+# Seperate spectator chat
+# type: boolean
+# If set to true, spectators and game-players are seperated
+# and players don't see spectators chat
+seperate-spectator-chat: false
+
 # Statistic-Configuration
 statistics:
     # Statistics enable
@@ -190,12 +196,6 @@ database:
 # Type: boolean
 # Defines if spectators are allowed
 spectation-enabled: false
-
-# Seperate spectator chat
-# type: boolean
-# If set to true, spectators and game-players are seperated
-# and players don't see spectators chat
-seperate-spectator-chat: false
 
 # Respawn protection
 # Type: int
