@@ -202,6 +202,8 @@ public abstract class GameCycle {
 			}
 			pre.setRespawnLocation(team.getSpawnLocation());
 		}
+		
+		this.checkGameOver();
 	}
 
 	public void onPlayerDies(Player player, Player killer) {
