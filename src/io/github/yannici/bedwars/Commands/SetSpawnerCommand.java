@@ -11,8 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -96,17 +95,9 @@ public class SetSpawnerCommand extends BaseCommand {
 		
 		int interval = this.getPlugin().getConfig()
 				.getInt("ressource." + material + ".spawn-interval");
-		Block downBlock = player.getLocation().getBlock()
-				.getRelative(BlockFace.DOWN);
-
-		if (downBlock == null) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatWriter
-					.pluginMessage(ChatColor.RED
-							+ Main._l("errors.blockdownnotfound"))));
-			return false;
-		}
+		Location location = player.getLocation();
 		
-		RessourceSpawner spawner = new RessourceSpawner(game, interval, downBlock.getLocation(), stack);
+		RessourceSpawner spawner = new RessourceSpawner(game, interval, location, stack);
 		game.addRessourceSpawner(spawner);
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l("success.spawnerset")));

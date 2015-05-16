@@ -9,7 +9,6 @@ import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -17,7 +16,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.Vector;
 
 @SerializableAs("RessourceSpawner")
 public class RessourceSpawner implements Runnable, ConfigurationSerializable {
@@ -52,12 +50,9 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
 	@Override
 	public void run() {
-		Location dropLocation = this.location.getBlock().getRelative(BlockFace.UP).getLocation();
+		Location dropLocation = this.location;
 		Item item = this.game.getRegion().getWorld()
 				.dropItemNaturally(dropLocation, this.itemstack);
-
-		item.teleport(dropLocation);
-		item.setVelocity(new Vector(item.getVelocity().getX()/2, item.getVelocity().getY(), item.getVelocity().getZ()/2));
 		item.setPickupDelay(0);
 	}
 
