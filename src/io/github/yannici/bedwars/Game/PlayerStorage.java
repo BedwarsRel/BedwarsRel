@@ -95,7 +95,12 @@ public class PlayerStorage {
         this.player.setLevel(this.level);
         this.player.setDisplayName(this.displayName);
         this.player.setFoodLevel(this.foodLevel);
+        
+        for (PotionEffect e : this.player.getActivePotionEffects()) {
+            this.player.removePotionEffect(e.getType());
+        }
 
+        this.player.addPotionEffects(this.effects);
         this.player.updateInventory();
     }
 
