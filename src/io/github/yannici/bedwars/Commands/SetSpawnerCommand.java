@@ -100,7 +100,7 @@ public class SetSpawnerCommand extends BaseCommand {
 		RessourceSpawner spawner = new RessourceSpawner(game, interval, location, stack);
 		game.addRessourceSpawner(spawner);
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.spawnerset")));
+				+ Main._l("success.spawnerset", ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));
 		return true;
 	}
 

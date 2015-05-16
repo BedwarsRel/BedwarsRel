@@ -52,7 +52,7 @@ success:
     bedset: "Uspesne jsi nastavil postel tymu $team$!"
     regionset: "Oblast $location$ pro hru $game$ uspesne nastavena!"
     spawnset: "Spawn lokace pro tym $team$ uspesne nastavena!"
-    spawnerset: "Spawn surovin uspesne nastaven!"
+    spawnerset: "Spawn surovin $name$ uspesne nastaven!"
     stopped: "Hra byla zastavena!"
     lobbyset: "Lobby pro hru bylo nastaveno!"
     gameloaded: "Hra '$game$' uspesne nactena!"

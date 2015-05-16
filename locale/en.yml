@@ -47,7 +47,7 @@ success:
     bedset: "You successfully set the bed for team $team$!"
     regionset: "Game region location $location$ for Game $game$ was set successfully!"
     spawnset: "Spawn location for Team $team$ was set successfully!"
-    spawnerset: "Ressource spawn location was set successfully!"
+    spawnerset: "Ressource spawn location for $name$ was set successfully!"
     stopped: "Game successfully stopped!"
     lobbyset: "Lobby was set successfully!"
     gameloaded: "Game '$game$' successfully loaded!"
