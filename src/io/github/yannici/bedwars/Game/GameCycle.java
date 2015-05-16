@@ -16,6 +16,7 @@ import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -203,7 +204,14 @@ public abstract class GameCycle {
 			pre.setRespawnLocation(team.getSpawnLocation());
 		}
 		
-		this.checkGameOver();
+		new BukkitRunnable() {
+            
+            @Override
+            public void run() {
+                GameCycle.this.checkGameOver();
+            }
+        }.runTaskLater(Main.getInstance(), 20L);
+		
 	}
 
 	public void onPlayerDies(Player player, Player killer) {

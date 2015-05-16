@@ -513,7 +513,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		tfe.setCancelled(true);
+		//tfe.setCancelled(true);
 	}
 
 	/*

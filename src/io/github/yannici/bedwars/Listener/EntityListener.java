@@ -112,11 +112,11 @@ public class EntityListener extends BaseListener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent ede) {
-	    List<EntityType> notAllowedTypes = Arrays.asList(
+	    List<EntityType> noDamageTypes = Arrays.asList(
 	            EntityType.PLAYER // important lol
         );
 	    
-		if (notAllowedTypes.contains(ede.getEntityType())) {
+		if (noDamageTypes.contains(ede.getEntityType())) {
 			return;
 		}
 		

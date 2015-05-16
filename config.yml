@@ -288,16 +288,16 @@ ressource:
     bronze:
         item: CLAY_BRICK
         spawn-interval: 1000
-        amount: 2
+        amount: 1
         name: "&4Bronze"
     iron:
         item: IRON_INGOT
-        spawn-interval: 8000
+        spawn-interval: 10000
         amount: 1
         name: "&7Iron"
     gold:
         item: GOLD_INGOT
-        spawn-interval: 15000
+        spawn-interval: 20000
         amount: 1
         name: "&6Gold"
 
