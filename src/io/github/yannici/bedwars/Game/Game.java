@@ -129,7 +129,7 @@ public class Game {
 
 	public static String getPlayerWithTeamString(Player player, Team team,
 			ChatColor before) {
-		return player.getDisplayName() + before + " (" + team.getDisplayName()
+		return player.getDisplayName() + before + " (" + team.getChatColor() + team.getDisplayName()
 				+ before + ")";
 	}
 

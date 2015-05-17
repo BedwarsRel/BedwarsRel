@@ -647,59 +647,72 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 			
-			// Special items
-			for(Class<? extends SpecialItem> clazz : SpecialItem.getSpecials()) {
-				try {
-					SpecialItem instance = (SpecialItem)clazz.newInstance();
-					if(interactingMaterial.equals(instance.getItemMaterial())) {
-						instance.executeEvent(pie);
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-			if(clickedBlock == null) {
-				return;
-			}
-
-			if (clickedBlock.getType() == Material.ENDER_CHEST
-					&& !g.isSpectator(player)) {
-				pie.setCancelled(true);
-
-				Block chest = pie.getClickedBlock();
-				Team chestTeam = g.getTeamOfEnderChest(chest);
-				Team playerTeam = Game.getPlayerTeam(player, g);
-
-				if (chestTeam == null) {
-					return;
-				}
-
-				if (chestTeam.equals(playerTeam)) {
-					player.openInventory(chestTeam.getInventory());
-				} else {
-					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-							+ Main._l("ingame.noturteamchest")));
-				}
-			}
-			
 			// Spectators want to block
-			for(Player p : g.getFreePlayers()) {
-			    if(!p.getWorld().equals(g.getRegion().getWorld())) {
-			        continue;
-			    }
-			    
-			    if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
-			        Location oldLocation = p.getLocation();
-			        if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
-			            oldLocation.setY(oldLocation.getY()+2);
-			        } else {
-			            oldLocation.setY(oldLocation.getY()-2);
-			        }
-			        
-			        p.teleport(oldLocation);
-			    }
+			if(clickedBlock != null) {
+			    for(Player p : g.getFreePlayers()) {
+	                if(!g.getRegion().isInRegion(p.getLocation())) {
+	                    continue;
+	                }
+	                
+	                if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
+	                    Location oldLocation = p.getLocation();
+	                    if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
+	                        oldLocation.setY(oldLocation.getY()+2);
+	                    } else {
+	                        oldLocation.setY(oldLocation.getY()-2);
+	                    }
+	                    
+	                    p.teleport(oldLocation);
+	                }
+	            }
 			}
+
+			if(clickedBlock != null) {
+			    if (clickedBlock.getType() == Material.ENDER_CHEST
+    					&& !g.isSpectator(player)) {
+    				pie.setCancelled(true);
+    
+    				Block chest = pie.getClickedBlock();
+    				Team chestTeam = g.getTeamOfEnderChest(chest);
+    				Team playerTeam = Game.getPlayerTeam(player, g);
+    
+    				if (chestTeam == null) {
+    					return;
+    				}
+    
+    				if (chestTeam.equals(playerTeam)) {
+    					player.openInventory(chestTeam.getInventory());
+    				} else {
+    					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+    							+ Main._l("ingame.noturteamchest")));
+    				}
+    				
+    				return;
+    			}
+			}
+			
+			// Special items
+            for(Class<? extends SpecialItem> clazz : SpecialItem.getSpecials()) {
+                try {
+                    SpecialItem instance = (SpecialItem)clazz.newInstance();
+                    if(!instance.getUsedEvents().contains(pie.getClass())) {
+                        continue;
+                    }
+                    
+                    if(interactingMaterial.equals(instance.getItemMaterial())) {
+                        pie.setCancelled(true);
+                        instance.executeEvent(pie);
+                    }
+                    
+                    if(interactingMaterial.equals(instance.getActivatedMaterial())
+                            && instance.getActivatedMaterial() != null) {
+                        pie.setCancelled(true);
+                        instance.executeEventActivated(pie);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
 			return;
 		} else if (g.getState() == GameState.WAITING) {

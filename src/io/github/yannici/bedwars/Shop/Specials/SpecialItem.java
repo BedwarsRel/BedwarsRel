@@ -20,9 +20,14 @@ public abstract class SpecialItem {
     
     public abstract Material getItemMaterial();
     public abstract boolean executeEvent(Event event);
+    public abstract boolean executeEventActivated(Event event);
+    public abstract Material getActivatedMaterial();
+    public abstract List<Class<? extends Event>> getUsedEvents();
 
     public boolean returnPlayerEvent(Player player) {
-        if(!player.getItemInHand().getType().equals(this.getItemMaterial())) {
+        if(!player.getItemInHand().getType().equals(this.getItemMaterial())
+                && (!player.getItemInHand().getType().equals(this.getActivatedMaterial()) 
+                        && this.getActivatedMaterial() != null)) {
             return true;
         }
         
@@ -33,6 +38,10 @@ public abstract class SpecialItem {
         }
         
         if(game.getState() != GameState.RUNNING) {
+            return true;
+        }
+        
+        if(game.isSpectator(player)) {
             return true;
         }
         

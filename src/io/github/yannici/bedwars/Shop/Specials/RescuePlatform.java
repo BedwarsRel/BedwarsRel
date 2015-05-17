@@ -157,4 +157,24 @@ public class RescuePlatform extends SpecialItem {
 		this.game.addRunningTask(this.task);
     }
 
+    @Override
+    public Material getActivatedMaterial() {
+        // not needed
+        return null;
+    }
+
+    @Override
+    public boolean executeEventActivated(Event event) {
+        // not needed
+        return true;
+    }
+
+    @Override
+    public List<Class<? extends Event>> getUsedEvents() {
+        List<Class<? extends Event>> events = new ArrayList<Class<? extends Event>>();
+        events.add(PlayerInteractEvent.class);
+        
+        return events;
+    }
+
 }

@@ -93,9 +93,13 @@ public class EntityListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamage(EntityDamageEvent ede) {
-		if (ede.getEntityType() != EntityType.VILLAGER) {
-			return;
-		}
+	    List<EntityType> canDamageTypes = Arrays.asList(
+                EntityType.PLAYER // important lol
+        );
+        
+        if (canDamageTypes.contains(ede.getEntityType())) {
+            return;
+        }
 
 		Game game = Main.getInstance().getGameManager()
 				.getGameByLocation(ede.getEntity().getLocation());
@@ -112,11 +116,11 @@ public class EntityListener extends BaseListener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent ede) {
-	    List<EntityType> noDamageTypes = Arrays.asList(
+	    List<EntityType> canDamageTypes = Arrays.asList(
 	            EntityType.PLAYER // important lol
         );
 	    
-		if (noDamageTypes.contains(ede.getEntityType())) {
+		if (canDamageTypes.contains(ede.getEntityType())) {
 			return;
 		}
 		
