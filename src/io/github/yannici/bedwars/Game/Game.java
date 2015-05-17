@@ -920,6 +920,10 @@ public class Game {
 		this.updateSigns();
 	}
 	
+	public void removeRunningTask(BukkitTask task) {
+        this.runningTasks.remove(task);
+    }
+	
 	public void removeRunningTask(BukkitRunnable bukkitRunnable) {
         this.runningTasks.remove(bukkitRunnable);
     }

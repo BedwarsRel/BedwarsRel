@@ -13,7 +13,6 @@ import io.github.yannici.bedwars.Game.GameLobbyCountdown;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
-import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 import org.bukkit.ChatColor;
@@ -690,29 +689,6 @@ public class PlayerListener extends BaseListener {
     				return;
     			}
 			}
-			
-			// Special items
-            for(Class<? extends SpecialItem> clazz : SpecialItem.getSpecials()) {
-                try {
-                    SpecialItem instance = (SpecialItem)clazz.newInstance();
-                    if(!instance.getUsedEvents().contains(pie.getClass())) {
-                        continue;
-                    }
-                    
-                    if(interactingMaterial.equals(instance.getItemMaterial())) {
-                        pie.setCancelled(true);
-                        instance.executeEvent(pie);
-                    }
-                    
-                    if(interactingMaterial.equals(instance.getActivatedMaterial())
-                            && instance.getActivatedMaterial() != null) {
-                        pie.setCancelled(true);
-                        instance.executeEventActivated(pie);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
 
 			return;
 		} else if (g.getState() == GameState.WAITING) {
