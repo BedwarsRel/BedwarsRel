@@ -349,13 +349,6 @@ specials:
         # use a rescue platform again
         using-wait-time: 20
     
-    # Teleporting gunpowder settings    
-    warp-powder:
-        # Teleporting time (seconds)
-        # type: int
-        # Time to teleport to the spawn in seconds
-        teleport-time: 6
-    
         
 # Sign configuration
 # You can use following placeholder (colors with &):
