@@ -639,6 +639,12 @@ public class PlayerListener extends BaseListener {
 			if (g.isSpectator(player)) {
 				pie.setCancelled(true);
 			}
+			
+			if(pie.getAction() == Action.PHYSICAL
+			        && pie.getMaterial() == Material.SOIL) {
+			    pie.setCancelled(true);
+			    return;
+			}
 
 			if (interactingMaterial == Material.SLIME_BALL
 					&& g.isSpectator(player)) {
