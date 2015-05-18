@@ -593,7 +593,7 @@ public class Game {
 		
 		if(Main.getInstance().statisticsEnabled()) {
 			// store statistics and unload
-			statistic.setScore(statistic.getCurrentScore());
+			statistic.setScore(statistic.getScore() + statistic.getCurrentScore());
 			statistic.setCurrentScore(0);
 			statistic.store();
 			
