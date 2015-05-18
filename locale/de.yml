@@ -100,6 +100,8 @@ ingame:
     specials:
         rescue-platform:
             left: "Du musst noch $time$ Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!"
+        trap:
+            trapped: "&eJemand ist in eine &cTrap&e von eurem Team gelaufen!"
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"

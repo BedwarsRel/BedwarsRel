@@ -105,6 +105,8 @@ ingame:
     specials:
         rescue-platform:
             left: "Musis pockat &c$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!"
+        trap:
+            trapped: "&eSomeone went into a &ctrap&e of your team!"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."

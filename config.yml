@@ -311,7 +311,7 @@ check-updates: true
 # It is prerequisite that every command can be executed from the console (sender).
 # These placeholder can be used in every command:
 # {player} - the player for which the command will be executed
-# {score} - the current game score of the player (ONLY WHEN STATISTICS ENABLED!)
+# {score} - the score of the player in the current game (ONLY WHEN STATISTICS ENABLED!)
 rewards:
     # Enable rewards
     # type: boolean
@@ -348,8 +348,68 @@ specials:
         # The seconds how long a player has to wait until he can 
         # use a rescue platform again
         using-wait-time: 20
-    
         
+    # Trap settings
+    trap:
+        # Trap duration in seconds
+        # type: int
+        # The duration the trap will have effects on the player in seconds
+        # 10 seconds is default
+        duration: 10
+        
+        # Trap blindness settings
+        blindness:
+            # Trap blindness enable
+            # type: boolean
+            # Set to true if blindness should be enabled when setp into a trap
+            # Set to false to disable blindness on traps
+            enabled: true
+        
+            # Trap blindness amplifier
+            # type: int
+            # The amplifier (factor) for the blindness trap effect. The higher the value,
+            # the heavier the effect. 1 is default.
+            amplifier: 1
+        
+        # Trap slowness settings
+        slowness:
+            # Trap slowness enable
+            # type: boolean
+            # Set to true if slowness should be enabled when setp into a trap
+            # Set to false to disable slowness on traps
+            enabled: true
+        
+            # Trap slowness amplifier
+            # type: int
+            # The amplifier (factor) for the slowness trap effect. The higher the value,
+            # the heavier the effect. 1 is default.
+            amplifier: 1
+            
+        # Trap weakness settings
+        weakness:
+            # Trap weakness enable
+            # type: boolean
+            # Set to true if weakness should be enabled when setp into a trap
+            # Set to false to disable weakness on traps
+            enabled: true
+            
+            # Trap weakness amplifier
+            # type: int
+            # The amplifier (factor) for the weakness trap effect. The higher the value,
+            # the heavier the effect. 1 is default.
+            amplifier: 1
+        
+        # Trap shows particles
+        # type: boolean
+        # Set to true, when trap effects should generate particles around the player
+        show-particles: true
+        
+        # Trap play sound
+        # type: boolean
+        # Set to true, to play sound when someone step into a trap (sound only to players
+        # of the team, which placed the trap)
+        play-sound: true
+    
 # Sign configuration
 # You can use following placeholder (colors with &):
 # $gamename$ - display game name

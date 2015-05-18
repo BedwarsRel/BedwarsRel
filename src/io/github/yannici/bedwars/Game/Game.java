@@ -649,6 +649,14 @@ public class Game {
 			}
 		}
 	}
+	
+	public void broadcastSound(Sound sound, float volume, float pitch, List<Player> players) {
+		for (Player p : players) {
+			if (p.isOnline()) {
+				p.playSound(p.getLocation(), sound, volume, pitch);
+			}
+		}
+	}
 
 	public void broadcast(String message, ArrayList<Player> players) {
 		for (Player p : players) {

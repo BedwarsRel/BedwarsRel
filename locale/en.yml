@@ -101,6 +101,8 @@ ingame:
     specials:
         rescue-platform:
             left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
+        trap:
+            trapped: "&eSomeone went into a &ctrap&e of your team!"
 lobby:
     countdown: "Game will start in $sec$ second(s)!"
     countdowncancel: "More players needed. Countdown was cancelled!"
