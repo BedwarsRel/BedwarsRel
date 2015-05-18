@@ -17,6 +17,7 @@ import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -89,9 +90,11 @@ public class PlayerListener extends BaseListener {
 
 	private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game,
 			Player player) {
-		if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
-			return;
-		}
+	    if(iee.getRightClicked() != null) {
+	        if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
+	            return;
+	        }
+	    }
 
 		iee.setCancelled(true);
 
@@ -502,6 +505,7 @@ public class PlayerListener extends BaseListener {
 
 		if (g.getState() == GameState.WAITING) {
 			iee.setCancelled(true);
+			return;
 		}
 
 		if (g.getState() == GameState.RUNNING) {
@@ -636,10 +640,6 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (g.getState() == GameState.RUNNING) {
-			if (g.isSpectator(player)) {
-				pie.setCancelled(true);
-			}
-			
 			if(pie.getAction() == Action.PHYSICAL
 			        && pie.getMaterial() == Material.SOIL) {
 			    pie.setCancelled(true);
@@ -654,22 +654,26 @@ public class PlayerListener extends BaseListener {
 			
 			// Spectators want to block
 			if(clickedBlock != null) {
-			    for(Player p : g.getFreePlayers()) {
-	                if(!g.getRegion().isInRegion(p.getLocation())) {
-	                    continue;
-	                }
-	                
-	                if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
-	                    Location oldLocation = p.getLocation();
-	                    if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
-	                        oldLocation.setY(oldLocation.getY()+2);
-	                    } else {
-	                        oldLocation.setY(oldLocation.getY()-2);
+			    try {
+			        GameMode.valueOf("SPECTATOR");
+			    } catch(Exception ex) {
+			        for(Player p : g.getFreePlayers()) {
+	                    if(!g.getRegion().isInRegion(p.getLocation())) {
+	                        continue;
 	                    }
 	                    
-	                    p.teleport(oldLocation);
+	                    if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
+	                        Location oldLocation = p.getLocation();
+	                        if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
+	                            oldLocation.setY(oldLocation.getY()+2);
+	                        } else {
+	                            oldLocation.setY(oldLocation.getY()-2);
+	                        }
+	                        
+	                        p.teleport(oldLocation);
+	                    }
 	                }
-	            }
+			    }
 			}
 
 			if(clickedBlock != null) {
@@ -753,6 +757,11 @@ public class PlayerListener extends BaseListener {
 				.getData().getData()));
 		if (team == null) {
 			return;
+		}
+		
+		if(team.getPlayers().size() >= team.getMaxPlayers()) {
+		    player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
+		    return;
 		}
 
 		game.nonFreePlayer(player);

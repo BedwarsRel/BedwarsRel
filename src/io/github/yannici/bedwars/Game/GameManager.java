@@ -17,6 +17,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -25,9 +26,11 @@ public class GameManager {
 	public static String gamesPath = "games";
 
 	private ArrayList<Game> games = null;
+	private Map<Player, Game> gamePlayer = null;
 
 	public GameManager() {
 		this.games = new ArrayList<Game>();
+		this.gamePlayer = new HashMap<Player, Game>();
 	}
 
 	public Game addGame(String name) {
@@ -40,7 +43,23 @@ public class GameManager {
 		this.games.add(newGame);
 		return newGame;
 	}
-
+	
+	public Game getGameOfPlayer(Player player) {
+	    return this.gamePlayer.get(player);
+	}
+	
+	public void addGamePlayer(Player player, Game game) {
+	    if(this.gamePlayer.containsKey(player)) {
+	        this.gamePlayer.remove(player);
+	    }
+	    
+	    this.gamePlayer.put(player, game);
+	}
+	
+	public void removeGamePlayer(Player player) {
+	    this.gamePlayer.remove(player);
+	}
+	
 	public ArrayList<Game> getGames() {
 		return this.games;
 	}
@@ -57,6 +76,8 @@ public class GameManager {
 	
 	public void reloadGames() {
 	    this.unloadGames();
+	    
+	    this.gamePlayer.clear();
 	    this.loadGames();
 	}
 	

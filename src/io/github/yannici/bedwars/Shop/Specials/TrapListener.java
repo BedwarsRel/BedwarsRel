@@ -7,9 +7,8 @@ import io.github.yannici.bedwars.Game.Team;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class TrapListener implements Listener {
 	
@@ -18,8 +17,8 @@ public class TrapListener implements Listener {
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent interact) {
-		Player player = interact.getPlayer();
+	public void onMove(PlayerMoveEvent move) {
+		Player player = move.getPlayer();
 		Game game = Game.getGameOfPlayer(player);
 		
 		if(game == null) {
@@ -30,12 +29,12 @@ public class TrapListener implements Listener {
 			return;
 		}
 		
-		Team team = Game.getPlayerTeam(player, game);
 		Trap tmpTrap = new Trap();
-		if(interact.getAction() != Action.PHYSICAL
-				|| interact.getMaterial() != tmpTrap.getItemMaterial()) {
-			return;
-		}
+        if(!move.getTo().getBlock().getType().equals(tmpTrap.getItemMaterial())) {
+            return;
+        }
+		
+		Team team = Game.getPlayerTeam(player, game);
 		
 		// get trapped trap ;)
 		for(SpecialItem item : game.getSpecialItems()) {
@@ -44,12 +43,11 @@ public class TrapListener implements Listener {
 			}
 			
 			Trap trap = (Trap)item;
-			if(!trap.getLocation().equals(player.getLocation())) {
+			if(!trap.getLocation().equals(player.getLocation().getBlock().getLocation())) {
 				continue;
 			}
 			
 			if(trap.getPlacedTeam().equals(team)) {
-				interact.setCancelled(true);
 				return;
 			}
 			

@@ -43,6 +43,7 @@ errors:
     timeincorrect: "Cas musi byt: cislo (0 ... 23000), 'day' nebo 'night'!"
     minplayersnumeric: "Pocet minimalnich hracu musi byt cislo!"
     notinair: "Nejsi ve vzduchu!"
+    teamfull: "The team is full, please reopen the team selection menu!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"

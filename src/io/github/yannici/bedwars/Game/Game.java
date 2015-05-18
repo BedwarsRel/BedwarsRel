@@ -142,13 +142,7 @@ public class Game {
 	}
 
 	public static Game getGameOfPlayer(Player p) {
-		for (Game g : Main.getInstance().getGameManager().getGames()) {
-			if (g.isInGame(p)) {
-				return g;
-			}
-		}
-
-		return null;
+		return Main.getInstance().getGameManager().getGameOfPlayer(p);
 	}
 
 	public static Team getPlayerTeam(Player p, Game g) {
@@ -493,6 +487,7 @@ public class Game {
 			return false;
 		}
 		
+		Main.getInstance().getGameManager().addGamePlayer(p, this);
 		if(Main.getInstance().statisticsEnabled()) {
 			// load statistics
 			Main.getInstance().getPlayerStatisticManager().getStatistic(p);
@@ -547,7 +542,7 @@ public class Game {
 		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this,
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
-
+		
 		Team team = Game.getPlayerTeam(p, this);
 		
 		PlayerStatistic statistic = null;
@@ -573,6 +568,8 @@ public class Game {
 				}
 			}
 		}
+		
+		Main.getInstance().getGameManager().removeGamePlayer(p);
 		
 		if(this.isProtected(p)) {
 			this.removeProtection(p);

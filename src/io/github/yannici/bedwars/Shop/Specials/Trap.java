@@ -13,6 +13,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Trap extends SpecialItem {
 	
@@ -31,8 +32,8 @@ public class Trap extends SpecialItem {
 	
 	public Trap() {
 		this.duration = Main.getInstance().getIntConfig("specials.trap.duration", 10);
-		this.amplifierBlindness = Main.getInstance().getIntConfig("specials.trap.blindness.amplifier", 1);
-		this.amplifierSlowness = Main.getInstance().getIntConfig("specials.trap.slowness.amplifier", 1);
+		this.amplifierBlindness = Main.getInstance().getIntConfig("specials.trap.blindness.amplifier", 2);
+		this.amplifierSlowness = Main.getInstance().getIntConfig("specials.trap.slowness.amplifier", 2);
 		this.amplifierWeakness = Main.getInstance().getIntConfig("specials.trap.weakness.amplifier", 1);
 		this.particles = Main.getInstance().getBooleanConfig("specials.trap.show-particles", true);
 		this.playSound = Main.getInstance().getBooleanConfig("specials.trap.play-sound", true);
@@ -51,7 +52,7 @@ public class Trap extends SpecialItem {
 		return null;
 	}
 	
-	public void activate(Player player) {
+	public void activate(final Player player) {
 		List<PotionEffect> effects = new ArrayList<PotionEffect>();
 		
 		if(this.activateBlindness) {
@@ -64,19 +65,38 @@ public class Trap extends SpecialItem {
 			effects.add(slow);
 		}
 		
-		if(this.activateWeakness) {
-			PotionEffect weakness = new PotionEffect(PotionEffectType.WEAKNESS, this.duration*20, this.amplifierWeakness, true, this.particles);
-			effects.add(weakness);
-		}
+		this.game.addRunningTask(new BukkitRunnable() {
+            
+            private int counter = 0;
+            
+            @Override
+            public void run() {
+                if(this.counter >= Trap.this.duration) {
+                    Trap.this.game.removeRunningTask(this);
+                    this.cancel();
+                    return;
+                }
+                
+                player.playSound(player.getLocation(), Sound.FUSE, 2.0F, 1.0F);
+                this.counter++;
+            }
+        }.runTaskTimer(Main.getInstance(), 0L, 20L));
 		
 		if(effects.size() > 0) {
-			player.addPotionEffects(effects);
+		    for(PotionEffect effect : effects) {
+		        if(player.hasPotionEffect(effect.getType())) {
+		            player.removePotionEffect(effect.getType());
+		        }
+		        
+		        player.addPotionEffect(effect);
+		    }
 		}
 		
 		this.game.broadcast(Main._l("ingame.specials.trap.trapped"), new ArrayList<Player>(this.team.getPlayers()));
 		if(this.playSound) {
 			this.game.broadcastSound(Sound.SHEEP_IDLE, 3.0F, 1.0F, this.team.getPlayers());
 		}
+		this.getLocation().getBlock().setType(Material.AIR);
 		this.game.removeSpecialItem(this);
 	}
 	

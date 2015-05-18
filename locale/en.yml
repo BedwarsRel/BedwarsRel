@@ -38,6 +38,7 @@ errors:
     timeincorrect: "Time has to be a number (0 ... 23000), 'day' or 'night'!"
     minplayersnumeric: "The min-players parameter must be numeric!"
     notinair: "You're not in the air!"
+    teamfull: "The team is full, please reopen the team selection menu!"
 success:
     gameadded: "New game '$game$' successfully added!"
     teamadded: "Team '$team$' successfully added!"

@@ -46,12 +46,10 @@ public class ConfigUpdater {
 		
 		// <1.1.9>
 		Main.getInstance().getConfig().addDefault("specials.trap.duration", 10);
-		Main.getInstance().getConfig().addDefault("specials.trap.blindness.amplifier", 1);
-		Main.getInstance().getConfig().addDefault("specials.trap.slowness.amplifier", 1);
-		Main.getInstance().getConfig().addDefault("specials.trap.weakness.amplifier", 1);
+		Main.getInstance().getConfig().addDefault("specials.trap.blindness.amplifier", 2);
+		Main.getInstance().getConfig().addDefault("specials.trap.slowness.amplifier", 2);
 		Main.getInstance().getConfig().addDefault("specials.trap.blindness.enabled", true);
 		Main.getInstance().getConfig().addDefault("specials.trap.slowness.enabled", true);
-		Main.getInstance().getConfig().addDefault("specials.trap.weakness.enabled", true);
 		Main.getInstance().getConfig().addDefault("specials.trap.show-particles", true);
 		Main.getInstance().getConfig().addDefault("specials.trap.play-sound", true);
 		// </1.1.9>
