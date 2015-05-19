@@ -20,6 +20,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.inventory.ItemStack;
@@ -69,7 +71,11 @@ public class BlockListener extends BaseListener {
 	        return;
 	    }
 	    
-	    game.getRegion().addPlacedUnbreakableBlock(spread.getBlock(), spread.getBlock().getState());
+	    if(game.getRegion().isPlacedBlock(spread.getSource())) {
+	    	game.getRegion().addPlacedBlock(spread.getBlock(), spread.getBlock().getState());
+	    } else {
+	    	game.getRegion().addPlacedUnbreakableBlock(spread.getBlock(), spread.getBlock().getState());
+	    }
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -222,6 +228,40 @@ public class BlockListener extends BaseListener {
 		    
 		    g.getRegion().removePlacedBlock(breakedBlock);
 		}
+	}
+	
+	@EventHandler
+	public void onIgnite(BlockIgniteEvent ignite) {
+		if(ignite.isCancelled()) {
+			return;
+		}
+		
+		Game game = Main.getInstance().getGameManager().getGameByLocation(ignite.getIgnitingBlock().getLocation());
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() != GameState.RUNNING) {
+			return;
+		}
+		
+		if(ignite.getCause() == IgniteCause.ENDER_CRYSTAL
+				|| ignite.getCause() == IgniteCause.LIGHTNING
+				|| ignite.getCause() == IgniteCause.LAVA) {
+			ignite.setCancelled(true);
+			return;
+		}
+		
+		if(ignite.getCause() == IgniteCause.SPREAD) {
+			return;
+		}
+		
+		if(ignite.getIgnitingEntity() == null) {
+			ignite.setCancelled(true);
+			return;
+		}
+		
+		game.getRegion().addPlacedBlock(ignite.getIgnitingBlock(), ignite.getIgnitingBlock().getState());
 	}
 
 	@EventHandler

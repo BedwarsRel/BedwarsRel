@@ -76,6 +76,10 @@ public class Region {
 	}
 
 	public boolean isInRegion(Location location) {
+		if(!location.getWorld().equals(this.world)) {
+			return false;
+		}
+		
 		return (location.getBlockX() >= this.minCorner.getBlockX()
 				&& location.getBlockX() <= this.maxCorner.getBlockX()
 				&& location.getBlockY() >= this.minCorner.getBlockY()
