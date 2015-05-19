@@ -43,7 +43,7 @@ errors:
     timeincorrect: "Cas musi byt: cislo (0 ... 23000), 'day' nebo 'night'!"
     minplayersnumeric: "Pocet minimalnich hracu musi byt cislo!"
     notinair: "Nejsi ve vzduchu!"
-    teamfull: "The team is full, please reopen the team selection menu!"
+    teamfull: "Tym je plny, otevri si znovu vyberove menu!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -107,7 +107,7 @@ ingame:
         rescue-platform:
             left: "Musis pockat &c$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!"
         trap:
-            trapped: "&eSomeone went into a &ctrap&e of your team!"
+            trapped: "&eNejaky hrac uvizl v &cpasti&e tveho tymu!"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."
