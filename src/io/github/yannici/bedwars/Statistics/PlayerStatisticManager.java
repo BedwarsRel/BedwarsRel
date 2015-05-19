@@ -200,6 +200,10 @@ public class PlayerStatisticManager {
     	if(this.playerStatistic.containsKey(statistic.getPlayer())) {
     		PlayerStatistic existing = this.playerStatistic.get(statistic.getPlayer());
     		for(String field : statistic.getFields().keySet()) {
+    		    if(field.equalsIgnoreCase("id")) {
+                    continue;
+                }
+    		    
             	statistic.setValue(field, existing.getValue(field));
             }
     		
@@ -226,9 +230,9 @@ public class PlayerStatisticManager {
         	}
         	
         	statistic.setValue(field, this.fileDatabase.get("data." + keyValue + "." + field));
-        	statistic.setId(1);
         }
         
+        statistic.setId(1);
         this.playerStatistic.put(statistic.getPlayer(), statistic);
     }
     

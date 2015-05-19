@@ -93,7 +93,7 @@ public abstract class GameCycle {
 			    if(Main.getInstance().statisticsEnabled()) {
 			        PlayerStatistic statistic = Main.getInstance()
 	                        .getPlayerStatisticManager().getStatistic(player);
-    			    statistic.setScore(statistic.getCurrentScore());
+    			    statistic.setScore(statistic.getScore() + statistic.getCurrentScore());
     			    statistic.setCurrentScore(0);
     			    statistic.store();
 			    }
@@ -243,11 +243,19 @@ public abstract class GameCycle {
 		if (Main.getInstance().statisticsEnabled()) {
 			diePlayer = Main.getInstance().getPlayerStatisticManager()
 					.getStatistic(player);
-			killerPlayer = Main.getInstance().getPlayerStatisticManager()
-					.getStatistic(player);
 
 			diePlayer.setDeaths(diePlayer.getDeaths() + 1);
 			diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+			
+			if(killer != null) {
+                killerPlayer = Main.getInstance().getPlayerStatisticManager()
+                    .getStatistic(killer);
+                if(killerPlayer != null) {
+                    killerPlayer.setKills(killerPlayer.getKills() + 1);
+                    killerPlayer.addCurrentScore(Main.getInstance().getIntConfig(
+                                    "statistics.scores.kill", 10));
+                }
+            }
 		}
 
 		Team deathTeam = this.getGame().getPlayerTeam(player);
@@ -260,12 +268,6 @@ public abstract class GameCycle {
 													.getPlayerWithTeamString(
 															player, deathTeam,
 															ChatColor.GOLD))));
-
-			if (killerPlayer != null && Main.getInstance().statisticsEnabled()) {
-				killerPlayer.setKills(killerPlayer.getKills() + 1);
-				killerPlayer.addCurrentScore(Main.getInstance().getIntConfig(
-								"statistics.scores.kill", 10));
-			}
 
 			this.checkGameOver();
 			return;

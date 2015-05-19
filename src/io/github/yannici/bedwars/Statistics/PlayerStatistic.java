@@ -82,7 +82,7 @@ public class PlayerStatistic extends Statistic {
         } else if(this.getKills() == 0) {
             kd = 0.0;
         } else {
-            kd = this.getKills()/this.getDeaths();
+            kd = ((double)this.getKills())/((double)this.getDeaths());
         }
         
         BigDecimal bd = BigDecimal.valueOf(kd).setScale(2, BigDecimal.ROUND_HALF_UP);
