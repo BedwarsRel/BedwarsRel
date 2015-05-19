@@ -60,6 +60,11 @@ public class Trap extends SpecialItem {
 			effects.add(blind);
 		}
 		
+		if(this.activateWeakness) {
+			PotionEffect weak = new PotionEffect(PotionEffectType.WEAKNESS, this.duration*20, this.amplifierWeakness, true, this.particles);
+			effects.add(weak);
+		}
+		
 		if(this.activateSlowness) {
 			PotionEffect slow = new PotionEffect(PotionEffectType.SLOW, this.duration*20, this.amplifierSlowness, true, this.particles);
 			effects.add(slow);

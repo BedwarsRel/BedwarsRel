@@ -384,6 +384,20 @@ specials:
             # The amplifier (factor) for the slowness trap effect. The higher the value,
             # the heavier the effect. 1 is default.
             amplifier: 2
+            
+        # Trap weakness settings
+        weakness:
+            # Trap weakness enable
+            # type: boolean
+            # Set to true if weakness should be enabled when setp into a trap
+            # Set to false to disable weakness on traps
+            enabled: true
+
+            # Trap weakness amplifier
+            # type: int
+            # The amplifier (factor) for the weakness trap effect. The higher the value,
+            # the heavier the effect. 1 is default.
+            amplifier: 1
         
         # Trap shows particles
         # type: boolean
