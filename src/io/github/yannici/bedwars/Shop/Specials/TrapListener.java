@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
+import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
@@ -19,7 +20,7 @@ public class TrapListener implements Listener {
 	@EventHandler
 	public void onMove(PlayerMoveEvent move) {
 		Player player = move.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
 		if(game == null) {
 			return;
@@ -34,7 +35,7 @@ public class TrapListener implements Listener {
             return;
         }
 		
-		Team team = Game.getPlayerTeam(player, game);
+		Team team = game.getPlayerTeam(player);
 		
 		// get trapped trap ;)
 		for(SpecialItem item : game.getSpecialItems()) {
@@ -63,7 +64,7 @@ public class TrapListener implements Listener {
 		}
 		
 		Player player = place.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
 		if(game == null) {
 			return;
@@ -73,7 +74,7 @@ public class TrapListener implements Listener {
 			return;
 		}
 		
-		Team team = Game.getPlayerTeam(player, game);
+		Team team = game.getPlayerTeam(player);
 		if(team == null) {
 			place.setCancelled(true);
 			place.setBuild(false);

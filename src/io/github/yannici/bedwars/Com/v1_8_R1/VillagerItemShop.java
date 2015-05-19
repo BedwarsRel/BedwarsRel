@@ -82,10 +82,9 @@ public class VillagerItemShop {
 							colorable.setAccessible(true);
 							colorable
 									.invoke(meta,
-											new Object[] { Game
+											new Object[] { VillagerItemShop.this.game
 													.getPlayerTeam(
-															VillagerItemShop.this.player,
-															VillagerItemShop.this.game)
+															VillagerItemShop.this.player)
 													.getColor().getColor() });
 							reward.setItemMeta(meta);
 						}

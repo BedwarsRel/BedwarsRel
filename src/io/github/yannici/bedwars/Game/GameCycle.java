@@ -138,7 +138,7 @@ public abstract class GameCycle {
 	}
 
 	public void onPlayerRespawn(PlayerRespawnEvent pre, Player player) {
-		Team team = Game.getPlayerTeam(player, this.getGame());
+		Team team = this.getGame().getPlayerTeam(player);
 
 		// reset damager
 		this.getGame().setPlayerDamager(player, null);
@@ -250,7 +250,7 @@ public abstract class GameCycle {
 			diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
 		}
 
-		Team deathTeam = Game.getPlayerTeam(player, this.getGame());
+		Team deathTeam = this.getGame().getPlayerTeam(player);
 		if (killer == null) {
 			this.getGame()
 					.broadcast(
@@ -271,7 +271,7 @@ public abstract class GameCycle {
 			return;
 		}
 
-		Team killerTeam = Game.getPlayerTeam(killer, this.getGame());
+		Team killerTeam = this.getGame().getPlayerTeam(killer);
 		if (killerTeam == null) {
 			this.getGame()
 					.broadcast(

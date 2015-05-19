@@ -66,7 +66,7 @@ public class NewItemShop {
 		slimeMeta.setLore(new ArrayList<String>());
 		slime.setItemMeta(slimeMeta);
 		
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		ItemStack stack = null;
 		
 		if(game != null) {
@@ -209,7 +209,7 @@ public class NewItemShop {
 			colorable.setAccessible(true);
 			try {
 				colorable.invoke(meta,
-						new Object[] { Game.getPlayerTeam(player, game)
+						new Object[] { game.getPlayerTeam(player)
 								.getColor().getColor() });
 			} catch (Exception e) {
 				e.printStackTrace();

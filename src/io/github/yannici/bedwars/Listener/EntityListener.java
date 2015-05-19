@@ -76,7 +76,7 @@ public class EntityListener extends BaseListener {
 		}
 		
 		Player player = (Player)rhe.getEntity();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
 		if(game == null) {
 			return;
@@ -205,7 +205,7 @@ public class EntityListener extends BaseListener {
             			    }
             			    
             			    Player p = (Player)primedTnt.getSource();
-        		            Team team = Game.getPlayerTeam(p, game);
+        		            Team team = game.getPlayerTeam(p);
         		            if (team == null) {
         		                explodeBlocks.remove();
         		                continue;
@@ -230,7 +230,7 @@ public class EntityListener extends BaseListener {
         		                continue;
         		            }
 
-        		            Team bedDestroyTeam = Game.getTeamOfBed(game, breakBlock);
+        		            Team bedDestroyTeam = game.getTeamOfBed(breakBlock);
         		            if (bedDestroyTeam == null) {
         		                explodeBlocks.remove();
                                 continue;

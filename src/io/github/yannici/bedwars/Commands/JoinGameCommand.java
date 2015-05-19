@@ -47,7 +47,7 @@ public class JoinGameCommand extends BaseCommand {
 
 		Player player = (Player) sender;
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
-		Game gameOfPlayer = Game.getGameOfPlayer(player);
+		Game gameOfPlayer = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
 		if(gameOfPlayer != null) {
 			if(gameOfPlayer.getState() == GameState.RUNNING) {

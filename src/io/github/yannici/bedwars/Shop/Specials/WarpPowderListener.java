@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
+import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
@@ -18,8 +19,8 @@ public class WarpPowderListener implements Listener {
     
     @EventHandler
     public void onInteract(PlayerInteractEvent ev) {
-        final Player player = ev.getPlayer();
-        final Game game = Game.getGameOfPlayer(player);    
+        Player player = ev.getPlayer();
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);    
         
         if(game == null) {
             return;

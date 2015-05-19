@@ -28,7 +28,7 @@ public abstract class SpecialItem {
             return true;
         }
         
-        Game game = Game.getGameOfPlayer(player);
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
         
         if(game == null) {
             return true;

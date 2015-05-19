@@ -141,31 +141,6 @@ public class Game {
 		return ChatColor.GREEN + "\u2714 ";
 	}
 
-	public static Game getGameOfPlayer(Player p) {
-		return Main.getInstance().getGameManager().getGameOfPlayer(p);
-	}
-
-	public static Team getPlayerTeam(Player p, Game g) {
-		for (Team team : g.getTeams().values()) {
-			if (team.isInTeam(p)) {
-				return team;
-			}
-		}
-
-		return null;
-	}
-
-	public static Team getTeamOfBed(Game g, Block bed) {
-		for (Team team : g.getTeams().values()) {
-			if (team.getHeadBed().equals(bed)
-			        || team.getFeedBed().equals(bed)) {
-				return team;
-			}
-		}
-
-		return null;
-	}
-
 	/*
 	 * PUBLIC
 	 */
@@ -322,6 +297,16 @@ public class Game {
 			this.loc2 = loc;
 		}
 	}
+	
+	public Team getPlayerTeam(Player p) {
+		for (Team team : this.getTeams().values()) {
+			if (team.isInTeam(p)) {
+				return team;
+			}
+		}
+
+		return null;
+	}
 
 	public boolean saveGame(CommandSender sender, boolean direct) {
 		BedwarsSaveGameEvent saveEvent = new BedwarsSaveGameEvent(this, sender);
@@ -360,6 +345,17 @@ public class Game {
 		}
 
 		return max;
+	}
+	
+	public Team getTeamOfBed(Block bed) {
+		for (Team team : this.getTeams().values()) {
+			if (team.getHeadBed().equals(bed)
+			        || team.getFeedBed().equals(bed)) {
+				return team;
+			}
+		}
+
+		return null;
 	}
 
 	public int getCurrentPlayerAmount() {
@@ -403,7 +399,7 @@ public class Game {
 	public void toSpectator(Player player) {
 		final Player p = player;
 		
-		Team playerTeam = Game.getPlayerTeam(p, this);
+		Team playerTeam = this.getPlayerTeam(p);
 		if (playerTeam != null) {
 			playerTeam.removePlayer(p);
 		}
@@ -543,7 +539,7 @@ public class Game {
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
 		
-		Team team = Game.getPlayerTeam(p, this);
+		Team team = this.getPlayerTeam(p);
 		
 		PlayerStatistic statistic = null;
 		if(Main.getInstance().statisticsEnabled()) {
@@ -804,7 +800,7 @@ public class Game {
 		}
 
 		for (Player player : players) {
-			Team playerTeam = Game.getPlayerTeam(player, this);
+			Team playerTeam = this.getPlayerTeam(player);
 			if (teams.contains(playerTeam)) {
 				continue;
 			}

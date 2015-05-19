@@ -290,7 +290,7 @@ public class PlayerStatisticManager {
         
         if(statistic.getPlayer().isOnline()) {
         	Player p = statistic.getPlayer().getPlayer();
-        	game = Game.getGameOfPlayer(p);
+        	game = Main.getInstance().getGameManager().getGameOfPlayer(p);
         }
         
         if(game == null) {

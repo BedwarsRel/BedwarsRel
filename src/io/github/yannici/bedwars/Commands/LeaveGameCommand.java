@@ -43,7 +43,7 @@ public class LeaveGameCommand extends BaseCommand {
 		}
 
 		Player player = (Player) sender;
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED

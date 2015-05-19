@@ -98,7 +98,7 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		Game g = Game.getGameOfPlayer(p);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
 		if (g == null) {
 			Block breaked = e.getBlock();
 			if (!(breaked.getState() instanceof Sign)) {
@@ -137,7 +137,7 @@ public class BlockListener extends BaseListener {
 		if (e.getBlock().getType() == Material.BED_BLOCK) {
 			e.setCancelled(true);
 
-			Team team = Game.getPlayerTeam(p, g);
+			Team team = g.getPlayerTeam(p);
 			if (team == null) {
 				return;
 			}
@@ -160,7 +160,7 @@ public class BlockListener extends BaseListener {
 				return;
 			}
 
-			Team bedDestroyTeam = Game.getTeamOfBed(g, breakBlock);
+			Team bedDestroyTeam = g.getTeamOfBed(breakBlock);
 			if (bedDestroyTeam == null) {
 				return;
 			}
@@ -227,7 +227,7 @@ public class BlockListener extends BaseListener {
 	@EventHandler
 	public void onPlace(BlockPlaceEvent bpe) {
 		Player player = bpe.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			return;
@@ -266,7 +266,7 @@ public class BlockListener extends BaseListener {
 			}
 			
 			if (placeBlock.getType() == Material.ENDER_CHEST) {
-				Team playerTeam = Game.getPlayerTeam(player, game);
+				Team playerTeam = game.getPlayerTeam(player);
 				if (playerTeam.getInventory() == null) {
 					playerTeam.createTeamInventory();
 				}

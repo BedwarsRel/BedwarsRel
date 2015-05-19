@@ -28,7 +28,7 @@ public class RescuePlatformListener implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent ev) {
         Player player = ev.getPlayer();
-        Game game = Game.getGameOfPlayer(player);
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
         
         if(game == null) {
             return;

@@ -51,10 +51,8 @@ public class SingleGameCycle extends GameCycle {
 		
 		// clear protections
 		this.getGame().clearProtections();
-
-		// set state and with that, the sign
-		this.getGame().setState(GameState.WAITING);
-
+		
+		// Restart lobby directly?
 		GameLobbyCountdownRule rule = Main.getInstance()
                 .getLobbyCountdownRule();
 		if (rule.isRuleMet(this.getGame())) {
@@ -65,6 +63,9 @@ public class SingleGameCycle extends GameCycle {
                 this.getGame().setLobbyCountdown(lobbyCountdown);
             }
         }
+
+		// set state and with that, the sign
+		this.getGame().setState(GameState.WAITING);
 	}
 
 	private void kickPlayer(Player player, boolean wasSpectator) {

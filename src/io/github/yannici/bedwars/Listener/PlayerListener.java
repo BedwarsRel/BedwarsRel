@@ -131,7 +131,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		Player player = (Player) ioe.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			return;
@@ -156,7 +156,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onCraft(CraftItemEvent cie) {
 	    Player player = (Player)cie.getWhoClicked();
-        Game game = Game.getGameOfPlayer(player);
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
         
         if(game == null) {
             return;
@@ -172,7 +172,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerRespawn(PlayerRespawnEvent pre) {
 		Player p = pre.getPlayer();
-		Game game = Game.getGameOfPlayer(p);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(p);
 
 		if (game == null) {
 			return;
@@ -191,7 +191,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerDie(PlayerDeathEvent pde) {
 		final Player player = pde.getEntity();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			return;
@@ -251,7 +251,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent ice) {
 		Player player = (Player) ice.getWhoClicked();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			return;
@@ -333,7 +333,7 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		Player player = ce.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 		    boolean seperateGameChat = Main.getInstance().getBooleanConfig("seperate-game-chat", true);
@@ -344,7 +344,7 @@ public class PlayerListener extends BaseListener {
 		    Iterator<Player> recipiens = ce.getRecipients().iterator();
 		    while(recipiens.hasNext()) {
 		        Player recipient = recipiens.next();
-		        Game recipientGame = Game.getGameOfPlayer(recipient);
+		        Game recipientGame = Main.getInstance().getGameManager().getGameOfPlayer(recipient);
 		        if(recipientGame != null) {
 		            recipiens.remove();
 		        }
@@ -352,7 +352,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		Team team = Game.getPlayerTeam(player, game);
+		Team team = game.getPlayerTeam(player);
 
 		if (game.getState() != GameState.RUNNING) {
 			return;
@@ -422,7 +422,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onPickup(PlayerPickupItemEvent ppie) {
 		Player player = ppie.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			return;
@@ -446,7 +446,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCommand(PlayerCommandPreprocessEvent pcpe) {
 		Player player = pcpe.getPlayer();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
 			return;
@@ -483,7 +483,7 @@ public class PlayerListener extends BaseListener {
 
 		Player p = bee.getPlayer();
 
-		Game g = Game.getGameOfPlayer(p);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
 		if (g == null) {
 			return;
 		}
@@ -498,7 +498,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onInteractEntity(PlayerInteractEntityEvent iee) {
 		Player p = iee.getPlayer();
-		Game g = Game.getGameOfPlayer(p);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
 		if (g == null) {
 			return;
 		}
@@ -517,7 +517,7 @@ public class PlayerListener extends BaseListener {
 	public void onFly(PlayerToggleFlightEvent tfe) {
 		Player p = tfe.getPlayer();
 
-		Game g = Game.getGameOfPlayer(p);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
 		if (g == null) {
 			return;
 		}
@@ -548,7 +548,7 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		Player player = (Player) flce.getEntity();
-		Game game = Game.getGameOfPlayer(player);
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
 		if(game == null) {
 			return;
@@ -564,7 +564,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent pie) {
 		Player player = pie.getPlayer();
-		Game g = Game.getGameOfPlayer(player);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (g == null) {
 			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
@@ -683,7 +683,7 @@ public class PlayerListener extends BaseListener {
     
     				Block chest = pie.getClickedBlock();
     				Team chestTeam = g.getTeamOfEnderChest(chest);
-    				Team playerTeam = Game.getPlayerTeam(player, g);
+    				Team playerTeam = g.getPlayerTeam(player);
     
     				if (chestTeam == null) {
     					return;
@@ -796,7 +796,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onDrop(PlayerDropItemEvent die) {
 		Player p = die.getPlayer();
-		Game g = Game.getGameOfPlayer(p);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
 		if (g == null) {
 			return;
 		}
@@ -815,7 +815,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent pqe) {
 		Player player = pqe.getPlayer();
-		Game g = Game.getGameOfPlayer(player);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (g == null) {
 			return;
@@ -831,7 +831,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		Player p = (Player) ede.getEntity();
-		Game g = Game.getGameOfPlayer(p);
+		Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
 		if (g == null) {
 			return;
 		}
@@ -869,7 +869,7 @@ public class PlayerListener extends BaseListener {
 			if (!g.getCycle().isEndGameRunning()) {
 				return;
 			} else if(ede.getCause() == DamageCause.VOID) {
-			    p.teleport(Game.getPlayerTeam(p, g).getSpawnLocation());
+			    p.teleport(g.getPlayerTeam(p).getSpawnLocation());
 			}
 		} else if (g.getState() == GameState.WAITING) {
 			if (ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
