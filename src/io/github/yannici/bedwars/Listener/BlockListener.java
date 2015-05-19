@@ -236,7 +236,17 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		Game game = Main.getInstance().getGameManager().getGameByLocation(ignite.getIgnitingBlock().getLocation());
+		Game game = null;
+		if(ignite.getIgnitingBlock() == null) {
+		    if(ignite.getIgnitingEntity() instanceof Player) {
+		        game = Main.getInstance().getGameManager().getGameOfPlayer((Player)ignite.getIgnitingEntity());
+		    } else {
+		        game = Main.getInstance().getGameManager().getGameByLocation(ignite.getIgnitingEntity().getLocation());
+		    }
+		} else {
+		    game = Main.getInstance().getGameManager().getGameByLocation(ignite.getIgnitingBlock().getLocation());
+		}
+		
 		if(game == null) {
 			return;
 		}
@@ -253,6 +263,9 @@ public class BlockListener extends BaseListener {
 		}
 		
 		if(ignite.getCause() == IgniteCause.SPREAD) {
+		    if(!game.getRegion().isPlacedBlock(ignite.getIgnitingBlock())) {
+		        game.getRegion().addPlacedBlock(ignite.getIgnitingBlock(), ignite.getIgnitingBlock().getState());
+		    }
 			return;
 		}
 		
@@ -261,7 +274,9 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		game.getRegion().addPlacedBlock(ignite.getIgnitingBlock(), ignite.getIgnitingBlock().getState());
+		if(!game.getRegion().isPlacedBlock(ignite.getIgnitingBlock())) {
+		    game.getRegion().addPlacedBlock(ignite.getIgnitingBlock(), ignite.getIgnitingBlock().getState());
+		}
 	}
 
 	@EventHandler

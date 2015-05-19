@@ -628,8 +628,8 @@ public class PlayerListener extends BaseListener {
                 
                 Block relative = clickedBlock.getRelative(face);
                 if(relative.getType().equals(Material.FIRE)) {
-                    g.getRegion().addBreakedBlock(relative);
-                    if(!g.getRegion().isPlacedBlock(clickedBlock))  {
+                    if(!g.getRegion().isPlacedBlock(relative))  {
+                        g.getRegion().addBreakedBlock(relative);
                         pie.setCancelled(true);
                     } else {
                         g.getRegion().removePlacedBlock(clickedBlock);
