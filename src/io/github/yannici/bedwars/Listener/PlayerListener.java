@@ -21,7 +21,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -602,47 +601,15 @@ public class PlayerListener extends BaseListener {
 		Material interactingMaterial = pie.getMaterial();
         Block clickedBlock = pie.getClickedBlock();
 
-		if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
-				&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
-		    if(pie.getAction() != Action.LEFT_CLICK_BLOCK) {
-		        return;
-		    }
-		    
-	        if(g.getState() != GameState.RUNNING) {
-	            return;
-	        }
-	        
-            if(clickedBlock == null) {
-                return;
-            }
-            
-            for(BlockFace face : BlockFace.values()) {
-                if(!face.equals(BlockFace.UP)
-                        && !face.equals(BlockFace.DOWN)
-                        && !face.equals(BlockFace.EAST)
-                        && !face.equals(BlockFace.WEST)
-                        && !face.equals(BlockFace.NORTH)
-                        && !face.equals(BlockFace.SOUTH)) {
-                    continue;
-                }
-                
-                Block relative = clickedBlock.getRelative(face);
-                if(relative.getType().equals(Material.FIRE)) {
-                    if(!g.getRegion().isPlacedBlock(relative))  {
-                        g.getRegion().addBreakedBlock(relative);
-                        pie.setCancelled(true);
-                    } else {
-                        g.getRegion().removePlacedBlock(clickedBlock);
-                    }
-                }
-            }
-			return;
-		}
-
 		if (g.getState() == GameState.RUNNING) {
 			if(pie.getAction() == Action.PHYSICAL
 			        && pie.getMaterial() == Material.SOIL) {
 			    pie.setCancelled(true);
+			    return;
+			}
+			
+			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
+					&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
 			    return;
 			}
 
@@ -702,6 +669,11 @@ public class PlayerListener extends BaseListener {
 
 			return;
 		} else if (g.getState() == GameState.WAITING) {
+			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
+					&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
+			    return;
+			}
+			
 			switch (interactingMaterial) {
 			case BED:
 				pie.setCancelled(true);

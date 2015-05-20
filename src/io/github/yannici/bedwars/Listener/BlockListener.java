@@ -71,6 +71,11 @@ public class BlockListener extends BaseListener {
 	        return;
 	    }
 	    
+	    if(spread.getNewState().getType().equals(Material.FIRE)) {
+	    	spread.setCancelled(true);
+	    	return;
+	    }
+	    
 	    if(game.getRegion().isPlacedBlock(spread.getSource())) {
 	    	game.getRegion().addPlacedBlock(spread.getBlock(), spread.getBlock().getState());
 	    } else {
@@ -257,15 +262,8 @@ public class BlockListener extends BaseListener {
 		
 		if(ignite.getCause() == IgniteCause.ENDER_CRYSTAL
 				|| ignite.getCause() == IgniteCause.LIGHTNING
-				|| ignite.getCause() == IgniteCause.LAVA) {
+				|| ignite.getCause() == IgniteCause.SPREAD) {
 			ignite.setCancelled(true);
-			return;
-		}
-		
-		if(ignite.getCause() == IgniteCause.SPREAD) {
-		    if(!game.getRegion().isPlacedBlock(ignite.getIgnitingBlock())) {
-		        game.getRegion().addPlacedBlock(ignite.getIgnitingBlock(), ignite.getIgnitingBlock().getState());
-		    }
 			return;
 		}
 		
