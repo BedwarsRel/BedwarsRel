@@ -336,4 +336,14 @@ public class GameManager {
 		return games;
 	}
 
+	public Game getGameByChunkLocation(int x, int z) {
+		for (Game game : this.games) {
+			if (game.getRegion().chunkIsInRegion(x, z)) {
+				return game;
+			}
+		}
+
+		return null;
+	}
+
 }

@@ -151,23 +151,6 @@ public class Game {
 					+ Main._l("errors.cantstartagain")));
 			return false;
 		}
-		
-		// load bed chunks
-		if(this.region != null) {
-			for(Team team : this.teams.values()) {
-				if(team.getHeadBed() == null && team.getFeedBed() == null) {
-					continue;
-				}
-				
-				if(team.getHeadBed() != null) {
-					team.getHeadBed().getChunk().load(true);
-				}
-				
-				if(team.getFeedBed() != null) {
-					team.getFeedBed().getChunk().load(true);
-				}
-			}
-		}
 
 		GameCheckCode gcc = this.checkGame();
 		if (gcc != GameCheckCode.OK) {
@@ -219,12 +202,10 @@ public class Game {
 				statistic.setGames(statistic.getGames()+1);
 			}
 		}
-
-		this.cycle.onGameStart();
 		
+		this.cycle.onGameStart();
 		this.startRessourceSpawners();
 		
-		this.resetRegion();
 		// Update world time before game starts
 		this.getRegion().getWorld().setTime(this.time);
 
@@ -747,10 +728,6 @@ public class Game {
 	public void resetRegion() {
 		if (this.region == null) {
 			return;
-		}
-		
-		for(RessourceSpawner loc : this.getRessourceSpawner()) {
-		    loc.getLocation().getChunk().load(true);
 		}
 		
 		this.region.reset(this);

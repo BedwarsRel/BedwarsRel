@@ -98,9 +98,22 @@ public class Region {
 	    
 	    return false;
 	}
+	
+	public boolean chunkIsInRegion(double x, double z) {
+	    if(x >= this.minCorner.getX()
+	            && x <= this.maxCorner.getX()
+	            && z >= this.minCorner.getZ()
+	            && z <= this.maxCorner.getZ()) {
+	        return true;
+	    }
+	    
+	    return false;
+	}
 
 	@SuppressWarnings("deprecation")
     public void reset(Game game) {
+		this.loadChunks();
+		
 		for(Block placed : this.placedBlocks) {
 		    Block blockInWorld = this.world.getBlockAt(placed.getLocation());
 		    if(blockInWorld.getType() == Material.AIR) {
@@ -246,6 +259,22 @@ public class Region {
 
 	public void removePlacedUnbreakableBlock(Block block) {
 		this.placedUnbreakableBlocks.remove(block);
+	}
+
+	public void loadChunks() {
+		int minX = (int)Math.floor(this.minCorner.getX());
+		int maxX = (int)Math.ceil(this.maxCorner.getX());
+		int minZ = (int)Math.floor(this.minCorner.getZ());
+		int maxZ = (int)Math.ceil(this.maxCorner.getZ());
+		
+		for(int x = minX; x <= maxX; x += 16) {
+			for(int z = minZ; z <= maxZ; z += 16) {
+				Chunk chunk = this.world.getChunkAt(x, z);
+				if(!chunk.isLoaded()) {
+					chunk.load(true);
+				}
+			}
+		}
 	}
 
 }

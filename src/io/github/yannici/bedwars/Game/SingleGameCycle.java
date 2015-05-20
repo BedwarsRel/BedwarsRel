@@ -122,7 +122,7 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public void onGameLoaded() {
-		this.getGame().resetRegion();
+		// reset on start
 	}
 
 	@Override
