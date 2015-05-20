@@ -30,6 +30,10 @@ public class TrapListener implements Listener {
 			return;
 		}
 		
+		if(game.isSpectator(player)) {
+			return;
+		}
+		
 		Trap tmpTrap = new Trap();
         if(!move.getTo().getBlock().getType().equals(tmpTrap.getItemMaterial())) {
             return;
