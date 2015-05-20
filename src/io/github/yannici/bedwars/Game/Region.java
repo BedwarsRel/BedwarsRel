@@ -18,7 +18,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.material.Bed;
 
 public class Region {
-
+	
+	public final static int CHUNK_SIZE = 16;
+	
 	private Location minCorner = null;
 	private Location maxCorner = null;
 	private World world = null;
@@ -267,8 +269,8 @@ public class Region {
 		int minZ = (int)Math.floor(this.minCorner.getZ());
 		int maxZ = (int)Math.ceil(this.maxCorner.getZ());
 		
-		for(int x = minX; x <= maxX; x += 16) {
-			for(int z = minZ; z <= maxZ; z += 16) {
+		for(int x = minX; x <= maxX; x += Region.CHUNK_SIZE) {
+			for(int z = minZ; z <= maxZ; z += Region.CHUNK_SIZE) {
 				Chunk chunk = this.world.getChunkAt(x, z);
 				if(!chunk.isLoaded()) {
 					chunk.load(true);
