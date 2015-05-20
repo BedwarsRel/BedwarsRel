@@ -259,6 +259,7 @@ public abstract class GameCycle {
 		}
 
 		Team deathTeam = this.getGame().getPlayerTeam(player);
+		
 		if (killer == null) {
 			this.getGame()
 					.broadcast(
@@ -269,6 +270,7 @@ public abstract class GameCycle {
 															player, deathTeam,
 															ChatColor.GOLD))));
 
+			this.sendTeamDeadMessage(deathTeam);
 			this.checkGameOver();
 			return;
 		}
@@ -283,6 +285,7 @@ public abstract class GameCycle {
 													.getPlayerWithTeamString(
 															player, deathTeam,
 															ChatColor.GOLD))));
+			this.sendTeamDeadMessage(deathTeam);
 			this.checkGameOver();
 			return;
 		}
@@ -294,8 +297,19 @@ public abstract class GameCycle {
 										killerTeam, ChatColor.GOLD), "player",
 								Game.getPlayerWithTeamString(player, deathTeam,
 										ChatColor.GOLD))));
-
+		
+		this.sendTeamDeadMessage(deathTeam);
 		this.checkGameOver();
+	}
+	
+	private void sendTeamDeadMessage(Team deathTeam) {
+	    if (deathTeam.getPlayers().size() == 1 && deathTeam.isDead()) {
+            this.getGame().broadcast(ChatColor.RED
+                            + Main._l("ingame.team-dead", ImmutableMap.of(
+                                    "team", deathTeam.getChatColor()
+                                            + deathTeam.getDisplayName()
+                                            + ChatColor.RED)));
+        }
 	}
 
 	public void setEndGameRunning(boolean running) {

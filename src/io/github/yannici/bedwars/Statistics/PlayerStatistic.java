@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Statistics;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Database.DBGetField;
@@ -13,6 +14,7 @@ public class PlayerStatistic extends Statistic {
 	public static final String tableName = "stats_players";
 	
 	private OfflinePlayer player = null;
+	private UUID uuid = null;
 	
 	// Statistics
 	private int kills = 0;
@@ -54,7 +56,11 @@ public class PlayerStatistic extends Statistic {
 	
 	@DBGetField(name = "uuid", dbType = "VARCHAR(255)")
 	public String getUUID() {
-		return this.player.getUniqueId().toString();
+	    if(this.uuid == null) {
+	        this.uuid = this.player.getUniqueId();
+	    }
+	    
+		return this.uuid.toString();
 	}
 
 	@DBGetField(name = "kills", dbType = "INT(11)", defaultValue = "0")

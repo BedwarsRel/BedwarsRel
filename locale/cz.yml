@@ -90,6 +90,7 @@ ingame:
     noturteamchest: "Tato truhla nepatri tvemu tymu!"
     protectionleft: "Jsi nezranitelny na &c$length$&f sekund!"
     protectionend: "Nyni jsi opet &czranitelny&f!"
+    team-dead: "Tym $team$ byl znicen!"
     shop:
         name: "Obchod"
         newshop: "Pouzij novy obchod"

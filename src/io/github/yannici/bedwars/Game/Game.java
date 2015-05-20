@@ -1205,6 +1205,12 @@ public class Game {
 		for (Team team : this.teams.values()) {
 			team.getScoreboardTeam().setAllowFriendlyFire(Main.getInstance().getConfig()
 					.getBoolean("friendlyfire"));
+			if(team.getPlayers().size() == 0) {
+                team.getFeedBed().getDrops().clear();
+                team.getFeedBed().setType(Material.AIR);
+                team.getHeadBed().getDrops().clear();
+                team.getHeadBed().setType(Material.AIR);
+            }
 		}
 	}
 
