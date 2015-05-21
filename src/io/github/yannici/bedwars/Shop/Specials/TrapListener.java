@@ -5,9 +5,12 @@ import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -61,7 +64,31 @@ public class TrapListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onBreak(BlockBreakEvent br) {
+	    if(br.isCancelled()) {
+            return;
+        }
+	    
+	    if(!br.getBlock().getType().equals(Material.TRIPWIRE)) {
+            return;
+        }
+        
+        Player player = br.getPlayer();
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+        
+        if(game == null) {
+            return;
+        }
+        
+        if(game.getState() != GameState.RUNNING) {
+            return;
+        }
+        
+        br.setCancelled(true);
+	}
+	
+ 	@EventHandler
 	public void onPlace(BlockPlaceEvent place) {
 		if(place.isCancelled()) {
 			return;

@@ -83,7 +83,7 @@ public class BlockListener extends BaseListener {
 	    }
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBreak(BlockBreakEvent e) {
 		if(e.isCancelled()) {
 			return;
