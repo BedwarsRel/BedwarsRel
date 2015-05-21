@@ -6,6 +6,8 @@ import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -70,8 +72,15 @@ public class TrapListener implements Listener {
             return;
         }
 	    
-	    if(!br.getBlock().getType().equals(Material.TRIPWIRE)) {
-            return;
+	    Block toDestroy = br.getBlock();
+	    if(br.getBlock().getType() != Material.TRIPWIRE) {
+	        Block relative = br.getBlock().getRelative(BlockFace.UP);
+            // check above
+            if(!relative.getType().equals(Material.TRIPWIRE)) {
+                return;
+            }
+            
+            toDestroy = relative;
         }
         
         Player player = br.getPlayer();
@@ -86,6 +95,12 @@ public class TrapListener implements Listener {
         }
         
         br.setCancelled(true);
+        
+        if(br.getBlock().equals(toDestroy)) {
+            return;
+        }
+        
+        toDestroy.setType(Material.AIR);
 	}
 	
  	@EventHandler
