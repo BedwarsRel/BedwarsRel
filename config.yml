@@ -402,6 +402,7 @@ specials:
         # Trap shows particles
         # type: boolean
         # Set to true, when trap effects should generate particles around the player
+        # Only in versions higher or equal 1.8
         show-particles: true
         
         # Trap play sound
