@@ -279,4 +279,8 @@ public class Region {
 		}
 	}
 
+    public boolean isPlacedUnbreakableBlock(Block clickedBlock) {
+        return this.placedUnbreakableBlocks.contains(clickedBlock);
+    }
+
 }
