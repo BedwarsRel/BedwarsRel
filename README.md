@@ -44,7 +44,7 @@ a private message on SpigotMC: <http://www.spigotmc.org/members/yannici.53926/>
 
 ## Download from Jenkins
 
-To download the current development version use the jenkins server: **[Click here](http://31.220.15.15/jenkins/)**
+To download the current development version use the jenkins server: **[Click here](http://ci.yannici.de)**
 
 ## Metrics
 
