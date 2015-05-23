@@ -22,6 +22,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -845,8 +846,12 @@ public class PlayerListener extends BaseListener {
 					}
 					
 					g.setPlayerDamager(p, damager);
+				} else if(edbee.getDamager().getType().equals(EntityType.ARROW)) {
+				    Arrow arrow = (Arrow) edbee.getDamager();
+				    if(arrow.getShooter() instanceof Player) {
+				        g.setPlayerDamager(p, (Player)arrow.getShooter());
+				    }
 				}
-
 			}
 			
 			if (!g.getCycle().isEndGameRunning()) {
