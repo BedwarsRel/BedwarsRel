@@ -20,6 +20,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -80,6 +82,48 @@ public class BlockListener extends BaseListener {
 	    	game.getRegion().addPlacedBlock(spread.getBlock(), spread.getBlock().getState());
 	    } else {
 	    	game.getRegion().addPlacedUnbreakableBlock(spread.getBlock(), spread.getBlock().getState());
+	    }
+	}
+	
+	@EventHandler
+	public void onForm(BlockFormEvent form) {
+	    if(form.isCancelled()) {
+	        return;
+	    }
+	    
+	    if(form.getNewState().getType() != Material.SNOW) {
+	        return;
+	    }
+	    
+	    Game game = Main.getInstance().getGameManager().getGameByLocation(form.getBlock().getLocation());
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() == GameState.STOPPED) {
+	        return;
+	    }
+	    
+	    form.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onFade(BlockFadeEvent e) {
+	    if(e.isCancelled()) {
+	        return;
+	    }
+	    
+	    Game game = Main.getInstance().getGameManager().getGameByLocation(e.getBlock().getLocation());
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() == GameState.STOPPED) {
+	        return;
+	    }
+	    
+	    if(!game.getRegion().isPlacedBlock(e.getBlock())) {
+	        e.setCancelled(true);
 	    }
 	}
 
