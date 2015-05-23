@@ -16,6 +16,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.material.Bed;
+import org.bukkit.material.Lever;
+import org.bukkit.material.Redstone;
 
 public class Region {
 	
@@ -30,6 +32,7 @@ public class Region {
 	private HashMap<Block, Integer> breakedBlockTypes = null;
 	private HashMap<Block, Byte> breakedBlockData = null;
 	private List<Block> placedUnbreakableBlocks = null;
+	private HashMap<Block, Boolean> breakedBlockPower = null;
 
 	public Region(Location pos1, Location pos2, String name) {
 		if (pos1 == null || pos2 == null) {
@@ -47,6 +50,7 @@ public class Region {
 		this.breakedBlockTypes = new HashMap<Block, Integer>();
 		this.breakedBlockData = new HashMap<Block, Byte>();
 		this.placedUnbreakableBlocks = new ArrayList<Block>();
+		this.breakedBlockPower = new HashMap<Block, Boolean>();
 		this.name = name;
 	}
 
@@ -146,7 +150,20 @@ public class Region {
 		    Block theBlock = this.getWorld().getBlockAt(block.getLocation());
 		    theBlock.setTypeId(this.breakedBlockTypes.get(block));
 		    theBlock.setData(this.breakedBlockData.get(block));
-		    theBlock.getState().update(true, true);
+		    
+		    if(theBlock.getState().getData() instanceof Lever) {
+		        Lever attach = (Lever)theBlock.getState().getData();
+		        BlockState supportState = theBlock.getState();
+		        BlockState initalState = theBlock.getState();
+		        attach.setPowered(this.breakedBlockPower.get(block));
+		        theBlock.getState().setData(attach);
+		        
+		        supportState.setType(Material.AIR);
+		        supportState.update(true, false);
+		        initalState.update(true);
+		    } else {
+		        theBlock.getState().update(true, true);
+		    }
 		}
 		
 		this.breakedBlocks.clear();
@@ -226,6 +243,7 @@ public class Region {
         if(replacedBlock != null) {
         	this.breakedBlockTypes.put(replacedBlock.getBlock(), replacedBlock.getTypeId());
         	this.breakedBlockData.put(replacedBlock.getBlock(), replacedBlock.getData().getData());
+        	
         	this.breakedBlocks.add(replacedBlock.getBlock());
         }
     }
@@ -246,6 +264,11 @@ public class Region {
     public void addBreakedBlock(Block bedBlock) {
         this.breakedBlockTypes.put(bedBlock, bedBlock.getTypeId());
         this.breakedBlockData.put(bedBlock, bedBlock.getData());
+        
+        if(bedBlock.getState().getData() instanceof Redstone) {
+            this.breakedBlockPower.put(bedBlock, ((Redstone)bedBlock.getState().getData()).isPowered());
+        }
+        
         this.breakedBlocks.add(bedBlock);
     }
     
@@ -256,6 +279,10 @@ public class Region {
             this.breakedBlockTypes.put(replaced.getBlock(), replaced.getTypeId());
             this.breakedBlockData.put(replaced.getBlock(), replaced.getData().getData());
             this.breakedBlocks.add(replaced.getBlock());
+            
+            if(replaced.getData() instanceof Redstone) {
+                this.breakedBlockPower.put(placed, ((Redstone)replaced.getData()).isPowered());
+            }
         }
 	}
 

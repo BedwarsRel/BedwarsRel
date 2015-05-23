@@ -190,10 +190,10 @@ public class Game {
 		this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
 		
 		this.runningTasks.clear();
-		this.makeTeamsReady();
 		this.cleanUsersInventory();
 		this.clearProtections();
 		this.moveFreePlayersToTeam();
+		this.makeTeamsReady();
 		
 		// set statistics
 		for(Player player : this.getTeamPlayers()) {
