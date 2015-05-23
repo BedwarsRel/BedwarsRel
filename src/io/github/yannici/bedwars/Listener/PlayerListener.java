@@ -613,14 +613,16 @@ public class PlayerListener extends BaseListener {
 			    return;
 			}
 			
-			if(clickedBlock.getType() == Material.LEVER
-			        && !g.isSpectator(player)
-			        && pie.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if(!g.getRegion().isPlacedUnbreakableBlock(clickedBlock)) {
-                    g.getRegion().addPlacedUnbreakableBlock(clickedBlock, clickedBlock.getState());
-                }
-                return;
-            }
+			if(clickedBlock != null) {
+			    if(clickedBlock.getType() == Material.LEVER
+	                    && !g.isSpectator(player)
+	                    && pie.getAction() == Action.RIGHT_CLICK_BLOCK) {
+	                if(!g.getRegion().isPlacedUnbreakableBlock(clickedBlock)) {
+	                    g.getRegion().addPlacedUnbreakableBlock(clickedBlock, clickedBlock.getState());
+	                }
+	                return;
+	            }
+			}
 
 			if (interactingMaterial == Material.SLIME_BALL
 					&& g.isSpectator(player)) {
