@@ -109,7 +109,11 @@ public class NewItemShop {
 			if (this.currentCategory != null) {
 				if (this.currentCategory.equals(category)) {
 					im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
-					im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					try {
+					    im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+					} catch(Exception ex) {
+					    // do nothing
+					}
 				}
 			}
 
