@@ -55,5 +55,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("specials.trap.show-particles", true);
 		Main.getInstance().getConfig().addDefault("specials.trap.play-sound", true);
 		// </1.1.9>
+		
+		// <1.1.11>
+		Main.getInstance().getConfig().addDefault("specials.magnetshoe.probability", 75);
+		Main.getInstance().getConfig().addDefault("specials.magnetshoe.boots", "IRON_BOOTS");
+		// </1.1.11>
 	}
 }
