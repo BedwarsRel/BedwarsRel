@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 
 import org.bukkit.Material;
@@ -26,9 +27,22 @@ public class RescuePlatform extends SpecialItem {
         this.platformBlocks = new ArrayList<Block>();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Material getItemMaterial() {
-        return Material.BLAZE_ROD;
+        String item = Main.getInstance().getStringConfig("specials.rescue-platform.item", "BLAZE_ROD");
+        Material material = null;
+        if(Utils.isNumber(item)) {
+            material = Material.getMaterial(Integer.valueOf(item));
+        } else {
+            material = Material.getMaterial(item);
+        }
+        
+        if(material == null) {
+            return Material.BLAZE_ROD;
+        }
+        
+        return material;
     }
     
     public int getLivingTime() {

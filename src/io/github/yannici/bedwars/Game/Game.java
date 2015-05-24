@@ -1284,7 +1284,7 @@ public class Game {
 					.getScheduler()
 					.runTaskTimer(Main.getInstance(), rs,
 							20L,
-							((long) (rs.getInterval() / 1000) * 20)));
+							Math.round((((double)rs.getInterval()) / 1000.0) * 20.0)));
 		}
 	}
 

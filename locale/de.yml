@@ -101,7 +101,7 @@ ingame:
         beddestroyed: "Das Bett von Team $team$ wurde von $player$ zerstört!"
     specials:
         rescue-platform:
-            left: "Du musst noch $time$ Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!"
+            left: "Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!"
         trap:
             trapped: "&eJemand ist in eine &cTrap&e von eurem Team gelaufen!"
 lobby:

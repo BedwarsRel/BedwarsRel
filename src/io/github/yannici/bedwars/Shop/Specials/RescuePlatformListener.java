@@ -63,6 +63,8 @@ public class RescuePlatformListener implements Listener {
             return;
         }
         
+        boolean canBreak = Main.getInstance().getBooleanConfig("specials.rescue-platform.can-break", false);
+        
         if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
             player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notinair")));
             return;
@@ -87,7 +89,12 @@ public class RescuePlatformListener implements Listener {
             
             placed.setType(Material.GLASS);
             
-            game.getRegion().addPlacedUnbreakableBlock(placed, null);
+            if(!canBreak) {
+                game.getRegion().addPlacedUnbreakableBlock(placed, null);
+            }  {
+                game.getRegion().addPlacedBlock(placed, null);
+            }
+            
             platform.addPlatformBlock(placed);
         }
         

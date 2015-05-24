@@ -102,7 +102,7 @@ ingame:
         beddestroyed: "$player$ разрушил кровать команды $team$"
     specials:
         rescue-platform:
-            left: "Платформа исчезнет через &c$time$"
+            left: "Платформа исчезнет через &c$time$&f"
         trap:
             trapped: "&eКто-то попался в ловушку вашей команды"
 lobby:

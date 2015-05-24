@@ -349,6 +349,16 @@ specials:
         # use a rescue platform again
         using-wait-time: 20
         
+        # Item
+        # type: int or string
+        # The name or id of the item which should be used for the rescue platform
+        item: BLAZE_ROD
+        
+        # Can break
+        # type: boolean
+        # If true, the rescue platform can be breaked by other players.
+        can-break: false
+        
     # Trap settings
     trap:
         # Trap duration in seconds
