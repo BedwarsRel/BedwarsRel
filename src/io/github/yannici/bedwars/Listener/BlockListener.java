@@ -285,6 +285,11 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
+		if(ignite.getIgnitingBlock() == null
+		        && ignite.getIgnitingEntity() == null) {
+		    return;
+		}
+		
 		Game game = null;
 		if(ignite.getIgnitingBlock() == null) {
 		    if(ignite.getIgnitingEntity() instanceof Player) {
@@ -316,7 +321,8 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		if(!game.getRegion().isPlacedBlock(ignite.getIgnitingBlock())) {
+		if(!game.getRegion().isPlacedBlock(ignite.getIgnitingBlock())
+		        && ignite.getIgnitingBlock() != null) {
 		    game.getRegion().addPlacedBlock(ignite.getIgnitingBlock(), ignite.getIgnitingBlock().getState());
 		}
 	}
