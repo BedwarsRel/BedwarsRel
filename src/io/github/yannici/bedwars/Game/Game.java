@@ -576,6 +576,7 @@ public class Game {
 		}
 
 		PlayerStorage storage = this.storages.get(p);
+		storage.clean();
 		storage.restore();
 		this.playerSettings.remove(p);
 		
