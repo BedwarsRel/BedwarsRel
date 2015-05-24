@@ -359,6 +359,18 @@ specials:
         # If true, the rescue platform can be breaked by other players.
         can-break: false
         
+    # Magnetshoe settings
+    magnetshoe:
+        # Knockback probability
+        # type: int
+        # The probability in percent the knockback will be prevented
+        probability: 75
+        
+        # Knockback boots
+        # type: item (boots only!!!)
+        # The boots which are used as magnetshoe
+        boots: IRON_BOOTS
+        
     # Trap settings
     trap:
         # Trap duration in seconds
@@ -515,6 +527,19 @@ shop:
                 amount: 1
                 enchants:
                     0: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 6
+              item2:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                name: '&aMagnetschuhe'
+                lore:
+                  - "Trage diese Schuhe und erhalte 75%"
+                  - "Wahrscheinlichkeit auf keinen Knockback!"
+                item: IRON_BOOTS
+                amount: 1
             - item1:
                 item: IRON_INGOT
                 amount: 1

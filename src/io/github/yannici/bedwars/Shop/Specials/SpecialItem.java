@@ -48,8 +48,10 @@ public abstract class SpecialItem {
     public static void loadSpecials() {
         SpecialItem.availableSpecials.add(RescuePlatform.class);
         SpecialItem.availableSpecials.add(Trap.class);
+        SpecialItem.availableSpecials.add(MagnetShoe.class);
         Main.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new TrapListener(), Main.getInstance());
+        Main.getInstance().getServer().getPluginManager().registerEvents(new MagnetShoeListener(), Main.getInstance());
     }
     
     public static List<Class<? extends SpecialItem>> getSpecials() {

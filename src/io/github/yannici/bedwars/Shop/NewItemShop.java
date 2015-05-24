@@ -22,6 +22,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -108,6 +109,7 @@ public class NewItemShop {
 			if (this.currentCategory != null) {
 				if (this.currentCategory.equals(category)) {
 					im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+					im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 				}
 			}
 
