@@ -851,7 +851,7 @@ shop:
                 lore:
                     - Tritt ein Gegner drauf, wirst du informiert
                     - "und er kann sich nur eingeschränkt bewegen."
-                item: 132
+                item: 287
                 amount: 1
     drinks:
         item: POTION
