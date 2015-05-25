@@ -67,6 +67,22 @@ public final class Utils {
 		return (isBed.getType() == Material.BED 
 				|| isBed.getType() == Material.BED_BLOCK);
 	}
+	
+	@SuppressWarnings("deprecation")
+    public static Material getMaterialByConfig(String key, Material defaultMaterial) {
+	    try {
+    	    String cfg = Main.getInstance().getStringConfig(key, defaultMaterial.name());
+    	    if(Utils.isNumber(cfg)) {
+    	        return Material.getMaterial(Integer.valueOf(cfg));
+    	    } else {
+    	        return Material.getMaterial(cfg);
+    	    }
+	    } catch(Exception ex) {
+	        // just return default
+	    }
+	    
+	    return defaultMaterial;
+	}
 
 	public static Object getCraftPlayer(Player player) {
 		try {

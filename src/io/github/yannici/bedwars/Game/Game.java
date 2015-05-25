@@ -838,10 +838,7 @@ public class Game {
 			cfg.set("signs", locList);
 			cfg.save(config);
 		} catch (Exception ex) {
-			Main.getInstance()
-					.getServer()
-					.getConsoleSender()
-					.sendMessage(
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
 							ChatWriter.pluginMessage(ChatColor.RED
 									+ Main._l("errors.savesign")));
 		}
@@ -1117,10 +1114,7 @@ public class Game {
 	public void setLobby(Location lobby) {
 		if (this.region != null) {
 			if (this.region.getWorld().equals(lobby.getWorld())) {
-				Main.getInstance()
-						.getServer()
-						.getConsoleSender()
-						.sendMessage(
+				Main.getInstance().getServer().getConsoleSender().sendMessage(
 								ChatWriter.pluginMessage(ChatColor.RED
 										+ Main._l("errors.lobbyongameworld")));
 				return;

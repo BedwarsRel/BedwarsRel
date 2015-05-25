@@ -45,6 +45,17 @@ gamelength: 60
 # wait in the lobby until the game starts (when enough players) in seconds.
 lobbytime: 60
 
+# Chat format (all)
+# type: string
+# The chat format for messages which will be sent to all ingame players
+# if player is spectator $team$ will be "Spectator" (translated, of course!)
+ingame-chatformat-all: "[$all$] <$team$>$player$: $msg$"
+
+# Chat format
+# type: string
+# The chat format for the normal ingame chat between team-players
+ingame-chatformat: "<$team$>$player$: $msg$"
+
 # Explode Behaviour
 explodes:
     # Destroy world blocks
@@ -358,6 +369,11 @@ specials:
         # type: boolean
         # If true, the rescue platform can be breaked by other players.
         can-break: false
+        
+        # Block
+        # type: int or string
+        # The block-type which should be used for the rescue platform
+        block: GLASS
         
     # Magnetshoe settings
     magnetshoe:

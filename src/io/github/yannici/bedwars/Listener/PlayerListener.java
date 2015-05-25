@@ -325,6 +325,25 @@ public class PlayerListener extends BaseListener {
 			game.getNewItemShop(player).handleInventoryClick(ice, game, player);
 		}
 	}
+	
+	private String getChatFormat(String format, Team team, boolean isSpectator, boolean all) {
+	    String form = format;
+	    
+	    if(all) {
+	        form = form.replace("$all$", Main._l("ingame.all") + ChatColor.RESET);
+	    }
+	    
+	    form = form.replace("$player$", "%1$s" + ChatColor.RESET);
+	    form = form.replace("$msg$", "%2$s");
+	    
+	    if(isSpectator) {
+	        form = form.replace("$team$", Main._l("ingame.spectator"));
+	    } else {
+	        form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
+	    }
+	    
+	    return form;
+	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent ce) {
@@ -372,16 +391,8 @@ public class PlayerListener extends BaseListener {
 			    ce.setMessage(message);
 			}
 			
-
-			if (!isSpectator) {
-				ce.setFormat("[" + Main._l("ingame.all") + "] <"
-						+ team.getDisplayName() + ChatColor.RESET + ">"
-						+ "%1$s" + ChatColor.RESET + ": %2$s");
-			} else {
-				ce.setFormat("[" + Main._l("ingame.all") + "] <"
-						+ Main._l("ingame.spectator") + ">" + "%1$s"
-						+ ChatColor.RESET + ": %2$s");
-			}
+			String format = this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$"), team, isSpectator, true);
+			ce.setFormat(format);
 
 			if (!Main.getInstance().isBungee() || seperateSpectatorChat) {
 				Iterator<Player> recipiens = ce.getRecipients().iterator();
@@ -406,8 +417,7 @@ public class PlayerListener extends BaseListener {
 		} else {
 			message = message.trim();
 			ce.setMessage(message);
-			ce.setFormat("<" + team.getDisplayName() + ChatColor.RESET + ">"
-					+ "%1$s" + ChatColor.RESET + ": %2$s");
+			ce.setFormat(this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat", "[$all$] <$team$>$player$: $msg$"), team, false, false));
 
 			Iterator<Player> recipiens = ce.getRecipients().iterator();
 			while (recipiens.hasNext()) {

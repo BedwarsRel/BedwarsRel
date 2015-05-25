@@ -55,10 +55,7 @@ public class LocalizationConfig extends YamlConfiguration {
 			this.load(reader);
 		} catch (Exception e) {
 			// no localization file, no translation :D
-			Main.getInstance()
-					.getServer()
-					.getConsoleSender()
-					.sendMessage(
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
 							ChatWriter.pluginMessage(ChatColor.RED
 									+ "Failed to load localization language!"));
 			return;

@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Shop.Specials;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
@@ -87,7 +88,7 @@ public class RescuePlatformListener implements Listener {
                 continue;
             }
             
-            placed.setType(Material.GLASS);
+            placed.setType(Utils.getMaterialByConfig("specials.rescue-platform.block", Material.GLASS));
             
             if(!canBreak) {
                 game.getRegion().addPlacedUnbreakableBlock(placed, null);

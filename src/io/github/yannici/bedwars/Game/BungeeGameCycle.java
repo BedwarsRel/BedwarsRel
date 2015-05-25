@@ -47,7 +47,7 @@ public class BungeeGameCycle extends GameCycle {
             public void run() {
                 Bukkit.shutdown();
             }
-        }.runTaskLater(Main.getInstance(), 20L);
+        }.runTaskLater(Main.getInstance(), 70L);
 		
 	}
 

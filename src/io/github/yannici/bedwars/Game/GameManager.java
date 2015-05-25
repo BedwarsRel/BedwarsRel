@@ -143,10 +143,7 @@ public class GameManager {
 
 		for (Game g : this.games) {
 			if (!g.run(Main.getInstance().getServer().getConsoleSender())) {
-				Main.getInstance()
-						.getServer()
-						.getConsoleSender()
-						.sendMessage(
+				Main.getInstance().getServer().getConsoleSender().sendMessage(
 								ChatWriter.pluginMessage(ChatColor.RED
 										+ Main._l("errors.gamenotloaded")));
 			} else {
@@ -257,20 +254,14 @@ public class GameManager {
 			game.updateSigns();
 			
 			this.games.add(game);
-			Main.getInstance()
-					.getServer()
-					.getConsoleSender()
-					.sendMessage(
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
 							ChatWriter.pluginMessage(ChatColor.GREEN
 									+ Main._l(
 											"success.gameloaded",
 											ImmutableMap.of("game",
 													game.getName()))));
 		} catch (Exception ex) {
-			Main.getInstance()
-					.getServer()
-					.getConsoleSender()
-					.sendMessage(
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
 							ChatWriter.pluginMessage(ChatColor.RED
 									+ Main._l(
 											"errors.gameloaderror",

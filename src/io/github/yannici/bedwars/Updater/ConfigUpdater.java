@@ -60,5 +60,12 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("specials.magnetshoe.probability", 75);
 		Main.getInstance().getConfig().addDefault("specials.magnetshoe.boots", "IRON_BOOTS");
 		// </1.1.11>
+		
+		// <1.1.13>
+		Main.getInstance().getConfig().addDefault("specials.rescue-platform.block", "GLASS");
+		Main.getInstance().getConfig().addDefault("specials.rescue-platform.block", "BLAZE_ROD");
+		Main.getInstance().getConfig().addDefault("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$");
+		Main.getInstance().getConfig().addDefault("ingame-chatformat", "<$team$>$player$: $msg$");
+		// </1.1.13>
 	}
 }

@@ -27,22 +27,9 @@ public class RescuePlatform extends SpecialItem {
         this.platformBlocks = new ArrayList<Block>();
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public Material getItemMaterial() {
-        String item = Main.getInstance().getStringConfig("specials.rescue-platform.item", "BLAZE_ROD");
-        Material material = null;
-        if(Utils.isNumber(item)) {
-            material = Material.getMaterial(Integer.valueOf(item));
-        } else {
-            material = Material.getMaterial(item);
-        }
-        
-        if(material == null) {
-            return Material.BLAZE_ROD;
-        }
-        
-        return material;
+       return Utils.getMaterialByConfig("specials.rescue-platform.item", Material.BLAZE_ROD);
     }
     
     public int getLivingTime() {

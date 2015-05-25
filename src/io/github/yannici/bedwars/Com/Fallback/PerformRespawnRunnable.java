@@ -74,10 +74,7 @@ public class PerformRespawnRunnable extends BukkitRunnable {
 			aMethod.invoke(playerConnection,
 					new Object[] { packetPlayInClientCommand });
 		} catch (Exception ex) {
-			Main.getInstance()
-					.getServer()
-					.getConsoleSender()
-					.sendMessage(
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
 							ChatWriter
 									.pluginMessage(ChatColor.RED
 											+ "Plugin not compatible with your server version!"));
@@ -102,10 +99,7 @@ public class PerformRespawnRunnable extends BukkitRunnable {
 			constr.setAccessible(true);
 			return constr.newInstance(constructorParams);
 		} catch (Exception ex) {
-			Main.getInstance()
-					.getServer()
-					.getConsoleSender()
-					.sendMessage(
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
 							ChatWriter.pluginMessage(ChatColor.RED
 									+ "Couldn't catch packet class "
 									+ ChatColor.YELLOW + packetName));
