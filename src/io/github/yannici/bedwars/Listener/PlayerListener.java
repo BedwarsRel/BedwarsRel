@@ -342,7 +342,7 @@ public class PlayerListener extends BaseListener {
 	        form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
 	    }
 	    
-	    return form;
+	    return ChatColor.translateAlternateColorCodes('&', form);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
