@@ -92,7 +92,7 @@ public class RescuePlatformListener implements Listener {
             
             if(!canBreak) {
                 game.getRegion().addPlacedUnbreakableBlock(placed, null);
-            }  {
+            } else {
                 game.getRegion().addPlacedBlock(placed, null);
             }
             
