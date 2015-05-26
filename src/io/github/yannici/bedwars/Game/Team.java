@@ -62,7 +62,13 @@ public class Team implements ConfigurationSerializable {
 		if (this.scoreboardTeam.getPlayers().size() >= this.maxPlayers) {
 			return false;
 		}
-
+		
+		boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
+		if(overwriteNames) {
+			player.setDisplayName(this.getChatColor() + player.getName());
+			player.setPlayerListName(this.getChatColor() + player.getName());
+		}
+		
 		this.scoreboardTeam.addPlayer(player);
 		return true;
 	}
@@ -102,6 +108,14 @@ public class Team implements ConfigurationSerializable {
 		if (this.scoreboardTeam.hasPlayer(player)) {
 			this.scoreboardTeam.removePlayer(player);
 		}
+		
+	    boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
+	    if(overwriteNames) {
+	    	if(player.isOnline()) {
+	    		player.getPlayer().setDisplayName(ChatColor.RESET + player.getName());
+	    		player.getPlayer().setPlayerListName(ChatColor.RESET + player.getName());
+	    	}
+	    }
 	}
 
 	public boolean isInTeam(Player p) {

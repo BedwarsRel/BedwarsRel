@@ -32,6 +32,7 @@ public class PlayerStorage {
     private Location left = null;
     private int level = 0;
     private String displayName = null;
+    private String listName = null;
     private int foodLevel = 0;
 
     public PlayerStorage(Player p) {
@@ -48,6 +49,7 @@ public class PlayerStorage {
         this.mode = this.player.getGameMode();
         this.left = this.player.getLocation();
         this.level = this.player.getLevel();
+        this.listName = this.player.getPlayerListName();
         this.displayName = this.player.getDisplayName();
         this.foodLevel = this.player.getFoodLevel();
     }
@@ -77,6 +79,12 @@ public class PlayerStorage {
         for (PotionEffect e : this.player.getActivePotionEffects()) {
             this.player.removePotionEffect(e.getType());
         }
+        
+        boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
+        if(overwriteNames) {
+        	this.player.setDisplayName(ChatColor.RESET + this.player.getName());
+        	this.player.setPlayerListName(ChatColor.RESET + this.player.getName());
+        }
 
         this.player.updateInventory();
     }
@@ -93,6 +101,7 @@ public class PlayerStorage {
         this.player.addPotionEffects(this.effects);
         this.player.setExp(this.xp);
         this.player.setLevel(this.level);
+        this.player.setPlayerListName(this.listName);
         this.player.setDisplayName(this.displayName);
         this.player.setFoodLevel(this.foodLevel);
         

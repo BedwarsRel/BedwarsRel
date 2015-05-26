@@ -39,6 +39,13 @@ global-messages: true
 # the game will end without a winner.
 gamelength: 60
 
+# Override player display name
+# type: boolean
+# If true, all player display names will be overwritten (prefix etc. will be removed)
+# If false, it'll try to change the name color only, but will leave prefix which maybe causes
+# wrong colors in tablist or chat
+overwrite-names: false
+
 # Lobby Time
 # Type: int
 # The lobby time defines how long you have to

@@ -67,5 +67,9 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$");
 		Main.getInstance().getConfig().addDefault("ingame-chatformat", "<$team$>$player$: $msg$");
 		// </1.1.13>
+		
+		// <1.1.14>
+		Main.getInstance().getConfig().addDefault("overwrite-names", false);
+		// </1.1.14>
 	}
 }
