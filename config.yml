@@ -417,6 +417,7 @@ specials:
         # Wall width
         # type: int
         # The width in blocks the wall should be
+        # !! ODD ONLY !!
         width: 5
         
         # Wall height
@@ -906,6 +907,16 @@ shop:
                     - Tritt ein Gegner drauf, wirst du informiert
                     - "und er kann sich nur eingeschränkt bewegen."
                 item: 287
+                amount: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 64
+              reward:
+                name: '&4Schutzmauer'
+                lore:
+                    - "Aktiviere es und erhalte sofort eine"
+                    - "5x3 große Mauer vor dir!"
+                item: BRICK
                 amount: 1
     drinks:
         item: POTION

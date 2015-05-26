@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.UUIDFetcher;
 import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
 
@@ -55,9 +56,17 @@ public class PlayerStatistic extends Statistic {
 	}
 	
 	@DBGetField(name = "uuid", dbType = "VARCHAR(255)")
-	public String getUUID() {
+	public String getUUID() throws Exception {
 	    if(this.uuid == null) {
-	        this.uuid = this.player.getUniqueId();
+	        try {
+	            if(this.player.isOnline()) {
+	                this.uuid = this.player.getPlayer().getUniqueId();
+	            } else {
+	                this.uuid = this.player.getUniqueId();
+	            }
+	        } catch(Exception ex) {
+	            this.uuid = UUIDFetcher.getUUIDOf(this.player.getName());
+	        }
 	    }
 	    
 		return this.uuid.toString();

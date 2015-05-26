@@ -49,9 +49,11 @@ public abstract class SpecialItem {
         SpecialItem.availableSpecials.add(RescuePlatform.class);
         SpecialItem.availableSpecials.add(Trap.class);
         SpecialItem.availableSpecials.add(MagnetShoe.class);
+        SpecialItem.availableSpecials.add(ProtectionWall.class);
         Main.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new TrapListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new MagnetShoeListener(), Main.getInstance());
+        Main.getInstance().getServer().getPluginManager().registerEvents(new ProtectionWallListener(), Main.getInstance());
     }
     
     public static List<Class<? extends SpecialItem>> getSpecials() {

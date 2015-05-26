@@ -5,8 +5,10 @@ import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class ProtectionWallListener implements Listener {
@@ -15,12 +17,8 @@ public class ProtectionWallListener implements Listener {
 		super();
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent interact) {
-		if(interact.isCancelled()) {
-			return;
-		}
-		
 		if(interact.getAction().equals(Action.LEFT_CLICK_AIR)
                 || interact.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
             return;
@@ -45,6 +43,30 @@ public class ProtectionWallListener implements Listener {
 		}
 		
 		wall.create(interact.getPlayer(), game);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlace(BlockPlaceEvent place) {
+	    if(place.isCancelled()) {
+	        return;
+	    }
+	    
+	    ProtectionWall wall = new ProtectionWall();
+	    if(place.getBlock().getType() != wall.getItemMaterial()) {
+	        return;
+	    }
+	    
+	    Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    place.setBuild(false);
+	    place.setCancelled(true);
 	}
 
 }

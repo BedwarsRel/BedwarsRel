@@ -107,6 +107,7 @@ ingame:
             trapped: "&eКто-то попался в ловушку вашей команды"
         protection-wall:
             left: "There are &c$time$&f second(s) left until you can use the next protection wall!"
+            not-usable-here: "You cannot use the protection wall here!"
 lobby:
     countdown: "Игра начнётся через $sec$"
     countdowncancel: "Нужно больше игроков. Отчёт времени отменён"
