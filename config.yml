@@ -382,6 +382,53 @@ specials:
         # The block-type which should be used for the rescue platform
         block: GLASS
         
+    # Protection wall settings
+    protection-wall:
+        # Break time
+        # type: int
+        # The time in seconds when the wall should be removed again or
+        # 0 when the wall shouldn't be breaked again
+        break-time: 0
+    
+        # Wait time 
+        # type: int
+        # The wait time in seconds a player has to wait until he can
+        # use a protection wall again or 0 if protection walls can be activated anytime
+        wait-time: 20
+        
+        # Can break wall
+        # type: boolean
+        # If true, the wall can be breaked by other players or
+        # false if it shouldn't be breakable
+        can-break: true
+        
+        # Interact item
+        # type: int or string
+        # The item id or string which indicates which item should be in the
+        # hand to execute the protection wall on interaction
+        item: BRICK
+        
+        # Wall type
+        # type: int or string
+        # The item-type which should be used for the wall. Should be 
+        # a real block!
+        block: SANDSTONE
+        
+        # Wall width
+        # type: int
+        # The width in blocks the wall should be
+        width: 5
+        
+        # Wall height
+        # type: int
+        # The height in blocks the wall should be
+        height: 3
+        
+        # Distance to player
+        # type: int
+        # The distance in blocks the wall should be away from the player
+        distance: 2
+        
     # Magnetshoe settings
     magnetshoe:
         # Knockback probability

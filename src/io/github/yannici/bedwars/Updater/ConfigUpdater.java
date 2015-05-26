@@ -70,6 +70,14 @@ public class ConfigUpdater {
 		
 		// <1.1.14>
 		Main.getInstance().getConfig().addDefault("overwrite-names", false);
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.break-time", 0);
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.wait-time", 20);
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.can-break", true);
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.item", "BRICK");
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.block", "SANDSTONE");
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.width", 4);
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.height", 4);
+		Main.getInstance().getConfig().addDefault("specials.protection-wall.distance", 2);
 		// </1.1.14>
 	}
 }

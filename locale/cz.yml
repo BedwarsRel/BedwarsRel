@@ -109,6 +109,8 @@ ingame:
             left: "Musis pockat &c$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!"
         trap:
             trapped: "&eNejaky hrac uvizl v &cpasti&e tveho tymu!"
+        protection-wall:
+            left: "There are &c$time$&f second(s) left until you can use the next protection wall!"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."

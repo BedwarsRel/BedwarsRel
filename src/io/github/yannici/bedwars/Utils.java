@@ -47,6 +47,11 @@ public final class Utils {
 		return builder.toString();
 	}
 	
+	public static Location getDirectionLocation(Location location, int blockOffset) {
+		Location loc = location.clone();
+		return loc.add(loc.getDirection().setY(0).normalize().multiply(3.0F));
+	}
+	
 	public static Block getBedNeighbor(Block head) {
 		if(Utils.isBedBlock(head.getRelative(BlockFace.EAST))) {
 			return head.getRelative(BlockFace.EAST);

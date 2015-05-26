@@ -105,6 +105,8 @@ ingame:
             left: "Платформа исчезнет через &c$time$&f"
         trap:
             trapped: "&eКто-то попался в ловушку вашей команды"
+        protection-wall:
+            left: "There are &c$time$&f second(s) left until you can use the next protection wall!"
 lobby:
     countdown: "Игра начнётся через $sec$"
     countdowncancel: "Нужно больше игроков. Отчёт времени отменён"

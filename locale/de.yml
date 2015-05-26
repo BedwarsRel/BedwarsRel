@@ -104,6 +104,8 @@ ingame:
             left: "Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!"
         trap:
             trapped: "&eJemand ist in eine &cTrap&e von eurem Team gelaufen!"
+        protection-wall:
+            left: "Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Schutzmauer zu aktivieren!"
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"
