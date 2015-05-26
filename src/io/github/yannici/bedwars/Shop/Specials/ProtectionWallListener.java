@@ -42,6 +42,10 @@ public class ProtectionWallListener implements Listener {
 			return;
 		}
 		
+		if(game.isSpectator(interact.getPlayer())) {
+		    return;
+		}
+		
 		wall.create(interact.getPlayer(), game);
 	}
 	
@@ -64,6 +68,10 @@ public class ProtectionWallListener implements Listener {
 	    if(game.getState() != GameState.RUNNING) {
 	        return;
 	    }
+	    
+	    if(game.isSpectator(place.getPlayer())) {
+            return;
+        }
 	    
 	    place.setBuild(false);
 	    place.setCancelled(true);
