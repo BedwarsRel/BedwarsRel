@@ -271,7 +271,7 @@ public class Main extends JavaPlugin {
 					Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't check for updates: " + e.getMessage()));
 				}
 			}
-		}.runTaskTimerAsynchronously(this, 3600L, 3600L);
+		}.runTaskTimerAsynchronously(this, 36000L, 36000L);
 	}
 	
 	private boolean updateAvailable(String currentVersion) {
