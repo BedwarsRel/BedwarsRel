@@ -28,7 +28,7 @@ public class BungeeGameCycle extends GameCycle {
 	}
 
 	@Override
-	public synchronized void onGameEnds() {
+	public void onGameEnds() {
 		for (Player player : this.getGame().getTeamPlayers()) {
 			for (Player freePlayer : this.getGame().getFreePlayers()) {
 				player.showPlayer(freePlayer);

@@ -24,6 +24,17 @@ public class TrapListener implements Listener {
 	
 	@EventHandler
 	public void onMove(PlayerMoveEvent move) {
+		if(move.isCancelled()) {
+			return;
+		}
+		
+		double difX = Math.abs(move.getFrom().getX()-move.getTo().getX());
+		double difZ = Math.abs(move.getFrom().getZ()-move.getTo().getZ());
+		
+		if(difX == 0.0 && difZ == 0.0) {
+			return;
+		}
+		
 		Player player = move.getPlayer();
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		

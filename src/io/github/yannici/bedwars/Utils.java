@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars;
 
+import io.github.yannici.bedwars.Game.Game;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -45,6 +48,25 @@ public final class Utils {
 		}
 
 		return builder.toString();
+	}
+	
+	public static void createParticleInGame(Game game, String particle, Location loc) {
+		try {
+			Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com."
+				+ Main.getInstance().getCurrentVersion()
+				+ ".ParticleSpawner");
+			
+			Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class, float.class, float.class, float.class);
+			particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ());
+		} catch(Exception ex) {
+			try {
+				Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.ParticleSpawner");
+				Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class, float.class, float.class, float.class);
+				particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ());
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public static Location getDirectionLocation(Location location, int blockOffset) {

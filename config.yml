@@ -63,6 +63,13 @@ ingame-chatformat-all: "[$all$] <$team$>$player$: $msg$"
 # The chat format for the normal ingame chat between team-players
 ingame-chatformat: "<$team$>$player$: $msg$"
 
+# Bed sound
+# type: string
+# The sound which should be played when a bed will be destroyed
+# Which sound are available you can find here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+# (in the Enum Constant Summery)
+bed-sound: ENDERDRAGON_GROWL
+
 # Explode Behaviour
 explodes:
     # Destroy world blocks
@@ -917,6 +924,17 @@ shop:
                     - "Aktiviere es und erhalte sofort eine"
                     - "5x3 große Mauer vor dir!"
                 item: BRICK
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                name: '&fTeleportationspuder'
+                lore:
+                    - "Aktiviere dieses Pulver und du wirst"
+                    - "in 6 Sekunden an den Spawn teleportiert."
+                    - "Achtung: Bewegen bricht den Vorgang ab!"
+                item: 289
                 amount: 1
     drinks:
         item: POTION

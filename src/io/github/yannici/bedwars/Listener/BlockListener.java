@@ -226,10 +226,6 @@ public class BlockListener extends BaseListener {
 				statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
 				statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
 			}
-			
-			// not used anymore
-			//g.getRegion().addBreakedBlock(neighbor);
-            //g.getRegion().addBreakedBlock(breakBlock);
             
 			neighbor.getDrops().clear();
 			neighbor.setType(Material.AIR);
@@ -245,7 +241,9 @@ public class BlockListener extends BaseListener {
 											+ ChatColor.RED,
 											"player",
                                             Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
-			g.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 10.0F);
+			
+			
+			g.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
 			g.setPlayersScoreboard();
 			return;
 		}

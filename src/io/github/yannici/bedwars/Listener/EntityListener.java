@@ -257,7 +257,7 @@ public class EntityListener extends BaseListener {
         		                                            + ChatColor.RED,
         		                                            "player",
         		                                            Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
-        		            game.broadcastSound(Sound.ENDERDRAGON_GROWL, 30.0F, 10.0F);
+        		            game.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
         		            game.setPlayersScoreboard();
             			}
             		} else {

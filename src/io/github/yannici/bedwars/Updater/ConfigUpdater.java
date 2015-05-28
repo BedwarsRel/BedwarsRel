@@ -78,6 +78,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("specials.protection-wall.width", 4);
 		Main.getInstance().getConfig().addDefault("specials.protection-wall.height", 4);
 		Main.getInstance().getConfig().addDefault("specials.protection-wall.distance", 2);
+		Main.getInstance().getConfig().addDefault("bed-sound", "ENDERDRAGON_GROWL");
 		// </1.1.14>
 	}
 }

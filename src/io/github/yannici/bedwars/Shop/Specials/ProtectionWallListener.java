@@ -70,6 +70,8 @@ public class ProtectionWallListener implements Listener {
 	    }
 	    
 	    if(game.isSpectator(place.getPlayer())) {
+	    	place.setBuild(false);
+	    	place.setCancelled(true);
             return;
         }
 	    

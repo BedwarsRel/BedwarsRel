@@ -31,9 +31,33 @@ public class WarpPowderListener implements Listener {
         }
         
         WarpPowder warpPowder = new WarpPowder();
-        if(!ev.getMaterial().equals(warpPowder.getItemMaterial())) {
+        if(!ev.getMaterial().equals(warpPowder.getItemMaterial())
+        		&& !ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
             return;
         }
+        
+        WarpPowder powder = null;
+    	for(SpecialItem item : game.getSpecialItems()) {
+    		if(!(item instanceof WarpPowder)) {
+    			continue;
+    		}
+    		
+    		powder = (WarpPowder)item;
+    		if(!powder.getPlayer().equals(player)) {
+    			powder = null;
+    			continue;
+    		}
+    		break;
+    	}
+    	
+    	if(powder != null) {
+    		 if(ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
+	        	powder.cancelTeleport(true);
+	        	ev.setCancelled(true);
+	        }
+    		
+    	    return;
+    	}
         
         if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
             return;
@@ -42,6 +66,7 @@ public class WarpPowderListener implements Listener {
         warpPowder.setPlayer(player);
         warpPowder.setGame(game);
         warpPowder.runTask();
+        ev.setCancelled(true);
     }
 
 }
