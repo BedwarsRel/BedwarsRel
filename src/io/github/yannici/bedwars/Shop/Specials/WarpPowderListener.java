@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 public class WarpPowderListener implements Listener {
 
@@ -52,7 +53,7 @@ public class WarpPowderListener implements Listener {
     	
     	if(powder != null) {
     		 if(ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
-	        	powder.cancelTeleport(true);
+	        	powder.cancelTeleport(true, true);
 	        	ev.setCancelled(true);
 	        }
     		
@@ -67,6 +68,47 @@ public class WarpPowderListener implements Listener {
         warpPowder.setGame(game);
         warpPowder.runTask();
         ev.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onMove(PlayerMoveEvent mv) {
+        if(mv.isCancelled()) {
+            return;
+        }
+        
+        if(mv.getFrom().getBlock().equals(mv.getTo().getBlock())) {
+            return;
+        }
+        
+        Player player = mv.getPlayer();
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);    
+        
+        if(game == null) {
+            return;
+        }
+        
+        if(game.getState() != GameState.RUNNING) {
+            return;
+        }
+        
+        WarpPowder powder = null;
+        for(SpecialItem item : game.getSpecialItems()) {
+            if(!(item instanceof WarpPowder)) {
+                continue;
+            }
+            
+            powder = (WarpPowder)item;
+            if(!powder.getPlayer().equals(player)) {
+                powder = null;
+                continue;
+            }
+            break;
+        }
+        
+        if(powder != null) {
+            powder.cancelTeleport(true, true);
+            return;
+        }
     }
 
 }
