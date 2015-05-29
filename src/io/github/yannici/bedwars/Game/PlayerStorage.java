@@ -79,12 +79,6 @@ public class PlayerStorage {
         for (PotionEffect e : this.player.getActivePotionEffects()) {
             this.player.removePotionEffect(e.getType());
         }
-        
-        boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-        if(overwriteNames) {
-        	this.player.setDisplayName(ChatColor.RESET + this.player.getName());
-        	this.player.setPlayerListName(ChatColor.RESET + this.player.getName());
-        }
 
         this.player.updateInventory();
     }

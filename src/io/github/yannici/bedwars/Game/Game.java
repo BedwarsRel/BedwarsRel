@@ -591,12 +591,11 @@ public class Game {
 		storage.restore();
 		this.playerSettings.remove(p);
 		
-		p.setScoreboard(Main.getInstance().getScoreboardManager()
-				.getNewScoreboard());
-
 		if (this.getState() == GameState.RUNNING) {
 			this.setPlayersScoreboard();
 		}
+		
+		p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
 
 		this.removeNewItemShop(p);
 		this.notUseOldShop(p);
