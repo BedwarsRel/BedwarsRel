@@ -112,6 +112,10 @@ ingame:
         protection-wall:
             left: "There are &c$time$&f second(s) left until you can use the next protection wall!"
             not-usable-here: "You cannot use the protection wall here!"
+        warp-powder:
+            cancelled: "&cTeleportace zrusena!"
+            start: "Teleportace za &c$time$&f sekund(y). Nehybej se!"
+            cancel: "&4Zrusit teleport"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."

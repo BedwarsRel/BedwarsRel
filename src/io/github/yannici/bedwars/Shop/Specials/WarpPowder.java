@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
+import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
@@ -8,8 +9,12 @@ import io.github.yannici.bedwars.Game.Team;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import com.google.common.collect.ImmutableMap;
 
 public class WarpPowder extends SpecialItem {
     
@@ -39,56 +44,93 @@ public class WarpPowder extends SpecialItem {
         return this.player;
     }
     
-    public void cancelTeleport(boolean removeSpecial) {
+    public void cancelTeleport(boolean removeSpecial, boolean showMessage) {
     	this.teleportingTask.cancel();
         this.teleportingTime = (double) Main.getInstance().getIntConfig("specials.warp-powder.teleport-time", 6);
         this.game.removeRunningTask(this.teleportingTask);
+        this.player.setLevel(0);
         
         if(removeSpecial) {
         	this.game.removeSpecialItem(this);
         }
+        
+        if(showMessage) {
+            this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.cancelled")));
+        }
+        
+        
+        this.player.getInventory().removeItem(this.getCancelItemStack());
+    }
+    
+    private ItemStack getCancelItemStack() {
+        ItemStack glowstone = new ItemStack(this.getActivatedMaterial(), 1);
+        ItemMeta meta = glowstone.getItemMeta();
+        meta.setDisplayName(Main._l("ingame.specials.warp-powder.cancel"));
+        glowstone.setItemMeta(meta);
+        
+        return glowstone;
     }
     
     public void runTask() {
-    	final int circles = 15;
-    	final int circleElements = 20;
-    	final double radius = 1.0;
-    	final double height = 2.0;
-    	
-    	final String particle = Main.getInstance().getStringConfig("specials.warp-powder.particle", "fireworksSpark");
-    	
+        final int circles = 15;
+        final double height = 2.0;
+        
+        ItemStack usedStack = this.player.getInventory().getItemInHand();
+        
+        
+        usedStack.setAmount(usedStack.getAmount()-1);
+        this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(), usedStack);
+        this.player.getInventory().addItem(this.getCancelItemStack());
+        this.player.updateInventory();
+        
         this.teleportingTime = (double) Main.getInstance().getIntConfig("specials.warp-powder.teleport-time", 6);
+        this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.start", ImmutableMap.of("time", String.valueOf(this.fullTeleportingTime)))));
+        
         this.teleportingTask = new BukkitRunnable() {
-        	
-        	private double through = 0.0;
+            
+            public double through = 0.0;
+            public String particle = Main.getInstance().getStringConfig("specials.warp-powder.particle", "fireworksSpark");
+            public boolean showParticle = Main.getInstance().getBooleanConfig("specials.warp-powder.show-particles", true);
             
             @Override
             public void run() {
-                WarpPowder.this.teleportingTime -= (WarpPowder.this.fullTeleportingTime/circles);
+                int circleElements = 20;
+                double radius = 1.0;
+                double height2 = 1.0;
+                double circles = 15.0;
+                double fulltime = (double) WarpPowder.this.fullTeleportingTime;
+                double teleportingTime = WarpPowder.this.teleportingTime;
+                
+                double perThrough = (Math.ceil((height/circles)*((fulltime*20)/circles))/20);
+                
+                WarpPowder.this.teleportingTime = teleportingTime - perThrough;
                 Team team = WarpPowder.this.game.getPlayerTeam(WarpPowder.this.player);
                 Location tLoc = team.getSpawnLocation();
                 
-                if(WarpPowder.this.teleportingTime <= 0.0) {
+                if(WarpPowder.this.teleportingTime <= 1.0) {
                 	WarpPowder.this.player.teleport(team.getSpawnLocation());
-                	WarpPowder.this.cancelTeleport(true);
+                	WarpPowder.this.cancelTeleport(true, false);
                 	return;
+                }
+                
+                WarpPowder.this.player.setLevel((int)WarpPowder.this.teleportingTime);
+                if(!showParticle) {
+                    return;
                 }
                 
                 Location loc = WarpPowder.this.player.getLocation();
                 
-                double y = (height/circles)*through;
-                double yTarget = height-((height/circles)*through);
-                
+                double y = (height2/circles)*through;
                 for(int i = 0; i < 20; i++) {
                 	double alpha = (360.0/circleElements)*i;
                 	double x = radius * Math.sin(Math.toRadians(alpha));
                 	double z = radius * Math.cos(Math.toRadians(alpha));
                 	
                 	Location particleFrom = new Location(loc.getWorld(), loc.getX()+x, loc.getY()+y, loc.getZ()+z);
-                	Utils.createParticleInGame(game, particle, particleFrom);
+                	Utils.createParticleInGame(game, this.particle, particleFrom);
                 	
-                	Location particleTo = new Location(tLoc.getWorld(), tLoc.getX()+x, tLoc.getY()+yTarget, tLoc.getZ()+z);
-                	Utils.createParticleInGame(game, particle, particleTo);
+                	Location particleTo = new Location(tLoc.getWorld(), tLoc.getX()+x, tLoc.getY()+y, tLoc.getZ()+z);
+                	Utils.createParticleInGame(game, this.particle, particleTo);
                 }
                 
                 this.through += 1.0;

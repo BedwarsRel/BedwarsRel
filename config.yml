@@ -449,6 +449,23 @@ specials:
         # The boots which are used as magnetshoe
         boots: IRON_BOOTS
         
+    # Warp-Powder settings
+    warp-powder:
+        # Show particles
+        # type: boolean
+        # If true, particles will be shown
+        show-particles: true
+        
+        # Particles type
+        # type: string
+        # Decide which particles should be used at teleport.
+        particle: fireworksSpark
+        
+        # Teleport time
+        # type: int
+        # The time in seconds a teleportation should need
+        teleport-time: 6
+        
     # Trap settings
     trap:
         # Trap duration in seconds

@@ -108,6 +108,10 @@ ingame:
         protection-wall:
             left: "There are &c$time$&f second(s) left until you can use the next protection wall!"
             not-usable-here: "You cannot use the protection wall here!"
+        warp-powder:
+            cancelled: "&cYour teleport was cancelled!"
+            start: "You will be teleported in &c$time$&f second(s). Don't move!"
+            cancel: "&4Cancel teleport"
 lobby:
     countdown: "Игра начнётся через $sec$"
     countdowncancel: "Нужно больше игроков. Отчёт времени отменён"
