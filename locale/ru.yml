@@ -81,6 +81,7 @@ ingame:
     gamestarted: "Игра началась"
     backtolobby: "Вы телепортируетесь в лобби через $sec$"
     spectator: "Зритель"
+    spectate: "&aSpectate"
     teamchest: "Сундук команды: $team$"
     noturteamchest: "Этот сундук для вашей команды"
     protectionleft: "&cНеуязвимость &fзаканчивается через &c$length$"

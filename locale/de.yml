@@ -81,6 +81,7 @@ ingame:
     gamestarted: "Das Spiel '$game$' hat begonnen!"
     backtolobby: "Zurück zur Lobby in $sec$ Sekunde(n)"
     spectator: "Zuschauer"
+    spectate: "&aZuschauen"
     teamchest: "Teamkiste"
     noturteamchest: "Diese Kiste gehört nicht deinem Team!"
     protectionleft: "Unverwundbar für &c$length$&f Sekunde(n)!"

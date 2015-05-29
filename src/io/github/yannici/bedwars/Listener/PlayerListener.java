@@ -150,6 +150,10 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (game.isSpectator(player)) {
+		    if(ioe.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+		        return;
+		    }
+		    
 			ioe.setCancelled(true);
 		}
 	}
@@ -592,6 +596,10 @@ public class PlayerListener extends BaseListener {
 		}
 		
 		if(game.getState() == GameState.RUNNING) {
+		    if(game.isSpectator(player)) {
+		        flce.setCancelled(true);
+		    }
+		    
 			return;
 		}
 		

@@ -86,6 +86,7 @@ ingame:
     gamestarted: "Hra '$game$' zacala!"
     backtolobby: "Teleportace do lobby za $sec$ sekund!"
     spectator: "Sledujici"
+    spectate: "&aSpectate"
     teamchest: "Tymova truhla"
     noturteamchest: "Tato truhla nepatri tvemu tymu!"
     protectionleft: "Jsi nezranitelny na &c$length$&f sekund!"

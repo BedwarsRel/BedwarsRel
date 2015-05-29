@@ -435,11 +435,11 @@ public class Game {
 		p.getInventory().setItem(8, leaveGame);
 		
 		// Teleport to player (Compass)
-		ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
-		im = teleportPlayer.getItemMeta();
-		im.setDisplayName(Main._l("lobby.teleport-item"));
-		teleportPlayer.setItemMeta(im);
-		p.getInventory().setItem(0, teleportPlayer);
+        ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
+        im = teleportPlayer.getItemMeta();
+        im.setDisplayName(Main._l("ingame.spectate"));
+        teleportPlayer.setItemMeta(im);
+        p.getInventory().setItem(0, teleportPlayer);
 
 		p.updateInventory();
 		this.setPlayersScoreboard();
@@ -698,7 +698,7 @@ public class Game {
 		
 		int teamplayers = this.getTeamPlayers().size();
 		int size = (teamplayers - teamplayers % 9) + 9;
-		Inventory compass = Bukkit.createInventory(player, size, Main._l("ingame.spectator"));
+		Inventory compass = Bukkit.createInventory(null, size, Main._l("ingame.spectator"));
 		for(Team t : this.getTeams().values()) {
 			for(Player p : t.getPlayers()) {
 				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
@@ -709,6 +709,7 @@ public class Game {
 				head.setItemMeta(meta);
 				
 				compass.addItem(head);
+				player.openInventory(compass);
 			}
 		}
 		
