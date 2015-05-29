@@ -50,6 +50,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
@@ -271,13 +272,39 @@ public class PlayerListener extends BaseListener {
 			Game game) {
 		if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
 	        if(game.isSpectator(player)) {
-	        	if(ice.getCurrentItem() == null) {
+	        	ItemStack clickedStack = ice.getCurrentItem();
+	        	if(clickedStack == null) {
+	        		return;
+	        	}
+	        	
+	        	if(ice.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+	        		ice.setCancelled(true);
+	        		if(!clickedStack.getType().equals(Material.SKULL_ITEM)) {
+	        			return;
+	        		}
+	        		
+	        		SkullMeta meta = (SkullMeta) clickedStack.getItemMeta();
+	        		Player pl = Main.getInstance().getServer().getPlayer(meta.getOwner());
+	        		if(pl == null) {
+	        			return;
+	        		}
+	        		
+	        		if(!game.isInGame(pl)) {
+	        			return;
+	        		}
+	        		
+	        		player.teleport(pl);
+	        		player.closeInventory();
 	        		return;
 	        	}
 	        	
 	            Material clickedMat = ice.getCurrentItem().getType();
 	            if(clickedMat.equals(Material.SLIME_BALL)) {
 	                game.playerLeave(player);
+	            }
+	            
+	            if(clickedMat.equals(Material.COMPASS)) {
+	                game.openSpectatorCompass(player);
 	            }
 	        }
 			return;
@@ -635,11 +662,19 @@ public class PlayerListener extends BaseListener {
 	            }
 			}
 
-			if (interactingMaterial == Material.SLIME_BALL
-					&& g.isSpectator(player)) {
-				g.playerLeave(player);
-				return;
+			if(g.isSpectator(player)) {
+				if (interactingMaterial == Material.SLIME_BALL) {
+					g.playerLeave(player);
+					return;
+				}
+				
+				if(interactingMaterial == Material.COMPASS) {
+					g.openSpectatorCompass(player);
+					pie.setCancelled(true);
+					return;
+				}
 			}
+			
 			
 			// Spectators want to block
 			if(clickedBlock != null) {

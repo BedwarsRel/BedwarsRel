@@ -17,12 +17,14 @@ import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.DyeColor;
@@ -36,8 +38,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -429,6 +433,13 @@ public class Game {
 		im.setDisplayName(Main._l("lobby.leavegame"));
 		leaveGame.setItemMeta(im);
 		p.getInventory().setItem(8, leaveGame);
+		
+		// Teleport to player (Compass)
+		ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
+		im = teleportPlayer.getItemMeta();
+		im.setDisplayName(Main._l("lobby.teleport-item"));
+		teleportPlayer.setItemMeta(im);
+		p.getInventory().setItem(0, teleportPlayer);
 
 		p.updateInventory();
 		this.setPlayersScoreboard();
@@ -678,6 +689,30 @@ public class Game {
 		}
 
 		return GameCheckCode.OK;
+	}
+	
+	public void openSpectatorCompass(Player player) {
+		if(!this.isSpectator(player)) {
+			return;
+		}
+		
+		int teamplayers = this.getTeamPlayers().size();
+		int size = (teamplayers - teamplayers % 9) + 9;
+		Inventory compass = Bukkit.createInventory(player, size, Main._l("ingame.spectator"));
+		for(Team t : this.getTeams().values()) {
+			for(Player p : t.getPlayers()) {
+				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
+				SkullMeta meta = (SkullMeta) head.getItemMeta();
+				meta.setDisplayName(t.getChatColor() + p.getDisplayName());
+				meta.setLore(Arrays.asList(t.getChatColor() + t.getDisplayName()));
+				meta.setOwner(p.getName());
+				head.setItemMeta(meta);
+				
+				compass.addItem(head);
+			}
+		}
+		
+		player.openInventory(compass);
 	}
 
 	public void nonFreePlayer(Player p) {
