@@ -23,6 +23,7 @@ public class WarpPowder extends SpecialItem {
     private Player player = null;
     private Game game = null;
     private int fullTeleportingTime = 6;
+    private ItemStack stack = null;
 
     public WarpPowder() {
         super();
@@ -76,7 +77,8 @@ public class WarpPowder extends SpecialItem {
         final double height = 2.0;
         
         ItemStack usedStack = this.player.getInventory().getItemInHand();
-        
+        this.stack = usedStack.clone();
+        this.stack.setAmount(1);
         
         usedStack.setAmount(usedStack.getAmount()-1);
         this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(), usedStack);
@@ -146,5 +148,9 @@ public class WarpPowder extends SpecialItem {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public ItemStack getStack() {
+        return this.stack;
     }
 }

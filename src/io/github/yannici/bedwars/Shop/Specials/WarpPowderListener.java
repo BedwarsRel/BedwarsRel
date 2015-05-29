@@ -9,6 +9,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -53,6 +54,8 @@ public class WarpPowderListener implements Listener {
     	
     	if(powder != null) {
     		 if(ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
+    		    player.getInventory().addItem(powder.getStack());
+    		    player.updateInventory();
 	        	powder.cancelTeleport(true, true);
 	        	ev.setCancelled(true);
 	        }
@@ -88,6 +91,53 @@ public class WarpPowderListener implements Listener {
         }
         
         if(game.getState() != GameState.RUNNING) {
+            return;
+        }
+        
+        WarpPowder powder = null;
+        for(SpecialItem item : game.getSpecialItems()) {
+            if(!(item instanceof WarpPowder)) {
+                continue;
+            }
+            
+            powder = (WarpPowder)item;
+            if(!powder.getPlayer().equals(player)) {
+                powder = null;
+                continue;
+            }
+            break;
+        }
+        
+        if(powder != null) {
+            player.getInventory().addItem(powder.getStack());
+            player.updateInventory();
+            powder.cancelTeleport(true, true);
+            return;
+        }
+    }
+    
+    @EventHandler
+    public void onDamage(EntityDamageEvent dmg) {
+        if(dmg.isCancelled()) {
+            return;
+        }
+        
+        if(!(dmg.getEntity() instanceof Player)) {
+            return;
+        }
+        
+        Player player = (Player) dmg.getEntity();
+        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);    
+        
+        if(game == null) {
+            return;
+        }
+        
+        if(game.getState() != GameState.RUNNING) {
+            return;
+        }
+        
+        if(game.isSpectator(player)) {
             return;
         }
         
