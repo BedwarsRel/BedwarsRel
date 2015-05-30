@@ -151,8 +151,9 @@ public class PlayerStorage {
 
         HashMap<String, Team> teams = game.getTeams();
 
+        int nom = (teams.size() % 9 == 0) ? 9 : (teams.size() % 9);
         Inventory inv = Bukkit.createInventory(this.player,
-                (teams.size() - teams.size() % 9) + 9,
+                teams.size() + (9 - nom),
                 Main._l("lobby.chooseteam"));
         for (Team team : teams.values()) {
             List<Player> players = team.getPlayers();

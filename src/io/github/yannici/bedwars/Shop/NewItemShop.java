@@ -52,8 +52,9 @@ public class NewItemShop {
 	}
 
 	public void openCategoryInventory(Player player) {
-		int size = (this.categories.size() - this.categories.size() % 9)
-				+ (9 * 2);
+	    int nom = (this.categories.size() % 9 == 0) ? 9 : (this.categories.size() % 9);
+		int size = (this.categories.size() + (9 - nom)) + 9;
+		
 		Inventory inventory = Bukkit.createInventory(player, size,
 				Main._l("ingame.shop.name"));
 
@@ -176,14 +177,16 @@ public class NewItemShop {
 	private void openBuyInventory(MerchantCategory category, Player player,
 			Game game) {
 		List<VillagerTrade> offers = category.getOffers();
-		int sizeCategories = (this.categories.size() - this.categories.size() % 9) + 9;
-		int sizeItems = (offers.size() - offers.size() % 9) + 9;
+		int sizeCategories = this.categories.size();
+		int sizeItems = offers.size();
 		int totalSize = sizeCategories + sizeItems;
+		int nom = (totalSize % 9 == 0) ? 9 : (totalSize % 9);
+		int invSize = totalSize + (9 - nom);
 		
 		player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
 		
 		this.currentCategory = category;
-		Inventory buyInventory = Bukkit.createInventory(player, totalSize,
+		Inventory buyInventory = Bukkit.createInventory(player, invSize,
 				Main._l("ingame.shop.name"));
 		this.addCategoriesToInventory(buyInventory);
 

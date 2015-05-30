@@ -696,7 +696,8 @@ public class Game {
 		}
 		
 		int teamplayers = this.getTeamPlayers().size();
-		int size = (teamplayers - teamplayers % 9) + 9;
+		int nom = (teamplayers % 9 == 0) ? 9 : (teamplayers % 9);
+		int size = teamplayers + (9 - nom);
 		Inventory compass = Bukkit.createInventory(null, size, Main._l("ingame.spectator"));
 		for(Team t : this.getTeams().values()) {
 			for(Player p : t.getPlayers()) {

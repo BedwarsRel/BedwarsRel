@@ -278,8 +278,9 @@ public class MerchantCategory {
 
 	public static void openCategorySelection(Player p, Game g) {
 		List<MerchantCategory> cats = g.getOrderedItemShopCategories();
-
-		int size = (cats.size() - cats.size() % 9) + (9 * 2);
+		
+		int nom = (cats.size() % 9 == 0) ? 9 : (cats.size() % 9);
+		int size = (cats.size() + (9 - nom)) + 9;
 		Inventory inv = Bukkit.createInventory(p,
 				size,
 				Main._l("ingame.shop.name"));
