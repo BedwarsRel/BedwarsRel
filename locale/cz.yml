@@ -86,7 +86,7 @@ ingame:
     gamestarted: "Hra '$game$' zacala!"
     backtolobby: "Teleportace do lobby za $sec$ sekund!"
     spectator: "Sledujici"
-    spectate: "&aSpectate"
+    spectate: "&aSledovat"
     teamchest: "Tymova truhla"
     noturteamchest: "Tato truhla nepatri tvemu tymu!"
     protectionleft: "Jsi nezranitelny na &c$length$&f sekund!"
@@ -142,7 +142,7 @@ sign:
         running: "&9VE HRE!"
         full: "PLNO!"
 stats:
-    header: "BedWars statistiky"
+    header: "Statistiky BedWars her"
     kd: "K/D"
     statsnotfound: "Statistika hrace $player$ nenalezena!"
     name: "Jmeno"
