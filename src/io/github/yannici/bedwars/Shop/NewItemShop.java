@@ -158,7 +158,8 @@ public class NewItemShop {
 	private void handleCategoryInventoryClick(InventoryClickEvent ice,
 			Game game, Player player) {
 	    
-	    int sizeCategories = (this.categories.size() - this.categories.size() % 9) + 9;
+	    int nom = (this.categories.size() % 9 == 0) ? 9 : (this.categories.size() % 9);
+        int sizeCategories = (this.categories.size() + (9 - nom)) + 9;
 	    if(ice.getRawSlot() >= sizeCategories) {
 	        ice.setCancelled(false);
 	        return;
@@ -239,10 +240,16 @@ public class NewItemShop {
 
 	private void handleBuyInventoryClick(InventoryClickEvent ice, Game game,
 			Player player) {
-		int sizeCategories = (this.categories.size() - this.categories.size() % 9) + 9;
+
+        int sizeCategories = this.categories.size();
 		List<VillagerTrade> offers = this.currentCategory.getOffers();
-		int sizeItems = (offers.size() - offers.size() % 9) + 9;
-		int totalSize = sizeCategories + sizeItems;
+		
+		int sizeItems = offers.size();
+		int totalSizeInventory = sizeCategories + sizeItems;
+		
+		int nom = (totalSizeInventory % 9 == 0) ? 9 : (totalSizeInventory % 9);
+        int totalSize = totalSizeInventory + (9 - nom);
+		
 		ItemStack item = ice.getCurrentItem();
 		boolean cancel = false;
 		int bought = 0;
