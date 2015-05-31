@@ -46,19 +46,23 @@ public class WarpPowder extends SpecialItem {
     }
     
     public void cancelTeleport(boolean removeSpecial, boolean showMessage) {
-    	this.teleportingTask.cancel();
+        try {
+            this.teleportingTask.cancel();
+        } catch(Exception ex) {
+            // already stopped
+        }
+        
         this.teleportingTime = (double) Main.getInstance().getIntConfig("specials.warp-powder.teleport-time", 6);
         this.game.removeRunningTask(this.teleportingTask);
         this.player.setLevel(0);
         
         if(removeSpecial) {
-        	this.game.removeSpecialItem(this);
+            this.game.removeSpecialItem(this);
         }
         
         if(showMessage) {
             this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.cancelled")));
         }
-        
         
         this.player.getInventory().removeItem(this.getCancelItemStack());
     }
@@ -96,46 +100,52 @@ public class WarpPowder extends SpecialItem {
             
             @Override
             public void run() {
-                int circleElements = 20;
-                double radius = 1.0;
-                double height2 = 1.0;
-                double circles = 15.0;
-                double fulltime = (double) WarpPowder.this.fullTeleportingTime;
-                double teleportingTime = WarpPowder.this.teleportingTime;
-                
-                double perThrough = (Math.ceil((height/circles)*((fulltime*20)/circles))/20);
-                
-                WarpPowder.this.teleportingTime = teleportingTime - perThrough;
-                Team team = WarpPowder.this.game.getPlayerTeam(WarpPowder.this.player);
-                Location tLoc = team.getSpawnLocation();
-                
-                if(WarpPowder.this.teleportingTime <= 1.0) {
-                	WarpPowder.this.player.teleport(team.getSpawnLocation());
-                	WarpPowder.this.cancelTeleport(true, false);
-                	return;
+                try {
+                    int circleElements = 20;
+                    double radius = 1.0;
+                    double height2 = 1.0;
+                    double circles = 15.0;
+                    double fulltime = (double) WarpPowder.this.fullTeleportingTime;
+                    double teleportingTime = WarpPowder.this.teleportingTime;
+                    
+                    double perThrough = (Math.ceil((height/circles)*((fulltime*20)/circles))/20);
+                    
+                    WarpPowder.this.teleportingTime = teleportingTime - perThrough;
+                    Team team = WarpPowder.this.game.getPlayerTeam(WarpPowder.this.player);
+                    Location tLoc = team.getSpawnLocation();
+                    
+                    if(WarpPowder.this.teleportingTime <= 1.0) {
+                    	WarpPowder.this.player.teleport(team.getSpawnLocation());
+                    	WarpPowder.this.cancelTeleport(true, false);
+                    	return;
+                    }
+                    
+                    WarpPowder.this.player.setLevel((int)WarpPowder.this.teleportingTime);
+                    if(!showParticle) {
+                        return;
+                    }
+                    
+                    Location loc = WarpPowder.this.player.getLocation();
+                    
+                    double y = (height2/circles)*through;
+                    for(int i = 0; i < 20; i++) {
+                    	double alpha = (360.0/circleElements)*i;
+                    	double x = radius * Math.sin(Math.toRadians(alpha));
+                    	double z = radius * Math.cos(Math.toRadians(alpha));
+                    	
+                    	Location particleFrom = new Location(loc.getWorld(), loc.getX()+x, loc.getY()+y, loc.getZ()+z);
+                    	Utils.createParticleInGame(game, this.particle, particleFrom);
+                    	
+                    	Location particleTo = new Location(tLoc.getWorld(), tLoc.getX()+x, tLoc.getY()+y, tLoc.getZ()+z);
+                    	Utils.createParticleInGame(game, this.particle, particleTo);
+                    }
+                    
+                    this.through += 1.0;
+                } catch(Exception ex) {
+                    ex.printStackTrace();
+                    this.cancel();
+                    WarpPowder.this.cancelTeleport(true, false);
                 }
-                
-                WarpPowder.this.player.setLevel((int)WarpPowder.this.teleportingTime);
-                if(!showParticle) {
-                    return;
-                }
-                
-                Location loc = WarpPowder.this.player.getLocation();
-                
-                double y = (height2/circles)*through;
-                for(int i = 0; i < 20; i++) {
-                	double alpha = (360.0/circleElements)*i;
-                	double x = radius * Math.sin(Math.toRadians(alpha));
-                	double z = radius * Math.cos(Math.toRadians(alpha));
-                	
-                	Location particleFrom = new Location(loc.getWorld(), loc.getX()+x, loc.getY()+y, loc.getZ()+z);
-                	Utils.createParticleInGame(game, this.particle, particleFrom);
-                	
-                	Location particleTo = new Location(tLoc.getWorld(), tLoc.getX()+x, tLoc.getY()+y, tLoc.getZ()+z);
-                	Utils.createParticleInGame(game, this.particle, particleTo);
-                }
-                
-                this.through += 1.0;
             }
         }.runTaskTimer(Main.getInstance(), 0L, (long) Math.ceil((height/circles)*((this.fullTeleportingTime*20)/circles)));
         this.game.addRunningTask(this.teleportingTask);

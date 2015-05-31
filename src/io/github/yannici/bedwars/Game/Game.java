@@ -1323,7 +1323,9 @@ public class Game {
 		for (Team team : this.teams.values()) {
 			for (Player player : team.getPlayers()) {
 				player.teleport(team.getSpawnLocation());
-				this.getPlayerStorage(player).clean();
+				if(this.getPlayerStorage(player) != null) {
+				    this.getPlayerStorage(player).clean();
+				}
 			}
 		}
 	}
