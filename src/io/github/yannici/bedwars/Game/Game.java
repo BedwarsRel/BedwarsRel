@@ -498,7 +498,6 @@ public class Game {
 	        this.toSpectator(p);
             p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
                     this.teams.size() - 1)]).getSpawnLocation());
-            p.setScoreboard(this.scoreboard);
 		} else {
 			this.broadcast(ChatColor.GREEN + Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
 			this.freePlayers.add(p);
@@ -522,13 +521,12 @@ public class Game {
 					}
 				}
 			}
-
-			p.setScoreboard(this.scoreboard);
 		}
 		
 		BedwarsPlayerJoinedEvent joinEvent = new BedwarsPlayerJoinedEvent(this, p);
 		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 
+		this.setPlayersScoreboard();
 		this.updateSigns();
 		return true;
 	}

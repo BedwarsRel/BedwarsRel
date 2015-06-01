@@ -53,7 +53,8 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public void onPlayerLeave(Player player) {
-		if (player.isOnline()) {
+		if (player.isOnline()
+				|| player.isDead()) {
 			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
 		}
 
