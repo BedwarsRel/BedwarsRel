@@ -2,17 +2,13 @@ package io.github.yannici.bedwars.Listener;
 
 import java.util.List;
 
-import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -28,10 +24,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.Bed;
-
-import com.google.common.collect.ImmutableMap;
-
 public class BlockListener extends BaseListener {
 
 	public BlockListener() {
@@ -188,63 +180,12 @@ public class BlockListener extends BaseListener {
 			e.setCancelled(true);
 			return;
 		} 
-
-		if (e.getBlock().getType() == Material.BED_BLOCK) {
+		
+		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+		if (e.getBlock().getType() == targetMaterial) {
 			e.setCancelled(true);
-
-			Team team = g.getPlayerTeam(p);
-			if (team == null) {
-				return;
-			}
-
-			Block bedBlock = team.getHeadBed();
-			Block breakBlock = e.getBlock();
-			Block neighbor = null;
-			Bed breakBed = (Bed) breakBlock.getState().getData();
-
-			if (!breakBed.isHeadOfBed()) {
-				neighbor = breakBlock;
-				breakBlock = Utils.getBedNeighbor(neighbor);
-			} else {
-				neighbor = Utils.getBedNeighbor(breakBlock);
-			}
 			
-			if (bedBlock.equals(breakBlock)) {
-				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-						+ Main._l("ingame.blocks.ownbeddestroy")));
-				return;
-			}
-
-			Team bedDestroyTeam = g.getTeamOfBed(breakBlock);
-			if (bedDestroyTeam == null) {
-				return;
-			}
-			
-			// set statistics
-			if(Main.getInstance().statisticsEnabled()) {
-				PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
-				statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
-				statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
-			}
-            
-			neighbor.getDrops().clear();
-			neighbor.setType(Material.AIR);
-			breakBlock.getDrops().clear();
-			breakBlock.setType(Material.AIR);
-
-			g.broadcast(ChatColor.RED
-					+ Main._l(
-							"ingame.blocks.beddestroyed",
-							ImmutableMap.of("team",
-									bedDestroyTeam.getChatColor()
-											+ bedDestroyTeam.getName()
-											+ ChatColor.RED,
-											"player",
-                                            Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
-			
-			
-			g.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
-			g.setPlayersScoreboard();
+			g.handleDestroyTargetMaterial(p, e.getBlock());
 			return;
 		}
 		

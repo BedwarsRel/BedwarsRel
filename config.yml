@@ -63,6 +63,11 @@ ingame-chatformat-all: "[$all$] <$team$>$player$: $msg$"
 # The chat format for the normal ingame chat between team-players
 ingame-chatformat: "<$team$>$player$: $msg$"
 
+# The main game block
+# type: string or int
+# The block which should be the main block for the game (respawn block)
+game-block: BED_BLOCK
+
 # Bed sound
 # type: string
 # The sound which should be played when a bed will be destroyed

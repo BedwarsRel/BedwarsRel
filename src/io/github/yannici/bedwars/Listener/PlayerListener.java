@@ -2,7 +2,9 @@ package io.github.yannici.bedwars.Listener;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
@@ -93,6 +95,12 @@ public class PlayerListener extends BaseListener {
 			Player player) {
 	    if(iee.getRightClicked() != null) {
 	        if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
+	        	List<EntityType> preventClickTypes = Arrays.asList(EntityType.ARMOR_STAND,
+	        			EntityType.ITEM_FRAME);
+	        	if(preventClickTypes.contains(iee.getRightClicked().getType())) {
+	        		iee.setCancelled(true);
+	        	}
+	        	
 	            return;
 	        }
 	    }

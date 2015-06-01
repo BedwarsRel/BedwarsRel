@@ -22,25 +22,25 @@ import org.bukkit.material.Bed;
 
 import com.google.common.collect.ImmutableMap;
 
-public class SetBedCommand extends BaseCommand implements ICommand {
+public class SetTargetCommand extends BaseCommand implements ICommand {
 
-	public SetBedCommand(Main plugin) {
+	public SetTargetCommand(Main plugin) {
 		super(plugin);
 	}
 
 	@Override
 	public String getCommand() {
-		return "setbed";
+		return "settarget";
 	}
 
 	@Override
 	public String getName() {
-		return Main._l("commands.setbed.name");
+		return Main._l("commands.settarget.name");
 	}
 
 	@Override
 	public String getDescription() {
-		return Main._l("commands.setbed.desc");
+		return Main._l("commands.settarget.desc");
 	}
 
 	@Override
@@ -116,32 +116,38 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 					+ Main._l("errors.bedtargeting")));
 			return false;
 		}
-
-		if (targetBlock.getType() != Material.BED_BLOCK
-				&& standingBlock.getType() != Material.BED_BLOCK) {
+		
+		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+		if (targetBlock.getType() != targetMaterial
+				&& standingBlock.getType() != targetMaterial) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.bedtargeting")));
 			return false;
 		}
-
+		
 		Block theBlock = null;
-		if (targetBlock.getType() == Material.BED_BLOCK) {
+		if (targetBlock.getType() == targetMaterial) {
 			theBlock = targetBlock;
 		} else {
 			theBlock = standingBlock;
 		}
+		
+		if(targetMaterial.equals(Material.BED_BLOCK)) {
+			Block neighbor = null;
+			Bed theBed = (Bed) theBlock.getState().getData();
 
-		Block neighbor = null;
-		Bed theBed = (Bed) theBlock.getState().getData();
+			if (!theBed.isHeadOfBed()) {
+				neighbor = theBlock;
+				theBlock = Utils.getBedNeighbor(neighbor);
+			} else {
+				neighbor = Utils.getBedNeighbor(theBlock);
+			}
 
-		if (!theBed.isHeadOfBed()) {
-			neighbor = theBlock;
-			theBlock = Utils.getBedNeighbor(neighbor);
+			gameTeam.setTargets(theBlock, neighbor);
 		} else {
-			neighbor = Utils.getBedNeighbor(theBlock);
+			gameTeam.setTargets(theBlock, null);
 		}
-
-		gameTeam.setBeds(theBlock, neighbor);
+		
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l(
 						"success.bedset",

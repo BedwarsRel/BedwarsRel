@@ -42,6 +42,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.Bed;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -334,9 +335,15 @@ public class Game {
 	
 	public Team getTeamOfBed(Block bed) {
 		for (Team team : this.getTeams().values()) {
-			if (team.getHeadBed().equals(bed)
-			        || team.getFeedBed().equals(bed)) {
-				return team;
+			if(team.getFeetTarget() == null) {
+				if(team.getHeadTarget().equals(bed)) {
+					return team;
+				}
+			} else {
+				if (team.getHeadTarget().equals(bed)
+			        || team.getFeetTarget().equals(bed)) {
+					return team;
+				}
 			}
 		}
 
@@ -1241,10 +1248,11 @@ public class Game {
 			team.getScoreboardTeam().setAllowFriendlyFire(Main.getInstance().getConfig()
 					.getBoolean("friendlyfire"));
 			if(team.getPlayers().size() == 0) {
-                team.getFeedBed().getDrops().clear();
-                team.getFeedBed().setType(Material.AIR);
-                team.getHeadBed().getDrops().clear();
-                team.getHeadBed().setType(Material.AIR);
+				if(team.getFeetTarget() != null) {
+					team.getFeetTarget().setType(Material.AIR);
+				}
+				
+                team.getHeadTarget().setType(Material.AIR);
             }
 		}
 	}
@@ -1360,13 +1368,26 @@ public class Game {
 			if (t.getSpawnLocation() == null) {
 				return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
 			}
-
-			if ((t.getHeadBed() == null 
-					|| t.getFeedBed() == null)
-					|| (!Utils.isBedBlock(t.getHeadBed()) 
-							|| !Utils.isBedBlock(t.getFeedBed()))) {
-				return GameCheckCode.TEAM_NO_WRONG_BED;
+			
+			Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+			
+			if(targetMaterial.equals(Material.BED_BLOCK)) {
+				if ((t.getHeadTarget() == null 
+						|| t.getFeetTarget() == null)
+						|| (!Utils.isBedBlock(t.getHeadTarget()) 
+								|| !Utils.isBedBlock(t.getFeetTarget()))) {
+					return GameCheckCode.TEAM_NO_WRONG_BED;
+				}
+			} else {
+				if(t.getHeadTarget() == null) {
+					return GameCheckCode.TEAM_NO_WRONG_TARGET;
+				}
+				
+				if(!t.getHeadTarget().getType().equals(targetMaterial)) {
+					return GameCheckCode.TEAM_NO_WRONG_TARGET;
+				}
 			}
+			
 		}
 
 		return GameCheckCode.OK;
@@ -1419,5 +1440,80 @@ public class Game {
 		};
 
 		this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
+	}
+
+	public boolean handleDestroyTargetMaterial(Player p, Block block) {
+		Team team = this.getPlayerTeam(p);
+		if (team == null) {
+			return false;
+		}
+		
+		Team bedDestroyTeam = null;
+		Block bedBlock = team.getHeadTarget();
+		
+		if(block.getType().equals(Material.BED_BLOCK)) {
+			Block breakBlock = block;
+			Block neighbor = null;
+			Bed breakBed = (Bed) breakBlock.getState().getData();
+
+			if (!breakBed.isHeadOfBed()) {
+				neighbor = breakBlock;
+				breakBlock = Utils.getBedNeighbor(neighbor);
+			} else {
+				neighbor = Utils.getBedNeighbor(breakBlock);
+			}
+			
+			if (bedBlock.equals(breakBlock)) {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("ingame.blocks.ownbeddestroy")));
+				return false;
+			}
+			
+			bedDestroyTeam = this.getTeamOfBed(breakBlock);
+			if (bedDestroyTeam == null) {
+				return false;
+			}
+	        
+			neighbor.getDrops().clear();
+			neighbor.setType(Material.AIR);
+			breakBlock.getDrops().clear();
+			breakBlock.setType(Material.AIR);
+		} else {
+			if (bedBlock.equals(block)) {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("ingame.blocks.ownbeddestroy")));
+				return false;
+			}
+			
+			bedDestroyTeam = this.getTeamOfBed(block);
+			if (bedDestroyTeam == null) {
+				return false;
+			}
+			
+			block.getDrops().clear();
+			block.setType(Material.AIR);
+		}
+		
+		// set statistics
+		if(Main.getInstance().statisticsEnabled()) {
+			PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
+			statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
+			statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+		}
+
+		this.broadcast(ChatColor.RED
+				+ Main._l(
+						"ingame.blocks.beddestroyed",
+						ImmutableMap.of("team",
+								bedDestroyTeam.getChatColor()
+										+ bedDestroyTeam.getName()
+										+ ChatColor.RED,
+										"player",
+                                        Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
+		
+		
+		this.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
+		this.setPlayersScoreboard();
+		return true;
 	}
 }

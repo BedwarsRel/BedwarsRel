@@ -170,51 +170,6 @@ public class Main extends JavaPlugin {
 	
 	public String getYamlDump(YamlConfiguration config) {
 		try {
-			/*Field options = config.getClass().getDeclaredField("yamlOptions");
-			options.setAccessible(true);
-			
-			DumperOptions yamlOptions = (DumperOptions) options.get(config);
-			yamlOptions.setIndent(config.options().indent());
-			yamlOptions.setAllowUnicode(true);
-			yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-			
-			// representer
-			Field representer = config.getClass().getDeclaredField("yamlRepresenter");
-			representer.setAccessible(true);
-			
-			Representer yamlRepresenter = (Representer) representer.get(config);
-			yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-			
-			Method buildHeader = config.getClass().getDeclaredMethod("buildHeader");
-			buildHeader.setAccessible(true);
-			
-			Field yamlField = config.getClass().getDeclaredField("yaml");
-			yamlField.setAccessible(true);
-			
-			Yaml yaml = (Yaml) yamlField.get(config);
-			String header = (String)buildHeader.invoke(config);
-			String dump = yaml.dump(config);*/
-			
-			//fullstring = fullstring.replace("\\xc3", "");
-			/*fullstring = fullstring.replace("\\xbc", "ü");
-			fullstring = fullstring.replace("\\xb6", "ö");
-			fullstring = fullstring.replace("\\xa4", "ä");
-			fullstring = fullstring.replace("\\u201e", "Ä");
-			fullstring = fullstring.replace("\\u2013", "Ö");
-			fullstring = fullstring.replace("\\u0153", "Ü");
-			fullstring = fullstring.replace("\\u0178", "ß");*/
-
-			/*Pattern unicode = Pattern.compile("\\[u]{1}([0-9a-z]{4})");
-			String endstring = new String(fullstring);
-			Matcher m = unicode.matcher(fullstring);
-			
-			while(m.find()) {
-				String code = m.group(1);
-				int charCode = Integer.valueOf("0x" + code);
-				
-				endstring.replace("\\u" + code, Character.toString((char)charCode));
-			}*/
-			
 			String fullstring = config.saveToString();
 			String endstring = fullstring;
 			endstring = Utils.unescape_perl_string(fullstring);
@@ -668,7 +623,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new SetSpawnCommand(this));
 		this.commands.add(new SetLobbyCommand(this));
 		this.commands.add(new LeaveGameCommand(this));
-		this.commands.add(new SetBedCommand(this));
+		this.commands.add(new SetTargetCommand(this));
 		this.commands.add(new ReloadCommand(this));
 		this.commands.add(new SetMainLobbyCommand(this));
 		this.commands.add(new ListGamesCommand(this));

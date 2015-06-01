@@ -13,7 +13,7 @@ errors:
     teamnamelength: "название команды должно быть от 2 до 20 символов"
     teamnotfound: "Данная команда не найдена"
     notingame: "В настоящее время вы вне игры"
-    bedtargeting: "Вы должны находится на кровати"
+    bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
     regionargument: "Допустимые аргументы: 'loc1' или 'loc2'"
     spawnerargument: "Ваш аргумент должен быть одним из следующих: (gold;iron;bronze)"
     blockdownnotfound: "Вы должны стоять на блоке"
@@ -45,7 +45,7 @@ success:
     joined: "Вы присоединились к игре"
     left: "Вы отсоединились от игры"
     saved: "Игра успешно сохранена"
-    bedset: "Вы успешно установили кровать для команды $team$"
+    bedset: "You sucessfully set the respawn block of team $team$!"
     regionset: "Игровая локация $location$ успешно добавлена для игры $game$"
     spawnset: "Точка возрождения успешно добалена для команды $team$"
     spawnerset: "Спавнер ресурса $name$ успешно добавлен"
@@ -71,6 +71,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: "Данная категория не найдена"
     NO_MAIN_LOBBY_SET: "Вы не установили точку главного лобби, хотя включили 'tomainlobby'"
     TEAM_NO_WRONG_BED: "Обнаружена(ы) команда(ы) без кровати"
+    TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
     teams: "Команде"
     all: "Всем"
@@ -169,8 +170,8 @@ commands:
     save:
         name: "Save Game"
         desc: "сохраняет игру в config.yml"
-    setbed:
-        name: "Set bed"
+    settarget:
+        name: "Set target"
         desc: "установить кровать для команды"
     setlobby:
         name: "Set lobby"

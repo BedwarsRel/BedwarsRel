@@ -28,8 +28,8 @@ public class Team implements ConfigurationSerializable {
 	private String name = null;
 	private int maxPlayers = 0;
 	private Location spawnLocation = null;
-	private Location bedHeadBlock = null;
-	private Location bedFeedBlock = null;
+	private Location targetHeadBlock = null;
+	private Location targetFeetBlock = null;
 	private Inventory inventory = null;
 	private List<Block> chests = null;
 
@@ -42,11 +42,13 @@ public class Team implements ConfigurationSerializable {
 		this.spawnLocation = Utils.locationDeserialize(deserialize.get("spawn"));
 		this.chests = new ArrayList<Block>();
 
-		if (deserialize.containsKey("bedhead") && deserialize.containsKey("bedfeed")) {
-			this.bedHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
-			this.bedFeedBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
+		if (deserialize.containsKey("bedhead")) {
+			this.targetHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
+			
+			if(deserialize.containsKey("bedfeed")) {
+				this.targetFeetBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
+			}
 		}
-
 	}
 
 	public Team(String name, TeamColor color, int maxPlayers,
@@ -81,27 +83,29 @@ public class Team implements ConfigurationSerializable {
 		return this.maxPlayers;
 	}
 
-	public void setBeds(Block head, Block feed) {
-		this.bedHeadBlock = head.getLocation();
-		this.bedFeedBlock = feed.getLocation();
+	public void setTargets(Block head, Block feed) {
+		this.targetHeadBlock = head.getLocation();
+		if(feed != null) {
+			this.targetFeetBlock = feed.getLocation();
+		}
 	}
 
-	public Block getHeadBed() {
-		if(this.bedHeadBlock == null) {
+	public Block getHeadTarget() {
+		if(this.targetHeadBlock == null) {
 			return null;
 		}
 		
-		this.bedHeadBlock.getBlock().getChunk().load(true);
-		return this.bedHeadBlock.getBlock();
+		this.targetHeadBlock.getBlock().getChunk().load(true);
+		return this.targetHeadBlock.getBlock();
 	}
 	
-	public Block getFeedBed() {
-		if(this.bedFeedBlock == null) {
+	public Block getFeetTarget() {
+		if(this.targetFeetBlock == null) {
 			return null;
 		}
 		
-		this.bedHeadBlock.getBlock().getChunk().load(true);
-		return this.bedFeedBlock.getBlock();
+		this.targetFeetBlock.getBlock().getChunk().load(true);
+		return this.targetFeetBlock.getBlock();
 	}
 
 	public void removePlayer(OfflinePlayer player) {
@@ -172,11 +176,16 @@ public class Team implements ConfigurationSerializable {
 	}
 
 	public boolean isDead() {
-		this.bedHeadBlock.getBlock().getChunk().load(true);
-		this.bedFeedBlock.getBlock().getChunk().load(true);
+		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
 		
-		return (this.bedHeadBlock.getBlock().getType() != Material.BED_BLOCK
-				&& this.bedFeedBlock.getBlock().getType() != Material.BED_BLOCK);
+		this.targetHeadBlock.getBlock().getChunk().load(true);
+		if(this.targetFeetBlock == null) {
+			return this.targetHeadBlock.getBlock().getType() != targetMaterial;
+		}
+		
+		this.targetFeetBlock.getBlock().getChunk().load(true);
+		return (this.targetHeadBlock.getBlock().getType() != targetMaterial
+				&& this.targetFeetBlock.getBlock().getType() != targetMaterial);
 	}
 
 	@Override
@@ -187,8 +196,12 @@ public class Team implements ConfigurationSerializable {
 		team.put("color", this.color.toString());
 		team.put("maxplayers", this.maxPlayers);
 		team.put("spawn", Utils.locationSerialize(this.spawnLocation));
-		team.put("bedhead", Utils.locationSerialize(this.bedHeadBlock));
-		team.put("bedfeed", Utils.locationSerialize(this.bedFeedBlock));
+		team.put("bedhead", Utils.locationSerialize(this.targetHeadBlock));
+		
+		if(this.targetFeetBlock != null) {
+			team.put("bedfeed", Utils.locationSerialize(this.targetFeetBlock));
+		}
+		
 		return team;
 	}
 

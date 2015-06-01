@@ -57,7 +57,7 @@ commands:
         description: Sets the lobby location of a game
         usage: /<command> [Game]
         permission: bw.setup
-    bw setbed:
+    bw settarget:
         description: Sets the bed of a team in a game
         usage: /<command> [Game] [Team]
         permission: bw.setup

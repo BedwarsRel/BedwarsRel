@@ -13,7 +13,7 @@ errors:
     teamnamelength: "Team name must have between 2 and 20 characters!"
     teamnotfound: "The given team was not found!"
     notingame: "You are currently not in a game!"
-    bedtargeting: "You have to targeting or stand on a Bed!"
+    bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
     regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
     spawnerargument: "Your argument have to be one of the following (gold;iron;bronze)"
     blockdownnotfound: "The block you're standing on was not found!"
@@ -45,7 +45,7 @@ success:
     joined: "You successfully joined the game!"
     left: "You successfully left the game!"
     saved: "Game was successfully saved!"
-    bedset: "You successfully set the bed for team $team$!"
+    bedset: "You sucessfully set the respawn block of team $team$!"
     regionset: "Game region location $location$ for Game $game$ was set successfully!"
     spawnset: "Spawn location for Team $team$ was set successfully!"
     spawnerset: "Ressource spawn location for $name$ was set successfully!"
@@ -71,6 +71,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: "No itemshop categories found!"
     NO_MAIN_LOBBY_SET: "You didn't set a main lobby even though you did set 'tomainlobby' to true"
     TEAM_NO_WRONG_BED: "One or more teams have no bed set!"
+    TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
     teams: "Teams"
     all: "All"
@@ -169,9 +170,9 @@ commands:
     save:
         name: "Save Game"
         desc: "Saves a game (and map) to config file(s)"
-    setbed:
-        name: "Set bed"
-        desc: "Sets the location of a team's bed"
+    settarget:
+        name: "Set target"
+        desc: "Sets the location of a team's target block"
     setlobby:
         name: "Set lobby"
         desc: "Sets the location of the gamelobby"

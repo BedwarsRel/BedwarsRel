@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
+import io.github.yannici.bedwars.Utils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -168,34 +170,44 @@ public class Region {
 		
 		this.breakedBlocks.clear();
 		
+		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
 		for(Team team : game.getTeams().values()) {
-			if(team.getHeadBed() == null || team.getFeedBed() == null) {
+			if(team.getHeadTarget() == null) {
 				continue;
 			}
 			
-			Block blockHead = this.world.getBlockAt(team.getHeadBed().getLocation());
-			Block blockFeed = this.world.getBlockAt(team.getFeedBed().getLocation());
-			BlockState headState = blockHead.getState();
-			BlockState feedState = blockFeed.getState();
-			
-			headState.setType(Material.BED_BLOCK);
-			feedState.setType(Material.BED_BLOCK);
-			headState.setRawData((byte)0x0);
-			feedState.setRawData((byte)0x8);
-			feedState.update(true, false);
-			headState.update(true, false);
-			
-			Bed bedHead = (Bed)headState.getData();
-			bedHead.setHeadOfBed(true);
-			bedHead.setFacingDirection(blockHead.getFace(blockFeed).getOppositeFace());
-			
-			Bed bedFeed = (Bed)feedState.getData();
-			bedFeed.setHeadOfBed(false);
-			bedFeed.setFacingDirection(blockFeed.getFace(blockHead));
-			
-			feedState.update(true, false);
-			headState.update(true, true);
-			
+			if((targetMaterial.equals(Material.BED_BLOCK)
+					|| targetMaterial.equals(Material.BED))
+					&& team.getFeetTarget() != null) {
+				Block blockHead = this.world.getBlockAt(team.getHeadTarget().getLocation());
+				Block blockFeed = this.world.getBlockAt(team.getFeetTarget().getLocation());
+				BlockState headState = blockHead.getState();
+				BlockState feedState = blockFeed.getState();
+				
+				headState.setType(Material.BED_BLOCK);
+				feedState.setType(Material.BED_BLOCK);
+				headState.setRawData((byte)0x0);
+				feedState.setRawData((byte)0x8);
+				feedState.update(true, false);
+				headState.update(true, false);
+				
+				Bed bedHead = (Bed)headState.getData();
+				bedHead.setHeadOfBed(true);
+				bedHead.setFacingDirection(blockHead.getFace(blockFeed).getOppositeFace());
+				
+				Bed bedFeed = (Bed)feedState.getData();
+				bedFeed.setHeadOfBed(false);
+				bedFeed.setFacingDirection(blockFeed.getFace(blockHead));
+				
+				feedState.update(true, false);
+				headState.update(true, true);
+			} else {
+				Block blockHead = this.world.getBlockAt(team.getHeadTarget().getLocation());
+				BlockState headState = blockHead.getState();
+				
+				headState.setType(targetMaterial);
+				headState.update(true, true);
+			}
 		}
 
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();

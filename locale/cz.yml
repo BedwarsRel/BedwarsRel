@@ -18,7 +18,7 @@ errors:
     teamnamelength: "Nazev tymu musi mit 2 - 20 pismen!"
     teamnotfound: "Tento tym nebyl nalezen!"
     notingame: "Nejsi ve hre!"
-    bedtargeting: "Musite stat na posteli!"
+    bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
     regionargument: "Muzete zadat pouze 'loc1' nebo 'loc2'!"
     spawnerargument: "Muzete zadat pouze(gold;iron;bronze)"
     blockdownnotfound: "Blok na kterem stojite nebyl nalezen!"
@@ -50,7 +50,7 @@ success:
     joined: "Pripojil jsi se do hry!"
     left: "Uspesne jsi se odpojil ze hry."
     saved: "Hra byla uspesne ulozena!"
-    bedset: "Uspesne jsi nastavil postel tymu $team$!"
+    bedset: "You sucessfully set the respawn block of team $team$!"
     regionset: "Oblast $location$ pro hru $game$ uspesne nastavena!"
     spawnset: "Spawn lokace pro tym $team$ uspesne nastavena!"
     spawnerset: "Spawn surovin $name$ uspesne nastaven!"
@@ -76,6 +76,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: "Zadne kategorie obchodu nenalezeny!"
     NO_MAIN_LOBBY_SET: "Nenastavil jsi Main lobby (hlavni lobby) nebo jsi v nastaveni nepovolil 'tomainlobby' na true (povoleno)"
     TEAM_NO_WRONG_BED: "Jeden nebo vice tymu nemaji nastavenou postel!"
+    TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
     teams: "Tymy"
     all: "Vsichni"
@@ -173,7 +174,7 @@ commands:
     save:
         name: "Ulozit hru"
         desc: "Ulozi hru (a mapu) do konfigurace!"
-    setbed:
+    settarget:
         name: "Nastavit postel"
         desc: "Nastavi lokaci postele tymu"
     setlobby:

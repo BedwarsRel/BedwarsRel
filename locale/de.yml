@@ -13,7 +13,7 @@ errors:
     teamnamelength: "Der Teamname muss zwischen 2 und 20 Zeichen haben!"
     teamnotfound: "Das angegebene Team konnte nicht gefunden werden!"
     notingame: "Du bist zurzeit in keinem Spiel!"
-    bedtargeting: "Du musst ein Bett anvisieren oder auf einem stehen!"
+    bedtargeting: "Du musst ein Respawn-Block des konfigurierten 'game-block' anvisieren oder auf einem stehen!"
     regionargument: "Dein Location-Parameter muss 'loc1' oder 'loc2' entsprechen!"
     spawnerargument: "Dein Ressourcen-Parameter muss eines der folgenden sein (gold;iron;bronze)"
     blockdownnotfound: "Der Block unter dir konnte nicht gefunden werden!"
@@ -45,7 +45,7 @@ success:
     joined: "Du bist dem Spiel beigetreten!"
     left: "Du hast das Spiel erfolgreich verlassen!"
     saved: "Spiel wurde erfolgreich gespeichert!"
-    bedset: "Das Bett für Team $team$ wurde erfolgreich gesetzt!"
+    bedset: "Der Respawn-Block für Team $team$ wurde erfolgreich gesetzt!"
     regionset: "Der Regionspunkt $location$ wurde für das Spiel $game$ erfolgreich gesetzt!"
     spawnset: "Spawn-Punkt für Team $team$ wurde erfolgreich gesetzt!"
     spawnerset: "Ressourcen-Spawner $name$ wurde erfolgreich gesetzt!"
@@ -71,6 +71,7 @@ gamecheck:
     NO_ITEMSHOP_CATEGORIES: "Shop hat keine Kategorien/Angebote gefunden!"
     NO_MAIN_LOBBY_SET: "Du hast keine Main-Lobby gesetzt, obwohl 'tomainlobby' auf true gesetzt wurde!"
     TEAM_NO_WRONG_BED: "Ein oder mehrere Teams haben kein Bett gesetzt bekommen!"
+    TEAM_NO_WRONG_TARGET: "Ein oder mehrere Teams haben kein Respawn-Block gesetzt bekommen!"
 ingame:
     teams: "Teams"
     all: "Alle"
@@ -168,9 +169,9 @@ commands:
     save:
         name: "Spiel speichern"
         desc: "Speichert die gewählte Region und Spieleinstellungen"
-    setbed:
-        name: "Bett setzen"
-        desc: "Setzt das Bett eines bestimmten Teams"
+    settarget:
+        name: "Ziel-Block setzen"
+        desc: "Setzt den Respawn-Block (Ziel) eines bestimmten Teams"
     setlobby:
         name: "Lobby setzen"
         desc: "Setzt die Position der Lobby"
