@@ -104,10 +104,12 @@ public class HelpCommand extends BaseCommand {
 
 		if (command.getCommand().equals("help")) {
 			arg = " {page?}";
-		} else if (command.getCommand().equals("list")) {
+		} else if (command.getCommand().equalsIgnoreCase("list")) {
 			arg = " {page?}";
-		} else if (command.getCommand().equals("stats")) {
+		} else if (command.getCommand().equalsIgnoreCase("stats")) {
 		    arg = " {player?}";
+		} else if (command.getCommand().equalsIgnoreCase("reload")) {
+			arg = " {config;locale;games;all?}";
 		}
 
 		sb.append(ChatColor.YELLOW + "/bw " + command.getCommand() + arg

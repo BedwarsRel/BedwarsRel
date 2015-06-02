@@ -48,24 +48,55 @@ public class ReloadCommand extends BaseCommand {
 		}
 		
 		File config = new File(Main.getInstance().getDataFolder(), "config.yml");
+		String command = "";
 		
-		// save default config
-		if(!config.exists()) {
-			Main.getInstance().saveDefaultConfig();
+		if(args.size() > 0) {
+			command = args.get(0);
+		} else {
+			command = "all";
 		}
 		
-		Main.getInstance().loadConfigInUTF();
+		if(command.equalsIgnoreCase("all")) {
+			// save default config
+			if(!config.exists()) {
+				Main.getInstance().saveDefaultConfig();
+			}
+			
+			Main.getInstance().loadConfigInUTF();
 
-		Main.getInstance().getConfig().options().copyDefaults(true);
-		Main.getInstance().getConfig().options().copyHeader(true);
+			Main.getInstance().getConfig().options().copyDefaults(true);
+			Main.getInstance().getConfig().options().copyHeader(true);
+			
+			ConfigUpdater configUpdater = new ConfigUpdater();
+			configUpdater.addConfigs();
+			Main.getInstance().saveConfiguration();
+		    Main.getInstance().loadConfigInUTF();
+		    
+			Main.getInstance().reloadLocalization();
+			Main.getInstance().getGameManager().reloadGames();
+		} else if(command.equalsIgnoreCase("games")) {
+			Main.getInstance().getGameManager().reloadGames();
+		} else if(command.equalsIgnoreCase("config")) {
+			// save default config
+			if(!config.exists()) {
+				Main.getInstance().saveDefaultConfig();
+			}
+			
+			Main.getInstance().loadConfigInUTF();
+
+			Main.getInstance().getConfig().options().copyDefaults(true);
+			Main.getInstance().getConfig().options().copyHeader(true);
+			
+			ConfigUpdater configUpdater = new ConfigUpdater();
+			configUpdater.addConfigs();
+			Main.getInstance().saveConfiguration();
+		    Main.getInstance().loadConfigInUTF();
+		} else if(command.equalsIgnoreCase("locale")) {
+			Main.getInstance().reloadLocalization();
+		} else {
+			return false;
+		}
 		
-		ConfigUpdater configUpdater = new ConfigUpdater();
-		configUpdater.addConfigs();
-		Main.getInstance().saveConfiguration();
-	    Main.getInstance().loadConfigInUTF();
-	    
-		Main.getInstance().reloadLocalization();
-		Main.getInstance().getGameManager().reloadGames();
 		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l("success.reloadconfig")));
 		return true;
