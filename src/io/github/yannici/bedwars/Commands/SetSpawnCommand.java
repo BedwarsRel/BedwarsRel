@@ -73,7 +73,7 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l(
 						"success.spawnset",
-						ImmutableMap.of("team", team.getDisplayName()
+						ImmutableMap.of("team", team.getChatColor() + team.getDisplayName()
 								+ ChatColor.GREEN))));
 		return true;
 	}

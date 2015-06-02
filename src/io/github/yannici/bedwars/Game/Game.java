@@ -75,6 +75,9 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private int record = 0;
+	private int length = 0;
+	
 	private Map<Player, PlayerSettings> playerSettings = null;
 	
 	private List<SpecialItem> currentSpecials = null;
@@ -118,6 +121,9 @@ public class Game {
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 		this.playerDamages = new HashMap<Player, Player>();
 		this.currentSpecials = new ArrayList<SpecialItem>();
+		
+		this.record = Main.getInstance().getMaxLength();
+		this.length = this.record;
 		
 		this.playerSettings = new HashMap<Player, PlayerSettings>();
 		
@@ -216,6 +222,10 @@ public class Game {
 
 		this.teleportPlayersToTeamSpawn();
 		this.setPlayersScoreboard();
+		
+		if(Main.getInstance().getBooleanConfig("store-game-record", true)) {
+			this.displayRecord();
+		}
 
 		this.startTimerCountdown();
 
@@ -659,6 +669,97 @@ public class Game {
 	public void addRunningTask(BukkitTask task) {
 		this.runningTasks.add(task);
 	}
+	
+	public boolean handleDestroyTargetMaterial(Player p, Block block) {
+		Team team = this.getPlayerTeam(p);
+		if (team == null) {
+			return false;
+		}
+		
+		Team bedDestroyTeam = null;
+		Block bedBlock = team.getHeadTarget();
+		
+		if(block.getType().equals(Material.BED_BLOCK)) {
+			Block breakBlock = block;
+			Block neighbor = null;
+			Bed breakBed = (Bed) breakBlock.getState().getData();
+
+			if (!breakBed.isHeadOfBed()) {
+				neighbor = breakBlock;
+				breakBlock = Utils.getBedNeighbor(neighbor);
+			} else {
+				neighbor = Utils.getBedNeighbor(breakBlock);
+			}
+			
+			if (bedBlock.equals(breakBlock)) {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("ingame.blocks.ownbeddestroy")));
+				return false;
+			}
+			
+			bedDestroyTeam = this.getTeamOfBed(breakBlock);
+			if (bedDestroyTeam == null) {
+				return false;
+			}
+	        
+			neighbor.getDrops().clear();
+			neighbor.setType(Material.AIR);
+			breakBlock.getDrops().clear();
+			breakBlock.setType(Material.AIR);
+		} else {
+			if (bedBlock.equals(block)) {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("ingame.blocks.ownbeddestroy")));
+				return false;
+			}
+			
+			bedDestroyTeam = this.getTeamOfBed(block);
+			if (bedDestroyTeam == null) {
+				return false;
+			}
+			
+			block.getDrops().clear();
+			block.setType(Material.AIR);
+		}
+		
+		// set statistics
+		if(Main.getInstance().statisticsEnabled()) {
+			PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
+			statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
+			statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+		}
+
+		this.broadcast(ChatColor.RED
+				+ Main._l(
+						"ingame.blocks.beddestroyed",
+						ImmutableMap.of("team",
+								bedDestroyTeam.getChatColor()
+										+ bedDestroyTeam.getName()
+										+ ChatColor.RED,
+										"player",
+                                        Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
+		
+		
+		this.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
+		this.setPlayersScoreboard();
+		return true;
+	}
+	
+	public void saveRecord() {
+		File gameConfig = new File(Main.getInstance().getDataFolder() + "/"
+				+ GameManager.gamesPath + "/" + this.name + "/game.yml");
+		
+		if(!gameConfig.exists()) {
+			return;
+		}
+		
+		this.config.set("record", this.record);
+		try {
+			this.config.save(gameConfig);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
  
 	public GameCheckCode checkGame() {
 		if (this.loc1 == null || this.loc2 == null) {
@@ -948,6 +1049,25 @@ public class Game {
 	public void removeRunningTask(BukkitRunnable bukkitRunnable) {
         this.runningTasks.remove(bukkitRunnable);
     }
+	
+	public String getFormattedRecord() {
+		int hr = 0;
+		int min = 0;
+		int sec = 0;
+		String minStr = "";
+		String secStr = "";
+		String hrStr = "";
+		
+		hr = (int) Math.floor((this.timeLeft / 60) / 60);
+		min = ((int) Math.floor((this.timeLeft / 60)) - (hr * 60));
+		sec = this.timeLeft % 60;
+
+		hrStr = (hr < 10) ? "0" + String.valueOf(hr) : String.valueOf(hr);
+		minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
+		secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
+
+		return hrStr + ":" + minStr + ":" + secStr;
+	}
 
 	/*
 	 * GETTER / SETTER
@@ -959,6 +1079,18 @@ public class Game {
 	
 	public int getTime() {
 		return this.time;
+	}
+	
+	public int getTimeLeft() {
+		return this.timeLeft;
+	}
+	
+	public void setRecord(int int1) {
+		this.record = int1;
+	}
+	
+	public int getRecord() {
+		return this.record;
 	}
 	
 	public List<SpecialItem> getSpecialItems() {
@@ -1236,10 +1368,22 @@ public class Game {
 	public void setRegionName(String name) {
 		this.regionName = name;
 	}
+	
+	public int getLength() {
+		return this.length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
 
 	/*
 	 * PRIVATE
 	 */
+	
+	private void displayRecord() {
+		this.broadcast(Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord())));
+	}
 
 	private void makeTeamsReady() {
 		for (Team team : this.teams.values()) {
@@ -1277,6 +1421,7 @@ public class Game {
 		yml.set("loc2", Utils.locationSerialize(this.loc2));
 		yml.set("lobby", Utils.locationSerialize(this.lobby));
 		yml.set("minplayers", this.getMinPlayers());
+		yml.set("record", this.record);
 		
 		if(this.regionName == null) {
 			this.regionName = this.region.getWorld().getName();
@@ -1421,6 +1566,7 @@ public class Game {
 
 	private void startTimerCountdown() {
 		this.timeLeft = Main.getInstance().getMaxLength();
+		this.length = this.timeLeft;
 		BukkitRunnable task = new BukkitRunnable() {
 
 			@Override
@@ -1432,86 +1578,11 @@ public class Game {
 					this.cancel();
 					return;
 				}
-
+				
 				Game.this.timeLeft--;
 			}
 		};
 
 		this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
-	}
-
-	public boolean handleDestroyTargetMaterial(Player p, Block block) {
-		Team team = this.getPlayerTeam(p);
-		if (team == null) {
-			return false;
-		}
-		
-		Team bedDestroyTeam = null;
-		Block bedBlock = team.getHeadTarget();
-		
-		if(block.getType().equals(Material.BED_BLOCK)) {
-			Block breakBlock = block;
-			Block neighbor = null;
-			Bed breakBed = (Bed) breakBlock.getState().getData();
-
-			if (!breakBed.isHeadOfBed()) {
-				neighbor = breakBlock;
-				breakBlock = Utils.getBedNeighbor(neighbor);
-			} else {
-				neighbor = Utils.getBedNeighbor(breakBlock);
-			}
-			
-			if (bedBlock.equals(breakBlock)) {
-				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-						+ Main._l("ingame.blocks.ownbeddestroy")));
-				return false;
-			}
-			
-			bedDestroyTeam = this.getTeamOfBed(breakBlock);
-			if (bedDestroyTeam == null) {
-				return false;
-			}
-	        
-			neighbor.getDrops().clear();
-			neighbor.setType(Material.AIR);
-			breakBlock.getDrops().clear();
-			breakBlock.setType(Material.AIR);
-		} else {
-			if (bedBlock.equals(block)) {
-				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-						+ Main._l("ingame.blocks.ownbeddestroy")));
-				return false;
-			}
-			
-			bedDestroyTeam = this.getTeamOfBed(block);
-			if (bedDestroyTeam == null) {
-				return false;
-			}
-			
-			block.getDrops().clear();
-			block.setType(Material.AIR);
-		}
-		
-		// set statistics
-		if(Main.getInstance().statisticsEnabled()) {
-			PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
-			statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
-			statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
-		}
-
-		this.broadcast(ChatColor.RED
-				+ Main._l(
-						"ingame.blocks.beddestroyed",
-						ImmutableMap.of("team",
-								bedDestroyTeam.getChatColor()
-										+ bedDestroyTeam.getName()
-										+ ChatColor.RED,
-										"player",
-                                        Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
-		
-		
-		this.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
-		this.setPlayersScoreboard();
-		return true;
 	}
 }

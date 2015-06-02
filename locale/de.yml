@@ -75,6 +75,8 @@ gamecheck:
 ingame:
     teams: "Teams"
     all: "Alle"
+    record: "&aDer Rekord auf dieser Map liegt bei &e$record$"
+    newrecord: "&aDas Team $team$&a hat einen neuen Rekord aufgestellt: &6$record$"
     teamwon: "Glückwunsch! Team $team$ hat gewonnen!"
     draw: "Das Spiel endet mit einem Unentschieden!"
     serverrestart: "Server-Neustart in $sec$ Sekunde(n)!"

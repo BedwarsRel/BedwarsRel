@@ -68,6 +68,11 @@ ingame-chatformat: "<$team$>$player$: $msg$"
 # The block which should be the main block for the game (respawn block)
 game-block: BED_BLOCK
 
+# Save game records
+# type: boolean
+# If true, the time records for every game will be stored.
+store-game-records: true
+
 # Bed sound
 # type: string
 # The sound which should be played when a bed will be destroyed
@@ -173,6 +178,11 @@ statistics:
         # type: int
         # Sets the score which all team-players gets when a lose
         lose: 0
+        
+        # New record set
+        # type: int
+        # Sets the score which all team-players gets when they made a new record
+        record: 100
     
 # Database (currently only mysql) configuration
 database:

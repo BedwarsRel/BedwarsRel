@@ -80,5 +80,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("specials.protection-wall.distance", 2);
 		Main.getInstance().getConfig().addDefault("bed-sound", "ENDERDRAGON_GROWL");
 		// </1.1.14>
+		
+		// <1.1.15>
+		Main.getInstance().getConfig().addDefault("store-game-records", true);
+		Main.getInstance().getConfig().addDefault("statistics.scores.record", 100);
+		// </1.1.15>
 	}
 }

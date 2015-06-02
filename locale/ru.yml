@@ -75,6 +75,8 @@ gamecheck:
 ingame:
     teams: "Команде"
     all: "Всем"
+    record: "&e$record$&a is the record on this map!"
+    newrecord: "&aTeam $team$&a set a new record: &6$record$"
     teamwon: "Поздравляем! Команда $team$ победила"
     draw: "Ничья"
     serverrestart: "Перезагрузка сервера через $sec$"

@@ -250,6 +250,10 @@ public class GameManager {
 				game.setMainLobby(Utils.locationDeserialize(cfg.get("mainlobby")));
 			}
 			
+			if(cfg.contains("record")) {
+				game.setRecord(cfg.getInt("record", Main.getInstance().getMaxLength()));
+			}
+			
 			game.getFreePlayers().clear();
 			game.updateSigns();
 			

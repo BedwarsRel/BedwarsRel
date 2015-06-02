@@ -54,9 +54,26 @@ public abstract class GameCycle {
 		if (overEvent.isCancelled()) {
 			return;
 		}
-
+		
 		this.getGame().stopWorkers();
 		this.setEndGameRunning(true);
+		
+		// new record?
+		boolean storeRecords = Main.getInstance().getBooleanConfig("store-game-records", true);
+		boolean madeRecord = false;
+		if(storeRecords && winner != null) {
+			int playTime = this.getGame().getLength()-this.getGame().getTimeLeft();
+			if(playTime < this.getGame().getRecord()) {
+				this.getGame().setRecord(playTime);
+				this.getGame().saveRecord();
+				madeRecord = true;
+			}
+			
+			this.getGame().broadcast(Main._l("ingame.newrecord", 
+					ImmutableMap.of("record", this.getGame().getFormattedRecord(),
+									"team", winner.getChatColor() + winner.getDisplayName())));
+		}
+		
 		int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
 																			// delay
 		if (Main.getInstance().statisticsEnabled()
@@ -77,6 +94,11 @@ public abstract class GameCycle {
     					statistic.setWins(statistic.getWins() + 1);
     					statistic.addCurrentScore(Main.getInstance().getIntConfig(
     									"statistics.scores.win", 50));
+    					
+    					if(madeRecord) {
+    						statistic.addCurrentScore(Main.getInstance().getIntConfig(
+									"statistics.scores.record", 100));
+    					}
 				    }
 				}
 			}
