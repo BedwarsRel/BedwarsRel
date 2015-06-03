@@ -193,7 +193,7 @@ public class NewItemShop {
 
 		for (int i = 0; i < offers.size(); i++) {
 			VillagerTrade trade = offers.get(i);
-			int slot = sizeCategories + i;
+			int slot = ((9 * (invSize/9)) - 9) + i;
 			ItemStack tradeStack = this.toItemStack(trade, player, game);
 
 			buyInventory.setItem(slot, tradeStack);
