@@ -1399,23 +1399,8 @@ public class Game {
 	 */
 	
 	private void displayRecord() {
-		boolean displayHolders = Main.getInstance().getBooleanConfig("store-game-records-holder", true);
-		
-		if(displayHolders && this.getRecordHolders().size() > 0) {
-			StringBuilder holders = new StringBuilder();
-			
-			for(String holder : this.recordHolders) {
-				if(holders.length() == 0) {
-					holders.append(ChatColor.WHITE + holder);
-				} else {
-					holders.append(ChatColor.GOLD + ", " + ChatColor.WHITE + holder);
-				}
-			}
-			
-			this.broadcast(Main._l("ingame.record-with-holders", ImmutableMap.of("record", this.getFormattedRecord(),
-																			     "holders", holders.toString())));
-		} else {
-			this.broadcast(Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord())));
+		for(Player player : this.getPlayers()) {
+			this.displayRecord(player);
 		}
 	}
 	
