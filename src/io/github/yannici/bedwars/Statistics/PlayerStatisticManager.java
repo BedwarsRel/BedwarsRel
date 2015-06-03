@@ -127,12 +127,14 @@ public class PlayerStatisticManager {
         
         // duplicate entry fix
         if(statistic.isNew()) {
+        	ResultSet result = null;
+        	
         	try {
         		// check if is it really new ;)
         		String uuid = statistic.getUUID();
             	String sql = "SELECT id FROM `" + DatabaseManager.DBPrefix + statistic.getTableName() + "` WHERE `uuid` = '" + uuid + "'";
             	
-            	ResultSet result = Main.getInstance().getDatabaseManager().query(sql);
+            	result = Main.getInstance().getDatabaseManager().query(sql);
             	int num = Main.getInstance().getDatabaseManager().getRowCount(result);
             	
             	if(num > 0) {
@@ -141,7 +143,15 @@ public class PlayerStatisticManager {
             	}
         	} catch(Exception ex) {
         		// couldn't check, try to store anyway
-        	}
+        	} finally {
+        		if(result != null) {
+        			try {
+                		Main.getInstance().getDatabaseManager().clean(result.getStatement().getConnection());
+                	} catch(Exception ex) {
+                		ex.printStackTrace();
+                	}
+        		}
+            }
         }
         
         String updateSql = this.getStoreSQL(statistic);
