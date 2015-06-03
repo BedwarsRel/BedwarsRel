@@ -83,6 +83,7 @@ public class ConfigUpdater {
 		
 		// <1.1.15>
 		Main.getInstance().getConfig().addDefault("store-game-records", true);
+		Main.getInstance().getConfig().addDefault("store-game-records-holder", true);
 		Main.getInstance().getConfig().addDefault("statistics.scores.record", 100);
 		// </1.1.15>
 	}

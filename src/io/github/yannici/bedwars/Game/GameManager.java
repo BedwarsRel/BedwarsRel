@@ -254,6 +254,13 @@ public class GameManager {
 				game.setRecord(cfg.getInt("record", Main.getInstance().getMaxLength()));
 			}
 			
+			if(cfg.contains("record-holders")) {
+				List<Object> list = (List<Object>) cfg.getList("record-holders", new ArrayList<Object>());
+				for(Object holder : list) {
+					game.addRecordHolder(holder.toString());
+				}
+			}
+			
 			game.getFreePlayers().clear();
 			game.updateSigns();
 			

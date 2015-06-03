@@ -81,6 +81,7 @@ ingame:
     teams: "Tymy"
     all: "Vsichni"
     record: "&e$record$&a is the record on this map!"
+    record-with-holders: "&aThe record on this map is &e$record$&a and is held by: $holders$"
     newrecord: "&aTeam $team$&a set a new record: &6$record$"
     teamwon: "Gratulace! Tym $team$ vyhral!"
     draw: "Hra skoncila remizou."

@@ -73,6 +73,11 @@ game-block: BED_BLOCK
 # If true, the time records for every game will be stored.
 store-game-records: true
 
+# Save game records holder
+# type: boolean
+# If true, the record holders will be saved and displayed
+store-game-records-holder: true
+
 # Bed sound
 # type: string
 # The sound which should be played when a bed will be destroyed

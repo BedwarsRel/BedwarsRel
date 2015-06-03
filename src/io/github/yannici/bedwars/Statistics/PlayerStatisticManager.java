@@ -125,6 +125,25 @@ public class PlayerStatisticManager {
         	return;
         }
         
+        // duplicate entry fix
+        if(statistic.isNew()) {
+        	try {
+        		// check if is it really new ;)
+        		String uuid = statistic.getUUID();
+            	String sql = "SELECT id FROM `" + DatabaseManager.DBPrefix + statistic.getTableName() + "` WHERE `uuid` = '" + uuid + "'";
+            	
+            	ResultSet result = Main.getInstance().getDatabaseManager().query(sql);
+            	int num = Main.getInstance().getDatabaseManager().getRowCount(result);
+            	
+            	if(num > 0) {
+            		result.first();
+            		statistic.setId(result.getLong(0));
+            	}
+        	} catch(Exception ex) {
+        		// couldn't check, try to store anyway
+        	}
+        }
+        
         String updateSql = this.getStoreSQL(statistic);
         Main.getInstance().getDatabaseManager().update(updateSql);
     }

@@ -44,6 +44,31 @@ public abstract class GameCycle {
 	public abstract boolean onPlayerJoins(Player player);
 
 	public abstract void onGameOver(GameOverTask task);
+	
+	private boolean storeRecords(boolean storeHolders, Team winner) {
+		int playTime = this.getGame().getLength()-this.getGame().getTimeLeft();
+		if(playTime <= this.getGame().getRecord()) {
+			if(storeHolders) {
+				if(playTime < this.getGame().getRecord()) {
+					this.getGame().getRecordHolders().clear();
+				}
+				
+				for(Player player : winner.getPlayers()) {
+					this.getGame().addRecordHolder(player.getName());
+				}
+			}
+			
+			this.getGame().setRecord(playTime);
+			this.getGame().saveRecord();
+			
+			this.getGame().broadcast(Main._l("ingame.newrecord", 
+					ImmutableMap.of("record", this.getGame().getFormattedRecord(),
+									"team", winner.getChatColor() + winner.getDisplayName())));
+			return true;
+		}
+		
+		return false;
+	}
 
 	@SuppressWarnings("unchecked")
     private void runGameOver(Team winner) {
@@ -60,18 +85,10 @@ public abstract class GameCycle {
 		
 		// new record?
 		boolean storeRecords = Main.getInstance().getBooleanConfig("store-game-records", true);
+		boolean storeHolders = Main.getInstance().getBooleanConfig("store-game-records-holder", true);
 		boolean madeRecord = false;
 		if(storeRecords && winner != null) {
-			int playTime = this.getGame().getLength()-this.getGame().getTimeLeft();
-			if(playTime < this.getGame().getRecord()) {
-				this.getGame().setRecord(playTime);
-				this.getGame().saveRecord();
-				madeRecord = true;
-			}
-			
-			this.getGame().broadcast(Main._l("ingame.newrecord", 
-					ImmutableMap.of("record", this.getGame().getFormattedRecord(),
-									"team", winner.getChatColor() + winner.getDisplayName())));
+			madeRecord = this.storeRecords(storeHolders, winner);
 		}
 		
 		int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
@@ -122,7 +139,6 @@ public abstract class GameCycle {
 			}
 		}
 		
-
 		GameOverTask gameOver = new GameOverTask(this, delay, winner);
 		gameOver.runTaskTimer(Main.getInstance(), 0L, 20L);
 	}

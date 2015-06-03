@@ -76,6 +76,7 @@ ingame:
     teams: "Teams"
     all: "All"
     record: "&e$record$&a is the record on this map!"
+    record-with-holders: "&aThe record on this map is &e$record$&a and is held by: $holders$"
     newrecord: "&aTeam $team$&a set a new record: &6$record$"
     teamwon: "Congratulations! Team $team$ won!"
     draw: "The game ends with a draw!"

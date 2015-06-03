@@ -75,6 +75,7 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private List<String> recordHolders = null;
 	private int record = 0;
 	private int length = 0;
 	
@@ -123,7 +124,8 @@ public class Game {
 		this.currentSpecials = new ArrayList<SpecialItem>();
 		
 		this.record = Main.getInstance().getMaxLength();
-		this.length = this.record;
+		this.length = Main.getInstance().getMaxLength();
+		this.recordHolders = new ArrayList<String>();
 		
 		this.playerSettings = new HashMap<Player, PlayerSettings>();
 		
@@ -196,7 +198,7 @@ public class Game {
 		if (startEvent.isCancelled()) {
 			return false;
 		}
-
+		
 		this.isOver = false;
 		this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
 		
@@ -223,14 +225,12 @@ public class Game {
 		this.teleportPlayersToTeamSpawn();
 		this.setPlayersScoreboard();
 		
-		if(Main.getInstance().getBooleanConfig("store-game-record", true)) {
+		if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
 			this.displayRecord();
 		}
 
 		this.startTimerCountdown();
-
 		this.state = GameState.RUNNING;
-
 		this.updateSigns();
 		
 		if(Main.getInstance().getBooleanConfig("global-messages", true)) {
@@ -518,6 +518,10 @@ public class Game {
 
 			p.teleport(this.lobby);
 			storage.loadLobbyInventory();
+			
+			if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
+				this.displayRecord();
+			}
 
 			GameLobbyCountdownRule rule = Main.getInstance()
 					.getLobbyCountdownRule();
@@ -754,6 +758,10 @@ public class Game {
 		}
 		
 		this.config.set("record", this.record);
+		if(Main.getInstance().getBooleanConfig("store-game-records-holder", true)) {
+			this.config.set("record-holders", this.recordHolders);
+		}
+		
 		try {
 			this.config.save(gameConfig);
 		} catch (IOException e) {
@@ -945,6 +953,7 @@ public class Game {
 
 	public void resetScoreboard() {
 		this.timeLeft = Main.getInstance().getMaxLength();
+		this.length = this.timeLeft;
 		this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
 	}
 
@@ -1058,9 +1067,9 @@ public class Game {
 		String secStr = "";
 		String hrStr = "";
 		
-		hr = (int) Math.floor((this.timeLeft / 60) / 60);
-		min = ((int) Math.floor((this.timeLeft / 60)) - (hr * 60));
-		sec = this.timeLeft % 60;
+		hr = (int) Math.floor((this.record / 60) / 60);
+		min = ((int) Math.floor((this.record / 60)) - (hr * 60));
+		sec = this.record % 60;
 
 		hrStr = (hr < 10) ? "0" + String.valueOf(hr) : String.valueOf(hr);
 		minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
@@ -1132,6 +1141,14 @@ public class Game {
 		return rpr;
 	}
 	
+	public List<String> getRecordHolders() {
+		return this.recordHolders;
+	}
+	
+	public void addRecordHolder(String holder) {
+		this.recordHolders.add(holder);
+	}
+
 	public boolean isStopping() {
 	    return this.isStopping;
 	}
@@ -1382,9 +1399,26 @@ public class Game {
 	 */
 	
 	private void displayRecord() {
-		this.broadcast(Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord())));
+		boolean displayHolders = Main.getInstance().getBooleanConfig("store-game-records-holder", true);
+		
+		if(displayHolders && this.getRecordHolders().size() > 0) {
+			StringBuilder holders = new StringBuilder();
+			
+			for(String holder : this.recordHolders) {
+				if(holders.length() == 0) {
+					holders.append(ChatColor.WHITE + holder);
+				} else {
+					holders.append(ChatColor.GOLD + ", " + ChatColor.WHITE + holder);
+				}
+			}
+			
+			this.broadcast(Main._l("ingame.record-with-holders", ImmutableMap.of("record", this.getFormattedRecord(),
+																			     "holders", holders.toString())));
+		} else {
+			this.broadcast(Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord())));
+		}
 	}
-
+	
 	private void makeTeamsReady() {
 		for (Team team : this.teams.values()) {
 			team.getScoreboardTeam().setAllowFriendlyFire(Main.getInstance().getConfig()
@@ -1421,7 +1455,14 @@ public class Game {
 		yml.set("loc2", Utils.locationSerialize(this.loc2));
 		yml.set("lobby", Utils.locationSerialize(this.lobby));
 		yml.set("minplayers", this.getMinPlayers());
-		yml.set("record", this.record);
+		
+		if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
+			yml.set("record", this.record);
+			
+			if(Main.getInstance().getBooleanConfig("store-game-records-holder", true)) {
+				yml.set("record-holders", this.recordHolders);
+			}
+		}
 		
 		if(this.regionName == null) {
 			this.regionName = this.region.getWorld().getName();
@@ -1436,7 +1477,7 @@ public class Game {
 
 		yml.createSection("teams", this.teams);
 		yml.createSection("spawner", spawnerMap);
-
+		
 		try {
 			yml.save(config);
 			this.config = yml;
@@ -1566,7 +1607,7 @@ public class Game {
 
 	private void startTimerCountdown() {
 		this.timeLeft = Main.getInstance().getMaxLength();
-		this.length = this.timeLeft;
+		this.length = Main.getInstance().getMaxLength();
 		BukkitRunnable task = new BukkitRunnable() {
 
 			@Override
