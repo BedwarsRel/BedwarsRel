@@ -520,7 +520,7 @@ public class Game {
 			storage.loadLobbyInventory();
 			
 			if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
-				this.displayRecord();
+				this.displayRecord(p);
 			}
 
 			GameLobbyCountdownRule rule = Main.getInstance()
@@ -1416,6 +1416,27 @@ public class Game {
 																			     "holders", holders.toString())));
 		} else {
 			this.broadcast(Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord())));
+		}
+	}
+	
+	private void displayRecord(Player player) {
+		boolean displayHolders = Main.getInstance().getBooleanConfig("store-game-records-holder", true);
+		
+		if(displayHolders && this.getRecordHolders().size() > 0) {
+			StringBuilder holders = new StringBuilder();
+			
+			for(String holder : this.recordHolders) {
+				if(holders.length() == 0) {
+					holders.append(ChatColor.WHITE + holder);
+				} else {
+					holders.append(ChatColor.GOLD + ", " + ChatColor.WHITE + holder);
+				}
+			}
+			
+			player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.record-with-holders", ImmutableMap.of("record", this.getFormattedRecord(),
+																			     "holders", holders.toString()))));
+		} else {
+			player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
 		}
 	}
 	
