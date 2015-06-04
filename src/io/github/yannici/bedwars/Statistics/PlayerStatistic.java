@@ -140,8 +140,7 @@ public class PlayerStatistic extends Statistic {
 	public void setLoses(int loses) {
 		this.loses = loses;
 	}
-
-	@DBGetField(name = "games", dbType = "INT(11)", defaultValue = "0")
+	
 	@StatField(name = "games", order = 60)
 	public int getGames() {
 		return this.wins+this.loses;
