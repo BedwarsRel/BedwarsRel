@@ -221,16 +221,17 @@ public class Game {
 		
 		// Update world time before game starts
 		this.getRegion().getWorld().setTime(this.time);
-
+		
 		this.teleportPlayersToTeamSpawn();
+		
+		this.state = GameState.RUNNING;
 		this.setPlayersScoreboard();
 		
 		if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
 			this.displayRecord();
 		}
-
+		
 		this.startTimerCountdown();
-		this.state = GameState.RUNNING;
 		this.updateSigns();
 		
 		if(Main.getInstance().getBooleanConfig("global-messages", true)) {
@@ -893,7 +894,7 @@ public class Game {
 		if (obj == null) {
 			obj = this.scoreboard.registerNewObjective("display", "dummy");
 		}
-
+		
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		obj.setDisplayName(this.getRegion().getName() + " - " + this.getFormattedTimeLeft());
 
@@ -1437,6 +1438,8 @@ public class Game {
                 team.getHeadTarget().setType(Material.AIR);
             }
 		}
+		
+		this.setPlayersScoreboard();
 	}
 
 	private void cleanUsersInventory() {
