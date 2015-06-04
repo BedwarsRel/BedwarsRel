@@ -23,7 +23,6 @@ public class PlayerStatistic extends Statistic {
 	private int destroyedBeds = 0;
 	private int wins = 0;
 	private int loses = 0;
-	private int games = 0;
 	private int score = 0;
 	private int currentScore = 0;
 	
@@ -145,12 +144,7 @@ public class PlayerStatistic extends Statistic {
 	@DBGetField(name = "games", dbType = "INT(11)", defaultValue = "0")
 	@StatField(name = "games", order = 60)
 	public int getGames() {
-		return games;
-	}
-
-	@DBSetField(name = "games")
-	public void setGames(int games) {
-		this.games = games;
+		return this.wins+this.loses;
 	}
 
 	@DBGetField(name = "score", dbType = "INT(11)", defaultValue = "0")
@@ -192,7 +186,6 @@ public class PlayerStatistic extends Statistic {
 		this.kills = 0;
 		this.deaths = 0;
 		this.destroyedBeds = 0;
-		this.games = 0;
 		this.loses = 0;
 		this.wins = 0;
 		this.score = 0;

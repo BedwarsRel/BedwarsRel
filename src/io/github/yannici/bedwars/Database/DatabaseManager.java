@@ -133,7 +133,7 @@ public class DatabaseManager {
 		}
 	}
 	
-	public void execute(String... sqls) {
+	public void execute(String... sqls) throws SQLException {
 		Connection con = null;
 		Statement statement = null;
 		
@@ -154,12 +154,8 @@ public class DatabaseManager {
 				
 				statement.executeBatch();
 			}
-			
-		} catch(Exception ex) {
-			ex.printStackTrace();
 		} finally {
 			this.clean(con);
-			this.cleanStatement(statement);
 		}
 	}
 	

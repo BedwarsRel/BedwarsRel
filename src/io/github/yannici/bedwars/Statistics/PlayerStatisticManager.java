@@ -53,7 +53,13 @@ public class PlayerStatisticManager {
     	
     	// create table if not exists
     	String sql = this.getTableSql(new PlayerStatistic());
-    	Main.getInstance().getDatabaseManager().execute(sql);
+    	
+    	try {
+    	    Main.getInstance().getDatabaseManager().execute(sql);
+    	} catch(Exception ex) {
+    	    ex.printStackTrace();
+    	}
+    	
     	Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
     }
     

@@ -20,6 +20,7 @@ import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Statistics.StorageType;
 import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 import io.github.yannici.bedwars.Updater.ConfigUpdater;
+import io.github.yannici.bedwars.Updater.DatabaseUpdater;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -291,7 +292,6 @@ public class Main extends JavaPlugin {
 		}
 		
 		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Initialize database ..."));
-		
 		this.loadingRequiredLibs();
 		
 		String host = this.getStringConfig("database.host", null);
@@ -306,6 +306,9 @@ public class Main extends JavaPlugin {
 		
 		this.dbManager = new DatabaseManager(host, port, user, password, db);
 		this.dbManager.initialize();
+		
+		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Update database ..."));
+		(new DatabaseUpdater()).execute();
 		
 		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
 	}

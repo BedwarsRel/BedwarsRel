@@ -208,14 +208,6 @@ public class Game {
 		this.moveFreePlayersToTeam();
 		this.makeTeamsReady();
 		
-		// set statistics
-		for(Player player : this.getTeamPlayers()) {
-		    PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-			if(statistic != null) {
-				statistic.setGames(statistic.getGames()+1);
-			}
-		}
-		
 		this.cycle.onGameStart();
 		this.startRessourceSpawners();
 		
