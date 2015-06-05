@@ -17,6 +17,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.material.Bed;
 import org.bukkit.material.Lever;
 import org.bukkit.material.Redstone;
@@ -35,6 +36,7 @@ public class Region {
 	private HashMap<Block, Byte> breakedBlockData = null;
 	private List<Block> placedUnbreakableBlocks = null;
 	private HashMap<Block, Boolean> breakedBlockPower = null;
+	private List<Inventory> inventories = null;
 
 	public Region(Location pos1, Location pos2, String name) {
 		if (pos1 == null || pos2 == null) {
@@ -53,6 +55,8 @@ public class Region {
 		this.breakedBlockData = new HashMap<Block, Byte>();
 		this.placedUnbreakableBlocks = new ArrayList<Block>();
 		this.breakedBlockPower = new HashMap<Block, Boolean>();
+		this.inventories = new ArrayList<Inventory>();
+		
 		this.name = name;
 	}
 
@@ -81,6 +85,14 @@ public class Region {
 				pos2.getBlockX()),
 				Math.max(pos1.getBlockY(), pos2.getBlockY()), Math.max(
 						pos1.getBlockZ(), pos2.getBlockZ()));
+	}
+	
+	public List<Inventory> getInventories() {
+	    return this.inventories;
+	}
+	
+	public void addInventory(Inventory inventory) {
+	    this.inventories.add(inventory);
 	}
 
 	public boolean isInRegion(Location location) {
@@ -121,6 +133,9 @@ public class Region {
 	@SuppressWarnings("deprecation")
     public void reset(Game game) {
 		this.loadChunks();
+		for(Inventory inventory : this.inventories) {
+		    inventory.clear();
+		}
 		
 		for(Block placed : this.placedBlocks) {
 		    Block blockInWorld = this.world.getBlockAt(placed.getLocation());
@@ -209,7 +224,7 @@ public class Region {
 				headState.update(true, true);
 			}
 		}
-
+		
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {
 			Entity e = entityIterator.next();
@@ -218,7 +233,6 @@ public class Region {
 			    continue;
 			}
 			
-			e.getLocation().getChunk().load(true);
 			if (e instanceof Item) {
 				e.remove();
 				continue;
@@ -229,7 +243,8 @@ public class Region {
 			        || e.getType().equals(EntityType.SPIDER)
 			        || e.getType().equals(EntityType.ZOMBIE)
 			        || e.getType().equals(EntityType.SKELETON)
-			        || e.getType().equals(EntityType.SILVERFISH)) {
+			        || e.getType().equals(EntityType.SILVERFISH)
+			        || e.getType().equals(EntityType.ARROW)) {
 			    e.remove();
 			    continue;
 			}

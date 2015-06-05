@@ -23,6 +23,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -51,6 +52,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -146,10 +148,10 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		if(game.getState() == GameState.STOPPED) {
+		if(game.getState() != GameState.RUNNING) {
 		    return;
 		}
-		
+
 		if(ioe.getInventory().getType() == InventoryType.ENCHANTING
 		        || ioe.getInventory().getType() == InventoryType.BREWING
 		        || ioe.getInventory().getType() == InventoryType.CRAFTING) {
@@ -163,6 +165,30 @@ public class PlayerListener extends BaseListener {
 		    }
 		    
 			ioe.setCancelled(true);
+		}
+		
+		if(ioe.getInventory().getHolder() == null) {
+		    return;
+		}
+		
+		if(game.getRegion().getInventories().contains(ioe.getInventory())) {
+            return;
+        }
+		
+		InventoryHolder holder = ioe.getInventory().getHolder();
+		for(Class<?> interfaze : holder.getClass().getInterfaces()) {
+		    
+		    if(interfaze.equals(BlockState.class)) {
+                game.getRegion().addInventory(ioe.getInventory());
+                return;
+            }
+		    
+		    for(Class<?> interfaze2 : interfaze.getInterfaces()) {
+		        if(interfaze2.equals(BlockState.class)) {
+	                game.getRegion().addInventory(ioe.getInventory());
+	                return;
+	            }
+		    }
 		}
 	}
 	
