@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,7 +28,7 @@ public class Team implements ConfigurationSerializable {
 	private org.bukkit.scoreboard.Team scoreboardTeam = null;
 	private String name = null;
 	private int maxPlayers = 0;
-	private Location spawnLocation = null;
+    private Map<Integer, Location> spawnLocation = new HashMap<Integer, Location>();
 	private Location targetHeadBlock = null;
 	private Location targetFeetBlock = null;
 	private Inventory inventory = null;
@@ -39,7 +40,12 @@ public class Team implements ConfigurationSerializable {
 				.toString());
 		this.color = TeamColor.valueOf(deserialize.get("color").toString()
 				.toUpperCase());
-		this.spawnLocation = Utils.locationDeserialize(deserialize.get("spawn"));
+
+        int spawnpoints = (int) deserialize.get("spawnpoints");
+        for (int i = 1; i <= spawnpoints; i++ ) {
+        	this.spawnLocation.put(i, (Location)deserialize.get("spawn." + i));
+        }
+		
 		this.chests = new ArrayList<Block>();
 
 		if (deserialize.containsKey("bedhead")) {
@@ -168,12 +174,23 @@ public class Team implements ConfigurationSerializable {
 	}
 
 	public Location getSpawnLocation() {
-		return this.spawnLocation;
+    	if (this.spawnLocation.size() == 1) {
+    		return this.spawnLocation.get(1);
+    	} else {
+    		Random rand = new Random();
+            int randomNumber = rand.nextInt(this.spawnLocation.size()) + 1;
+            return this.spawnLocation.get(randomNumber);
+    	}
 	}
 
-	public void setSpawnLocation(Location spawn) {
-		this.spawnLocation = spawn;
-	}
+    public void setSpawnLocation(Location spawn, int spawnpoint) {
+        if (this.spawnLocation.containsKey(spawnpoint)) {
+        	this.spawnLocation.remove(spawnpoint);
+        	this.spawnLocation.put(spawnpoint, spawn);
+        } else {
+        	this.spawnLocation.put(spawnpoint, spawn);
+        }
+    }
 
 	public boolean isDead() {
 		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
@@ -195,7 +212,10 @@ public class Team implements ConfigurationSerializable {
 		team.put("name", this.name);
 		team.put("color", this.color.toString());
 		team.put("maxplayers", this.maxPlayers);
-		team.put("spawn", Utils.locationSerialize(this.spawnLocation));
+        team.put("spawnpoints", this.spawnLocation.size());
+        for(int i : this.spawnLocation.keySet()) {
+            team.put("spawn." + i, this.spawnLocation.get(i));
+        }
 		team.put("bedhead", Utils.locationSerialize(this.targetHeadBlock));
 		
 		if(this.targetFeetBlock != null) {

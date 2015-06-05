@@ -37,7 +37,7 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
 
 	@Override
 	public String[] getArguments() {
-		return new String[] { "game", "team" };
+		return new String[] { "game", "team", "spawnpoint"};
 	}
 
 	@Override
@@ -69,7 +69,18 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
 			return false;
 		}
 
-		team.setSpawnLocation(player.getLocation());
+        if(args.get(2) == null) {
+        	team.setSpawnLocation(player.getLocation(), 1);
+        } else {
+        	try{
+        		int spawnpoint = Integer.parseInt(args.get(2));
+        		team.setSpawnLocation(player.getLocation(), spawnpoint);
+        	}catch (Exception e) {
+        		return false;
+        		//TODO: ES ist Kein int Message;
+        	}
+        }
+        
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l(
 						"success.spawnset",
