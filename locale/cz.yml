@@ -113,15 +113,15 @@ ingame:
         beddestroyed: "$player$ destroyed bed of team $team$!"
     specials:
         rescue-platform:
-            left: Musis pockat &c$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!
+            left: "&cMusis pockat &e$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!"
         trap:
             trapped: "&eNekdo stoupl do &cpasti&e tveho tymu!"
         protection-wall:
             left: "Musis pockat &c$time$&f sekund pred pouzitim!"
-            not-usable-here: "V tomto miste nemuzes zed pouzit!"
+            not-usable-here: "Tento predmet zde nemuzes pouzit!"
         warp-powder:
             cancelled: "&cTeleportace zrusena!"
-            start: "Budes teleportovan za &c$time$&f sekund! &4NEHYBEJ SE!"
+            start: "Budes teleportovan za &c$time$&f sekund!"
             cancel: "&4Zrusit Teleport"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
@@ -129,8 +129,8 @@ lobby:
     cancelcountdown:
         TEAMS_HAVE_PLAYERS: "Minimalne jeden tym nema hrace! Odpocet byl zastaven.!"
         PLAYERS_IN_GAME: "Je potreba vice hracu! Odpocet byl zastaven."
-        ENOUGH_TEAMS_AND_PLAYERS: "Pouze jeden tym ma hrace nebo je potreba vice hracu! Odpovet byl zastaven."
-    chooseteam: "Vyber si team"
+        ENOUGH_TEAMS_AND_PLAYERS: "Pouze jeden tym ma hrace nebo je potreba vice hracu! Odpocet byl zastaven."
+    chooseteam: "Vyber si tym"
     startgame: "Spustit hru"
     gamefull: "Hra je plna!"
     teamjoined: "Uspesne jsi se pripojil do tymu $team$"
