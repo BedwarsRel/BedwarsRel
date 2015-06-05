@@ -127,7 +127,7 @@ lobby:
     cancelcountdown:
         TEAMS_HAVE_PLAYERS: "Minimalne jeden tym nema hrace! Odpocet byl zastaven.!"
         PLAYERS_IN_GAME: "Je potreba vice hracu! Odpocet byl zastaven."
-        ENOUGH_TEAMS_AND_PLAYERS: "Pouze jeden tym ma hrace nebo je potreba vice hracu! Odpovet byl zastaven."
+        ENOUGH_TEAMS_AND_PLAYERS: "Pouze jeden tym ma hrace nebo je potreba vice hracu! Odpocet byl zastaven."
     chooseteam: "Vyber si tym"
     startgame: "Spustit hru"
     gamefull: "Hra je plna!"
