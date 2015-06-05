@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -27,19 +28,22 @@ public class Team implements ConfigurationSerializable {
 	private org.bukkit.scoreboard.Team scoreboardTeam = null;
 	private String name = null;
 	private int maxPlayers = 0;
-	private Location spawnLocation = null;
+    private List<Location> spawnLocations = new ArrayList<Location>();
 	private Location targetHeadBlock = null;
 	private Location targetFeetBlock = null;
 	private Inventory inventory = null;
 	private List<Block> chests = null;
 
+	@SuppressWarnings("unchecked")
 	public Team(Map<String, Object> deserialize) {
 		this.name = deserialize.get("name").toString();
 		this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers")
 				.toString());
 		this.color = TeamColor.valueOf(deserialize.get("color").toString()
 				.toUpperCase());
-		this.spawnLocation = Utils.locationDeserialize(deserialize.get("spawn"));
+		
+		this.spawnLocations = (List<Location>) deserialize.get("spawnlocations");
+		
 		this.chests = new ArrayList<Block>();
 
 		if (deserialize.containsKey("bedhead")) {
@@ -167,13 +171,40 @@ public class Team implements ConfigurationSerializable {
         return players;
 	}
 
+	public boolean spawnLocationsisEmty() {
+		return this.spawnLocations.isEmpty();
+	}
+	
 	public Location getSpawnLocation() {
-		return this.spawnLocation;
+		Random r = new Random();
+	    return spawnLocations.get(r.nextInt(spawnLocations.size()));
 	}
 
-	public void setSpawnLocation(Location spawn) {
-		this.spawnLocation = spawn;
-	}
+    public void addSpawnLocation(Location spawn) {
+        this.spawnLocations.add(spawn);
+    }
+    
+    public void removeSpawnLocation(Location remove) {
+    	if (this.spawnLocations.isEmpty()) return;
+    	
+    	Location rem = null;
+    	double distance = 0;
+    	
+    	for (Location i : this.spawnLocations) {
+    		if (distance >= i.distance(remove) || distance == 0) {
+    			distance = i.distance(remove);
+    			rem = i;
+    		}
+    	}
+    	
+    	this.spawnLocations.remove(rem);
+    }
+    
+    public void clearSpawnLocations() {
+    	if (this.spawnLocations.isEmpty()) return;
+    	
+        this.spawnLocations.clear();
+    }
 
 	public boolean isDead() {
 		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
@@ -195,7 +226,7 @@ public class Team implements ConfigurationSerializable {
 		team.put("name", this.name);
 		team.put("color", this.color.toString());
 		team.put("maxplayers", this.maxPlayers);
-		team.put("spawn", Utils.locationSerialize(this.spawnLocation));
+        team.put("spawnlocations", this.spawnLocations);
 		team.put("bedhead", Utils.locationSerialize(this.targetHeadBlock));
 		
 		if(this.targetFeetBlock != null) {
