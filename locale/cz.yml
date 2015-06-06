@@ -52,7 +52,9 @@ success:
     saved: "Hra byla uspesne ulozena!"
     bedset: "You sucessfully set the respawn block of team $team$!"
     regionset: "Oblast $location$ pro hru $game$ uspesne nastavena!"
-    spawnset: "Spawn lokace pro tym $team$ uspesne nastavena!"
+    spawnadd: "Spawn location for Team $team$ was added successfully!"
+    spawnremove: "Spawn location for Team $team$ was removed successfully!"
+    spawnclear: " All Spawn locations for Team $team$ were cleared successfully!"
     spawnerset: "Spawn surovin $name$ uspesne nastaven!"
     stopped: "Hra byla zastavena!"
     lobbyset: "Lobby pro hru bylo nastaveno!"
@@ -186,9 +188,15 @@ commands:
     setregion:
         name: "Nastavit oblast"
         desc: "Nastavi hranice hry"
-    setspawn:
-        name: "Nastavit spawn tymu"
-        desc: "Nastavi misto pro spawn urciteho tymu"
+    addspawn:
+        name: "Adds a team spawn"
+        desc: "Adds a spawn of the given team"
+    removespawn:
+        name: "Removes a team spawn"
+        desc: "Removes a spawn of the given team"
+    clearspawns:
+        name: "Clears all team spawns"
+        desc: "Clears all spawn of the given team"
     setspawner:
         name: "Nastavit spawner"
         desc: "Nastavi misto pro spawnovani surovin"
