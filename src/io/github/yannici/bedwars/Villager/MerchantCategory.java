@@ -27,19 +27,21 @@ public class MerchantCategory {
 	private List<String> lores = null;
 	private ArrayList<VillagerTrade> offers = null;
 	private int order = 0;
+	private String permission = null;
 
 	public MerchantCategory(String name, Material item) {
 		this(name, item, new ArrayList<VillagerTrade>(),
-				new ArrayList<String>(), 0);
+				new ArrayList<String>(), 0, "bw.base");
 	}
 
 	public MerchantCategory(String name, Material item,
-			ArrayList<VillagerTrade> offers, List<String> lores, int order) {
+			ArrayList<VillagerTrade> offers, List<String> lores, int order, String permission) {
 		this.name = name;
 		this.item = item;
 		this.offers = offers;
 		this.lores = lores;
 		this.order = order;
+		this.permission = permission;
 	}
 
 	public List<String> getLores() {
@@ -67,6 +69,7 @@ public class MerchantCategory {
 			Material catItem = null;
 			List<String> lores = new ArrayList<String>();
 			String item = section.get(cat + ".item").toString();
+			String permission = "bw.base";
 			int order = 0;
 
 			if (!Utils.isNumber(item)) {
@@ -88,6 +91,12 @@ public class MerchantCategory {
 					order = section.getInt(cat + ".order");
 				}
 			}
+			
+			if (section.contains(cat + ".permission")) {
+                if (section.isString(cat + ".permission")) {
+                    permission = section.getString(cat + ".permission");
+                }
+            }
 
 			ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
 
@@ -123,9 +132,9 @@ public class MerchantCategory {
 
 				offers.add(tradeObj);
 			}
-
+			
 			mc.put(catItem, new MerchantCategory(catName, catItem, offers,
-					lores, order));
+					lores, order, permission));
 		}
 
 		return mc;
@@ -317,5 +326,9 @@ public class MerchantCategory {
 	public ArrayList<VillagerTrade> getOffers() {
 		return this.offers;
 	}
+
+    public String getPermission() {
+        return this.permission;
+    }
 
 }

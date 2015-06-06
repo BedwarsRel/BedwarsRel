@@ -58,7 +58,7 @@ public class NewItemShop {
 		Inventory inventory = Bukkit.createInventory(player, size,
 				Main._l("ingame.shop.name"));
 
-		this.addCategoriesToInventory(inventory);
+		this.addCategoriesToInventory(inventory, player);
 
 		ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
 		ItemMeta slimeMeta = slime.getItemMeta();
@@ -101,8 +101,15 @@ public class NewItemShop {
 		player.openInventory(inventory);
 	}
 
-	private void addCategoriesToInventory(Inventory inventory) {
+	private void addCategoriesToInventory(Inventory inventory, Player player) {
 		for (MerchantCategory category : this.categories) {
+		    if(player != null) {
+		        if(!player.hasPermission(category.getPermission())) {
+		            continue;
+		        }
+		    }
+		    
+		    
 			ItemStack is = new ItemStack(category.getMaterial(), 1);
 			ItemMeta im = is.getItemMeta();
 
@@ -189,7 +196,7 @@ public class NewItemShop {
 		this.currentCategory = category;
 		Inventory buyInventory = Bukkit.createInventory(player, invSize,
 				Main._l("ingame.shop.name"));
-		this.addCategoriesToInventory(buyInventory);
+		this.addCategoriesToInventory(buyInventory, player);
 
 		for (int i = 0; i < offers.size(); i++) {
 			VillagerTrade trade = offers.get(i);
