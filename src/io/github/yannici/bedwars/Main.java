@@ -623,7 +623,9 @@ public class Main extends JavaPlugin {
 		this.commands.add(new AddTeamCommand(this));
 		this.commands.add(new SaveGameCommand(this));
 		this.commands.add(new JoinGameCommand(this));
-		this.commands.add(new SetSpawnCommand(this));
+		this.commands.add(new SaveGameCommand(this));
+		this.commands.add(new JoinGameCommand(this));
+		this.commands.add(new AddSpawnCommand(this));
 		this.commands.add(new SetLobbyCommand(this));
 		this.commands.add(new LeaveGameCommand(this));
 		this.commands.add(new SetTargetCommand(this));

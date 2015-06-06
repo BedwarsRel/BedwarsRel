@@ -47,7 +47,9 @@ success:
     saved: "Игра успешно сохранена"
     bedset: "You sucessfully set the respawn block of team $team$!"
     regionset: "Игровая локация $location$ успешно добавлена для игры $game$"
-    spawnset: "Точка возрождения успешно добалена для команды $team$"
+    spawnadd: "Spawn location for Team $team$ was added successfully!"
+    spawnremove: "Spawn location for Team $team$ was removed successfully!"
+    spawnclear: " All Spawn locations for Team $team$ were cleared successfully!"
     spawnerset: "Спавнер ресурса $name$ успешно добавлен"
     stopped: "Игра успешно остановлена"
     lobbyset: "Лобби успешно добавлено"
@@ -182,9 +184,15 @@ commands:
     setregion:
         name: "Sets a region point"
         desc: "установить метки для региона под игру"
-    setspawn:
-        name: "Sets a team spawn"
-        desc: "установить точку возрождения команды"
+    addspawn:
+        name: "Adds a team spawn"
+        desc: "Adds a spawn of the given team"
+    removespawn:
+        name: "Removes a team spawn"
+        desc: "Removes a spawn of the given team"
+    clearspawns:
+        name: "Clears all team spawns"
+        desc: "Clears all spawn of the given team"
     setspawner:
         name: "Set spawner"
         desc: "установить спавнер ресурсов"
