@@ -49,8 +49,16 @@ commands:
         description: Joins a specific team in a game
         usage: /<command> [Game] [Team]
         permission: bw.base
-    bw setspawn:
-        description: Sets the spawn of a team
+    bw addspawn:
+        description: Adds a spawn of an team
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
+    bw removespawn:
+        description: Removes a spawn of an team
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
+    bw clearspawn:
+        description: Clears all spawns of a team
         usage: /<command> [Game] [Team]
         permission: bw.setup
     bw setlobby:
