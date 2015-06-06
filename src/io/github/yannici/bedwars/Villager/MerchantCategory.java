@@ -93,9 +93,7 @@ public class MerchantCategory {
 			}
 			
 			if (section.contains(cat + ".permission")) {
-                if (section.isString(cat + ".permission")) {
-                    permission = section.getString(cat + ".permission");
-                }
+                permission = section.getString(cat + ".permission", "bw.base");
             }
 
 			ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
