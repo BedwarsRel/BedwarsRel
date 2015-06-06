@@ -47,9 +47,7 @@ success:
     saved: "Spiel wurde erfolgreich gespeichert!"
     bedset: "Der Respawn-Block für Team $team$ wurde erfolgreich gesetzt!"
     regionset: "Der Regionspunkt $location$ wurde für das Spiel $game$ erfolgreich gesetzt!"
-    spawnadd: "Spawn-Punkt für Team $team$ wurde erfolgreich hinzugefügt!"
-    spawnremove: "Spawn-Punkt für Team $team$ wurde erfolgreich gelöscht!"
-    spawnclear: "Alle Spawn-Punkte für Team $team$ wurden erfolgreich gelöscht!"
+    spawnset: "Spawn-Punkt für Team $team$ wurde erfolgreich gesetzt!"
     spawnerset: "Ressourcen-Spawner $name$ wurde erfolgreich gesetzt!"
     stopped: "Spiel wurde erfolgreich gestoppt!"
     lobbyset: "Lobby wurde erfolgreich gesetzt!"
@@ -183,15 +181,9 @@ commands:
     setregion:
         name: "Setzt Regionspunkt"
         desc: "Setzt einen der zwei Regionspunkte für ein bestimmtes Spiel"
-    addspawn:
-        name: "Teamspawn hinzufügen"
-        desc: "Fügt einen Spawnpunkt eines bestimmten Teams hinzu"
-    removespawn:
-        name: "Teamspawn Löschen"
-        desc: "Löscht den Nächsten Spawnpoint des Teams"
-    clearspawns:
-        name: "Teamspawns Löschen"
-        desc: "Löscht alle Spawnpunkte des Teams"
+    setspawn:
+        name: "Teamspawn setzen"
+        desc: "Setzt den Spawnpunkt eines bestimmten Teams"
     setspawner:
         name: "Spawner setzen"
         desc: "Setzt an der aktuellen Position einen Ressourcen-Spawner"
