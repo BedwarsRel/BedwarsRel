@@ -59,7 +59,7 @@ public class NewItemShop {
 				Main._l("ingame.shop.name"));
 
 		this.addCategoriesToInventory(inventory, player);
-
+		
 		ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
 		ItemMeta slimeMeta = slime.getItemMeta();
 		
@@ -187,9 +187,7 @@ public class NewItemShop {
 		List<VillagerTrade> offers = category.getOffers();
 		int sizeCategories = this.categories.size();
 		int sizeItems = offers.size();
-		int totalSize = sizeCategories + sizeItems;
-		int nom = (totalSize % 9 == 0) ? 9 : (totalSize % 9);
-		int invSize = totalSize + (9 - nom);
+		int invSize = this.getBuyInventorySize(sizeCategories, sizeItems);
 		
 		player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
 		
@@ -207,6 +205,16 @@ public class NewItemShop {
 		}
 
 		player.openInventory(buyInventory);
+	}
+	
+	private int getBuyInventorySize(int sizeCategories, int sizeOffers) {
+	    int nom = (sizeCategories % 9 == 0) ? 9 : (sizeCategories % 9);
+        int catSize = sizeCategories + (9 - nom);
+        
+        nom = (sizeOffers % 9 == 0) ? 9 : (sizeOffers % 9);
+        int buySize = sizeOffers + (9 - nom);
+        
+        return catSize + buySize;
 	}
 
 	private ItemStack toItemStack(VillagerTrade trade, Player player, Game game) {
@@ -250,12 +258,8 @@ public class NewItemShop {
 
         int sizeCategories = this.categories.size();
 		List<VillagerTrade> offers = this.currentCategory.getOffers();
-		
 		int sizeItems = offers.size();
-		int totalSizeInventory = sizeCategories + sizeItems;
-		
-		int nom = (totalSizeInventory % 9 == 0) ? 9 : (totalSizeInventory % 9);
-        int totalSize = totalSizeInventory + (9 - nom);
+        int totalSize = this.getBuyInventorySize(sizeCategories, sizeItems);
 		
 		ItemStack item = ice.getCurrentItem();
 		boolean cancel = false;
@@ -266,7 +270,7 @@ public class NewItemShop {
 			player.closeInventory();
 			return;
 		}
-
+		
 		if (ice.getRawSlot() < sizeCategories) {
 			// is category click
 			ice.setCancelled(true);
