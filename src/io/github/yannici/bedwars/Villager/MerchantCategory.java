@@ -288,10 +288,17 @@ public class MerchantCategory {
 		
 		int nom = (cats.size() % 9 == 0) ? 9 : (cats.size() % 9);
 		int size = (cats.size() + (9 - nom)) + 9;
+		
 		Inventory inv = Bukkit.createInventory(p,
 				size,
 				Main._l("ingame.shop.name"));
 		for (MerchantCategory cat : cats) {
+		    if(p != null) {
+                if(!p.hasPermission(cat.getPermission())) {
+                    continue;
+                }
+            }
+		    
 			ItemStack is = new ItemStack(cat.getMaterial(), 1);
 			ItemMeta im = is.getItemMeta();
 
