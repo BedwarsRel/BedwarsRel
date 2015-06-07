@@ -59,6 +59,7 @@ public class Game {
 	private List<BukkitTask> runningTasks = null;
 	private GameState state = null;
 	private HashMap<String, Team> teams = null;
+	private List<Team> playingTeams = null;
 	private List<Player> freePlayers = null;
 	private int minPlayers = 0;
 	private Region region = null;
@@ -109,6 +110,8 @@ public class Game {
 		this.freePlayers = new ArrayList<Player>();
 		this.resSpawner = new ArrayList<RessourceSpawner>();
 		this.teams = new HashMap<String, Team>();
+		this.playingTeams = new ArrayList<Team>();
+		
 		this.storages = new HashMap<Player, PlayerStorage>();
 		this.state = GameState.STOPPED;
 		this.scoreboard = Main.getInstance().getScoreboardManager()
@@ -1311,6 +1314,10 @@ public class Game {
 		return this.teams.get(name);
 	}
 	
+	public List<Team> getPlayingTeams() {
+	    return this.playingTeams;
+	}
+	
 	public void removePlayerSettings(Player player) {
 	    this.playerSettings.remove(player);
 	}
@@ -1419,6 +1426,8 @@ public class Game {
 	}
 	
 	private void makeTeamsReady() {
+	    this.playingTeams.clear();
+	    
 		for (Team team : this.teams.values()) {
 			team.getScoreboardTeam().setAllowFriendlyFire(Main.getInstance().getConfig()
 					.getBoolean("friendlyfire"));
@@ -1428,6 +1437,9 @@ public class Game {
 				}
 				
                 team.getHeadTarget().setType(Material.AIR);
+            } else {
+                
+                this.playingTeams.add(team);
             }
 		}
 		

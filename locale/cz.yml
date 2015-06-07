@@ -83,6 +83,7 @@ ingame:
     record: "&e$record$&a je rekord na teto mape!"
     record-with-holders: "&aRekord na této mape je &e$record$&a ziskany hracmi: $holders$"
     newrecord: "&aTym $team$&a ziskal novy rekord: &6$record$"
+    record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
     teamwon: "Gratulace! Tym $team$ vyhral!"
     draw: "Hra skoncila remizou."
     serverrestart: "Restart serveru za $sec$ sekund!"

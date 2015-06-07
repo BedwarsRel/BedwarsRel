@@ -44,8 +44,9 @@ public class Team implements ConfigurationSerializable {
 
 		if (deserialize.containsKey("bedhead")) {
 			this.targetHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
+			Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
 			
-			if(deserialize.containsKey("bedfeed")) {
+			if(deserialize.containsKey("bedfeed") && targetMaterial.equals(Material.BED_BLOCK)) {
 				this.targetFeetBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
 			}
 		}
@@ -87,6 +88,8 @@ public class Team implements ConfigurationSerializable {
 		this.targetHeadBlock = head.getLocation();
 		if(feed != null) {
 			this.targetFeetBlock = feed.getLocation();
+		} else {
+		    this.targetFeetBlock = null;
 		}
 	}
 

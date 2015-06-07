@@ -78,6 +78,7 @@ ingame:
     record: "&e$record$&a is the record on this map!"
     record-with-holders: "&aThe record on this map is &e$record$&a and is held by: $holders$"
     newrecord: "&aTeam $team$&a set a new record: &6$record$"
+    record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
     teamwon: "Поздравляем! Команда $team$ победила"
     draw: "Ничья"
     serverrestart: "Перезагрузка сервера через $sec$"

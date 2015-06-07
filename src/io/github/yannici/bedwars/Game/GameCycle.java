@@ -47,7 +47,23 @@ public abstract class GameCycle {
 	
 	private boolean storeRecords(boolean storeHolders, Team winner) {
 		int playTime = this.getGame().getLength()-this.getGame().getTimeLeft();
+		boolean throughBed = false;
+		
 		if(playTime <= this.getGame().getRecord()) {
+		    
+		    // check for winning through bed destroy
+	        for(Team team : this.getGame().getPlayingTeams()) {
+	            if(team.isDead()) {
+	                throughBed = true;
+	                break;
+	            }
+	        }
+	        
+	        if(!throughBed) {
+	            this.getGame().broadcast(Main._l("ingame.record-nobeddestroy"));
+	            return false;
+	        }
+		    
 			if(storeHolders) {
 				if(playTime < this.getGame().getRecord()) {
 					this.getGame().getRecordHolders().clear();
@@ -138,6 +154,8 @@ public abstract class GameCycle {
 			    }
 			}
 		}
+		
+		this.getGame().getPlayingTeams().clear();
 		
 		GameOverTask gameOver = new GameOverTask(this, delay, winner);
 		gameOver.runTaskTimer(Main.getInstance(), 0L, 20L);
