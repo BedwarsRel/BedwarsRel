@@ -50,10 +50,26 @@ public class NewItemShop {
 
 		return (this.currentCategory.equals(category));
 	}
+	
+	private int getCategoriesSize(Player player) {
+	    int size = 0;
+	    for(MerchantCategory cat : this.categories) {
+	        if(player != null) {
+	            if(!player.hasPermission(cat.getPermission())) {
+	                continue;
+	            }
+	        }
+	        
+	        size++;
+	    }
+	    
+	    return size;
+	}
 
 	public void openCategoryInventory(Player player) {
-	    int nom = (this.categories.size() % 9 == 0) ? 9 : (this.categories.size() % 9);
-		int size = (this.categories.size() + (9 - nom)) + 9;
+	    int catSize = this.getCategoriesSize(player);
+	    int nom = (catSize % 9 == 0) ? 9 : (catSize % 9);
+		int size = (catSize + (9 - nom)) + 9;
 		
 		Inventory inventory = Bukkit.createInventory(player, size,
 				Main._l("ingame.shop.name"));
@@ -165,8 +181,9 @@ public class NewItemShop {
 	private void handleCategoryInventoryClick(InventoryClickEvent ice,
 			Game game, Player player) {
 	    
-	    int nom = (this.categories.size() % 9 == 0) ? 9 : (this.categories.size() % 9);
-        int sizeCategories = (this.categories.size() + (9 - nom)) + 9;
+	    int catSize = this.getCategoriesSize(player);
+	    int nom = (catSize % 9 == 0) ? 9 : (catSize % 9);
+        int sizeCategories = (catSize + (9 - nom)) + 9;
 	    if(ice.getRawSlot() >= sizeCategories) {
 	        ice.setCancelled(false);
 	        return;
@@ -185,7 +202,7 @@ public class NewItemShop {
 	private void openBuyInventory(MerchantCategory category, Player player,
 			Game game) {
 		List<VillagerTrade> offers = category.getOffers();
-		int sizeCategories = this.categories.size();
+		int sizeCategories = this.getCategoriesSize(player);
 		int sizeItems = offers.size();
 		int invSize = this.getBuyInventorySize(sizeCategories, sizeItems);
 		
@@ -256,7 +273,7 @@ public class NewItemShop {
 	private void handleBuyInventoryClick(InventoryClickEvent ice, Game game,
 			Player player) {
 
-        int sizeCategories = this.categories.size();
+        int sizeCategories = this.getCategoriesSize(player);
 		List<VillagerTrade> offers = this.currentCategory.getOffers();
 		int sizeItems = offers.size();
         int totalSize = this.getBuyInventorySize(sizeCategories, sizeItems);
