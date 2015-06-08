@@ -177,6 +177,9 @@ commands:
     settarget:
         name: "Set target"
         desc: "установить кровать для команды"
+    setbed:
+        name: "Set bed"
+        desc: "установить кровать для команды"
     setlobby:
         name: "Set lobby"
         desc: "установить локацию для лобби"

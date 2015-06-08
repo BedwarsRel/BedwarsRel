@@ -61,6 +61,10 @@ commands:
         description: Sets the bed of a team in a game
         usage: /<command> [Game] [Team]
         permission: bw.setup
+    bw setbed:
+        description: Sets the bed of a team in a game
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
     bw leave:
         description: Leaves the current game
         usage: /<command>

@@ -177,6 +177,9 @@ commands:
     settarget:
         name: "Set target"
         desc: "Sets the location of a team's target block"
+    setbed:
+        name: "Set bed (synonym for settarget)"
+        desc: "Sets the location of a team's bed block (Synonym for settarget)"
     setlobby:
         name: "Set lobby"
         desc: "Sets the location of the gamelobby"

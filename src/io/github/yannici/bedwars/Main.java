@@ -627,6 +627,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new SetLobbyCommand(this));
 		this.commands.add(new LeaveGameCommand(this));
 		this.commands.add(new SetTargetCommand(this));
+		this.commands.add(new SetBedCommand(this));
 		this.commands.add(new ReloadCommand(this));
 		this.commands.add(new SetMainLobbyCommand(this));
 		this.commands.add(new ListGamesCommand(this));

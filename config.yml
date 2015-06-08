@@ -85,6 +85,100 @@ store-game-records-holder: true
 # (in the Enum Constant Summery)
 bed-sound: ENDERDRAGON_GROWL
 
+# Titles configuration (only compatible with >= 1.8)
+titles:
+    # Win title
+    win:
+        # Enable win title (default: true)
+        # type: boolean
+        # If true, the title configured in this section will be displayed
+        enabled: true
+        
+        # Title
+        # type: string
+        # This will be title on the end of a game
+        # Usable placeholders: 
+        # - {winner} (colored name of the winner team)
+        # - {time} (formatted time how long the game took)
+        title: "&6Congratulations!"
+        
+        # Subtitle
+        # type: string
+        # This will be the subtitle on the end of a game
+        # Usable placeholders: 
+        # - {winner} (colored name of the winner team)
+        # - {time} (formatted time how long the game took)
+        subtitle: "&6Team {team}&6 won in &e{time}"
+        
+        # Title Fade-In time
+        # type: double
+        # The time how long the title fade-in should take in seconds
+        title-fade-in: 1.5
+        
+        # Title Stay time
+        # type: double
+        # The time how long the title will stay in seconds
+        title-stay: 5.0
+        
+        # Title Fade-Out time
+        # type: double
+        # The time how long the title fade-out should take in seconds
+        title-fade-out: 2.0
+        
+        # SubTitle Fade-In time
+        # type: double
+        # The time how long the subtitle fade-in should take in seconds
+        subtitle-fade-in: 1.5
+        
+        # SubTitle Stay time
+        # type: double
+        # The time how long the subtitle will stay in seconds
+        subtitle-stay: 5.0
+        
+        # SubTitle Fade-Out time
+        # type: double
+        # The time how long the subtitle fade-out should take in seconds
+        subtitle-fade-out: 2.0
+    
+    # Map title with builder    
+    map:
+        # Enable map title (default: false)
+        # type: boolean
+        # If true, a title will be displayed on start
+        # with the region name displayed and if set, the builder
+        # as subtitle. (/bw setbuilder {game})
+        enabled: false
+        
+        # Title Fade-In time
+        # type: double
+        # The time how long the title fade-in should take in seconds
+        title-fade-in: 1.5
+        
+        # Title Stay time
+        # type: double
+        # The time how long the title will stay in seconds
+        title-stay: 5.0
+        
+        # Title Fade-Out time
+        # type: double
+        # The time how long the title fade-out should take in seconds
+        title-fade-out: 2.0
+        
+        # SubTitle Fade-In time
+        # type: double
+        # The time how long the subtitle fade-in should take in seconds
+        subtitle-fade-in: 1.5
+        
+        # SubTitle Stay time
+        # type: double
+        # The time how long the subtitle will stay in seconds
+        subtitle-stay: 5.0
+        
+        # SubTitle Fade-Out time
+        # type: double
+        # The time how long the subtitle fade-out should take in seconds
+        subtitle-fade-out: 2.0
+
 # Explode Behaviour
 explodes:
     # Destroy world blocks
