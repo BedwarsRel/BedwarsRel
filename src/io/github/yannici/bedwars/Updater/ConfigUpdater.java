@@ -85,6 +85,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("store-game-records", true);
 		Main.getInstance().getConfig().addDefault("store-game-records-holder", true);
 		Main.getInstance().getConfig().addDefault("statistics.scores.record", 100);
+		Main.getInstance().getConfig().addDefault("game-block", "BED_BLOCK");
 		// </1.1.15>
 	}
 }
