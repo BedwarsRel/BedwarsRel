@@ -238,18 +238,24 @@ public class Main extends JavaPlugin {
 			int currentMasterVersion = Integer.valueOf(currentVersionSplit[0]);
 			if(currentMasterVersion > activeMasterVersion) {
 				return true;
+			} else if(activeMasterVersion > currentMasterVersion) {
+			    return false;
 			}
 			
 			int activeMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
-			int currentMilestoneVersion = Integer.valueOf(activeVersionSplit[1]);
+			int currentMilestoneVersion = Integer.valueOf(currentVersionSplit[1]);
 			if(currentMilestoneVersion > activeMilestoneVersion) {
 				return true;
+			} else if(activeMilestoneVersion > currentMilestoneVersion) {
+			    return false;
 			}
 			
 			int activeBuildVersion = Integer.valueOf(activeVersionSplit[2]);
 			int currentBuildVersion = Integer.valueOf(currentVersionSplit[2]);
 			if(currentBuildVersion > activeBuildVersion) {
 				return true;
+			} else if(activeBuildVersion > currentBuildVersion) {
+			    return false;
 			}
 		} catch(Exception ex) {
 			// just error handling
@@ -638,6 +644,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new StatsCommand(this));
 		this.commands.add(new SetMinPlayersCommand(this));
 		this.commands.add(new SetGameBlockCommand(this));
+		this.commands.add(new SetBuilderCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}

@@ -1424,24 +1424,24 @@ public class Game {
 		
 		try {
 			Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".Title");
-			Method setTitle = clazz.getDeclaredMethod("setTitle", Player.class, String.class, double.class, double.class, double.class);
+			Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class, double.class, double.class);
 			double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
 			double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
 			double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
 			
-			setTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay, titleFadeOut);
+			showTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay, titleFadeOut);
 			
 			if(this.builder != null) {
-				Method setSubTitle = clazz.getDeclaredMethod("setSubTitle", Player.class, String.class, double.class, double.class, double.class);
+				Method showSubTitle = clazz.getMethod("showSubTitle", Player.class, String.class, double.class, double.class, double.class);
 				double subtitleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
 				double subtitleStay = Main.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
 				double subtitleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
 				
-				setSubTitle.invoke(null, player, Main._l("ingame.title.map-builder", ImmutableMap.of("builder", ChatColor.translateAlternateColorCodes('&', this.builder))), subtitleFadeIn, subtitleStay, subtitleFadeOut);
+				showSubTitle.invoke(null, player, Main._l("ingame.title.map-builder", ImmutableMap.of("builder", ChatColor.translateAlternateColorCodes('&', this.builder))), subtitleFadeIn, subtitleStay, subtitleFadeOut);
 			}
 			
 		} catch(Exception ex) {
-			// no support?
+			ex.printStackTrace();
 		}
 	}
 	
@@ -1524,7 +1524,7 @@ public class Game {
 		yml.set("regionname", this.regionName);
 		yml.set("time", this.time);
 		
-		yml.set("targetmaterial", this.targetMaterial);
+		yml.set("targetmaterial", this.targetMaterial.name());
 		yml.set("builder", this.builder);
 		
 		if (this.mainLobby != null) {

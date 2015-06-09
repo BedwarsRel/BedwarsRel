@@ -91,13 +91,13 @@ public abstract class GameCycle {
 		int playTime = this.getGame().getLength()-this.getGame().getTimeLeft();
 		String formattedTime = Utils.getFormattedTime(playTime);
 		
-		str = str.replace("{time}", formattedTime);
+		str = str.replace("$time$", formattedTime);
 		
 		if(winner == null) {
 			return str;
 		}
 		
-		str = str.replace("{team}", winner.getChatColor() + winner.getDisplayName());
+		str = str.replace("$team$", winner.getChatColor() + winner.getDisplayName());
 		return str;
 	}
 
@@ -124,8 +124,8 @@ public abstract class GameCycle {
 		
 		int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
 																			// delay
-		String title = this.winTitleReplace(Main.getInstance().getStringConfig("titles.win.title", "&6Congratulations!"), winner);
-		String subtitle = this.winTitleReplace(Main.getInstance().getStringConfig("titles.win.subtitle", "&6Team {team}&6 won in &e{time}"), winner);
+		String title = this.winTitleReplace(Main._l("ingame.title.win-title"), winner);
+		String subtitle = this.winTitleReplace(Main._l("ingame.title.win-subtitle"), winner);
 		
 		boolean supportingTitles = Utils.isSupportingTitles();
 		

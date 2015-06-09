@@ -97,8 +97,15 @@ public class PlayerListener extends BaseListener {
 			Player player) {
 	    if(iee.getRightClicked() != null) {
 	        if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
-	        	List<EntityType> preventClickTypes = Arrays.asList(EntityType.ARMOR_STAND,
-	        			EntityType.ITEM_FRAME);
+	        	List<EntityType> preventClickTypes = Arrays.asList(EntityType.ITEM_FRAME);
+	        	
+	        	// armor stand in 1.8
+	        	try {
+	        	    preventClickTypes.add(EntityType.valueOf("ARMOR_STAND"));
+	        	} catch(Exception ex) {
+	        	    // nothing will happen, just not supported
+	        	}
+	        	
 	        	if(preventClickTypes.contains(iee.getRightClicked().getType())) {
 	        		iee.setCancelled(true);
 	        	}

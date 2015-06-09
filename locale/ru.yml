@@ -95,6 +95,8 @@ ingame:
     protectionleft: "&cНеуязвимость &fзаканчивается через &c$length$"
     protectionend: "Теперь вы снова &cуязвимы"
     team-dead: "Команда $team$ полностью уничтожена"
+    title:
+        map-builder: "Built by $builder$"
     shop:
         name: "Магазин Ресурсов"
         newshop: "Использовать новую механику покупки"

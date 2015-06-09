@@ -94,22 +94,6 @@ titles:
         # If true, the title configured in this section will be displayed
         enabled: true
         
-        # Title
-        # type: string
-        # This will be title on the end of a game
-        # Usable placeholders: 
-        # - {winner} (colored name of the winner team)
-        # - {time} (formatted time how long the game took)
-        title: "&6Congratulations!"
-        
-        # Subtitle
-        # type: string
-        # This will be the subtitle on the end of a game
-        # Usable placeholders: 
-        # - {winner} (colored name of the winner team)
-        # - {time} (formatted time how long the game took)
-        subtitle: "&6Team {team}&6 won in &e{time}"
-        
         # Title Fade-In time
         # type: double
         # The time how long the title fade-in should take in seconds
@@ -157,12 +141,12 @@ titles:
         # Title Stay time
         # type: double
         # The time how long the title will stay in seconds
-        title-stay: 5.0
+        title-stay: 2.0
         
         # Title Fade-Out time
         # type: double
         # The time how long the title fade-out should take in seconds
-        title-fade-out: 2.0
+        title-fade-out: 1.5
         
         # SubTitle Fade-In time
         # type: double
@@ -172,12 +156,12 @@ titles:
         # SubTitle Stay time
         # type: double
         # The time how long the subtitle will stay in seconds
-        subtitle-stay: 5.0
+        subtitle-stay: 2.0
         
         # SubTitle Fade-Out time
         # type: double
         # The time how long the subtitle fade-out should take in seconds
-        subtitle-fade-out: 2.0
+        subtitle-fade-out: 1.5
 
 # Explode Behaviour
 explodes:

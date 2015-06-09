@@ -175,8 +175,32 @@ public class GameManager {
 			}
 
 			if (cfg.contains("spawner")) {
-				spawner = cfg.getConfigurationSection("spawner").getValues(
-						false);
+			    if(cfg.isConfigurationSection("spawner")) {
+			        spawner = cfg.getConfigurationSection("spawner").getValues(
+	                        false);
+			        
+			        for (Object obj : spawner.values()) {
+		                if (!(obj instanceof RessourceSpawner)) {
+		                    continue;
+		                }
+
+		                RessourceSpawner rs = (RessourceSpawner) obj;
+		                rs.setGame(game);
+		                game.addRessourceSpawner(rs);
+		            }
+			    }
+			    
+			    if(cfg.isList("spawner")) {
+			        for(Object rs : cfg.getList("spawner")) {
+			            if(!(rs instanceof RessourceSpawner)) {
+			                continue;
+			            }
+			            
+			            RessourceSpawner rsp = (RessourceSpawner) rs;
+			            rsp.setGame(game);
+                        game.addRessourceSpawner(rsp);
+			        }
+			    }
 			}
 			
 			for (Object obj : teams.values()) {
@@ -185,16 +209,6 @@ public class GameManager {
 				}
 
 				game.addTeam((Team) obj);
-			}
-
-			for (Object obj : spawner.values()) {
-				if (!(obj instanceof RessourceSpawner)) {
-					continue;
-				}
-
-				RessourceSpawner rs = (RessourceSpawner) obj;
-				rs.setGame(game);
-				game.addRessourceSpawner(rs);
 			}
 
 			Location loc1 = Utils.locationDeserialize(cfg.get("loc1"));

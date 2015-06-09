@@ -95,6 +95,10 @@ ingame:
     protectionleft: "Unverwundbar für &c$length$&f Sekunde(n)!"
     protectionend: "Du bist wieder &cverwundbar&f!"
     team-dead: "Das Team $team$ wurde vernichtet!"
+    title:
+        map-builder: "Gebaut von $builder$"
+        win-title: "&6Congratulations!"
+        win-subtitle: "$team$&6 won in &e$time$"
     shop:
         name: "Itemshop"
         newshop: "Neuer Shop verwenden"

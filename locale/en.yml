@@ -95,6 +95,8 @@ ingame:
     protectionleft: "Invulnerable for &c$length$&f second(s)!"
     protectionend: "you're now &cvulnerable&f again!"
     team-dead: "Team $team$ was destroyed!"
+    title:
+        map-builder: "Built by $builder$"
     shop:
         name: "Itemshop"
         newshop: "Use new shop"

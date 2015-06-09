@@ -54,6 +54,10 @@ public class NewItemShop {
 	private int getCategoriesSize(Player player) {
 	    int size = 0;
 	    for(MerchantCategory cat : this.categories) {
+	        if(cat.getMaterial() == null) {
+	            continue;
+	        }
+	        
 	        if(player != null) {
 	            if(!player.hasPermission(cat.getPermission())) {
 	                continue;
@@ -119,6 +123,12 @@ public class NewItemShop {
 
 	private void addCategoriesToInventory(Inventory inventory, Player player) {
 		for (MerchantCategory category : this.categories) {
+		    
+		    if(category.getMaterial() == null) {
+		        Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Careful: Not supported material in shop category '" + category.getName() + "'"));
+		        continue;
+		    }
+		    
 		    if(player != null) {
 		        if(!player.hasPermission(category.getPermission())) {
 		            continue;

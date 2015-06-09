@@ -100,6 +100,8 @@ ingame:
     protectionleft: "Jsi nezranitelny na &c$length$&f sekund!"
     protectionend: "Nyni jsi opet &czranitelny&f!"
     team-dead: "Tym $team$ byl znicen!"
+    title:
+        map-builder: "Built by $builder$"
     shop:
         name: "Obchod"
         newshop: "Pouzij novy obchod"

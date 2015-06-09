@@ -9,7 +9,7 @@ import net.minecraft.server.v1_8_R2.PacketPlayOutTitle.EnumTitleAction;
 
 public class Title {
 	
-	public static void showTitle(Player player, String title, double fadeIn, double fadeOut, double stay) {
+	public static void showTitle(Player player, String title, double fadeIn, double stay, double fadeOut) {
 		IChatBaseComponent titleComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}");
 		
 		PacketPlayOutTitle titlePacket = new PacketPlayOutTitle(EnumTitleAction.TITLE, titleComponent);
@@ -19,7 +19,7 @@ public class Title {
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(titlePacket);
 	}
 	
-	public static void showSubTitle(Player player, String subTitle, double fadeIn, double fadeOut, double stay) {
+	public static void showSubTitle(Player player, String subTitle, double fadeIn, double stay, double fadeOut) {
 		IChatBaseComponent subTitleComponent = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subTitle + "\"}");
 		
 		PacketPlayOutTitle subTitlePacket = new PacketPlayOutTitle(EnumTitleAction.SUBTITLE, subTitleComponent);
