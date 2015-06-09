@@ -32,7 +32,7 @@ public class Team implements ConfigurationSerializable {
 	private Location targetFeetBlock = null;
 	private Inventory inventory = null;
 	private List<Block> chests = null;
-
+	
 	public Team(Map<String, Object> deserialize) {
 		this.name = deserialize.get("name").toString();
 		this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers")
@@ -44,10 +44,11 @@ public class Team implements ConfigurationSerializable {
 
 		if (deserialize.containsKey("bedhead")) {
 			this.targetHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
-			Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
 			
-			if(deserialize.containsKey("bedfeed") && targetMaterial.equals(Material.BED_BLOCK)) {
-				this.targetFeetBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
+			if(this.targetHeadBlock != null) {
+				if(deserialize.containsKey("bedfeed") && this.targetHeadBlock.getBlock().getType().equals(Material.BED_BLOCK)) {
+					this.targetFeetBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
+				}
 			}
 		}
 	}
@@ -178,8 +179,8 @@ public class Team implements ConfigurationSerializable {
 		this.spawnLocation = spawn;
 	}
 
-	public boolean isDead() {
-		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+	public boolean isDead(Game game) {
+		Material targetMaterial = game.getTargetMaterial();
 		
 		this.targetHeadBlock.getBlock().getChunk().load(true);
 		if(this.targetFeetBlock == null) {

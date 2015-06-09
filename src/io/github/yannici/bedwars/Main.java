@@ -63,7 +63,6 @@ public class Main extends JavaPlugin {
 	private String version = null;
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
-	private BukkitTask signTask = null;
 	private BukkitTask updateChecker = null;
 	
 	private static Boolean locationSerializable = null;
@@ -638,6 +637,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new GameTimeCommand(this));
 		this.commands.add(new StatsCommand(this));
 		this.commands.add(new SetMinPlayersCommand(this));
+		this.commands.add(new SetGameBlockCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}
@@ -696,22 +696,6 @@ public class Main extends JavaPlugin {
 						}
 					}
 				}, (long) 5 * 20, (long) 5 * 20);
-		
-		this.signTask = this.getServer().getScheduler()
-		        .runTaskTimer(this, new Runnable() {
-                    
-                    @Override
-                    public void run() {
-                        for (Game g : Main.getInstance().getGameManager()
-                                .getGames()) {
-                            if(g.getSigns().size() == 0) {
-                                continue;
-                            }
-                            
-                            g.updateSigns();
-                        }
-                    }
-                }, (long) 30 * 20, (long) 30 * 20);
 	}
 
 	public static String _l(String localeKey, Map<String, String> params) {
@@ -728,12 +712,6 @@ public class Main extends JavaPlugin {
 			this.timeTask.cancel();
 		} catch (Exception ex) {
 			// Timer isn't running. Just ignore.
-		}
-		
-		try {
-		    this.signTask.cancel();
-		} catch(Exception ex) {
-		 // Timer isn't running. Just ignore.
 		}
 		
 		try {

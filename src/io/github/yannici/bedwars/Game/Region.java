@@ -1,7 +1,5 @@
 package io.github.yannici.bedwars.Game;
 
-import io.github.yannici.bedwars.Utils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -185,7 +183,7 @@ public class Region {
 		
 		this.breakedBlocks.clear();
 		
-		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+		Material targetMaterial = game.getTargetMaterial();
 		for(Team team : game.getTeams().values()) {
 			if(team.getHeadTarget() == null) {
 				continue;

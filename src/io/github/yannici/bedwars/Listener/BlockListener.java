@@ -3,7 +3,6 @@ package io.github.yannici.bedwars.Listener;
 import java.util.List;
 
 import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
@@ -181,7 +180,7 @@ public class BlockListener extends BaseListener {
 			return;
 		} 
 		
-		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+		Material targetMaterial = g.getTargetMaterial();
 		if (e.getBlock().getType() == targetMaterial) {
 			e.setCancelled(true);
 			

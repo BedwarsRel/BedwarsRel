@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
@@ -161,7 +160,7 @@ public class EntityListener extends BaseListener {
         	eev.setYield(0F);
         }
         
-        Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+        Material targetMaterial = game.getTargetMaterial();
         while(explodeBlocks.hasNext()) {
             Block exploding = explodeBlocks.next();
             if(!game.getRegion().isInRegion(exploding.getLocation())) {

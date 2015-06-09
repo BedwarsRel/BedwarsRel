@@ -39,6 +39,7 @@ errors:
     minplayersnumeric: "The min-players parameter must be numeric!"
     notinair: "You're not in the air!"
     teamfull: "The team is full, please reopen the team selection menu!"
+    novalidmaterial: "Given block type (material) isn't correct!"
 success:
     gameadded: "New game '$game$' successfully added!"
     teamadded: "Team '$team$' successfully added!"
@@ -62,6 +63,8 @@ success:
     minplayersset: "Min players was set successfully!"
     mainlobbyset: "Mainlobby was set successfully!"
     gametimeset: "Game time was set successfully!"
+    materialset: "The respawn block type (material) was set succesfully!"
+    builderset: "The builder for the map was set successfully and will display in title!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Locations for the region were not set properly!"
     TEAM_SIZE_LOW_ERROR: "You have to set more teams!"
@@ -228,3 +231,6 @@ commands:
     stats:
         name: "Statistics"
         desc: "Shows your statistics"
+    setgameblock:
+        name: "Set game block"
+        desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"

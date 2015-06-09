@@ -168,6 +168,7 @@ public class GameManager {
 
 			Map<String, Object> teams = new HashMap<String, Object>();
 			Map<String, Object> spawner = new HashMap<String, Object>();
+			String targetMaterialObj = null;
 
 			if (cfg.contains("teams")) {
 				teams = cfg.getConfigurationSection("teams").getValues(false);
@@ -177,7 +178,7 @@ public class GameManager {
 				spawner = cfg.getConfigurationSection("spawner").getValues(
 						false);
 			}
-
+			
 			for (Object obj : teams.values()) {
 				if (!(obj instanceof Team)) {
 					continue;
@@ -252,6 +253,17 @@ public class GameManager {
 			
 			if(cfg.contains("record")) {
 				game.setRecord(cfg.getInt("record", Main.getInstance().getMaxLength()));
+			}
+			
+			if(cfg.contains("targetmaterial")) {
+				targetMaterialObj = cfg.getString("targetmaterial");
+				if(targetMaterialObj != null && !targetMaterialObj.equals("")) {
+					game.setTargetMaterial(Utils.parseMaterial(targetMaterialObj));
+				}
+			}
+			
+			if(cfg.contains("builder")) {
+				game.setBuilder(cfg.getString("builder"));
 			}
 			
 			if(cfg.contains("record-holders")) {

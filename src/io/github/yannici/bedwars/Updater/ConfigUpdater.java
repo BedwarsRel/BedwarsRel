@@ -87,5 +87,24 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("statistics.scores.record", 100);
 		Main.getInstance().getConfig().addDefault("game-block", "BED_BLOCK");
 		// </1.1.15>
+		
+		// <1.2.0>
+		Main.getInstance().getConfig().addDefault("titles.win.enabled", true);
+		Main.getInstance().getConfig().addDefault("titles.win.title", "&6Congratulations!");
+		Main.getInstance().getConfig().addDefault("titles.win.subtitle", "&6Team {team}&6 won in &e{time}");
+		Main.getInstance().getConfig().addDefault("titles.win.title-fade-in", 1.5);
+		Main.getInstance().getConfig().addDefault("titles.win.title-stay", 5.0);
+		Main.getInstance().getConfig().addDefault("titles.win.title-fade-out", 2.0);
+		Main.getInstance().getConfig().addDefault("titles.win.subtitle-fade-in", 1.5);
+		Main.getInstance().getConfig().addDefault("titles.win.subtitle-stay", 5.0);
+		Main.getInstance().getConfig().addDefault("titles.win.subtitle-fade-out", 2.0);
+		Main.getInstance().getConfig().addDefault("titles.map.enabled", false);
+		Main.getInstance().getConfig().addDefault("titles.map.title-fade-in", 1.5);
+		Main.getInstance().getConfig().addDefault("titles.map.title-stay", 5.0);
+		Main.getInstance().getConfig().addDefault("titles.map.title-fade-out", 2.0);
+		Main.getInstance().getConfig().addDefault("titles.map.subtitle-fade-in", 1.5);
+		Main.getInstance().getConfig().addDefault("titles.map.subtitle-stay", 5.0);
+		Main.getInstance().getConfig().addDefault("titles.map.subtitle-fade-out", 2.0);
+		// <1.2.0>
 	}
 }

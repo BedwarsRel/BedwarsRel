@@ -4,7 +4,7 @@ author: Yannici
 website: http://www.spigotmc.org/resources/bedwars-rel.6799/
 
 main: io.github.yannici.bedwars.Main
-version: 1.1.15
+version: 1.2.0
 
 awareness:
     - !@UTF8
@@ -15,10 +15,6 @@ softdepend: [Multiverse-Core, Multiworld]
 commands:
     bw:
         description: Base command for all Test-Plugin commands
-        usage: /<command> help
-        permission: bw.base
-    bw info:
-        description: This is a demo command.
         usage: /<command> help
         permission: bw.base
     bw setspawner:
@@ -103,6 +99,14 @@ commands:
         permission: bw.base
     bw setminplayers:
         description: Sets the min player amount for a game
+        usage: /<command>
+        permission: bw.setup
+    bw setgameblock:
+        description: Sets the target block for a specific game
+        usage: /<command>
+        permission: bw.setup
+    bw setbuilder:
+        description: Sets the map-builder of the map for displaying title when game starts
         usage: /<command>
         permission: bw.setup
 permissions:

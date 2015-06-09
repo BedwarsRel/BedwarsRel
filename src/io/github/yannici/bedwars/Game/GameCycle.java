@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Game;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -53,7 +54,7 @@ public abstract class GameCycle {
 		    
 		    // check for winning through bed destroy
 	        for(Team team : this.getGame().getPlayingTeams()) {
-	            if(team.isDead()) {
+	            if(team.isDead(this.getGame())) {
 	                throughBed = true;
 	                break;
 	            }
@@ -85,6 +86,20 @@ public abstract class GameCycle {
 		
 		return false;
 	}
+	
+	private String winTitleReplace(String str, Team winner) {
+		int playTime = this.getGame().getLength()-this.getGame().getTimeLeft();
+		String formattedTime = Utils.getFormattedTime(playTime);
+		
+		str = str.replace("{time}", formattedTime);
+		
+		if(winner == null) {
+			return str;
+		}
+		
+		str = str.replace("{team}", winner.getChatColor() + winner.getDisplayName());
+		return str;
+	}
 
 	@SuppressWarnings("unchecked")
     private void runGameOver(Team winner) {
@@ -109,10 +124,46 @@ public abstract class GameCycle {
 		
 		int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
 																			// delay
+		String title = this.winTitleReplace(Main.getInstance().getStringConfig("titles.win.title", "&6Congratulations!"), winner);
+		String subtitle = this.winTitleReplace(Main.getInstance().getStringConfig("titles.win.subtitle", "&6Team {team}&6 won in &e{time}"), winner);
+		
+		boolean supportingTitles = Utils.isSupportingTitles();
+		
 		if (Main.getInstance().statisticsEnabled()
-		        || Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+		        || Main.getInstance().getBooleanConfig("rewards.enabled", false)
+		        || (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
+		        		&& supportingTitles
+		        		&& (!title.equals("") || !subtitle.equals("")))) {
 			if (winner != null) {
 				for (Player player : winner.getPlayers()) {
+					if(Main.getInstance().getBooleanConfig("titles.win.enabled", true)
+			        		&& supportingTitles
+			        		&& (!title.equals("") || !subtitle.equals(""))) {
+						try {
+							Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".Title");
+							
+							if(!title.equals("")) {
+								double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
+								double titleStay = Main.getInstance().getConfig().getDouble("titles.win.title-stay", 5.0);
+								double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.win.title-fade-out", 2.0);
+								Method showTitle = clazz.getDeclaredMethod("showTitle", Player.class, String.class, double.class, double.class, double.class);
+								
+								showTitle.invoke(null, player, title, titleFadeIn, titleStay, titleFadeOut);
+							}
+							
+							if(!subtitle.equals("")) {
+								double subTitleFadeIn = Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
+								double subTitleStay = Main.getInstance().getConfig().getDouble("titles.win.subtitle-stay", 5.0);
+								double subTitleFadeOut = Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-out", 2.0);
+								Method showSubTitle = clazz.getDeclaredMethod("showSubTitle", Player.class, String.class, double.class, double.class, double.class);
+								
+								showSubTitle.invoke(null, player, subtitle, subTitleFadeIn, subTitleStay, subTitleFadeOut);
+							}
+						} catch(Exception ex) {
+							ex.printStackTrace();
+						}
+					}
+					
 				    if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
 	                    List<String> commands = new ArrayList<String>();
 	                    commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-win");
@@ -208,7 +259,7 @@ public abstract class GameCycle {
 			return;
 		}
 
-		if (team.isDead()) {
+		if (team.isDead(this.getGame())) {
 			PlayerStorage storage = this.getGame().getPlayerStorage(player);
 			
 			if(Main.getInstance().statisticsEnabled()) {
@@ -359,7 +410,7 @@ public abstract class GameCycle {
 	}
 	
 	private void sendTeamDeadMessage(Team deathTeam) {
-	    if (deathTeam.getPlayers().size() == 1 && deathTeam.isDead()) {
+	    if (deathTeam.getPlayers().size() == 1 && deathTeam.isDead(this.getGame())) {
             this.getGame().broadcast(ChatColor.RED
                             + Main._l("ingame.team-dead", ImmutableMap.of(
                                     "team", deathTeam.getChatColor()

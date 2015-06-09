@@ -16,6 +16,7 @@ import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -80,6 +81,8 @@ public class Game {
 	private int record = 0;
 	private int length = 0;
 	
+	private String builder = null;
+	
 	private Map<Player, PlayerSettings> playerSettings = null;
 	
 	private List<SpecialItem> currentSpecials = null;
@@ -100,6 +103,8 @@ public class Game {
 
 	private Location loc1 = null;
 	private Location loc2 = null;
+	
+	private Material targetMaterial = null;
 
 	public Game(String name) {
 		super();
@@ -125,6 +130,7 @@ public class Game {
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 		this.playerDamages = new HashMap<Player, Player>();
 		this.currentSpecials = new ArrayList<SpecialItem>();
+		this.targetMaterial = null;
 		
 		this.record = Main.getInstance().getMaxLength();
 		this.length = Main.getInstance().getMaxLength();
@@ -227,6 +233,11 @@ public class Game {
 		}
 		
 		this.startTimerCountdown();
+		
+		if(Main.getInstance().getBooleanConfig("titles.map.enabled", false)) {
+			this.displayMapInfo();
+		}
+		
 		this.updateSigns();
 		
 		if(Main.getInstance().getBooleanConfig("global-messages", true)) {
@@ -504,6 +515,7 @@ public class Game {
 	        this.toSpectator(p);
             p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
                     this.teams.size() - 1)]).getSpawnLocation());
+            this.displayMapInfo(p);
 		} else {
 			this.broadcast(ChatColor.GREEN + Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
 			this.freePlayers.add(p);
@@ -563,7 +575,7 @@ public class Game {
 			}
 		} else {
 			if(this.state == GameState.RUNNING) {
-				if(!team.isDead() && !p.isDead()) {
+				if(!team.isDead(this) && !p.isDead()) {
 					if(Main.getInstance().statisticsEnabled()) {
 						statistic.setLoses(statistic.getLoses()+1);
 						statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
@@ -899,7 +911,7 @@ public class Game {
 			this.scoreboard.resetScores(Game.bedLostString() + t.getChatColor()
 					+ t.getName());
 
-			String teamString = (t.isDead() && this.getState() == GameState.RUNNING) ? Game
+			String teamString = (t.isDead(this) && this.getState() == GameState.RUNNING) ? Game
 					.bedLostString() : Game.bedExistString();
 			Score score = obj.getScore(teamString + t.getChatColor()
 					+ t.getName());
@@ -935,7 +947,7 @@ public class Game {
 
 			if (!player.isDead()) {
 				teams.add(playerTeam);
-			} else if (!playerTeam.isDead()) {
+			} else if (!playerTeam.isDead(this)) {
 				teams.add(playerTeam);
 			}
 		}
@@ -1056,22 +1068,7 @@ public class Game {
     }
 	
 	public String getFormattedRecord() {
-		int hr = 0;
-		int min = 0;
-		int sec = 0;
-		String minStr = "";
-		String secStr = "";
-		String hrStr = "";
-		
-		hr = (int) Math.floor((this.record / 60) / 60);
-		min = ((int) Math.floor((this.record / 60)) - (hr * 60));
-		sec = this.record % 60;
-
-		hrStr = (hr < 10) ? "0" + String.valueOf(hr) : String.valueOf(hr);
-		minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
-		secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
-
-		return hrStr + ":" + minStr + ":" + secStr;
+		return Utils.getFormattedTime(this.record);
 	}
 
 	/*
@@ -1147,6 +1144,26 @@ public class Game {
 
 	public boolean isStopping() {
 	    return this.isStopping;
+	}
+
+	public String getBuilder() {
+		return this.builder;
+	}
+
+	public void setBuilder(String builder) {
+		this.builder = builder;
+	}
+
+	public Material getTargetMaterial() {
+		if(this.targetMaterial == null) {
+			return Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+		}
+		
+		return this.targetMaterial;
+	}
+
+	public void setTargetMaterial(Material targetMaterial) {
+		this.targetMaterial = targetMaterial;
 	}
 
 	public List<MerchantCategory> getOrderedItemShopCategories() {
@@ -1398,6 +1415,40 @@ public class Game {
 	 * PRIVATE
 	 */
 	
+	private void displayMapInfo() {
+		if(!Utils.isSupportingTitles()) return;
+		
+		for(Player player : this.getPlayers()) {
+			this.displayMapInfo(player);
+		}
+	}
+	
+	private void displayMapInfo(Player player) {
+		if(!Utils.isSupportingTitles()) return;
+		
+		try {
+			Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".Title");
+			Method setTitle = clazz.getDeclaredMethod("setTitle", Player.class, String.class, double.class, double.class, double.class);
+			double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
+			double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
+			double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
+			
+			setTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay, titleFadeOut);
+			
+			if(this.builder != null) {
+				Method setSubTitle = clazz.getDeclaredMethod("setSubTitle", Player.class, String.class, double.class, double.class, double.class);
+				double subtitleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
+				double subtitleStay = Main.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
+				double subtitleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
+				
+				setSubTitle.invoke(null, player, Main._l("ingame.title.map-builder", ImmutableMap.of("builder", ChatColor.translateAlternateColorCodes('&', this.builder))), subtitleFadeIn, subtitleStay, subtitleFadeOut);
+			}
+			
+		} catch(Exception ex) {
+			// no support?
+		}
+	}
+	
 	private void displayRecord() {
 		for(Player player : this.getPlayers()) {
 			this.displayRecord(player);
@@ -1454,14 +1505,7 @@ public class Game {
 
 	private void createGameConfig(File config) {
 		YamlConfiguration yml = new YamlConfiguration();
-		HashMap<String, RessourceSpawner> spawnerMap = new HashMap<>();
-		int i = 0;
-
-		for (RessourceSpawner rs : this.resSpawner) {
-			spawnerMap.put("SPAWNER_" + i, rs);
-			i++;
-		}
-
+		
 		yml.set("name", this.name);
 		yml.set("world", this.getRegion().getWorld().getName());
 		yml.set("loc1", Utils.locationSerialize(this.loc1));
@@ -1478,18 +1522,21 @@ public class Game {
 		}
 		
 		if(this.regionName == null) {
-			this.regionName = this.region.getWorld().getName();
+			this.regionName = this.region.getName();
 		}
 		
 		yml.set("regionname", this.regionName);
 		yml.set("time", this.time);
 		
+		yml.set("targetmaterial", this.targetMaterial);
+		yml.set("builder", this.builder);
+		
 		if (this.mainLobby != null) {
 			yml.set("mainlobby", Utils.locationSerialize(this.mainLobby));
 		}
 
+		yml.set("spawner", this.resSpawner);
 		yml.createSection("teams", this.teams);
-		yml.createSection("spawner", spawnerMap);
 		
 		try {
 			yml.save(config);
@@ -1566,7 +1613,7 @@ public class Game {
 				return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
 			}
 			
-			Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+			Material targetMaterial = this.getTargetMaterial();
 			
 			if(targetMaterial.equals(Material.BED_BLOCK)) {
 				if ((t.getHeadTarget() == null 

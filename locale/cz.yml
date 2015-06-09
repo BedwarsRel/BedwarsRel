@@ -44,6 +44,7 @@ errors:
     minplayersnumeric: "Pocet minimalnich hracu musi byt cislo!"
     notinair: "Nejsi ve vzduchu!"
     teamfull: "Tym je plny, otevri si znovu vyberove menu!"
+    novalidmaterial: "Given block type (material) isn't correct!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -67,6 +68,8 @@ success:
     minplayersset: "Min. pocet hracu nastaven!"
     mainlobbyset: "Mainlobby uspesne nastaveno!"
     gametimeset: "Cas hry uspesne nastaven!"
+    materialset: "The respawn block type (material) was set succesfully!"
+    builderset: "The builder for the map was set successfully and will display in title!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -232,3 +235,6 @@ commands:
     stats:
         name: "Statistiky"
         desc: "Zobrazi tve statistiky"
+    setgameblock:
+        name: "Set game block"
+        desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"

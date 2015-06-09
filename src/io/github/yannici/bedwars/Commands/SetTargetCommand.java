@@ -117,7 +117,7 @@ public class SetTargetCommand extends BaseCommand implements ICommand {
 			return false;
 		}
 		
-		Material targetMaterial = Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+		Material targetMaterial = game.getTargetMaterial();
 		if (targetBlock.getType() != targetMaterial
 				&& standingBlock.getType() != targetMaterial) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
