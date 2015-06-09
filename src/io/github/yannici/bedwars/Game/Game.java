@@ -889,10 +889,6 @@ public class Game {
 			return;
 		}
 		
-		for(RessourceSpawner spawner : this.resSpawner) {
-		    spawner.getLocation().getChunk().load(true);
-		}
-		
 		this.region.reset(this);
 	}
 

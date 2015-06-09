@@ -131,6 +131,7 @@ public class Region {
 	@SuppressWarnings("deprecation")
     public void reset(Game game) {
 		this.loadChunks();
+		
 		for(Inventory inventory : this.inventories) {
 		    inventory.clear();
 		}
@@ -221,6 +222,10 @@ public class Region {
 				headState.setType(targetMaterial);
 				headState.update(true, true);
 			}
+		}
+		
+		for(RessourceSpawner spawner : game.getRessourceSpawner()) {
+		    spawner.getLocation().getChunk().load(true);
 		}
 		
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();

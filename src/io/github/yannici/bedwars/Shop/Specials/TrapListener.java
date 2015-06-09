@@ -105,9 +105,8 @@ public class TrapListener implements Listener {
             return;
         }
         
-        br.setCancelled(true);
-        
         if(br.getBlock().equals(toDestroy)) {
+        	br.setCancelled(true);
             return;
         }
         
