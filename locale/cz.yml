@@ -101,7 +101,9 @@ ingame:
     protectionend: "Nyni jsi opet &czranitelny&f!"
     team-dead: "Tym $team$ byl znicen!"
     title:
-        map-builder: "Built by $builder$"
+        map-builder: "Mapu postavil/a $builder$"
+        win-title: "&a&lGratulace!"
+        win-subtitle: "$team$&6 vyhral v case &e$time$"
     shop:
         name: "Obchod"
         newshop: "Pouzij novy obchod"
