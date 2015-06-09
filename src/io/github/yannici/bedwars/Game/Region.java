@@ -225,7 +225,7 @@ public class Region {
 		}
 		
 		for(RessourceSpawner spawner : game.getRessourceSpawner()) {
-		    spawner.getLocation().getChunk().load(true);
+		    spawner.getLocation().getChunk().load();
 		}
 		
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
@@ -330,7 +330,7 @@ public class Region {
 			for(int z = minZ; z <= maxZ; z += Region.CHUNK_SIZE) {
 				Chunk chunk = this.world.getChunkAt(x, z);
 				if(!chunk.isLoaded()) {
-					chunk.load(true);
+					chunk.load();
 				}
 			}
 		}
