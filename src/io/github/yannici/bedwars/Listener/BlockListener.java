@@ -243,7 +243,7 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 		
-		if(game.getState() != GameState.RUNNING) {
+		if(game.getState() == GameState.STOPPED) {
 			return;
 		}
 		
@@ -256,6 +256,10 @@ public class BlockListener extends BaseListener {
 		
 		if(ignite.getIgnitingEntity() == null) {
 			ignite.setCancelled(true);
+			return;
+		}
+		
+		if(game.getState() == GameState.WAITING) {
 			return;
 		}
 		
