@@ -177,7 +177,7 @@ commands:
         name: "Ziel-Block setzen"
         desc: "Setzt den Respawn-Block (Ziel) eines bestimmten Teams"
     setbed:
-        name: "Ziel-Block setzen (Synonym für settarget)
+        name: "Ziel-Block setzen (Synonym für settarget)"
         desc: "Setzt den Respawn-Block (Ziel) eines bestimmten Teams (Synonym für settarget)"
     setlobby:
         name: "Lobby setzen"

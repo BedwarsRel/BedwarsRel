@@ -182,7 +182,7 @@ commands:
         name: "Nastavit postel"
         desc: "Nastavi lokaci postele tymu"
     setbed:
-        name: "Nastavit postel (Synonym for settarget)
+        name: "Nastavit postel (Synonym for settarget)"
         desc: "Nastavi lokaci postele tymu (Synonym for settarget)"
     setlobby:
         name: "Nastavit lobby"
