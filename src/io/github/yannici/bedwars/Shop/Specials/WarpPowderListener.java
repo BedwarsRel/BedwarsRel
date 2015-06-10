@@ -54,6 +54,10 @@ public class WarpPowderListener implements Listener {
     	
     	if(powder != null) {
     		 if(ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
+    			if(!ev.getItem().getItemMeta().getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+    				return;
+    			}
+    			
     		    player.getInventory().addItem(powder.getStack());
     		    player.updateInventory();
 	        	powder.cancelTeleport(true, true);
