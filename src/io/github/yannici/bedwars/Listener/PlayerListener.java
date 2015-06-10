@@ -619,13 +619,9 @@ public class PlayerListener extends BaseListener {
 	 * LOBBY
 	 */
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onHunger(FoodLevelChangeEvent flce) {
 		if(!(flce.getEntity() instanceof Player)) {
-			return;
-		}
-		
-		if(flce.isCancelled()) {
 			return;
 		}
 		
@@ -639,8 +635,10 @@ public class PlayerListener extends BaseListener {
 		if(game.getState() == GameState.RUNNING) {
 		    if(game.isSpectator(player)) {
 		        flce.setCancelled(true);
+		        return;
 		    }
 		    
+		    flce.setCancelled(false);
 			return;
 		}
 		
@@ -943,6 +941,12 @@ public class PlayerListener extends BaseListener {
 				} else if(edbee.getDamager().getType().equals(EntityType.ARROW)) {
 				    Arrow arrow = (Arrow) edbee.getDamager();
 				    if(arrow.getShooter() instanceof Player) {
+				    	Player shooter = (Player)arrow.getShooter();
+				    	if(g.isSpectator(shooter)) {
+				    		ede.setCancelled(true);
+				    		return;
+				    	}
+				    	
 				        g.setPlayerDamager(p, (Player)arrow.getShooter());
 				    }
 				}

@@ -437,7 +437,7 @@ public class Game {
 				try {
 					p.setGameMode(GameMode.valueOf("SPECTATOR"));
 				} catch(Exception ex) {
-					p.setGameMode(GameMode.CREATIVE);
+					p.setGameMode(GameMode.ADVENTURE);
 				}
 
 				for (Player pl : Game.this.getPlayers()) {
