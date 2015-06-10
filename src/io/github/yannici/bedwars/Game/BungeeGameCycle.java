@@ -36,7 +36,7 @@ public class BungeeGameCycle extends GameCycle {
 			this.getGame().playerLeave(player);
 		}
 		
-		for (Player freePlayer : this.getGame().getFreePlayers()) {
+		for (Player freePlayer : this.getGame().getFreePlayersClone()) {
 			this.getGame().playerLeave(freePlayer);
 		}
 		

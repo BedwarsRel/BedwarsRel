@@ -408,20 +408,20 @@ public class Game {
 	public void toSpectator(Player player) {
 		final Player p = player;
 		
-		Team playerTeam = this.getPlayerTeam(p);
+		Team playerTeam = this.getPlayerTeam(player);
 		if (playerTeam != null) {
-			playerTeam.removePlayer(p);
+			playerTeam.removePlayer(player);
 		}
 
-		if (!this.freePlayers.contains(p)) {
-			this.freePlayers.add(p);
+		if (!this.freePlayers.contains(player)) {
+			this.freePlayers.add(player);
 		}
 
-		PlayerStorage storage = this.getPlayerStorage(p);
+		PlayerStorage storage = this.getPlayerStorage(player);
 		if (storage != null) {
 			storage.clean();
 		} else {
-			storage = this.addPlayerStorage(p);
+			storage = this.addPlayerStorage(player);
 			storage.store();
 			storage.clean();
 		}
@@ -566,12 +566,14 @@ public class Game {
 		}
 
 		if (this.isSpectator(p)) {
-			for (Player player : this.getPlayers()) {
-				if (player.equals(p)) {
-					continue;
-				}
+			if(!this.getCycle().isEndGameRunning()) {
+				for (Player player : this.getPlayers()) {
+					if (player.equals(p)) {
+						continue;
+					}
 
-				player.showPlayer(p);
+					player.showPlayer(p);
+				}
 			}
 		} else {
 			if(this.state == GameState.RUNNING) {
@@ -1385,6 +1387,15 @@ public class Game {
 
 	public List<Player> getFreePlayers() {
 		return this.freePlayers;
+	}
+	
+	public List<Player> getFreePlayersClone() {
+		List<Player> players = new ArrayList<Player>();
+		if(this.freePlayers.size() > 0) {
+			players.addAll(this.freePlayers);
+		}
+		
+		return players;
 	}
 
 	public GameLobbyCountdown getLobbyCountdown() {
