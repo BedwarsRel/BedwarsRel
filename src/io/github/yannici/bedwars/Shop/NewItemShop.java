@@ -135,7 +135,6 @@ public class NewItemShop {
 		        }
 		    }
 		    
-		    
 			ItemStack is = new ItemStack(category.getMaterial(), 1);
 			ItemMeta im = is.getItemMeta();
 
@@ -152,27 +151,15 @@ public class NewItemShop {
 			inventory.addItem(is);
 		}
 	}
+	
+	private int getInventorySize(int itemAmount) {
+	    int nom = (itemAmount % 9 == 0) ? 9 : (itemAmount % 9);
+        return itemAmount + (9 - nom);
+	}
 
 	public void handleInventoryClick(InventoryClickEvent ice, Game game,
 			Player player) {
 		if (!this.hasOpenCategory()) {
-			if (ice.getCurrentItem().getType() == Material.SLIME_BALL) {
-				this.changeToOldShop(game, player);
-				return;
-			}
-			
-			if(ice.getCurrentItem().getType() == Material.BUCKET) {
-			    game.getPlayerSettings(player).setOneStackPerShift(false);
-			    player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
-			    this.openCategoryInventory(player);
-			    return;
-			} else if(ice.getCurrentItem().getType() == Material.LAVA_BUCKET) {
-			    game.getPlayerSettings(player).setOneStackPerShift(true);
-			    player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
-			    this.openCategoryInventory(player);
-			    return;
-			}
-
 			this.handleCategoryInventoryClick(ice, game, player);
 		} else {
 			this.handleBuyInventoryClick(ice, game, player);
@@ -192,16 +179,48 @@ public class NewItemShop {
 			Game game, Player player) {
 	    
 	    int catSize = this.getCategoriesSize(player);
-	    int nom = (catSize % 9 == 0) ? 9 : (catSize % 9);
-        int sizeCategories = (catSize + (9 - nom)) + 9;
-	    if(ice.getRawSlot() >= sizeCategories) {
-	        ice.setCancelled(false);
-	        return;
-	    }
-	    
+        int sizeCategories = this.getInventorySize(catSize) + 9;
+        int rawSlot = ice.getRawSlot();
+        
+        if(rawSlot < this.getInventorySize(catSize)) {
+        	ice.setCancelled(true);
+			if (ice.getCurrentItem().getType() == Material.SLIME_BALL) {
+				this.changeToOldShop(game, player);
+				return;
+			}
+		
+			if(ice.getCurrentItem().getType() == Material.BUCKET) {
+			    game.getPlayerSettings(player).setOneStackPerShift(false);
+			    player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+			    this.openCategoryInventory(player);
+			    return;
+			} else if(ice.getCurrentItem().getType() == Material.LAVA_BUCKET) {
+			    game.getPlayerSettings(player).setOneStackPerShift(true);
+			    player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+			    this.openCategoryInventory(player);
+			    return;
+			}
+			
+		}
+        
+        if(rawSlot >= sizeCategories) {
+        	if(ice.isShiftClick()) {
+        		ice.setCancelled(true);
+        		return;
+        	}
+        	
+        	ice.setCancelled(false);
+        	return;
+        }
+        
 		MerchantCategory clickedCategory = this.getCategoryByMaterial(ice
 				.getCurrentItem().getType());
 		if (clickedCategory == null) {
+			if(ice.isShiftClick()) {
+        		ice.setCancelled(true);
+        		return;
+        	}
+			
 		    ice.setCancelled(false);
 			return;
 		}
@@ -225,7 +244,7 @@ public class NewItemShop {
 
 		for (int i = 0; i < offers.size(); i++) {
 			VillagerTrade trade = offers.get(i);
-			int slot = ((9 * (invSize/9)) - 9) + i;
+			int slot = (this.getInventorySize(sizeCategories)) + i;
 			ItemStack tradeStack = this.toItemStack(trade, player, game);
 
 			buyInventory.setItem(slot, tradeStack);
@@ -235,13 +254,7 @@ public class NewItemShop {
 	}
 	
 	private int getBuyInventorySize(int sizeCategories, int sizeOffers) {
-	    int nom = (sizeCategories % 9 == 0) ? 9 : (sizeCategories % 9);
-        int catSize = sizeCategories + (9 - nom);
-        
-        nom = (sizeOffers % 9 == 0) ? 9 : (sizeOffers % 9);
-        int buySize = sizeOffers + (9 - nom);
-        
-        return catSize + buySize;
+        return this.getInventorySize(sizeCategories) + this.getInventorySize(sizeOffers);
 	}
 
 	private ItemStack toItemStack(VillagerTrade trade, Player player, Game game) {

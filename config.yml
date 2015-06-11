@@ -207,6 +207,12 @@ lobbycountdown-rule: 2
 # Sets if friendlyfire is enabled (damage team mates)
 friendlyfire: false
 
+# Prevent breaking under team mate
+# type: boolean
+# If true, you can break the block right under a team-member
+# If false, it will be prevented to break block under team-member
+friendlybreak: true
+
 # Game over delay
 # Type: int
 # How much time (in seconds) should be waited until all players

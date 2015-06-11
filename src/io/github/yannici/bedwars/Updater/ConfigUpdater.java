@@ -108,6 +108,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("player-drops", false);
 		Main.getInstance().getConfig().addDefault("bungeecord.spigot-restart", true);
 		Main.getInstance().getConfig().addDefault("place-in-liquid", true);
+		Main.getInstance().getConfig().addDefault("friendlybreak", true);
 		// <1.2.0>
 	}
 }

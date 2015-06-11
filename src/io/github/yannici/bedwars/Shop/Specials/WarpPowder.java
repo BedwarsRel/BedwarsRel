@@ -65,6 +65,7 @@ public class WarpPowder extends SpecialItem {
         }
         
         this.player.getInventory().removeItem(this.getCancelItemStack());
+        this.player.updateInventory();
     }
     
     private ItemStack getCancelItemStack() {
