@@ -346,9 +346,7 @@ public class NewItemShop {
 			}
 
 			if (ice.isShiftClick()) {
-				while (this.hasEnoughRessource(player, trade) 
-						&& this.hasEnoughSpace(player, trade)
-						&& !cancel) {
+				while (this.hasEnoughRessource(player, trade) && !cancel) {
 					cancel = !this.buyItem(trade, player);
 					if(!cancel && oneStackPerShift) {
 				        bought = bought+item.getAmount();
@@ -455,18 +453,6 @@ public class NewItemShop {
 
 		player.updateInventory();
 		return success;
-	}
-	
-	private boolean hasEnoughSpace(Player player, VillagerTrade trade) {
-		PlayerInventory inventory = player.getInventory();
-		
-		// test add
-		if(inventory.addItem(trade.getRewardItem().clone()).size() > 0) {
-			inventory.removeItem(trade.getRewardItem().clone());
-			return false;
-		}
-		
-		return true;
 	}
 
 	private boolean hasEnoughRessource(Player player, VillagerTrade trade) {
