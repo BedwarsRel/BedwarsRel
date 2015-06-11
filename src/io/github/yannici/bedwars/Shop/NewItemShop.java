@@ -329,10 +329,10 @@ public class NewItemShop {
 			
 			MerchantCategory category = this.currentCategory;
 			VillagerTrade trade = this.getTradingItem(category,
-					ice.getCurrentItem(), game, player);
+					item, game, player);
 
 			if (trade == null) {
-				player.closeInventory();
+				ice.setCancelled(true);
 				return;
 			}
 			
@@ -346,8 +346,10 @@ public class NewItemShop {
 			}
 
 			if (ice.isShiftClick()) {
-				while (this.hasEnoughRessource(player, trade) && !cancel) {
-					cancel = !this.buyItem(item, trade, player);
+				while (this.hasEnoughRessource(player, trade) 
+						&& this.hasEnoughSpace(player, trade)
+						&& !cancel) {
+					cancel = !this.buyItem(trade, player);
 					if(!cancel && oneStackPerShift) {
 				        bought = bought+item.getAmount();
 				        cancel = ((bought + item.getAmount()) > 64);
@@ -356,7 +358,7 @@ public class NewItemShop {
 				
 				bought = 0;
 			} else {
-				this.buyItem(item, trade, player);
+				this.buyItem(trade, player);
 			}
 		} else {
 			if(ice.isShiftClick()) {
@@ -370,7 +372,8 @@ public class NewItemShop {
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean buyItem(ItemStack item, VillagerTrade trade, Player player) {
+	private boolean buyItem(VillagerTrade trade, Player player) {
+		ItemStack item = trade.getRewardItem().clone();
 		PlayerInventory inventory = player.getInventory();
 		boolean success = true;
 
@@ -433,22 +436,13 @@ public class NewItemShop {
 				}
 			}
 		}
-
-		// cloning stack
-		ItemStack addingItem = item.clone();
-		ItemMeta itemMeta = addingItem.getItemMeta();
-		List<String> lore = itemMeta.getLore();
 		
-		lore.remove(lore.size()-1);
-		itemMeta.setLore(lore);
-		addingItem.setItemMeta(itemMeta);
-		
-		HashMap<Integer, ItemStack> notStored = inventory.addItem(addingItem);
+		HashMap<Integer, ItemStack> notStored = inventory.addItem(item);
 		if(notStored.size() > 0) {
 			ItemStack notAddedItem = notStored.get(0);
-			int removingAmount = addingItem.getAmount() - notAddedItem.getAmount();
-			addingItem.setAmount(removingAmount);
-			inventory.removeItem(addingItem);
+			int removingAmount = item.getAmount() - notAddedItem.getAmount();
+			item.setAmount(removingAmount);
+			inventory.removeItem(item);
 			
 			// restore
 			inventory.addItem(trade.getItem1());
@@ -461,6 +455,18 @@ public class NewItemShop {
 
 		player.updateInventory();
 		return success;
+	}
+	
+	private boolean hasEnoughSpace(Player player, VillagerTrade trade) {
+		PlayerInventory inventory = player.getInventory();
+		
+		// test add
+		if(inventory.addItem(trade.getRewardItem().clone()).size() > 0) {
+			inventory.removeItem(trade.getRewardItem().clone());
+			return false;
+		}
+		
+		return true;
 	}
 
 	private boolean hasEnoughRessource(Player player, VillagerTrade trade) {
