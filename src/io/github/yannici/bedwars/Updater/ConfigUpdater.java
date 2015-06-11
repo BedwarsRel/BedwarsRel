@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Updater;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.github.yannici.bedwars.Main;
@@ -109,6 +110,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("bungeecord.spigot-restart", true);
 		Main.getInstance().getConfig().addDefault("place-in-liquid", true);
 		Main.getInstance().getConfig().addDefault("friendlybreak", true);
+		Main.getInstance().getConfig().addDefault("breakable-blocks", Arrays.asList("none"));
 		// <1.2.0>
 	}
 }

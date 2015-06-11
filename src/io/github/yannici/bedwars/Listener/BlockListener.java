@@ -192,7 +192,18 @@ public class BlockListener extends BaseListener {
 		Block breakedBlock = e.getBlock();
 
 		if (!g.getRegion().isPlacedBlock(breakedBlock)) {
-	        e.setCancelled(true); 
+			if(breakedBlock == null) {
+				e.setCancelled(true); 
+				return;
+			}
+			
+			if(Main.getInstance().isBreakableType(breakedBlock.getType())) {
+				g.getRegion().addBreakedBlock(breakedBlock);
+				e.setCancelled(false);
+				return;
+			}
+			
+			e.setCancelled(true);
 		} else {
 		    if (e.getBlock().getType() == Material.ENDER_CHEST) {
 	            for (Team team : g.getTeams().values()) {

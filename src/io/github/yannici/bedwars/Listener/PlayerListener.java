@@ -725,7 +725,6 @@ public class PlayerListener extends BaseListener {
 				}
 			}
 			
-			
 			// Spectators want to block
 			if(clickedBlock != null) {
 			    try {

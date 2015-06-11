@@ -96,6 +96,12 @@ player-drops: false
 # If false, it will be prevented to set blocks in liquid
 place-in-liquid: true
 
+# Breakable blocks
+# type: list<int> or list<string>
+# Defines the block types which are allowed to break
+breakable-blocks:
+    - none
+
 # Titles configuration (only compatible with >= 1.8)
 titles:
     # Win title

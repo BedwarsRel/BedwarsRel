@@ -42,6 +42,7 @@ import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -64,6 +65,7 @@ public class Main extends JavaPlugin {
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
 	private BukkitTask updateChecker = null;
+	private List<Material> breakableTypes = null;
 	
 	private boolean isSpigot = false;
 	
@@ -148,6 +150,29 @@ public class Main extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
+        if(this.getConfig() == null) {
+        	return;
+        }
+        
+        // load breakable materials
+        this.breakableTypes = new ArrayList<Material>();
+        for(String material : this.getConfig().getStringList("breakable-blocks")) {
+        	if(material.equalsIgnoreCase("none")) {
+        		continue;
+        	}
+
+        	Material mat = Utils.parseMaterial(material);
+        	if(mat == null) {
+        		continue;
+        	}
+        	
+        	if(this.breakableTypes.contains(mat)) {
+        		continue;
+        	}
+        	
+        	this.breakableTypes.add(mat);
+        }
     }
 	
 	public void saveConfiguration() {
@@ -183,6 +208,10 @@ public class Main extends JavaPlugin {
 		}
 		
 		return null;
+	}
+	
+	public boolean isBreakableType(Material type) {
+		return (this.breakableTypes.contains(type));
 	}
 	
 	private void checkUpdates() throws IOException {
