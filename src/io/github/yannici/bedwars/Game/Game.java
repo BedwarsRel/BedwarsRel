@@ -1535,7 +1535,7 @@ public class Game {
 		yml.set("regionname", this.regionName);
 		yml.set("time", this.time);
 		
-		yml.set("targetmaterial", this.targetMaterial.name());
+		yml.set("targetmaterial", this.getTargetMaterial().name());
 		yml.set("builder", this.builder);
 		
 		if (this.mainLobby != null) {

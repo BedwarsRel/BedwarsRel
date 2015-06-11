@@ -11,11 +11,11 @@ import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
 import io.github.yannici.bedwars.Database.DatabaseObject;
 
-public abstract class Statistic extends DatabaseObject {
+public abstract class StoringTable extends DatabaseObject {
 
 	private Map<String, DBField> fields = null;
 
-	public Statistic() {
+	public StoringTable() {
 	    this.fields = new HashMap<String, DBField>();
 		this.loadFields();
 	}

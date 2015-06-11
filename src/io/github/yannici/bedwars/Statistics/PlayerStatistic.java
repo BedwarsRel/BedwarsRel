@@ -10,7 +10,7 @@ import io.github.yannici.bedwars.Database.DBSetField;
 
 import org.bukkit.OfflinePlayer;
 
-public class PlayerStatistic extends Statistic {
+public class PlayerStatistic extends StoringTable {
 	
 	public static final String tableName = "stats_players";
 	

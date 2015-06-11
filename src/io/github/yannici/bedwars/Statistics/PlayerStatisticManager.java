@@ -63,7 +63,7 @@ public class PlayerStatisticManager {
     	Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
     }
     
-    private String getTableSql(Statistic statistic) {
+    private String getTableSql(StoringTable statistic) {
     	StringBuilder builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
     	String tablename = DatabaseManager.DBPrefix + statistic.getTableName();
     	
@@ -164,7 +164,7 @@ public class PlayerStatisticManager {
         Main.getInstance().getDatabaseManager().update(updateSql);
     }
     
-    private String getStoreSQL(Statistic statistic) {
+    private String getStoreSQL(StoringTable statistic) {
     	StringBuilder sql = new StringBuilder();
     	
     	if(statistic.isNew()) {
@@ -260,6 +260,10 @@ public class PlayerStatisticManager {
         }
         
         for(String field : statistic.getFields().keySet()) {
+        	if(field.equalsIgnoreCase("id")) {
+        		continue;
+        	}
+        	
         	if(!this.fileDatabase.contains("data." + keyValue + "." + field)) {
         		continue;
         	}
