@@ -105,6 +105,8 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("titles.map.subtitle-fade-in", 1.5);
 		Main.getInstance().getConfig().addDefault("titles.map.subtitle-stay", 5.0);
 		Main.getInstance().getConfig().addDefault("titles.map.subtitle-fade-out", 2.0);
+		Main.getInstance().getConfig().addDefault("player-drops", false);
+		Main.getInstance().getConfig().addDefault("bungeecord.spigot-restart", true);
 		// <1.2.0>
 	}
 }

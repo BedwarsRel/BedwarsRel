@@ -1029,7 +1029,11 @@ public class Game {
 
 	public void stopWorkers() {
 		for (BukkitTask task : this.runningTasks) {
-			task.cancel();
+			try {
+				task.cancel();
+			} catch(Exception ex) {
+				// already cancelled
+			}
 		}
 		
 		this.runningTasks.clear();

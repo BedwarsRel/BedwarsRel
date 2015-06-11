@@ -65,6 +65,8 @@ public class Main extends JavaPlugin {
 	private DatabaseManager dbManager = null;
 	private BukkitTask updateChecker = null;
 	
+	private boolean isSpigot = false;
+	
 	private static Boolean locationSerializable = null;
 	
 	private PlayerStatisticManager playerStatisticManager = null;
@@ -92,6 +94,7 @@ public class Main extends JavaPlugin {
 		this.saveConfiguration();
 	    this.loadConfigInUTF();
 		
+	    this.isSpigot = this.getIsSpigot();
 		this.loadDatabase();
 		
 		this.craftbukkit = this.getCraftBukkit();
@@ -380,6 +383,10 @@ public class Main extends JavaPlugin {
 	}
 
 	public boolean isSpigot() {
+		return this.isSpigot;
+	}
+	
+	private boolean getIsSpigot() {
 		try {
 			Package spigotPackage = Package.getPackage("org.spigotmc");
 			if (spigotPackage == null) {
@@ -388,9 +395,10 @@ public class Main extends JavaPlugin {
 
 			return true;
 		} catch (Exception e) {
-			return false;
+			// nope
 		}
-
+		
+		return false;
 	}
 	
 	public int getIntConfig(String key, int defaultInt) {

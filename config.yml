@@ -85,6 +85,11 @@ store-game-records-holder: true
 # (in the Enum Constant Summery)
 bed-sound: ENDERDRAGON_GROWL
 
+# Player drops
+# type: boolean
+# If true, player will drop his items
+player-drops: false
+
 # Titles configuration (only compatible with >= 1.8)
 titles:
     # Win title
@@ -353,23 +358,29 @@ endgame:
 
 # Bungeecord configurations
 bungeecord:
-### Enable Bungeecord
-### Type: boolean
-### Set to true to enable bungeecord compatibility. Set to false when you have
-### a single server and don't use bungeecord.
+  # Enable Bungeecord
+  # Type: boolean
+  # Set to true to enable bungeecord compatibility. Set to false when you have
+  # a single server and don't use bungeecord.
     enabled: false
 
-### Bungeecord Hubserver
-### Type: string
-### The name of the hub/main server of the bungeecord server-farm. This will be
-### the server where the player will be teleported when they leave.
+  # Bungeecord Hubserver
+  # Type: string
+  # The name of the hub/main server of the bungeecord server-farm. This will be
+  # the server where the player will be teleported when they leave.
     hubserver: hub
+    
+  # Use spigot restart
+  # type: boolean
+  # If true, it tries to use spigot's /restart command
+  # If spigot isn't running, it will just stop the server
+    spigot-restart: true
 
-### Message of the Day configuration
-### Type: string (colorcodes with &)
-### Here you can specify the MOTDs which should be used
-### at this bedwars server of your bungeecord server-farm.
-### Useful for bedwars join signs in your lobby
+  # Message of the Day configuration
+  # Type: string (colorcodes with &)
+  # Here you can specify the MOTDs which should be used
+  # at this bedwars server of your bungeecord server-farm.
+  # Useful for bedwars join signs in your lobby
     motds:
         lobby: "&a[Lobby]"
         running: "&1[Running]"

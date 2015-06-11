@@ -246,7 +246,10 @@ public class PlayerListener extends BaseListener {
 		if (game.getState() == GameState.RUNNING) {
 			pde.setDroppedExp(0);
 			pde.setDeathMessage(null);
-			pde.getDrops().clear();
+			
+			if(!Main.getInstance().getBooleanConfig("player-drops", false)) {
+				pde.getDrops().clear();
+			}
 
 			try {
 				if (!Main.getInstance().isSpigot()) {

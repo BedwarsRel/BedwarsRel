@@ -45,7 +45,12 @@ public class BungeeGameCycle extends GameCycle {
             
             @Override
             public void run() {
-                Bukkit.shutdown();
+            	if(Main.getInstance().isSpigot() 
+            			&& Main.getInstance().getBooleanConfig("bungeecord.spigot-restart", true)) {
+            		Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), "/restart");
+            	} else {
+            		Bukkit.shutdown();
+            	}
             }
         }.runTaskLater(Main.getInstance(), 70L);
 		
