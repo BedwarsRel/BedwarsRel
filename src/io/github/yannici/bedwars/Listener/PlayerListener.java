@@ -844,6 +844,7 @@ public class PlayerListener extends BaseListener {
 
 		game.nonFreePlayer(player);
 		team.addPlayer(player);
+		game.setPlayersScoreboard();
 
 		GameLobbyCountdownRule rule = Main.getInstance()
 				.getLobbyCountdownRule();
