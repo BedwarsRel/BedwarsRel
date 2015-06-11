@@ -90,6 +90,12 @@ bed-sound: ENDERDRAGON_GROWL
 # If true, player will drop his items
 player-drops: false
 
+# Place in liquid
+# type: boolean
+# If true, it's possible to set blocks in liquid (like water, lava ...)
+# If false, it will be prevented to set blocks in liquid
+place-in-liquid: true
+
 # Titles configuration (only compatible with >= 1.8)
 titles:
     # Win title

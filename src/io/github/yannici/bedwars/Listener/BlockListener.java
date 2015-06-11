@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Game.Team;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -269,7 +270,7 @@ public class BlockListener extends BaseListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlace(BlockPlaceEvent bpe) {
 		Player player = bpe.getPlayer();
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
@@ -294,8 +295,9 @@ public class BlockListener extends BaseListener {
 				bpe.setBuild(false);
 				return;
 			}
-
+			
 			Block placeBlock = bpe.getBlockPlaced();
+			BlockState replacedBlock = bpe.getBlockReplacedState();
 
 			if (placeBlock.getType() == Material.BED
 					|| placeBlock.getType() == Material.BED_BLOCK) {
@@ -310,6 +312,16 @@ public class BlockListener extends BaseListener {
 				return;
 			}
 			
+			if(replacedBlock != null) {
+				if(!Main.getInstance().getBooleanConfig("place-in-liquid", true))  {
+					if(replacedBlock.getBlock().isLiquid()) {
+						bpe.setCancelled(true);
+						bpe.setBuild(false);
+						return;
+					}
+				}
+			}
+			
 			if (placeBlock.getType() == Material.ENDER_CHEST) {
 				Team playerTeam = game.getPlayerTeam(player);
 				if (playerTeam.getInventory() == null) {
@@ -320,7 +332,7 @@ public class BlockListener extends BaseListener {
 			}
 			
 			if(!bpe.isCancelled()) {
-			    game.getRegion().addPlacedBlock(placeBlock, bpe.getBlockReplacedState());
+			    game.getRegion().addPlacedBlock(placeBlock, replacedBlock);
 			}
 		}
 	}

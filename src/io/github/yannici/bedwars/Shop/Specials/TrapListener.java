@@ -113,7 +113,7 @@ public class TrapListener implements Listener {
         toDestroy.setType(Material.AIR);
 	}
 	
- 	@EventHandler
+ 	@EventHandler(priority = EventPriority.HIGH)
 	public void onPlace(BlockPlaceEvent place) {
 		if(place.isCancelled()) {
 			return;
