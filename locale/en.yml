@@ -95,6 +95,7 @@ ingame:
     protectionleft: "Invulnerable for &c$length$&f second(s)!"
     protectionend: "you're now &cvulnerable&f again!"
     team-dead: "Team $team$ was destroyed!"
+    no-friendlybreak: "&cCan't break block under team-member!"
     title:
         map-builder: "Built by $builder$"
     shop:

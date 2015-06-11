@@ -95,6 +95,7 @@ ingame:
     protectionleft: "Unverwundbar für &c$length$&f Sekunde(n)!"
     protectionend: "Du bist wieder &cverwundbar&f!"
     team-dead: "Das Team $team$ wurde vernichtet!"
+    no-friendlybreak: "&cBlock unter deinem Team-Mitglied kann nicht zerstört werden!"
     title:
         map-builder: "Gebaut von $builder$"
         win-title: "&6Congratulations!"
