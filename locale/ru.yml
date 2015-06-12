@@ -95,6 +95,7 @@ ingame:
     protectionleft: "&cНеуязвимость &fзаканчивается через &c$length$"
     protectionend: "Теперь вы снова &cуязвимы"
     team-dead: "Команда $team$ полностью уничтожена"
+    no-friendlybreak: "&cCan't break block under team-member!"
     title:
         map-builder: "Built by $builder$"
     shop:

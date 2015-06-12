@@ -1616,6 +1616,7 @@ public class Game {
 		}
 
 		this.freePlayers = new ArrayList<Player>();
+		this.setPlayersScoreboard();
 	}
 
 	private GameCheckCode checkTeams() {

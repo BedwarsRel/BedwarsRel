@@ -2,13 +2,16 @@ package io.github.yannici.bedwars.Listener;
 
 import java.util.List;
 
+import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -205,6 +208,18 @@ public class BlockListener extends BaseListener {
 			
 			e.setCancelled(true);
 		} else {
+		    if(!Main.getInstance().getBooleanConfig("friendlybreak", true)) {
+		        Team playerTeam = g.getPlayerTeam(p);
+	            for(Player player : playerTeam.getPlayers()) {
+	                if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).equals(e.getBlock())) {
+	                    p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.no-friendlybreak")));
+	                    e.setCancelled(true);
+	                    return;
+	                }
+	            }
+		    }
+		    
+		    
 		    if (e.getBlock().getType() == Material.ENDER_CHEST) {
 	            for (Team team : g.getTeams().values()) {
 	                List<Block> teamChests = team.getChests();
@@ -326,7 +341,10 @@ public class BlockListener extends BaseListener {
 			
 			if(replacedBlock != null) {
 				if(!Main.getInstance().getBooleanConfig("place-in-liquid", true))  {
-					if(replacedBlock.getBlock().isLiquid()) {
+					if(replacedBlock.getType().equals(Material.WATER)
+					        || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+					        || replacedBlock.getType().equals(Material.LAVA)
+					        || replacedBlock.getType().equals(Material.STATIONARY_LAVA)) {
 						bpe.setCancelled(true);
 						bpe.setBuild(false);
 						return;
@@ -344,7 +362,7 @@ public class BlockListener extends BaseListener {
 			}
 			
 			if(!bpe.isCancelled()) {
-			    game.getRegion().addPlacedBlock(placeBlock, replacedBlock);
+			    game.getRegion().addPlacedBlock(placeBlock, (replacedBlock.getType().equals(Material.AIR) ? null : replacedBlock));
 			}
 		}
 	}

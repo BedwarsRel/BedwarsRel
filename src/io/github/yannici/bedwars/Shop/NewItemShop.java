@@ -182,7 +182,8 @@ public class NewItemShop {
         int sizeCategories = this.getInventorySize(catSize) + 9;
         int rawSlot = ice.getRawSlot();
         
-        if(rawSlot < this.getInventorySize(catSize)) {
+        if(rawSlot >= this.getInventorySize(catSize)
+                && rawSlot < sizeCategories) {
         	ice.setCancelled(true);
 			if (ice.getCurrentItem().getType() == Material.SLIME_BALL) {
 				this.changeToOldShop(game, player);
