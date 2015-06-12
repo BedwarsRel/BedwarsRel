@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -17,7 +18,9 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.material.Bed;
+import org.bukkit.material.Directional;
 import org.bukkit.material.Lever;
+import org.bukkit.material.MaterialData;
 import org.bukkit.material.Redstone;
 
 public class Region {
@@ -34,6 +37,7 @@ public class Region {
 	private HashMap<Block, Byte> breakedBlockData = null;
 	private List<Block> placedUnbreakableBlocks = null;
 	private HashMap<Block, Boolean> breakedBlockPower = null;
+	private HashMap<Block, BlockFace> breakedBlockFace = null;
 	private List<Inventory> inventories = null;
 
 	public Region(Location pos1, Location pos2, String name) {
@@ -51,6 +55,7 @@ public class Region {
 		this.breakedBlocks = new ArrayList<Block>();
 		this.breakedBlockTypes = new HashMap<Block, Integer>();
 		this.breakedBlockData = new HashMap<Block, Byte>();
+		this.breakedBlockFace = new HashMap<Block, BlockFace>();
 		this.placedUnbreakableBlocks = new ArrayList<Block>();
 		this.breakedBlockPower = new HashMap<Block, Boolean>();
 		this.inventories = new ArrayList<Inventory>();
@@ -167,6 +172,14 @@ public class Region {
 		    theBlock.setTypeId(this.breakedBlockTypes.get(block));
 		    theBlock.setData(this.breakedBlockData.get(block));
 		    
+		    if(this.breakedBlockFace.containsKey(theBlock)) {
+		    	MaterialData data = theBlock.getState().getData();
+		    	if(data instanceof Directional) {
+		    		((Directional)data).setFacingDirection(this.breakedBlockFace.get(block));
+			    	theBlock.getState().setData(data);
+		    	}
+		    }
+		    
 		    if(theBlock.getState().getData() instanceof Lever) {
 		        Lever attach = (Lever)theBlock.getState().getData();
 		        BlockState supportState = theBlock.getState();
@@ -271,6 +284,10 @@ public class Region {
 	public void addPlacedBlock(Block placeBlock, BlockState replacedBlock) {
         this.placedBlocks.add(placeBlock);
         if(replacedBlock != null) {
+        	if(replacedBlock.getData() instanceof Directional) {
+        		this.breakedBlockFace.put(replacedBlock.getBlock(), ((Directional)replacedBlock.getData()).getFacing());
+        	}
+        	
         	this.breakedBlockTypes.put(replacedBlock.getBlock(), replacedBlock.getTypeId());
         	this.breakedBlockData.put(replacedBlock.getBlock(), replacedBlock.getData().getData());
         	
@@ -292,6 +309,10 @@ public class Region {
     
     @SuppressWarnings("deprecation")
     public void addBreakedBlock(Block bedBlock) {
+    	if(bedBlock.getState().getData() instanceof Directional) {
+    		this.breakedBlockFace.put(bedBlock, ((Directional)bedBlock.getState().getData()).getFacing());
+    	}
+    	
         this.breakedBlockTypes.put(bedBlock, bedBlock.getTypeId());
         this.breakedBlockData.put(bedBlock, bedBlock.getData());
         
@@ -306,6 +327,10 @@ public class Region {
     public void addPlacedUnbreakableBlock(Block placed, BlockState replaced) {
 		this.placedUnbreakableBlocks.add(placed);
         if(replaced != null) {
+        	if(replaced.getData() instanceof Directional) {
+        		this.breakedBlockFace.put(replaced.getBlock(), ((Directional)replaced.getData()).getFacing());
+        	}
+        	
             this.breakedBlockTypes.put(replaced.getBlock(), replaced.getTypeId());
             this.breakedBlockData.put(replaced.getBlock(), replaced.getData().getData());
             this.breakedBlocks.add(replaced.getBlock());

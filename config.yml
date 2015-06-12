@@ -462,7 +462,7 @@ check-updates: true
 # Update infos
 # type: boolean
 # If true, you will get information when a new update will be downloaded
-# If false, you won't notice when a update was downloaded
+# If false, you won't get noticed when a update was downloaded
 update-infos: true
 
 # Reward commands
