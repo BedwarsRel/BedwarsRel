@@ -56,6 +56,9 @@ public class TrapListener implements Listener {
         }
 		
 		Team team = game.getPlayerTeam(player);
+		if(team == null) {
+		    return;
+		}
 		
 		// get trapped trap ;)
 		for(SpecialItem item : game.getSpecialItems()) {
@@ -66,6 +69,10 @@ public class TrapListener implements Listener {
 			Trap trap = (Trap)item;
 			if(!trap.getLocation().equals(player.getLocation().getBlock().getLocation())) {
 				continue;
+			}
+			
+			if(trap.getPlacedTeam() == null) {
+			    continue;
 			}
 			
 			if(trap.getPlacedTeam().equals(team)) {

@@ -91,6 +91,7 @@ public class PluginUpdater {
     private String versionType;
     private String versionGameVersion;
     private String versionCustom;
+    private boolean lastVersionCheck = false;
 
     /* Update process variables */
 
@@ -226,7 +227,7 @@ public class PluginUpdater {
 
         final File pluginFile = this.plugin.getDataFolder().getParentFile();
         final File updaterFile = new File(pluginFile, "Updater");
-        final File updaterConfigFile = new File(updaterFile, "config.yml");
+        final File updaterConfigFile = new File(updaterFile, "bedwarsrel.yml");
 
         YamlConfiguration config = new YamlConfiguration();
         config.options().header("This configuration file affects all plugins using the Updater system (version 2+ - http://forums.bukkit.org/threads/96681/ )" + '\n'
@@ -670,7 +671,7 @@ public class PluginUpdater {
             }
             conn.addRequestProperty("User-Agent", PluginUpdater.USER_AGENT);
             conn.setDoOutput(true);
-
+            
             final BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             final String response = reader.readLine();
 
@@ -748,6 +749,7 @@ public class PluginUpdater {
 
     private void runUpdater() {
         if (this.url != null && (this.read() && this.versionCheck())) {
+            this.lastVersionCheck = true;
             // Obtain the results of the project's file feed
             if ((this.versionLink != null) && (this.type != UpdateType.NO_DOWNLOAD)) {
                 String name = this.file.getName();
@@ -759,6 +761,8 @@ public class PluginUpdater {
             } else {
                 this.result = UpdateResult.UPDATE_AVAILABLE;
             }
+        } else {
+            this.lastVersionCheck = false;
         }
 
         if (this.callback != null) {
@@ -773,5 +777,14 @@ public class PluginUpdater {
 
     private void runCallback() {
         this.callback.onFinish(this);
+    }
+
+    /**
+     * Gets the latest version check result
+     * 
+     * @return latest version check result
+     */
+    public boolean isLatestVersionCheck() {
+        return this.lastVersionCheck;
     }
 }

@@ -374,4 +374,8 @@ public class GameManager {
 		return null;
 	}
 
+    public int getGamePlayerAmount() {
+        return this.gamePlayer.size();
+    }
+
 }
