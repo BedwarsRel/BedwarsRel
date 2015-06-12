@@ -455,9 +455,15 @@ ressource:
 
 # Check Updates
 # type: boolean
-# Allow check for updates every 30 minutes when server running
-# or when plugin gets enabled
+# Allow check for updates and automatically download the new update
+# and save it to the update folder of your server
 check-updates: true
+
+# Update infos
+# type: boolean
+# If true, you will get information when a new update will be downloaded
+# If false, you won't notice when a update was downloaded
+update-infos: true
 
 # Reward commands
 # It is prerequisite that every command can be executed from the console (sender).

@@ -111,6 +111,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("place-in-liquid", true);
 		Main.getInstance().getConfig().addDefault("friendlybreak", true);
 		Main.getInstance().getConfig().addDefault("breakable-blocks", Arrays.asList("none"));
+		Main.getInstance().getConfig().addDefault("update-infos", true);
 		// <1.2.0>
 	}
 }
