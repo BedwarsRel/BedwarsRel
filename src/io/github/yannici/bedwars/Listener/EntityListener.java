@@ -170,6 +170,11 @@ public class EntityListener extends BaseListener {
             
             if(!tntDestroyEnabled) {
             	if(!game.getRegion().isPlacedBlock(exploding)) {
+            	    if(Main.getInstance().isBreakableType(exploding.getType())) {
+                        game.getRegion().addBreakedBlock(exploding);
+                        continue;
+                    }
+            	    
                     explodeBlocks.remove();
                 } else {
                 	game.getRegion().removePlacedBlock(exploding);
