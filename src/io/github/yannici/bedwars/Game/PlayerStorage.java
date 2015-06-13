@@ -71,6 +71,19 @@ public class PlayerStorage {
         this.player.setHealth(20.0D);
         this.player.setFireTicks(0);
         this.player.setGameMode(GameMode.SURVIVAL);
+        
+        if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
+            Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
+            if(game != null) {
+                Team team = game.getPlayerTeam(this.player);
+                if(team != null) {
+                    this.player.setDisplayName(team.getChatColor() + this.player.getName());
+                } else {
+                    this.player.setDisplayName(this.player.getName());
+                }
+            }
+            
+        }
 
         if (this.player.isInsideVehicle()) {
             this.player.leaveVehicle();

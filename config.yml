@@ -52,6 +52,12 @@ overwrite-names: false
 # wait in the lobby until the game starts (when enough players) in seconds.
 lobbytime: 60
 
+# Chat format (waiting)
+# type: string
+# The chat format for messages in lobby (waiting mode) when
+# player is not in a team
+lobby-chatformat: "$player$: $msg$"
+
 # Chat format (all)
 # type: string
 # The chat format for messages which will be sent to all ingame players

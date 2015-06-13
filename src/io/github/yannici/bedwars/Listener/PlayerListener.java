@@ -413,7 +413,7 @@ public class PlayerListener extends BaseListener {
 	    
 	    if(isSpectator) {
 	        form = form.replace("$team$", Main._l("ingame.spectator"));
-	    } else {
+	    } else if(team != null) {
 	        form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
 	    }
 	    
@@ -445,15 +445,40 @@ public class PlayerListener extends BaseListener {
 		    }
 			return;
 		}
-
+		
+		if(game.getState() == GameState.STOPPED) {
+		    return;
+		}
+		
 		Team team = game.getPlayerTeam(player);
+		String message = ce.getMessage();
+        boolean isSpectator = game.isSpectator(player);
+		
+		if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
+		    if(team == null || isSpectator) {
+		        player.setDisplayName(player.getName());
+		        player.setPlayerListName(player.getName());
+		    } else {
+		        player.setDisplayName(team.getChatColor() + player.getName());
+		        player.setPlayerListName(team.getChatColor() + player.getName());
+		    }
+		    
+		}
 
-		if (game.getState() != GameState.RUNNING) {
+		if (game.getState() != GameState.RUNNING
+		        && game.getState() == GameState.WAITING) {
+		    
+		    String format = null;
+		    if(team == null) {
+		        format = this.getChatFormat(Main.getInstance().getStringConfig("lobby-chatformat", "$player$: $msg$"), null, false, true);
+		    } else {
+		        format = this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team, false, true);
+		    }
+		    
+            ce.setFormat(format);
 			return;
 		}
 
-		String message = ce.getMessage();
-		boolean isSpectator = game.isSpectator(player);
 		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
 
 		if (message.trim().startsWith(toAllPrefix) || isSpectator) {
@@ -492,7 +517,7 @@ public class PlayerListener extends BaseListener {
 		} else {
 			message = message.trim();
 			ce.setMessage(message);
-			ce.setFormat(this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat", "[$all$] <$team$>$player$: $msg$"), team, false, false));
+			ce.setFormat(this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team, false, false));
 
 			Iterator<Player> recipiens = ce.getRecipients().iterator();
 			while (recipiens.hasNext()) {
@@ -819,10 +844,12 @@ public class PlayerListener extends BaseListener {
 		ItemStack clickedStack = ice.getCurrentItem();
 
 		if (!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
+		    ice.setCancelled(true);
 			return;
 		}
 		
 		if(clickedStack == null) {
+		    ice.setCancelled(true);
 			return;
 		}
 

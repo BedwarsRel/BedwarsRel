@@ -112,6 +112,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("friendlybreak", true);
 		Main.getInstance().getConfig().addDefault("breakable-blocks", Arrays.asList("none"));
 		Main.getInstance().getConfig().addDefault("update-infos", true);
+		Main.getInstance().getConfig().addDefault("lobby-chatformat", "$player$: $msg$");
 		// <1.2.0>
 	}
 }

@@ -211,6 +211,10 @@ public class BlockListener extends BaseListener {
 		    if(!Main.getInstance().getBooleanConfig("friendlybreak", true)) {
 		        Team playerTeam = g.getPlayerTeam(p);
 	            for(Player player : playerTeam.getPlayers()) {
+	                if(player.equals(p)) {
+	                    continue;
+	                }
+	                
 	                if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).equals(e.getBlock())) {
 	                    p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.no-friendlybreak")));
 	                    e.setCancelled(true);
