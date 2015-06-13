@@ -348,7 +348,7 @@ public class NewItemShop {
 
 			if (ice.isShiftClick()) {
 				while (this.hasEnoughRessource(player, trade) && !cancel) {
-					cancel = !this.buyItem(trade, player);
+					cancel = !this.buyItem(trade, ice.getCurrentItem(), player);
 					if(!cancel && oneStackPerShift) {
 				        bought = bought+item.getAmount();
 				        cancel = ((bought + item.getAmount()) > 64);
@@ -357,7 +357,7 @@ public class NewItemShop {
 				
 				bought = 0;
 			} else {
-				this.buyItem(trade, player);
+				this.buyItem(trade, ice.getCurrentItem(), player);
 			}
 		} else {
 			if(ice.isShiftClick()) {
@@ -371,8 +371,7 @@ public class NewItemShop {
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean buyItem(VillagerTrade trade, Player player) {
-		ItemStack item = trade.getRewardItem().clone();
+	private boolean buyItem(VillagerTrade trade, ItemStack item, Player player) {
 		PlayerInventory inventory = player.getInventory();
 		boolean success = true;
 
@@ -436,12 +435,26 @@ public class NewItemShop {
 			}
 		}
 		
-		HashMap<Integer, ItemStack> notStored = inventory.addItem(item);
+		ItemStack addingItem = item.clone();
+		ItemMeta meta = addingItem.getItemMeta();
+		List<String> lore = meta.getLore();
+		
+		if(lore.size() > 0) {
+		    lore.remove(lore.size()-1);
+		    if(trade.getItem2() != null) {
+		        lore.remove(lore.size()-1);
+		    }
+		}
+		
+		meta.setLore(lore);
+		addingItem.setItemMeta(meta);
+		
+		HashMap<Integer, ItemStack> notStored = inventory.addItem(addingItem);
 		if(notStored.size() > 0) {
 			ItemStack notAddedItem = notStored.get(0);
-			int removingAmount = item.getAmount() - notAddedItem.getAmount();
-			item.setAmount(removingAmount);
-			inventory.removeItem(item);
+			int removingAmount = addingItem.getAmount() - notAddedItem.getAmount();
+			addingItem.setAmount(removingAmount);
+			inventory.removeItem(addingItem);
 			
 			// restore
 			inventory.addItem(trade.getItem1());
