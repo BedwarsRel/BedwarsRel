@@ -146,6 +146,7 @@ public class TrapListener implements Listener {
 		
 		Trap trap = new Trap();
 		trap.create(game, team, place.getBlockPlaced().getLocation());
+		game.getRegion().addPlacedUnbreakableBlock(place.getBlockPlaced(), null);
 	}
 
 }

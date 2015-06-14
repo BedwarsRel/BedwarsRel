@@ -139,7 +139,7 @@ public class Trap extends SpecialItem {
 			if(this.playSound) {
 				this.game.broadcastSound(Sound.SHEEP_IDLE, 3.0F, 1.0F, this.team.getPlayers());
 			}
-			this.getLocation().getBlock().setType(Material.AIR);
+			this.game.getRegion().removePlacedUnbreakableBlock(this.getLocation().getBlock());
 			this.game.removeSpecialItem(this);
 		} catch(Exception ex) {
 			ex.printStackTrace();
