@@ -183,7 +183,7 @@ public class GameManager {
 		                if (!(obj instanceof RessourceSpawner)) {
 		                    continue;
 		                }
-
+		                
 		                RessourceSpawner rs = (RessourceSpawner) obj;
 		                rs.setGame(game);
 		                game.addRessourceSpawner(rs);

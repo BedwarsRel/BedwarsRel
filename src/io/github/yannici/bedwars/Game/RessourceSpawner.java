@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Game;
 
+import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 
 import java.util.HashMap;
@@ -23,21 +24,62 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 	private Game game = null;
 	private Location location = null;
 	private int interval = 1000;
-	private ItemStack itemstack;
+	private ItemStack itemstack = null;
+	private String name = null;
 
 	public RessourceSpawner(Map<String, Object> deserialize) {
 		this.location = Utils.locationDeserialize(deserialize.get("location"));
-		this.itemstack = (ItemStack) deserialize.get("itemstack");
-		this.interval = Integer
-				.parseInt(deserialize.get("interval").toString());
+		
+		if(deserialize.containsKey("name")) {
+			this.name = deserialize.get("name").toString();
+			
+			if(!Main.getInstance().getConfig().contains("ressource." + this.name)) {
+				this.itemstack = (ItemStack) deserialize.get("itemstack");
+				this.interval = Integer.parseInt(deserialize.get("interval").toString());
+			} else {
+				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
+				this.interval = Main.getInstance().getIntConfig("ressource." + this.name, 1000);
+			}
+		} else {
+			ItemStack stack = (ItemStack) deserialize.get("itemstack");
+			this.name = this.getNameByMaterial(stack.getType());
+			
+			if(this.name == null) {
+				this.itemstack = stack;
+				this.interval = Integer.parseInt(deserialize.get("interval").toString());
+			} else {
+				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
+				this.interval = Main.getInstance().getIntConfig("ressource." + this.name, 1000);
+			}
+		}
 	}
 
-	public RessourceSpawner(Game game, int interval, Location location,
-			ItemStack itemstack) {
+	public RessourceSpawner(Game game, String name, Location location) {
 		this.game = game;
-		this.interval = interval;
+		this.name = name;
+		this.interval = Main.getInstance().getIntConfig("ressource." + this.name, 1000);;
 		this.location = location;
-		this.itemstack = itemstack;
+		this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));;
+	}
+	
+	private String getNameByMaterial(Material material) {
+		for(String key : Main.getInstance().getConfig().getConfigurationSection("ressource").getKeys(true)) {
+			ConfigurationSection keySection = Main.getInstance().getConfig().getConfigurationSection("ressource." + key);
+			if(keySection == null) {
+				continue;
+			}
+			
+			if(!keySection.contains("item")) {
+				continue;
+			}
+			
+			Material mat = Utils.parseMaterial(keySection.getString("item"));
+			if(mat.equals(material)) {
+				return key;
+			}
+		}
+		
+		return null;
 	}
 
 	public int getInterval() {
@@ -61,8 +103,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		HashMap<String, Object> rs = new HashMap<>();
 
 		rs.put("location", Utils.locationSerialize(this.location));
-		rs.put("interval", this.interval);
-		rs.put("itemstack", this.itemstack);
+		rs.put("name", this.name);
 		return rs;
 	}
 	

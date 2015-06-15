@@ -93,11 +93,8 @@ public class SetSpawnerCommand extends BaseCommand {
 		Object section = Main.getInstance().getConfig().get("ressource." + material);
 		ItemStack stack = RessourceSpawner.createSpawnerStackByConfig(section);
 		
-		int interval = this.getPlugin().getConfig()
-				.getInt("ressource." + material + ".spawn-interval");
 		Location location = player.getLocation();
-		
-		RessourceSpawner spawner = new RessourceSpawner(game, interval, location, stack);
+		RessourceSpawner spawner = new RessourceSpawner(game, material, location);
 		game.addRessourceSpawner(spawner);
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l("success.spawnerset", ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));

@@ -130,7 +130,6 @@ public class Game {
 		this.respawnProtected = new HashMap<Player, RespawnProtectionRunnable>();
 		this.playerDamages = new HashMap<Player, Player>();
 		this.currentSpecials = new ArrayList<SpecialItem>();
-		this.targetMaterial = null;
 		
 		this.record = Main.getInstance().getMaxLength();
 		this.length = Main.getInstance().getMaxLength();
@@ -278,13 +277,7 @@ public class Game {
 
 		return this.freePlayers.contains(p);
 	}
-
-	public void addRessourceSpawner(int interval, Location location,
-			ItemStack stack) {
-		this.resSpawner.add(new RessourceSpawner(this, interval, location,
-				stack));
-	}
-
+	
 	public void addRessourceSpawner(RessourceSpawner rs) {
 		this.resSpawner.add(rs);
 	}
