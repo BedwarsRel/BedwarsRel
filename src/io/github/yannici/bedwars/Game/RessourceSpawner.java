@@ -38,7 +38,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 				this.interval = Integer.parseInt(deserialize.get("interval").toString());
 			} else {
 				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
-				this.interval = Main.getInstance().getIntConfig("ressource." + this.name, 1000);
+				this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
 			}
 		} else {
 			ItemStack stack = (ItemStack) deserialize.get("itemstack");
@@ -49,7 +49,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 				this.interval = Integer.parseInt(deserialize.get("interval").toString());
 			} else {
 				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
-				this.interval = Main.getInstance().getIntConfig("ressource." + this.name, 1000);
+				this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
 			}
 		}
 	}
