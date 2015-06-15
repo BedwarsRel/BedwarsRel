@@ -235,6 +235,9 @@ commands:
     stats:
         name: "Statistics"
         desc: "показать вашу статистику"
+    setbuilder:
+        name: "Sets builder of map"
+        desc: "Sets the builder of the map which will be display in the title when game starts."
     setgameblock:
         name: "Set game block"
         desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
