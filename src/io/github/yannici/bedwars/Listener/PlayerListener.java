@@ -623,7 +623,7 @@ public class PlayerListener extends BaseListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onFly(PlayerToggleFlightEvent tfe) {
 		Player p = tfe.getPlayer();
 
@@ -637,6 +637,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (g.getState() == GameState.RUNNING && g.isSpectator(p)) {
+		    tfe.setCancelled(false);
 			return;
 		}
 
