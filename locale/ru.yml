@@ -98,6 +98,8 @@ ingame:
     no-friendlybreak: "&cCan't break block under team-member!"
     title:
         map-builder: "Built by $builder$"
+        win-title: "&6Congratulations!"
+        win-subtitle: "$team$&6 won in &e$time$"
     shop:
         name: "Магазин Ресурсов"
         newshop: "Использовать новую механику покупки"
@@ -110,7 +112,6 @@ ingame:
         killed: "$killer$ убил $player$"
     blocks:
         ownbeddestroy: "Вы не можете разрушить кровать своей команды"
-        beddestroyed: "$player$ разрушил кровать команды $team$"
         beddestroyed: "$player$ разрушил кровать команды $team$"
     specials:
         rescue-platform:

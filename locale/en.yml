@@ -2,7 +2,7 @@ default:
     pages: "Page $current$ of $max$"
     currently: Currently
 errors:
-    argumentslength: "Nümber of arguments does not match the correct amount!"
+    argumentslength: "Number of arguments does not match the correct amount!"
     packagenotfound: "Couldn't fetch $package$ package!"
     classnotfound: "Couldn't fetch $package$ class $class$!"
     gameexists: "A game with this name already exists!"
@@ -93,11 +93,13 @@ ingame:
     teamchest: "Team chest"
     noturteamchest: "This chest isn't a chest of your team!"
     protectionleft: "Invulnerable for &c$length$&f second(s)!"
-    protectionend: "you're now &cvulnerable&f again!"
+    protectionend: "You're now &cvulnerable&f again!"
     team-dead: "Team $team$ was destroyed!"
     no-friendlybreak: "&cCan't break block under team-member!"
     title:
         map-builder: "Built by $builder$"
+        win-title: "&6Congratulations!"
+        win-subtitle: "$team$&6 won in &e$time$"
     shop:
         name: "Itemshop"
         newshop: "Use new shop"
@@ -110,7 +112,6 @@ ingame:
         killed: "$killer$ killed $player$!"
     blocks:
         ownbeddestroy: "You can't destroy your own bed!"
-        beddestroyed: "$player$ destroyed bed of team $team$!"
         beddestroyed: "$player$ destroyed bed of team $team$!"
     specials:
         rescue-platform:
