@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Game;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 
 import io.github.yannici.bedwars.Main;
@@ -102,7 +103,13 @@ public class GameJoinSign {
 	}
 	
 	public Sign getSign() {
-	    return (Sign)this.signLocation.getBlock().getState();
+	    BlockState state = this.signLocation.getBlock().getState();
+	    
+	    if(!(state instanceof Sign)) {
+	        return null;
+	    }
+	    
+	    return (Sign)state;
 	}
 
 }

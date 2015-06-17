@@ -1005,7 +1005,13 @@ public class Game {
 			if(!signChunk.isLoaded()) {
 				signChunk.load(true);
 			}
-
+			
+			if(sign.getSign() == null) {
+			    iterator.remove();
+                removedItem = true;
+                continue;
+			}
+			
 			Block signBlock = sign.getSign().getLocation().getBlock();
 			if (!(signBlock.getState() instanceof Sign)) {
 				iterator.remove();
