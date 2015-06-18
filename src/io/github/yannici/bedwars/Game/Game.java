@@ -1251,13 +1251,15 @@ public class Game {
 		return players;
 	}
 	
-	public ArrayList<Player> getNonVipPlayers() {
-		ArrayList<Player> players = this.getPlayers();
+    public List<Player> getNonVipPlayers() {
+	    List<Player> players = this.getPlayers();
 		
 		Iterator<Player> playerIterator = players.iterator();
 		while(playerIterator.hasNext()) {
 			Player player = playerIterator.next();
-			if(player.hasPermission("bw.vip.joinfull") || player.hasPermission("bw.vip.forcestart")) {
+			if(player.hasPermission("bw.vip.joinfull") 
+			        || player.hasPermission("bw.vip.forcestart") 
+			        || player.hasPermission("bw.vip")) {
 				playerIterator.remove();
 			}
 		}
