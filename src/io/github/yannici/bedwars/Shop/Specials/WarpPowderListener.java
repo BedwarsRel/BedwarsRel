@@ -52,20 +52,24 @@ public class WarpPowderListener implements Listener {
     		break;
     	}
     	
-    	if(powder != null) {
-    		 if(ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
-    			if(!ev.getItem().getItemMeta().getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
-    				return;
-    			}
-    			
-    		    player.getInventory().addItem(powder.getStack());
-    		    player.updateInventory();
-	        	powder.cancelTeleport(true, true);
-	        	ev.setCancelled(true);
-	        }
-    		
-    	    return;
-    	}
+		 if(ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
+		    if(ev.getItem().getItemMeta().getDisplayName() == null) {
+		        return;
+		    }
+		    
+			if(!ev.getItem().getItemMeta().getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+				return;
+			}
+			
+			if(powder != null) {
+			    player.getInventory().addItem(powder.getStack());
+	            player.updateInventory();
+	            powder.cancelTeleport(true, true);
+	            ev.setCancelled(true);
+			}
+			
+			return;
+        }
         
         if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
             return;
