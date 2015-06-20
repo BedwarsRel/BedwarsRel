@@ -135,6 +135,7 @@ lobby:
     chooseteam: "Wähle ein Team"
     startgame: "Spiel starten"
     gamefull: "Das Spiel ist voll!"
+    gamefullpremium: "Das Spiel ist voll von Premium-Spielern!"
     teamjoined: "Du bist erfolgreich dem Team $team$ beigetreten!"
     leavegame: "Spiel verlassen"
     playerjoin: "$player$ ist dem Spiel beigetreten!"

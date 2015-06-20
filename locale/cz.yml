@@ -140,6 +140,7 @@ lobby:
     chooseteam: "Vyber si tym"
     startgame: "Spustit hru"
     gamefull: "Hra je plna!"
+    gamefullpremium: "The game is full of premium players already!"
     teamjoined: "Uspesne jsi se pripojil do tymu $team$"
     leavegame: "Opustit hru"
     playerjoin: "Hrac $player$ se pripojil do hry!"

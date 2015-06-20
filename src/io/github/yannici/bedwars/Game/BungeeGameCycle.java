@@ -109,7 +109,7 @@ public class BungeeGameCycle extends GameCycle {
 							BungeeGameCycle.this.sendBungeeMessage(
 									p,
 									ChatWriter.pluginMessage(ChatColor.RED
-											+ Main._l("lobby.gamefull")));
+											+ Main._l("lobby.gamefullpremium")));
 						}
 					}.runTaskLater(Main.getInstance(), 40L);
 					return false;

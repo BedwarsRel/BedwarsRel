@@ -140,7 +140,7 @@ public class SingleGameCycle extends GameCycle {
 				
 				if(players.size() == 0) {
 					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-							+ Main._l("lobby.gamefull")));
+							+ Main._l("lobby.gamefullpremium")));
 					return false;
 				}
 				

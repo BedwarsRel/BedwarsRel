@@ -135,6 +135,7 @@ lobby:
     chooseteam: "Выберите команду:"
     startgame: "Запустить игру"
     gamefull: "Игра заполнена"
+    gamefullpremium: "The game is full of premium players already!"
     teamjoined: "Вы вступили в команду $team$"
     leavegame: "Покинуть игру"
     playerjoin: "Игрок $player$ присоеденился к игре"
