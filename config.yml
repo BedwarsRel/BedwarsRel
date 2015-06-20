@@ -526,7 +526,7 @@ specials:
         # Block
         # type: int or string
         # The block-type which should be used for the rescue platform
-        block: GLASS
+        block: STAINED_GLASS
         
     # Protection wall settings
     protection-wall:

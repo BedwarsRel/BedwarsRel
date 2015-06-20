@@ -5,6 +5,7 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -26,6 +27,7 @@ public class RescuePlatformListener implements Listener {
         super();
     }
     
+    @SuppressWarnings("deprecation")
     @EventHandler
     public void onInteract(PlayerInteractEvent ev) {
         Player player = ev.getPlayer();
@@ -74,6 +76,7 @@ public class RescuePlatformListener implements Listener {
         Location mid = player.getLocation().clone();
         mid.setY(mid.getY()-1.0D);
         
+        Team team = game.getPlayerTeam(player);
         ItemStack usedStack = player.getInventory().getItemInHand();
         usedStack.setAmount(usedStack.getAmount()-1);
         player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
@@ -88,7 +91,11 @@ public class RescuePlatformListener implements Listener {
                 continue;
             }
             
-            placed.setType(Utils.getMaterialByConfig("specials.rescue-platform.block", Material.GLASS));
+            Material configMaterial = Utils.getMaterialByConfig("specials.rescue-platform.block", Material.STAINED_GLASS);
+            placed.setType(configMaterial);
+            if(configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL)) {
+                placed.setData(team.getColor().getDyeColor().getData());
+            }
             
             if(!canBreak) {
                 game.getRegion().addPlacedUnbreakableBlock(placed, null);
