@@ -125,6 +125,8 @@ ingame:
             cancelled: "&cТелепортация отменена"
             start: "Вы будете телепортированы через &c$time$&f second(s). Не двигайтесь с места"
             cancel: "&4Отменить телепортацию"
+        tntsheep:
+            no-target-found: "No target player was found!"
 lobby:
     countdown: "Игра начнётся через $sec$"
     countdowncancel: "Нужно больше игроков. Отчёт времени отменён"

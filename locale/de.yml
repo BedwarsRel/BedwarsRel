@@ -125,6 +125,8 @@ ingame:
             cancelled: "&cDeine Teleportation wurde abgebrochen."
             start: "Du wirst in &c$time$&f Sekunde(n) teleportiert. Bewege dich nicht."
             cancel: "&4Teleportation abbrechen"
+        tntsheep:
+            no-target-found: "Es wurde kein Zielspieler gefunden!"
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"

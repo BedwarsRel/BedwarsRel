@@ -190,6 +190,17 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
+	public Class<?> getVersionRelatedClass(String className) {
+		try {
+			Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + this.getCurrentVersion() + "." + className);
+			return clazz;
+		} catch(Exception ex) {
+			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't find version related class io.github.yannici.bedwars.Com." + this.getCurrentVersion() + "." + className));
+		}
+		
+		return null;
+	}
+	
 	public String getYamlDump(YamlConfiguration config) {
 		try {
 			String fullstring = config.saveToString();

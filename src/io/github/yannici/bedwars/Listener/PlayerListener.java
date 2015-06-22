@@ -95,6 +95,14 @@ public class PlayerListener extends BaseListener {
 
 	private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game,
 			Player player) {
+		
+		if(iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)
+    			|| iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)
+    			|| iee.getPlayer().getItemInHand().getType().equals(Material.DRAGON_EGG)) {
+    		iee.setCancelled(true);
+    		return;
+    	}
+		
 	    if(iee.getRightClicked() != null) {
 	        if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
 	        	List<EntityType> preventClickTypes = Arrays.asList(EntityType.ITEM_FRAME);
