@@ -56,7 +56,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
 	}
 
 	@Override
-	public ITNTSheep spawnSheep(Location location, Player owner, Player target, DyeColor color) {
+	public ITNTSheep spawnSheep(final Location location, Player owner, Player target, final DyeColor color) {
 		final TNTSheep sheep = new TNTSheep(location.getWorld(), target);
 		
 		new BukkitRunnable() {
