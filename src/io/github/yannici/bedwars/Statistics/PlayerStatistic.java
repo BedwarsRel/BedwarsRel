@@ -70,6 +70,11 @@ public class PlayerStatistic extends StoringTable {
 	    
 		return this.uuid.toString();
 	}
+	
+	@DBGetField(name = "name", dbType = "VARCHAR(255)")
+	public String getName() {
+	    return this.player.getName();
+	}
 
 	@DBGetField(name = "kills", dbType = "INT(11)", defaultValue = "0")
 	@StatField(name = "kills", order = 10)
