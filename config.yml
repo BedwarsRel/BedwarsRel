@@ -264,6 +264,12 @@ statistics:
     # configured, the statistics will be stored in Yaml-Files
     storage: yaml
     
+    # Bed destroy kill
+    # type: boolean
+    # If true, kills will only count if the bed is destroyed
+    # If false, every kill will count as a kill
+    bed-destroyed-kills: false
+    
     # Scores configuration
     scores:
         # Score per kill

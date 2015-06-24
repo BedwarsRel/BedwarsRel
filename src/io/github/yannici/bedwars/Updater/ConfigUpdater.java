@@ -124,6 +124,7 @@ public class ConfigUpdater {
 		
 		// <1.2.1>
 		this.excludeShop();
+		Main.getInstance().getConfig().addDefault("statistics.bed-destroyed-kills", false);
 		// </1.2.1>
 	}
 	
