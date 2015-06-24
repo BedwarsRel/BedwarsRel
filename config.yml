@@ -492,6 +492,7 @@ rewards:
     # type: List<string>
     # Commands which will be executed for every player which wins
     # possible placeholders: {player}, {score}
+    # set the first command to "none", no commands will be executed
     player-win:
         - /example {player} 200
     
@@ -500,8 +501,31 @@ rewards:
     # Commands which will be execute for every player in game
     # after the game has end
     # possible placeholders: {player}, {score}
+    # set the first command to "none", no commands will be executed
     player-end-game:
         - /example {player} {score}
+        
+    # Player destroy bed
+    # type: List<string>
+    # Commands which will be executed for the player which
+    # destroys a bed of a enemy team
+    # possible placeholders: {player}, {score}
+    # {score} here is the score how much is configured 
+    # at "statistics => scores => bed-destroy"
+    # set the first command to "none", no commands will be executed
+    player-destroy-bed:
+        - /example {player} {score}
+        
+    # Player kill
+    # type: List<string>
+    # Commands which will be executed for the player which
+    # kills a enemy player
+    # possible placeholders: {player}, {score}
+    # {score} here is the score how much is configured 
+    # at "statistics => scores => kill"
+    # set the first command to "none", no commands will be executed
+    player-kill:
+        - /example {player} 10
 
 # Special items
 specials:

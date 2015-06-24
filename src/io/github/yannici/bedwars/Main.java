@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -194,6 +195,29 @@ public class Main extends JavaPlugin {
         	this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't load shop! Error in parsing shop!"));
             e.printStackTrace();
         }
+	}
+	
+	public void dispatchRewardCommands(List<String> commands, Map<String, String> replacements) {
+		for(String command : commands) {
+			command = command.trim();
+			if(command.equals("")) {
+				continue;
+			}
+			
+			if(command.equalsIgnoreCase("none")) {
+				break;
+			}
+			
+			if(command.startsWith("/")) {
+				command = command.substring(1);
+			}
+			
+			for(Entry<String, String> entry : replacements.entrySet()) {
+				command = command.replace(entry.getKey(), entry.getValue());
+			}
+			
+			Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), command);
+		}
 	}
 	
 	public void saveConfiguration() {

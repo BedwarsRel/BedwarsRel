@@ -125,6 +125,8 @@ public class ConfigUpdater {
 		// <1.2.1>
 		this.excludeShop();
 		Main.getInstance().getConfig().addDefault("statistics.bed-destroyed-kills", false);
+		Main.getInstance().getConfig().addDefault("rewards.player-destroy-bed", Arrays.asList("/example {player} {score}"));
+		Main.getInstance().getConfig().addDefault("rewards.player-kill", Arrays.asList("/example {player} 10"));
 		// </1.2.1>
 	}
 	

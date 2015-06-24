@@ -3,8 +3,10 @@ package io.github.yannici.bedwars.Game;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
@@ -167,9 +169,7 @@ public abstract class GameCycle {
 				    if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
 	                    List<String> commands = new ArrayList<String>();
 	                    commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-win");
-	                    for(String command : commands) {
-	                        Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), this.replaceRewardPlaceholders(command, player));
-	                    }
+	                    Main.getInstance().dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
 	                }
 				    
 				    if(Main.getInstance().statisticsEnabled()) {
@@ -191,9 +191,7 @@ public abstract class GameCycle {
 			    if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
                     List<String> commands = new ArrayList<String>();
                     commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-end-game");
-                    for(String command : commands) {
-                        Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), this.replaceRewardPlaceholders(command, player));
-                    }
+                    Main.getInstance().dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
                 }
 			    
 			    if(Main.getInstance().statisticsEnabled()) {
@@ -212,18 +210,17 @@ public abstract class GameCycle {
 		gameOver.runTaskTimer(Main.getInstance(), 0L, 20L);
 	}
 	
-	private String replaceRewardPlaceholders(String command, Player player) {
-	    command = command.replace("{player}", player.getName());
+	private Map<String, String> getRewardPlaceholders(Player player) {
+		Map<String, String> placeholders = new HashMap<String, String>();
+		
+	    placeholders.put("{player}", player.getName());
 	    if(Main.getInstance().statisticsEnabled()) {
 	        PlayerStatistic statistic = Main.getInstance()
                     .getPlayerStatisticManager().getStatistic(player);
-	        command = command.replace("{score}", String.valueOf(statistic.getCurrentScore()));
-	    }
-	    if(command.startsWith("/")) {
-	        command = command.substring(1, command.length());
+	        placeholders.put("{score}", String.valueOf(statistic.getCurrentScore()));
 	    }
 	    
-	    return command;
+	    return placeholders;
 	}
 
 	public void checkGameOver() {
@@ -356,8 +353,9 @@ public abstract class GameCycle {
 			diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
 
 			boolean onlyOnBedDestroy = Main.getInstance().getBooleanConfig("statistics.bed-destroyed-kill", false);
+			boolean teamIsDead = deathTeam.isDead(this.getGame());
 			if(killer != null) {
-				if((onlyOnBedDestroy && deathTeam.isDead(this.getGame())) 
+				if((onlyOnBedDestroy && teamIsDead) 
 							|| !onlyOnBedDestroy) {
 	                killerPlayer = Main.getInstance().getPlayerStatisticManager()
 	                    .getStatistic(killer);
@@ -369,6 +367,11 @@ public abstract class GameCycle {
 	            }
 			}
 			
+			// dispatch reward commands directly
+			if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+				List<String> commands = Main.getInstance().getConfig().getStringList("rewards.player-kill");
+				Main.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", killer.getName(), "{score}", String.valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
+			}
 		}
 		
 		if (killer == null) {

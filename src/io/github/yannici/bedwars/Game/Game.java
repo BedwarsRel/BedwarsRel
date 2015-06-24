@@ -735,6 +735,12 @@ public class Game {
 			statistic.setDestroyedBeds(statistic.getDestroyedBeds()+1);
 			statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
 		}
+		
+		// reward when destroy bed
+		if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+			List<String> commands = Main.getInstance().getConfig().getStringList("rewards.player-destroy-bed");
+			Main.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", p.getName(), "{score}", String.valueOf(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
+		}
 
 		this.broadcast(ChatColor.RED
 				+ Main._l(
