@@ -840,10 +840,6 @@ public class Game {
 	}
 
 	public void loadItemShopCategories() {
-		if (this.itemshop != null) {
-			return;
-		}
-
 		this.itemshop = MerchantCategory.loadCategories(Main.getInstance().getShopConfig());
 		this.orderedItemshop = this.loadOrderedItemShopCategories();
 	}
