@@ -697,6 +697,14 @@ specials:
         # of the team, which placed the trap)
         play-sound: true
     
+    # TNT-Creature settings
+    tntcreature:
+        # Entity type id
+        # type: int
+        # The entity type-id which should be used as entity
+        # sheep => 91 is default
+        entity-id: 91
+    
 # Sign configuration
 # You can use following placeholder (colors with &):
 # $gamename$ - display game name

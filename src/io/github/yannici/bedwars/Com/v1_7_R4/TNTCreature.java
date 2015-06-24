@@ -3,31 +3,35 @@ package io.github.yannici.bedwars.Com.v1_7_R4;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
+import io.github.yannici.bedwars.Shop.Specials.ITNTCreature;
 
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R4.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R4.entity.CraftEntity;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Player;
 
 import net.minecraft.server.v1_7_R4.AttributeInstance;
+import net.minecraft.server.v1_7_R4.EntityCreature;
 import net.minecraft.server.v1_7_R4.EntityHuman;
-import net.minecraft.server.v1_7_R4.EntitySheep;
 import net.minecraft.server.v1_7_R4.GenericAttributes;
 import net.minecraft.server.v1_7_R4.Navigation;
 
-public class TNTSheep extends EntitySheep implements ITNTSheep {
+public class TNTCreature extends EntityCreature implements ITNTCreature {
 	
 	private World world = null;
 	
-	public TNTSheep(World world, Entity target) {
+	public TNTCreature(World world, Player target) {
 		super(((CraftWorld) world).getHandle());
 		
 		this.world = world;
 		
+		this.locX = target.getLocation().getX();
+		this.locY = target.getLocation().getY();
+		this.locZ = target.getLocation().getZ();
+
 		try {
 			Field b = this.goalSelector.getClass().getDeclaredField("b");
 			b.setAccessible(true);
@@ -44,7 +48,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 		
 		this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, EntityHuman.class, 1D, false));
 		this.setTarget(((CraftEntity) target).getHandle());
-		((Sheep) this.getBukkitEntity()).setTarget((LivingEntity) target);
+		((Creature) this.getBukkitEntity()).setTarget((LivingEntity) target);
 	}
 
 	@Override

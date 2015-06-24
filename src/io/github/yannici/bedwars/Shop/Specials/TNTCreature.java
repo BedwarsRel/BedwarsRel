@@ -8,11 +8,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class TNTSheep extends SpecialItem {
+public class TNTCreature extends SpecialItem {
 	
 	private Player player = null;
 	private Game game = null;
-	private TNTSheep entity = null;
+	private ITNTCreature creature = null;
 
 	@Override
 	public Material getItemMaterial() {
@@ -20,7 +20,7 @@ public class TNTSheep extends SpecialItem {
 	}
 	
 	public int getEntityTypeId() {
-		return 91; // Currently sheep only
+		return Main.getInstance().getIntConfig("specials.tntcreature.entity-id", 91);
 	}
 
 	@Override
@@ -44,8 +44,8 @@ public class TNTSheep extends SpecialItem {
 		return this.player;
 	}
 	
-	public TNTSheep getEntity() {
-		return this.entity;
+	public ITNTCreature getCreature() {
+		return this.creature;
 	}
 
 	public void run() {
@@ -55,6 +55,14 @@ public class TNTSheep extends SpecialItem {
 			return;
 		}
 		
+		try {
+			// register entity
+			//Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTCreatureRegister");
+			//ITNTCreatureRegister register = (ITNTCreatureRegister) tntRegisterClass.newInstance();
+			
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 	}
 	

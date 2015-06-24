@@ -2,7 +2,7 @@ package io.github.yannici.bedwars.Shop.Specials;
 
 import org.bukkit.Location;
 
-public interface ITNTSheep {
+public interface ITNTCreature {
 	
 	public Location getLocation();
 
