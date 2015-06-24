@@ -179,8 +179,6 @@ public class Game {
 			return false;
 		}
 		
-		this.loadItemShopCategories();
-		
 		if(sender instanceof Player) {
 		    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 	                + Main._l("success.gamerun")));
@@ -208,6 +206,9 @@ public class Game {
 		
 		this.isOver = false;
 		this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
+		
+		// load shop categories again (if shop was changed)
+		this.loadItemShopCategories();
 		
 		this.runningTasks.clear();
 		this.cleanUsersInventory();
