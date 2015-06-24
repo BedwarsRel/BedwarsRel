@@ -71,9 +71,12 @@ public class ReloadCommand extends BaseCommand {
 			configUpdater.addConfigs();
 			Main.getInstance().saveConfiguration();
 		    Main.getInstance().loadConfigInUTF();
+		    Main.getInstance().loadShop();
 		    
 			Main.getInstance().reloadLocalization();
 			Main.getInstance().getGameManager().reloadGames();
+		} else if(command.equalsIgnoreCase("shop")) {
+			Main.getInstance().loadShop();
 		} else if(command.equalsIgnoreCase("games")) {
 			Main.getInstance().getGameManager().reloadGames();
 		} else if(command.equalsIgnoreCase("config")) {
