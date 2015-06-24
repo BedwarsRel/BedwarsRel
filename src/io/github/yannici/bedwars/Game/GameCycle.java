@@ -352,7 +352,7 @@ public abstract class GameCycle {
 			diePlayer.setDeaths(diePlayer.getDeaths() + 1);
 			diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
 
-			boolean onlyOnBedDestroy = Main.getInstance().getBooleanConfig("statistics.bed-destroyed-kill", false);
+			boolean onlyOnBedDestroy = Main.getInstance().getBooleanConfig("statistics.bed-destroyed-kills", false);
 			boolean teamIsDead = deathTeam.isDead(this.getGame());
 			if(killer != null) {
 				if((onlyOnBedDestroy && teamIsDead) 
@@ -369,8 +369,11 @@ public abstract class GameCycle {
 			
 			// dispatch reward commands directly
 			if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
-				List<String> commands = Main.getInstance().getConfig().getStringList("rewards.player-kill");
-				Main.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", killer.getName(), "{score}", String.valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
+			    if((onlyOnBedDestroy && teamIsDead) 
+                            || !onlyOnBedDestroy) {
+			        List<String> commands = Main.getInstance().getConfig().getStringList("rewards.player-kill");
+	                Main.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", killer.getName(), "{score}", String.valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
+			    }
 			}
 		}
 		
