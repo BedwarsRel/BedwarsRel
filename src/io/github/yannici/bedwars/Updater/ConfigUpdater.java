@@ -1,8 +1,15 @@
 package io.github.yannici.bedwars.Updater;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import io.github.yannici.bedwars.Main;
 
@@ -114,5 +121,59 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("update-infos", true);
 		Main.getInstance().getConfig().addDefault("lobby-chatformat", "$player$: $msg$");
 		// <1.2.0>
+		
+		// <1.2.1>
+		this.excludeShop();
+		// </1.2.1>
+	}
+	
+	private void excludeShop() {
+		if(Main.getInstance().getConfig().contains("shop")) {
+			ConfigurationSection shop = Main.getInstance().getConfig().getConfigurationSection("shop");
+			
+			// move to new file
+			File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
+			if(file.exists()) {
+				// shop exists already, only remove old section
+				this.removeShopSection();
+				return;
+			}
+			
+			// file not exists, so create one
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// couldn't create file, exit
+				e.printStackTrace();
+				return;
+			}
+			
+			YamlConfiguration config = new YamlConfiguration();
+			config.set("shop", shop);
+			this.saveShopFile(config, file);
+			this.removeShopSection();
+		}
+	}
+	
+	private void saveShopFile(YamlConfiguration config, File file) {
+		try {
+			String data = Main.getInstance().getYamlDump(config);
+			
+			FileOutputStream stream = new FileOutputStream(file);
+			OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
+			
+			try {
+				writer.write(data);
+			} finally {
+				writer.close();
+				stream.close();
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private void removeShopSection() {
+		Main.getInstance().getConfig().set("shop", null);
 	}
 }

@@ -67,6 +67,7 @@ public class Main extends JavaPlugin {
 	private DatabaseManager dbManager = null;
 	private BukkitTask updateChecker = null;
 	private List<Material> breakableTypes = null;
+	private YamlConfiguration shopConfig = null;
 	
 	private boolean isSpigot = false;
 	
@@ -95,6 +96,7 @@ public class Main extends JavaPlugin {
 		configUpdater.addConfigs();
 		this.saveConfiguration();
 	    this.loadConfigInUTF();
+	    this.loadShop();
 		
 	    this.isSpigot = this.getIsSpigot();
 		this.loadDatabase();
@@ -168,6 +170,31 @@ public class Main extends JavaPlugin {
         	this.breakableTypes.add(mat);
         }
     }
+	
+	public void loadShop() {
+		File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
+		if(!file.exists()) {
+			// create default file
+			this.saveResource("shop.yml", false);
+			
+			// wait until it's really saved
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		this.shopConfig = new YamlConfiguration();
+		
+		try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+            this.shopConfig.load(reader);
+        } catch (Exception e) {
+        	this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Couldn't load shop! Error in parsing shop!"));
+            e.printStackTrace();
+        }
+	}
 	
 	public void saveConfiguration() {
 		File file = new File(Main.getInstance().getDataFolder(), "config.yml");
@@ -768,6 +795,10 @@ public class Main extends JavaPlugin {
 		}
 		
 		return Main.locationSerializable;
+	}
+
+	public FileConfiguration getShopConfig() {
+		return this.shopConfig;
 	}
 
 }

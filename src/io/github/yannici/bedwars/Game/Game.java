@@ -36,7 +36,6 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -844,8 +843,7 @@ public class Game {
 			return;
 		}
 
-		FileConfiguration cfg = Main.getInstance().getConfig();
-		this.itemshop = MerchantCategory.loadCategories(cfg);
+		this.itemshop = MerchantCategory.loadCategories(Main.getInstance().getShopConfig());
 		this.orderedItemshop = this.loadOrderedItemShopCategories();
 	}
 
