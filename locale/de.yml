@@ -158,7 +158,7 @@ stats:
     statsnotfound: "Statistik von $player$ nicht gefunden!"
     name: "Name"
     kills: "Kills"
-    deaths: "Tote"
+    deaths: "Tode"
     wins: "Gewonnen"
     loses: "Verloren"
     score: "Punkte"

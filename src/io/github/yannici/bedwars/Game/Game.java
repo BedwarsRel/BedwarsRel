@@ -569,7 +569,7 @@ public class Game {
 				}
 			}
 		} else {
-			if(this.state == GameState.RUNNING) {
+			if(this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
 				if(!team.isDead(this) && !p.isDead()) {
 					if(Main.getInstance().statisticsEnabled()) {
 						statistic.setLoses(statistic.getLoses()+1);

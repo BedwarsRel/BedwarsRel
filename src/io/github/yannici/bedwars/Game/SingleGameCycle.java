@@ -7,6 +7,7 @@ import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
+import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -90,6 +91,12 @@ public class SingleGameCycle extends GameCycle {
 		}
 		
 		if(Main.getInstance().statisticsEnabled()) {
+		    PlayerStatistic statistic = Main.getInstance()
+                    .getPlayerStatisticManager().getStatistic(player);
+            statistic.setScore(statistic.getScore() + statistic.getCurrentScore());
+            statistic.setCurrentScore(0);
+            statistic.store();
+            
 			Main.getInstance().getServer().dispatchCommand(player, "bw stats");
 		}
 		

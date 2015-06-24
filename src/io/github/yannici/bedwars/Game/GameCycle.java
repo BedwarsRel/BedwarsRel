@@ -193,14 +193,6 @@ public abstract class GameCycle {
                     commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-end-game");
                     Main.getInstance().dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
                 }
-			    
-			    if(Main.getInstance().statisticsEnabled()) {
-			        PlayerStatistic statistic = Main.getInstance()
-	                        .getPlayerStatisticManager().getStatistic(player);
-    			    statistic.setScore(statistic.getScore() + statistic.getCurrentScore());
-    			    statistic.setCurrentScore(0);
-    			    statistic.store();
-			    }
 			}
 		}
 		
