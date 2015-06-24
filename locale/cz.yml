@@ -131,7 +131,7 @@ ingame:
             start: "Budes teleportovan za &c$time$&f sekund!"
             cancel: "&4Zrusit Teleport"
         tntsheep:
-            no-target-found: "No target player was found!"
+            no-target-found: "Zadny cil nebyl nalezen!"
 lobby:
     countdown: "Hra zacne za $sec$ sekund!"
     countdowncancel: "Je potreba vice hracu! Odpocet byl zastaven."
