@@ -60,6 +60,7 @@ public class Region {
 		this.placedUnbreakableBlocks = new ArrayList<Block>();
 		this.breakedBlockPower = new HashMap<Block, Boolean>();
 		this.inventories = new ArrayList<Inventory>();
+		this.removingEntities = new ArrayList<Entity>();
 		
 		this.name = name;
 	}

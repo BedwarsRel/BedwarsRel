@@ -1,31 +1,31 @@
-package io.github.yannici.bedwars.Com.v1_7_R3;
+package io.github.yannici.bedwars.Com.v1_7_R1;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import io.github.yannici.bedwars.Shop.Specials.ITNTCreature;
+import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_7_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftEntity;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 
-import net.minecraft.server.v1_7_R3.AttributeInstance;
-import net.minecraft.server.v1_7_R3.EntityCreature;
-import net.minecraft.server.v1_7_R3.EntityHuman;
-import net.minecraft.server.v1_7_R3.GenericAttributes;
-import net.minecraft.server.v1_7_R3.Navigation;
+import net.minecraft.server.v1_7_R1.AttributeInstance;
+import net.minecraft.server.v1_7_R1.EntityCreature;
+import net.minecraft.server.v1_7_R1.EntityHuman;
+import net.minecraft.server.v1_7_R1.GenericAttributes;
+import net.minecraft.server.v1_7_R1.Navigation;
 
-public class TNTCreature extends EntityCreature implements ITNTCreature {
+public class TNTSheep extends EntityCreature implements ITNTSheep {
 	
 	private World world = null;
 	private TNTPrimed primedTnt = null;
 	
-	public TNTCreature(World world, Player target) {
+	public TNTSheep(World world, Player target) {
 		super(((CraftWorld) world).getHandle());
 		
 		this.world = world;
@@ -56,15 +56,20 @@ public class TNTCreature extends EntityCreature implements ITNTCreature {
 	public Location getLocation() {
 		return new Location(this.world, this.locX, this.locY, this.locZ);
 	}
-	
+
 	@Override
 	public void setTNT(TNTPrimed tnt) {
 		this.primedTnt = tnt;
 	}
-	
+
 	@Override
 	public TNTPrimed getTNT() {
 		return this.primedTnt;
 	}
+	
+	@Override
+    public void setPassenger(TNTPrimed tnt) {
+        this.getBukkitEntity().setPassenger(tnt);
+    }
 
 }

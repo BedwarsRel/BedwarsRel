@@ -3,7 +3,7 @@ package io.github.yannici.bedwars.Com.v1_7_R4;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import io.github.yannici.bedwars.Shop.Specials.ITNTCreature;
+import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -20,12 +20,12 @@ import net.minecraft.server.v1_7_R4.EntityHuman;
 import net.minecraft.server.v1_7_R4.GenericAttributes;
 import net.minecraft.server.v1_7_R4.Navigation;
 
-public class TNTCreature extends EntityCreature implements ITNTCreature {
+public class TNTSheep extends EntityCreature implements ITNTSheep {
 	
 	private World world = null;
 	private TNTPrimed primedTnt = null;
 	
-	public TNTCreature(World world, Player target) {
+	public TNTSheep(World world, Player target) {
 		super(((CraftWorld) world).getHandle());
 		
 		this.world = world;
@@ -67,5 +67,9 @@ public class TNTCreature extends EntityCreature implements ITNTCreature {
 	public TNTPrimed getTNT() {
 		return this.primedTnt;
 	}
-
+	
+	@Override
+    public void setPassenger(TNTPrimed tnt) {
+        this.getBukkitEntity().setPassenger(tnt);
+    }
 }

@@ -1,26 +1,27 @@
-package io.github.yannici.bedwars.Com.v1_7_R3;
+package io.github.yannici.bedwars.Com.v1_8_R2;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import net.minecraft.server.v1_7_R3.EntityTypes;
-import net.minecraft.server.v1_7_R3.World;
-import net.minecraft.server.v1_7_R3.EntityTNTPrimed;
+import net.minecraft.server.v1_8_R2.EntityTypes;
+import net.minecraft.server.v1_8_R2.World;
+import net.minecraft.server.v1_8_R2.EntityTNTPrimed;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftCreature;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftTNTPrimed;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R2.entity.CraftTNTPrimed;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 
-import io.github.yannici.bedwars.Shop.Specials.ITNTCreature;
-import io.github.yannici.bedwars.Shop.Specials.ITNTCreatureRegister;
+import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
+import io.github.yannici.bedwars.Shop.Specials.ITNTSheepRegister;
 
-public class TNTCreatureRegister implements ITNTCreatureRegister {
+public class TNTSheepRegister implements ITNTSheepRegister {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -31,22 +32,22 @@ public class TNTCreatureRegister implements ITNTCreatureRegister {
 			Field c = entityTypeClass.getDeclaredField("c");
 			c.setAccessible(true);
 			HashMap c_map = (HashMap) c.get(null);
-			c_map.put("TNTCreature", TNTCreature.class);
+			c_map.put("TNTCreature", TNTSheep.class);
 
 			Field d = entityTypeClass.getDeclaredField("d");
 			d.setAccessible(true);
 			HashMap d_map = (HashMap) d.get(null);
-			d_map.put(TNTCreature.class, "TNTCreature");
+			d_map.put(TNTSheep.class, "TNTCreature");
 
 			Field e = entityTypeClass.getDeclaredField("e");
 			e.setAccessible(true);
 			HashMap e_map = (HashMap) e.get(null);
-			e_map.put(Integer.valueOf(entityId), TNTCreature.class);
+			e_map.put(Integer.valueOf(entityId), TNTSheep.class);
 
 			Field f = entityTypeClass.getDeclaredField("f");
 			f.setAccessible(true);
 			HashMap f_map = (HashMap) f.get(null);
-			f_map.put(TNTCreature.class, Integer.valueOf(entityId));
+			f_map.put(TNTSheep.class, Integer.valueOf(entityId));
 
 			Field g = entityTypeClass.getDeclaredField("g");
 			g.setAccessible(true);
@@ -59,10 +60,10 @@ public class TNTCreatureRegister implements ITNTCreatureRegister {
 	}
 
 	@Override
-	public ITNTCreature spawnCreature(final Location location, Player owner, Player target, final DyeColor color) {
-		final TNTCreature sheep = new TNTCreature(location.getWorld(), target);
+	public ITNTSheep spawnCreature(io.github.yannici.bedwars.Shop.Specials.TNTSheep specialItem, final Location location, Player owner, Player target, final DyeColor color) {
+		final TNTSheep sheep = new TNTSheep(location.getWorld(), target);
 		
-		((World) location.getWorld()).addEntity(sheep, SpawnReason.CUSTOM);
+		((World) (((CraftWorld) location.getWorld()).getHandle())).addEntity(sheep, SpawnReason.CUSTOM);
 		TNTPrimed primedTnt = (TNTPrimed) location.getWorld().spawnEntity(location.add(0.0, 1.0, 0.0), EntityType.PRIMED_TNT);
 		((CraftCreature) sheep.getBukkitEntity()).setPassenger(primedTnt);
 		

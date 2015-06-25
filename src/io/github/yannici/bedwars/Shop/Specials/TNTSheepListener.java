@@ -18,14 +18,14 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class TNTCreatureListener implements Listener {
+public class TNTSheepListener implements Listener {
 	
-	public TNTCreatureListener() {
+	public TNTSheepListener() {
 		try {
 			// register entities
-			Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTCreatureRegister");
-			ITNTCreatureRegister register = (ITNTCreatureRegister) tntRegisterClass.newInstance();
-			register.registerEntities(Main.getInstance().getIntConfig("specials.tntcreature.entity-id", 91));
+			Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTSheepRegister");
+			ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
+			register.registerEntities(Main.getInstance().getIntConfig("specials.tntsheep.entity-id", 91));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,7 +38,7 @@ public class TNTCreatureListener implements Listener {
 		}
 
 		Player player = event.getPlayer();
-		TNTCreature creature = new TNTCreature();
+		TNTSheep creature = new TNTSheep();
 		
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
@@ -98,13 +98,13 @@ public class TNTCreatureListener implements Listener {
 			return;
 		}
 		
-		if(event.getRightClicked() instanceof ITNTCreature) {
+		if(event.getRightClicked() instanceof ITNTSheep) {
 			event.setCancelled(true);
 			return;
 		}
 		
 		if(event.getRightClicked().getVehicle() != null) {
-			if(event.getRightClicked().getVehicle() instanceof ITNTCreature) {
+			if(event.getRightClicked().getVehicle() instanceof ITNTSheep) {
 				event.setCancelled(true);
 				return;
 			}
@@ -119,7 +119,7 @@ public class TNTCreatureListener implements Listener {
 			return;
 		}
 
-		if(event.getEntity() instanceof ITNTCreature) {
+		if(event.getEntity() instanceof ITNTSheep) {
 			event.setDamage(0.0);
 			return;
 		}

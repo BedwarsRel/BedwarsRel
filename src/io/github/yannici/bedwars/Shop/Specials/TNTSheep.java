@@ -8,16 +8,18 @@ import io.github.yannici.bedwars.Game.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-public class TNTCreature extends SpecialItem {
+public class TNTSheep extends SpecialItem {
 	
 	private Player player = null;
 	private Game game = null;
-	private ITNTCreature creature = null;
+	private ITNTSheep creature = null;
 
 	@Override
 	public Material getItemMaterial() {
@@ -49,7 +51,7 @@ public class TNTCreature extends SpecialItem {
 		return this.player;
 	}
 	
-	public ITNTCreature getCreature() {
+	public ITNTSheep getCreature() {
 		return this.creature;
 	}
 
@@ -69,17 +71,14 @@ public class TNTCreature extends SpecialItem {
 			
 			@Override
 			public void run() {
-				final TNTCreature that = TNTCreature.this;
-				Team playerTeam = TNTCreature.this.game.getPlayerTeam(TNTCreature.this.player);
+				final TNTSheep that = TNTSheep.this;
+				Team playerTeam = TNTSheep.this.game.getPlayerTeam(TNTSheep.this.player);
 				
 				try {
 					// register entity
-					Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTCreatureRegister");
-					ITNTCreatureRegister register = (ITNTCreatureRegister) tntRegisterClass.newInstance();
-					TNTCreature.this.creature = register.spawnCreature(start, TNTCreature.this.player, target, playerTeam.getColor().getDyeColor());
-					creature.getTNT().setFuseTicks(Main.getInstance().getIntConfig("specials.tntcreature.fuse-time", 8)*20);
-					creature.getTNT().setIsIncendiary(false);
-					creature.getTNT().setTicksLived(5);
+					Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTSheepRegister");
+					ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
+					TNTSheep.this.creature = register.spawnCreature(that, start, TNTSheep.this.player, target, playerTeam.getColor().getDyeColor());
 					
 					BukkitTask task = new BukkitRunnable() {
 						
@@ -88,26 +87,63 @@ public class TNTCreature extends SpecialItem {
 							that.getGame().removeRunningTask(this);
 							that.getGame().getRegion().removeRemovingEntity(that.getCreature().getTNT());
 							that.getGame().getRegion().removeRemovingEntity(that.getCreature().getTNT().getVehicle());
+							that.getCreature().getTNT().getVehicle().remove();
 						}
-					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntcreature.fuse-time", 8)*20)-5);
+					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)-5);
 					
 					BukkitTask taskEnd = new BukkitRunnable() {
 						
 						@Override
 						public void run() {
+						    that.creature = null;
 							that.getGame().removeRunningTask(this);
 						}
-					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntcreature.fuse-time", 8)*20)+5);
+					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+5);
 					
-					TNTCreature.this.game.addRunningTask(task);
-					TNTCreature.this.game.addRunningTask(taskEnd);
-					TNTCreature.this.game.getRegion().addRemovingEntity(TNTCreature.this.creature.getTNT());
-					TNTCreature.this.game.getRegion().addRemovingEntity(TNTCreature.this.creature.getTNT().getVehicle());
+					TNTSheep.this.game.addRunningTask(task);
+					TNTSheep.this.game.addRunningTask(taskEnd);
+					TNTSheep.this.game.addSpecialItem(that);
 				} catch(Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		}.runTask(Main.getInstance());
+	}
+	
+	public void updateTNT() {
+	    this.game.addRunningTask(new BukkitRunnable() {
+            
+            @Override
+            public void run() {
+                try {
+                    TNTSheep that = TNTSheep.this;
+                    if(that.creature == null) {
+                        this.cancel();
+                        return;
+                    }
+                    
+                    if(that.creature.getTNT() == null) {
+                        this.cancel();
+                        return;
+                    }
+                    
+                    TNTPrimed old = that.creature.getTNT();
+                    int fuse = old.getFuseTicks();
+                    old.remove();
+                    
+                    TNTPrimed primed = (TNTPrimed) that.game.getRegion().getWorld().spawnEntity(old.getLocation(), EntityType.PRIMED_TNT);
+                    primed.setFuseTicks(fuse);
+                    primed.setIsIncendiary(false);
+                    that.creature.setPassenger(primed);
+                    
+                    if(primed.getFuseTicks() < 60) {
+                        this.cancel();
+                    }
+                } catch(Exception ex) {
+                    this.cancel();
+                }
+            }
+        }.runTaskTimer(Main.getInstance(), 60L, 60L));
 	}
 	
 	private Player findTargetPlayer() {
@@ -116,7 +152,8 @@ public class TNTCreature extends SpecialItem {
 		
 		for(Player p : this.game.getTeamPlayers()) {
 			double dist = this.player.getLocation().distance(p.getLocation());
-			if(dist < distance) {
+			if(dist < distance
+			        && p != this.player) {
 				foundPlayer = p;
 			}
 		}

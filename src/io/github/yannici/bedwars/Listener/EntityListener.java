@@ -7,6 +7,7 @@ import java.util.List;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;

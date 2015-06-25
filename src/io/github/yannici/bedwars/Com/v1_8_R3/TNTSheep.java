@@ -1,30 +1,32 @@
-package io.github.yannici.bedwars.Com.v1_8_R1;
+package io.github.yannici.bedwars.Com.v1_8_R3;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import io.github.yannici.bedwars.Shop.Specials.ITNTCreature;
+import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.EntityTargetEvent;
 
-import net.minecraft.server.v1_8_R1.EntityCreature;
-import net.minecraft.server.v1_8_R1.EntityHuman;
-import net.minecraft.server.v1_8_R1.EntityLiving;
-import net.minecraft.server.v1_8_R1.GenericAttributes;
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityLiving;
+import net.minecraft.server.v1_8_R3.EntitySheep;
+import net.minecraft.server.v1_8_R3.GenericAttributes;
 
-public class TNTCreature extends EntityCreature implements ITNTCreature {
+public class TNTSheep extends EntitySheep implements ITNTSheep {
 	
 	private World world = null;
 	private TNTPrimed primedTnt = null;
 	
-	public TNTCreature(World world, Player target) {
+	public TNTSheep(World world, Player target) {
 		super(((CraftWorld) world).getHandle());
 		
 		this.world = world;
@@ -37,14 +39,14 @@ public class TNTCreature extends EntityCreature implements ITNTCreature {
 			Field b = this.goalSelector.getClass().getDeclaredField("b");
 			b.setAccessible(true);
 			b.set(this.goalSelector, new ArrayList<>());
-			this.getAttributeInstance(GenericAttributes.b).setValue(128D);
-			this.getAttributeInstance(GenericAttributes.d).setValue(0.37D);
+			this.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(128D);
+			this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.37D);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, EntityHuman.class, 1D, false));
-		this.setGoalTarget((EntityLiving) target, EntityTargetEvent.TargetReason.OWNER_ATTACKED_TARGET, false);
+		this.setGoalTarget((EntityLiving) (((CraftPlayer) target).getHandle()), EntityTargetEvent.TargetReason.OWNER_ATTACKED_TARGET, false);
 		((Creature) this.getBukkitEntity()).setTarget((LivingEntity) target);
 	}
 
@@ -62,5 +64,10 @@ public class TNTCreature extends EntityCreature implements ITNTCreature {
 	public TNTPrimed getTNT() {
 		return this.primedTnt;
 	}
+
+    @Override
+    public void setPassenger(TNTPrimed tnt) {
+        this.getBukkitEntity().setPassenger(tnt);
+    }
 
 }

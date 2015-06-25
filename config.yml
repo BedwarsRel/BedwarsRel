@@ -698,13 +698,7 @@ specials:
         play-sound: true
     
     # TNT-Creature settings
-    tntcreature:
-        # Entity type id
-        # type: int
-        # The entity type-id which should be used as entity
-        # sheep => 91 is default
-        entity-id: 91
-        
+    tntsheep:
         # TNT fuse time
         # type: double
         # The time in seconds when the TNT will explode
