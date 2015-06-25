@@ -704,6 +704,11 @@ specials:
         # The entity type-id which should be used as entity
         # sheep => 91 is default
         entity-id: 91
+        
+        # TNT fuse time
+        # type: double
+        # The time in seconds when the TNT will explode
+        fuse-time: 8.0
     
 # Sign configuration
 # You can use following placeholder (colors with &):

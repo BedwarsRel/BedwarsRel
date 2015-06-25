@@ -5,14 +5,18 @@ import java.util.HashMap;
 
 import net.minecraft.server.v1_7_R1.EntityTypes;
 import net.minecraft.server.v1_7_R1.World;
+import net.minecraft.server.v1_7_R1.EntityTNTPrimed;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftCreature;
+import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftTNTPrimed;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Shop.Specials.ITNTCreature;
 import io.github.yannici.bedwars.Shop.Specials.ITNTCreatureRegister;
 
@@ -58,15 +62,22 @@ public class TNTCreatureRegister implements ITNTCreatureRegister {
 	public ITNTCreature spawnCreature(final Location location, Player owner, Player target, final DyeColor color) {
 		final TNTCreature sheep = new TNTCreature(location.getWorld(), target);
 		
-		new BukkitRunnable() {
-			
-			@Override
-			public void run() {
-				((World) location.getWorld()).addEntity(sheep, SpawnReason.CUSTOM);
-				//((Sheep) sheep.getBukkitEntity()).setColor(color);
-				sheep.setPosition(location.getX(), location.getY(), location.getZ());
-			}
-		}.runTask(Main.getInstance());
+		((World) location.getWorld()).addEntity(sheep, SpawnReason.CUSTOM);
+		TNTPrimed primedTnt = (TNTPrimed) location.getWorld().spawnEntity(location.add(0.0, 1.0, 0.0), EntityType.PRIMED_TNT);
+		((CraftCreature) sheep.getBukkitEntity()).setPassenger(primedTnt);
+		
+		try {
+			Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
+			sourceField.setAccessible(true);
+			sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftLivingEntity) owner).getHandle());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		//((Sheep) sheep.getBukkitEntity()).setColor(color);
+
+		sheep.setTNT(primedTnt);
+		sheep.setPosition(location.getX(), location.getY(), location.getZ());
 		
 		return sheep;
 	}

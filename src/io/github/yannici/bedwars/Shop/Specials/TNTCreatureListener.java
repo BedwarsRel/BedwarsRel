@@ -1,9 +1,13 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -53,9 +57,17 @@ public class TNTCreatureListener implements Listener {
 			return;
 		}
 		
+		Location startLocation = null;
+		if(event.getClickedBlock() == null
+				|| event.getClickedBlock().getRelative(BlockFace.UP).getType() != Material.AIR) {
+			startLocation = player.getLocation().getBlock().getRelative(Utils.getCardinalDirection(player.getLocation())).getLocation();
+		} else {
+			startLocation = event.getClickedBlock().getRelative(BlockFace.UP).getLocation();
+		}
+		
 		creature.setPlayer(player);
 		creature.setGame(game);
-		creature.run();
+		creature.run(startLocation);
 	}
 
 }

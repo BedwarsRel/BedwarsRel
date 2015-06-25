@@ -128,6 +128,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("rewards.player-destroy-bed", Arrays.asList("/example {player} {score}"));
 		Main.getInstance().getConfig().addDefault("rewards.player-kill", Arrays.asList("/example {player} 10"));
 		Main.getInstance().getConfig().addDefault("specials.tntcreature.entity-id", 91);
+		Main.getInstance().getConfig().addDefault("specials.tntcreature.fuse-time", 8.0);
 		// </1.2.1>
 	}
 	

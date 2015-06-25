@@ -51,11 +51,13 @@ public abstract class SpecialItem {
         SpecialItem.availableSpecials.add(MagnetShoe.class);
         SpecialItem.availableSpecials.add(ProtectionWall.class);
         SpecialItem.availableSpecials.add(WarpPowder.class);
+        SpecialItem.availableSpecials.add(TNTCreature.class);
         Main.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new TrapListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new MagnetShoeListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new ProtectionWallListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new WarpPowderListener(), Main.getInstance());
+        Main.getInstance().getServer().getPluginManager().registerEvents(new TNTCreatureListener(), Main.getInstance());
     }
     
     public static List<Class<? extends SpecialItem>> getSpecials() {

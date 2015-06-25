@@ -11,6 +11,7 @@ import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.EntityTargetEvent;
 
 import net.minecraft.server.v1_8_R2.EntityCreature;
@@ -21,6 +22,7 @@ import net.minecraft.server.v1_8_R2.GenericAttributes;
 public class TNTCreature extends EntityCreature implements ITNTCreature {
 	
 	private World world = null;
+	private TNTPrimed primedTnt = null;
 	
 	public TNTCreature(World world, Player target) {
 		super(((CraftWorld) world).getHandle());
@@ -49,6 +51,16 @@ public class TNTCreature extends EntityCreature implements ITNTCreature {
 	@Override
 	public Location getLocation() {
 		return new Location(this.world, this.locX, this.locY, this.locZ);
+	}
+
+	@Override
+	public void setTNT(TNTPrimed tnt) {
+		this.primedTnt = tnt;
+	}
+	
+	@Override
+	public TNTPrimed getTNT() {
+		return this.primedTnt;
 	}
 
 }

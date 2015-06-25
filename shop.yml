@@ -407,6 +407,17 @@ shop:
                     - "Achtung: Bewegen bricht den Vorgang ab!"
                 item: 289
                 amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 10
+              reward:
+                name: '&cTNT-Schaf'
+                lore:
+                    - "Aktiviere das TNT-Schaf! Es wird"
+                    - "auf den nächsten Gegner zugehen"
+                    - "und nach 8 Sekunden explodieren!"
+                item: MONSTER_EGG
+                amount: 1
     drinks:
         item: POTION
         name: Tränke
