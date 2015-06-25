@@ -9,7 +9,12 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,22 +31,14 @@ public class TNTCreatureListener implements Listener {
 		}
 	}
 	
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent event) {
 		if(event.getPlayer() == null) {
 			return;
 		}
-		
-		if(event.getPlayer().getItemInHand() == null) {
-			return;
-		}
-		
+
 		Player player = event.getPlayer();
 		TNTCreature creature = new TNTCreature();
-		ItemStack inHand = player.getItemInHand();
-		
-		if(inHand.getType() != creature.getItemMaterial()) {
-			return;
-		}
 		
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
@@ -49,7 +46,17 @@ public class TNTCreatureListener implements Listener {
 			return;
 		}
 		
-		if(game.getState() != GameState.RUNNING) {
+		if(game.getState() != GameState.RUNNING
+				&& !game.isStopping()) {
+			return;
+		}
+		
+		if(event.getPlayer().getItemInHand() == null) {
+			return;
+		}
+
+		ItemStack inHand = player.getItemInHand();
+		if(inHand.getType() != creature.getItemMaterial()) {
 			return;
 		}
 		
@@ -68,6 +75,54 @@ public class TNTCreatureListener implements Listener {
 		creature.setPlayer(player);
 		creature.setGame(game);
 		creature.run(startLocation);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onInteractOtherUser(PlayerInteractEntityEvent event) {
+		if(event.getPlayer() == null) {
+			return;
+		}
+
+		Player player = event.getPlayer();
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+		
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() != GameState.RUNNING ) {
+			return;
+		}
+		
+		if(event.getRightClicked() == null) {
+			return;
+		}
+		
+		if(event.getRightClicked() instanceof ITNTCreature) {
+			event.setCancelled(true);
+			return;
+		}
+		
+		if(event.getRightClicked().getVehicle() != null) {
+			if(event.getRightClicked().getVehicle() instanceof ITNTCreature) {
+				event.setCancelled(true);
+				return;
+			}
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onDamageEntity(EntityDamageByEntityEvent event) {
+		if(event.getCause().equals(DamageCause.CUSTOM)
+				|| event.getCause().equals(DamageCause.VOID)
+				|| event.getCause().equals(DamageCause.FALL)) {
+			return;
+		}
+
+		if(event.getEntity() instanceof ITNTCreature) {
+			event.setDamage(0.0);
+			return;
+		}
 	}
 
 }

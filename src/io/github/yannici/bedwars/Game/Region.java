@@ -38,6 +38,7 @@ public class Region {
 	private List<Block> placedUnbreakableBlocks = null;
 	private HashMap<Block, Boolean> breakedBlockPower = null;
 	private HashMap<Block, BlockFace> breakedBlockFace = null;
+	private List<Entity> removingEntities = null;
 	private List<Inventory> inventories = null;
 
 	public Region(Location pos1, Location pos2, String name) {
@@ -131,6 +132,14 @@ public class Region {
 	    }
 	    
 	    return false;
+	}
+	
+	public void addRemovingEntity(Entity removing) {
+		this.removingEntities.add(removing);
+	}
+	
+	public void removeRemovingEntity(Entity removing) {
+		this.removingEntities.remove(removing);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -241,9 +250,17 @@ public class Region {
 		    spawner.getLocation().getChunk().load();
 		}
 		
+		for(Entity entity : this.removingEntities) {
+			entity.remove();
+		}
+		
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {
 			Entity e = entityIterator.next();
+			
+			if(this.removingEntities.contains(e)) {
+				continue;
+			}
 			
 			if(!this.isInRegion(e.getLocation())) {
 			    continue;
@@ -270,6 +287,8 @@ public class Region {
 				le.setRemoveWhenFarAway(false);
 			}
 		}
+		
+		this.removingEntities.clear();
 	}
 
 	public World getWorld() {
