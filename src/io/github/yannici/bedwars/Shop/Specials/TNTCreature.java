@@ -58,18 +58,18 @@ public class TNTCreature extends SpecialItem {
 		usedStack.setAmount(1);
 		this.player.getInventory().remove(usedStack);
 		
+		final Player target = this.findTargetPlayer();
+		if(target == null) {
+			this.player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.specials.tntsheep.no-target-found")));
+			return;
+		}
+		
 		// as task
 		new BukkitRunnable() {
 			
 			@Override
 			public void run() {
 				final TNTCreature that = TNTCreature.this;
-				Player target = TNTCreature.this.findTargetPlayer();
-				if(target == null) {
-					TNTCreature.this.player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.specials.tntsheep.no-target-found")));
-					return;
-				}
-				
 				Team playerTeam = TNTCreature.this.game.getPlayerTeam(TNTCreature.this.player);
 				
 				try {
