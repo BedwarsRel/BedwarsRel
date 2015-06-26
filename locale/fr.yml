@@ -1,8 +1,10 @@
+#Translated by SlyDower, contact me on skype if there are problems (I hope there isn't) : Teo002a
+
 default:
     pages: "Page $current$ sur $max$"
     currently: Actuellement
 errors:
-    argumentslength: "Le nombre d'arguments ne correspond pas à la quantité correcte !"
+    argumentslength: "Le nombre d'arguments ne correspond pas au nombre nécessaire !"
     packagenotfound: "Impossible de récupérer le package $package$ !"
     classnotfound: "Impossible de récupérer la classe $class$ du package $package$ !"
     gameexists: "Une partie de ce nom existe déjà !"
@@ -39,6 +41,7 @@ errors:
     minplayersnumeric: "Le paramètre de joueurs minimals doit être numérique!"
     notinair: "Vous n'êtes pas en l'air!"
     teamfull: "L'équipe est complète, ouvrez à nouveau le menu de sélection d'équipe !"
+    novalidmaterial: "Le type de bloc (material) est incorrect !"
 success:
     gameadded: "Nouvelle partie '$game$' ajoutée avec succès !"
     teamadded: "Equipe '$team$' ajoutée avec succès !"
@@ -59,9 +62,11 @@ success:
     gamerun: "Vous avez démarré la partie, les joueurs peuvent maintenant rejoindre !"
     timeset: "Temps de jeu configuré avec succès !"
     regionnameset: "Nom de région configuré avec succès !"
-    minplayersset: "Joueurs minimum a été configuré avec succès !"
+    minplayersset: "Joueurs minimum configuré avec succès !"
     mainlobbyset: "Le Lobby principal a été configuré avec succès !"
     gametimeset: "Temps de jeu configuré avec succès !"
+    materialset: "Le type de bloc (material) de respawn a été configuré avec succès !"
+    builderset: "Le constructeur de la map a été configuré avec succès et va être affiché en titre !"
 gamecheck:
     LOC_NOT_SET_ERROR: "La position pour la région n'a pas été configurée correctement !"
     TEAM_SIZE_LOW_ERROR: "Vous devez configurer plus d'équipe !"
@@ -84,7 +89,7 @@ ingame:
     serverrestart: "Le serveur redémarre dans $sec$ seconde(s) !"
     gamestarting: "La partie commence ..."
     gamestarted: "La partie '$game$' viens de commencer !"
-    backtolobby: "Back to lobby in $sec$ second(s)!"
+    backtolobby: "Retour au lobby dans $sec$ seconde(s)!"
     spectator: "Spectateur"
     spectate: "&aRegarder"
     teamchest: "Coffre de l'équipe"
@@ -92,19 +97,23 @@ ingame:
     protectionleft: "Vous êtes invulnérable pendant &c$length$&f seconde(s) !"
     protectionend: "Vous êtes maintenant &cvulnerable&f à nouveau !"
     team-dead: "L'équipe $team$ a été détruite !"
+    no-friendlybreak: "&cImpossible de casser des blocs sous vos coéquipiers !"
+    title:
+        map-builder: "Construit par $builder$"
+        win-title: "&6Félicitations!"
+        win-subtitle: "&6La team $team$&6 a gagné en &e$time$"
     shop:
         name: "Boutique"
-        newshop: "Utilisez le nouveau shop"
-        oldshop: "Utilisez l'ancien shop"
+        newshop: "Utilisez la nouvelle boutique"
+        oldshop: "Utilisez l'ancienne boutique"
         fullstackpershift: Multipliez les stacks avec MAJ clic
         onestackpershift: Un stack par MAJ clic
     player:
-        left: "Le joueur $player$ a quitté la partie !"
-        died: "$player$ est mort !"
-        killed: "$killer$ a tué $player$!"
+       left: "Le joueur $player$ a quitté la partie !"
+       died: "$player$ est mort !"
+       killed: "$killer$ a tué $player$!"
     blocks:
         ownbeddestroy: "Vous ne pouvez pas détruire votre propre lit !"
-        beddestroyed: "$player$ a détruit le lit de l'équipe $team$ !"
         beddestroyed: "$player$ a détruit le lit de l'équipe $team$ !"
     specials:
         rescue-platform:
@@ -114,10 +123,12 @@ ingame:
         protection-wall:
             left: "Il reste &c$time$&f avant que vous puissiez utiliser le prochain mur de protection !"
             not-usable-here: "Vous ne pouvez pas utiliser le mur de protection ici !"
-            warp-powder:
+        warp-powder:
             cancelled: "&cVotre téléportation a été annulé !"
             start: "Vous allez être téléporté dans &c$time$&f seconde(s). Ne bougez pas !"
             cancel: "&4Annuler la téléportation"
+        tntsheep:
+            no-target-found: "Aucun joueur cible trouvé !"
 lobby:
     countdown: "La partie commence dans $sec$ seconde(s) Game will start in $sec$ second(s)!"
     countdowncancel: "Plus de joueurs sont nécessaires. Compte à rebours annulé !"
@@ -128,30 +139,31 @@ lobby:
     chooseteam: "Choisir une équipe"
     startgame: "Démarrer la partie"
     gamefull: "La partie est complète !"
+    gamefullpremium: "La partie est déjà pleine de joueurs VIP !"
     teamjoined: "Vous avez rejoins l'équipe $team$ avec succès"
     leavegame: "Quitter la partie"
     playerjoin: "Le joueur $player$ a rejoint la partie !"
     kickedbyvip: "Vous avez été éjecté de la partie par un VIP qui a rejoint la partie complète !"
     notenoughplayers-rule0: "Plus de joueurs sont nécessaires pour commencer la partie !"
     notenoughplayers-rule1: "Toutes les équipes doivent avoir un joueur ou plus pour commencer la partie !"
-    sign:
+sign:
     firstline: "&6[Bedwars]"
     players: "Joueurs"
     gamestate:
         stopped: "&4Arrêté !"
         waiting: "&aEn Attente ..."
-        running: "&2En cours !"
-        full: "&4Complet !"
+        running: "&9En cours !"
+        full: "Complet !"
 stats:
-    header: "Vos statistiques"
+    header: "Statistiques Bedwars"
     kd: "V/M"
-    statsnotfound: "Statistiques de $player$ introuvable!"
+    statsnotfound: "Statistiques de $player$ introuvable !"
     name: "Nom"
     kills: "Victimes"
     deaths: "Morts"
     wins: "Victoires"
     loses: "Défaites"
-    score: "Score"
+    score: "Scores"
     destroyedBeds: "Lits Détruits"
     games: "Parties"
 ressources:
@@ -160,71 +172,77 @@ ressources:
     bronze: "&4Bronze"
 commands:
     addgame:
-        name: "Ajouter une partie"
-        desc: "Ajoute une partie"
+        name: "Ajouter Partie"
+        desc: "Ajoute une nouvelle partie"
     addteam:
-        name: "Ajouter une équipe"
+        name: "Ajouter Equipe"
         desc: "Ajoute une équipe à une partie spécifique"
     join:
-        name: "Rejoindre une partie"
-        desc: "Rejoint une partie spécifique"
+        name: "Rejoindre Partie"
+        desc: "Rejoindre une partie spécifique"
     leave:
-        name: "Quitter la partie"
-        desc: "Quitte la partie en cours"
+        name: "Quitter Partie"
+        desc: "Quitte la partie actuelle"
     save:
-        name: "Sauvegarder la partie"
-        desc: "Sauvegarde une partie (et map) dans un fichier de configuration"
+        name: "Sauvegarder Partie"
+        desc: "Sauvegarde une partie (et map) dans la configuration"
     settarget:
-        name: "Définir la cible"
-        desc: "Définir l'emplacement d'un bloc cible d'équipe"
+        name: "Définir cible"
+        desc: "Définit la position du bloc cible d'une équipe"
     setbed:
-        name: "Définir le lit (Synonyme de settarget)"
-        desc: "Définit la position d'un lit d'équipe (Synonyme de settarget)"
+        name: "Définir lit (synonyme de settarget)"
+        desc: "Définit la position du bloc lit d'une équipe (Synonyme de settarget)"
     setlobby:
-        name: "Définir le Lobby de partie"
-        desc: "Définit la position du Lobby de partie"
+        name: "Définir Lobby"
+        desc: "Définit la position du lobby de jeu"
     setregion:
-        name: "Définir un point de région"
+        name: "Définit un point de région "
         desc: "Définit un point de région pour la partie"
     setspawn:
-        name: "Définir un spawn d'équipe"
-        desc: "Définit le spawn de l'équipe donnée"
+        name: "Définit un spawn d'équipe"
+        desc: "Définit le spawn de l'équipe donné"
     setspawner:
-        name: "Définir un spawner"
-        desc: "Définit la position d'un spawner d'une ressource spécifique"
+        name: "Définir spawner"
+        desc: "Définit la position d'un spawner pour une ressources specifique"
     start:
-        name: "Démarrer une partie"
+        name: "Démarrer partie"
         desc: "Démarre une partie"
     stop:
-        name: "Arrêter une partie"
+        name: "Arrêter partie"
         desc: "Arrête une partie"
     help:
-        name: "Montrer l'aide"
-        desc: "Affiche des informations à propos du plugin et ses commandes"
+        name: "Montrer aide"
+        desc: "Afiiche des information sur le plugin et ses commandes"
     reload:
         name: "Recharger"
         desc: "Recharge les configurations et traductions"
     setmainlobby:
-        name: "Définir le lobby principal"
-        desc: "Définit le lobby principal d'une partie (nécessaires quand mainlobby-enables est définit sur true)"
+        name: "Définir lobby principal"
+        desc: "Définit le lobby principal d'une partie (nécessaire quand mainlobby-enabled est définit sur true)"
     list:
-        name: "Lister les parties"
-        desc: "Affiche une liste de toutes les parties disponibles"
+        name: "Lister parties"
+        desc: "Liste toutes les parties disponibles"
     regionname:
-        name: "Définir le nom de région"
-        desc: "Définit un nom individuel de région (au lieu du nom de monde)"
+        name: "Définir nom de région"
+        desc: "Définit un nom de région individuel (au lieu du nom de monde)"
     removeteam:
-        name: "Supprimer une équipe"
-        desc: "Supprime une équipe d'une partie (seulement en mode arrêtée)"
+        name: "Supprimer équipe"
+        desc: "Supprime une équipe de la partie (seulement en mode arrêté)"
     removegame:
-        name: "Supprimer une partie"
+        name: "Supprimer partie"
         desc: "Supprime une partie et toutes ses configurations"
     clearspawner:
-        name: "Supprimer tous les spawners"
+        name: "Effacer spawners"
         desc: "Supprime tous les spawners de la partie. Sauvegarde nécessaire."
     gametime:
-        name: "Définir le temps de jeu"
+        name: "Définir temps de jeu"
         desc: "Définit le temps de jeu qui doit être utilisé dans le monde de jeu"
     stats:
         name: "Statistiques"
-        desc: "Affiche vos statistiques"
+        desc: "Montre vos statistiques"
+    setbuilder:
+        name: "Définir constructeur de map"
+        desc: "Définit le constructeur de la map qui sera affiché en titre quand la partie commence."
+    setgameblock:
+        name: "Définir bloc de jeu"
+        desc: "Défini le type de bloc qui doit être utilisé pour cette partie au lieu de la configuration 'game-block'. Ecrivez 'DEFAULT' comme type pour utiliser la configuration de nouveau"
