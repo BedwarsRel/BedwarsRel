@@ -188,6 +188,10 @@ public abstract class GameCycle {
 			}
 			
 			for(Player player : this.game.getPlayers()) {
+				if(this.game.isSpectator(player)) {
+					continue;
+				}
+				
 			    if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
                     List<String> commands = new ArrayList<String>();
                     commands = (List<String>)Main.getInstance().getConfig().getList("rewards.player-end-game");
