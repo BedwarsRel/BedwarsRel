@@ -185,6 +185,19 @@ titles:
         # type: double
         # The time how long the subtitle fade-out should take in seconds
         subtitle-fade-out: 1.5
+    
+    # Countdown title
+    countdown:
+        # Enabled countdown title
+        # type: boolean
+        # If true, the countdown will be displayed as title when game is
+        # in countdown (from 10) in lobby
+        enabled: true
+        
+        # Title format
+        # type: string
+        # The format of the countdown (colors addable)
+        format: "&3{countdown}"
 
 # Explode Behaviour
 explodes:

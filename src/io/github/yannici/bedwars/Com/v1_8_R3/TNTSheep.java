@@ -8,7 +8,6 @@ import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.LivingEntity;

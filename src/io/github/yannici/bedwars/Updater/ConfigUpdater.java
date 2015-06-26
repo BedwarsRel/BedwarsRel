@@ -128,6 +128,8 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("rewards.player-destroy-bed", Arrays.asList("/example {player} {score}"));
 		Main.getInstance().getConfig().addDefault("rewards.player-kill", Arrays.asList("/example {player} 10"));
 		Main.getInstance().getConfig().addDefault("specials.tntsheep.fuse-time", 8.0);
+		Main.getInstance().getConfig().addDefault("titles.countdown.enabled", true);
+		Main.getInstance().getConfig().addDefault("titles.countdown.format", "&3{countdown}");
 		// </1.2.1>
 	}
 	

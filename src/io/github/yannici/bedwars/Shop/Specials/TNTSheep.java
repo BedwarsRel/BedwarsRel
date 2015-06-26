@@ -3,6 +3,7 @@ package io.github.yannici.bedwars.Shop.Specials;
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 
 import org.bukkit.ChatColor;
@@ -87,7 +88,6 @@ public class TNTSheep extends SpecialItem {
 							that.getGame().removeRunningTask(this);
 							that.getGame().getRegion().removeRemovingEntity(that.getCreature().getTNT());
 							that.getGame().getRegion().removeRemovingEntity(that.getCreature().getTNT().getVehicle());
-							that.getCreature().getTNT().getVehicle().remove();
 						}
 					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)-5);
 					
@@ -95,10 +95,11 @@ public class TNTSheep extends SpecialItem {
 						
 						@Override
 						public void run() {
-						    that.creature = null;
+							that.getCreature().getTNT().getVehicle().remove();
+							that.getCreature().getTNT().remove();
 							that.getGame().removeRunningTask(this);
 						}
-					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+5);
+					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+1);
 					
 					TNTSheep.this.game.addRunningTask(task);
 					TNTSheep.this.game.addRunningTask(taskEnd);
@@ -111,39 +112,42 @@ public class TNTSheep extends SpecialItem {
 	}
 	
 	public void updateTNT() {
-	    this.game.addRunningTask(new BukkitRunnable() {
+	    new BukkitRunnable() {
             
-            @Override
-            public void run() {
-                try {
-                    TNTSheep that = TNTSheep.this;
-                    if(that.creature == null) {
-                        this.cancel();
-                        return;
-                    }
-                    
-                    if(that.creature.getTNT() == null) {
-                        this.cancel();
-                        return;
-                    }
-                    
-                    TNTPrimed old = that.creature.getTNT();
-                    int fuse = old.getFuseTicks();
-                    old.remove();
-                    
-                    TNTPrimed primed = (TNTPrimed) that.game.getRegion().getWorld().spawnEntity(old.getLocation(), EntityType.PRIMED_TNT);
-                    primed.setFuseTicks(fuse);
-                    primed.setIsIncendiary(false);
-                    that.creature.setPassenger(primed);
-                    
-                    if(primed.getFuseTicks() < 60) {
-                        this.cancel();
-                    }
-                } catch(Exception ex) {
-                    this.cancel();
-                }
-            }
-        }.runTaskTimer(Main.getInstance(), 60L, 60L));
+	        @Override
+	        public void run() {
+	            TNTSheep that = TNTSheep.this;
+	            
+	            if(that.game.isStopping()
+	    				|| that.game.getState() != GameState.RUNNING) {
+	    			return;
+	    		}
+	            
+	            if(that.creature == null) {
+	                return;
+	            }
+	            
+	            if(that.creature.getTNT() == null) {
+	                return;
+	            }
+	            
+	            TNTPrimed old = that.creature.getTNT();
+	            int fuse = old.getFuseTicks();
+	            Location oldLoc = old.getLocation();
+	            old.leaveVehicle();
+	            old.remove();
+	            
+				TNTPrimed primed = (TNTPrimed) that.game.getRegion().getWorld().spawnEntity(oldLoc, EntityType.PRIMED_TNT);
+	            primed.setFuseTicks(fuse);
+	            primed.setIsIncendiary(false);
+	            that.creature.setPassenger(primed);
+	            
+	            if(primed.getFuseTicks() >= 60) {
+	            	that.updateTNT();
+	            }
+	        }
+	        
+	    }.runTaskLater(Main.getInstance(), 60L);
 	}
 	
 	private Player findTargetPlayer() {

@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Game;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
@@ -10,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
@@ -85,10 +87,35 @@ public class GameLobbyCountdown extends BukkitRunnable {
 													+ this.counter
 													+ ChatColor.YELLOW)),
 					players);
-
+			
+			Class<?> titleClass = null;
+			Method showTitle = null;
+			String title = ChatColor.translateAlternateColorCodes('&', Main.getInstance().getStringConfig("titles.countdown.format", "&3{countdown}"));
+			title = title.replace("{countdown}", String.valueOf(this.counter));
+			
+			if(Utils.isSupportingTitles()
+					&& Main.getInstance().getBooleanConfig("titles.countdown.enabled", true)) {
+				try {
+					titleClass = Main.getInstance().getVersionRelatedClass("Title");
+					showTitle = titleClass.getMethod("showTitle", Player.class, String.class, double.class, double.class, double.class);
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			
 			for (Player player : players) {
 				player.playSound(player.getLocation(), Sound.CLICK, 20.0F,
 						20.0F);
+				
+				if(titleClass == null) {
+					continue;
+				}
+				
+				try {
+					showTitle.invoke(null, player, title, 0.2, 0.6, 0.2);
+				} catch(Exception ex) {
+					ex.printStackTrace();
+				}
 			}
 		}
 
