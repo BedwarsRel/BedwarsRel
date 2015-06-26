@@ -9,7 +9,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftTNTPrimed;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -19,6 +22,7 @@ import net.minecraft.server.v1_8_R1.EntityHuman;
 import net.minecraft.server.v1_8_R1.EntityLiving;
 import net.minecraft.server.v1_8_R1.EntitySheep;
 import net.minecraft.server.v1_8_R1.GenericAttributes;
+import net.minecraft.server.v1_8_R1.EntityTNTPrimed;
 
 public class TNTSheep extends EntitySheep implements ITNTSheep {
 	
@@ -67,6 +71,22 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 	@Override
     public void setPassenger(TNTPrimed tnt) {
         this.getBukkitEntity().setPassenger(tnt);
+    }
+	
+	@Override
+    public void remove() {
+        this.getBukkitEntity().remove();
+    }
+	
+	@Override
+    public void setTNTSource(Entity source) {
+        try {
+            Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
+            sourceField.setAccessible(true);
+            sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftEntity) source).getHandle());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

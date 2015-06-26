@@ -8,8 +8,11 @@ import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftTNTPrimed;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -18,6 +21,7 @@ import org.bukkit.event.entity.EntityTargetEvent;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EntitySheep;
+import net.minecraft.server.v1_8_R3.EntityTNTPrimed;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 
 public class TNTSheep extends EntitySheep implements ITNTSheep {
@@ -67,6 +71,22 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
     @Override
     public void setPassenger(TNTPrimed tnt) {
         this.getBukkitEntity().setPassenger(tnt);
+    }
+
+    @Override
+    public void remove() {
+        this.getBukkitEntity().remove();
+    }
+
+    @Override
+    public void setTNTSource(Entity source) {
+        try {
+            Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
+            sourceField.setAccessible(true);
+            sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftEntity) source).getHandle());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
 }

@@ -3,21 +3,22 @@ package io.github.yannici.bedwars.Com.v1_8_R1;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
-import net.minecraft.server.v1_8_R1.EntityTypes;
-import net.minecraft.server.v1_8_R1.World;
 import net.minecraft.server.v1_8_R1.EntityTNTPrimed;
+import net.minecraft.server.v1_8_R1.EntityTypes;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftCreature;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftSheep;
 import org.bukkit.craftbukkit.v1_8_R1.entity.CraftTNTPrimed;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 import io.github.yannici.bedwars.Shop.Specials.ITNTSheepRegister;
 
@@ -28,6 +29,14 @@ public class TNTSheepRegister implements ITNTSheepRegister {
 	public void registerEntities(int entityId) {
 		try {
 			Class<?> entityTypeClass = EntityTypes.class;
+			
+			/*try {
+		      Method a = EntityTypes.class.getDeclaredMethod("a", Class.class, String.class, int.class);
+		      a.setAccessible(true);
+		      a.invoke(a, TNTCreature.class, "TNTCreature", entityId);
+		   } catch (Exception ignored) {
+		      // Do some cleanup and error-handling here.
+		   }*/
 
 			Field c = entityTypeClass.getDeclaredField("c");
 			c.setAccessible(true);
@@ -60,26 +69,35 @@ public class TNTSheepRegister implements ITNTSheepRegister {
 	}
 
 	@Override
-	public ITNTSheep spawnCreature(io.github.yannici.bedwars.Shop.Specials.TNTSheep specialItem, final Location location, Player owner, Player target, final DyeColor color) {
+	public ITNTSheep spawnCreature(final io.github.yannici.bedwars.Shop.Specials.TNTSheep specialItem, final Location location, final Player owner, Player target, final DyeColor color) {
 		final TNTSheep sheep = new TNTSheep(location.getWorld(), target);
 		
-		((World) (((CraftWorld) location.getWorld()).getHandle())).addEntity(sheep, SpawnReason.CUSTOM);
-		TNTPrimed primedTnt = (TNTPrimed) location.getWorld().spawnEntity(location.add(0.0, 1.0, 0.0), EntityType.PRIMED_TNT);
-		((CraftCreature) sheep.getBukkitEntity()).setPassenger(primedTnt);
-		
-		try {
-			Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
-			sourceField.setAccessible(true);
-			sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftLivingEntity) owner).getHandle());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-		//((Sheep) sheep.getBukkitEntity()).setColor(color);
+		((CraftWorld) location.getWorld()).getHandle().addEntity(sheep, SpawnReason.NATURAL);
+        sheep.setPosition(location.getX(), location.getY(), location.getZ());
+        ((CraftSheep) sheep.getBukkitEntity()).setColor(color);
+        
+        new BukkitRunnable() {
+            
+            @Override
+            public void run() {
+                TNTPrimed primedTnt = (TNTPrimed) location.getWorld().spawnEntity(location.add(0.0, 1.0, 0.0), EntityType.PRIMED_TNT);
+                ((CraftSheep) sheep.getBukkitEntity()).setPassenger(primedTnt);
+                sheep.setTNT(primedTnt);
+                
+                try {
+                    Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
+                    sourceField.setAccessible(true);
+                    sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftLivingEntity) owner).getHandle());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                
+                sheep.getTNT().setFuseTicks(Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20);
+                sheep.getTNT().setIsIncendiary(false);
+                specialItem.updateTNT();
+            }
+        }.runTaskLater(Main.getInstance(), 5L);
 
-		sheep.setTNT(primedTnt);
-		sheep.setPosition(location.getX(), location.getY(), location.getZ());
-		
 		return sheep;
 	}
 

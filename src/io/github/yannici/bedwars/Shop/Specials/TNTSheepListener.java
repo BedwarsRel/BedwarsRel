@@ -4,11 +4,13 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -123,6 +125,46 @@ public class TNTSheepListener implements Listener {
 			event.setDamage(0.0);
 			return;
 		}
+		
+		if(!(event.getEntity() instanceof Player)) {
+		    return;
+		}
+		
+		if(!(event.getDamager() instanceof TNTPrimed)) {
+		    return;
+		}
+		
+		TNTPrimed damager = (TNTPrimed) event.getDamager();
+		
+		if(!(damager.getSource() instanceof Player)) {
+		    return;
+		}
+		
+		Player damagerPlayer = (Player) damager.getSource();
+	    Player player = (Player) event.getEntity();
+	    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+	    
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    if(game.isSpectator(damagerPlayer)
+	            || game.isSpectator(player)) {
+	        event.setCancelled(true);
+	        return;
+	    }
+	    
+	    Team damagerTeam = game.getPlayerTeam(damagerPlayer);
+	    Team team = game.getPlayerTeam(player);
+	    
+	    if(damagerTeam.equals(team)) {
+	        event.setCancelled(true);
+	        return;
+	    }
 	}
 
 }

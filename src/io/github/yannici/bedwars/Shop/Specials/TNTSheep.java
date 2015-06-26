@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Game.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
@@ -20,7 +21,7 @@ public class TNTSheep extends SpecialItem {
 	
 	private Player player = null;
 	private Game game = null;
-	private ITNTSheep creature = null;
+	private ITNTSheep sheep = null;
 
 	@Override
 	public Material getItemMaterial() {
@@ -52,14 +53,14 @@ public class TNTSheep extends SpecialItem {
 		return this.player;
 	}
 	
-	public ITNTSheep getCreature() {
-		return this.creature;
+	public ITNTSheep getSheep() {
+		return this.sheep;
 	}
 
 	public void run(final Location start) {
 		ItemStack usedStack = this.player.getItemInHand().clone();
 		usedStack.setAmount(1);
-		this.player.getInventory().remove(usedStack);
+		this.player.getInventory().removeItem(usedStack);
 		
 		final Player target = this.findTargetPlayer();
 		if(target == null) {
@@ -79,15 +80,15 @@ public class TNTSheep extends SpecialItem {
 					// register entity
 					Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTSheepRegister");
 					ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
-					TNTSheep.this.creature = register.spawnCreature(that, start, TNTSheep.this.player, target, playerTeam.getColor().getDyeColor());
+					TNTSheep.this.sheep = register.spawnCreature(that, start, TNTSheep.this.player, target, playerTeam.getColor().getDyeColor());
 					
 					BukkitTask task = new BukkitRunnable() {
 						
 						@Override
 						public void run() {
 							that.getGame().removeRunningTask(this);
-							that.getGame().getRegion().removeRemovingEntity(that.getCreature().getTNT());
-							that.getGame().getRegion().removeRemovingEntity(that.getCreature().getTNT().getVehicle());
+							that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT());
+							that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT().getVehicle());
 						}
 					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)-5);
 					
@@ -95,11 +96,11 @@ public class TNTSheep extends SpecialItem {
 						
 						@Override
 						public void run() {
-							that.getCreature().getTNT().getVehicle().remove();
-							that.getCreature().getTNT().remove();
+							that.getSheep().getTNT().remove();
+							that.getSheep().remove();
 							that.getGame().removeRunningTask(this);
 						}
-					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+1);
+					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+13);
 					
 					TNTSheep.this.game.addRunningTask(task);
 					TNTSheep.this.game.addRunningTask(taskEnd);
@@ -116,35 +117,49 @@ public class TNTSheep extends SpecialItem {
             
 	        @Override
 	        public void run() {
-	            TNTSheep that = TNTSheep.this;
+	            final TNTSheep that = TNTSheep.this;
 	            
 	            if(that.game.isStopping()
 	    				|| that.game.getState() != GameState.RUNNING) {
 	    			return;
 	    		}
 	            
-	            if(that.creature == null) {
+	            if(that.sheep == null) {
 	                return;
 	            }
 	            
-	            if(that.creature.getTNT() == null) {
+	            if(that.sheep.getTNT() == null) {
 	                return;
 	            }
 	            
-	            TNTPrimed old = that.creature.getTNT();
-	            int fuse = old.getFuseTicks();
-	            Location oldLoc = old.getLocation();
+	            TNTPrimed old = that.sheep.getTNT();
+	            final int fuse = old.getFuseTicks();
+	            
+	            if(fuse <= 0) {
+	                return;
+	            }
+	            
+	            final Entity source = old.getSource();
+	            final Location oldLoc = old.getLocation();
 	            old.leaveVehicle();
 	            old.remove();
 	            
-				TNTPrimed primed = (TNTPrimed) that.game.getRegion().getWorld().spawnEntity(oldLoc, EntityType.PRIMED_TNT);
-	            primed.setFuseTicks(fuse);
-	            primed.setIsIncendiary(false);
-	            that.creature.setPassenger(primed);
-	            
-	            if(primed.getFuseTicks() >= 60) {
-	            	that.updateTNT();
-	            }
+	            new BukkitRunnable() {
+                    
+                    @Override
+                    public void run() {
+                        TNTPrimed primed = (TNTPrimed) that.game.getRegion().getWorld().spawnEntity(oldLoc, EntityType.PRIMED_TNT);
+                        primed.setFuseTicks(fuse);
+                        primed.setIsIncendiary(false);
+                        that.sheep.setPassenger(primed);
+                        that.sheep.setTNT(primed);
+                        that.sheep.setTNTSource(source);
+                        
+                        if(primed.getFuseTicks() >= 60) {
+                            that.updateTNT();
+                        }
+                    }
+                }.runTaskLater(Main.getInstance(), 1L);
 	        }
 	        
 	    }.runTaskLater(Main.getInstance(), 60L);

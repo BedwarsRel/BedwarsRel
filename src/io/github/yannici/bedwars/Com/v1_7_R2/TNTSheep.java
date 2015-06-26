@@ -9,30 +9,32 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_7_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_7_R2.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_7_R2.entity.CraftTNTPrimed;
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 
 import net.minecraft.server.v1_7_R2.AttributeInstance;
-import net.minecraft.server.v1_7_R2.EntityCreature;
 import net.minecraft.server.v1_7_R2.EntityHuman;
+import net.minecraft.server.v1_7_R2.EntitySheep;
 import net.minecraft.server.v1_7_R2.GenericAttributes;
 import net.minecraft.server.v1_7_R2.Navigation;
+import net.minecraft.server.v1_7_R2.EntityTNTPrimed;
 
-public class TNTSheep extends EntityCreature implements ITNTSheep {
+public class TNTSheep extends EntitySheep implements ITNTSheep {
 	
 	private World world = null;
 	private TNTPrimed primedTnt = null;
 	
-	public TNTSheep(World world, Player target) {
-		super(((CraftWorld) world).getHandle());
+	public TNTSheep(Location location, Player target) {
+		super(((CraftWorld) location.getWorld()).getHandle());
 		
-		this.world = world;
-		this.locX = target.getLocation().getX();
-		this.locY = target.getLocation().getY();
-		this.locZ = target.getLocation().getZ();
-		
+		this.world = location.getWorld();
+		this.locX = location.getX();
+		this.locY = location.getY();
+		this.locZ = location.getZ();
 		
 		try {
 			Field b = this.goalSelector.getClass().getDeclaredField("b");
@@ -72,4 +74,21 @@ public class TNTSheep extends EntityCreature implements ITNTSheep {
     public void setPassenger(TNTPrimed tnt) {
         this.getBukkitEntity().setPassenger(tnt);
     }
+	
+	@Override
+    public void remove() {
+        this.getBukkitEntity().remove();
+    }
+	
+	@Override
+    public void setTNTSource(Entity source) {
+        try {
+            Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
+            sourceField.setAccessible(true);
+            sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftEntity) source).getHandle());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+	
 }
