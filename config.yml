@@ -716,6 +716,12 @@ specials:
         # type: double
         # The time in seconds when the TNT will explode
         fuse-time: 8.0
+        
+        # Sheep movement speed
+        # type: double
+        # The movement speed of the sheep
+        # Prefered 0.4! Do not set higher than 0.8!!!
+        speed: 0.4
     
 # Sign configuration
 # You can use following placeholder (colors with &):

@@ -130,6 +130,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("specials.tntsheep.fuse-time", 8.0);
 		Main.getInstance().getConfig().addDefault("titles.countdown.enabled", true);
 		Main.getInstance().getConfig().addDefault("titles.countdown.format", "&3{countdown}");
+		Main.getInstance().getConfig().addDefault("specials.tntsheep.speed", 0.4D);
 		// </1.2.1>
 	}
 	

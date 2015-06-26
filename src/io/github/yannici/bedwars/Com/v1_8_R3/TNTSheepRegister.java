@@ -70,7 +70,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
 
 	@Override
 	public ITNTSheep spawnCreature(final io.github.yannici.bedwars.Shop.Specials.TNTSheep specialItem, final Location location, final Player owner, Player target, final DyeColor color) {
-		final TNTSheep sheep = new TNTSheep(location.getWorld(), target);
+		final TNTSheep sheep = new TNTSheep(location, target);
 		
 		((CraftWorld) location.getWorld()).getHandle().addEntity(sheep, SpawnReason.NATURAL);
         sheep.setPosition(location.getX(), location.getY(), location.getZ());

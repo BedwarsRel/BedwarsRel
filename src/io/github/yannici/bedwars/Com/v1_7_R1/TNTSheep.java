@@ -3,6 +3,7 @@ package io.github.yannici.bedwars.Com.v1_7_R1;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
 
 import org.bukkit.Location;
@@ -45,7 +46,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 			AttributeInstance ai = (AttributeInstance) field.get(this.getNavigation());
 			ai.setValue(128);
 			this.getAttributeInstance(GenericAttributes.b).setValue(128D);
-			this.getAttributeInstance(GenericAttributes.d).setValue(0.37D);
+			this.getAttributeInstance(GenericAttributes.d).setValue(Main.getInstance().getConfig().getDouble("specials.tntsheep.speed", 0.4D));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
