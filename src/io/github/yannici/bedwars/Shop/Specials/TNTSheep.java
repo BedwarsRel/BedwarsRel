@@ -63,7 +63,8 @@ public class TNTSheep extends SpecialItem {
 		usedStack.setAmount(1);
 		this.player.getInventory().removeItem(usedStack);
 		
-		Player targetPlayer = this.findTargetPlayer();
+		final Team playerTeam = this.game.getPlayerTeam(this.player);
+		Player targetPlayer = this.findTargetPlayer(playerTeam);
 		if(targetPlayer == null) {
 			this.player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.specials.tntsheep.no-target-found")));
 			return;
@@ -85,7 +86,6 @@ public class TNTSheep extends SpecialItem {
 			@Override
 			public void run() {
 				final TNTSheep that = TNTSheep.this;
-				Team playerTeam = TNTSheep.this.game.getPlayerTeam(TNTSheep.this.player);
 				
 				try {
 					// register entity
@@ -176,11 +176,16 @@ public class TNTSheep extends SpecialItem {
 	    }.runTaskLater(Main.getInstance(), 60L);
 	}
 	
-	private Player findTargetPlayer() {
+	private Player findTargetPlayer(Team playerTeam) {
 		Player foundPlayer = null;
 		double distance = Double.MAX_VALUE;
 		
 		for(Player p : this.game.getTeamPlayers()) {
+			Team team = this.game.getPlayerTeam(p);
+			if(team.equals(playerTeam)) {
+				continue;
+			}
+			
 			double dist = this.player.getLocation().distance(p.getLocation());
 			if(dist < distance
 			        && p != this.player) {
