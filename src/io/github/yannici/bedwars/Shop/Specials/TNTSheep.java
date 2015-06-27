@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Shop.Specials;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Events.BedwarsUseTNTSheepEvent;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
@@ -57,16 +58,26 @@ public class TNTSheep extends SpecialItem {
 		return this.sheep;
 	}
 
-	public void run(final Location start) {
+	public void run(Location startLocation) {
 		ItemStack usedStack = this.player.getItemInHand().clone();
 		usedStack.setAmount(1);
 		this.player.getInventory().removeItem(usedStack);
 		
-		final Player target = this.findTargetPlayer();
-		if(target == null) {
+		Player targetPlayer = this.findTargetPlayer();
+		if(targetPlayer == null) {
 			this.player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.specials.tntsheep.no-target-found")));
 			return;
 		}
+		
+		BedwarsUseTNTSheepEvent event = new BedwarsUseTNTSheepEvent(this.game, this.player, targetPlayer, startLocation);
+		Main.getInstance().getServer().getPluginManager().callEvent(event);
+		
+		if(event.isCancelled()) {
+			return;
+		}
+		
+		final Player target = event.getTargetPlayer();
+		final Location start = event.getStartLocation();
 		
 		// as task
 		new BukkitRunnable() {
