@@ -161,7 +161,8 @@ public class TNTSheepListener implements Listener {
 	    Team damagerTeam = game.getPlayerTeam(damagerPlayer);
 	    Team team = game.getPlayerTeam(player);
 	    
-	    if(damagerTeam.equals(team)) {
+	    if(damagerTeam.equals(team)
+	    		&& !damagerTeam.getScoreboardTeam().allowFriendlyFire()) {
 	        event.setCancelled(true);
 	        return;
 	    }
