@@ -29,7 +29,7 @@ public class TNTSheep extends SpecialItem {
 	}
 	
 	public int getEntityTypeId() {
-		return Main.getInstance().getIntConfig("specials.tntcreature.entity-id", 91);
+		return 91;
 	}
 
 	@Override
