@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 public class BungeeGameCycle extends GameCycle {
 
@@ -80,8 +82,7 @@ public class BungeeGameCycle extends GameCycle {
 		if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
 			if (this.getGame().getState() != GameState.RUNNING
 					|| !Main.getInstance().spectationEnabled()) {
-				this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
-						p);
+				this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p);
 				new BukkitRunnable() {
 
 					@Override
@@ -91,7 +92,7 @@ public class BungeeGameCycle extends GameCycle {
 								ChatWriter.pluginMessage(ChatColor.RED
 										+ Main._l("lobby.gamefull")));
 					}
-				}.runTaskLater(Main.getInstance(), 40L);
+				}.runTaskLater(Main.getInstance(), 60L);
 
 				return false;
 			}
@@ -111,7 +112,7 @@ public class BungeeGameCycle extends GameCycle {
 									ChatWriter.pluginMessage(ChatColor.RED
 											+ Main._l("lobby.gamefullpremium")));
 						}
-					}.runTaskLater(Main.getInstance(), 40L);
+					}.runTaskLater(Main.getInstance(), 60L);
 					return false;
 				}
 				
@@ -133,7 +134,7 @@ public class BungeeGameCycle extends GameCycle {
 								kickedPlayer,
 								ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
 					}
-				}.runTaskLater(Main.getInstance(), 40L);
+				}.runTaskLater(Main.getInstance(), 60L);
 			} else {
 				if(this.getGame().getState() == GameState.RUNNING
 						&& !Main.getInstance().spectationEnabled()) {
@@ -148,7 +149,7 @@ public class BungeeGameCycle extends GameCycle {
 									ChatWriter.pluginMessage(ChatColor.RED
 											+ Main._l("lobby.gamefull")));
 						}
-					}.runTaskLater(Main.getInstance(), 40L);
+					}.runTaskLater(Main.getInstance(), 60L);
 					return false;
 				}
 			}
@@ -158,46 +159,43 @@ public class BungeeGameCycle extends GameCycle {
 	}
 
 	private void sendBungeeMessage(Player player, String message) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(b);
-
-		try {
-			out.writeUTF("Message");
-			out.writeUTF(player.getName());
-			out.writeUTF(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-
-		if (b != null) {
-			player.sendPluginMessage(Main.getInstance(), "BungeeCord",
-					b.toByteArray());
-		}
+	    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+	    
+	    out.writeUTF("Message");
+	    out.writeUTF(player.getName());
+	    out.writeUTF(message);
+	    
+	    player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
 	}
 
-	private void bungeeSendToServer(String server, Player player) {
+	private void bungeeSendToServer(final String server, final Player player) {
 		if (server == null) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.bungeenoserver")));
 			return;
 		}
 
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(b);
+		new BukkitRunnable() {
+            
+            @Override
+            public void run() {
+                ByteArrayOutputStream b = new ByteArrayOutputStream();
+                DataOutputStream out = new DataOutputStream(b);
 
-		try {
-			out.writeUTF("Connect");
-			out.writeUTF(server);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
+                try {
+                    out.writeUTF("Connect");
+                    out.writeUTF(server);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
 
-		if (b != null) {
-			player.sendPluginMessage(Main.getInstance(), "BungeeCord",
-					b.toByteArray());
-		}
+                if (b != null) {
+                    player.sendPluginMessage(Main.getInstance(), "BungeeCord",
+                            b.toByteArray());
+                }
+            }
+        }.runTaskLater(Main.getInstance(), 20L);
 	}
 
 	@Override
