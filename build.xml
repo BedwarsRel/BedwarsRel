@@ -44,6 +44,7 @@
 			<fileset dir="./">
 			    <include name="config.yml" />
 				<include name="plugin.yml" />
+				<include name="shop.yml" />
 				<include name="**/locale/**" />
 				<include name="**/lib/mchange-commons-java-0.2.9.jar" />
 				<include name="**/lib/c3p0-0.9.5.jar" />
