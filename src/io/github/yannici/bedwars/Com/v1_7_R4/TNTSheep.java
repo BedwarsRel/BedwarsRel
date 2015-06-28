@@ -29,6 +29,10 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 	private World world = null;
 	private TNTPrimed primedTnt = null;
 	
+	public TNTSheep(net.minecraft.server.v1_7_R4.World world) {
+        super(world);
+    }
+	
 	public TNTSheep(Location location, Player target) {
 		super(((CraftWorld) location.getWorld()).getHandle());
 		

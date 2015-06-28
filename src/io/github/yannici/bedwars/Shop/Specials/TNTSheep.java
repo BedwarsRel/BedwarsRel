@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public class TNTSheep extends SpecialItem {
 	
@@ -93,28 +92,25 @@ public class TNTSheep extends SpecialItem {
 					ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
 					TNTSheep.this.sheep = register.spawnCreature(that, start, TNTSheep.this.player, target, playerTeam.getColor().getDyeColor());
 					
-					BukkitTask task = new BukkitRunnable() {
+					new BukkitRunnable() {
 						
 						@Override
 						public void run() {
-							that.getGame().removeRunningTask(this);
+						    that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT().getVehicle());
 							that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT());
-							that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT().getVehicle());
 						}
 					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)-5);
 					
-					BukkitTask taskEnd = new BukkitRunnable() {
+					new BukkitRunnable() {
 						
 						@Override
 						public void run() {
 							that.getSheep().getTNT().remove();
 							that.getSheep().remove();
-							that.getGame().removeRunningTask(this);
+							that.getGame().removeSpecialItem(that);
 						}
 					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+13);
 					
-					TNTSheep.this.game.addRunningTask(task);
-					TNTSheep.this.game.addRunningTask(taskEnd);
 					TNTSheep.this.game.addSpecialItem(that);
 				} catch(Exception ex) {
 					ex.printStackTrace();
