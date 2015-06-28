@@ -345,11 +345,15 @@ public abstract class GameCycle {
 			diePlayer = Main.getInstance().getPlayerStatisticManager()
 					.getStatistic(player);
 
-			diePlayer.setDeaths(diePlayer.getDeaths() + 1);
-			diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
-
 			boolean onlyOnBedDestroy = Main.getInstance().getBooleanConfig("statistics.bed-destroyed-kills", false);
 			boolean teamIsDead = deathTeam.isDead(this.getGame());
+			
+			if((onlyOnBedDestroy && teamIsDead) 
+                    || !onlyOnBedDestroy) {
+			    diePlayer.setDeaths(diePlayer.getDeaths() + 1);
+	            diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+			}
+            
 			if(killer != null) {
 				if((onlyOnBedDestroy && teamIsDead) 
 							|| !onlyOnBedDestroy) {
