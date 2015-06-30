@@ -6,7 +6,9 @@ import io.github.yannici.bedwars.UUIDFetcher;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Statistics.StatField;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -165,14 +167,18 @@ public class StatsCommand extends BaseCommand implements ICommand {
         
         for(StatField statField : ordered) {
             Method valueMethod = values.get(statField);
-            
             try {
-                player.sendMessage(ChatWriter.pluginMessage(ChatColor.GRAY
+				Object value = valueMethod.invoke(statistic);
+				if(statField.name().equals("kd")) {
+					value = (BigDecimal.valueOf(Double.valueOf(value.toString())).setScale(2, BigDecimal.ROUND_HALF_UP)).toPlainString();
+				}
+				
+				player.sendMessage(ChatWriter.pluginMessage(ChatColor.GRAY
                         + Main._l("stats." + statField.name()) + ": "
-                        + ChatColor.YELLOW + valueMethod.invoke(statistic, new Object[]{})));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                        + ChatColor.YELLOW + value.toString()));
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
         }
     }
 

@@ -94,7 +94,8 @@ public class PlayerStatistic extends StoringTable {
 	}
 	
 	@StatField(name = "kd", order = 25)
-	public String getKD() {
+	@DBGetField(name = "kd", dbType = "DOUBLE", defaultValue = "0.0")
+	public double getKD() {
 	    double kd = 0.0;
         if(this.getDeaths() == 0) {
             kd = this.getKills();
@@ -104,8 +105,7 @@ public class PlayerStatistic extends StoringTable {
             kd = ((double)this.getKills())/((double)this.getDeaths());
         }
         
-        BigDecimal bd = BigDecimal.valueOf(kd).setScale(2, BigDecimal.ROUND_HALF_UP);
-        return bd.toPlainString();
+        return kd;
 	}
 
 	@DBSetField(name = "deaths")
