@@ -132,6 +132,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("titles.countdown.format", "&3{countdown}");
 		Main.getInstance().getConfig().addDefault("specials.tntsheep.speed", 0.4D);
 		// </1.2.1>
+		
+		// <1.2.2>
+		Main.getInstance().getConfig().addDefault("global-autobalance", false);
+		// </1.2.2>
 	}
 	
 	private void excludeShop() {

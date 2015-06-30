@@ -40,6 +40,7 @@ errors:
     notinair: "Du bist nicht in der Luft!"
     teamfull: "Das Team ist voll, bitte öffne die Teamauswahl erneut!"
     novalidmaterial: "Angegebene Block-Typ (Material) ist nicht korrekt!"
+    wrongvalueonoff: "Falscher Parameter! Einschalten mit: true,on,1 - Ausschalten mit: false,off,0"
 success:
     gameadded: "Neues Spiel '$game$' erfolgreich hinzugefügt!"
     teamadded: "Team $team$ erfolgreich hinzugefügt!"
@@ -65,6 +66,8 @@ success:
     gametimeset: "Die Spiel-Zeit wurde erfolgreich gesetzt!"
     materialset: "Der Respawn-Block Typ wurde erfolgreich für dieses Spiel gesetzt!"
     builderset: "Der Builder der Map wurde erfolgreich gesetzt!"
+    autobalanceseton: "Autobalance wurde erfolgreich eingeschaltet!"
+    autobalancesetoff: "Autobalance wurde erfolgreich &causgeschaltet&a!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Die Regionspunkte wurden nicht korrekt gesetzt!"
     TEAM_SIZE_LOW_ERROR: "Du musst mehr Teams hinzufügen!"
@@ -242,5 +245,8 @@ commands:
         name: "Setzt Map-Info Bauer"
         desc: "Setzt den Bauer der Map eines bestimmten Spiels, der im Title beim Start des Spiels angezeigt wird."
     setgameblock:
-        name: "Set game block"
+        name: "Spiel-lock setzen"
         desc: "Setzt den Respawn Block-Typ. Dies überschreibt die 'game-block' config für dieses eine Spiel. Schreibe 'DEFAULT' als Typ, um den Typ aus der Config zu verwenden"
+    setautobalance:
+        name: "Autobalance setzen"
+        desc: "Wenn 'global-autobalance' auf 'false' gestellt, kann man hiermit das Autobalancing pro Spiel setzen"

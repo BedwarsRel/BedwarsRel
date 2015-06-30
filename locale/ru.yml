@@ -40,6 +40,7 @@ errors:
     notinair: "Вы не в воздухе"
     teamfull: "В этой команде уже нет свободного места"
     novalidmaterial: "Given block type (material) isn't correct!"
+    wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
 success:
     gameadded: "Новая игра '$game$' успешно создана"
     teamadded: "Команда '$team$' успешно добавлена"
@@ -65,6 +66,8 @@ success:
     gametimeset: "Игровое время установлено"
     materialset: "The respawn block type (material) was set succesfully!"
     builderset: "The builder for the map was set successfully and will display in title!"
+    autobalanceseton: "Autobalance was successfully turned on!"
+    autobalancesetoff: "Autobalance was successfully turned &coff&a!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Места для региона небыли установлены правельно"
     TEAM_SIZE_LOW_ERROR: "Вы должны установить больше команд"
@@ -244,3 +247,6 @@ commands:
     setgameblock:
         name: "Set game block"
         desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    setautobalance:
+        name: "Set autobalance"
+        desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"

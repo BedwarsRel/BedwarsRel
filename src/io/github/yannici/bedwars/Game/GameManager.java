@@ -257,6 +257,10 @@ public class GameManager {
 			game.setRegionName(regionName);
 			game.setRegion(new Region(loc1, loc2, regionName));
 			
+			if(cfg.contains("autobalance")) {
+				game.setAutobalance(cfg.getBoolean("autobalance"));
+			}
+			
 			if (cfg.contains("minplayers")) {
 				game.setMinPlayers(cfg.getInt("minplayers"));
 			}

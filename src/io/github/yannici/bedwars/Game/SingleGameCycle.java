@@ -104,7 +104,7 @@ public class SingleGameCycle extends GameCycle {
 		
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
         storage.clean();
-        storage.loadLobbyInventory();
+        storage.loadLobbyInventory(this.getGame());
         
         player.setScoreboard(this.getGame().getScoreboard());
 	}

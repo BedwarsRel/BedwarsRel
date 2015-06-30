@@ -45,6 +45,7 @@ errors:
     notinair: "Nejsi ve vzduchu!"
     teamfull: "Tym je plny, otevri si znovu vyberove menu!"
     novalidmaterial: "Blok (material) neni spravny!"
+    wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -70,6 +71,8 @@ success:
     gametimeset: "Cas hry uspesne nastaven!"
     materialset: "Respawn blok (material) byl uspesne nastaven!"
     builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v "title"!"
+    autobalanceseton: "Autobalance was successfully turned on!"
+    autobalancesetoff: "Autobalance was successfully turned &coff&a!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -249,3 +252,6 @@ commands:
     setgameblock:
         name: "Nastavit herni blok"
         desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    setautobalance:
+        name: "Set autobalance"
+        desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"

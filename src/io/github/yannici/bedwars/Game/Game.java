@@ -76,6 +76,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private boolean autobalance = false;
+	
 	private List<String> recordHolders = null;
 	private int record = 0;
 	private int length = 0;
@@ -135,6 +137,8 @@ public class Game {
 		this.recordHolders = new ArrayList<String>();
 		
 		this.playerSettings = new HashMap<Player, PlayerSettings>();
+		
+		this.autobalance = Main.getInstance().getBooleanConfig("global-autobalance", false);
 		
 		if (Main.getInstance().isBungee()) {
 			this.cycle = new BungeeGameCycle(this);
@@ -386,6 +390,15 @@ public class Game {
 		Team theTeam = new Team(name, color, maxPlayers, newTeam);
 		this.teams.put(name, theTeam);
 	}
+	
+	public boolean isAutobalanceEnabled()
+	{
+		if(Main.getInstance().getBooleanConfig("global-autobalance", false)) {
+			return true;
+		}
+		
+		return this.autobalance;
+	}
 
 	public void addTeam(Team team) {
 		org.bukkit.scoreboard.Team newTeam = this.scoreboard
@@ -511,14 +524,20 @@ public class Game {
             this.displayMapInfo(p);
 		} else {
 			this.broadcast(ChatColor.GREEN + Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
-			this.freePlayers.add(p);
+			
+			if(!this.isAutobalanceEnabled()) {
+				this.freePlayers.add(p);
+			} else {
+				Team team = this.getLowestTeam();
+				team.addPlayer(p);
+			}
 			
 			PlayerStorage storage = this.addPlayerStorage(p);
 			storage.store();
 			storage.clean();
 
 			p.teleport(this.lobby);
-			storage.loadLobbyInventory();
+			storage.loadLobbyInventory(this);
 			
 			if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
 				this.displayRecord(p);
@@ -1423,6 +1442,10 @@ public class Game {
 	public void setLength(int length) {
 		this.length = length;
 	}
+	
+	public void setAutobalance(boolean autobalance) {
+		this.autobalance = autobalance;
+	}
 
 	/*
 	 * PRIVATE
@@ -1547,6 +1570,8 @@ public class Game {
 		if (this.mainLobby != null) {
 			yml.set("mainlobby", Utils.locationSerialize(this.mainLobby));
 		}
+		
+		yml.set("autobalance", this.autobalance);
 
 		yml.set("spawner", this.resSpawner);
 		yml.createSection("teams", this.teams);

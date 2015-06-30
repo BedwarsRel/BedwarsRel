@@ -33,6 +33,11 @@ plugin-metrics: true
 # in global chat
 global-messages: true
 
+# Global autobalance
+# type: boolan
+# Enables autobalancing in every game
+global-autobalance: false
+
 # Game length
 # Type: int
 # The time the game should maximum run (in minutes). When the countdown expires

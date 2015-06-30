@@ -42,6 +42,7 @@ errors:
     notinair: "Vous n'êtes pas en l'air!"
     teamfull: "L'équipe est complète, ouvrez à nouveau le menu de sélection d'équipe !"
     novalidmaterial: "Le type de bloc (material) est incorrect !"
+    wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
 success:
     gameadded: "Nouvelle partie '$game$' ajoutée avec succès !"
     teamadded: "Equipe '$team$' ajoutée avec succès !"
@@ -67,6 +68,8 @@ success:
     gametimeset: "Temps de jeu configuré avec succès !"
     materialset: "Le type de bloc (material) de respawn a été configuré avec succès !"
     builderset: "Le constructeur de la map a été configuré avec succès et va être affiché en titre !"
+    autobalanceseton: "Autobalance was successfully turned on!"
+    autobalancesetoff: "Autobalance was successfully turned &coff&a!"
 gamecheck:
     LOC_NOT_SET_ERROR: "La position pour la région n'a pas été configurée correctement !"
     TEAM_SIZE_LOW_ERROR: "Vous devez configurer plus d'équipe !"
@@ -246,3 +249,6 @@ commands:
     setgameblock:
         name: "Définir bloc de jeu"
         desc: "Défini le type de bloc qui doit être utilisé pour cette partie au lieu de la configuration 'game-block'. Ecrivez 'DEFAULT' comme type pour utiliser la configuration de nouveau"
+    setautobalance:
+        name: "Set autobalance"
+        desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"

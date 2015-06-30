@@ -124,13 +124,18 @@ public class PlayerStorage {
         return this.left;
     }
 
-    public void loadLobbyInventory() {
-        // Choose team (Wool)
-        ItemStack teamSelection = new ItemStack(Material.BED, 1);
-        ItemMeta im = teamSelection.getItemMeta();
-        im.setDisplayName(Main._l("lobby.chooseteam"));
-        teamSelection.setItemMeta(im);
-        this.player.getInventory().addItem(teamSelection);
+    public void loadLobbyInventory(Game game) {
+    	ItemMeta im = null;
+    	
+    	// choose team only when autobalance is disabled
+    	if(!game.isAutobalanceEnabled()) {
+    		// Choose team (Wool)
+            ItemStack teamSelection = new ItemStack(Material.BED, 1);
+            im = teamSelection.getItemMeta();
+            im.setDisplayName(Main._l("lobby.chooseteam"));
+            teamSelection.setItemMeta(im);
+            this.player.getInventory().addItem(teamSelection);
+    	}
 
         // Leave Game (Slimeball)
         ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);

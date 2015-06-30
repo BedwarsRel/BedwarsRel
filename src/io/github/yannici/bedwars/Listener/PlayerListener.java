@@ -817,7 +817,10 @@ public class PlayerListener extends BaseListener {
 			switch (interactingMaterial) {
 			case BED:
 				pie.setCancelled(true);
-				g.getPlayerStorage(player).openTeamSelection(g);
+				if(!g.isAutobalanceEnabled()) {
+					g.getPlayerStorage(player).openTeamSelection(g);
+				}
+				
 				break;
 			case DIAMOND:
 				pie.setCancelled(true);
