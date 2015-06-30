@@ -128,7 +128,7 @@ public class EntityListener extends BaseListener {
 		ede.setCancelled(true);
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
     public void onExplodeDestroy(EntityExplodeEvent eev) {
 	    if(eev.isCancelled()) {
 	        return;
