@@ -416,7 +416,7 @@ public class PlayerListener extends BaseListener {
 	        form = form.replace("$all$", Main._l("ingame.all") + ChatColor.RESET);
 	    }
 	    
-	    form = form.replace("$player$", "%1$s" + ChatColor.RESET);
+	    form = form.replace("$player$", ((!isSpectator && team != null) ? team.getChatColor() : "") + "%1$s" + ChatColor.RESET);
 	    form = form.replace("$msg$", "%2$s");
 	    
 	    if(isSpectator) {
