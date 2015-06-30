@@ -77,6 +77,7 @@ public class TNTSheepListener implements Listener {
 		creature.setPlayer(player);
 		creature.setGame(game);
 		creature.run(startLocation);
+		event.setCancelled(true);
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
