@@ -9,6 +9,7 @@ import java.util.List;
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
+import io.github.yannici.bedwars.Game.BungeeGameCycle;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameLobbyCountdown;
@@ -85,7 +86,11 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 
-			firstGame.playerJoins(player);
+			if(!firstGame.playerJoins(player)) {
+				if(firstGame.getCycle() instanceof BungeeGameCycle) {
+					((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
+				}
+			}
 		}
 	}
 

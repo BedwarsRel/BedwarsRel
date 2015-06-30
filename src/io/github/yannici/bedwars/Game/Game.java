@@ -482,15 +482,27 @@ public class Game {
 
 	public boolean playerJoins(Player p) {
 		if(this.state == GameState.STOPPED) {
-			p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+			if(this.cycle instanceof BungeeGameCycle) {
+				((BungeeGameCycle) this.cycle).sendBungeeMessage(p, ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.cantjoingame")));
+			} else {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("errors.cantjoingame")));
+			}
 			return false;
 		}
 		
 		if (this.state == GameState.RUNNING
 				&& !Main.getInstance().spectationEnabled()) {
-			p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.cantjoingame")));
+			
+			if(this.cycle instanceof BungeeGameCycle) {
+				((BungeeGameCycle) this.cycle).sendBungeeMessage(p, ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("errors.cantjoingame")));
+			} else {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("errors.cantjoingame")));
+			}
+			
 			return false;
 		}
 

@@ -158,7 +158,7 @@ public class BungeeGameCycle extends GameCycle {
 		return true;
 	}
 
-	private void sendBungeeMessage(Player player, String message) {
+	public void sendBungeeMessage(Player player, String message) {
 	    ByteArrayDataOutput out = ByteStreams.newDataOutput();
 	    
 	    out.writeUTF("Message");
@@ -168,7 +168,7 @@ public class BungeeGameCycle extends GameCycle {
 	    player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
 	}
 
-	private void bungeeSendToServer(final String server, final Player player) {
+	public void bungeeSendToServer(final String server, final Player player) {
 		if (server == null) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.bungeenoserver")));
