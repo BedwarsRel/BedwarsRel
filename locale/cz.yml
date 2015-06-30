@@ -70,7 +70,7 @@ success:
     mainlobbyset: "Mainlobby uspesne nastaveno!"
     gametimeset: "Cas hry uspesne nastaven!"
     materialset: "Respawn blok (material) byl uspesne nastaven!"
-    builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v "title"!"
+    builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v title!"
     autobalanceseton: "Autobalance was successfully turned on!"
     autobalancesetoff: "Autobalance was successfully turned &coff&a!"
 gamecheck:
@@ -248,7 +248,7 @@ commands:
         desc: "Zobrazi tve statistiky"
     setbuilder:
         name: "Nastavit stavitele mapy"
-        desc: "Nastavi stavitele mapy, ktery se bude zobrazovat v "title"."
+        desc: "Nastavi stavitele mapy, ktery se bude zobrazovat v title."
     setgameblock:
         name: "Nastavit herni blok"
         desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"

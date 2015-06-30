@@ -40,7 +40,6 @@ public class TNTSheepListener implements Listener {
 		}
 
 		Player player = event.getPlayer();
-		TNTSheep creature = new TNTSheep();
 		
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 		
@@ -57,6 +56,7 @@ public class TNTSheepListener implements Listener {
 			return;
 		}
 
+		TNTSheep creature = new TNTSheep();
 		ItemStack inHand = player.getItemInHand();
 		if(inHand.getType() != creature.getItemMaterial()) {
 			return;
