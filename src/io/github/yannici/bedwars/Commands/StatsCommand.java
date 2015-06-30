@@ -6,7 +6,6 @@ import io.github.yannici.bedwars.UUIDFetcher;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Statistics.StatField;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;

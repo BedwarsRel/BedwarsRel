@@ -1,6 +1,5 @@
 package io.github.yannici.bedwars.Statistics;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 import io.github.yannici.bedwars.Main;
