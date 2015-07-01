@@ -85,12 +85,16 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 
     @Override
     public void setTNTSource(Entity source) {
+    	if(source == null) {
+    		return;
+    	}
+    	
         try {
             Field sourceField = EntityTNTPrimed.class.getDeclaredField("source");
             sourceField.setAccessible(true);
-            sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(), ((CraftEntity) source).getHandle());
+            sourceField.set(((CraftTNTPrimed) this.primedTnt).getHandle(), ((CraftEntity) source).getHandle());
         } catch (Exception ex) {
-            ex.printStackTrace();
+            // didn't work
         }
     }
 

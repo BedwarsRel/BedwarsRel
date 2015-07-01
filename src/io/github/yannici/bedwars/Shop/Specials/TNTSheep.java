@@ -166,7 +166,7 @@ public class TNTSheep extends SpecialItem {
                             that.updateTNT();
                         }
                     }
-                }.runTaskLater(Main.getInstance(), 1L);
+                }.runTaskLater(Main.getInstance(), 3L);
 	        }
 	        
 	    }.runTaskLater(Main.getInstance(), 60L);
