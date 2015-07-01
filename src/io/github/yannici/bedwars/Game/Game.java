@@ -158,11 +158,11 @@ public class Game {
 	}
 
 	public static String bedLostString() {
-		return ChatColor.RED + "\u2718 ";
+		return "\u2718 ";
 	}
 
 	public static String bedExistString() {
-		return ChatColor.GREEN + "\u2714 ";
+		return "\u2714 ";
 	}
 
 	/*
@@ -906,6 +906,36 @@ public class Game {
 		
 		this.region.reset(this);
 	}
+	
+	private String formatScoreboardTitle() {
+		String format = Main.getInstance().getStringConfig("scoreboard.format-title", "&e$region$&f - $time$");
+		
+		// replaces
+		format = format.replace("$region$", this.getRegion().getName());
+		format = format.replace("$game$", this.name);
+		format = format.replace("$time$", this.getFormattedTimeLeft());
+		
+		return ChatColor.translateAlternateColorCodes('&', format);
+	}
+	
+	private String formatScoreboardTeam(Team team, boolean destroyed) {
+		String format = null;
+		
+		if(team == null) {
+			return "";
+		}
+		
+		if(destroyed) {
+			format = Main.getInstance().getStringConfig("scoreboard.format-bed-destroyed", "&c$status$ $team$");
+		} else {
+			format = Main.getInstance().getStringConfig("scoreboard.format-bed-alive", "&a$status$ $team$");
+		}
+		
+		format = format.replace("$status", (destroyed) ? Game.bedLostString() : Game.bedExistString());
+		format = format.replace("$team$", team.getChatColor() + team.getName());
+		
+		return format;
+	}
 
 	public void setPlayersScoreboard() {
 		Objective obj = this.scoreboard.getObjective("display");
@@ -914,18 +944,14 @@ public class Game {
 		}
 		
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-		obj.setDisplayName(this.getRegion().getName() + " - " + this.getFormattedTimeLeft());
+		obj.setDisplayName(this.formatScoreboardTitle());
 
 		for (Team t : this.teams.values()) {
-			this.scoreboard.resetScores(Game.bedExistString()
-					+ t.getChatColor() + t.getName());
-			this.scoreboard.resetScores(Game.bedLostString() + t.getChatColor()
-					+ t.getName());
+			this.scoreboard.resetScores(this.formatScoreboardTeam(t, false));
+			this.scoreboard.resetScores(this.formatScoreboardTeam(t, true));
 
-			String teamString = (t.isDead(this) && this.getState() == GameState.RUNNING) ? Game
-					.bedLostString() : Game.bedExistString();
-			Score score = obj.getScore(teamString + t.getChatColor()
-					+ t.getName());
+			boolean teamDead = (t.isDead(this) && this.getState() == GameState.RUNNING) ? true : false;
+			Score score = obj.getScore(this.formatScoreboardTeam(t, teamDead));
 			score.setScore(t.getPlayers().size());
 		}
 
@@ -1682,7 +1708,7 @@ public class Game {
 			obj = this.scoreboard.registerNewObjective("display", "dummy");
 		}
 
-		obj.setDisplayName(this.getRegion().getName() + " - " + this.getFormattedTimeLeft());
+		obj.setDisplayName(this.formatScoreboardTitle());
 
 		for (Player player : this.getPlayers()) {
 			player.setScoreboard(this.scoreboard);

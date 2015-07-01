@@ -135,6 +135,9 @@ public class ConfigUpdater {
 		
 		// <1.2.2>
 		Main.getInstance().getConfig().addDefault("global-autobalance", false);
+		Main.getInstance().getConfig().addDefault("scoreboard.format-bed-destroyed", "&c$status$ $team$");
+		Main.getInstance().getConfig().addDefault("scoreboard.format-bed-alive", "&a$status$ $team$");
+		Main.getInstance().getConfig().addDefault("scoreboard.format-title", "&e$region$&f - $time$");
 		// </1.2.2>
 	}
 	

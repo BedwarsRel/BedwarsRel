@@ -112,6 +112,33 @@ place-in-liquid: true
 # Defines the block types which are allowed to break
 breakable-blocks:
     - none
+    
+# Scoreboard settings
+scoreboard:
+    # Format for scoreboard teams (bed destroyed)
+    # type: string
+    # The format how the teams on the scoreboard will be displayed
+    # Possible placeholders:
+    # - $status$ (bed status => destroyed/not destroyed)
+    # - $team$ (Colored team name)
+    format-bed-destroyed: "&c$status$ $team$"
+    
+    # Format for scoreboard teams (bed alive)
+    # type: string
+    # The format how the teams on the scoreboard will be displayed
+    # Possible placeholders:
+    # - $status$ (bed status => destroyed/not destroyed)
+    # - $team$ (Colored team name)
+    format-bed-alive: "&a$status$ $team$"
+    
+    # Format for scoreboard title
+    # type: string
+    # The format for the scoreboard title (above teams)
+    # Possible placeholders:
+    # - $game$ (game name)
+    # - $region$ (game's region- or worldname)
+    # - $time$ (the countdown-timer)
+    format-title: "&e$region$&f - $time$"
 
 # Titles configuration (only compatible with >= 1.8)
 titles:
