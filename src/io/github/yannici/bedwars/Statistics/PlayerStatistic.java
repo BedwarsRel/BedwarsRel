@@ -146,6 +146,7 @@ public class PlayerStatistic extends StoringTable {
 	}
 	
 	@StatField(name = "games", order = 60)
+	@DBGetField(name = "games", dbType = "INT(11)", defaultValue = "0")
 	public int getGames() {
 		return this.wins+this.loses;
 	}
