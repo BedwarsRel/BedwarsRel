@@ -470,12 +470,21 @@ public class PlayerListener extends BaseListener {
 		if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
 		    if(team == null || isSpectator) {
 		        player.setDisplayName(player.getName());
+		        
 		        player.setPlayerListName(player.getName());
 		    } else {
 		        player.setDisplayName(team.getChatColor() + player.getName());
 		        player.setPlayerListName(team.getChatColor() + player.getName());
 		    }
 		    
+		}
+		
+		if(Main.getInstance().getBooleanConfig("teamname-on-tab", false)) {
+		    if(team == null || isSpectator) {
+                player.setPlayerListName(player.getName());
+            } else {
+                player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + player.getName());
+            }
 		}
 
 		if (game.getState() != GameState.RUNNING
@@ -836,7 +845,8 @@ public class PlayerListener extends BaseListener {
 				    if(rule.isRuleMet(g)) {
 				        g.start(player);
 				    } else {
-				       if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME) {
+				       if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
+				               || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
 				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
 				       } else {
 				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
