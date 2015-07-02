@@ -46,9 +46,7 @@ public class LeaveGameCommand extends BaseCommand {
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.notingame")));
-			return false;
+			return true;
 		}
 
 		game.playerLeave(player, false);
