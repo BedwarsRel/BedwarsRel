@@ -158,11 +158,11 @@ public class Game {
 	}
 
 	public static String bedLostString() {
-		return "\u2718 ";
+		return "\u2718";
 	}
 
 	public static String bedExistString() {
-		return "\u2714 ";
+		return "\u2714";
 	}
 
 	/*
@@ -943,10 +943,10 @@ public class Game {
 			format = Main.getInstance().getStringConfig("scoreboard.format-bed-alive", "&a$status$ $team$");
 		}
 		
-		format = format.replace("$status", (destroyed) ? Game.bedLostString() : Game.bedExistString());
+		format = format.replace("$status$", (destroyed) ? Game.bedLostString() : Game.bedExistString());
 		format = format.replace("$team$", team.getChatColor() + team.getName());
 		
-		return format;
+		return ChatColor.translateAlternateColorCodes('&', format);
 	}
 
 	public void setPlayersScoreboard() {

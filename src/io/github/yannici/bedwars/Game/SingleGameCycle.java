@@ -164,7 +164,7 @@ public class SingleGameCycle extends GameCycle {
 				if(this.getGame().getState() == GameState.RUNNING
 						&& !Main.getInstance().spectationEnabled()) {
 					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-							+ Main._l("lobby.gamefull")));
+							+ Main._l("errors.cantjoingame")));
 					return false;
 				}
 			}
