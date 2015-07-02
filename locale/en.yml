@@ -41,6 +41,9 @@ errors:
     teamfull: "The team is full, please reopen the team selection menu!"
     novalidmaterial: "Given block type (material) isn't correct!"
     wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
+    playernotfound: "Given player was not found or isn't online!"
+    notingameforkick: "You must be in a game to kick a player!"
+    playernotingame: "Given player is not in this game!"
 success:
     gameadded: "New game '$game$' successfully added!"
     teamadded: "Team '$team$' successfully added!"
@@ -113,6 +116,8 @@ ingame:
         left: "Player $player$ has left the game!"
         died: "$player$ died!"
         killed: "$killer$ killed $player$!"
+        kicked: "$player$ was kicked!"
+        waskicked: "You were kicked from the game!"
     blocks:
         ownbeddestroy: "You can't destroy your own bed!"
         beddestroyed: "$player$ destroyed bed of team $team$!"
@@ -250,3 +255,6 @@ commands:
     setautobalance:
         name: "Set autobalance"
         desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    kick:
+        name: "Kick player"
+        desc: "Kicks a player from the current game!"

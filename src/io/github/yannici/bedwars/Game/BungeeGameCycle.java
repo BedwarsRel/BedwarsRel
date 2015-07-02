@@ -35,11 +35,11 @@ public class BungeeGameCycle extends GameCycle {
 			for (Player freePlayer : this.getGame().getFreePlayers()) {
 				player.showPlayer(freePlayer);
 			}
-			this.getGame().playerLeave(player);
+			this.getGame().playerLeave(player, false);
 		}
 		
 		for (Player freePlayer : this.getGame().getFreePlayersClone()) {
-			this.getGame().playerLeave(freePlayer);
+			this.getGame().playerLeave(freePlayer, false);
 		}
 		
 		this.getGame().resetRegion();
@@ -125,7 +125,7 @@ public class BungeeGameCycle extends GameCycle {
 				
 				final Player kickedPlayer = kickPlayer;
 				
-				this.getGame().playerLeave(kickedPlayer);
+				this.getGame().playerLeave(kickedPlayer, false);
 				new BukkitRunnable() {
 
 					@Override

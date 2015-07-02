@@ -57,7 +57,7 @@ public class JoinGameCommand extends BaseCommand {
 			}
 			
 			if(gameOfPlayer.getState() == GameState.WAITING) {
-				gameOfPlayer.playerLeave(player);
+				gameOfPlayer.playerLeave(player, false);
 			}
 		}
 

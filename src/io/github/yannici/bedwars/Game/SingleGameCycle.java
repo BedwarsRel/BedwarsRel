@@ -75,13 +75,13 @@ public class SingleGameCycle extends GameCycle {
 		}
 
 		if (wasSpectator && this.getGame().isFull()) {
-			this.getGame().playerLeave(player);
+			this.getGame().playerLeave(player, false);
 			return;
 		}
 		
 		if(Main.getInstance().toMainLobby()) {
 		    if(Main.getInstance().allPlayersBackToMainLobby()) {
-		        this.getGame().playerLeave(player);
+		        this.getGame().playerLeave(player, false);
 		        return;
 		    } else {
 		        player.teleport(this.getGame().getLobby());
@@ -159,7 +159,7 @@ public class SingleGameCycle extends GameCycle {
 				}
 				
 				kickPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
-				this.getGame().playerLeave(kickPlayer);
+				this.getGame().playerLeave(kickPlayer, false);
 			} else {
 				if(this.getGame().getState() == GameState.RUNNING
 						&& !Main.getInstance().spectationEnabled()) {

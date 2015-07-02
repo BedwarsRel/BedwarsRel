@@ -41,6 +41,9 @@ errors:
     teamfull: "Das Team ist voll, bitte öffne die Teamauswahl erneut!"
     novalidmaterial: "Angegebene Block-Typ (Material) ist nicht korrekt!"
     wrongvalueonoff: "Falscher Parameter! Einschalten mit: true,on,1 - Ausschalten mit: false,off,0"
+    playernotfound: "Angegebener Spieler wurde nicht gefunden oder ist nicht online!"
+    notingameforkick: "Du musst in einem Spiel sein, um kicken zu können!"
+    playernotingame: "Angegebener Spieler ist nicht in diesem Spiel!"
 success:
     gameadded: "Neues Spiel '$game$' erfolgreich hinzugefügt!"
     teamadded: "Team $team$ erfolgreich hinzugefügt!"
@@ -113,6 +116,8 @@ ingame:
         left: "Spieler $player$ hat das Spiel verlassen!"
         died: "$player$ ist gestorben!"
         killed: "$player$ wurde von $killer$ getötet!"
+        kicked: "$player$ wurde aus dem Spiel gekickt!"
+        waskicked: "Du wurdest aus dem Spiel gekickt!"
     blocks:
         ownbeddestroy: "Du kannst dein eigenes Bett nicht zerstören!"
         beddestroyed: "Das Bett von Team $team$ wurde von $player$ zerstört!"
@@ -250,3 +255,6 @@ commands:
     setautobalance:
         name: "Autobalance setzen"
         desc: "Wenn 'global-autobalance' auf 'false' gestellt, kann man hiermit das Autobalancing pro Spiel setzen"
+    kick:
+        name: "Spieler kicken"
+        desc: "Kickt einen Spieler aus dem aktuellen Spiel"

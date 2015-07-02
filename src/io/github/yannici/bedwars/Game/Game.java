@@ -565,7 +565,7 @@ public class Game {
 		return true;
 	}
 
-	public boolean playerLeave(Player p) {
+	public boolean playerLeave(Player p, boolean kicked) {
 		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this,
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
@@ -607,10 +607,17 @@ public class Game {
 		this.playerDamages.remove(p);
 		if (team != null) {
 			team.removePlayer(p);
-			this.broadcast(ChatColor.RED
-					+ Main._l("ingame.player.left", ImmutableMap
-							.of("player", Game.getPlayerWithTeamString(p, team,
-									ChatColor.RED) + ChatColor.RED)));
+			if(kicked) {
+				this.broadcast(ChatColor.RED
+						+ Main._l("ingame.player.kicked", ImmutableMap
+								.of("player", Game.getPlayerWithTeamString(p, team,
+										ChatColor.RED) + ChatColor.RED)));
+			} else {
+				this.broadcast(ChatColor.RED
+						+ Main._l("ingame.player.left", ImmutableMap
+								.of("player", Game.getPlayerWithTeamString(p, team,
+										ChatColor.RED) + ChatColor.RED)));
+			}
 		}
 
 		if (this.freePlayers.contains(p)) {
@@ -642,8 +649,13 @@ public class Game {
 		this.notUseOldShop(p);
 		
 		if (!Main.getInstance().isBungee() && p.isOnline()) {
-			p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-					+ Main._l("success.left")));
+			if(kicked) {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("ingame.player.waskicked")));
+			} else {
+				p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+						+ Main._l("success.left")));
+			}
 		}
 		
 		this.updateSigns();
@@ -885,7 +897,7 @@ public class Game {
 
 	public void kickAllPlayers() {
 		for (Player p : this.getPlayers()) {
-			this.playerLeave(p);
+			this.playerLeave(p, false);
 		}
 	}
 

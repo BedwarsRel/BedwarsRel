@@ -361,7 +361,7 @@ public class PlayerListener extends BaseListener {
 	        	
 	            Material clickedMat = ice.getCurrentItem().getType();
 	            if(clickedMat.equals(Material.SLIME_BALL)) {
-	                game.playerLeave(player);
+	                game.playerLeave(player, false);
 	            }
 	            
 	            if(clickedMat.equals(Material.COMPASS)) {
@@ -753,7 +753,7 @@ public class PlayerListener extends BaseListener {
 
 			if(g.isSpectator(player)) {
 				if (interactingMaterial == Material.SLIME_BALL) {
-					g.playerLeave(player);
+					g.playerLeave(player, false);
 					return;
 				}
 				
@@ -846,7 +846,7 @@ public class PlayerListener extends BaseListener {
 				break;
 			case SLIME_BALL:
 				pie.setCancelled(true);
-				g.playerLeave(player);
+				g.playerLeave(player, false);
 				break;
 			default:
 				break;
@@ -944,7 +944,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		g.playerLeave(player);
+		g.playerLeave(player, false);
 	}
 
 	@EventHandler

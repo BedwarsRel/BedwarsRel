@@ -69,9 +69,17 @@ public class HelpCommand extends BaseCommand {
 				.getBaseCommands();
 		ArrayList<BaseCommand> setupCommands = Main.getInstance()
 				.getSetupCommands();
+		ArrayList<BaseCommand> kickCommands = Main.getInstance()
+				.getCommandsByPermission("kick");
 
 		for (BaseCommand command : baseCommands) {
 			this.appendCommand(command, sb);
+		}
+		
+		if(sender.hasPermission("bw.kick")) {
+			for (BaseCommand command : kickCommands) {
+				this.appendCommand(command, sb);
+			}
 		}
 
 		if (sender.hasPermission("bw.setup")) {

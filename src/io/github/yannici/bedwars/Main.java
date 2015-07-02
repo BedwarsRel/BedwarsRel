@@ -675,6 +675,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new SetGameBlockCommand(this));
 		this.commands.add(new SetBuilderCommand(this));
 		this.commands.add(new SetAutobalanceCommand(this));
+		this.commands.add(new KickCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}
@@ -711,6 +712,14 @@ public class Main extends JavaPlugin {
 		ArrayList<BaseCommand> commands = (ArrayList<BaseCommand>) this.commands
 				.clone();
 		commands = this.filterCommandsByPermission(commands, "setup");
+
+		return commands;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<BaseCommand> getCommandsByPermission(String permission) {
+		ArrayList<BaseCommand> commands = (ArrayList<BaseCommand>) this.commands.clone();
+		commands = this.filterCommandsByPermission(commands, permission);
 
 		return commands;
 	}

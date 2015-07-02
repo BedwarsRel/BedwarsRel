@@ -270,7 +270,7 @@ public abstract class GameCycle {
 				this.getGame().toSpectator(player);
 			} else {
 				if(this.game.getCycle() instanceof BungeeGameCycle) {
-					this.getGame().playerLeave(player);
+					this.getGame().playerLeave(player, false);
 					return;
 				}
 				
@@ -292,7 +292,7 @@ public abstract class GameCycle {
 					}
 				}
 
-				this.getGame().playerLeave(player);
+				this.getGame().playerLeave(player, false);
 			}
 
 		} else {

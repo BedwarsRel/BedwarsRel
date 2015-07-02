@@ -113,12 +113,19 @@ commands:
         description: Turn the autobalance for this game on or off when global-autobalance is false
         usage: /<command>
         permission: bw.setup
+    bw kick:
+        description: Kicks a player from the game
+        usage: /<command>
+        permission: bw.kick
 permissions:
     bw.base:
         description: Allows you to show to play games
         default: true
     bw.setup:
         description: Allows you to set up new or existing games
+        default: op
+    bw.kick:
+        description: Allows a player to kick other players from the game
         default: op
     bw.vip.*:
         description: Allows special user permissions

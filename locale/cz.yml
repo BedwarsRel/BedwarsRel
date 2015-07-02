@@ -46,6 +46,9 @@ errors:
     teamfull: "Tym je plny, otevri si znovu vyberove menu!"
     novalidmaterial: "Blok (material) neni spravny!"
     wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
+    playernotfound: "Given player was not found or isn't online!"
+    notingameforkick: "You must be in a game to kick a player!"
+    playernotingame: "Given player is not in this game!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -118,6 +121,8 @@ ingame:
         left: "Hrac $player$ odesel ze hry."
         died: "$player$ zemrel!"
         killed: "$killer$ zabil $player$!"
+        kicked: "$player$ was kicked!"
+        waskicked: "You were kicked from the game!"
     blocks:
         ownbeddestroy: "Nemuzes znicit svou postel!"
         beddestroyed: "$player$ destroyed bed of team $team$!"
@@ -255,3 +260,6 @@ commands:
     setautobalance:
         name: "Set autobalance"
         desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    kick:
+        name: "Kick player"
+        desc: "Kicks a player from the current game!"

@@ -51,7 +51,7 @@ public class LeaveGameCommand extends BaseCommand {
 			return false;
 		}
 
-		game.playerLeave(player);
+		game.playerLeave(player, false);
 		return true;
 	}
 
