@@ -51,6 +51,12 @@ gamelength: 60
 # wrong colors in tablist or chat
 overwrite-names: false
 
+# Add teamname in tablist
+# type: boolean
+# Adds the teamname before the player name 
+# in the tablist
+teamname-on-tab: true
+
 # Lobby Time
 # Type: int
 # The lobby time defines how long you have to

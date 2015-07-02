@@ -258,5 +258,5 @@ commands:
         name: "Set autobalance"
         desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
     kick:
-        name: "Kick player"
-        desc: "Kicks a player from the current game!"
+        name: "Exclure des joueurs"
+        desc: "Exclure un ou des joueurs d'une partie!"

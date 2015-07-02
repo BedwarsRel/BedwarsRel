@@ -73,6 +73,12 @@ public class Team implements ConfigurationSerializable {
 			player.setPlayerListName(this.getChatColor() + player.getName());
 		}
 		
+		boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
+		if(teamnameOnTab) {
+			player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE
+					+ " | " + this.getChatColor() + player.getName());
+		}
+		
 		this.scoreboardTeam.addPlayer(player);
 		return true;
 	}

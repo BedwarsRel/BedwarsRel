@@ -72,12 +72,18 @@ public class PlayerStorage {
         this.player.setFireTicks(0);
         this.player.setGameMode(GameMode.SURVIVAL);
         
-        if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
+        boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
+        boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
+        if(overwriteNames || teamnameOnTab) {
             Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
             if(game != null) {
                 Team team = game.getPlayerTeam(this.player);
                 if(team != null) {
-                    this.player.setDisplayName(team.getChatColor() + this.player.getName());
+                	if(teamnameOnTab) {
+                		this.player.setDisplayName(team.getChatColor() + this.player.getName());
+                	} else {
+                		this.player.setDisplayName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + this.player.getName());
+                	}
                 } else {
                     this.player.setDisplayName(this.player.getName());
                 }
