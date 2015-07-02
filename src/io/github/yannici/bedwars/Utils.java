@@ -114,7 +114,7 @@ public final class Utils {
 			if (Utils.isNumber(cfg)) {
 				return Material.getMaterial(Integer.valueOf(cfg));
 			} else {
-				return Material.getMaterial(cfg);
+				return Material.getMaterial(cfg.toUpperCase());
 			}
 		} catch (Exception ex) {
 			// just return default
