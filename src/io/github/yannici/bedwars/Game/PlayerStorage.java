@@ -79,13 +79,15 @@ public class PlayerStorage {
             if(game != null) {
                 Team team = game.getPlayerTeam(this.player);
                 if(team != null) {
-                	if(teamnameOnTab) {
-                		this.player.setDisplayName(team.getChatColor() + this.player.getName());
+                	this.player.setDisplayName(team.getChatColor() + this.player.getName());
+                	if(!teamnameOnTab) {
+                		this.player.setPlayerListName(team.getChatColor() + this.player.getName());
                 	} else {
-                		this.player.setDisplayName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + this.player.getName());
+                		this.player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + this.player.getName());
                 	}
                 } else {
                     this.player.setDisplayName(this.player.getName());
+                    this.player.setPlayerListName(this.player.getName());
                 }
             }
             
