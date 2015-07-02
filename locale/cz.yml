@@ -45,10 +45,10 @@ errors:
     notinair: "Nejsi ve vzduchu!"
     teamfull: "Tym je plny, otevri si znovu vyberove menu!"
     novalidmaterial: "Blok (material) neni spravny!"
-    wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
-    playernotfound: "Given player was not found or isn't online!"
-    notingameforkick: "You must be in a game to kick a player!"
-    playernotingame: "Given player is not in this game!"
+    wrongvalueonoff: "Spatny Parametr! Pouzij true,on,1 pro zapnuti - Pouzij false,off,0 pro vypnuti!"
+    playernotfound: "Tento hrac neni online!"
+    notingameforkick: "Musis byt ve hre pro vyhozeni tohoto hrace!"
+    playernotingame: "Tento hrac se nenachazi v teto hre!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -74,8 +74,8 @@ success:
     gametimeset: "Cas hry uspesne nastaven!"
     materialset: "Respawn blok (material) byl uspesne nastaven!"
     builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v title!"
-    autobalanceseton: "Autobalance was successfully turned on!"
-    autobalancesetoff: "Autobalance was successfully turned &coff&a!"
+    autobalanceseton: "Automaticke vyvazovani bylo &lzapnuto&a!"
+    autobalancesetoff: "Automaticke vyvazovani bylo &cvypnuto&a!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -92,7 +92,7 @@ ingame:
     record: "&e$record$&a je rekord na teto mape!"
     record-with-holders: "&aRekord na této mape je &e$record$&a ziskany hracmi: $holders$"
     newrecord: "&aTym $team$&a ziskal novy rekord: &6$record$"
-    record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
+    record-nobeddestroy: "&cRekord nemohl byt ulozen, jelikoz &lnebyla &cznicena zadna postel!"
     teamwon: "Gratulace! Tym $team$ vyhral!"
     draw: "Hra skoncila remizou."
     serverrestart: "Restart serveru za $sec$ sekund!"
@@ -121,11 +121,11 @@ ingame:
         left: "Hrac $player$ odesel ze hry."
         died: "$player$ zemrel!"
         killed: "$killer$ zabil $player$!"
-        kicked: "$player$ was kicked!"
-        waskicked: "You were kicked from the game!"
+        kicked: "$player$ byl vyhozen!"
+        waskicked: "Byl jsi vyhozen ze hry!"
     blocks:
         ownbeddestroy: "Nemuzes znicit svou postel!"
-        beddestroyed: "$player$ destroyed bed of team $team$!"
+        beddestroyed: "$player$ znicil postel tymu $team$!"
     specials:
         rescue-platform:
             left: "&cMusis pockat &e$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!"
@@ -256,10 +256,10 @@ commands:
         desc: "Nastavi stavitele mapy, ktery se bude zobrazovat v title."
     setgameblock:
         name: "Nastavit herni blok"
-        desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+        desc: "Nastavi blok hry, ktery muze byt pouzit misto 'game-block' nastaveni. Napis 'DEFAULT' pro znovu pouziti bloku z konfigurace."
     setautobalance:
-        name: "Set autobalance"
-        desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+        name: "Nastavit automaticke vyvazovani"
+        desc: "Pokud je 'global-autobalance' nastavene na 'false', tak muzes pomoci tohoto prikazu nastavit automaticke vyvazovani pro tuto hru!"
     kick:
-        name: "Kick player"
-        desc: "Kicks a player from the current game!"
+        name: "Vyhodit hrace"
+        desc: "Vyhodi hrace z aktualni hry!"
