@@ -330,8 +330,7 @@ public class BlockListener extends BaseListener {
 			Block placeBlock = bpe.getBlockPlaced();
 			BlockState replacedBlock = bpe.getBlockReplacedState();
 
-			if (placeBlock.getType() == Material.BED
-					|| placeBlock.getType() == Material.BED_BLOCK) {
+			if (placeBlock.getType() == game.getTargetMaterial()) {
 				bpe.setCancelled(true);
 				bpe.setBuild(false);
 				return;
