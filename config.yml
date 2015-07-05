@@ -55,7 +55,7 @@ overwrite-names: false
 # type: boolean
 # Adds the teamname before the player name 
 # in the tablist
-teamname-on-tab: true
+teamname-on-tab: false
 
 # Lobby Time
 # Type: int
