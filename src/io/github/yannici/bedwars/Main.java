@@ -22,6 +22,8 @@ import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 import io.github.yannici.bedwars.Updater.ConfigUpdater;
 import io.github.yannici.bedwars.Updater.DatabaseUpdater;
 import io.github.yannici.bedwars.Updater.PluginUpdater;
+import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateCallback;
+import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateResult;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -286,15 +288,29 @@ public class Main extends JavaPlugin {
 	private void checkUpdates() {
 		try {
 			if(this.getBooleanConfig("check-updates", true)) {
-				new PluginUpdater(this, Main.PROJECT_ID, this.getFile(), PluginUpdater.UpdateType.DEFAULT, this.getBooleanConfig("update-infos", true));
 				this.updateChecker = new BukkitRunnable() {
                     
                     @Override
                     public void run() {
-                        new PluginUpdater(Main.getInstance(), Main.PROJECT_ID, Main.getInstance().getFile(), PluginUpdater.UpdateType.DEFAULT, Main.getInstance().getBooleanConfig("update-infos", true));
+                    	final BukkitRunnable task = this;
+                    	UpdateCallback callback = new UpdateCallback() {
+							
+							@Override
+							public void onFinish(PluginUpdater updater) {
+								if(updater.getResult() == UpdateResult.SUCCESS) {
+									task.cancel();
+								}
+							}
+						};
+						
+                        new PluginUpdater(Main.getInstance(), Main.PROJECT_ID, 
+                        		Main.getInstance().getFile(), 
+                        		PluginUpdater.UpdateType.DEFAULT,
+                        		callback,
+                        		Main.getInstance().getBooleanConfig("update-infos", true));
                     }
                     
-                }.runTaskTimer(Main.getInstance(), 36000L, 36000L);
+                }.runTaskTimerAsynchronously(Main.getInstance(), 40L, 400L);
 			}
 		} catch(Exception ex) {
 			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Check for updates not successful: Error!"));

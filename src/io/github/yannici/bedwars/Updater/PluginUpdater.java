@@ -92,7 +92,7 @@ public class PluginUpdater {
     private String versionGameVersion;
     private String versionCustom;
     private boolean lastVersionCheck = false;
-
+    
     /* Update process variables */
 
     // Connection to RSS
@@ -224,7 +224,7 @@ public class PluginUpdater {
         this.id = id;
         this.updateFolder = this.plugin.getServer().getUpdateFolderFile();
         this.callback = callback;
-
+        
         final File pluginFile = this.plugin.getDataFolder().getParentFile();
         final File updaterFile = new File(pluginFile, "Updater");
         final File updaterConfigFile = new File(updaterFile, "bedwarsrel.yml");
@@ -762,6 +762,7 @@ public class PluginUpdater {
                 this.result = UpdateResult.UPDATE_AVAILABLE;
             }
         } else {
+        	this.result = UpdateResult.NO_UPDATE;
             this.lastVersionCheck = false;
         }
 
