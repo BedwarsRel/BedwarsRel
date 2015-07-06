@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
 import io.github.yannici.bedwars.Game.BungeeGameCycle;
 import io.github.yannici.bedwars.Game.Game;
@@ -479,7 +480,8 @@ public class PlayerListener extends BaseListener {
 		    
 		}
 		
-		if(Main.getInstance().getBooleanConfig("teamname-on-tab", false)) {
+		if(Main.getInstance().getBooleanConfig("teamname-on-tab", false)
+				&& Utils.isSupportingTitles()) {
 		    if(team == null || isSpectator) {
                 player.setPlayerListName(player.getName());
             } else {

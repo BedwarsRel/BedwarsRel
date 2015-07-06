@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsOpenTeamSelectionEvent;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class PlayerStorage {
             }
         }
         
-        if(teamnameOnTab) {
+        if(teamnameOnTab && Utils.isSupportingTitles()) {
         	Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
             if(game != null) {
                 Team team = game.getPlayerTeam(this.player);

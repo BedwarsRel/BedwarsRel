@@ -138,7 +138,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("scoreboard.format-bed-destroyed", "&c$status$ $team$");
 		Main.getInstance().getConfig().addDefault("scoreboard.format-bed-alive", "&a$status$ $team$");
 		Main.getInstance().getConfig().addDefault("scoreboard.format-title", "&e$region$&f - $time$");
-		Main.getInstance().getConfig().addDefault("teamname-on-tab", true);
+		Main.getInstance().getConfig().addDefault("teamname-on-tab", false);
 		// </1.2.2>
 	}
 	
