@@ -310,7 +310,7 @@ public class Main extends JavaPlugin {
                         		Main.getInstance().getBooleanConfig("update-infos", true));
                     }
                     
-                }.runTaskTimerAsynchronously(Main.getInstance(), 40L, 400L);
+                }.runTaskTimerAsynchronously(Main.getInstance(), 40L, 36000L);
 			}
 		} catch(Exception ex) {
 			this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "Check for updates not successful: Error!"));
