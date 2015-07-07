@@ -368,7 +368,8 @@ public abstract class GameCycle {
 			}
 			
 			// dispatch reward commands directly
-			if(Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+			if(Main.getInstance().getBooleanConfig("rewards.enabled", false)
+					&& killer != null) {
 			    if((onlyOnBedDestroy && teamIsDead) 
                             || !onlyOnBedDestroy) {
 			        List<String> commands = Main.getInstance().getConfig().getStringList("rewards.player-kill");
