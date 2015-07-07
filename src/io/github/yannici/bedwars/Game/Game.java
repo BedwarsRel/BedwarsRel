@@ -49,6 +49,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.util.Vector;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -1650,6 +1651,8 @@ public class Game {
 	private void teleportPlayersToTeamSpawn() {
 		for (Team team : this.teams.values()) {
 			for (Player player : team.getPlayers()) {
+				player.setVelocity(new Vector(0, 0, 0));
+				player.setFallDistance(0.0F);
 				player.teleport(team.getSpawnLocation());
 				if(this.getPlayerStorage(player) != null) {
 				    this.getPlayerStorage(player).clean();
