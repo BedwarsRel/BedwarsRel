@@ -741,7 +741,8 @@ public class PlayerListener extends BaseListener {
 
 		if (g.getState() == GameState.RUNNING) {
 			if(pie.getAction() == Action.PHYSICAL
-			        && pie.getMaterial() == Material.SOIL) {
+			        && (pie.getMaterial() == Material.SOIL
+			        		|| pie.getMaterial() == Material.WHEAT)) {
 			    pie.setCancelled(true);
 			    return;
 			}
