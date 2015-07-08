@@ -639,10 +639,7 @@ public class Game {
 		storage.clean();
 		storage.restore();
 		this.playerSettings.remove(p);
-		
-		if (this.getState() == GameState.RUNNING) {
-			this.updateScoreboard();
-		}
+		this.updateScoreboard();
 		
 		p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
 
