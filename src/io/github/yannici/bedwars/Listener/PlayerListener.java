@@ -89,7 +89,7 @@ public class PlayerListener extends BaseListener {
 
 			if(!firstGame.playerJoins(player)) {
 				if(firstGame.getCycle() instanceof BungeeGameCycle) {
-					((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
+					((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
 				}
 			}
 		}

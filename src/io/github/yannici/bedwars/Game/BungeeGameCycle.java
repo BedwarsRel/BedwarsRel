@@ -62,7 +62,7 @@ public class BungeeGameCycle extends GameCycle {
 	public void onPlayerLeave(Player player) {
 		if (player.isOnline()
 				|| player.isDead()) {
-			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player);
+			this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player, false);
 		}
 
 		if (this.getGame().getState() == GameState.RUNNING && !this.getGame().isStopping()) {
@@ -82,7 +82,7 @@ public class BungeeGameCycle extends GameCycle {
 		if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
 			if (this.getGame().getState() != GameState.RUNNING
 					|| !Main.getInstance().spectationEnabled()) {
-				this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p);
+				this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
 				new BukkitRunnable() {
 
 					@Override
@@ -102,7 +102,7 @@ public class BungeeGameCycle extends GameCycle {
 				
 				if(players.size() == 0) {
 					this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
-							p);
+							p, false);
 					new BukkitRunnable() {
 
 						@Override
@@ -139,7 +139,7 @@ public class BungeeGameCycle extends GameCycle {
 				if(this.getGame().getState() == GameState.RUNNING
 						&& !Main.getInstance().spectationEnabled()) {
 					this.bungeeSendToServer(Main.getInstance().getBungeeHub(),
-							p);
+							p, false);
 					new BukkitRunnable() {
 
 						@Override
@@ -168,7 +168,7 @@ public class BungeeGameCycle extends GameCycle {
 	    player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
 	}
 
-	public void bungeeSendToServer(final String server, final Player player) {
+	public void bungeeSendToServer(final String server, final Player player, boolean preventDelay) {
 		if (server == null) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.bungeenoserver")));
@@ -195,7 +195,7 @@ public class BungeeGameCycle extends GameCycle {
                             b.toByteArray());
                 }
             }
-        }.runTaskLater(Main.getInstance(), 20L);
+        }.runTaskLater(Main.getInstance(), (preventDelay) ? 0L : 20L);
 	}
 
 	@Override
