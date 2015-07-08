@@ -898,9 +898,14 @@ public class PlayerListener extends BaseListener {
 		    return;
 		}
 
-		game.nonFreePlayer(player);
-		team.addPlayer(player);
-		game.setPlayersScoreboard();
+		if(team.addPlayer(player)) {
+			game.nonFreePlayer(player);
+		} else {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
+		    return;
+		}
+		
+		game.updateScoreboard();
 
 		GameLobbyCountdownRule rule = Main.getInstance()
 				.getLobbyCountdownRule();
@@ -915,11 +920,7 @@ public class PlayerListener extends BaseListener {
 				}
 			}
 		}
-
-		for (Player p : game.getPlayers()) {
-			p.setScoreboard(game.getScoreboard());
-		}
-
+		
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l(
 						"lobby.teamjoined",

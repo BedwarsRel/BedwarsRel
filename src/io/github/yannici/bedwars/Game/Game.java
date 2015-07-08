@@ -230,7 +230,7 @@ public class Game {
 		this.teleportPlayersToTeamSpawn();
 		
 		this.state = GameState.RUNNING;
-		this.setPlayersScoreboard();
+		this.updateScoreboard();
 		
 		if(Main.getInstance().getBooleanConfig("store-game-records", true)) {
 			this.displayRecord();
@@ -473,7 +473,7 @@ public class Game {
         p.getInventory().setItem(0, teleportPlayer);
 
 		p.updateInventory();
-		this.setPlayersScoreboard();
+		this.updateScoreboard();
 	}
 
 	public boolean isSpectator(Player player) {
@@ -561,7 +561,7 @@ public class Game {
 		BedwarsPlayerJoinedEvent joinEvent = new BedwarsPlayerJoinedEvent(this, p);
 		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 
-		this.setPlayersScoreboard();
+		this.updateScoreboard();
 		this.updateSigns();
 		return true;
 	}
@@ -641,7 +641,7 @@ public class Game {
 		this.playerSettings.remove(p);
 		
 		if (this.getState() == GameState.RUNNING) {
-			this.setPlayersScoreboard();
+			this.updateScoreboard();
 		}
 		
 		p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
@@ -786,7 +786,7 @@ public class Game {
 		
 		
 		this.broadcastSound(Sound.valueOf(Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()), 30.0F, 10.0F);
-		this.setPlayersScoreboard();
+		this.updateScoreboard();
 		return true;
 	}
 	
@@ -950,7 +950,7 @@ public class Game {
 		return ChatColor.translateAlternateColorCodes('&', format);
 	}
 
-	public void setPlayersScoreboard() {
+	public void updateScoreboard() {
 		Objective obj = this.scoreboard.getObjective("display");
 		if (obj == null) {
 			obj = this.scoreboard.registerNewObjective("display", "dummy");
@@ -1569,7 +1569,7 @@ public class Game {
             }
 		}
 		
-		this.setPlayersScoreboard();
+		this.updateScoreboard();
 	}
 
 	private void cleanUsersInventory() {
@@ -1684,7 +1684,7 @@ public class Game {
 		}
 
 		this.freePlayers = new ArrayList<Player>();
-		this.setPlayersScoreboard();
+		this.updateScoreboard();
 	}
 
 	private GameCheckCode checkTeams() {

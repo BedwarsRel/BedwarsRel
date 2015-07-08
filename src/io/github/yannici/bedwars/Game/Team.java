@@ -67,16 +67,21 @@ public class Team implements ConfigurationSerializable {
 			return false;
 		}
 		
-		boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-		if(overwriteNames) {
-			player.setDisplayName(this.getChatColor() + player.getName());
-			player.setPlayerListName(this.getChatColor() + player.getName());
-		}
-		
-		boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
-		if(teamnameOnTab && Utils.isSupportingTitles()) {
-			player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE
-					+ " | " + this.getChatColor() + player.getName());
+		try {
+			boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
+			if(overwriteNames) {
+				player.setDisplayName(this.getChatColor() + player.getName());
+				player.setPlayerListName(this.getChatColor() + player.getName());
+			}
+			
+			boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
+			if(teamnameOnTab && Utils.isSupportingTitles()) {
+				player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE
+						+ " | " + this.getChatColor() + player.getName());
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			return false;
 		}
 		
 		this.scoreboardTeam.addPlayer(player);
