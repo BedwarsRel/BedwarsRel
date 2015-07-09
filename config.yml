@@ -466,6 +466,7 @@ bungeecord:
         lobby: "&a[Lobby]"
         running: "&1[Running]"
         stopped: "&c[Stopped]"
+        full: "&c[Voll]"
         
 ### Localization (language)
 ### Type: string (length: 2)

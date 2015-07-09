@@ -29,10 +29,18 @@ public class ServerListener extends BaseListener {
 									.getString("bungeecord.motds.stopped")));
 			break;
 		case WAITING:
-			slpe.setMotd(ChatColor.translateAlternateColorCodes(
-							'&',
-							Main.getInstance().getConfig()
-									.getString("bungeecord.motds.lobby")));
+		    if(game.isFull()) {
+		        slpe.setMotd(ChatColor.translateAlternateColorCodes(
+                        '&',
+                        Main.getInstance().getConfig()
+                                .getString("bungeecord.motds.full")));
+		    } else {
+		        slpe.setMotd(ChatColor.translateAlternateColorCodes(
+                        '&',
+                        Main.getInstance().getConfig()
+                                .getString("bungeecord.motds.lobby")));
+		    }
+			
 			break;
 		case RUNNING:
 			slpe.setMotd(ChatColor.translateAlternateColorCodes(

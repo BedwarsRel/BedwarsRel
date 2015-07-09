@@ -140,6 +140,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("scoreboard.format-title", "&e$region$&f - $time$");
 		Main.getInstance().getConfig().addDefault("teamname-on-tab", false);
 		// </1.2.2>
+		
+		// <1.2.3>
+		Main.getInstance().getConfig().addDefault("bungeecord.motds.full", "&c[Voll]");
+		// </1.2.3>
 	}
 	
 	private void excludeShop() {
