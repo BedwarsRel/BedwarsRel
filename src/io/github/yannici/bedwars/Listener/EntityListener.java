@@ -82,7 +82,7 @@ public class EntityListener extends BaseListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamage(EntityDamageEvent ede) {
 	    List<EntityType> canDamageTypes = Arrays.asList(
                 EntityType.PLAYER // important lol
@@ -105,7 +105,7 @@ public class EntityListener extends BaseListener {
 		ede.setCancelled(true);
 	}
 	
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent ede) {
 	    List<EntityType> canDamageTypes = Arrays.asList(
 	            EntityType.PLAYER // important lol
