@@ -154,8 +154,21 @@ public class Game {
 
 	public static String getPlayerWithTeamString(Player player, Team team,
 			ChatColor before) {
-		return player.getDisplayName() + before + " (" + team.getChatColor() + team.getDisplayName()
-				+ before + ")";
+	    if(Main.getInstance().getBooleanConfig("teamname-in-chat", true)) {
+	        return player.getDisplayName() + before + " (" + team.getChatColor() + team.getDisplayName()
+	                + before + ")";
+	    }
+		
+	    return player.getDisplayName() + before;
+	}
+	
+	public static String getPlayerWithTeamString(Player player, Team team, ChatColor before, String playerAdding) {
+	    if(Main.getInstance().getBooleanConfig("teamname-in-chat", true)) {
+            return player.getDisplayName() + before + playerAdding + before + " (" + team.getChatColor() + team.getDisplayName()
+                    + before + ")";
+        }
+        
+        return player.getDisplayName() + before + playerAdding + before;
 	}
 
 	public static String bedLostString() {

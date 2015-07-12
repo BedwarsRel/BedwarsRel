@@ -408,11 +408,18 @@ public abstract class GameCycle {
 			return;
 		}
 
+		String hearts = "";
+		double health = ((double)killer.getHealth())/2.0;
+		if(Main.getInstance().getBooleanConfig("hearts-on-death", true)) {
+		    
+		    hearts = "[" + ChatColor.RED + "\u2764" + String.valueOf(health) + ChatColor.GOLD + "]";
+		}
+		
 		this.getGame().broadcast(
 				ChatColor.GOLD
 						+ Main._l("ingame.player.killed", ImmutableMap.of(
 								"killer", Game.getPlayerWithTeamString(killer,
-										killerTeam, ChatColor.GOLD), "player",
+										killerTeam, ChatColor.GOLD, hearts), "player",
 								Game.getPlayerWithTeamString(player, deathTeam,
 										ChatColor.GOLD))));
 		

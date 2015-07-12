@@ -17,7 +17,7 @@
 # short: a int but limited between -32768 ... 32767
 # char: one character
 
-chat-prefix: "&7[&bBedWars&7]&f" 
+chat-prefix: "&7[&bBedWars&7]&f"
 
 # Enabled Metrics
 # type: boolean
@@ -56,6 +56,18 @@ overwrite-names: false
 # Adds the teamname before the player name 
 # in the tablist
 teamname-on-tab: false
+
+# Teamname after player name
+# type: boolean
+# If true, the teamname will be added behind the player name
+# in chat messages. If false, teamname won't be visible
+teamname-in-chat: false
+
+# Show hearts on death
+# type: boolean
+# If true the remaining hearts of the killing player
+# will be displayed in the chat. If false, it is not visible
+hearts-on-death: true
 
 # Lobby Time
 # Type: int
