@@ -142,7 +142,7 @@ public class ConfigUpdater {
 		// </1.2.2>
 		
 		// <1.2.3>
-		Main.getInstance().getConfig().addDefault("bungeecord.motds.full", "&c[Voll]");
+		Main.getInstance().getConfig().addDefault("bungeecord.motds.full", "&c[Full]");
 		Main.getInstance().getConfig().addDefault("teamname-in-chat", false);
 		Main.getInstance().getConfig().addDefault("hearts-on-death", true);
 		// </1.2.3>
