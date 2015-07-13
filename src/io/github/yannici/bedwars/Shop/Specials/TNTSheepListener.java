@@ -9,6 +9,7 @@ import io.github.yannici.bedwars.Game.Team;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
@@ -19,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.SpawnEgg;
 
 public class TNTSheepListener implements Listener {
 	
@@ -33,7 +35,6 @@ public class TNTSheepListener implements Listener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent event) {
 		if(event.getPlayer() == null) {
@@ -63,7 +64,11 @@ public class TNTSheepListener implements Listener {
 			return;
 		}
 		
-		if(inHand.getData().getData() != Byte.parseByte("91")) {
+		if(!(inHand.getData() instanceof SpawnEgg)) {
+			return;
+		}
+		
+		if(((SpawnEgg) inHand.getData()).getSpawnedType() == EntityType.SHEEP) {
 			return;
 		}
 		
