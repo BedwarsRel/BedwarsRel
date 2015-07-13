@@ -33,6 +33,7 @@ public class TNTSheepListener implements Listener {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent event) {
 		if(event.getPlayer() == null) {
@@ -59,6 +60,10 @@ public class TNTSheepListener implements Listener {
 		TNTSheep creature = new TNTSheep();
 		ItemStack inHand = player.getItemInHand();
 		if(inHand.getType() != creature.getItemMaterial()) {
+			return;
+		}
+		
+		if(inHand.getData().getData() != Byte.parseByte("91")) {
 			return;
 		}
 		

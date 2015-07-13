@@ -417,6 +417,7 @@ shop:
                     - "auf den nächsten Gegner zugehen"
                     - "und nach 8 Sekunden explodieren!"
                 item: MONSTER_EGG
+                meta: 91
                 amount: 1
     drinks:
         item: POTION
