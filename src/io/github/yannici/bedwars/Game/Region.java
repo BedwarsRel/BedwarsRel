@@ -24,7 +24,6 @@ import org.bukkit.material.Directional;
 import org.bukkit.material.Lever;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Redstone;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class Region {
 	
@@ -389,7 +388,6 @@ public class Region {
     }
 
 	public void setVillagerNametag() {
-		int i = 0;
 		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
 		while (entityIterator.hasNext()) {
 			Entity e = entityIterator.next();
@@ -400,7 +398,7 @@ public class Region {
 
 			if (e.getType() == EntityType.VILLAGER) {
 				e.setCustomNameVisible(false);
-				e.setCustomName("Itemshop " + (++i));
+				e.setCustomName(Main._l("ingame.shop.name"));
 			}
 		}
 	}

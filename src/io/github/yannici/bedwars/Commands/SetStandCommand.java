@@ -21,13 +21,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import com.google.common.collect.ImmutableMap;
 
 public class SetStandCommand extends BaseCommand {
 
-	@Override
+	public SetStandCommand(Main plugin) {
+        super(plugin);
+    }
+
+    @Override
 	public String getPermission() {
 		return "setup";
 	}
