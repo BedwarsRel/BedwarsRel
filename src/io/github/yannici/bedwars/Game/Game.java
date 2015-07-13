@@ -965,10 +965,10 @@ public class Game {
 	}
 	
 	private String formatLobbyScoreboardString(String str) {
-		str.replace("$regionname$", this.region.getName());
-		str.replace("$gamename$", this.name);
-		str.replace("$players$", String.valueOf(this.getPlayerAmount()));
-		str.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
+		str = str.replace("$regionname$", this.region.getName());
+		str = str.replace("$gamename$", this.name);
+		str = str.replace("$players$", String.valueOf(this.getPlayerAmount()));
+		str = str.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
 		
 		return ChatColor.translateAlternateColorCodes('&', str);
 	}
