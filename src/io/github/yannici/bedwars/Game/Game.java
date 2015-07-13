@@ -975,8 +975,13 @@ public class Game {
 	
 	private void updateLobbyScoreboard() {
 		this.lobbyScoreboard.clearSlot(DisplaySlot.SIDEBAR);
-		Objective obj = this.lobbyScoreboard.registerNewObjective("lobby", "dummy");
 		
+		Objective obj = this.lobbyScoreboard.getObjective("lobby");
+		if(obj != null) {
+			obj.unregister();
+		}
+		
+		obj = this.lobbyScoreboard.registerNewObjective("lobby", "dummy");
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		obj.setDisplayName(this.formatLobbyScoreboardString(Main.getInstance().getStringConfig("lobby-scoreboard.title", "&eBEDWARS")));
 		
