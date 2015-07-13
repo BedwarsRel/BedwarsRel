@@ -1686,6 +1686,9 @@ public class Game {
 			this.region = new Region(this.loc1, this.loc2, this.regionName);
 		}
 		
+		// nametag the villager
+		this.region.setVillagerNametag();
+		
 		this.updateSigns();
 	}
 

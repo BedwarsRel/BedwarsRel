@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Game;
 
+import io.github.yannici.bedwars.Main;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,6 +24,7 @@ import org.bukkit.material.Directional;
 import org.bukkit.material.Lever;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Redstone;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Region {
 	
@@ -385,4 +388,20 @@ public class Region {
         return this.placedUnbreakableBlocks.contains(clickedBlock);
     }
 
+	public void setVillagerNametag() {
+		int i = 0;
+		Iterator<Entity> entityIterator = this.world.getEntities().iterator();
+		while (entityIterator.hasNext()) {
+			Entity e = entityIterator.next();
+			
+			if(!this.isInRegion(e.getLocation())) {
+			    continue;
+			}
+
+			if (e.getType() == EntityType.VILLAGER) {
+				e.setCustomNameVisible(false);
+				e.setCustomName("Itemshop " + (++i));
+			}
+		}
+	}
 }
