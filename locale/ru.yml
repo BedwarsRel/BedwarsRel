@@ -44,6 +44,8 @@ errors:
     playernotfound: "Given player was not found or isn't online!"
     notingameforkick: "You must be in a game to kick a player!"
     playernotingame: "Given player is not in this game!"
+    armorstandtargeting: "You must target a block on which the armorstand can stand on!"
+    mustbeinlobbyworld: "Armorstands must be placed in the lobby of the game!"
 success:
     gameadded: "Новая игра '$game$' успешно создана"
     teamadded: "Команда '$team$' успешно добавлена"
@@ -71,6 +73,7 @@ success:
     builderset: "The builder for the map was set successfully and will display in title!"
     autobalanceseton: "Autobalance was successfully turned on!"
     autobalancesetoff: "Autobalance was successfully turned &coff&a!"
+    armorstandadded: "Armorstand for selecting team $team$ successfully added!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Места для региона небыли установлены правельно"
     TEAM_SIZE_LOW_ERROR: "Вы должны установить больше команд"

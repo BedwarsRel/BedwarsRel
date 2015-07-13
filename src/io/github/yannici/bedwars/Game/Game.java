@@ -37,6 +37,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -108,6 +109,8 @@ public class Game {
 	private Location loc2 = null;
 	
 	private Material targetMaterial = null;
+	
+	private Map<Location, Team> armorStands = null;
 
 	public Game(String name) {
 		super();
@@ -140,6 +143,8 @@ public class Game {
 		this.record = Main.getInstance().getMaxLength();
 		this.length = Main.getInstance().getMaxLength();
 		this.recordHolders = new ArrayList<String>();
+		
+		this.armorStands = new ArrayList<Location>();
 		
 		this.playerSettings = new HashMap<Player, PlayerSettings>();
 		

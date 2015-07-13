@@ -44,6 +44,8 @@ errors:
     playernotfound: "Angegebener Spieler wurde nicht gefunden oder ist nicht online!"
     notingameforkick: "Du musst in einem Spiel sein, um kicken zu können!"
     playernotingame: "Angegebener Spieler ist nicht in diesem Spiel!"
+    armorstandtargeting: "Du musst ein Block anvisieren, auf dem der Rüstungsständer stehen soll!"
+    mustbeinlobbyworld: "Rüstüngsständer muss in der Lobby-Welt des Spiels erstellt werden!"
 success:
     gameadded: "Neues Spiel '$game$' erfolgreich hinzugefügt!"
     teamadded: "Team $team$ erfolgreich hinzugefügt!"
@@ -71,6 +73,7 @@ success:
     builderset: "Der Builder der Map wurde erfolgreich gesetzt!"
     autobalanceseton: "Autobalance wurde erfolgreich eingeschaltet!"
     autobalancesetoff: "Autobalance wurde erfolgreich &causgeschaltet&a!"
+    armorstandadded: "Rüstungsständer zum Wählen des Teams $team$ hinzugefügt!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Die Regionspunkte wurden nicht korrekt gesetzt!"
     TEAM_SIZE_LOW_ERROR: "Du musst mehr Teams hinzufügen!"

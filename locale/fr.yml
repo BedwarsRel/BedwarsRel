@@ -46,6 +46,8 @@ errors:
     playernotfound: "Given player was not found or isn't online!"
     notingameforkick: "You must be in a game to kick a player!"
     playernotingame: "Given player is not in this game!"
+    armorstandtargeting: "You must target a block on which the armorstand can stand on!"
+    mustbeinlobbyworld: "Armorstands must be placed in the lobby of the game!"
 success:
     gameadded: "Nouvelle partie '$game$' ajoutée avec succès !"
     teamadded: "Equipe '$team$' ajoutée avec succès !"
@@ -73,6 +75,7 @@ success:
     builderset: "Le constructeur de la map a été configuré avec succès et va être affiché en titre !"
     autobalanceseton: "Autobalance was successfully turned on!"
     autobalancesetoff: "Autobalance was successfully turned &coff&a!"
+    armorstandadded: "Armorstand for selecting team $team$ successfully added!"
 gamecheck:
     LOC_NOT_SET_ERROR: "La position pour la région n'a pas été configurée correctement !"
     TEAM_SIZE_LOW_ERROR: "Vous devez configurer plus d'équipe !"

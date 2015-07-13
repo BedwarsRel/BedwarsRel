@@ -49,6 +49,8 @@ errors:
     playernotfound: "Tento hrac neni online!"
     notingameforkick: "Musis byt ve hre pro vyhozeni tohoto hrace!"
     playernotingame: "Tento hrac se nenachazi v teto hre!"
+    armorstandtargeting: "You must target a block on which the armorstand can stand on!"
+    mustbeinlobbyworld: "Armorstands must be placed in the lobby of the game!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -76,6 +78,7 @@ success:
     builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v title!"
     autobalanceseton: "Automaticke vyvazovani bylo &lzapnuto&a!"
     autobalancesetoff: "Automaticke vyvazovani bylo &cvypnuto&a!"
+    armorstandadded: "Armorstand for selecting team $team$ successfully added!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
