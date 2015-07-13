@@ -146,19 +146,19 @@ lobby-scoreboard:
     # Lobby scoreboard content
     # type: List<string>
     # The content of the lobby scoreboard (list of texts)
-    # Use "" (see example) for an empty row
+    # Use " " (see example) for an empty row
     # Placeholders:
     #   $regionname$ = Region name (or map name)
     #   $gamename$   = Name of the game
     #   $players$    = Current number of players
     #   $maxplayers$ = The maximum players for this game
     content:
-        - ""
+        - " "
         - "&fMap: &2$regionname$"
         - "&fPlayers: &2$players$&f/&2$maxplayers$"
-        - ""
+        - " "
         - "&fWaiting ..."
-        - ""
+        - " "
     
 # Scoreboard settings
 scoreboard:

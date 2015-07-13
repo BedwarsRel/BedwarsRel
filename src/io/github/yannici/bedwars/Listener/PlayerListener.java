@@ -831,10 +831,6 @@ public class PlayerListener extends BaseListener {
 			    return;
 			}
 			
-			if(clickedBlock.getType() == Material.ARMOR_STAND) {
-				
-			}
-			
 			switch (interactingMaterial) {
 			case BED:
 				pie.setCancelled(true);

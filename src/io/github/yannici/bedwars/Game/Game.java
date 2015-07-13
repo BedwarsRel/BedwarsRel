@@ -996,6 +996,12 @@ public class Game {
 		}
 		
 		for(String row : rows) {
+		    if(row.trim().equals("")) {
+		        for(int i = 0; i <= rowMax; i++) {
+		            row = row + " ";
+		        }
+		    }
+		    
 			Score score = obj.getScore(this.formatLobbyScoreboardString(row));
 			score.setScore(rowMax);
 			rowMax--;
