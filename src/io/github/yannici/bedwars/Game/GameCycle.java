@@ -1,6 +1,10 @@
 package io.github.yannici.bedwars.Game;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -409,10 +413,11 @@ public abstract class GameCycle {
 		}
 
 		String hearts = "";
-		double health = ((double)killer.getHealth())/2.0;
+		DecimalFormat format = new DecimalFormat("#.#");
+		double health = ((double)killer.getHealth()) / ((double)killer.getMaxHealth()) * ((double)killer.getHealthScale());
 		if(Main.getInstance().getBooleanConfig("hearts-on-death", true)) {
 		    
-		    hearts = "[" + ChatColor.RED + "\u2764" + String.valueOf(health) + ChatColor.GOLD + "]";
+		    hearts = "[" + ChatColor.RED + "\u2764" + format.format(health) + ChatColor.GOLD + "]";
 		}
 		
 		this.getGame().broadcast(
