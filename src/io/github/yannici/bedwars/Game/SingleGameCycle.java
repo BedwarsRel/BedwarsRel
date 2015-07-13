@@ -64,9 +64,10 @@ public class SingleGameCycle extends GameCycle {
                 this.getGame().setLobbyCountdown(lobbyCountdown);
             }
         }
-
+		
 		// set state and with that, the sign
 		this.getGame().setState(GameState.WAITING);
+		this.getGame().updateScoreboard();
 	}
 
 	private void kickPlayer(Player player, boolean wasSpectator) {
@@ -105,8 +106,6 @@ public class SingleGameCycle extends GameCycle {
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
         storage.clean();
         storage.loadLobbyInventory(this.getGame());
-        
-        player.setScoreboard(this.getGame().getScoreboard());
 	}
 
 	@Override

@@ -131,6 +131,35 @@ place-in-liquid: true
 breakable-blocks:
     - none
     
+# Lobby Scoreboard settings
+lobby-scoreboard:
+    # Lobby scoreboard title
+    # type: string
+    # The title of the lobby scoreboard
+    # Placeholders:
+    #   $regionname$ = Region name (or map name)
+    #   $gamename$   = Name of the game
+    #   $players$    = Current number of players
+    #   $maxplayers$ = The maximum players for this game
+    title: "&eBEDWARS"
+    
+    # Lobby scoreboard content
+    # type: List<string>
+    # The content of the lobby scoreboard (list of texts)
+    # Use "" (see example) for an empty row
+    # Placeholders:
+    #   $regionname$ = Region name (or map name)
+    #   $gamename$   = Name of the game
+    #   $players$    = Current number of players
+    #   $maxplayers$ = The maximum players for this game
+    content:
+        - ""
+        - "&fMap: &2$regionname$"
+        - "&fPlayers: &2$players$&f/&2$maxplayers$"
+        - ""
+        - "&fWaiting ..."
+        - ""
+    
 # Scoreboard settings
 scoreboard:
     # Format for scoreboard teams (bed destroyed)

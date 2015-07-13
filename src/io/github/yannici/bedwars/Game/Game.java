@@ -67,6 +67,7 @@ public class Game {
 	private Location lobby = null;
 	private HashMap<Player, PlayerStorage> storages = null;
 	private Scoreboard scoreboard = null;
+	private Scoreboard lobbyScoreboard = null;
 	private GameLobbyCountdown glc = null;
 	private HashMap<Material, MerchantCategory> itemshop = null;
 	private List<MerchantCategory> orderedItemshop = null;
@@ -123,6 +124,9 @@ public class Game {
 		this.state = GameState.STOPPED;
 		this.scoreboard = Main.getInstance().getScoreboardManager()
 				.getNewScoreboard();
+		this.lobbyScoreboard = Main.getInstance().getScoreboardManager()
+				.getNewScoreboard();
+		
 		this.glc = null;
 		this.joinSigns = new HashMap<Location, GameJoinSign>();
 		this.timeLeft = Main.getInstance().getMaxLength();
@@ -959,8 +963,46 @@ public class Game {
 		
 		return ChatColor.translateAlternateColorCodes('&', format);
 	}
+	
+	private String formatLobbyScoreboardString(String str) {
+		str.replace("$regionname$", this.region.getName());
+		str.replace("$gamename$", this.name);
+		str.replace("$players$", String.valueOf(this.getPlayerAmount()));
+		str.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
+		
+		return ChatColor.translateAlternateColorCodes('&', str);
+	}
+	
+	private void updateLobbyScoreboard() {
+		this.lobbyScoreboard.clearSlot(DisplaySlot.SIDEBAR);
+		Objective obj = this.lobbyScoreboard.registerNewObjective("lobby", "dummy");
+		
+		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+		obj.setDisplayName(this.formatLobbyScoreboardString(Main.getInstance().getStringConfig("lobby-scoreboard.title", "&eBEDWARS")));
+		
+		List<String> rows = Main.getInstance().getConfig().getStringList("lobby-scoreboard.content");
+		int rowMax = rows.size();
+		if(rows == null || rows.isEmpty()) {
+			return;
+		}
+		
+		for(String row : rows) {
+			Score score = obj.getScore(this.formatLobbyScoreboardString(row));
+			score.setScore(rowMax);
+			rowMax--;
+		}
+		
+		for (Player player : this.getPlayers()) {
+			player.setScoreboard(this.lobbyScoreboard);
+		}
+	}
 
 	public void updateScoreboard() {
+		if(this.state == GameState.WAITING) {
+			this.updateLobbyScoreboard();
+			return;
+		}
+		
 		Objective obj = this.scoreboard.getObjective("display");
 		if (obj == null) {
 			obj = this.scoreboard.registerNewObjective("display", "dummy");
@@ -1023,6 +1065,7 @@ public class Game {
 		this.timeLeft = Main.getInstance().getMaxLength();
 		this.length = this.timeLeft;
 		this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
+		this.lobbyScoreboard.clearSlot(DisplaySlot.SIDEBAR);
 	}
 
 	public void addJoinSign(Location signLocation) {
