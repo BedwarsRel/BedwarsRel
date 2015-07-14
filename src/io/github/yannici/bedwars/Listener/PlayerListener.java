@@ -826,6 +826,13 @@ public class PlayerListener extends BaseListener {
 
 			return;
 		} else if (g.getState() == GameState.WAITING) {
+			if(pie.getAction() == Action.PHYSICAL
+			        && (pie.getMaterial() == Material.SOIL
+			        		|| pie.getMaterial() == Material.WHEAT)) {
+			    pie.setCancelled(true);
+			    return;
+			}
+			
 			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
 					&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
 			    return;
