@@ -1118,35 +1118,41 @@ public class Game {
 	}
 
 	public void updateSigns() {
-		boolean removedItem = false;
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				boolean removedItem = false;
 
-		Iterator<GameJoinSign> iterator = this.joinSigns.values().iterator();
-		while (iterator.hasNext()) {
-			GameJoinSign sign = iterator.next();
-			
-			Chunk signChunk = sign.getSign().getLocation().getChunk();
-			if(!signChunk.isLoaded()) {
-				signChunk.load(true);
-			}
-			
-			if(sign.getSign() == null) {
-			    iterator.remove();
-                removedItem = true;
-                continue;
-			}
-			
-			Block signBlock = sign.getSign().getLocation().getBlock();
-			if (!(signBlock.getState() instanceof Sign)) {
-				iterator.remove();
-				removedItem = true;
-				continue;
-			}
-			sign.updateSign();
-		}
+				Iterator<GameJoinSign> iterator = Game.this.joinSigns.values().iterator();
+				while (iterator.hasNext()) {
+					GameJoinSign sign = iterator.next();
+					
+					Chunk signChunk = sign.getSign().getLocation().getChunk();
+					if(!signChunk.isLoaded()) {
+						signChunk.load(true);
+					}
+					
+					if(sign.getSign() == null) {
+					    iterator.remove();
+		                removedItem = true;
+		                continue;
+					}
+					
+					Block signBlock = sign.getSign().getLocation().getBlock();
+					if (!(signBlock.getState() instanceof Sign)) {
+						iterator.remove();
+						removedItem = true;
+						continue;
+					}
+					sign.updateSign();
+				}
 
-		if (removedItem) {
-			this.updateSignConfig();
-		}
+				if (removedItem) {
+					Game.this.updateSignConfig();
+				}
+			}
+		}.runTask(Main.getInstance());
 	}
 
 	public void stopWorkers() {
