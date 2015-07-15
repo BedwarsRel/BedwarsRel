@@ -14,6 +14,7 @@ import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -27,6 +28,8 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.metadata.MetadataValue;
 
 import com.google.common.collect.ImmutableMap;
@@ -129,6 +132,7 @@ public class EntityListener extends BaseListener {
 			return;
 		}
 		
+		event.setCancelled(true);
 		TeamJoinMetaDataValue value = (TeamJoinMetaDataValue) values.get(0);
 		if(!((boolean)value.value())) {
 			return;
@@ -144,11 +148,47 @@ public class EntityListener extends BaseListener {
 		living.setCanPickupItems(false);
 		living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
 		living.setCustomNameVisible(Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
+		
+		if(living instanceof ArmorStand) {
+		    this.equipArmorStand((ArmorStand)living, value.getTeam());
+		}
+		
 		player.removeMetadata("bw-addteamjoin", Main.getInstance());
 		
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamjoinadded", 
 				ImmutableMap.of("team", 
 						value.getTeam().getChatColor() + value.getTeam().getDisplayName() + ChatColor.GREEN))));
+	}
+	
+	private void equipArmorStand(ArmorStand stand, Team team) {
+	    // helmet
+	    ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
+	    LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+	    meta.setColor(team.getColor().getColor());
+	    helmet.setItemMeta(meta);
+	    
+	    // chestplate
+	    ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+        meta = (LeatherArmorMeta) chestplate.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        chestplate.setItemMeta(meta);
+        
+        // leggings
+        ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+        meta = (LeatherArmorMeta) leggings.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        leggings.setItemMeta(meta);
+        
+        // boots
+        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
+        meta = (LeatherArmorMeta) boots.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        boots.setItemMeta(meta);
+        
+        stand.setHelmet(helmet);
+        stand.setChestplate(chestplate);
+        stand.setLeggings(leggings);
+        stand.setBoots(boots);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

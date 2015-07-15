@@ -41,6 +41,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Bed;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -1118,41 +1119,35 @@ public class Game {
 	}
 
 	public void updateSigns() {
-		new BukkitRunnable() {
+		boolean removedItem = false;
+
+		Iterator<GameJoinSign> iterator = Game.this.joinSigns.values().iterator();
+		while (iterator.hasNext()) {
+			GameJoinSign sign = iterator.next();
 			
-			@Override
-			public void run() {
-				boolean removedItem = false;
-
-				Iterator<GameJoinSign> iterator = Game.this.joinSigns.values().iterator();
-				while (iterator.hasNext()) {
-					GameJoinSign sign = iterator.next();
-					
-					Chunk signChunk = sign.getSign().getLocation().getChunk();
-					if(!signChunk.isLoaded()) {
-						signChunk.load(true);
-					}
-					
-					if(sign.getSign() == null) {
-					    iterator.remove();
-		                removedItem = true;
-		                continue;
-					}
-					
-					Block signBlock = sign.getSign().getLocation().getBlock();
-					if (!(signBlock.getState() instanceof Sign)) {
-						iterator.remove();
-						removedItem = true;
-						continue;
-					}
-					sign.updateSign();
-				}
-
-				if (removedItem) {
-					Game.this.updateSignConfig();
-				}
+			Chunk signChunk = sign.getSign().getLocation().getChunk();
+			if(!signChunk.isLoaded()) {
+				signChunk.load(true);
 			}
-		}.runTask(Main.getInstance());
+			
+			if(sign.getSign() == null) {
+			    iterator.remove();
+                removedItem = true;
+                continue;
+			}
+			
+			Block signBlock = sign.getSign().getLocation().getBlock();
+			if (!(signBlock.getState() instanceof Sign)) {
+				iterator.remove();
+				removedItem = true;
+				continue;
+			}
+			sign.updateSign();
+		}
+
+		if (removedItem) {
+			Game.this.updateSignConfig();
+		}
 	}
 
 	public void stopWorkers() {
@@ -1826,6 +1821,16 @@ public class Game {
 
 		if(team.addPlayer(player)) {
 			this.nonFreePlayer(player);
+			
+			// Team color chestplate
+			ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+			LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
+			meta.setColor(team.getColor().getColor());
+			meta.setDisplayName(team.getChatColor() + team.getDisplayName());
+			chestplate.setItemMeta(meta);
+			
+			player.getInventory().setItem(7, chestplate);
+			player.updateInventory();
 		} else {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
 		    return;

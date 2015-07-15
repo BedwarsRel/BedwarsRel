@@ -823,6 +823,11 @@ public class PlayerListener extends BaseListener {
 
 			return;
 		} else if (g.getState() == GameState.WAITING) {
+		    if(interactingMaterial == null) {
+		        pie.setCancelled(true);
+		        return;
+		    }
+		    
 			if(pie.getAction() == Action.PHYSICAL
 			        && (pie.getMaterial() == Material.SOIL
 			        		|| pie.getMaterial() == Material.WHEAT)) {
@@ -836,37 +841,41 @@ public class PlayerListener extends BaseListener {
 			}
 			
 			switch (interactingMaterial) {
-			case BED:
-				pie.setCancelled(true);
-				if(!g.isAutobalanceEnabled()) {
-					g.getPlayerStorage(player).openTeamSelection(g);
-				}
-				
-				break;
-			case DIAMOND:
-				pie.setCancelled(true);
-				if (player.isOp() || player.hasPermission("bw.setup")) {
-					g.start(player);
-				} else if(player.hasPermission("bw.vip.forcestart")) {
-				    GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
-				    if(rule.isRuleMet(g)) {
-				        g.start(player);
-				    } else {
-				       if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
-				               || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
-				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
-				       } else {
-				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
-				       }
-				    }
-				}
-				break;
-			case SLIME_BALL:
-				pie.setCancelled(true);
-				g.playerLeave(player, false);
-				break;
-			default:
-				break;
+    			case BED:
+    				pie.setCancelled(true);
+    				if(!g.isAutobalanceEnabled()) {
+    					g.getPlayerStorage(player).openTeamSelection(g);
+    				}
+    				
+    				break;
+    			case DIAMOND:
+    				pie.setCancelled(true);
+    				if (player.isOp() || player.hasPermission("bw.setup")) {
+    					g.start(player);
+    				} else if(player.hasPermission("bw.vip.forcestart")) {
+    				    GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
+    				    if(rule.isRuleMet(g)) {
+    				        g.start(player);
+    				    } else {
+    				       if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
+    				               || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
+    				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
+    				       } else {
+    				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
+    				       }
+    				    }
+    				}
+    				break;
+    			case SLIME_BALL:
+    				pie.setCancelled(true);
+    				g.playerLeave(player, false);
+    				break;
+    			case LEATHER_CHESTPLATE:
+    			    pie.setCancelled(true);
+    			    player.updateInventory();
+    			    break;
+    			default:
+    				break;
 			}
 		}
 	}
@@ -936,6 +945,27 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onDamage(EntityDamageEvent ede) {
 		if (!(ede.getEntity() instanceof Player)) {
+		    if(!(ede instanceof EntityDamageByEntityEvent)) {
+		        return;
+		    }
+		    
+		    EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
+		    if(edbee.getDamager() == null
+		            || !(edbee.getDamager() instanceof Player)) {
+		        return;
+		    }
+		    
+		    Player player = (Player) edbee.getDamager();
+		    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+		    
+		    if(game == null) {
+		        return;
+		    }
+		    
+		    if(game.getState() == GameState.WAITING) {
+		        ede.setCancelled(true);
+		    }
+		    
 			return;
 		}
 
