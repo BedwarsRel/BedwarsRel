@@ -49,9 +49,9 @@ errors:
     playernotfound: "Tento hrac neni online!"
     notingameforkick: "Musis byt ve hre pro vyhozeni tohoto hrace!"
     playernotingame: "Tento hrac se nenachazi v teto hre!"
-    mustbeinlobbyworld: "You must be in the lobby world of the game!"
-    addteamjoincancel: "The adding of team join was cancelled!"
-    entitynotcompatible: "This entity is not compatible with team join!"
+    mustbeinlobbyworld: "Musis byt v lobby svete teto hry!"
+    addteamjoincancel: "Pridavani pripojeni do hry zruseno!"
+    entitynotcompatible: "Tuto entitu nelze pouzit pro vyber tymu!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -79,8 +79,8 @@ success:
     builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v title!"
     autobalanceseton: "Automaticke vyvazovani bylo &lzapnuto&a!"
     autobalancesetoff: "Automaticke vyvazovani bylo &cvypnuto&a!"
-    selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
-    teamjoinadded: "Entity was successfully marked as team selection for team $team$"
+    selectteamjoinentity: "Nyni klikni pravym na entitu, kterou chces pouzit!"
+    teamjoinadded: "Entita byla uspesne ulozena pro tym $team$"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -269,5 +269,5 @@ commands:
         name: "Vyhodit hrace"
         desc: "Vyhodi hrace z aktualni hry!"
     addteamjoin:
-        name: "Add team selection"
-        desc: "Mark a creature which can be used to join a specific team!"
+        name: "Pridat vybirani tymu"
+        desc: "Vybere bytost, pomoci ktere se budete moci pripojit do tymu!"
