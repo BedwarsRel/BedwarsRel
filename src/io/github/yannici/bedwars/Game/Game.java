@@ -68,7 +68,6 @@ public class Game {
 	private Location lobby = null;
 	private HashMap<Player, PlayerStorage> storages = null;
 	private Scoreboard scoreboard = null;
-	private Scoreboard lobbyScoreboard = null;
 	private GameLobbyCountdown glc = null;
 	private HashMap<Material, MerchantCategory> itemshop = null;
 	private List<MerchantCategory> orderedItemshop = null;
@@ -125,9 +124,7 @@ public class Game {
 		this.state = GameState.STOPPED;
 		this.scoreboard = Main.getInstance().getScoreboardManager()
 				.getNewScoreboard();
-		this.lobbyScoreboard = Main.getInstance().getScoreboardManager()
-				.getNewScoreboard();
-		
+
 		this.glc = null;
 		this.joinSigns = new HashMap<Location, GameJoinSign>();
 		this.timeLeft = Main.getInstance().getMaxLength();
@@ -975,14 +972,14 @@ public class Game {
 	}
 	
 	private void updateLobbyScoreboard() {
-		this.lobbyScoreboard.clearSlot(DisplaySlot.SIDEBAR);
+		this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
 		
-		Objective obj = this.lobbyScoreboard.getObjective("lobby");
+		Objective obj = this.scoreboard.getObjective("lobby");
 		if(obj != null) {
 			obj.unregister();
 		}
 		
-		obj = this.lobbyScoreboard.registerNewObjective("lobby", "dummy");
+		obj = this.scoreboard.registerNewObjective("lobby", "dummy");
 		obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 		obj.setDisplayName(this.formatLobbyScoreboardString(Main.getInstance().getStringConfig("lobby-scoreboard.title", "&eBEDWARS")));
 		
@@ -1005,7 +1002,7 @@ public class Game {
 		}
 		
 		for (Player player : this.getPlayers()) {
-			player.setScoreboard(this.lobbyScoreboard);
+			player.setScoreboard(this.scoreboard);
 		}
 	}
 
@@ -1077,7 +1074,6 @@ public class Game {
 		this.timeLeft = Main.getInstance().getMaxLength();
 		this.length = this.timeLeft;
 		this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
-		this.lobbyScoreboard.clearSlot(DisplaySlot.SIDEBAR);
 	}
 
 	public void addJoinSign(Location signLocation) {
@@ -1317,10 +1313,6 @@ public class Game {
 
 	public HashMap<Location, GameJoinSign> getSigns() {
 		return this.joinSigns;
-	}
-
-	public Scoreboard getScoreboard() {
-		return this.scoreboard;
 	}
 
 	public GameCycle getCycle() {
