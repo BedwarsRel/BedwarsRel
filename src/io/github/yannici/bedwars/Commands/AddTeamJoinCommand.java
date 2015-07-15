@@ -6,6 +6,7 @@ import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -21,12 +22,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
-public class SetStandCommand extends BaseCommand {
+public class AddTeamJoinCommand extends BaseCommand {
 
-	public SetStandCommand(Main plugin) {
+	public AddTeamJoinCommand(Main plugin) {
         super(plugin);
     }
 
@@ -37,17 +40,17 @@ public class SetStandCommand extends BaseCommand {
 
 	@Override
 	public String getCommand() {
-		return "setstand";
+		return "addteamjoin";
 	}
 
 	@Override
 	public String getName() {
-		return Main._l("commands.setstand.name");
+		return Main._l("commands.addteamjoin.name");
 	}
 
 	@Override
 	public String getDescription() {
-		return Main._l("commands.setstand.desc");
+		return Main._l("commands.addteamjoin.desc");
 	}
 
 	@Override
@@ -86,42 +89,6 @@ public class SetStandCommand extends BaseCommand {
 			return false;
 		}
 		
-		HashSet<Material> transparent = new HashSet<Material>();
-		transparent.add(Material.AIR);
-		
-		Class<?> hashsetType = Utils.getGenericTypeOfParameter(player.getClass(), "getTargetBlock", 0);
-		Method targetBlockMethod = null;
-		Block targetBlock = null;
-		
-		// 1.7 compatible
-		try {
-			try {
-                targetBlockMethod = player.getClass().getMethod("getTargetBlock", new Class<?>[]{Set.class, int.class});
-			} catch(Exception ex) {
-			    try {
-			        targetBlockMethod = player.getClass().getMethod("getTargetBlock", new Class<?>[]{HashSet.class, int.class});
-    			} catch(Exception exc) {
-                    exc.printStackTrace();
-                }
-			}
-			
-			if(hashsetType.equals(Byte.class)) {
-				targetBlock = (Block)targetBlockMethod.invoke(player, new Object[]{null, 15});
-			} else {
-				targetBlock = (Block)targetBlockMethod.invoke(player, new Object[]{transparent, 15});
-			}
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		if(targetBlock == null || targetBlock.getRelative(BlockFace.UP).getType() != Material.AIR
-				|| targetBlock.getRelative(0, 2, 0).getType() != Material.AIR) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.armorstandtargeting")));
-			return false;
-		}
-		
 		// only in lobby
 		if(game.getLobby() == null || !player.getWorld().equals(game.getLobby().getWorld())) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
@@ -129,18 +96,30 @@ public class SetStandCommand extends BaseCommand {
 			return false;
 		}
 		
-		Location targetLocation = targetBlock.getRelative(BlockFace.UP).getLocation().clone();
-		targetLocation.setYaw((targetLocation.getYaw() > 180 ? targetLocation.getYaw() - 180 : targetLocation.getYaw() + 180));
-		Location standLocation = new Location(game.getLobby().getWorld(), 
-				targetLocation.getX(), 
-				targetLocation.getY(), 
-				targetLocation.getZ(), targetLocation.getYaw(), targetLocation.getPitch());
-		ArmorStand stand = (ArmorStand) game.getLobby().getWorld().spawnEntity(standLocation, EntityType.ARMOR_STAND);
-		stand.setArms(true);
-		stand.setBasePlate(true);
+		if(player.hasMetadata("bw-addteamjoin")) {
+			player.removeMetadata("bw-addteamjoin", Main.getInstance());
+		}
 		
-		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.armorstandadded")));
+		player.setMetadata("bw-addteamjoin", new TeamJoinMetaDataValue(gameTeam));
+		final Player runnablePlayer = player;
+		
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				try {
+					if(!runnablePlayer.hasMetadata("bw-addteamjoin")) {
+						return;
+					}
+					
+					runnablePlayer.removeMetadata("bw-addteamjoin", Main.getInstance());
+				} catch(Exception ex) {
+					// just ignore
+				}
+			}
+		}.runTaskLater(Main.getInstance(), 20L*10L);
+		
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.selectteamjoinentity")));
 		return true;
 	}
 

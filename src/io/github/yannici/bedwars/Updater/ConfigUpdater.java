@@ -153,6 +153,7 @@ public class ConfigUpdater {
 				"",
 				"&fWaiting ...",
 				""));
+		Main.getInstance().getConfig().addDefault("jointeam-entity.show-name", true);
 		// </1.2.3>
 	}
 	

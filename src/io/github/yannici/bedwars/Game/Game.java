@@ -1815,6 +1815,42 @@ public class Game {
 
 		return minStr + ":" + secStr;
 	}
+	
+	public void playerJoinTeam(Player player, Team team) {
+		if(team.getPlayers().size() >= team.getMaxPlayers()) {
+		    player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
+		    return;
+		}
+
+		if(team.addPlayer(player)) {
+			this.nonFreePlayer(player);
+		} else {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
+		    return;
+		}
+		
+		this.updateScoreboard();
+
+		GameLobbyCountdownRule rule = Main.getInstance()
+				.getLobbyCountdownRule();
+		if (rule == GameLobbyCountdownRule.TEAMS_HAVE_PLAYERS
+		        || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
+			if (rule.isRuleMet(this)) {
+				if (this.getLobbyCountdown() == null) {
+					GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
+					lobbyCountdown.setRule(rule);
+					lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+					this.setLobbyCountdown(lobbyCountdown);
+				}
+			}
+		}
+		
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+				+ Main._l(
+						"lobby.teamjoined",
+						ImmutableMap.of("team", team.getDisplayName()
+								+ ChatColor.GREEN))));
+	}
 
 	private void startTimerCountdown() {
 		this.timeLeft = Main.getInstance().getMaxLength();

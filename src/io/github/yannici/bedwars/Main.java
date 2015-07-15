@@ -692,6 +692,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new SetBuilderCommand(this));
 		this.commands.add(new SetAutobalanceCommand(this));
 		this.commands.add(new KickCommand(this));
+		this.commands.add(new AddTeamJoinCommand(this));
 
 		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
 	}

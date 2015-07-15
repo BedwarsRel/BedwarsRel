@@ -130,7 +130,15 @@ place-in-liquid: true
 # Defines the block types which are allowed to break
 breakable-blocks:
     - none
-    
+
+# Join team with entity config
+jointeam-entity:
+    # Team name visible
+    # type: boolean
+    # Should the name of the team be displayed above
+    # the entity? If so: true, if not: false
+    show-name: true
+
 # Lobby Scoreboard settings
 lobby-scoreboard:
     # Lobby scoreboard title

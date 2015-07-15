@@ -901,39 +901,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 		
-		if(team.getPlayers().size() >= team.getMaxPlayers()) {
-		    player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
-		    return;
-		}
-
-		if(team.addPlayer(player)) {
-			game.nonFreePlayer(player);
-		} else {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
-		    return;
-		}
-		
-		game.updateScoreboard();
-
-		GameLobbyCountdownRule rule = Main.getInstance()
-				.getLobbyCountdownRule();
-		if (rule == GameLobbyCountdownRule.TEAMS_HAVE_PLAYERS
-		        || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
-			if (rule.isRuleMet(game)) {
-				if (game.getLobbyCountdown() == null) {
-					GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(game);
-					lobbyCountdown.setRule(rule);
-					lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-					game.setLobbyCountdown(lobbyCountdown);
-				}
-			}
-		}
-		
-		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l(
-						"lobby.teamjoined",
-						ImmutableMap.of("team", team.getDisplayName()
-								+ ChatColor.GREEN))));
+		game.playerJoinTeam(player, team);
 		player.closeInventory();
 	}
 

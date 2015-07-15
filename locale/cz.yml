@@ -49,8 +49,9 @@ errors:
     playernotfound: "Tento hrac neni online!"
     notingameforkick: "Musis byt ve hre pro vyhozeni tohoto hrace!"
     playernotingame: "Tento hrac se nenachazi v teto hre!"
-    armorstandtargeting: "Musis stat na bloku, na kterem bude armorstand!"
-    mustbeinlobbyworld: "Armorstandy musi byt v hernim lobby!"
+    mustbeinlobbyworld: "You must be in the lobby world of the game!"
+    addteamjoincancel: "The adding of team join was cancelled!"
+    entitynotcompatible: "This entity is not compatible with team join!"
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
@@ -78,7 +79,7 @@ success:
     builderset: "Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v title!"
     autobalanceseton: "Automaticke vyvazovani bylo &lzapnuto&a!"
     autobalancesetoff: "Automaticke vyvazovani bylo &cvypnuto&a!"
-    armorstandadded: "Armorstand pro vyber tymu $team$ uspesne pridan!"
+    selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -266,3 +267,6 @@ commands:
     kick:
         name: "Vyhodit hrace"
         desc: "Vyhodi hrace z aktualni hry!"
+    addteamjoin:
+        name: "Add team selection"
+        desc: "Mark a creature which can be used to join a specific team!"

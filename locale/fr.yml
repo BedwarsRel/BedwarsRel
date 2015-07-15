@@ -46,8 +46,9 @@ errors:
     playernotfound: "Given player was not found or isn't online!"
     notingameforkick: "You must be in a game to kick a player!"
     playernotingame: "Given player is not in this game!"
-    armorstandtargeting: "You must target a block on which the armorstand can stand on!"
-    mustbeinlobbyworld: "Armorstands must be placed in the lobby of the game!"
+    mustbeinlobbyworld: "You must be in the lobby world of the game!"
+    addteamjoincancel: "The adding of team join was cancelled!"
+    entitynotcompatible: "This entity is not compatible with team join!"
 success:
     gameadded: "Nouvelle partie '$game$' ajoutée avec succès !"
     teamadded: "Equipe '$team$' ajoutée avec succès !"
@@ -75,7 +76,7 @@ success:
     builderset: "Le constructeur de la map a été configuré avec succès et va être affiché en titre !"
     autobalanceseton: "Autobalance was successfully turned on!"
     autobalancesetoff: "Autobalance was successfully turned &coff&a!"
-    armorstandadded: "Armorstand for selecting team $team$ successfully added!"
+    selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
 gamecheck:
     LOC_NOT_SET_ERROR: "La position pour la région n'a pas été configurée correctement !"
     TEAM_SIZE_LOW_ERROR: "Vous devez configurer plus d'équipe !"
@@ -263,3 +264,6 @@ commands:
     kick:
         name: "Exclure des joueurs"
         desc: "Exclure un ou des joueurs d'une partie!"
+    addteamjoin:
+        name: "Add team selection"
+        desc: "Mark a creature which can be used to join a specific team!"

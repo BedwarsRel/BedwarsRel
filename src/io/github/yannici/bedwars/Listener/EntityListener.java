@@ -4,13 +4,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
@@ -20,6 +26,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.metadata.MetadataValue;
 
 public class EntityListener extends BaseListener {
 
@@ -80,6 +88,61 @@ public class EntityListener extends BaseListener {
 		if(player.getHealth() >= player.getMaxHealth()) {
 			game.setPlayerDamager(player, null);
 		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onInteractByEntity(PlayerInteractAtEntityEvent event) {
+		if(event.getRightClicked() == null) {
+			return;
+		}
+		
+		Entity entity = event.getRightClicked();
+		Player player = event.getPlayer();
+		if(!player.hasMetadata("bw-addteamjoin")) {
+			if(!(entity instanceof LivingEntity)) {
+				return;
+			}
+			
+			Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+			if(game == null) {
+				return;
+			}
+			
+			if(game.getState() != GameState.WAITING) {
+				return;
+			}
+			
+			Team team = game.getTeam(ChatColor.stripColor(entity.getCustomName()));
+			if(team == null) {
+				return;
+			}
+			
+			game.playerJoinTeam(player, team);
+			event.setCancelled(true);
+			return;
+		}
+		
+		List<MetadataValue> values = player.getMetadata("bw-addteamjoin");
+		if(values == null || values.size() == 0) {
+			return;
+		}
+		
+		TeamJoinMetaDataValue value = (TeamJoinMetaDataValue) values.get(0);
+		if(!((boolean)value.value())) {
+			return;
+		}
+		
+		if(!(entity instanceof LivingEntity)) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.entitynotcompatible")));
+			return;
+		}
+		
+		LivingEntity living = (LivingEntity) entity;
+		living.setRemoveWhenFarAway(false);
+		living.setCanPickupItems(false);
+		living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
+		living.setCustomNameVisible(Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
+		player.removeMetadata("bw-addteamjoin", Main.getInstance());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

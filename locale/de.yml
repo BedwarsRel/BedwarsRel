@@ -44,8 +44,8 @@ errors:
     playernotfound: "Angegebener Spieler wurde nicht gefunden oder ist nicht online!"
     notingameforkick: "Du musst in einem Spiel sein, um kicken zu können!"
     playernotingame: "Angegebener Spieler ist nicht in diesem Spiel!"
-    armorstandtargeting: "Du musst ein Block anvisieren, auf dem der Rüstungsständer stehen soll!"
-    mustbeinlobbyworld: "Rüstüngsständer muss in der Lobby-Welt des Spiels erstellt werden!"
+    mustbeinlobbyworld: "Du musst in der Lobby-Welt des Spiels sein!"
+    entitynotcompatible: "Diese Kreature wird für die Team-Auswahl nicht unterstützt!"
 success:
     gameadded: "Neues Spiel '$game$' erfolgreich hinzugefügt!"
     teamadded: "Team $team$ erfolgreich hinzugefügt!"
@@ -73,7 +73,7 @@ success:
     builderset: "Der Builder der Map wurde erfolgreich gesetzt!"
     autobalanceseton: "Autobalance wurde erfolgreich eingeschaltet!"
     autobalancesetoff: "Autobalance wurde erfolgreich &causgeschaltet&a!"
-    armorstandadded: "Rüstungsständer zum Wählen des Teams $team$ hinzugefügt!"
+    selectteamjoinentity: "Mache nun einen Rechtsklick auf die Kreatur, die als Teambeitritt dienen soll!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Die Regionspunkte wurden nicht korrekt gesetzt!"
     TEAM_SIZE_LOW_ERROR: "Du musst mehr Teams hinzufügen!"
@@ -261,3 +261,6 @@ commands:
     kick:
         name: "Spieler kicken"
         desc: "Kickt einen Spieler aus dem aktuellen Spiel"
+    addteamjoin:
+        name: "Team-Auswahl hinzufügen"
+        desc: "Markiert eine Kreatur, die zur Team-Auswahl für ein bestimmtes Team verwendet werden kann"

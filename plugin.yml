@@ -117,6 +117,10 @@ commands:
         description: Kicks a player from the game
         usage: /<command>
         permission: bw.kick
+    bw addteamjoin:
+        description: Mark a creature which can be used to join a specific team
+        usage: /<command>
+        permission: bw.setup
 permissions:
     bw.base:
         description: Allows you to show to play games
