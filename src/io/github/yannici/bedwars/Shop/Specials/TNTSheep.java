@@ -1,5 +1,7 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
+import java.util.ArrayList;
+
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Events.BedwarsUseTNTSheepEvent;
@@ -178,7 +180,7 @@ public class TNTSheep extends SpecialItem {
 	
 	        Team playerTeam = this.game.getPlayerTeam(player);
 	
-	        ArrayList<Player> possibleTargets = new ArrayList<>();
+	        ArrayList<Player> possibleTargets = new ArrayList<Player>();
 	        possibleTargets.addAll(this.game.getPlayers());
 	        possibleTargets.removeAll(playerTeam.getPlayers());
 	

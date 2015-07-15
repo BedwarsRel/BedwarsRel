@@ -13,7 +13,6 @@ import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
 import io.github.yannici.bedwars.Game.BungeeGameCycle;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
-import io.github.yannici.bedwars.Game.GameLobbyCountdown;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
@@ -58,8 +57,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.google.common.collect.ImmutableMap;
 
 public class PlayerListener extends BaseListener {
 

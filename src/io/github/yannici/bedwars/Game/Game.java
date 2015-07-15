@@ -108,8 +108,6 @@ public class Game {
 	private Location loc2 = null;
 	
 	private Material targetMaterial = null;
-	
-	private Map<Location, Team> armorStands = null;
 
 	public Game(String name) {
 		super();
@@ -142,8 +140,6 @@ public class Game {
 		this.record = Main.getInstance().getMaxLength();
 		this.length = Main.getInstance().getMaxLength();
 		this.recordHolders = new ArrayList<String>();
-		
-		this.armorStands = new HashMap<Location, Team>();
 		
 		this.playerSettings = new HashMap<Player, PlayerSettings>();
 		
