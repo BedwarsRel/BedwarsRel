@@ -77,6 +77,7 @@ success:
     autobalanceseton: "Autobalance was successfully turned on!"
     autobalancesetoff: "Autobalance was successfully turned &coff&a!"
     selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
+    teamjoinadded: "Entity was successfully marked as team selection for team $team$"
 gamecheck:
     LOC_NOT_SET_ERROR: "La position pour la région n'a pas été configurée correctement !"
     TEAM_SIZE_LOW_ERROR: "Vous devez configurer plus d'équipe !"

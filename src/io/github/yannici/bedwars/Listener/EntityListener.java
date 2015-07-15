@@ -29,6 +29,8 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
+import com.google.common.collect.ImmutableMap;
+
 public class EntityListener extends BaseListener {
 
 	public EntityListener() {
@@ -143,6 +145,10 @@ public class EntityListener extends BaseListener {
 		living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
 		living.setCustomNameVisible(Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
 		player.removeMetadata("bw-addteamjoin", Main.getInstance());
+		
+		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamjoinadded", 
+				ImmutableMap.of("team", 
+						value.getTeam().getChatColor() + value.getTeam().getDisplayName() + ChatColor.GREEN))));
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

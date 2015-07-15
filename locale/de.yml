@@ -74,6 +74,7 @@ success:
     autobalanceseton: "Autobalance wurde erfolgreich eingeschaltet!"
     autobalancesetoff: "Autobalance wurde erfolgreich &causgeschaltet&a!"
     selectteamjoinentity: "Mache nun einen Rechtsklick auf die Kreatur, die als Teambeitritt dienen soll!"
+    teamjoinadded: "Kreatur wurde erfolgreich für die Team-Auswahl für das Team $team$ markiert!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Die Regionspunkte wurden nicht korrekt gesetzt!"
     TEAM_SIZE_LOW_ERROR: "Du musst mehr Teams hinzufügen!"
