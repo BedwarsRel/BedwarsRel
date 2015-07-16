@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
@@ -14,7 +15,6 @@ import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -27,9 +27,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.google.common.collect.ImmutableMap;
@@ -96,7 +94,7 @@ public class EntityListener extends BaseListener {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onInteractByEntity(PlayerInteractAtEntityEvent event) {
+	public void onInteractEntity(PlayerInteractEntityEvent event) {
 		if(event.getRightClicked() == null) {
 			return;
 		}
@@ -108,6 +106,7 @@ public class EntityListener extends BaseListener {
 				return;
 			}
 			
+			LivingEntity livEntity = (LivingEntity) entity;
 			Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 			if(game == null) {
 				return;
@@ -117,7 +116,7 @@ public class EntityListener extends BaseListener {
 				return;
 			}
 			
-			Team team = game.getTeam(ChatColor.stripColor(entity.getCustomName()));
+			Team team = game.getTeam(ChatColor.stripColor(livEntity.getCustomName()));
 			if(team == null) {
 				return;
 			}
@@ -149,8 +148,10 @@ public class EntityListener extends BaseListener {
 		living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
 		living.setCustomNameVisible(Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
 		
-		if(living instanceof ArmorStand) {
-		    this.equipArmorStand((ArmorStand)living, value.getTeam());
+		if(Utils.isSupportingTitles()) {
+		    if(living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
+	            Utils.equipArmorStand(living, value.getTeam());
+	        }
 		}
 		
 		player.removeMetadata("bw-addteamjoin", Main.getInstance());
@@ -158,37 +159,6 @@ public class EntityListener extends BaseListener {
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamjoinadded", 
 				ImmutableMap.of("team", 
 						value.getTeam().getChatColor() + value.getTeam().getDisplayName() + ChatColor.GREEN))));
-	}
-	
-	private void equipArmorStand(ArmorStand stand, Team team) {
-	    // helmet
-	    ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
-	    LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
-	    meta.setColor(team.getColor().getColor());
-	    helmet.setItemMeta(meta);
-	    
-	    // chestplate
-	    ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-        meta = (LeatherArmorMeta) chestplate.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        chestplate.setItemMeta(meta);
-        
-        // leggings
-        ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
-        meta = (LeatherArmorMeta) leggings.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        leggings.setItemMeta(meta);
-        
-        // boots
-        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
-        meta = (LeatherArmorMeta) boots.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        boots.setItemMeta(meta);
-        
-        stand.setHelmet(helmet);
-        stand.setChestplate(chestplate);
-        stand.setLeggings(leggings);
-        stand.setBoots(boots);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

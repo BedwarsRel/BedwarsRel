@@ -1008,7 +1008,8 @@ public class Game {
 
 	public void updateScoreboard() {
 		if(this.state == GameState.WAITING
-				&& Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)) {
+				&& Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)
+				&& Utils.isSupportingTitles()) {
 			this.updateLobbyScoreboard();
 			return;
 		}

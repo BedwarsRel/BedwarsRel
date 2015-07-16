@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars;
 
 import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.Team;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,8 +30,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 public final class Utils {
 
@@ -49,6 +53,43 @@ public final class Utils {
 
 		return builder.toString();
 	}
+	
+	public static void equipArmorStand(LivingEntity armor, Team team) {
+	    if(!(armor instanceof ArmorStand)) {
+	        return;
+	    }
+	    
+	    ArmorStand stand = (ArmorStand) armor;
+	    
+        // helmet
+        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
+        LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        helmet.setItemMeta(meta);
+        
+        // chestplate
+        ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+        meta = (LeatherArmorMeta) chestplate.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        chestplate.setItemMeta(meta);
+        
+        // leggings
+        ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+        meta = (LeatherArmorMeta) leggings.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        leggings.setItemMeta(meta);
+        
+        // boots
+        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
+        meta = (LeatherArmorMeta) boots.getItemMeta();
+        meta.setColor(team.getColor().getColor());
+        boots.setItemMeta(meta);
+        
+        stand.setHelmet(helmet);
+        stand.setChestplate(chestplate);
+        stand.setLeggings(leggings);
+        stand.setBoots(boots);
+    }
 
 	public static void createParticleInGame(Game game, String particle,
 			Location loc) {

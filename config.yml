@@ -140,6 +140,7 @@ jointeam-entity:
     show-name: true
 
 # Lobby Scoreboard settings
+# ONLY 1.8 OR HIGHER
 lobby-scoreboard:
     # Enable lobby scoreboard
     # type: boolean
