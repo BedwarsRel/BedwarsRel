@@ -141,6 +141,12 @@ jointeam-entity:
 
 # Lobby Scoreboard settings
 lobby-scoreboard:
+    # Enable lobby scoreboard
+    # type: boolean
+    # If true, the lobby scoreboard will be used (configurable in this section)
+    # If false, the normal scoreboard (with team display) will be used
+    enabled: true
+
     # Lobby scoreboard title
     # type: string
     # The title of the lobby scoreboard

@@ -146,6 +146,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("teamname-in-chat", false);
 		Main.getInstance().getConfig().addDefault("hearts-on-death", true);
 		Main.getInstance().getConfig().addDefault("lobby-scoreboard.title", "&eBEDWARS");
+		Main.getInstance().getConfig().addDefault("lobby-scoreboard.enabled", true);
 		Main.getInstance().getConfig().addDefault("lobby-scoreboard.content", Arrays.asList(
 				"", 
 				"&fMap: &2$regionname$", 

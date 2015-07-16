@@ -1007,7 +1007,8 @@ public class Game {
 	}
 
 	public void updateScoreboard() {
-		if(this.state == GameState.WAITING) {
+		if(this.state == GameState.WAITING
+				&& Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)) {
 			this.updateLobbyScoreboard();
 			return;
 		}
