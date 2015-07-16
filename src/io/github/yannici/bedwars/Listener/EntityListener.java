@@ -27,6 +27,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
@@ -94,6 +95,11 @@ public class EntityListener extends BaseListener {
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
+    public void onInteractAtEntity(PlayerInteractAtEntityEvent event) {
+	    this.onInteractEntity(event);
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
 	public void onInteractEntity(PlayerInteractEntityEvent event) {
 		if(event.getRightClicked() == null) {
 			return;
@@ -155,7 +161,6 @@ public class EntityListener extends BaseListener {
 		}
 		
 		player.removeMetadata("bw-addteamjoin", Main.getInstance());
-		
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamjoinadded", 
 				ImmutableMap.of("team", 
 						value.getTeam().getChatColor() + value.getTeam().getDisplayName() + ChatColor.GREEN))));

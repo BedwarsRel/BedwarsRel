@@ -168,6 +168,7 @@ public class PlayerStorage {
             meta.setColor(team.getColor().getColor());
             chestplate.setItemMeta(meta);
             this.player.getInventory().setItem(7, chestplate);
+            team.equipPlayerWithLeather(this.player);
         }
 
         if (this.player.hasPermission("bw.setup") || this.player.isOp()

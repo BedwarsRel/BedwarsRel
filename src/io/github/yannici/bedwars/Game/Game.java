@@ -1846,6 +1846,7 @@ public class Game {
 			}
 		}
 		
+		team.equipPlayerWithLeather(player);
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
 				+ Main._l(
 						"lobby.teamjoined",
