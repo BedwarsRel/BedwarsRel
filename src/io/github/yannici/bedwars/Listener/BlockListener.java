@@ -60,12 +60,21 @@ public class BlockListener extends BaseListener {
 	        return;
 	    }
 	    
+	    if(spread.getBlock() == null) {
+	        return;
+	    }
+	    
 	    Game game = Main.getInstance().getGameManager().getGameByLocation(spread.getBlock().getLocation());
 	    if(game == null) {
 	        return;
 	    }
 	    
 	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    if(spread.getNewState() == null
+	            || spread.getSource() == null) {
 	        return;
 	    }
 	    

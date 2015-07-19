@@ -4,7 +4,7 @@ author: Yannici
 website: http://www.spigotmc.org/resources/bedwars-rel.6799/
 
 main: io.github.yannici.bedwars.Main
-version: 1.2.3
+version: 1.2.4
 
 awareness:
     - !@UTF8

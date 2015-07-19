@@ -10,6 +10,7 @@ import io.github.yannici.bedwars.Game.RessourceSpawner;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Listener.BlockListener;
 import io.github.yannici.bedwars.Listener.ChunkListener;
+import io.github.yannici.bedwars.Listener.Entity18Listener;
 import io.github.yannici.bedwars.Listener.EntityListener;
 import io.github.yannici.bedwars.Listener.PlayerListener;
 import io.github.yannici.bedwars.Listener.ServerListener;
@@ -649,7 +650,11 @@ public class Main extends JavaPlugin {
 		new WeatherListener();
 		new BlockListener();
 		new PlayerListener();
-		new EntityListener();
+		EntityListener el = new EntityListener();
+		if(Utils.isSupportingTitles()) {
+		    new Entity18Listener(el);
+		}
+		
 		new ServerListener();
 		new SignListener();
 		new ChunkListener();
