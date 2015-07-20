@@ -397,8 +397,9 @@ public class Region {
 			}
 
 			if (e.getType() == EntityType.VILLAGER) {
-				e.setCustomNameVisible(false);
-				e.setCustomName(Main._l("ingame.shop.name"));
+			    LivingEntity le = (LivingEntity) e;
+			    le.setCustomNameVisible(false);
+			    le.setCustomName(Main._l("ingame.shop.name"));
 			}
 		}
 	}

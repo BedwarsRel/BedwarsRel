@@ -7,8 +7,8 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
-import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
