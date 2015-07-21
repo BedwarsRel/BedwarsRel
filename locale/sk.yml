@@ -1,0 +1,272 @@
+# ###############################
+# ####### Slovak LOCALE ########
+# ## TRANSLATED BY Haxter888 ##
+# ###############################
+default:
+    pages: "Stranka $current$ z $max$"
+    currently: Aktualny
+errors:
+    argumentslength: "Pocet argumentov prikazu neodpoveda spravnemu mnozstvu!"
+    packagenotfound: "Nejde nacitat $package$ package!"
+    classnotfound: "Nejde nacitat $package$ class $class$!"
+    gameexists: "Hra s timto menom uz existuje!"
+    gamenotfound: "Hra '$game$' nebola najdena!"
+    gamenotfoundsimple: "Hra nenajdena!"
+    playeramount: "Pocet hracov nesmie byt mensi ako 1 a vyssi ako 24!"
+    teamcolornotallowed: "Tato farba neni pre tymy povolena."
+    teamnamelength: "Nazov tymu musi mat 2 - 20 pismen!"
+    teamnotfound: "Tento tym nebol najdeny!"
+    notingame: "Neni si v hre!"
+    bedtargeting: "Musis stat na bloku, ktory je v konfiguraci zapisany ako 'game-block'!"
+    regionargument: "Mozete zadat iba 'loc1' alebo 'loc2'!"
+    spawnerargument: "Mozete zadat iba (gold;iron;bronze)"
+    blockdownnotfound: "Blok na ktorom stojite nebol najdeny!"
+    gamenotrunning: "Hra nebezi!"
+    bungeenoserver: "Bungeecord server neni spravne nastaveny! Kontaktuj administratora!"
+    cantstartagain: "Hra uz bezi! Nemozes zapnout hru, ktera uz bezi!"
+    startoutofwaiting: "Hra bude zapnuta bez cakania!"
+    cantjoingame: "Nemozes sa pripojit do hry, ktora uz bezi alebo je vypnuta!"
+    lobbyongameworld: "Lobby nemoze byt na hernom svete!"
+    gamenotloaded: "Hru nejde zapnut!"
+    gameloaderror: "Nejde nacitat hru '$game$'!"
+    regionnotfound: "Soubor mapy neexistuje!"
+    savesign: "Nejde vytvorit novu konfiguraciu pre cedulku!"
+    nogames: "Ziadna hra neexistuje!"
+    notenoughress: "Nemas dostatok surovin pre kupu tohoto predmetu!"
+    teamnameinuse: "Meno tymu je uz pouzite!"
+    minplayersmustnumber: "Minimalni pocet hracu musi byt cislo!"
+    toolongregionname: "Maximalna dlzka muze byt 15 pismen dlha!"
+    notwhilegamerunning: "Nejde vykonat pokial hra bezi!"
+    notwhileingame: "Nejde vykonat pokial si v hre."
+    teamnotfound: "Tym nenajdeny!"
+    timeincorrect: "Cas musi byt: cislo (0 ... 23000), 'day' alebo 'night'!"
+    minplayersnumeric: "Pocet minimalnich hracov musi byt cislo!"
+    notinair: "Nenisi vo vzduchu!"
+    teamfull: "Tym je plny, otvor si znovu vyberove menu!"
+    novalidmaterial: "Blok (material) neni spravny!"
+    wrongvalueonoff: "Zly Parameter! Pouzi true,on,1 pre zapnutie - Pouzi false,off,0 pre vypnutie!"
+    playernotfound: "Tento hrac neni online!"
+    notingameforkick: "Musis byt v hre pre vyhodenie tohoto hraca!"
+    playernotingame: "Tento hrac sa nenachaza v teto hre!"
+    mustbeinlobbyworld: "Musis byt v lobby svete teto hry!"
+    addteamjoincancel: "Pridavani pripojeni do hry zruseno!"
+    entitynotcompatible: "Tuto entitu nelze pouzit pro vyber tymu!"
+success:
+    gameadded: "Nova hra '$game$' uspesne pridana!"
+    teamadded: "Tym '$team$' uspesne pridany!"
+    joined: "Pripojil si sa do hry!"
+    left: "Odpojil si sa z hry"
+    saved: "Hra bola uspesne ulozena!"
+    bedset: "Uspesne si nastavil respawn blok tymu $team$!"
+    regionset: "Oblast $location$ pre hru $game$ uspesne nastavena!"
+    spawnset: "Spawn lokacia pre tym $team$ uspesne nastavena!"
+    spawnerset: "Spawn surovin $name$ uspesne nastaveny!"
+    stopped: "Hra bola zastavena!"
+    lobbyset: "Lobby pre hru bolo nastavene!"
+    gameloaded: "Hra '$game$' uspesne nacitana!"
+    reloadconfig: "Konfiguracia a jazyky znovu nacitane!"
+    teamremoved: "Tym bol uspesne odstraneny!"
+    gameremoved: "Hra bola uspesne odstranena!"
+    spawnercleared: "Vsetky spawnery surovin boli odstranene!"
+    gamerun: "Hra bola zapnuta, hraci uz mozu hrat!"
+    timeset: "Cas hry bol uspesne nastaveny!"
+    regionnameset: "Meno regionu uspesne nastavene!"
+    minplayersset: "Min. pocet hracov nastaveny!"
+    mainlobbyset: "Mainlobby uspesne nastavene!"
+    gametimeset: "Cas hry uspesne nastaveny!"
+    materialset: "Respawn blok (material) bol uspesne nastaveny!"
+    builderset: "Stavitel tejto mapy bol uspesne nastaveny a bude sa zobrazovat v title!"
+    autobalanceseton: "Automaticke vyvezovanie bolo &lzapnute&a!"
+    autobalancesetoff: "Automaticke vyvezovanie bolo &cvypnute&a!"
+    selectteamjoinentity: "Teraz klikni pravym na entitu, ktoru chces pouzit!"
+    teamjoinadded: "Entita bola uspesne ulozena pre tym $team$"
+gamecheck:
+    LOC_NOT_SET_ERROR: "Lokacia pre tuto hru nebola dobre nastavena!"
+    TEAM_SIZE_LOW_ERROR: "Musis nastavit viac tymov!"
+    NO_RES_SPAWNER_ERROR: "Nenastavil si ziadny spawner surovin!"
+    NO_LOBBY_SET: "Nenastavil si lobby!"
+    TEAMS_WITHOUT_SPAWNS: "Tymi nemaju nadstavenu spawn lokaciu!"
+    NO_ITEMSHOP_CATEGORIES: "Ziadne kategorie obchodu nenajdene!"
+    NO_MAIN_LOBBY_SET: "Nenastavil si Main lobby (hlavni lobby) alebo si v nastaveni nepovolil 'tomainlobby' na true (povoleno)"
+    TEAM_NO_WRONG_BED: "Jeden nebo viac tymov nemaju nastavenu postel!"
+    TEAM_NO_WRONG_TARGET: "Jeden alebo viac tymov nemaju nastaveny respawn block!"
+ingame:
+    teams: "Tymy"
+    all: "Vsetci"
+    record: "&e$record$&a je rekord na tejto mape!"
+    record-with-holders: "&aRekord na tejto mape je &e$record$&a ziskany hracmi: $holders$"
+    newrecord: "&aTym $team$&a ziskal novy rekord: &6$record$"
+    record-nobeddestroy: "&cRekord nemohol byt ulozeny, pretoze &lnebola &cznicena ziadna postel!"
+    teamwon: "Gratulacia! Tym $team$ vyhral!"
+    draw: "Hra skoncila remizou."
+    serverrestart: "Restart serveru za $sec$ sekund!"
+    gamestarting: "Hra sa zapina!"
+    gamestarted: "Hra '$game$' zacala!"
+    backtolobby: "Teleportacia do lobby za $sec$ sekund!"
+    spectator: "Sledujici"
+    spectate: "&aSledovat"
+    teamchest: "Tymova truhla"
+    noturteamchest: "Tato truhla nepatri tvojmu tymu!"
+    protectionleft: "Si nezranitelny na &c$length$&f sekund!"
+    protectionend: "Uz si opet &czranitelny&f!"
+    team-dead: "Tym $team$ bol zniceny!"
+    no-friendlybreak: "&cNemozes znicit blok pod hracom svojho tymu!"
+    title:
+        map-builder: "Mapu postavil/a $builder$"
+        win-title: "&a&lGratulacia!"
+        win-subtitle: "$team$&6 vyhral v case &e$time$"
+    shop:
+        name: "Obchod"
+        newshop: "Pouzi novy obchod"
+        oldshop: "Pouzi stary obchod"
+        fullstackpershift: Viac stackov za shift click
+        onestackpershift: Jeden stack za shift click
+    player:
+        left: "Hrac $player$ odisiel z hry."
+        died: "$player$ zomrel!"
+        killed: "$killer$ zabil $player$!"
+        kicked: "$player$ bol vyhodeny!"
+        waskicked: "Bol si vyhodeny z hry!"
+    blocks:
+        ownbeddestroy: "Nemozes znicit svoju postel!"
+        beddestroyed: "$player$ znicil postel tymu $team$!"
+    specials:
+        rescue-platform:
+            left: "&cMusis pockat &e$time$&f sekund(u) pred pouzitim dalsej zachrannej platformy!"
+        trap:
+            trapped: "&eNiekdo stupil do &cpaste&e tvojho tymu!"
+        protection-wall:
+            left: "Musis pockat &c$time$&f sekund pred pouzitim!"
+            not-usable-here: "Tento predmet tu nemuzes pouzit!"
+        warp-powder:
+            cancelled: "&cTeleportacia zrusena!"
+            start: "Budes teleportovany za &c$time$&f sekund!"
+            cancel: "&4Zrusit Teleport"
+        tntsheep:
+            no-target-found: "Ziadny ciel nebol najdeny!"
+lobby:
+    countdown: "Hra zacne za $sec$ sekund!"
+    countdowncancel: "Je treba viac hracov! Odpocet bol zastaveny."
+    cancelcountdown:
+        TEAMS_HAVE_PLAYERS: "Minimalne jeden tym nema hrace! Odpocet bol zastaveny.!"
+        PLAYERS_IN_GAME: "Je potreba viac hracov! Odpocet bol zastaveny."
+        ENOUGH_TEAMS_AND_PLAYERS: "Iba jeden tym ma hraca alebo je treba viac hracov! Odpocet bol zastaveny."
+    chooseteam: "Vyber si tym"
+    startgame: "Spustit hru"
+    gamefull: "Hra je plna!"
+    gamefullpremium: "The game is full of premium players already!"
+    teamjoined: "Uspesne si sa pripojil do tymu $team$"
+    leavegame: "Opustit hru"
+    playerjoin: "Hrac $player$ sa pripojil do hry!"
+    kickedbyvip: "Bol si vyhodeny z hry, pretoze se pripojil VIP hrac."
+    notenoughplayers-rule0: "Pre start hry je treba viac hracov!"
+    notenoughplayers-rule1: "Kazdy tym musi mat najmenej jedneho hraca!"
+sign:
+    firstline: "&f[&c&lBed&f&lwars&f]"
+    players: "Hraci"
+    gamestate:
+        stopped: "&4VYPNUTE"
+        waiting: "&aCAKANIE"
+        running: "&9V HRE!"
+        full: "&cPLNO!"
+stats:
+    header: "Statistiky BedWars hier"
+    kd: "K/D"
+    statsnotfound: "Statistika hraca $player$ nenajdena!"
+    name: "Jmeno"
+    kills: "Zabiti"
+    deaths: "Smrti"
+    wins: "Vyhry"
+    loses: "Prohry"
+    score: "Skore"
+    destroyedBeds: "Znicene postele"
+    games: "Hrane hry"
+ressources:
+    gold: "&6Zlato"
+    iron: "&7Zelezo"
+    bronze: "&4Bronz"
+commands:
+    addgame:
+        name: "Pridat hru"
+        desc: "Prida novu hru"
+    addteam:
+        name: "Pridat tym"
+        desc: "Prida tym specialne pre arenu"
+    join:
+        name: "Pripojit sa do hry"
+        desc: "Pripoji ta do urcite hry"
+    leave:
+        name: "Odpojit z hry"
+        desc: "Odpoji ta z aktualnej hry"
+    save:
+        name: "Ulozit hru"
+        desc: "Ulozi hru (a mapu) do konfiguracie!"
+    settarget:
+        name: "Nastavit postel"
+        desc: "Nastavi lokaciu postele tymu"
+    setbed:
+        name: "Nastavit postel (Synonym for settarget)"
+        desc: "Nastavi lokaciu postele tymu (Synonym for settarget)"
+    setlobby:
+        name: "Nastavit lobby"
+        desc: "Nastavi lokaciu lobby pre hru"
+    setregion:
+        name: "Nastavit oblast"
+        desc: "Nastavi hranice hry"
+    setspawn:
+        name: "Nastavit spawn tymu"
+        desc: "Nastavi misto pre spawn urciteho tymu"
+    setspawner:
+        name: "Nastavit spawner"
+        desc: "Nastavie mista pre spawnovanie surovin"
+    start:
+        name: "Spustit hru"
+        desc: "Spusti hru"
+    stop:
+        name: "Ukoncit hru"
+        desc: "Ukonci hru"
+    help:
+        name: "Ukazat pomoc"
+        desc: "Ukaze informacie o tomto plugine a prikazoch"
+    reload:
+        name: "Znovu nacitat"
+        desc: "Znovu nacita vsetky konfiguracie a jazyky"
+    setmainlobby:
+        name: "Nastavit Main lobby"
+        desc: "Nastavi hlavne lobby, kam sa po hre teleportuju hraci. (je treba pokial je mainlobby-enabled nastavene na true)"
+    list:
+        name: "List hier"
+        desc: "Zobrazi vsetky dostupne hry"
+    regionname:
+        name: "Nastavit meno regionu"
+        desc: "Nastavi individualne meno hry (nezalezi na svete)"
+    removeteam:
+        name: "Odstranit tym"
+        desc: "Zmaze tym z hry (iba vo vyplej hre)"
+    removegame:
+        name: "Odstranit hru"
+        desc: "Zmaze hru a konfiguraciu"
+    clearspawner:
+        name: "Zmazat spawnery"
+        desc: "Odstrani vsetky spawnery surovin. Ulozenie areny je nutne."
+    gametime:
+        name: "Nastavit cas hry"
+        desc: "Nastavi cas, ktory bude v arene po dobu hry"
+    stats:
+        name: "Statistiky"
+        desc: "Zobrazi tvoje statistiky"
+    setbuilder:
+        name: "Nastavi stavitela mapy"
+        desc: "Nastavi stavitela mapy, ktory sa bude zobrazovat v title."
+    setgameblock:
+        name: "Nastavit herny blok"
+        desc: "Nastavi blok hry, ktery moze byt pouzite misto 'game-block' nastavenie. Napis 'DEFAULT' pre znovu pouzitie bloku z konfiguracie."
+    setautobalance:
+        name: "Nastavit automaticke vyvezovanie"
+        desc: "Pokial je 'global-autobalance' nastavena na 'false', tak mozes pomocou tohoto prikazu nastavit automaticke vyvezovanie pre tuto hru!"
+    kick:
+        name: "Vyhodit hraca"
+        desc: "Vyhodi hraca z aktualnej hry!"
+    addteamjoin:
+        name: "Pridat vyberanie tymu"
+        desc: "Vybere bytost, pomocou ktorej sa budete moct pripojit do tymu!"
