@@ -81,9 +81,9 @@ public class PlayerStorage {
             if(game != null) {
                 Team team = game.getPlayerTeam(this.player);
                 if(team != null) {
-                    this.player.setDisplayName(team.getChatColor() + this.player.getName());
+                    this.player.setDisplayName(team.getChatColor() + ChatColor.stripColor(this.player.getDisplayName()));
                 } else {
-                    this.player.setDisplayName(this.player.getName());
+                    this.player.setDisplayName(ChatColor.stripColor(this.player.getDisplayName()));
                 }
             }
         }
@@ -94,9 +94,9 @@ public class PlayerStorage {
                 Team team = game.getPlayerTeam(this.player);
                 if(team != null) {
                     this.player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE 
-                    		+ " | " + team.getChatColor() + this.player.getName());
+                    		+ " | " + team.getChatColor() + ChatColor.stripColor(this.player.getDisplayName()));
                 } else {
-                    this.player.setPlayerListName(this.player.getName());
+                    this.player.setPlayerListName(ChatColor.stripColor(this.player.getDisplayName()));
                 }
             }
         }
@@ -228,7 +228,7 @@ public class PlayerStorage {
             teamplayers.add(ChatColor.WHITE + "---------");
 
             for (Player teamPlayer : players) {
-                teamplayers.add(team.getChatColor() + teamPlayer.getName());
+                teamplayers.add(team.getChatColor() + ChatColor.stripColor(teamPlayer.getDisplayName()));
             }
 
             im.setLore(teamplayers);

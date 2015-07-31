@@ -467,12 +467,12 @@ public class PlayerListener extends BaseListener {
 		
 		if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
 		    if(team == null || isSpectator) {
-		        player.setDisplayName(player.getName());
+		        player.setDisplayName(ChatColor.stripColor(player.getDisplayName()));
 		        
-		        player.setPlayerListName(player.getName());
+		        player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
 		    } else {
-		        player.setDisplayName(team.getChatColor() + player.getName());
-		        player.setPlayerListName(team.getChatColor() + player.getName());
+		        player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+		        player.setPlayerListName(team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
 		    }
 		    
 		}
@@ -480,9 +480,9 @@ public class PlayerListener extends BaseListener {
 		if(Main.getInstance().getBooleanConfig("teamname-on-tab", false)
 				&& Utils.isSupportingTitles()) {
 		    if(team == null || isSpectator) {
-                player.setPlayerListName(player.getName());
+                player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
             } else {
-                player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + player.getName());
+                player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
             }
 		}
 
