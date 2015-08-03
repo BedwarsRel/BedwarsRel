@@ -6,6 +6,7 @@ import io.github.yannici.bedwars.Game.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -99,6 +100,17 @@ public class MerchantCategory {
 			ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
 
 			for (Object offer : section.getList(cat + ".offers")) {
+				if(offer instanceof String) {
+					if(offer.toString().equalsIgnoreCase("empty")
+							|| offer.toString().equalsIgnoreCase("null")
+							|| offer.toString().equalsIgnoreCase("e")) {
+						VillagerTrade trade = new VillagerTrade(new ItemStack(Material.AIR, 1), new ItemStack(Material.AIR, 1));
+						offers.add(trade);
+					}
+					
+					continue;
+				}
+				
 				LinkedHashMap<String, Object> offerSection = (LinkedHashMap<String, Object>) offer;
 
 				if (!offerSection.containsKey("item1")
@@ -328,6 +340,22 @@ public class MerchantCategory {
 		return this.item;
 	}
 
+	@SuppressWarnings("unchecked")
+	public ArrayList<VillagerTrade> getFilteredOffers() {
+		ArrayList<VillagerTrade> trades = (ArrayList<VillagerTrade>) this.offers.clone();
+		Iterator<VillagerTrade> iterator = trades.iterator();
+		
+		while(iterator.hasNext()) {
+			VillagerTrade trade = iterator.next();
+			if(trade.getItem1().getType() == Material.AIR
+					&& trade.getRewardItem().getType() == Material.AIR) {
+				iterator.remove();
+			}
+		}
+		
+		return trades;
+	}
+	
 	public ArrayList<VillagerTrade> getOffers() {
 		return this.offers;
 	}

@@ -245,6 +245,11 @@ public class NewItemShop {
 
 		for (int i = 0; i < offers.size(); i++) {
 			VillagerTrade trade = offers.get(i);
+			if(trade.getItem1().getType() == Material.AIR &&
+					trade.getRewardItem().getType() == Material.AIR) {
+				continue;
+			}
+			
 			int slot = (this.getInventorySize(sizeCategories)) + i;
 			ItemStack tradeStack = this.toItemStack(trade, player, game);
 
@@ -316,6 +321,8 @@ public class NewItemShop {
 			// is category click
 			ice.setCancelled(true);
 			
+			if(item == null) return;
+			
 			if (item.getType().equals(this.currentCategory.getMaterial())) {
 				// back to default category view
 				this.currentCategory = null;
@@ -328,12 +335,15 @@ public class NewItemShop {
 			// its a buying item
 			ice.setCancelled(true);
 			
+			if(item == null || item.getType() == Material.AIR) {
+				return;
+			}
+			
 			MerchantCategory category = this.currentCategory;
 			VillagerTrade trade = this.getTradingItem(category,
 					item, game, player);
 
 			if (trade == null) {
-				ice.setCancelled(true);
 				return;
 			}
 			

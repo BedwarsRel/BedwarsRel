@@ -76,7 +76,7 @@ public class VillagerItemShop {
 					recipeList.clear();
 
 					for (io.github.yannici.bedwars.Villager.VillagerTrade trade : VillagerItemShop.this.category
-							.getOffers()) {
+							.getFilteredOffers()) {
 						ItemStack reward = trade.getRewardItem();
 						Method colorable = Utils.getColorableMethod(reward
 								.getType());
