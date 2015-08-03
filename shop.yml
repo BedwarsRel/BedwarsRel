@@ -46,7 +46,6 @@ shop:
         lore:
             - Protect yourself with armor! Click here.
         offers:
-            - empty
             - item1:
                 item: CLAY_BRICK
                 amount: 1
