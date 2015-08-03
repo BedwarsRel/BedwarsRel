@@ -156,6 +156,10 @@ public class ConfigUpdater {
 				""));
 		Main.getInstance().getConfig().addDefault("jointeam-entity.show-name", true);
 		// </1.2.3>
+		
+		// <1.2.6>
+		Main.getInstance().getConfig().addDefault("die-on-void", false);
+		// </1.2.6>
 	}
 	
 	private void excludeShop() {

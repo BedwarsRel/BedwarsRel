@@ -990,6 +990,13 @@ public class PlayerListener extends BaseListener {
 		    	return;
 		    }
 		    
+		    if(Main.getInstance().getBooleanConfig("die-on-void", false)
+		    		&& ede.getCause() == DamageCause.VOID) {
+		    	ede.setCancelled(true);
+		    	p.setHealth(0);
+		    	return;
+		    }
+		    
 			if (ede instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
 

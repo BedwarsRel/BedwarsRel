@@ -69,6 +69,11 @@ teamname-in-chat: false
 # will be displayed in the chat. If false, it is not visible
 hearts-on-death: true
 
+# Die on void damage
+# type: boolean
+# If true, player will die directly when get damage from void
+die-on-void: false
+
 # Lobby Time
 # Type: int
 # The lobby time defines how long you have to
