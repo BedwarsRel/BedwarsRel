@@ -501,6 +501,11 @@ public class NewItemShop {
 	private VillagerTrade getTradingItem(MerchantCategory category,
 			ItemStack stack, Game game, Player player) {
 		for (VillagerTrade trade : category.getOffers()) {
+		    if(trade.getItem1().getType() == Material.AIR 
+		            && trade.getRewardItem().getType() == Material.AIR) {
+		        continue;
+		    }
+		    
 			ItemStack iStack = this.toItemStack(trade, player, game);
 			if (iStack.equals(stack)) {
 				return trade;
