@@ -22,11 +22,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
@@ -39,7 +39,7 @@ public class EntityListener extends BaseListener {
 	}
 	
 	@EventHandler
-	public void onEntitySpawn(EntitySpawnEvent ese) {
+	public void onEntitySpawn(CreatureSpawnEvent ese) {
 	    if(Main.getInstance().getGameManager() == null) {
 	        return;
 	    }
