@@ -98,8 +98,6 @@ public class ConfigUpdater {
 		
 		// <1.2.0>
 		Main.getInstance().getConfig().addDefault("titles.win.enabled", true);
-		Main.getInstance().getConfig().addDefault("titles.win.title", "&6Congratulations!");
-		Main.getInstance().getConfig().addDefault("titles.win.subtitle", "&6Team {team}&6 won in &e{time}");
 		Main.getInstance().getConfig().addDefault("titles.win.title-fade-in", 1.5);
 		Main.getInstance().getConfig().addDefault("titles.win.title-stay", 5.0);
 		Main.getInstance().getConfig().addDefault("titles.win.title-fade-out", 2.0);
