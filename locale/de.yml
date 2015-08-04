@@ -15,7 +15,7 @@ errors:
     notingame: "Du bist zurzeit in keinem Spiel!"
     bedtargeting: "Du musst ein Respawn-Block des konfigurierten 'game-block' anvisieren oder auf einem stehen!"
     regionargument: "Dein Location-Parameter muss 'loc1' oder 'loc2' entsprechen!"
-    spawnerargument: "Dein Ressourcen-Parameter muss eines der folgenden sein (gold;iron;bronze)"
+    spawnerargument: "Dein Ressourcen-Parameter ist ungültig oder verweist auf keine konfigurierte Ressource!"
     blockdownnotfound: "Der Block unter dir konnte nicht gefunden werden!"
     gamenotrunning: "Spiel läuft nicht!"
     bungeenoserver: "Der Bungeecord Server wurde nicht korrekt konfiguriert. Bitte benachrichtige den Serveradministrator!"

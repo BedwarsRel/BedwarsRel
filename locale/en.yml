@@ -15,7 +15,7 @@ errors:
     notingame: "You are currently not in a game!"
     bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
     regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
-    spawnerargument: "Your argument have to be one of the following (gold;iron;bronze)"
+    spawnerargument: "The resource parameter has to be a valid configured resource!"
     blockdownnotfound: "The block you're standing on was not found!"
     gamenotrunning: "Game isn't running!"
     bungeenoserver: "Bungeecord Servers wasn't set properly! Talk to the server administrator!"

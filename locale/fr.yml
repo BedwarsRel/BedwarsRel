@@ -17,7 +17,7 @@ errors:
     notingame: "Vous n'êtes pas en jeu actuellement !"
     bedtargeting: "Vous devez viser ou vous tenir sur un block du type de 'game-block' configuré !"
     regionargument: "Votre argument de position doit être 'loc1' ou 'loc2' !"
-    spawnerargument: "Votre argument doit être un des suivants (gold;iron;bronze)"
+    spawnerargument: "The resource parameter has to be a valid configured resource!"
     blockdownnotfound: "Le bloc sur lequel vous vous tenez n'a pas été trouvé !"
     gamenotrunning: "La partie n'est pas lancée !"
     bungeenoserver: "Le serveur Bungeecord n'a pas été configuré correctement ! Contactez un l'administrateur du serveur !"

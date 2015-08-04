@@ -15,7 +15,7 @@ errors:
     notingame: "Não está atualmente em um jogo!"
     bedtargeting: "Você tem que direcionar ou ficar em um bloco do 'jogo-bloco' tipo configurado!"
     regionargument: "Seu argumento localização tem de ser" LOC1 'ou' LOC2 '! "
-    spawnerargument: "Seu argumento tem que ser um dos seguintes (gold;iron;bronze)"
+    spawnerargument: "The resource parameter has to be a valid configured resource!"
     blockdownnotfound: "O bloco que você está em pé não foi encontrado!"
     gamenotrunning: "O jogo não está a funcionar"
     bungeenoserver: "Servidores Bungeecord não foram definidos corretamente .Converse com o administrador do servidor!"

@@ -20,7 +20,7 @@ errors:
     notingame: "Nejsi ve hre!"
     bedtargeting: "Musis stat na bloku, ktery je v konfiguraci zapsany jako 'game-block'!"
     regionargument: "Muzete zadat pouze 'loc1' nebo 'loc2'!"
-    spawnerargument: "Muzete zadat pouze(gold;iron;bronze)"
+    spawnerargument: "The resource parameter has to be a valid configured resource!"
     blockdownnotfound: "Blok na kterem stojite nebyl nalezen!"
     gamenotrunning: "Hra nebezi!"
     bungeenoserver: "Bungeecord server neni spravne nastaven! Kontaktuj administratora!"

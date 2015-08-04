@@ -15,7 +15,7 @@ errors:
     notingame: "В настоящее время вы вне игры"
     bedtargeting: "Вы должны стоять на блоке который вы указали в конфиге вместо кровати"
     regionargument: "Допустимые аргументы: 'loc1' или 'loc2'"
-    spawnerargument: "Ваш аргумент должен быть одним из следующих: (gold;iron;bronze)"
+    spawnerargument: "The resource parameter has to be a valid configured resource!"
     blockdownnotfound: "Вы должны стоять на блоке"
     gamenotrunning: "Игра не запущена"
     bungeenoserver: "Bungeecord сервер не был установлен должным образом. Сообщите проблему Администрации"
