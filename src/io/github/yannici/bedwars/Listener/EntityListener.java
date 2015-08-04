@@ -26,6 +26,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.metadata.MetadataValue;
@@ -204,6 +205,29 @@ public class EntityListener extends BaseListener {
 		}
 		
 		ede.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onEntityInteract(EntityInteractEvent event) {
+		if(!(event.getEntity() instanceof Player)) {
+			return;
+		}
+		
+		if(event.getBlock().getType() != Material.SOIL 
+				&& event.getBlock().getType() != Material.WHEAT) {
+			return;
+		}
+		
+		Player player = (Player) event.getEntity();
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+		
+		if(game == null) {
+			return;
+		}
+		
+		if(game.getState() == GameState.WAITING) {
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
