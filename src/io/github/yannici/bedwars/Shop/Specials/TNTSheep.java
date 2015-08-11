@@ -181,7 +181,7 @@ public class TNTSheep extends SpecialItem {
 	        Team playerTeam = this.game.getPlayerTeam(player);
 	
 	        ArrayList<Player> possibleTargets = new ArrayList<Player>();
-	        possibleTargets.addAll(this.game.getPlayers());
+	        possibleTargets.addAll(this.game.getTeamPlayers());
 	        possibleTargets.removeAll(playerTeam.getPlayers());
 	
 	        for (Player p : possibleTargets) {
