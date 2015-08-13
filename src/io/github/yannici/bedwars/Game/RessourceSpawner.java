@@ -26,6 +26,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 	private int interval = 1000;
 	private ItemStack itemstack = null;
 	private String name = null;
+	private double spread = 1.0;
 
 	public RessourceSpawner(Map<String, Object> deserialize) {
 		this.location = Utils.locationDeserialize(deserialize.get("location"));
@@ -36,9 +37,13 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			if(!Main.getInstance().getConfig().contains("ressource." + this.name)) {
 				this.itemstack = (ItemStack) deserialize.get("itemstack");
 				this.interval = Integer.parseInt(deserialize.get("interval").toString());
+				if(deserialize.containsKey("spread")) {
+					this.spread = Double.parseDouble(deserialize.get("spread").toString());
+				}
 			} else {
 				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
 				this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
+				this.spread = Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
 			}
 		} else {
 			ItemStack stack = (ItemStack) deserialize.get("itemstack");
@@ -47,9 +52,13 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			if(this.name == null) {
 				this.itemstack = stack;
 				this.interval = Integer.parseInt(deserialize.get("interval").toString());
+				if(deserialize.containsKey("spread")) {
+					this.spread = Double.parseDouble(deserialize.get("spread").toString());
+				}
 			} else {
 				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
 				this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
+				this.spread = Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
 			}
 		}
 	}
@@ -60,6 +69,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
 		this.location = location;
 		this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));;
+		this.spread = Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
 	}
 	
 	private String getNameByMaterial(Material material) {
@@ -96,6 +106,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		Item item = this.game.getRegion().getWorld()
 				.dropItemNaturally(dropLocation, this.itemstack);
 		item.setPickupDelay(0);
+		
+		if(this.spread != 1.0) {
+			item.setVelocity(item.getVelocity().multiply(this.spread));
+		}
 	}
 
 	@Override

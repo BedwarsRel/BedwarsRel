@@ -553,6 +553,9 @@ ressource:
 ###  name:
 ###   type: string (color codes with &)
 ###   The name for the ressource which will be displayed
+###  spread:
+###   type: double
+###   How far the items should spread on drop
 ###  enchants:
 ###   key: Has to be the enchant-ID or enchant-name!
 ###   value: The level of the enchant
@@ -566,16 +569,19 @@ ressource:
         item: CLAY_BRICK
         spawn-interval: 1000
         amount: 1
+        spread: 1.0
         name: "&4Bronze"
     iron:
         item: IRON_INGOT
         spawn-interval: 10000
         amount: 1
+        spread: 1.0
         name: "&7Iron"
     gold:
         item: GOLD_INGOT
         spawn-interval: 20000
         amount: 1
+        spread: 1.0
         name: "&6Gold"
 
 # Check Updates
