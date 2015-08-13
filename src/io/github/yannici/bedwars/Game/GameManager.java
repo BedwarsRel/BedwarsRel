@@ -86,8 +86,8 @@ public class GameManager {
 			return;
 		}
 		
-		File configs = new File(Main.getInstance().getDataFolder() + "/"
-				+ GameManager.gamesPath + "/" + game.getName());
+		File configs = new File(Main.getInstance().getDataFolder() + File.separator
+				+ GameManager.gamesPath + File.separator + game.getName());
 		
 		if(configs.exists()) {
 			configs.delete();
@@ -110,7 +110,7 @@ public class GameManager {
 	}
 
 	public void loadGames() {
-		String path = Main.getInstance().getDataFolder() + "/"
+		String path = Main.getInstance().getDataFolder() + File.separator
 				+ GameManager.gamesPath;
 		File file = new File(path);
 
@@ -214,9 +214,9 @@ public class GameManager {
 			Location loc1 = Utils.locationDeserialize(cfg.get("loc1"));
 			Location loc2 = Utils.locationDeserialize(cfg.get("loc2"));
 
-			File signFile = new File(Main.getInstance().getDataFolder() + "/"
-					+ GameManager.gamesPath + "/" + game.getName()
-					+ "/sign.yml");
+			File signFile = new File(Main.getInstance().getDataFolder() + File.separator
+					+ GameManager.gamesPath + File.separator + game.getName()
+					, "sign.yml");
 			if (signFile.exists()) {
 				YamlConfiguration signConfig = YamlConfiguration
 						.loadConfiguration(signFile);
