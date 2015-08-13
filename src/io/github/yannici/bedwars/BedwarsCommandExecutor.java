@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars;
 
 import io.github.yannici.bedwars.Commands.BaseCommand;
+import io.github.yannici.bedwars.Events.BedwarsCommandExecutedEvent;
 import io.github.yannici.bedwars.Events.BedwarsExecuteCommandEvent;
 
 import java.util.ArrayList;
@@ -53,7 +54,13 @@ public class BedwarsCommandExecutor implements CommandExecutor {
 					return true;
 				}
 
-				return bCommand.execute(sender, arguments);
+				boolean result = bCommand.execute(sender, arguments);
+				
+				BedwarsCommandExecutedEvent executedEvent = new BedwarsCommandExecutedEvent(sender, bCommand, arguments, result);
+				Main.getInstance().getServer().getPluginManager()
+					.callEvent(executedEvent);
+				
+				return result;
 			}
 		}
 
