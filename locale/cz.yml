@@ -112,6 +112,7 @@ ingame:
     protectionend: "Nyni jsi opet &czranitelny&f!"
     team-dead: "Tym $team$ byl znicen!"
     no-friendlybreak: "&cNemuzes znicit blok pod hracem sveho tymu!"
+    teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
     title:
         map-builder: "Mapu postavil/a $builder$"
         win-title: "&a&lGratulace!"

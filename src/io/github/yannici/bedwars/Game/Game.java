@@ -709,7 +709,7 @@ public class Game {
 		}
 	}
 
-	public void broadcast(String message, ArrayList<Player> players) {
+	public void broadcast(String message, List<Player> players) {
 		for (Player p : players) {
 			if (p.isOnline()) {
 				p.sendMessage(ChatWriter.pluginMessage(message));

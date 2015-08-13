@@ -106,13 +106,14 @@ ingame:
     protectionend: "Du bist wieder &cverwundbar&f!"
     team-dead: "Das Team $team$ wurde vernichtet!"
     no-friendlybreak: "&cBlock unter deinem Team-Mitglied kann nicht zerstört werden!"
+    teamchestdestroy: "&cEine eurer Teamkiste(n) wurde zerstört!"
     title:
         map-builder: "Gebaut von $builder$"
-        win-title: "&6Congratulations!"
-        win-subtitle: "$team$&6 won in &e$time$"
+        win-title: "&6Glückwunsch!"
+        win-subtitle: "&6Team $team$ &6hat in &e$time$ &6gewonnen!"
     shop:
         name: "Itemshop"
-        newshop: "Neuer Shop verwenden"
+        newshop: "Neuen Shop verwenden"
         oldshop: "Alten Shop verwenden"
         fullstackpershift: Multiply stacks per shift click
         onestackpershift: One stack per shift click

@@ -257,6 +257,7 @@ public class BlockListener extends BaseListener {
 	                List<Block> teamChests = team.getChests();
 	                if (teamChests.contains(breakedBlock)) {
 	                    team.removeChest(breakedBlock);
+	                    g.broadcast(Main._l("ingame.teamchestdestroy"), team.getPlayers());
 	                    break;
 	                }
 	            }

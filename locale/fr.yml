@@ -109,6 +109,7 @@ ingame:
     protectionend: "Vous êtes maintenant &cvulnerable&f à nouveau !"
     team-dead: "L'équipe $team$ a été détruite !"
     no-friendlybreak: "&cImpossible de casser des blocs sous vos coéquipiers !"
+    teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
     title:
         map-builder: "Construit par $builder$"
         win-title: "&6Félicitations!"
