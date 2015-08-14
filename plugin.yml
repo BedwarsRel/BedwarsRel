@@ -10,7 +10,7 @@ awareness:
     - !@UTF8
 
 depend: []
-softdepend: [Multiverse-Core, Multiworld]
+softdepend: [Multiverse-Core, Multiworld, MultiWorld]
 
 commands:
     bw:
