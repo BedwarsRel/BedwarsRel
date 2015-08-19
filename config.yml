@@ -34,9 +34,14 @@ plugin-metrics: true
 global-messages: true
 
 # Global autobalance
-# type: boolan
+# type: boolean
 # Enables autobalancing in every game
 global-autobalance: false
+
+# Global chat after end
+# type: boolean
+# When true, after game ends all players + spectators can chat
+global-chat-after-end: true
 
 # Game length
 # Type: int

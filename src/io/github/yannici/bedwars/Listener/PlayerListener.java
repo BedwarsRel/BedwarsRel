@@ -502,11 +502,11 @@ public class PlayerListener extends BaseListener {
 
 		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
 
-		if (message.trim().startsWith(toAllPrefix) || isSpectator || game.getCycle().isEndGameRunning()) {
+		if (message.trim().startsWith(toAllPrefix) || isSpectator || (game.getCycle().isEndGameRunning() && Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
 		    boolean seperateSpectatorChat = Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
 		    
 			message = message.trim();
-			if(!isSpectator && !game.getCycle().isEndGameRunning()) {
+			if(!isSpectator && !(game.getCycle().isEndGameRunning() && Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
 			    ce.setMessage(message.substring(1, message.length()));
 			} else {
 			    ce.setMessage(message);

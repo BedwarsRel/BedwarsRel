@@ -157,6 +157,7 @@ public class ConfigUpdater {
 		
 		// <1.2.6>
 		Main.getInstance().getConfig().addDefault("die-on-void", false);
+		Main.getInstance().getConfig().addDefault("global-chat-after-end", true);
 		// </1.2.6>
 	}
 	
