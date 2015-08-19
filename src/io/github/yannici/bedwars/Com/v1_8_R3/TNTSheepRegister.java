@@ -92,7 +92,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
                     ex.printStackTrace();
                 }
                 
-                sheep.getTNT().setFuseTicks(Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20);
+                sheep.getTNT().setFuseTicks((int)Math.round(Main.getInstance().getConfig().getDouble("specials.tntsheep.fuse-time", 8)*20));
                 sheep.getTNT().setIsIncendiary(false);
                 specialItem.getGame().getRegion().addRemovingEntity(sheep.getTNT());
                 specialItem.getGame().getRegion().addRemovingEntity(sheep.getBukkitEntity());

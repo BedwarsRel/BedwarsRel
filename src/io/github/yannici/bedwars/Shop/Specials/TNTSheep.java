@@ -101,7 +101,7 @@ public class TNTSheep extends SpecialItem {
 						    that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT().getVehicle());
 							that.getGame().getRegion().removeRemovingEntity(that.getSheep().getTNT());
 						}
-					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)-5);
+					}.runTaskLater(Main.getInstance(), (long)((Main.getInstance().getConfig().getDouble("specials.tntsheep.fuse-time", 8.0)*20)-5));
 					
 					new BukkitRunnable() {
 						
@@ -111,7 +111,7 @@ public class TNTSheep extends SpecialItem {
 							that.getSheep().remove();
 							that.getGame().removeSpecialItem(that);
 						}
-					}.runTaskLater(Main.getInstance(), (Main.getInstance().getIntConfig("specials.tntsheep.fuse-time", 8)*20)+13);
+					}.runTaskLater(Main.getInstance(), (long)((Main.getInstance().getConfig().getDouble("specials.tntsheep.fuse-time", 8.0)*20)+13));
 					
 					TNTSheep.this.game.addSpecialItem(that);
 				} catch(Exception ex) {
