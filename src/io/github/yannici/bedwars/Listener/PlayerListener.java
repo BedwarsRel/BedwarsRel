@@ -68,7 +68,7 @@ public class PlayerListener extends BaseListener {
 	 * GLOBAL
 	 */
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
 		if (Main.getInstance().isBungee()) {
 			ArrayList<Game> games = Main.getInstance().getGameManager()
