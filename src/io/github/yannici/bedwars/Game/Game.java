@@ -614,6 +614,10 @@ public class Game {
 			}
 		}
 		
+		if(Main.getInstance().isBungee()) {
+		    this.cycle.onPlayerLeave(p);
+		}
+		
 		Main.getInstance().getGameManager().removeGamePlayer(p);
 		
 		if(this.isProtected(p)) {
@@ -671,9 +675,11 @@ public class Game {
 			}
 		}
 		
-		this.updateSigns();
+		if(!Main.getInstance().isBungee()) {
+		    this.cycle.onPlayerLeave(p);
+		}
 		
-		this.cycle.onPlayerLeave(p);
+		this.updateSigns();
 		this.storages.remove(p);
 		return true;
 	}
