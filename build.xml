@@ -11,6 +11,7 @@
 	<path id="bedwars.classpath">
 		<pathelement location="lib/c3p0-0.9.5.jar" />
 		<pathelement location="lib/mchange-commons-java-0.2.9.jar" />
+		<pathelement location="lib/HolographicDisplaysAPI_v2.1.7.jar" />
 		<pathelement location="lib/spigot-1.8-R0.1-SNAPSHOT-latest.jar" />
 		<pathelement location="lib/spigot-1.8.3-R0.1-SNAPSHOT-latest .jar" />
 		<pathelement location="lib/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar" />

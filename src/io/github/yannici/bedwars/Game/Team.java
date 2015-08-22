@@ -72,8 +72,8 @@ public class Team implements ConfigurationSerializable {
 		try {
 			boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
 			if(overwriteNames) {
-				player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
-				player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+				player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getName()));
+				player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getName()));
 			}
 			
 			boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
@@ -133,8 +133,8 @@ public class Team implements ConfigurationSerializable {
 	    boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
 	    if(overwriteNames) {
 	    	if(player.isOnline()) {
-	    		player.getPlayer().setDisplayName(ChatColor.RESET +  ChatColor.stripColor(player.getPlayer().getDisplayName()));
-	    		player.getPlayer().setPlayerListName(ChatColor.RESET + player.getPlayer().getDisplayName());
+	    		player.getPlayer().setDisplayName(ChatColor.RESET +  ChatColor.stripColor(player.getPlayer().getName()));
+	    		player.getPlayer().setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
 	    	}
 	    }
 	}

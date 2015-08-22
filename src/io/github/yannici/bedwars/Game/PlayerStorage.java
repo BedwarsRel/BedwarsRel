@@ -81,9 +81,9 @@ public class PlayerStorage {
             if(game != null) {
                 Team team = game.getPlayerTeam(this.player);
                 if(team != null) {
-                    this.player.setDisplayName(team.getChatColor() + ChatColor.stripColor(this.player.getDisplayName()));
+                    this.player.setDisplayName(team.getChatColor() + ChatColor.stripColor(this.player.getName()));
                 } else {
-                    this.player.setDisplayName(ChatColor.stripColor(this.player.getDisplayName()));
+                    this.player.setDisplayName(ChatColor.stripColor(this.player.getName()));
                 }
             }
         }

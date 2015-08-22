@@ -4,15 +4,9 @@ import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.UUIDFetcher;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
-import io.github.yannici.bedwars.Statistics.StatField;
 
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+
 import java.util.UUID;
 
 import org.bukkit.ChatColor;
@@ -138,46 +132,8 @@ public class StatsCommand extends BaseCommand implements ICommand {
     }
 
     private void sendStats(Player player, PlayerStatistic statistic) {
-        HashMap<StatField, Method> values = new HashMap<StatField, Method>();
-        List<StatField> ordered = new ArrayList<StatField>();
-        
-        for (Method method : statistic.getClass().getMethods()) {
-            if(!method.isAnnotationPresent(StatField.class)) {
-                continue;
-            }
-            
-            StatField stat = method.getAnnotation(StatField.class);
-            if(stat != null) {
-                values.put(stat, method);
-                ordered.add(stat);
-            }
-        }
-        
-        Comparator<StatField> statComparator = null;
-        statComparator = new Comparator<StatField>() {
-
-            @Override
-            public int compare(StatField o1, StatField o2) {
-                return Integer.valueOf(o1.order()).compareTo(Integer.valueOf(o2.order()));
-            }
-        };
-        
-        Collections.sort(ordered, statComparator);
-        
-        for(StatField statField : ordered) {
-            Method valueMethod = values.get(statField);
-            try {
-				Object value = valueMethod.invoke(statistic);
-				if(statField.name().equals("kd")) {
-					value = (BigDecimal.valueOf(Double.valueOf(value.toString())).setScale(2, BigDecimal.ROUND_HALF_UP)).toPlainString();
-				}
-				
-				player.sendMessage(ChatWriter.pluginMessage(ChatColor.GRAY
-                        + Main._l("stats." + statField.name()) + ": "
-                        + ChatColor.YELLOW + value.toString()));
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+        for(String line : statistic.createStatisticLines())  {
+            player.sendMessage(line);
         }
     }
 

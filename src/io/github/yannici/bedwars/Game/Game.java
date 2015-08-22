@@ -78,6 +78,8 @@ public class Game {
 	private boolean isOver = false;
 	private boolean isStopping = false;
 	
+	private Location hologramLocation = null;
+	
 	private boolean autobalance = false;
 	
 	private List<String> recordHolders = null;
@@ -581,7 +583,7 @@ public class Game {
 		return true;
 	}
 
-	public boolean playerLeave(Player p, boolean kicked) {
+    public boolean playerLeave(Player p, boolean kicked) {
 		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this,
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
@@ -650,6 +652,7 @@ public class Game {
 			statistic.setCurrentScore(0);
 			statistic.store();
 			
+			Main.getInstance().updateHolograms(p);
 			Main.getInstance().getServer().dispatchCommand(p, "bw stats");
 			Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
 		}
@@ -1671,6 +1674,10 @@ public class Game {
 		yml.set("targetmaterial", this.getTargetMaterial().name());
 		yml.set("builder", this.builder);
 		
+		if(this.hologramLocation != null) {
+		    yml.set("hololoc", Utils.locationSerialize(this.hologramLocation));
+		}
+
 		if (this.mainLobby != null) {
 			yml.set("mainlobby", Utils.locationSerialize(this.mainLobby));
 		}

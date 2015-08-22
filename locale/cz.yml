@@ -81,6 +81,7 @@ success:
     autobalancesetoff: "Automaticke vyvazovani bylo &cvypnuto&a!"
     selectteamjoinentity: "Nyni klikni pravym na entitu, kterou chces pouzit!"
     teamjoinadded: "Entita byla uspesne ulozena pro tym $team$"
+    holoremoved: "Hologram-Statistic successfully removed!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -272,3 +273,10 @@ commands:
     addteamjoin:
         name: "Pridat vybirani tymu"
         desc: "Vybere bytost, pomoci ktere se budete moci pripojit do tymu!"
+    addholo:
+        name: "Add hologram location"
+        desc: "A hologram statistic will be added at the current position!"
+    removeholo:
+        name: "Remove hologram location"
+        desc: "When the command was executed, the player can right-click the hologram which should be removed."
+        explain: "Perform a right click within 10 seconds on the hologram you want to remove."

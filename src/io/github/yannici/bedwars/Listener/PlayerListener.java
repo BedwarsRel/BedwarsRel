@@ -43,6 +43,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -58,6 +59,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.gmail.filoghost.holographicdisplays.api.Hologram;
+
 public class PlayerListener extends BaseListener {
 
 	public PlayerListener() {
@@ -67,6 +70,18 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * GLOBAL
 	 */
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onLeave(PlayerQuitEvent quit) {
+	    if(Main.getInstance().isHologramsEnabled()) {
+	        List<Hologram> holos = Main.getInstance().getHolograms().get(quit.getPlayer());
+	        for(Hologram holo : holos) {
+	            holo.delete();
+	        }
+	        
+	        Main.getInstance().getHolograms().remove(quit.getPlayer());
+	    }
+	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
@@ -90,6 +105,19 @@ public class PlayerListener extends BaseListener {
 				}
 			}
 		}
+		
+		if(Main.getInstance().isHologramsEnabled()) {
+		    Main.getInstance().updateHolograms(je.getPlayer());
+		}
+	}
+	
+	@EventHandler
+	public void onSwitchWorld(PlayerChangedWorldEvent change) {
+	    if(!Main.getInstance().isHologramsEnabled()) {
+	        return;
+	    }
+	    
+	    Main.getInstance().updateHolograms(change.getPlayer());
 	}
 
 	/*
@@ -467,12 +495,12 @@ public class PlayerListener extends BaseListener {
 		
 		if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
 		    if(team == null || isSpectator) {
-		        player.setDisplayName(ChatColor.stripColor(player.getDisplayName()));
+		        player.setDisplayName(ChatColor.stripColor(player.getName()));
 		        
-		        player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
+		        player.setPlayerListName(ChatColor.stripColor(player.getName()));
 		    } else {
-		        player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
-		        player.setPlayerListName(team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+		        player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getName()));
+		        player.setPlayerListName(team.getChatColor() + ChatColor.stripColor(player.getName()));
 		    }
 		    
 		}

@@ -76,6 +76,7 @@ success:
     autobalancesetoff: "Autobalance foi &cdesativado!"
     selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
     teamjoinadded: "Entity was successfully marked as team selection for team $team$"
+    holoremoved: "Hologram-Statistic successfully removed!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Locais para a região não foram definidas corretamente!"
     TEAM_SIZE_LOW_ERROR: "Tens de adicionar mais teams"
@@ -267,3 +268,10 @@ commands:
     addteamjoin:
         name: "Add team selection"
         desc: "Mark a creature which can be used to join a specific team!"
+    addholo:
+        name: "Add hologram location"
+        desc: "A hologram statistic will be added at the current position!"
+    removeholo:
+        name: "Remove hologram location"
+        desc: "When the command was executed, the player can right-click the hologram which should be removed."
+        explain: "Perform a right click within 10 seconds on the hologram you want to remove."

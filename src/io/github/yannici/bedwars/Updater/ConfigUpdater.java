@@ -159,6 +159,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("die-on-void", false);
 		Main.getInstance().getConfig().addDefault("global-chat-after-end", true);
 		// </1.2.6>
+		
+		// <1.2.7>
+		Main.getInstance().getConfig().addDefault("overwrite-display-names", true);
+		// </1.2.7>
 	}
 	
 	private void excludeShop() {

@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/spigot-1.7.2-R0.4-SNAPSHOT-1339.jar"/>
 	<classpathentry kind="lib" path="lib/spigot-1.7.5-R0.1-SNAPSHOT-1387.jar"/>
 	<classpathentry kind="lib" path="lib/spigot-1.7.9-R0.3-SNAPSHOTBuild1543.jar"/>
+	<classpathentry kind="lib" path="lib/HolographicDisplaysAPI_v2.1.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

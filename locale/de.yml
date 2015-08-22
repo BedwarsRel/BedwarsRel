@@ -75,6 +75,7 @@ success:
     autobalancesetoff: "Autobalance wurde erfolgreich &causgeschaltet&a!"
     selectteamjoinentity: "Mache nun einen Rechtsklick auf die Kreatur, die als Teambeitritt dienen soll!"
     teamjoinadded: "Kreatur wurde erfolgreich für die Team-Auswahl für das Team $team$ markiert!"
+    holoremoved: "Hologram-Statistik erfolgreich entfernt!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Die Regionspunkte wurden nicht korrekt gesetzt!"
     TEAM_SIZE_LOW_ERROR: "Du musst mehr Teams hinzufügen!"
@@ -266,3 +267,10 @@ commands:
     addteamjoin:
         name: "Team-Auswahl hinzufügen"
         desc: "Markiert eine Kreatur, die zur Team-Auswahl für ein bestimmtes Team verwendet werden kann"
+    addholo:
+        name: "Hologram-Position hinzufügen"
+        desc: "Eine Hologram-Statistik wird auf die aktuelle, stehende Position hinzugefügt"
+    removeholo:
+        name: "Hologram-Position entfernen"
+        desc: "Sobald der Command ausgelöst wurde, kann innerhalb von 10 Sekunden auf das entsprechende Hologram geklickt werden, um es zu entfernen"
+        explain: "Mache nun einen Rechtsklick auf das Hologram das entfernt werden soll. Innerhalb von 10 Sekunden."

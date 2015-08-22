@@ -10,7 +10,7 @@ awareness:
     - !@UTF8
 
 depend: []
-softdepend: [Multiverse-Core, Multiworld, MultiWorld]
+softdepend: [Multiverse-Core, Multiworld, MultiWorld, HolographicDisplays]
 
 commands:
     bw:
@@ -119,6 +119,14 @@ commands:
         permission: bw.kick
     bw addteamjoin:
         description: Mark a creature which can be used to join a specific team
+        usage: /<command>
+        permission: bw.setup
+    bw addholo:
+        description: Adds a location of the hologram stats
+        usage: /<command>
+        permission: bw.setup
+    bw removeholo:
+        description: Removes a hologram statistic location
         usage: /<command>
         permission: bw.setup
 permissions:
