@@ -150,13 +150,24 @@ public class Main extends JavaPlugin {
 		this.stopTimeListener();
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
-		
-		if(this.isHologramsEnabled()) {
-		    Iterator<Hologram> iterator = HologramsAPI.getHolograms(this).iterator();
-		    while(iterator.hasNext()) {
-		        iterator.next().delete();
-		    }
-		}
+		this.unloadHolograms();
+	}
+	
+	public void unloadHolograms() {
+	    if(this.isHologramsEnabled()) {
+	        try {
+	            if(this.hologramTimer != null) {
+	                this.hologramTimer.cancel();
+	            }
+	        } catch(Exception ex) {
+	         // Timer isn't running. Just ignore.
+	        }
+	        
+            Iterator<Hologram> iterator = HologramsAPI.getHolograms(this).iterator();
+            while(iterator.hasNext()) {
+                iterator.next().delete();
+            }
+        }
 	}
 	
 	public List<Location> getHologramLocations() {
@@ -167,6 +178,20 @@ public class Main extends JavaPlugin {
     public void loadHolograms() {
 	    if(!this.isHologramsEnabled()) {
 	        return;
+	    }
+	    
+	    if(this.hologramTimer != null) {
+            try {
+                this.hologramTimer.cancel();
+                this.hologramTimer = null;
+            } catch(Exception ex) {
+                // already stopped
+            }
+        }
+	    
+	    if(this.holograms != null && this.hologramLocations != null) {
+	        // first unload all holograms
+	        this.unloadHolograms();
 	    }
 	    
 	    this.holograms = new HashMap<Player, List<Hologram>>();
@@ -186,6 +211,10 @@ public class Main extends JavaPlugin {
 	        }
 	    }
 	    
+	    if(this.hologramLocations.size() == 0) {
+	        return;
+	    }
+	    
 	    this.hologramTimer = this.getServer().getScheduler().runTaskTimer(this, new Runnable() {
             
             @Override
@@ -198,10 +227,23 @@ public class Main extends JavaPlugin {
 	
 	public void updateHolograms() {
 	    for(Player player : Main.getInstance().getServer().getOnlinePlayers()) {
-            for(Location holoLocation : Main.getInstance().getHologramLocations()) {
-                Main.this.updatePlayerHologram(player, holoLocation);
+            for(Location holoLocation : this.hologramLocations) {
+                this.updatePlayerHologram(player, holoLocation);
             }
         }
+	    
+	    if(this.hologramTimer == null
+	            && this.hologramLocations != null
+	            && this.hologramLocations.size() > 0) {
+	        this.hologramTimer = this.getServer().getScheduler().runTaskTimer(this, new Runnable() {
+	            
+	            @Override
+	            public void run() {
+	                Main.this.updateHolograms();
+	            }
+	            
+	        }, 0L, (long) 10 * 20);
+	    }
 	}
 	
 	public void updateHolograms(Player player) {
@@ -220,7 +262,7 @@ public class Main extends JavaPlugin {
 	    Hologram holo = this.getHologramByLocation(holograms, holoLocation);
 	    if(holo == null && player.getWorld() == holoLocation.getWorld()) {
 	        holograms.add(this.createPlayerStatisticHologram(player, holoLocation));
-	    } else {
+	    } else if(holo != null) {
 	        if(holo.getLocation().getWorld() == player.getWorld()) {
 	            this.updatePlayerStatisticHologram(player, holo);
 	        } else {
@@ -274,7 +316,28 @@ public class Main extends JavaPlugin {
 	    PlayerStatistic statistic = this.getPlayerStatisticManager().getStatistic(player);
 	    holo.clearLines();
 	    
-	    for(String line : statistic.createStatisticLines()) {
+	    String nameColor = ChatColor.GRAY.toString();
+        String valueColor = ChatColor.YELLOW.toString();
+        
+        try {
+            nameColor = ChatColor.translateAlternateColorCodes('&', 
+                    Main.getInstance().getStringConfig("holographic-stats.name-color", "&7"));
+            
+            valueColor = ChatColor.translateAlternateColorCodes('&', 
+                    Main.getInstance().getStringConfig("holographic-stats.value-color", "&e"));
+        } catch(Exception ex) {
+            // nothing to do
+        }
+        
+	    List<String> lines = statistic.createStatisticLines(
+	            this.getBooleanConfig("holographic-stats.show-prefix", false), nameColor, valueColor);
+	    
+	    String headline = this.getStringConfig("holographic-stats.head-line", "Your &eBEDWARS&f stats");
+	    if(!headline.trim().isEmpty()) {
+	        lines.add(0, ChatColor.translateAlternateColorCodes('&', headline));
+	    }
+	    
+	    for(String line : lines) {
 	        TextLine textLine = holo.appendTextLine(line);
 	        textLine.setTouchHandler(new TouchHandler() {
                 
@@ -974,14 +1037,6 @@ public class Main extends JavaPlugin {
 		} catch(Exception ex) {
 		 // Timer isn't running. Just ignore.
 		}
-		
-		try {
-		    if(this.hologramTimer != null) {
-		        this.hologramTimer.cancel();
-		    }
-        } catch(Exception ex) {
-         // Timer isn't running. Just ignore.
-        }
 	}
 
 	public void reloadLocalization() {

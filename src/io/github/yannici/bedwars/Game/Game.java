@@ -615,11 +615,7 @@ public class Game {
 				}
 			}
 		}
-		
-		if(Main.getInstance().isBungee()) {
-		    this.cycle.onPlayerLeave(p);
-		}
-		
+
 		Main.getInstance().getGameManager().removeGamePlayer(p);
 		
 		if(this.isProtected(p)) {

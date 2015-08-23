@@ -46,7 +46,11 @@ public class PlayerStatistic extends StoringTable {
 		this.player = player;
 	}
 	
-	public List<String> createStatisticLines() {
+	public List<String> createStatisticLines(boolean withPrefix, ChatColor nameColor, ChatColor valueColor) {
+	    return this.createStatisticLines(withPrefix, nameColor.toString(), valueColor.toString());
+	}
+	
+	public List<String> createStatisticLines(boolean withPrefix, String nameColor, String valueColor) {
 	    List<String> lines = new ArrayList<String>();
 	    
 	    HashMap<StatField, Method> values = new HashMap<StatField, Method>();
@@ -83,9 +87,16 @@ public class PlayerStatistic extends StoringTable {
                     value = (BigDecimal.valueOf(Double.valueOf(value.toString())).setScale(2, BigDecimal.ROUND_HALF_UP)).toPlainString();
                 }
                 
-                lines.add(ChatWriter.pluginMessage(ChatColor.GRAY
-                        + Main._l("stats." + statField.name()) + ": "
-                        + ChatColor.YELLOW + value.toString()));
+                if(withPrefix) {
+                    lines.add(ChatWriter.pluginMessage(nameColor
+                            + Main._l("stats." + statField.name()) + ": "
+                            + valueColor + value.toString()));
+                } else {
+                    lines.add(nameColor
+                            + Main._l("stats." + statField.name()) + ": "
+                            + valueColor + value.toString());
+                }
+                
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

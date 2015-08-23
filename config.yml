@@ -56,6 +56,29 @@ gamelength: 60
 # wrong colors in tablist or chat
 overwrite-names: false
 
+# Holographic Stats configs
+holographic-stats:
+    # Show prefx
+    # type: boolean
+    # If true, the bedwars prefix will be shown on the bedwars
+    # holographic stats.
+    show-prefix: false
+    
+    # Statistic names color
+    # type: string
+    # The color of the statistic names (like "Kills", "Deaths" ...)
+    name-color: "&7"
+    
+    # Statstic value color
+    # type: string
+    # The color of the statistic values
+    value-color: "&e"
+    
+    # Statistics headline
+    # type: string
+    # Leave the headline empty to remove the headline
+    head-line: "Your &eBEDWARS&f stats"
+
 # Add teamname in tablist
 # type: boolean
 # Adds the teamname before the player name 

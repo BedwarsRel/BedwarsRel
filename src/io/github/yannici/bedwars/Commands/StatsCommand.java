@@ -132,7 +132,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
     }
 
     private void sendStats(Player player, PlayerStatistic statistic) {
-        for(String line : statistic.createStatisticLines())  {
+        for(String line : statistic.createStatisticLines(false, ChatColor.GRAY, ChatColor.YELLOW))  {
             player.sendMessage(line);
         }
     }
