@@ -648,7 +648,10 @@ public class Game {
 			statistic.setCurrentScore(0);
 			statistic.store();
 			
-			Main.getInstance().updateHolograms(p);
+			if(Main.getInstance().isHologramsEnabled()) {
+			    Main.getInstance().updateHolograms(p);
+			}
+			
 			Main.getInstance().getServer().dispatchCommand(p, "bw stats");
 			Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
 		}
