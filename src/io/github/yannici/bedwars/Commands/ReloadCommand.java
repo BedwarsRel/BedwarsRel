@@ -80,7 +80,9 @@ public class ReloadCommand extends BaseCommand {
 		} else if(command.equalsIgnoreCase("games")) {
 			Main.getInstance().getGameManager().reloadGames();
 		} else if(command.equalsIgnoreCase("holo")) {
-		    Main.getInstance().loadHolograms();
+		    if(Main.getInstance().isHologramsEnabled()) {
+		        Main.getInstance().getHolographicInteractor().loadHolograms();
+		    }
 		} else if(command.equalsIgnoreCase("config")) {
 			// save default config
 			if(!config.exists()) {

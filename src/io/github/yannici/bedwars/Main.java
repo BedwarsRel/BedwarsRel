@@ -18,7 +18,6 @@ import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
 import io.github.yannici.bedwars.Localization.LocalizationConfig;
 import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
-import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 import io.github.yannici.bedwars.Statistics.StorageType;
 import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
 import io.github.yannici.bedwars.Updater.ConfigUpdater;
@@ -38,7 +37,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +49,11 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
-import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import com.google.common.collect.ImmutableMap;
 
 public class Main extends JavaPlugin {
@@ -77,12 +70,11 @@ public class Main extends JavaPlugin {
 	private LocalizationConfig localization = null;
 	private DatabaseManager dbManager = null;
 	private BukkitTask updateChecker = null;
-	private BukkitTask hologramTimer = null;
+	
 	private List<Material> breakableTypes = null;
 	private YamlConfiguration shopConfig = null;
 	
-	private List<Location> hologramLocations = null;
-	private Map<Player, List<Hologram>> holograms = null;
+	private HolographicDisplaysInteraction holographicInteraction = null;
 	
 	private boolean isSpigot = false;
 	
@@ -142,7 +134,10 @@ public class Main extends JavaPlugin {
 		this.startMetricsIfEnabled();
 		
 		// holograms
-		this.loadHolograms();
+		if(this.isHologramsEnabled()) {
+		    this.holographicInteraction = new HolographicDisplaysInteraction();
+	        this.holographicInteraction.loadHolograms();
+		}
 	}
 	
 	@Override
@@ -150,242 +145,12 @@ public class Main extends JavaPlugin {
 		this.stopTimeListener();
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
-		this.unloadHolograms();
+		
+		if(this.isHologramsEnabled()) {
+		    this.holographicInteraction.unloadHolograms();
+		}
 	}
-	
-	public void unloadHolograms() {
-	    if(this.isHologramsEnabled()) {
-	        try {
-	            if(this.hologramTimer != null) {
-	                this.hologramTimer.cancel();
-	            }
-	        } catch(Exception ex) {
-	         // Timer isn't running. Just ignore.
-	        }
-	        
-            Iterator<Hologram> iterator = HologramsAPI.getHolograms(this).iterator();
-            while(iterator.hasNext()) {
-                iterator.next().delete();
-            }
-        }
-	}
-	
-	public List<Location> getHologramLocations() {
-	    return this.hologramLocations;
-	}
-	
-	@SuppressWarnings("unchecked")
-    public void loadHolograms() {
-	    if(!this.isHologramsEnabled()) {
-	        return;
-	    }
-	    
-	    if(this.hologramTimer != null) {
-            try {
-                this.hologramTimer.cancel();
-                this.hologramTimer = null;
-            } catch(Exception ex) {
-                // already stopped
-            }
-        }
-	    
-	    if(this.holograms != null && this.hologramLocations != null) {
-	        // first unload all holograms
-	        this.unloadHolograms();
-	    }
-	    
-	    this.holograms = new HashMap<Player, List<Hologram>>();
-	    this.hologramLocations = new ArrayList<Location>();
-	    
-	    File file = new File(this.getDataFolder(), "holodb.yml");
-	    if(file.exists()) {
-	        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-	        List<Object> locations = (List<Object>) config.get("locations");
-	        for(Object location : locations) {
-	            Location loc = Utils.locationDeserialize(location);
-	            if(loc == null) {
-	                continue;
-	            }
-	            
-	            this.hologramLocations.add(loc);
-	        }
-	    }
-	    
-	    if(this.hologramLocations.size() == 0) {
-	        return;
-	    }
-	    
-	    this.hologramTimer = this.getServer().getScheduler().runTaskTimer(this, new Runnable() {
-            
-            @Override
-            public void run() {
-                Main.this.updateHolograms();
-            }
-            
-        }, 0L, (long) 10 * 20);
-	}
-	
-	public void updateHolograms() {
-	    for(Player player : Main.getInstance().getServer().getOnlinePlayers()) {
-            for(Location holoLocation : this.hologramLocations) {
-                this.updatePlayerHologram(player, holoLocation);
-            }
-        }
-	    
-	    if(this.hologramTimer == null
-	            && this.hologramLocations != null
-	            && this.hologramLocations.size() > 0) {
-	        this.hologramTimer = this.getServer().getScheduler().runTaskTimer(this, new Runnable() {
-	            
-	            @Override
-	            public void run() {
-	                Main.this.updateHolograms();
-	            }
-	            
-	        }, 0L, (long) 10 * 20);
-	    }
-	}
-	
-	public void updateHolograms(Player player) {
-	    for(Location holoLocation : Main.getInstance().getHologramLocations()) {
-            Main.this.updatePlayerHologram(player, holoLocation);
-        }
-	}
-	
-	private void updatePlayerHologram(Player player, Location holoLocation) {
-	    List<Hologram> holograms = null;
-	    if(!this.holograms.containsKey(player)) {
-	        this.holograms.put(player, new ArrayList<Hologram>());
-	    }
-	    
-	    holograms = this.holograms.get(player);
-	    Hologram holo = this.getHologramByLocation(holograms, holoLocation);
-	    if(holo == null && player.getWorld() == holoLocation.getWorld()) {
-	        holograms.add(this.createPlayerStatisticHologram(player, holoLocation));
-	    } else if(holo != null) {
-	        if(holo.getLocation().getWorld() == player.getWorld()) {
-	            this.updatePlayerStatisticHologram(player, holo);
-	        } else {
-	            holograms.remove(holo);
-	            holo.delete();
-	        }
-	    }
-	}
-	
-	public Map<Player, List<Hologram>> getHolograms() {
-	    return this.holograms;
-	}
-	
-	private void onHologramTouch(final Player player, final Hologram holo) {
-	    if(!player.hasMetadata("bw-remove-holo")
-                || (!player.isOp() && !player.hasPermission("bw.setup"))) {
-	        return;
-	    }
-	    
-	    player.removeMetadata("bw-remove-holo", Main.getInstance());     
-        Main.this.getServer().getScheduler().runTask(Main.this, new Runnable() {
-            
-            @Override
-            public void run() {
-             // remove all player holograms on this location
-                for(Entry<Player, List<Hologram>> entry : Main.getInstance().getHolograms().entrySet()) {
-                    Iterator<Hologram> iterator = entry.getValue().iterator();
-                    while(iterator.hasNext()) {
-                        Hologram hologram = iterator.next();
-                        if(hologram.getX() == holo.getX() 
-                                && hologram.getY() == holo.getY()
-                                && hologram.getZ() == holo.getZ()) {
-                            hologram.delete();
-                            iterator.remove();
-                        }
-                    }
-                }
-                
-                Location holoLocation = Main.this.getHologramLocationByLocation(holo.getLocation());
-                if(holoLocation != null) {
-                    Main.this.hologramLocations.remove(holoLocation);
-                    Main.this.updateHologramDatabase();
-                }
-                player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.holoremoved")));
-            }
-            
-        });
-	}
-	
-	private void updatePlayerStatisticHologram(Player player, final Hologram holo) {
-	    PlayerStatistic statistic = this.getPlayerStatisticManager().getStatistic(player);
-	    holo.clearLines();
-	    
-	    String nameColor = ChatColor.GRAY.toString();
-        String valueColor = ChatColor.YELLOW.toString();
-        
-        try {
-            nameColor = ChatColor.translateAlternateColorCodes('&', 
-                    Main.getInstance().getStringConfig("holographic-stats.name-color", "&7"));
-            
-            valueColor = ChatColor.translateAlternateColorCodes('&', 
-                    Main.getInstance().getStringConfig("holographic-stats.value-color", "&e"));
-        } catch(Exception ex) {
-            // nothing to do
-        }
-        
-	    List<String> lines = statistic.createStatisticLines(
-	            this.getBooleanConfig("holographic-stats.show-prefix", false), nameColor, valueColor);
-	    
-	    String headline = this.getStringConfig("holographic-stats.head-line", "Your &eBEDWARS&f stats");
-	    if(!headline.trim().isEmpty()) {
-	        lines.add(0, ChatColor.translateAlternateColorCodes('&', headline));
-	    }
-	    
-	    for(String line : lines) {
-	        TextLine textLine = holo.appendTextLine(line);
-	        textLine.setTouchHandler(new TouchHandler() {
-                
-                @Override
-                public void onTouch(Player player) {
-                    Main.this.onHologramTouch(player, holo);
-                }
-            });
-	    }
-	}
-	
-	private Hologram getHologramByLocation(List<Hologram> holograms, Location holoLocation) {
-	    for(Hologram holo : holograms) {
-	        if(holo.getLocation().getX() == holoLocation.getX()
-	                && holo.getLocation().getY() == holoLocation.getY()
-	                && holo.getLocation().getZ() == holoLocation.getZ()) {
-	            return holo;
-	        }
-	    }
-	    
-	    return null;
-	}
-	
-	private Location getHologramLocationByLocation(Location holoLocation) {
-	    for(Location loc : this.hologramLocations) {
-	        if(loc.getX() == holoLocation.getX()
-	                && loc.getY() == holoLocation.getY()
-	                && loc.getZ() == holoLocation.getZ()) {
-	            return loc;
-	        }
-	    }
-	    
-	    return null;
-	}
-	
-	private Hologram createPlayerStatisticHologram(Player player, Location holoLocation) {
-	    final Hologram holo = HologramsAPI.createHologram(this, holoLocation);
-	    holo.getVisibilityManager().setVisibleByDefault(false);
-	    holo.getVisibilityManager().showTo(player);
-	    
-	    this.updatePlayerStatisticHologram(player, holo);
-	    return holo;
-	}
-	
-	public boolean isHologramsEnabled() {
-	    return this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
-	}
-	
+
 	public void loadConfigInUTF() {
         File configFile = new File(this.getDataFolder(), "config.yml");
         if(!configFile.exists()) {
@@ -1107,31 +872,12 @@ public class Main extends JavaPlugin {
 		return this.shopConfig;
 	}
 	
-	private void updateHologramDatabase() {
-	    try {
-            // update hologram-database file
-            File file = new File(this.getDataFolder(), "holodb.yml");
-            YamlConfiguration config = new YamlConfiguration();
-            List<Map<String, Object>> serializedLocations = new ArrayList<Map<String, Object>>();
-            
-            for(Location holoLocation : this.hologramLocations) {
-                serializedLocations.add(Utils.locationSerialize(holoLocation));
-            }
-            
-            if(!file.exists()) {
-                file.createNewFile();
-            }
-            
-            config.set("locations", serializedLocations);
-            config.save(file);
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
-	}
-
-    public void addHologramLocation(Location eyeLocation) {
-        this.hologramLocations.add(eyeLocation);
-        this.updateHologramDatabase();
+	public boolean isHologramsEnabled() {
+        return Main.getInstance().getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
+    }
+	
+    public HolographicDisplaysInteraction getHolographicInteractor() {
+        return this.holographicInteraction;
     }
 
 }

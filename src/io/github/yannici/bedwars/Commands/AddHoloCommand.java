@@ -37,9 +37,13 @@ public class AddHoloCommand extends BaseCommand implements ICommand {
 			return false;
 		}
 		
+		if(!Main.getInstance().isHologramsEnabled()) {
+		    return true;
+		}
+		
 		Player player = (Player) sender;
-		Main.getInstance().addHologramLocation(player.getEyeLocation());
-		Main.getInstance().updateHolograms();
+		Main.getInstance().getHolographicInteractor().addHologramLocation(player.getEyeLocation());
+		Main.getInstance().getHolographicInteractor().updateHolograms();
 		return true;
 	}
 

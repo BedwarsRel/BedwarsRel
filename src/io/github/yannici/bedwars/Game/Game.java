@@ -649,7 +649,7 @@ public class Game {
 			statistic.store();
 			
 			if(Main.getInstance().isHologramsEnabled()) {
-			    Main.getInstance().updateHolograms(p);
+			    Main.getInstance().getHolographicInteractor().updateHolograms(p);
 			}
 			
 			Main.getInstance().getServer().dispatchCommand(p, "bw stats");
