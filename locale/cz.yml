@@ -81,7 +81,7 @@ success:
     autobalancesetoff: "Automaticke vyvazovani bylo &cvypnuto&a!"
     selectteamjoinentity: "Nyni klikni pravym na entitu, kterou chces pouzit!"
     teamjoinadded: "Entita byla uspesne ulozena pro tym $team$"
-    holoremoved: "Hologram-Statistic successfully removed!"
+    holoremoved: "Hologram uspesne odstranen!"
 gamecheck:
     LOC_NOT_SET_ERROR: "Lokace pro tuto hru nebyla dobre nastavena!"
     TEAM_SIZE_LOW_ERROR: "Musis nastavit vice tymu!"
@@ -113,7 +113,7 @@ ingame:
     protectionend: "Nyni jsi opet &czranitelny&f!"
     team-dead: "Tym $team$ byl znicen!"
     no-friendlybreak: "&cNemuzes znicit blok pod hracem sveho tymu!"
-    teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
+    teamchestdestroy: "&cTymova truhla byla znicena!"
     title:
         map-builder: "Mapu postavil/a $builder$"
         win-title: "&a&lGratulace!"
@@ -274,9 +274,9 @@ commands:
         name: "Pridat vybirani tymu"
         desc: "Vybere bytost, pomoci ktere se budete moci pripojit do tymu!"
     addholo:
-        name: "Add hologram location"
-        desc: "A hologram statistic will be added at the current position!"
+        name: "Pridat hologram"
+        desc: "Prida hologram do aktualni pozice!"
     removeholo:
-        name: "Remove hologram location"
-        desc: "When the command was executed, the player can right-click the hologram which should be removed."
-        explain: "Perform a right click within 10 seconds on the hologram you want to remove."
+        name: "Odstranit hologram"
+        desc: "Pri zadani prikazu staci kliknou pravym tlacitkem pro odstraneni.."
+        explain: "Uvnitr hologramu drz 10 sekund prave tlacitko!"
