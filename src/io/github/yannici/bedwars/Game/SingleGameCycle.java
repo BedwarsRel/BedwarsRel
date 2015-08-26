@@ -98,7 +98,9 @@ public class SingleGameCycle extends GameCycle {
             statistic.setCurrentScore(0);
             statistic.store();
             
-			Main.getInstance().getServer().dispatchCommand(player, "bw stats");
+            if(Main.getInstance().getBooleanConfig("statistics.show-on-game-end", true)) {
+                Main.getInstance().getServer().dispatchCommand(player, "bw stats");
+            }
 		}
 		
 		this.getGame().setPlayerDamager(player, null);

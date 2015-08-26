@@ -401,6 +401,11 @@ statistics:
     # Set to true to enable statistics. Otherwise set to false
     enabled: false
     
+    # Show on game end
+    # type: boolean
+    # If true, the stats will be displayed after the game ends
+    show-on-game-end: true
+    
     # Achievements storage type
     # type: string
     # yaml or database

@@ -652,7 +652,10 @@ public class Game {
 			    Main.getInstance().getHolographicInteractor().updateHolograms(p);
 			}
 			
-			Main.getInstance().getServer().dispatchCommand(p, "bw stats");
+			if(Main.getInstance().getBooleanConfig("statistics.show-on-game-end", true)) {
+			    Main.getInstance().getServer().dispatchCommand(p, "bw stats");
+			}
+			
 			Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
 		}
 

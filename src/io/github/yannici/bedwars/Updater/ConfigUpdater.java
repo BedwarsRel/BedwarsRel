@@ -167,6 +167,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("holographic-stats.value-color", "&e");
 		Main.getInstance().getConfig().addDefault("holographic-stats.head-line", "Your &eBEDWARS&f stats");
 		Main.getInstance().getConfig().addDefault("lobby-gamemode", 0);
+		Main.getInstance().getConfig().addDefault("statistics.show-on-game-end", true);
 		// </1.2.7>
 	}
 	
