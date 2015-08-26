@@ -73,6 +73,10 @@ public class ReloadCommand extends BaseCommand {
 		    Main.getInstance().loadConfigInUTF();
 		    Main.getInstance().loadShop();
 		    
+		    if(Main.getInstance().isHologramsEnabled()) {
+                Main.getInstance().getHolographicInteractor().loadHolograms();
+            }
+		    
 			Main.getInstance().reloadLocalization();
 			Main.getInstance().getGameManager().reloadGames();
 		} else if(command.equalsIgnoreCase("shop")) {
