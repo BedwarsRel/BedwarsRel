@@ -56,6 +56,11 @@ gamelength: 60
 # wrong colors in tablist or chat
 overwrite-names: false
 
+# Gamemode in lobby
+# type: int
+# The gamemode which should the players have in lobby
+lobby-gamemode: 0
+
 # Holographic Stats configs
 holographic-stats:
     # Show prefx

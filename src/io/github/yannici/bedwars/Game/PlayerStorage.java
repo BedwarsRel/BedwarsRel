@@ -140,6 +140,7 @@ public class PlayerStorage {
         return this.left;
     }
 
+    @SuppressWarnings("deprecation")
     public void loadLobbyInventory(Game game) {
     	ItemMeta im = null;
     	
@@ -181,6 +182,20 @@ public class PlayerStorage {
             this.player.getInventory().addItem(startGame);
         }
 
+        
+        // lobby gamemode
+        GameMode mode = GameMode.SURVIVAL;
+        try {
+            mode = GameMode.getByValue(Main.getInstance().getIntConfig("lobby-gamemode", 0));
+        } catch(Exception ex) {
+            // not valid gamemode
+        }
+        
+        if(mode == null) {
+            mode = GameMode.SURVIVAL;
+        }
+        
+        this.player.setGameMode(mode);
         this.player.updateInventory();
     }
 
