@@ -100,7 +100,7 @@ public class HolographicDisplaysInteraction {
                 HolographicDisplaysInteraction.this.updateHolograms();
             }
             
-        }, 0L, (long) 10 * 20);
+        }, 0L, (long) 60 * 20);
     }
     
     public void updateHolograms() {
@@ -120,7 +120,7 @@ public class HolographicDisplaysInteraction {
                     HolographicDisplaysInteraction.this.updateHolograms();
                 }
                 
-            }, 0L, (long) 10 * 20);
+            }, 0L, (long) 60 * 20);
         }
     }
     
