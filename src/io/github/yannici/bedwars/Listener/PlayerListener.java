@@ -74,8 +74,14 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onLeave(PlayerQuitEvent quit) {
 	    if(Main.getInstance().isHologramsEnabled() 
-                && Main.getInstance().getHolographicInteractor() != null) {
+                && Main.getInstance().getHolographicInteractor() != null
+                && Main.getInstance().getHolographicInteractor().getHolograms() != null) {
 	        List<Hologram> holos = Main.getInstance().getHolographicInteractor().getHolograms().get(quit.getPlayer());
+	        
+	        if(holos == null) {
+	            return;
+	        }
+	        
 	        for(Hologram holo : holos) {
 	            holo.delete();
 	        }
