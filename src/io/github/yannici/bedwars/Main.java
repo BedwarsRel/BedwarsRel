@@ -873,7 +873,8 @@ public class Main extends JavaPlugin {
 	}
 	
 	public boolean isHologramsEnabled() {
-        return Main.getInstance().getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
+        return this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
+                && this.holographicInteraction != null;
     }
 	
     public HolographicDisplaysInteraction getHolographicInteractor() {
