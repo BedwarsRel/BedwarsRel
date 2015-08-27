@@ -37,7 +37,8 @@ public class AddHoloCommand extends BaseCommand implements ICommand {
 			return false;
 		}
 		
-		if(!Main.getInstance().isHologramsEnabled()) {
+		if(!Main.getInstance().isHologramsEnabled() 
+		        && Main.getInstance().getHolographicInteractor() != null) {
 		    return true;
 		}
 		

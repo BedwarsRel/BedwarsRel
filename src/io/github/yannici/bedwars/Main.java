@@ -146,7 +146,7 @@ public class Main extends JavaPlugin {
 		this.gameManager.unloadGames();
 		this.cleanDatabase();
 		
-		if(this.isHologramsEnabled()) {
+		if(this.isHologramsEnabled() && this.holographicInteraction != null) {
 		    this.holographicInteraction.unloadHolograms();
 		}
 	}
@@ -873,8 +873,7 @@ public class Main extends JavaPlugin {
 	}
 	
 	public boolean isHologramsEnabled() {
-        return this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
-                && this.holographicInteraction != null;
+        return this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
     }
 	
     public HolographicDisplaysInteraction getHolographicInteractor() {

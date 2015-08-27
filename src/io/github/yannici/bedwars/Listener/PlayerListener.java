@@ -73,7 +73,8 @@ public class PlayerListener extends BaseListener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onLeave(PlayerQuitEvent quit) {
-	    if(Main.getInstance().isHologramsEnabled()) {
+	    if(Main.getInstance().isHologramsEnabled() 
+                && Main.getInstance().getHolographicInteractor() != null) {
 	        List<Hologram> holos = Main.getInstance().getHolographicInteractor().getHolograms().get(quit.getPlayer());
 	        for(Hologram holo : holos) {
 	            holo.delete();
@@ -106,14 +107,16 @@ public class PlayerListener extends BaseListener {
 			}
 		}
 		
-		if(Main.getInstance().isHologramsEnabled()) {
+		if(Main.getInstance().isHologramsEnabled() 
+                && Main.getInstance().getHolographicInteractor() != null) {
 		    Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer());
 		}
 	}
 	
 	@EventHandler
 	public void onSwitchWorld(PlayerChangedWorldEvent change) {
-	    if(!Main.getInstance().isHologramsEnabled()) {
+	    if(!Main.getInstance().isHologramsEnabled() 
+                && Main.getInstance().getHolographicInteractor() != null) {
 	        return;
 	    }
 	    

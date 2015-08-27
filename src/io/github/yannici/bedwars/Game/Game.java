@@ -652,7 +652,8 @@ public class Game {
 			statistic.setCurrentScore(0);
 			statistic.store();
 			
-			if(Main.getInstance().isHologramsEnabled()) {
+			if(Main.getInstance().isHologramsEnabled() 
+	                && Main.getInstance().getHolographicInteractor() != null) {
 			    Main.getInstance().getHolographicInteractor().updateHolograms(p);
 			}
 			
