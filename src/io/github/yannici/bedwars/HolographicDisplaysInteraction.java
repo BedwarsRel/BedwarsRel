@@ -104,10 +104,16 @@ public class HolographicDisplaysInteraction {
     }
     
     public void updateHolograms() {
-        for(Player player : Main.getInstance().getServer().getOnlinePlayers()) {
-            for(Location holoLocation : this.hologramLocations) {
-                this.updatePlayerHologram(player, holoLocation);
-            }
+        for(final Player player : Main.getInstance().getServer().getOnlinePlayers()) {
+            Main.getInstance().getServer().getScheduler().runTask(Main.getInstance(), new Runnable() {
+                
+                @Override
+                public void run() {
+                    for(Location holoLocation : HolographicDisplaysInteraction.this.hologramLocations) {
+                        HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
+                    }
+                }
+            });
         }
         
         if(this.hologramTimer == null
@@ -124,10 +130,16 @@ public class HolographicDisplaysInteraction {
         }
     }
     
-    public void updateHolograms(Player player) {
-        for(Location holoLocation : this.hologramLocations) {
-            HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
-        }
+    public void updateHolograms(final Player player) {
+        Main.getInstance().getServer().getScheduler().runTask(Main.getInstance(), new Runnable() {
+            
+            @Override
+            public void run() {
+                for(Location holoLocation : HolographicDisplaysInteraction.this.hologramLocations) {
+                    HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
+                }
+            }
+        });
     }
     
     private void updatePlayerHologram(Player player, Location holoLocation) {
