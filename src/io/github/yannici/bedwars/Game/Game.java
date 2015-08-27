@@ -618,6 +618,10 @@ public class Game {
 
 		Main.getInstance().getGameManager().removeGamePlayer(p);
 		
+		if(Main.getInstance().isBungee()) {
+            this.cycle.onPlayerLeave(p);
+        }
+		
 		if(this.isProtected(p)) {
 			this.removeProtection(p);
 		}
@@ -662,6 +666,7 @@ public class Game {
 		PlayerStorage storage = this.storages.get(p);
 		storage.clean();
 		storage.restore();
+		
 		this.playerSettings.remove(p);
 		this.updateScoreboard();
 		
