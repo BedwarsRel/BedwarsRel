@@ -138,8 +138,8 @@ public class HolographicDisplaysInteraction {
         }
     }
     
-    public Map<Player, List<Hologram>> getHolograms() {
-        return this.holograms;
+    public List<Hologram> getHolograms(Player player) {
+        return this.holograms.get(player);
     }
     
     private void updateHologramDatabase() {
@@ -274,5 +274,9 @@ public class HolographicDisplaysInteraction {
         this.updatePlayerStatisticHologram(player, holo);
         return holo;
     }
+
+	public void removeHologramPlayer(Player player) {
+		this.holograms.remove(player);
+	}
     
 }
