@@ -4,21 +4,16 @@ import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.LazyMetadataValue;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -140,6 +135,10 @@ public class HolographicDisplaysInteraction {
     
     public List<Hologram> getHolograms(Player player) {
         return this.holograms.get(player);
+    }
+    
+    public Map<Player, List<Hologram>> getHolograms() {
+        return this.holograms;
     }
     
     private void updateHologramDatabase() {
