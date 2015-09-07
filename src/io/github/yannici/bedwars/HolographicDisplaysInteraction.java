@@ -4,16 +4,20 @@ import io.github.yannici.bedwars.Statistics.PlayerStatistic;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.Callable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.LazyMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -25,7 +29,6 @@ public class HolographicDisplaysInteraction {
     
     private List<Location> hologramLocations = null;
     private Map<Player, List<Hologram>> holograms = null;
-    private BukkitTask hologramTimer = null;
 
     public HolographicDisplaysInteraction() {
         super();
@@ -33,14 +36,6 @@ public class HolographicDisplaysInteraction {
     
     public void unloadHolograms() {
         if(Main.getInstance().isHologramsEnabled()) {
-            try {
-                if(this.hologramTimer != null) {
-                    this.hologramTimer.cancel();
-                }
-            } catch(Exception ex) {
-             // Timer isn't running. Just ignore.
-            }
-            
             Iterator<Hologram> iterator = HologramsAPI.getHolograms(Main.getInstance()).iterator();
             while(iterator.hasNext()) {
                 iterator.next().delete();
@@ -57,16 +52,7 @@ public class HolographicDisplaysInteraction {
         if(!Main.getInstance().isHologramsEnabled()) {
             return;
         }
-        
-        if(this.hologramTimer != null) {
-            try {
-                this.hologramTimer.cancel();
-                this.hologramTimer = null;
-            } catch(Exception ex) {
-                // already stopped
-            }
-        }
-        
+
         if(this.holograms != null && this.hologramLocations != null) {
             // first unload all holograms
             this.unloadHolograms();
@@ -93,14 +79,7 @@ public class HolographicDisplaysInteraction {
             return;
         }
         
-        this.hologramTimer = Main.getInstance().getServer().getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
-            
-            @Override
-            public void run() {
-                HolographicDisplaysInteraction.this.updateHolograms();
-            }
-            
-        }, 0L, (long) 60 * 20);
+        this.updateHolograms();
     }
     
     public void updateHolograms() {
@@ -114,19 +93,6 @@ public class HolographicDisplaysInteraction {
                     }
                 }
             });
-        }
-        
-        if(this.hologramTimer == null
-                && this.hologramLocations != null
-                && this.hologramLocations.size() > 0) {
-            this.hologramTimer = Main.getInstance().getServer().getScheduler().runTaskTimer(Main.getInstance(), new Runnable() {
-                
-                @Override
-                public void run() {
-                    HolographicDisplaysInteraction.this.updateHolograms();
-                }
-                
-            }, 0L, (long) 60 * 20);
         }
     }
     

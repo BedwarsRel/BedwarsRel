@@ -122,7 +122,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onSwitchWorld(PlayerChangedWorldEvent change) {
 	    if(!Main.getInstance().isHologramsEnabled() 
-                && Main.getInstance().getHolographicInteractor() != null) {
+                || Main.getInstance().getHolographicInteractor() == null) {
 	        return;
 	    }
 	    

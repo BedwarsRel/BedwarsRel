@@ -91,6 +91,12 @@ public class SingleGameCycle extends GameCycle {
 		    player.teleport(this.getGame().getLobby());
 		}
 		
+		if(Main.getInstance().isHologramsEnabled()
+				&& Main.getInstance().getHolographicInteractor() != null
+				&& this.getGame().getLobby() == player.getWorld()) {
+			Main.getInstance().getHolographicInteractor().updateHolograms(player);
+		}
+		
 		if(Main.getInstance().statisticsEnabled()) {
 		    PlayerStatistic statistic = Main.getInstance()
                     .getPlayerStatisticManager().getStatistic(player);
@@ -114,10 +120,22 @@ public class SingleGameCycle extends GameCycle {
 	public void onPlayerLeave(Player player) {
 		// teleport to join location
 		PlayerStorage storage = this.getGame().getPlayerStorage(player);
-
+		
 		if (Main.getInstance().toMainLobby()) {
+			if(Main.getInstance().isHologramsEnabled()
+					&& Main.getInstance().getHolographicInteractor() != null
+					&& this.getGame().getMainLobby().getWorld() == player.getWorld()) {
+				Main.getInstance().getHolographicInteractor().updateHolograms(player);
+			}
+			
 			player.teleport(this.getGame().getMainLobby());
 		} else {
+			if(Main.getInstance().isHologramsEnabled()
+					&& Main.getInstance().getHolographicInteractor() != null
+					&& storage.getLeft() == player.getWorld()) {
+				Main.getInstance().getHolographicInteractor().updateHolograms(player);
+			}
+			
 			player.teleport(storage.getLeft());
 		}
 
