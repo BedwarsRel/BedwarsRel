@@ -108,6 +108,16 @@ public class HolographicDisplaysInteraction {
         });
     }
     
+    public void updateHolograms(final Player player, long delay) {
+        Main.getInstance().getServer().getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+            
+            @Override
+            public void run() {
+                HolographicDisplaysInteraction.this.updateHolograms(player);
+            }
+        }, delay);
+    }
+    
     private void updatePlayerHologram(Player player, Location holoLocation) {
         List<Hologram> holograms = null;
         if(!this.holograms.containsKey(player)) {
