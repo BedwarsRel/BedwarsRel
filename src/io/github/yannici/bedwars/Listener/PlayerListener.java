@@ -92,6 +92,7 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
 		if (Main.getInstance().isBungee()) {
+			je.setJoinMessage("");
 			ArrayList<Game> games = Main.getInstance().getGameManager()
 					.getGames();
 			if (games.size() == 0) {
