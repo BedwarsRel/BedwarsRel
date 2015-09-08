@@ -140,6 +140,7 @@ ingame:
             cancelled: "&cYour teleport was cancelled!"
             start: "You will be teleported in &c$time$&f second(s). Don't move!"
             cancel: "&4Cancel teleport"
+            multiuse: "&cYou started a teleportation already!"
         tntsheep:
             no-target-found: "No target player was found!"
 lobby:

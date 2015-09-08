@@ -142,6 +142,7 @@ ingame:
             cancelled: "&cVotre téléportation a été annulé !"
             start: "Vous allez être téléporté dans &c$time$&f seconde(s). Ne bougez pas !"
             cancel: "&4Annuler la téléportation"
+            multiuse: "&cYou started a teleportation already!"
         tntsheep:
             no-target-found: "Aucun joueur cible trouvé !"
 lobby:

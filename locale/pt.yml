@@ -140,6 +140,7 @@ ingame:
             cancelled: "&cO teu teleporte foi cancelado!"
             start: "Iras ser teleportado em &c$time$&f segundo(s). Nao te mexas!"
             cancel: "&4Cancelar o teleporte"
+            multiuse: "&cYou started a teleportation already!"
         tntsheep:
             no-target-found: "Nenhum player encontrado"
 lobby:

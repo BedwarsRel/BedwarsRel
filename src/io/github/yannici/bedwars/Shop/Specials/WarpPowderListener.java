@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
+import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
@@ -70,6 +71,11 @@ public class WarpPowderListener implements Listener {
 			
 			return;
         }
+		 
+		if(powder != null) {
+			player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-poweder.multiuse")));
+			return;
+		}
         
         if(player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
             return;

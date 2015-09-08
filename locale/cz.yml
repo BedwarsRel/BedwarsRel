@@ -145,6 +145,7 @@ ingame:
             cancelled: "&cTeleportace zrusena!"
             start: "Budes teleportovan za &c$time$&f sekund!"
             cancel: "&4Zrusit Teleport"
+            multiuse: "&cYou started a teleportation already!"
         tntsheep:
             no-target-found: "Zadny cil nebyl nalezen!"
 lobby:
