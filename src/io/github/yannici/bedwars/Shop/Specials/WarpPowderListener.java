@@ -73,7 +73,7 @@ public class WarpPowderListener implements Listener {
         }
 		 
 		if(powder != null) {
-			player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-poweder.multiuse")));
+			player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.multiuse")));
 			return;
 		}
         
