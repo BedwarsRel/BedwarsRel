@@ -774,11 +774,12 @@ public class PlayerListener extends BaseListener {
         Block clickedBlock = pie.getClickedBlock();
 
 		if (g.getState() == GameState.RUNNING) {
-			if(pie.getAction() == Action.PHYSICAL
-			        && (pie.getMaterial() == Material.SOIL
-			        		|| pie.getMaterial() == Material.WHEAT)) {
-			    pie.setCancelled(true);
-			    return;
+			if(pie.getAction() == Action.PHYSICAL) {
+				if(clickedBlock != null && (clickedBlock.getType() == Material.WHEAT
+						|| clickedBlock.getType() == Material.SOIL)) {
+					pie.setCancelled(true);
+				    return;
+				}
 			}
 			
 			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
