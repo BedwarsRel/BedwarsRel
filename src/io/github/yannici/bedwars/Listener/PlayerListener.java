@@ -209,7 +209,8 @@ public class PlayerListener extends BaseListener {
 
 		if(ioe.getInventory().getType() == InventoryType.ENCHANTING
 		        || ioe.getInventory().getType() == InventoryType.BREWING
-		        || ioe.getInventory().getType() == InventoryType.CRAFTING) {
+		        || (ioe.getInventory().getType() == InventoryType.CRAFTING 
+		        	&& !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
 		    ioe.setCancelled(true);
 		    return;
 		}
@@ -258,6 +259,10 @@ public class PlayerListener extends BaseListener {
         
         if(game.getState() == GameState.STOPPED) {
             return;
+        }
+        
+        if(Main.getInstance().getBooleanConfig("allow-crafting", false)) {
+        	return;
         }
         
         cie.setCancelled(true);

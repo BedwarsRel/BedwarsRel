@@ -168,6 +168,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("holographic-stats.head-line", "Your &eBEDWARS&f stats");
 		Main.getInstance().getConfig().addDefault("lobby-gamemode", 0);
 		Main.getInstance().getConfig().addDefault("statistics.show-on-game-end", true);
+		Main.getInstance().getConfig().addDefault("allow-crafting", false);
 		// </1.2.7>
 	}
 	
