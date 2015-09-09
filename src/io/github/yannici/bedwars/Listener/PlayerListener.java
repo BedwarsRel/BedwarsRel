@@ -210,9 +210,12 @@ public class PlayerListener extends BaseListener {
 		if(ioe.getInventory().getType() == InventoryType.ENCHANTING
 		        || ioe.getInventory().getType() == InventoryType.BREWING
 		        || (ioe.getInventory().getType() == InventoryType.CRAFTING 
-		        	&& !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
+			        	&& !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
 		    ioe.setCancelled(true);
 		    return;
+		} else if(ioe.getInventory().getType() == InventoryType.CRAFTING 
+	        	&& Main.getInstance().getBooleanConfig("allow-crafting", false)) {
+			return;
 		}
 
 		if (game.isSpectator(player)) {
