@@ -120,7 +120,7 @@ public class HelpCommand extends BaseCommand {
 			arg = " {config;locale;shop;games;all?}";
 		}
 
-		sb.append(ChatColor.YELLOW + "/bw " + command.getCommand() + arg
+		sb.append(ChatColor.YELLOW + "/" + Main.getInstance().getStringConfig("command-prefix", "bw") + " " + command.getCommand() + arg
 				+ " - " + command.getDescription() + "\n");
 	}
 

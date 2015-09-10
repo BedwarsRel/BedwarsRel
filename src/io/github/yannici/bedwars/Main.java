@@ -714,7 +714,7 @@ public class Main extends JavaPlugin {
 		this.commands.add(new AddHoloCommand(this));
 		this.commands.add(new RemoveHoloCommand(this));
 
-		this.getCommand("bw").setExecutor(new BedwarsCommandExecutor(this));
+		this.getCommand(this.getStringConfig("command-prefix", "bw")).setExecutor(new BedwarsCommandExecutor(this));
 	}
 
 	public ArrayList<BaseCommand> getCommands() {

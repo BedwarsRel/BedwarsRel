@@ -169,6 +169,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("lobby-gamemode", 0);
 		Main.getInstance().getConfig().addDefault("statistics.show-on-game-end", true);
 		Main.getInstance().getConfig().addDefault("allow-crafting", false);
+		Main.getInstance().getConfig().addDefault("command-prefix", "bw");
 		// </1.2.7>
 	}
 	
