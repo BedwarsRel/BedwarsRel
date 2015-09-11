@@ -618,10 +618,6 @@ public class Game {
 
 		Main.getInstance().getGameManager().removeGamePlayer(p);
 		
-		if(Main.getInstance().isBungee()) {
-            this.cycle.onPlayerLeave(p);
-        }
-		
 		if(this.isProtected(p)) {
 			this.removeProtection(p);
 		}
@@ -645,6 +641,10 @@ public class Game {
 		if (this.freePlayers.contains(p)) {
 			this.freePlayers.remove(p);
 		}
+		
+		if(Main.getInstance().isBungee()) {
+            this.cycle.onPlayerLeave(p);
+        }
 		
 		if(Main.getInstance().statisticsEnabled()) {
 			// store statistics and unload
