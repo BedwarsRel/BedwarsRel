@@ -115,7 +115,7 @@ public class PlayerListener extends BaseListener {
 		
 		if(Main.getInstance().isHologramsEnabled() 
                 && Main.getInstance().getHolographicInteractor() != null) {
-		    Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L*5);
+		    Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
 		}
 	}
 	
