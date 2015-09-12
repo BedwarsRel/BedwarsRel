@@ -274,4 +274,4 @@ commands:
     removeholo:
         name: "Hologram-Position entfernen"
         desc: "Sobald der Command ausgelöst wurde, kann innerhalb von 10 Sekunden auf das entsprechende Hologram geklickt werden, um es zu entfernen"
-        explain: "Mache nun einen Rechtsklick auf das Hologram das entfernt werden soll. Innerhalb von 10 Sekunden."
+        explain: "Mache nun einen Linksklick auf das Hologram das entfernt werden soll. Innerhalb von 10 Sekunden."

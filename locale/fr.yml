@@ -277,4 +277,4 @@ commands:
     removeholo:
         name: "Remove hologram location"
         desc: "When the command was executed, the player can right-click the hologram which should be removed."
-        explain: "Perform a right click within 10 seconds on the hologram you want to remove."
+        explain: "Perform a left click within 10 seconds on the hologram you want to remove."
