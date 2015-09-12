@@ -509,7 +509,7 @@ database:
         # the higher the value the higher is the security that no connection locks
         # will occur. But the load of the database server will be higher when 
         # many connections are used!
-        max-pool-size: 15
+        max-pool-size: 50
         
 # Spectation enabled
 # Type: boolean

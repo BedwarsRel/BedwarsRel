@@ -170,6 +170,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("statistics.show-on-game-end", true);
 		Main.getInstance().getConfig().addDefault("allow-crafting", false);
 		Main.getInstance().getConfig().addDefault("command-prefix", "bw");
+		Main.getInstance().getConfig().addDefault("database.connection-pooling.max-pool-size", 50);
 		// </1.2.7>
 	}
 	
