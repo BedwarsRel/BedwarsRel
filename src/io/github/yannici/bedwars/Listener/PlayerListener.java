@@ -3,6 +3,7 @@ package io.github.yannici.bedwars.Listener;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,6 +63,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 
 public class PlayerListener extends BaseListener {
+	
+	//HashMap, which stores whether the player (UUID of player) is leaving or not
+	public static HashMap<String, Boolean> playersLeaving = new HashMap<String, Boolean>();
 
 	public PlayerListener() {
 		super();
@@ -121,6 +125,18 @@ public class PlayerListener extends BaseListener {
 	
 	@EventHandler
 	public void onSwitchWorld(PlayerChangedWorldEvent change) {
+		
+		//If the Player changes the world and he is not changing the world because he leaves the game and he is playing a Bedwars game,
+		//he will leave the Bedwars game.
+		if (!PlayerListener.playersLeaving.containsKey(change.getPlayer().getUniqueId().toString()) ||
+				Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer()) != null) {
+			Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer()).playerLeave(change.getPlayer(), false);
+		} else if (PlayerListener.playersLeaving.containsKey(change.getPlayer().getUniqueId().toString())) {
+			if (PlayerListener.playersLeaving.get(change.getPlayer().getUniqueId().toString()) == true) {
+				PlayerListener.playersLeaving.remove(change.getPlayer().getUniqueId().toString());
+			}
+		}
+		
 	    if(!Main.getInstance().isHologramsEnabled() 
                 || Main.getInstance().getHolographicInteractor() == null) {
 	        return;

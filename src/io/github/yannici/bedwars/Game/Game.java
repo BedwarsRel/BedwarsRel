@@ -8,6 +8,7 @@ import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerJoinedEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
+import io.github.yannici.bedwars.Listener.PlayerListener;
 import io.github.yannici.bedwars.Shop.NewItemShop;
 import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
@@ -584,6 +585,14 @@ public class Game {
 	}
 
     public boolean playerLeave(Player p, boolean kicked) {
+    	//Stores true to the HashMap because the player is leaving
+    	if (PlayerListener.playersLeaving.containsKey(p.getUniqueId().toString())) {
+    		PlayerListener.playersLeaving.remove(p.getUniqueId().toString());
+    		PlayerListener.playersLeaving.put(p.getUniqueId().toString(), true);
+    	} else {
+    		PlayerListener.playersLeaving.put(p.getUniqueId().toString(), true);
+    	}
+    	
 		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this,
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
