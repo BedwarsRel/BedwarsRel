@@ -65,7 +65,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 public class PlayerListener extends BaseListener {
 	
 	//HashMap, which stores whether the player (UUID of player) is leaving or not
-	public static HashMap<String, Boolean> playersLeaving = new HashMap<String, Boolean>();
+	public static HashMap<String, Boolean> playersLeavingOrJoining = new HashMap<String, Boolean>();
 
 	public PlayerListener() {
 		super();
@@ -128,12 +128,12 @@ public class PlayerListener extends BaseListener {
 		
 		//If the Player changes the world and he is not changing the world because he leaves the game and he is playing a Bedwars game,
 		//he will leave the Bedwars game.
-		if (!PlayerListener.playersLeaving.containsKey(change.getPlayer().getUniqueId().toString()) ||
+		if (!PlayerListener.playersLeavingOrJoining.containsKey(change.getPlayer().getUniqueId().toString()) &&
 				Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer()) != null) {
 			Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer()).playerLeave(change.getPlayer(), false);
-		} else if (PlayerListener.playersLeaving.containsKey(change.getPlayer().getUniqueId().toString())) {
-			if (PlayerListener.playersLeaving.get(change.getPlayer().getUniqueId().toString()) == true) {
-				PlayerListener.playersLeaving.remove(change.getPlayer().getUniqueId().toString());
+		} else if (PlayerListener.playersLeavingOrJoining.containsKey(change.getPlayer().getUniqueId().toString())) {
+			if (PlayerListener.playersLeavingOrJoining.get(change.getPlayer().getUniqueId().toString()) == true) {
+				PlayerListener.playersLeavingOrJoining.remove(change.getPlayer().getUniqueId().toString());
 			}
 		}
 		
