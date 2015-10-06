@@ -8,7 +8,6 @@ import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerJoinedEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
 import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
-import io.github.yannici.bedwars.Listener.PlayerListener;
 import io.github.yannici.bedwars.Shop.NewItemShop;
 import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
 import io.github.yannici.bedwars.Statistics.PlayerStatistic;
@@ -585,14 +584,6 @@ public class Game {
 	}
 
     public boolean playerLeave(Player p, boolean kicked) {
-    	//Stores true to the HashMap because the player is leaving
-    	if (PlayerListener.playersLeavingOrJoining.containsKey(p.getUniqueId().toString())) {
-    		PlayerListener.playersLeavingOrJoining.remove(p.getUniqueId().toString());
-    		PlayerListener.playersLeavingOrJoining.put(p.getUniqueId().toString(), true);
-    	} else {
-    		PlayerListener.playersLeavingOrJoining.put(p.getUniqueId().toString(), true);
-    	}
-    	
 		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this,
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
@@ -701,13 +692,6 @@ public class Game {
 		
 		this.updateSigns();
 		this.storages.remove(p);
-		
-		//If the HashMap contains the player, the destination was in the same world
-		//--> remove this element because it is no longer needed
-    	if (PlayerListener.playersLeavingOrJoining.containsKey(p.getUniqueId().toString())) {
-    		PlayerListener.playersLeavingOrJoining.remove(p.getUniqueId().toString());
-    	}
-		
 		return true;
 	}
 
@@ -1752,18 +1736,6 @@ public class Game {
 			for (Player player : team.getPlayers()) {
 				player.setVelocity(new Vector(0, 0, 0));
 				player.setFallDistance(0.0F);
-				
-				//If the Team spawn location is not in the same world as the player's current world
-				//He should not leave Bedwars, because he is being teleported on purpose.
-				if(!player.getWorld().getName().equalsIgnoreCase(team.getSpawnLocation().getWorld().getName())){
-					if (PlayerListener.playersLeavingOrJoining.containsKey(player.getUniqueId().toString())) {
-		    			PlayerListener.playersLeavingOrJoining.remove(player.getUniqueId().toString());
-		    			PlayerListener.playersLeavingOrJoining.put(player.getUniqueId().toString(), true);
-		    		} else {
-		    			PlayerListener.playersLeavingOrJoining.put(player.getUniqueId().toString(), true);
-		    		}
-				}
-				
 				player.teleport(team.getSpawnLocation());
 				if(this.getPlayerStorage(player) != null) {
 				    this.getPlayerStorage(player).clean();

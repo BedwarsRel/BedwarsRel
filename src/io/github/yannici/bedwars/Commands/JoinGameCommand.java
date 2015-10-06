@@ -4,7 +4,6 @@ import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Listener.PlayerListener;
 
 import java.util.ArrayList;
 
@@ -42,26 +41,13 @@ public class JoinGameCommand extends BaseCommand {
 
 	@Override
 	public boolean execute(CommandSender sender, ArrayList<String> args) {
+		if (!super.hasPermission(sender)) {
+			return false;
+		}
+
 		Player player = (Player) sender;
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		Game gameOfPlayer = Main.getInstance().getGameManager().getGameOfPlayer(player);
-		
-		//If a player joins the Bedwars game, he should never leave it directly.
-		//Only if the lobby is not in the same world!
-		if(game != null) {
-			if(!game.getLobby().getWorld().getName().equalsIgnoreCase(player.getWorld().getName())){
-				if (PlayerListener.playersLeavingOrJoining.containsKey(player.getUniqueId().toString())) {
-    				PlayerListener.playersLeavingOrJoining.remove(player.getUniqueId().toString());
-    				PlayerListener.playersLeavingOrJoining.put(player.getUniqueId().toString(), true);
-    			} else {
-    				PlayerListener.playersLeavingOrJoining.put(player.getUniqueId().toString(), true);
-    			}
-		
-				if (!super.hasPermission(sender)) {
-					return false;
-				}
-			}
-		}
 		
 		if(gameOfPlayer != null) {
 			if(gameOfPlayer.getState() == GameState.RUNNING) {
