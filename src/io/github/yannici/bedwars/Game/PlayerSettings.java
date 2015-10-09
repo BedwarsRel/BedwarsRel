@@ -9,6 +9,7 @@ public class PlayerSettings {
     private Player player = null;
     private boolean oneStackPerShift = false;
     private Object hologram = null;
+    private boolean isTeleporting = false;
 
     public PlayerSettings(Player player) {
         this.player = player;
@@ -34,5 +35,13 @@ public class PlayerSettings {
     public void setOneStackPerShift(boolean value) {
         this.oneStackPerShift = value;
     }
+
+	public boolean isTeleporting() {
+		return isTeleporting;
+	}
+
+	public void setTeleporting(boolean isTeleporting) {
+		this.isTeleporting = isTeleporting;
+	}
 
 }
