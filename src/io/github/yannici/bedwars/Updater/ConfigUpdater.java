@@ -172,6 +172,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("command-prefix", "bw");
 		Main.getInstance().getConfig().addDefault("database.connection-pooling.max-pool-size", 50);
 		// </1.2.7>
+		
+		// <1.2.8>
+		Main.getInstance().getConfig().addDefault("specials.tntsheep.explosion-factor", 1.0);
+		// </1.2.8>
 	}
 	
 	private void excludeShop() {

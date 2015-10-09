@@ -877,6 +877,12 @@ specials:
         # The movement speed of the sheep
         # Prefered 0.4! Do not set higher than 0.8!!!
         speed: 0.4
+        
+        # Explosion factor
+        # type: double
+        # The factor for the explosive! 1.0 is default tnt-explosion.
+        # Its not recommended to use values above 1.0
+        explosion-factor: 1.0
     
 # Sign configuration
 # You can use following placeholder (colors with &):
