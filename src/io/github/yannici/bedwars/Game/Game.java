@@ -538,7 +538,7 @@ public class Game {
 		if (this.state == GameState.RUNNING) {
 	        this.toSpectator(p);
 	        
-			if(!this.lobby.getWorld().getName().equalsIgnoreCase(p.getWorld().getName())) {
+			if(!this.lobby.getWorld().equals(p.getWorld())) {
 				this.getPlayerSettings(p).setTeleporting(true);
 			}
 	        
@@ -559,7 +559,7 @@ public class Game {
 			storage.store();
 			storage.clean();
 
-			if(!this.lobby.getWorld().getName().equalsIgnoreCase(p.getWorld().getName())) {
+			if(!this.lobby.getWorld().equals(p.getWorld())) {
 				this.getPlayerSettings(p).setTeleporting(true);
 			}
 			p.teleport(this.lobby);
@@ -1743,7 +1743,7 @@ public class Game {
 	private void teleportPlayersToTeamSpawn() {
 		for (Team team : this.teams.values()) {
 			for (Player player : team.getPlayers()) {
-				if (!player.getWorld().getName().equalsIgnoreCase(team.getSpawnLocation().getWorld().getName())) {
+				if (!player.getWorld().equals(team.getSpawnLocation().getWorld())) {
 					this.getPlayerSettings(player).setTeleporting(true);
 				}
 				player.setVelocity(new Vector(0, 0, 0));
