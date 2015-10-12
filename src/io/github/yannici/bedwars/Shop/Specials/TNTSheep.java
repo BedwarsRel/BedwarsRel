@@ -93,7 +93,6 @@ public class TNTSheep extends SpecialItem {
 					Class<?> tntRegisterClass = Main.getInstance().getVersionRelatedClass("TNTSheepRegister");
 					ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
 					TNTSheep.this.sheep = register.spawnCreature(that, start, TNTSheep.this.player, target, playerTeam.getColor().getDyeColor());
-					TNTSheep.this.sheep.getTNT().setYield((float) (TNTSheep.this.sheep.getTNT().getYield() * Main.getInstance().getConfig().getDouble("specials.tntsheep.explosion-factor", 1.0)));
 					
 					new BukkitRunnable() {
 						
