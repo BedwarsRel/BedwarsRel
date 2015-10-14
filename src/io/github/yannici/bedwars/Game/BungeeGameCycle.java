@@ -9,7 +9,6 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,31 +30,39 @@ public class BungeeGameCycle extends GameCycle {
 
 	@Override
 	public void onGameEnds() {
-		for (Player player : this.getGame().getTeamPlayers()) {
-			for (Player freePlayer : this.getGame().getFreePlayers()) {
-				player.showPlayer(freePlayer);
-			}
-			this.getGame().playerLeave(player, false);
-		}
-		
-		for (Player freePlayer : this.getGame().getFreePlayersClone()) {
-			this.getGame().playerLeave(freePlayer, false);
-		}
-		
-		this.getGame().resetRegion();
-		new BukkitRunnable() {
-            
-            @Override
-            public void run() {
-            	if(Main.getInstance().isSpigot() 
-            			&& Main.getInstance().getBooleanConfig("bungeecord.spigot-restart", true)) {
-            		Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), "restart");
-            	} else {
-            		Bukkit.shutdown();
-            	}
+	 // Reset scoreboard first
+        this.getGame().resetScoreboard();
+
+        // Kick all players
+        for (Player player : this.getGame().getTeamPlayers()) {
+            for (Player freePlayer : this.getGame().getFreePlayers()) {
+                player.showPlayer(freePlayer);
             }
-        }.runTaskLater(Main.getInstance(), 70L);
-		
+            this.getGame().playerLeave(player, false);
+        }
+        
+        for (Player freePlayer : this.getGame().getFreePlayersClone()) {
+            this.getGame().playerLeave(freePlayer, false);
+        }
+
+        // reset countdown prevention breaks
+        this.setEndGameRunning(false);
+
+        // Reset team chests
+        for (Team team : this.getGame().getTeams().values()) {
+            team.setInventory(null);
+            team.getChests().clear();
+        }
+        
+        // clear protections
+        this.getGame().clearProtections();
+        
+        // set state and with that, the sign
+        this.getGame().setState(GameState.WAITING);
+        this.getGame().updateScoreboard();
+        
+        // reset region
+        this.getGame().resetRegion();
 	}
 
 	@Override
