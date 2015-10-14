@@ -561,9 +561,15 @@ bungeecord:
   # the server where the player will be teleported when they leave.
     hubserver: hub
     
+  # Full server restart
+  # Type: boolean
+  # If true, the server will do a full restart, with false
+  # it tries just to restart the game
+    full-restart: true
+    
   # Use spigot restart
   # type: boolean
-  # If true, it tries to use spigot's /restart command
+  # If true, it tries to use spigot's /restart command (ONLY WHEN full-restart IS true)
   # If spigot isn't running, it will just stop the server
     spigot-restart: true
 
