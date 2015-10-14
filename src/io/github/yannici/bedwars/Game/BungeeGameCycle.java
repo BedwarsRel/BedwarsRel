@@ -45,6 +45,8 @@ public class BungeeGameCycle extends GameCycle {
 	@Override
 	public void onGameEnds() {
 	    if(Main.getInstance().getBooleanConfig("bungeecord.full-restart", true)) {
+	        this.kickAllPlayers();
+	        
     		this.getGame().resetRegion();
     		new BukkitRunnable() {
                 
