@@ -894,7 +894,7 @@ public class Game {
 		Inventory compass = Bukkit.createInventory(null, size, Main._l("ingame.spectator"));
 		for(Team t : this.getTeams().values()) {
 			for(Player p : t.getPlayers()) {
-				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
+				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 				SkullMeta meta = (SkullMeta) head.getItemMeta();
 				meta.setDisplayName(t.getChatColor() + p.getDisplayName());
 				meta.setLore(Arrays.asList(t.getChatColor() + t.getDisplayName()));
@@ -902,7 +902,6 @@ public class Game {
 				head.setItemMeta(meta);
 				
 				compass.addItem(head);
-				player.openInventory(compass);
 			}
 		}
 		
