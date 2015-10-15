@@ -537,11 +537,8 @@ public class Game {
 		
 		if (this.state == GameState.RUNNING) {
 	        this.toSpectator(p);
-	        
-			if(!this.lobby.getWorld().equals(p.getWorld())) {
-				this.getPlayerSettings(p).setTeleporting(true);
-			}
-	        
+
+	        this.getPlayerSettings(p).setTeleporting(true);
             p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
                     this.teams.size() - 1)]).getSpawnLocation());
             this.displayMapInfo(p);
