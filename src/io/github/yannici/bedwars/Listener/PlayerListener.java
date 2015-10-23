@@ -422,8 +422,8 @@ public class PlayerListener extends BaseListener {
 	        	}
 	        	
 	            Material clickedMat = ice.getCurrentItem().getType();
-	            if(clickedMat.equals(Material.SLIME_BALL)) {
-	                game.playerLeave(player, false);
+	            if(clickedMat.equals(Material.SLIME_BALL) && game.getCycle() instanceof BungeeGameCycle) {
+	                ((BungeeGameCycle) game.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
 	            }
 	            
 	            if(clickedMat.equals(Material.COMPASS)) {
