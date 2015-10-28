@@ -537,6 +537,8 @@ public class Game {
 		
 		if (this.state == GameState.RUNNING) {
 	        this.toSpectator(p);
+
+	        this.getPlayerSettings(p).setTeleporting(true);
             p.teleport(((Team) this.teams.values().toArray()[Utils.randInt(0,
                     this.teams.size() - 1)]).getSpawnLocation());
             this.displayMapInfo(p);
@@ -554,6 +556,9 @@ public class Game {
 			storage.store();
 			storage.clean();
 
+			if(!this.lobby.getWorld().equals(p.getWorld())) {
+				this.getPlayerSettings(p).setTeleporting(true);
+			}
 			p.teleport(this.lobby);
 			storage.loadLobbyInventory(this);
 			
@@ -584,6 +589,7 @@ public class Game {
 	}
 
     public boolean playerLeave(Player p, boolean kicked) {
+    	this.getPlayerSettings(p).setTeleporting(true);
 		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this,
 				p);
 		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
@@ -885,7 +891,7 @@ public class Game {
 		Inventory compass = Bukkit.createInventory(null, size, Main._l("ingame.spectator"));
 		for(Team t : this.getTeams().values()) {
 			for(Player p : t.getPlayers()) {
-				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1);
+				ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 				SkullMeta meta = (SkullMeta) head.getItemMeta();
 				meta.setDisplayName(t.getChatColor() + p.getDisplayName());
 				meta.setLore(Arrays.asList(t.getChatColor() + t.getDisplayName()));
@@ -893,7 +899,6 @@ public class Game {
 				head.setItemMeta(meta);
 				
 				compass.addItem(head);
-				player.openInventory(compass);
 			}
 		}
 		
@@ -1734,6 +1739,9 @@ public class Game {
 	private void teleportPlayersToTeamSpawn() {
 		for (Team team : this.teams.values()) {
 			for (Player player : team.getPlayers()) {
+				if (!player.getWorld().equals(team.getSpawnLocation().getWorld())) {
+					this.getPlayerSettings(player).setTeleporting(true);
+				}
 				player.setVelocity(new Vector(0, 0, 0));
 				player.setFallDistance(0.0F);
 				player.teleport(team.getSpawnLocation());

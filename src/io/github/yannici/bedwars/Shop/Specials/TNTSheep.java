@@ -150,6 +150,7 @@ public class TNTSheep extends SpecialItem {
 	            
 	            final Entity source = old.getSource();
 	            final Location oldLoc = old.getLocation();
+	            final float yield = old.getYield();
 	            old.leaveVehicle();
 	            old.remove();
 	            
@@ -159,6 +160,7 @@ public class TNTSheep extends SpecialItem {
                     public void run() {
                         TNTPrimed primed = (TNTPrimed) that.game.getRegion().getWorld().spawnEntity(oldLoc, EntityType.PRIMED_TNT);
                         primed.setFuseTicks(fuse);
+                        primed.setYield(yield);
                         primed.setIsIncendiary(false);
                         that.sheep.setPassenger(primed);
                         that.sheep.setTNT(primed);

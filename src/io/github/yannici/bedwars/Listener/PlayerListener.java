@@ -121,6 +121,25 @@ public class PlayerListener extends BaseListener {
 	
 	@EventHandler
 	public void onSwitchWorld(PlayerChangedWorldEvent change) {
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer());
+		if(game != null) {
+			if(game.getState() == GameState.RUNNING) {
+				if(!game.getCycle().isEndGameRunning()) {
+					if(!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
+						game.playerLeave(change.getPlayer(), false);
+					} else {
+						game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
+					}
+				}
+			} else if(game.getState() == GameState.WAITING) {
+				if(!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
+					game.playerLeave(change.getPlayer(), false);
+				} else {
+					game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
+				}
+			}
+		}
+
 	    if(!Main.getInstance().isHologramsEnabled() 
                 || Main.getInstance().getHolographicInteractor() == null) {
 	        return;

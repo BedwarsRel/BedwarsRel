@@ -28,34 +28,64 @@ public class BungeeGameCycle extends GameCycle {
 	public void onGameStart() {
 		// do nothing, world will be reseted on restarting
 	}
+	
+	private void kickAllPlayers() {
+	    for (Player player : this.getGame().getTeamPlayers()) {
+            for (Player freePlayer : this.getGame().getFreePlayers()) {
+                player.showPlayer(freePlayer);
+            }
+            this.getGame().playerLeave(player, false);
+        }
+        
+        for (Player freePlayer : this.getGame().getFreePlayersClone()) {
+            this.getGame().playerLeave(freePlayer, false);
+        }
+	}
 
 	@Override
 	public void onGameEnds() {
-		for (Player player : this.getGame().getTeamPlayers()) {
-			for (Player freePlayer : this.getGame().getFreePlayers()) {
-				player.showPlayer(freePlayer);
-			}
-			this.getGame().playerLeave(player, false);
-		}
-		
-		for (Player freePlayer : this.getGame().getFreePlayersClone()) {
-			this.getGame().playerLeave(freePlayer, false);
-		}
-		
-		this.getGame().resetRegion();
-		new BukkitRunnable() {
-            
-            @Override
-            public void run() {
-            	if(Main.getInstance().isSpigot() 
-            			&& Main.getInstance().getBooleanConfig("bungeecord.spigot-restart", true)) {
-            		Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), "restart");
-            	} else {
-            		Bukkit.shutdown();
-            	}
-            }
-        }.runTaskLater(Main.getInstance(), 70L);
-		
+	    if(Main.getInstance().getBooleanConfig("bungeecord.full-restart", true)) {
+	        this.kickAllPlayers();
+	        
+    		this.getGame().resetRegion();
+    		new BukkitRunnable() {
+                
+                @Override
+                public void run() {
+                	if(Main.getInstance().isSpigot() 
+                			&& Main.getInstance().getBooleanConfig("bungeecord.spigot-restart", true)) {
+                		Main.getInstance().getServer().dispatchCommand(Main.getInstance().getServer().getConsoleSender(), "restart");
+                	} else {
+                		Bukkit.shutdown();
+                	}
+                }
+            }.runTaskLater(Main.getInstance(), 70L);
+	    } else {
+	        // Reset scoreboard first
+	        this.getGame().resetScoreboard();
+
+	        // Kick all players
+	        this.kickAllPlayers();
+
+	        // reset countdown prevention breaks
+	        this.setEndGameRunning(false);
+
+	        // Reset team chests
+	        for (Team team : this.getGame().getTeams().values()) {
+	            team.setInventory(null);
+	            team.getChests().clear();
+	        }
+	        
+	        // clear protections
+	        this.getGame().clearProtections();
+	        
+	        // set state and with that, the sign
+	        this.getGame().setState(GameState.WAITING);
+	        this.getGame().updateScoreboard();
+	        
+	        // reset region
+	        this.getGame().resetRegion();
+	    }
 	}
 
 	@Override

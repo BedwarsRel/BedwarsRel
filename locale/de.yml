@@ -116,8 +116,8 @@ ingame:
         name: "Itemshop"
         newshop: "Neuen Shop verwenden"
         oldshop: "Alten Shop verwenden"
-        fullstackpershift: Multiply stacks per shift click
-        onestackpershift: One stack per shift click
+        fullstackpershift: "Mehrere Stacks bei Shift-Klick"
+        onestackpershift: "Ein Stack bei Shift-Klick"
     player:
         left: "Spieler $player$ hat das Spiel verlassen!"
         died: "$player$ ist gestorben!"

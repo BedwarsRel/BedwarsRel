@@ -92,6 +92,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
                     ex.printStackTrace();
                 }
                 
+                sheep.getTNT().setYield((float) (sheep.getTNT().getYield() * Main.getInstance().getConfig().getDouble("specials.tntsheep.explosion-factor", 1.0)));
                 sheep.getTNT().setFuseTicks((int)Math.round(Main.getInstance().getConfig().getDouble("specials.tntsheep.fuse-time", 8.0)*20));
                 sheep.getTNT().setIsIncendiary(false);
                 specialItem.updateTNT();
