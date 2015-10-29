@@ -392,6 +392,10 @@ public class PlayerStatisticManager {
                 ConfigurationSection dataEntry = dataSection.getConfigurationSection(key);
                 
                 for(String field : statistic.getFields().keySet()) {
+                	if(field.equalsIgnoreCase("id")) {
+                		continue;
+                	}
+                	
                     if(!dataEntry.contains(field)) {
                         continue;
                     }
