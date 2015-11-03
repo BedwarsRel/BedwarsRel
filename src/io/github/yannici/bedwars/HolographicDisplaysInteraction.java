@@ -273,6 +273,18 @@ public class HolographicDisplaysInteraction {
         this.updatePlayerStatisticHologram(player, holo);
         return holo;
     }
+    
+    public void unloadAllHolograms(Player player) {
+    	if(!this.holograms.containsKey(player)) {
+            return;
+        }
+    	
+    	for(Hologram holo : this.holograms.get(player)) {
+    		holo.delete();
+    	}
+    	
+    	this.holograms.remove(player);
+    }
 
 	public void removeHologramPlayer(Player player) {
 		this.holograms.remove(player);

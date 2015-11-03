@@ -999,6 +999,13 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent pqe) {
 		Player player = pqe.getPlayer();
+		
+		// Remove holographs
+		if(Main.getInstance().isHologramsEnabled()  
+		        && Main.getInstance().getHolographicInteractor() != null) {
+			Main.getInstance().getHolographicInteractor().unloadAllHolograms(player);
+        }
+		
 		Game g = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (g == null) {
