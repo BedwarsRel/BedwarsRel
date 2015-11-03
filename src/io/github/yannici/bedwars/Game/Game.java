@@ -463,12 +463,12 @@ public class Game {
 				} catch(Exception ex) {
 					p.setGameMode(GameMode.SURVIVAL);
 				}
-				
-				for (Player pl : Game.this.getTeamPlayers()) {
+
+				for (Player pl : Game.this.getPlayers()) {
 					if (pl.equals(p)) {
 						continue;
 					}
-
+					
 					pl.hidePlayer(p);
 				}
 			}
