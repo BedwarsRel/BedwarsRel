@@ -59,8 +59,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-
 public class PlayerListener extends BaseListener {
 
 	public PlayerListener() {
@@ -70,24 +68,6 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * GLOBAL
 	 */
-	
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onLeave(PlayerQuitEvent quit) {
-	    if(Main.getInstance().isHologramsEnabled() 
-                && Main.getInstance().getHolographicInteractor() != null) {
-	        List<Hologram> holos = Main.getInstance().getHolographicInteractor().getHolograms(quit.getPlayer());
-	        
-	        if(holos == null) {
-	            return;
-	        }
-	        
-	        for(Hologram holo : holos) {
-	            holo.delete();
-	        }
-	        
-	        Main.getInstance().getHolographicInteractor().removeHologramPlayer(quit.getPlayer());
-	    }
-	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
