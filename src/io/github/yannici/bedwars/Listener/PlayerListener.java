@@ -943,6 +943,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (clickedStack.getType() != Material.WOOL) {
+			ice.setCancelled(true);
 			return;
 		}
 
