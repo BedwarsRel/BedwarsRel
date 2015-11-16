@@ -163,9 +163,12 @@ public class EntityListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamage(EntityDamageEvent ede) {
-	    List<EntityType> canDamageTypes = Arrays.asList(
-                EntityType.PLAYER // important lol
-        );
+	    List<EntityType> canDamageTypes = new ArrayList<EntityType>();
+	    canDamageTypes.add(EntityType.PLAYER);
+
+	    if (Main.getInstance().getServer().getPluginManager().isPluginEnabled("AntiAura")) {
+		canDamageTypes.add(EntityType.SQUID);
+	    }
         
         if (canDamageTypes.contains(ede.getEntityType())) {
             return;
@@ -186,9 +189,12 @@ public class EntityListener extends BaseListener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent ede) {
-	    List<EntityType> canDamageTypes = Arrays.asList(
-	            EntityType.PLAYER // important lol
-        );
+	    List<EntityType> canDamageTypes = new ArrayList<EntityType>();
+		canDamageTypes.add(EntityType.PLAYER);
+
+	    if (Main.getInstance().getServer().getPluginManager().isPluginEnabled("AntiAura")) {
+		canDamageTypes.add(EntityType.SQUID);
+	    }
 	    
 		if (canDamageTypes.contains(ede.getEntityType())) {
 			return;
