@@ -142,6 +142,9 @@ ingame:
             multiuse: "&cDu hast bereits eine Teleportation gestartet!"
         tntsheep:
             no-target-found: "Es wurde kein Zielspieler gefunden!"
+        tracker:
+            no-target-found: "Es wurde kein Zielspieler gefunden!"
+            target-found: "$player$ ist $blocks$ Blöcke von dir entfernt."
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"
