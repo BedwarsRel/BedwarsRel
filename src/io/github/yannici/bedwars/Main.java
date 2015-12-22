@@ -780,6 +780,15 @@ public class Main extends JavaPlugin {
 					}
 				}, (long) 5 * 20, (long) 5 * 20);
 	}
+	
+	public static String _l(String localeKey, String singularValue, Map<String, String> params) {
+		if(params.get(singularValue).equals("1")){
+			return (String) Main.getInstance().getLocalization()
+					.get(localeKey + "-one", params);
+		}
+		return (String) Main.getInstance().getLocalization()
+				.get(localeKey, params);
+	}
 
 	public static String _l(String localeKey, Map<String, String> params) {
 		return (String) Main.getInstance().getLocalization()

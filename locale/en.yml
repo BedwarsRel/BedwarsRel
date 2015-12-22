@@ -158,6 +158,8 @@ lobby:
     leavegame: "Leave game"
     playerjoin: "Player $player$ joined the game!"
     kickedbyvip: "You were kicked by a vip player which has joined the full game!"
+    moreplayersneeded: "$count$ more players needed."
+    moreplayersneeded-one: "$count$ more player needed."
     notenoughplayers-rule0: "More players are needed to start the game!"
     notenoughplayers-rule1: "Every team needs one ore more players to start the game!"
 sign:
