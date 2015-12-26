@@ -143,6 +143,9 @@ ingame:
             multiuse: "&cYou started a teleportation already!"
         tntsheep:
             no-target-found: "No target player was found!"
+        tracker:
+            no-target-found: "No target player was found!"
+            target-found: "$player$ is $blocks$ block(s) away from you."
 lobby:
     countdown: "Game will start in $sec$ second(s)!"
     countdowncancel: "More players needed. Countdown was cancelled!"
@@ -158,6 +161,8 @@ lobby:
     leavegame: "Leave game"
     playerjoin: "Player $player$ joined the game!"
     kickedbyvip: "You were kicked by a vip player which has joined the full game!"
+    moreplayersneeded: "$count$ more players needed."
+    moreplayersneeded-one: "$count$ more player needed."
     notenoughplayers-rule0: "More players are needed to start the game!"
     notenoughplayers-rule1: "Every team needs one ore more players to start the game!"
 sign:

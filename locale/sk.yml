@@ -163,6 +163,8 @@ lobby:
     leavegame: "Opustit hru"
     playerjoin: "Hrac $player$ sa pripojil do hry!"
     kickedbyvip: "Bol si vyhodeny z hry, pretoze se pripojil VIP hrac."
+    moreplayersneeded: "$count$ more players needed."
+    moreplayersneeded-one: "$count$ more player needed."
     notenoughplayers-rule0: "Pre start hry je treba viac hracov!"
     notenoughplayers-rule1: "Kazdy tim musi mat najmenej jedneho hraca!"
 sign:

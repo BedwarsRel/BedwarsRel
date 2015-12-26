@@ -142,6 +142,9 @@ ingame:
             multiuse: "&cDu hast bereits eine Teleportation gestartet!"
         tntsheep:
             no-target-found: "Es wurde kein Zielspieler gefunden!"
+        tracker:
+            no-target-found: "Es wurde kein Zielspieler gefunden!"
+            target-found: "$player$ ist $blocks$ Blöcke von dir entfernt."
 lobby:
     countdown: "Das Spiel startet in $sec$ Sekunde(n)!"
     countdowncancel: "Mehr Spieler benötigt. Countdown wurde abgebrochen!"
@@ -157,6 +160,8 @@ lobby:
     leavegame: "Spiel verlassen"
     playerjoin: "$player$ ist dem Spiel beigetreten!"
     kickedbyvip: "Du wurdest von einem VIP-Spieler rausgeworfen, der dem vollen Spiel beigetreten ist."
+    moreplayersneeded: "Es werden noch $count$ weitere Spieler benötigt."
+    moreplayersneeded-one: "Es wird noch $count$ weiterer Spieler benötigt."
     notenoughplayers-rule0: "Es werden mehr Spieler benötigt, um das Spiel zu starten!"
     notenoughplayers-rule1: "Jedes Team benötigt mindestens einen Spieler, um das Spiel zu starten!"
 sign:
