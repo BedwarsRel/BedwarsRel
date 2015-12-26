@@ -177,6 +177,7 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("specials.tntsheep.explosion-factor", 1.0);
 		Main.getInstance().getConfig().addDefault("bungeecord.full-restart", true);
 		Main.getInstance().getConfig().addDefault("lobbytime-full", 15);
+		Main.getInstance().getConfig().addDefault("bungeecord.endgame-in-lobby", true);
 		// </1.2.8>
 	}
 	

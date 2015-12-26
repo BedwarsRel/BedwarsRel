@@ -561,6 +561,11 @@ bungeecord:
   # the server where the player will be teleported when they leave.
     hubserver: hub
     
+  # Endgame Lobby
+  # type: boolean
+  # If true, it sends players to your lobby during the endgame before getting kicked.
+    endgame-in-lobby: true
+    
   # Full server restart
   # Type: boolean
   # If true, the server will do a full restart, with false
