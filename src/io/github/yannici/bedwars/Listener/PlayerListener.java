@@ -73,8 +73,7 @@ public class PlayerListener extends BaseListener {
 	public void onJoin(PlayerJoinEvent je) {
 		if (Main.getInstance().isBungee()) {
 			je.setJoinMessage("");
-			ArrayList<Game> games = Main.getInstance().getGameManager()
-					.getGames();
+			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
 			if (games.size() == 0) {
 				return;
 			}
@@ -86,33 +85,33 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 
-			if(!firstGame.playerJoins(player)) {
-				if(firstGame.getCycle() instanceof BungeeGameCycle) {
-					((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
+			if (!firstGame.playerJoins(player)) {
+				if (firstGame.getCycle() instanceof BungeeGameCycle) {
+					((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(),
+							player, true);
 				}
 			}
 		}
-		
-		if(Main.getInstance().isHologramsEnabled() 
-                && Main.getInstance().getHolographicInteractor() != null) {
-		    Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
+
+		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
+			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
 		}
 	}
-	
+
 	@EventHandler
 	public void onSwitchWorld(PlayerChangedWorldEvent change) {
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer());
-		if(game != null) {
-			if(game.getState() == GameState.RUNNING) {
-				if(!game.getCycle().isEndGameRunning()) {
-					if(!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
+		if (game != null) {
+			if (game.getState() == GameState.RUNNING) {
+				if (!game.getCycle().isEndGameRunning()) {
+					if (!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
 						game.playerLeave(change.getPlayer(), false);
 					} else {
 						game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
 					}
 				}
-			} else if(game.getState() == GameState.WAITING) {
-				if(!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
+			} else if (game.getState() == GameState.WAITING) {
+				if (!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
 					game.playerLeave(change.getPlayer(), false);
 				} else {
 					game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
@@ -120,46 +119,44 @@ public class PlayerListener extends BaseListener {
 			}
 		}
 
-	    if(!Main.getInstance().isHologramsEnabled() 
-                || Main.getInstance().getHolographicInteractor() == null) {
-	        return;
-	    }
-	    
-	    Main.getInstance().getHolographicInteractor().updateHolograms(change.getPlayer());
+		if (!Main.getInstance().isHologramsEnabled() || Main.getInstance().getHolographicInteractor() == null) {
+			return;
+		}
+
+		Main.getInstance().getHolographicInteractor().updateHolograms(change.getPlayer());
 	}
 
 	/*
 	 * GAME
 	 */
 
-	private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game,
-			Player player) {
-		
-		if(iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)
-    			|| iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)
-    			|| iee.getPlayer().getItemInHand().getType().equals(Material.DRAGON_EGG)) {
-    		iee.setCancelled(true);
-    		return;
-    	}
-		
-	    if(iee.getRightClicked() != null) {
-	        if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
-	        	List<EntityType> preventClickTypes = Arrays.asList(EntityType.ITEM_FRAME);
-	        	
-	        	// armor stand in 1.8
-	        	try {
-	        	    preventClickTypes.add(EntityType.valueOf("ARMOR_STAND"));
-	        	} catch(Exception ex) {
-	        	    // nothing will happen, just not supported
-	        	}
-	        	
-	        	if(preventClickTypes.contains(iee.getRightClicked().getType())) {
-	        		iee.setCancelled(true);
-	        	}
-	        	
-	            return;
-	        }
-	    }
+	private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game, Player player) {
+
+		if (iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)
+				|| iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)
+				|| iee.getPlayer().getItemInHand().getType().equals(Material.DRAGON_EGG)) {
+			iee.setCancelled(true);
+			return;
+		}
+
+		if (iee.getRightClicked() != null) {
+			if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
+				List<EntityType> preventClickTypes = Arrays.asList(EntityType.ITEM_FRAME);
+
+				// armor stand in 1.8
+				try {
+					preventClickTypes.add(EntityType.valueOf("ARMOR_STAND"));
+				} catch (Exception ex) {
+					// nothing will happen, just not supported
+				}
+
+				if (preventClickTypes.contains(iee.getRightClicked().getType())) {
+					iee.setCancelled(true);
+				}
+
+				return;
+			}
+		}
 
 		iee.setCancelled(true);
 
@@ -167,10 +164,9 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		BedwarsOpenShopEvent openShopEvent = new BedwarsOpenShopEvent(game,
-				player, game.getItemShopCategories(), iee.getRightClicked());
-		Main.getInstance().getServer().getPluginManager()
-				.callEvent(openShopEvent);
+		BedwarsOpenShopEvent openShopEvent = new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(),
+				iee.getRightClicked());
+		Main.getInstance().getServer().getPluginManager().callEvent(openShopEvent);
 
 		if (openShopEvent.isCancelled()) {
 			return;
@@ -201,73 +197,73 @@ public class PlayerListener extends BaseListener {
 		if (game == null) {
 			return;
 		}
-		
-		if(game.getState() != GameState.RUNNING) {
-		    return;
+
+		if (game.getState() != GameState.RUNNING) {
+			return;
 		}
 
-		if(ioe.getInventory().getType() == InventoryType.ENCHANTING
-		        || ioe.getInventory().getType() == InventoryType.BREWING
-		        || (ioe.getInventory().getType() == InventoryType.CRAFTING 
-			        	&& !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
-		    ioe.setCancelled(true);
-		    return;
-		} else if(ioe.getInventory().getType() == InventoryType.CRAFTING 
-	        	&& Main.getInstance().getBooleanConfig("allow-crafting", false)) {
+		if (ioe.getInventory().getType() == InventoryType.ENCHANTING
+				|| ioe.getInventory().getType() == InventoryType.BREWING
+				|| (ioe.getInventory().getType() == InventoryType.CRAFTING
+						&& !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
+			ioe.setCancelled(true);
+			return;
+		} else if (ioe.getInventory().getType() == InventoryType.CRAFTING
+				&& Main.getInstance().getBooleanConfig("allow-crafting", false)) {
 			return;
 		}
 
 		if (game.isSpectator(player)) {
-		    if(ioe.getInventory().getName().equals(Main._l("ingame.spectator"))) {
-		        return;
-		    }
-		    
+			if (ioe.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+				return;
+			}
+
 			ioe.setCancelled(true);
 		}
-		
-		if(ioe.getInventory().getHolder() == null) {
-		    return;
+
+		if (ioe.getInventory().getHolder() == null) {
+			return;
 		}
-		
-		if(game.getRegion().getInventories().contains(ioe.getInventory())) {
-            return;
-        }
-		
+
+		if (game.getRegion().getInventories().contains(ioe.getInventory())) {
+			return;
+		}
+
 		InventoryHolder holder = ioe.getInventory().getHolder();
-		for(Class<?> interfaze : holder.getClass().getInterfaces()) {
-		    
-		    if(interfaze.equals(BlockState.class)) {
-                game.getRegion().addInventory(ioe.getInventory());
-                return;
-            }
-		    
-		    for(Class<?> interfaze2 : interfaze.getInterfaces()) {
-		        if(interfaze2.equals(BlockState.class)) {
-	                game.getRegion().addInventory(ioe.getInventory());
-	                return;
-	            }
-		    }
+		for (Class<?> interfaze : holder.getClass().getInterfaces()) {
+
+			if (interfaze.equals(BlockState.class)) {
+				game.getRegion().addInventory(ioe.getInventory());
+				return;
+			}
+
+			for (Class<?> interfaze2 : interfaze.getInterfaces()) {
+				if (interfaze2.equals(BlockState.class)) {
+					game.getRegion().addInventory(ioe.getInventory());
+					return;
+				}
+			}
 		}
 	}
-	
+
 	@EventHandler
 	public void onCraft(CraftItemEvent cie) {
-	    Player player = (Player)cie.getWhoClicked();
-        Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-        
-        if(game == null) {
-            return;
-        }
-        
-        if(game.getState() == GameState.STOPPED) {
-            return;
-        }
-        
-        if(Main.getInstance().getBooleanConfig("allow-crafting", false)) {
-        	return;
-        }
-        
-        cie.setCancelled(true);
+		Player player = (Player) cie.getWhoClicked();
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+		if (game == null) {
+			return;
+		}
+
+		if (game.getState() == GameState.STOPPED) {
+			return;
+		}
+
+		if (Main.getInstance().getBooleanConfig("allow-crafting", false)) {
+			return;
+		}
+
+		cie.setCancelled(true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -301,8 +297,8 @@ public class PlayerListener extends BaseListener {
 		if (game.getState() == GameState.RUNNING) {
 			pde.setDroppedExp(0);
 			pde.setDeathMessage(null);
-			
-			if(!Main.getInstance().getBooleanConfig("player-drops", false)) {
+
+			if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
 				pde.getDrops().clear();
 			}
 
@@ -310,17 +306,14 @@ public class PlayerListener extends BaseListener {
 				if (!Main.getInstance().isSpigot()) {
 					Class<?> clazz = null;
 					try {
-						clazz = Class.forName("io.github.yannici.bedwars.Com."
-								+ Main.getInstance().getCurrentVersion()
+						clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion()
 								+ ".PerformRespawnRunnable");
 					} catch (ClassNotFoundException ex) {
-						clazz = Class
-								.forName("io.github.yannici.bedwars.Com.Fallback.PerformRespawnRunnable");
+						clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.PerformRespawnRunnable");
 					}
 
-					BukkitRunnable respawnRunnable = (BukkitRunnable) clazz
-							.getDeclaredConstructor(Player.class).newInstance(
-									player);
+					BukkitRunnable respawnRunnable = (BukkitRunnable) clazz.getDeclaredConstructor(Player.class)
+							.newInstance(player);
 					respawnRunnable.runTaskLater(Main.getInstance(), 20L);
 				} else {
 					new BukkitRunnable() {
@@ -335,19 +328,19 @@ public class PlayerListener extends BaseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			try {
-				pde.getClass().getMethod("setKeepInventory", new Class<?>[]{boolean.class});
+				pde.getClass().getMethod("setKeepInventory", new Class<?>[] { boolean.class });
 				pde.setKeepInventory(false);
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				player.getInventory().clear();
 			}
-			
+
 			Player killer = player.getKiller();
-			if(killer == null) {
+			if (killer == null) {
 				killer = game.getPlayerDamager(player);
 			}
-			
+
 			game.getCycle().onPlayerDies(player, killer);
 		}
 	}
@@ -371,45 +364,44 @@ public class PlayerListener extends BaseListener {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void onIngameInventoryClick(InventoryClickEvent ice, Player player,
-			Game game) {
+	private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
-	        if(game.isSpectator(player)) {
-	        	ItemStack clickedStack = ice.getCurrentItem();
-	        	if(clickedStack == null) {
-	        		return;
-	        	}
-	        	
-	        	if(ice.getInventory().getName().equals(Main._l("ingame.spectator"))) {
-	        		ice.setCancelled(true);
-	        		if(!clickedStack.getType().equals(Material.SKULL_ITEM)) {
-	        			return;
-	        		}
-	        		
-	        		SkullMeta meta = (SkullMeta) clickedStack.getItemMeta();
-	        		Player pl = Main.getInstance().getServer().getPlayer(meta.getOwner());
-	        		if(pl == null) {
-	        			return;
-	        		}
-	        		
-	        		if(!game.isInGame(pl)) {
-	        			return;
-	        		}
-	        		
-	        		player.teleport(pl);
-	        		player.closeInventory();
-	        		return;
-	        	}
-	        	
-	            Material clickedMat = ice.getCurrentItem().getType();
-	            if(clickedMat.equals(Material.SLIME_BALL)) {
-	                game.playerLeave(player, false);
-	            }
-	            
-	            if(clickedMat.equals(Material.COMPASS)) {
-	                game.openSpectatorCompass(player);
-	            }
-	        }
+			if (game.isSpectator(player)) {
+				ItemStack clickedStack = ice.getCurrentItem();
+				if (clickedStack == null) {
+					return;
+				}
+
+				if (ice.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+					ice.setCancelled(true);
+					if (!clickedStack.getType().equals(Material.SKULL_ITEM)) {
+						return;
+					}
+
+					SkullMeta meta = (SkullMeta) clickedStack.getItemMeta();
+					Player pl = Main.getInstance().getServer().getPlayer(meta.getOwner());
+					if (pl == null) {
+						return;
+					}
+
+					if (!game.isInGame(pl)) {
+						return;
+					}
+
+					player.teleport(pl);
+					player.closeInventory();
+					return;
+				}
+
+				Material clickedMat = ice.getCurrentItem().getType();
+				if (clickedMat.equals(Material.SLIME_BALL)) {
+					game.playerLeave(player, false);
+				}
+
+				if (clickedMat.equals(Material.COMPASS)) {
+					game.openSpectatorCompass(player);
+				}
+			}
 			return;
 		}
 
@@ -432,21 +424,17 @@ public class PlayerListener extends BaseListener {
 					return;
 				}
 
-				MerchantCategory cat = game.getItemShopCategories().get(
-						clickedStack.getType());
+				MerchantCategory cat = game.getItemShopCategories().get(clickedStack.getType());
 				if (cat == null) {
 					return;
 				}
 
-				Class clazz = Class.forName("io.github.yannici.bedwars.Com."
-						+ Main.getInstance().getCurrentVersion()
+				Class clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion()
 						+ ".VillagerItemShop");
-				Object villagerItemShop = clazz.getDeclaredConstructor(
-						Game.class, Player.class, MerchantCategory.class)
+				Object villagerItemShop = clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
 						.newInstance(game, player, cat);
 
-				Method openTrade = clazz.getDeclaredMethod("openTrading",
-						new Class[] {});
+				Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[] {});
 				openTrade.invoke(villagerItemShop, new Object[] {});
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -455,134 +443,148 @@ public class PlayerListener extends BaseListener {
 			game.getNewItemShop(player).handleInventoryClick(ice, game, player);
 		}
 	}
-	
+
 	private String getChatFormat(String format, Team team, boolean isSpectator, boolean all) {
-	    String form = format;
-	    
-	    if(all) {
-	        form = form.replace("$all$", Main._l("ingame.all") + ChatColor.RESET);
-	    }
-	    
-	    form = form.replace("$player$", ((!isSpectator && team != null) ? team.getChatColor() : "") + "%1$s" + ChatColor.RESET);
-	    form = form.replace("$msg$", "%2$s");
-	    
-	    if(isSpectator) {
-	        form = form.replace("$team$", Main._l("ingame.spectator"));
-	    } else if(team != null) {
-	        form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
-	    }
-	    
-	    return ChatColor.translateAlternateColorCodes('&', form);
+		String form = format;
+
+		if (all) {
+			form = form.replace("$all$", Main._l("ingame.all") + ChatColor.RESET);
+		}
+
+		form = form.replace("$player$",
+				((!isSpectator && team != null) ? team.getChatColor() : "") + "%1$s" + ChatColor.RESET);
+		form = form.replace("$msg$", "%2$s");
+
+		if (isSpectator) {
+			form = form.replace("$team$", Main._l("ingame.spectator"));
+		} else if (team != null) {
+			form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
+		}
+
+		return ChatColor.translateAlternateColorCodes('&', form);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent ce) {
-		if(ce.isCancelled()) {
+		if (ce.isCancelled()) {
 			return;
 		}
-		
+
 		Player player = ce.getPlayer();
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
-		    boolean seperateGameChat = Main.getInstance().getBooleanConfig("seperate-game-chat", true);
-		    if(!seperateGameChat) {
-		        return;
-		    }
-		    
-		    Iterator<Player> recipiens = ce.getRecipients().iterator();
-		    while(recipiens.hasNext()) {
-		        Player recipient = recipiens.next();
-		        Game recipientGame = Main.getInstance().getGameManager().getGameOfPlayer(recipient);
-		        if(recipientGame != null) {
-		            recipiens.remove();
-		        }
-		    }
+			boolean seperateGameChat = Main.getInstance().getBooleanConfig("seperate-game-chat", true);
+			if (!seperateGameChat) {
+				return;
+			}
+
+			Iterator<Player> recipients = ce.getRecipients().iterator();
+			while (recipients.hasNext()) {
+				Player recipient = recipients.next();
+				Game recipientGame = Main.getInstance().getGameManager().getGameOfPlayer(recipient);
+				if (recipientGame != null) {
+					recipients.remove();
+				}
+			}
 			return;
 		}
-		
-		if(game.getState() == GameState.STOPPED) {
-		    return;
-		}
-		
-		Team team = game.getPlayerTeam(player);
-		String message = ce.getMessage();
-        boolean isSpectator = game.isSpectator(player);
-		
-		if(Main.getInstance().getBooleanConfig("overwrite-names", false)) {
-		    if(team == null || isSpectator) {
-		        player.setDisplayName(ChatColor.stripColor(player.getName()));
-		        
-		        player.setPlayerListName(ChatColor.stripColor(player.getName()));
-		    } else {
-		        player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getName()));
-		        player.setPlayerListName(team.getChatColor() + ChatColor.stripColor(player.getName()));
-		    }
-		    
-		}
-		
-		if(Main.getInstance().getBooleanConfig("teamname-on-tab", false)
-				&& Utils.isSupportingTitles()) {
-		    if(team == null || isSpectator) {
-                player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
-            } else {
-                player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | " + team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
-            }
+
+		if (game.getState() == GameState.STOPPED) {
+			return;
 		}
 
-		if (game.getState() != GameState.RUNNING
-		        && game.getState() == GameState.WAITING) {
-		    
-		    String format = null;
-		    if(team == null) {
-		        format = this.getChatFormat(Main.getInstance().getStringConfig("lobby-chatformat", "$player$: $msg$"), null, false, true);
-		    } else {
-		        format = this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team, false, true);
-		    }
-		    
-            ce.setFormat(format);
+		Team team = game.getPlayerTeam(player);
+		String message = ce.getMessage();
+		boolean isSpectator = game.isSpectator(player);
+
+		if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
+			if (team == null || isSpectator) {
+				player.setDisplayName(ChatColor.stripColor(player.getName()));
+
+				player.setPlayerListName(ChatColor.stripColor(player.getName()));
+			} else {
+				player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getName()));
+				player.setPlayerListName(team.getChatColor() + ChatColor.stripColor(player.getName()));
+			}
+
+		}
+
+		if (Main.getInstance().getBooleanConfig("teamname-on-tab", false) && Utils.isSupportingTitles()) {
+			if (team == null || isSpectator) {
+				player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
+			} else {
+				player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | "
+						+ team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+			}
+		}
+
+		if (game.getState() != GameState.RUNNING && game.getState() == GameState.WAITING) {
+
+			String format = null;
+			if (team == null) {
+				format = this.getChatFormat(Main.getInstance().getStringConfig("lobby-chatformat", "$player$: $msg$"),
+						null, false, true);
+			} else {
+				format = this.getChatFormat(
+						Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team, false,
+						true);
+			}
+
+			ce.setFormat(format);
 			return;
 		}
 
 		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
 
-		if (message.trim().startsWith(toAllPrefix) || isSpectator || (game.getCycle().isEndGameRunning() && Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
-		    boolean seperateSpectatorChat = Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
-		    
-			message = message.trim();
-			if(!isSpectator && !(game.getCycle().isEndGameRunning() && Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
-			    ce.setMessage(message.substring(1, message.length()));
-			} else {
-			    ce.setMessage(message);
-			}
-			
-			String format = this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$"), team, isSpectator, true);
-			ce.setFormat(format);
+		if (message.trim().startsWith(toAllPrefix) || isSpectator || (game.getCycle().isEndGameRunning()
+				&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
+			boolean seperateSpectatorChat = Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
 
+			message = message.trim();
+			String format = null;
+			if (!isSpectator && !(game.getCycle().isEndGameRunning()
+					&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
+				ce.setMessage(message.substring(1, message.length()));
+				format = this.getChatFormat(
+						Main.getInstance().getStringConfig("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$"),
+						team, false, true);
+			} else {
+				ce.setMessage(message);
+				format = this.getChatFormat(
+						Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team,
+						isSpectator, true);
+			}
+
+			ce.setFormat(format);
+			
 			if (!Main.getInstance().isBungee() || seperateSpectatorChat) {
 				Iterator<Player> recipiens = ce.getRecipients().iterator();
 				while (recipiens.hasNext()) {
-				    Player recipient = recipiens.next();
+					Player recipient = recipiens.next();
 					if (!game.isInGame(recipient)) {
 						recipiens.remove();
 						continue;
 					}
-					
-					if(!seperateSpectatorChat) {
-					    continue;
+
+					if (!seperateSpectatorChat || (game.getCycle().isEndGameRunning()
+							&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
+						continue;
 					}
-					
-					if(isSpectator && !game.isSpectator(recipient)) {
-					    recipiens.remove();
-					} else if(!isSpectator && game.isSpectator(recipient)) {
-					    recipiens.remove();
+
+					if (isSpectator && !game.isSpectator(recipient)) {
+						recipiens.remove();
+					} else if (!isSpectator && game.isSpectator(recipient)) {
+						recipiens.remove();
 					}
 				}
 			}
 		} else {
 			message = message.trim();
 			ce.setMessage(message);
-			ce.setFormat(this.getChatFormat(Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team, false, false));
+			ce.setFormat(this.getChatFormat(
+					Main.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team, false,
+					false));
 
 			Iterator<Player> recipiens = ce.getRecipients().iterator();
 			while (recipiens.hasNext()) {
@@ -617,7 +619,7 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * LOBBY & GAME
 	 */
-	
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onCommand(PlayerCommandPreprocessEvent pcpe) {
 		Player player = pcpe.getPlayer();
@@ -630,25 +632,25 @@ public class PlayerListener extends BaseListener {
 		if (game.getState() == GameState.STOPPED) {
 			return;
 		}
-		
+
 		String message = pcpe.getMessage();
 		if (!message.startsWith("/" + Main.getInstance().getStringConfig("command-prefix", "bw"))) {
-			
-			for(String allowed : Main.getInstance().getAllowedCommands()) {
-				if(!allowed.startsWith("/")) {
+
+			for (String allowed : Main.getInstance().getAllowedCommands()) {
+				if (!allowed.startsWith("/")) {
 					allowed = "/" + allowed;
 				}
-				
-				if(message.startsWith(allowed.trim())) {
+
+				if (message.startsWith(allowed.trim())) {
 					return;
 				}
 			}
-			
-			if(player.hasPermission("bw.cmd")) {
+
+			if (player.hasPermission("bw.cmd")) {
 				return;
 			}
-			
-		    pcpe.setCancelled(true);
+
+			pcpe.setCancelled(true);
 			return;
 		}
 	}
@@ -702,7 +704,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (g.getState() == GameState.RUNNING && g.isSpectator(p)) {
-		    tfe.setCancelled(false);
+			tfe.setCancelled(false);
 			return;
 		}
 
@@ -712,30 +714,30 @@ public class PlayerListener extends BaseListener {
 	/*
 	 * LOBBY
 	 */
-	
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onHunger(FoodLevelChangeEvent flce) {
-		if(!(flce.getEntity() instanceof Player)) {
+		if (!(flce.getEntity() instanceof Player)) {
 			return;
 		}
-		
+
 		Player player = (Player) flce.getEntity();
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-		
-		if(game == null) {
+
+		if (game == null) {
 			return;
 		}
-		
-		if(game.getState() == GameState.RUNNING) {
-		    if(game.isSpectator(player)) {
-		        flce.setCancelled(true);
-		        return;
-		    }
-		    
-		    flce.setCancelled(false);
+
+		if (game.getState() == GameState.RUNNING) {
+			if (game.isSpectator(player)) {
+				flce.setCancelled(true);
+				return;
+			}
+
+			flce.setCancelled(false);
 			return;
 		}
-		
+
 		flce.setCancelled(true);
 	}
 
@@ -745,8 +747,7 @@ public class PlayerListener extends BaseListener {
 		Game g = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (g == null) {
-			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
-					&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
+			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK && pie.getAction() != Action.RIGHT_CLICK_AIR) {
 				return;
 			}
 
@@ -760,15 +761,13 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 
-			Game game = Main.getInstance().getGameManager()
-					.getGameBySignLocation(clicked.getLocation());
+			Game game = Main.getInstance().getGameManager().getGameBySignLocation(clicked.getLocation());
 			if (game == null) {
 				return;
 			}
 
 			if (game.playerJoins(player)) {
-				player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-						+ Main._l("success.joined")));
+				player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.joined")));
 			}
 			return;
 		}
@@ -776,169 +775,165 @@ public class PlayerListener extends BaseListener {
 		if (g.getState() == GameState.STOPPED) {
 			return;
 		}
-		
+
 		Material interactingMaterial = pie.getMaterial();
-        Block clickedBlock = pie.getClickedBlock();
+		Block clickedBlock = pie.getClickedBlock();
 
 		if (g.getState() == GameState.RUNNING) {
-			if(pie.getAction() == Action.PHYSICAL) {
-				if(clickedBlock != null && (clickedBlock.getType() == Material.WHEAT
-						|| clickedBlock.getType() == Material.SOIL)) {
+			if (pie.getAction() == Action.PHYSICAL) {
+				if (clickedBlock != null
+						&& (clickedBlock.getType() == Material.WHEAT || clickedBlock.getType() == Material.SOIL)) {
 					pie.setCancelled(true);
-				    return;
+					return;
 				}
 			}
-			
-			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
-					&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
-			    return;
-			}
-			
-			if(clickedBlock != null) {
-			    if(clickedBlock.getType() == Material.LEVER
-	                    && !g.isSpectator(player)
-	                    && pie.getAction() == Action.RIGHT_CLICK_BLOCK) {
-	                if(!g.getRegion().isPlacedUnbreakableBlock(clickedBlock)) {
-	                    g.getRegion().addPlacedUnbreakableBlock(clickedBlock, clickedBlock.getState());
-	                }
-	                return;
-	            }
+
+			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK && pie.getAction() != Action.RIGHT_CLICK_AIR) {
+				return;
 			}
 
-			if(g.isSpectator(player)) {
+			if (clickedBlock != null) {
+				if (clickedBlock.getType() == Material.LEVER && !g.isSpectator(player)
+						&& pie.getAction() == Action.RIGHT_CLICK_BLOCK) {
+					if (!g.getRegion().isPlacedUnbreakableBlock(clickedBlock)) {
+						g.getRegion().addPlacedUnbreakableBlock(clickedBlock, clickedBlock.getState());
+					}
+					return;
+				}
+			}
+
+			if (g.isSpectator(player)) {
 				if (interactingMaterial == Material.SLIME_BALL) {
 					g.playerLeave(player, false);
 					return;
 				}
-				
-				if(interactingMaterial == Material.COMPASS) {
+
+				if (interactingMaterial == Material.COMPASS) {
 					g.openSpectatorCompass(player);
 					pie.setCancelled(true);
 					return;
 				}
 			}
-			
+
 			// Spectators want to block
-			if(clickedBlock != null) {
-			    try {
-			        GameMode.valueOf("SPECTATOR");
-			    } catch(Exception ex) {
-			        for(Player p : g.getFreePlayers()) {
-	                    if(!g.getRegion().isInRegion(p.getLocation())) {
-	                        continue;
-	                    }
-	                    
-	                    if(pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
-	                        Location oldLocation = p.getLocation();
-	                        if(oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
-	                            oldLocation.setY(oldLocation.getY()+2);
-	                        } else {
-	                            oldLocation.setY(oldLocation.getY()-2);
-	                        }
-	                        
-	                        p.teleport(oldLocation);
-	                    }
-	                }
-			    }
+			if (clickedBlock != null) {
+				try {
+					GameMode.valueOf("SPECTATOR");
+				} catch (Exception ex) {
+					for (Player p : g.getFreePlayers()) {
+						if (!g.getRegion().isInRegion(p.getLocation())) {
+							continue;
+						}
+
+						if (pie.getClickedBlock().getLocation().distance(p.getLocation()) < 2) {
+							Location oldLocation = p.getLocation();
+							if (oldLocation.getY() >= pie.getClickedBlock().getLocation().getY()) {
+								oldLocation.setY(oldLocation.getY() + 2);
+							} else {
+								oldLocation.setY(oldLocation.getY() - 2);
+							}
+
+							p.teleport(oldLocation);
+						}
+					}
+				}
 			}
 
-			if(clickedBlock != null) {
-			    if (clickedBlock.getType() == Material.ENDER_CHEST
-    					&& !g.isSpectator(player)) {
-    				pie.setCancelled(true);
-    
-    				Block chest = pie.getClickedBlock();
-    				Team chestTeam = g.getTeamOfEnderChest(chest);
-    				Team playerTeam = g.getPlayerTeam(player);
-    
-    				if (chestTeam == null) {
-    					return;
-    				}
-    
-    				if (chestTeam.equals(playerTeam)) {
-    					player.openInventory(chestTeam.getInventory());
-    				} else {
-    					player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-    							+ Main._l("ingame.noturteamchest")));
-    				}
-    				
-    				return;
-    			}
+			if (clickedBlock != null) {
+				if (clickedBlock.getType() == Material.ENDER_CHEST && !g.isSpectator(player)) {
+					pie.setCancelled(true);
+
+					Block chest = pie.getClickedBlock();
+					Team chestTeam = g.getTeamOfEnderChest(chest);
+					Team playerTeam = g.getPlayerTeam(player);
+
+					if (chestTeam == null) {
+						return;
+					}
+
+					if (chestTeam.equals(playerTeam)) {
+						player.openInventory(chestTeam.getInventory());
+					} else {
+						player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.noturteamchest")));
+					}
+
+					return;
+				}
 			}
 
 			return;
 		} else if (g.getState() == GameState.WAITING) {
-		    if(interactingMaterial == null) {
-		        pie.setCancelled(true);
-		        return;
-		    }
-		    
-			if(pie.getAction() == Action.PHYSICAL) {
-				if(clickedBlock != null && (clickedBlock.getType() == Material.WHEAT
-						|| clickedBlock.getType() == Material.SOIL)) {
+			if (interactingMaterial == null) {
+				pie.setCancelled(true);
+				return;
+			}
+
+			if (pie.getAction() == Action.PHYSICAL) {
+				if (clickedBlock != null
+						&& (clickedBlock.getType() == Material.WHEAT || clickedBlock.getType() == Material.SOIL)) {
 					pie.setCancelled(true);
-				    return;
+					return;
 				}
 			}
-			
-			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
-					&& pie.getAction() != Action.RIGHT_CLICK_AIR) {
-			    return;
+
+			if (pie.getAction() != Action.RIGHT_CLICK_BLOCK && pie.getAction() != Action.RIGHT_CLICK_AIR) {
+				return;
 			}
-			
+
 			switch (interactingMaterial) {
-    			case BED:
-    				pie.setCancelled(true);
-    				if(!g.isAutobalanceEnabled()) {
-    					g.getPlayerStorage(player).openTeamSelection(g);
-    				}
-    				
-    				break;
-    			case DIAMOND:
-    				pie.setCancelled(true);
-    				if (player.isOp() || player.hasPermission("bw.setup")) {
-    					g.start(player);
-    				} else if(player.hasPermission("bw.vip.forcestart")) {
-    				    GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
-    				    if(rule.isRuleMet(g)) {
-    				        g.start(player);
-    				    } else {
-    				       if(rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
-    				               || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
-    				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
-    				       } else {
-    				           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
-    				       }
-    				    }
-    				}
-    				break;
-    			case SLIME_BALL:
-    				pie.setCancelled(true);
-    				g.playerLeave(player, false);
-    				break;
-    			case LEATHER_CHESTPLATE:
-    			    pie.setCancelled(true);
-    			    player.updateInventory();
-    			    break;
-    			default:
-    				break;
+			case BED:
+				pie.setCancelled(true);
+				if (!g.isAutobalanceEnabled()) {
+					g.getPlayerStorage(player).openTeamSelection(g);
+				}
+
+				break;
+			case DIAMOND:
+				pie.setCancelled(true);
+				if (player.isOp() || player.hasPermission("bw.setup")) {
+					g.start(player);
+				} else if (player.hasPermission("bw.vip.forcestart")) {
+					GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
+					if (rule.isRuleMet(g)) {
+						g.start(player);
+					} else {
+						if (rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
+								|| rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
+							player.sendMessage(
+									ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
+						} else {
+							player.sendMessage(
+									ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
+						}
+					}
+				}
+				break;
+			case SLIME_BALL:
+				pie.setCancelled(true);
+				g.playerLeave(player, false);
+				break;
+			case LEATHER_CHESTPLATE:
+				pie.setCancelled(true);
+				player.updateInventory();
+				break;
+			default:
+				break;
 			}
 		}
 	}
 
 	@SuppressWarnings("deprecation")
-	private void onLobbyInventoryClick(InventoryClickEvent ice, Player player,
-			Game game) {
+	private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		Inventory inv = ice.getInventory();
 		ItemStack clickedStack = ice.getCurrentItem();
 
 		if (!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
-		    ice.setCancelled(true);
+			ice.setCancelled(true);
 			return;
 		}
-		
-		if(clickedStack == null) {
-		    ice.setCancelled(true);
+
+		if (clickedStack == null) {
+			ice.setCancelled(true);
 			return;
 		}
 
@@ -948,12 +943,11 @@ public class PlayerListener extends BaseListener {
 		}
 
 		ice.setCancelled(true);
-		Team team = game.getTeamByDyeColor(DyeColor.getByData(clickedStack
-				.getData().getData()));
+		Team team = game.getTeamByDyeColor(DyeColor.getByData(clickedStack.getData().getData()));
 		if (team == null) {
 			return;
 		}
-		
+
 		game.playerJoinTeam(player, team);
 		player.closeInventory();
 	}
@@ -980,13 +974,12 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent pqe) {
 		Player player = pqe.getPlayer();
-		
+
 		// Remove holographs
-		if(Main.getInstance().isHologramsEnabled()  
-		        && Main.getInstance().getHolographicInteractor() != null) {
+		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
 			Main.getInstance().getHolographicInteractor().unloadAllHolograms(player);
-        }
-		
+		}
+
 		Game g = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (g == null) {
@@ -999,27 +992,26 @@ public class PlayerListener extends BaseListener {
 	@EventHandler
 	public void onDamage(EntityDamageEvent ede) {
 		if (!(ede.getEntity() instanceof Player)) {
-		    if(!(ede instanceof EntityDamageByEntityEvent)) {
-		        return;
-		    }
-		    
-		    EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
-		    if(edbee.getDamager() == null
-		            || !(edbee.getDamager() instanceof Player)) {
-		        return;
-		    }
-		    
-		    Player player = (Player) edbee.getDamager();
-		    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-		    
-		    if(game == null) {
-		        return;
-		    }
-		    
-		    if(game.getState() == GameState.WAITING) {
-		        ede.setCancelled(true);
-		    }
-		    
+			if (!(ede instanceof EntityDamageByEntityEvent)) {
+				return;
+			}
+
+			EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
+			if (edbee.getDamager() == null || !(edbee.getDamager() instanceof Player)) {
+				return;
+			}
+
+			Player player = (Player) edbee.getDamager();
+			Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+			if (game == null) {
+				return;
+			}
+
+			if (game.getState() == GameState.WAITING) {
+				ede.setCancelled(true);
+			}
+
 			return;
 		}
 
@@ -1034,23 +1026,22 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (g.getState() == GameState.RUNNING) {
-		    if(g.isSpectator(p)) {
-		        ede.setCancelled(true);
-		        return;
-		    }
-		    
-		    if(g.isProtected(p) && ede.getCause() != DamageCause.VOID) {
-		    	ede.setCancelled(true);
-		    	return;
-		    }
-		    
-		    if(Main.getInstance().getBooleanConfig("die-on-void", false)
-		    		&& ede.getCause() == DamageCause.VOID) {
-		    	ede.setCancelled(true);
-		    	p.setHealth(0);
-		    	return;
-		    }
-		    
+			if (g.isSpectator(p)) {
+				ede.setCancelled(true);
+				return;
+			}
+
+			if (g.isProtected(p) && ede.getCause() != DamageCause.VOID) {
+				ede.setCancelled(true);
+				return;
+			}
+
+			if (Main.getInstance().getBooleanConfig("die-on-void", false) && ede.getCause() == DamageCause.VOID) {
+				ede.setCancelled(true);
+				p.setHealth(0);
+				return;
+			}
+
 			if (ede instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
 
@@ -1060,26 +1051,26 @@ public class PlayerListener extends BaseListener {
 						ede.setCancelled(true);
 						return;
 					}
-					
+
 					g.setPlayerDamager(p, damager);
-				} else if(edbee.getDamager().getType().equals(EntityType.ARROW)) {
-				    Arrow arrow = (Arrow) edbee.getDamager();
-				    if(arrow.getShooter() instanceof Player) {
-				    	Player shooter = (Player)arrow.getShooter();
-				    	if(g.isSpectator(shooter)) {
-				    		ede.setCancelled(true);
-				    		return;
-				    	}
-				    	
-				        g.setPlayerDamager(p, (Player)arrow.getShooter());
-				    }
+				} else if (edbee.getDamager().getType().equals(EntityType.ARROW)) {
+					Arrow arrow = (Arrow) edbee.getDamager();
+					if (arrow.getShooter() instanceof Player) {
+						Player shooter = (Player) arrow.getShooter();
+						if (g.isSpectator(shooter)) {
+							ede.setCancelled(true);
+							return;
+						}
+
+						g.setPlayerDamager(p, (Player) arrow.getShooter());
+					}
 				}
 			}
-			
+
 			if (!g.getCycle().isEndGameRunning()) {
 				return;
-			} else if(ede.getCause() == DamageCause.VOID) {
-			    p.teleport(g.getPlayerTeam(p).getSpawnLocation());
+			} else if (ede.getCause() == DamageCause.VOID) {
+				p.teleport(g.getPlayerTeam(p).getSpawnLocation());
 			}
 		} else if (g.getState() == GameState.WAITING) {
 			if (ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
