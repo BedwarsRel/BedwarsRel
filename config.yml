@@ -584,10 +584,18 @@ bungeecord:
   # at this bedwars server of your bungeecord server-farm.
   # Useful for bedwars join signs in your lobby
     motds:
-        lobby: "&a[Lobby]"
-        running: "&1[Running]"
-        stopped: "&c[Stopped]"
-        full: "&c[Full]"
+        lobby: |
+          $regionname$
+          &7[&b$currentplayers$&7/&b$maxplayers$&7]
+        running: |
+          $regionname$
+          &7[&b$currentplayers$&7/&b$maxplayers$&7]
+        stopped: |
+          $regionname$
+          &c[Stopped]
+        full: |
+          $regionname$
+          &7[&b$currentplayers$&7/&b$maxplayers$&7]
         
 ### Localization (language)
 ### Type: string (length: 2)
@@ -916,4 +924,4 @@ player-settings:
     # type: boolean
     # Only one full stack when doing a shift click to buy items.
     # Player can change that in shop, this is just a default
-    one-stack-on-shift: false             
+    one-stack-on-shift: false

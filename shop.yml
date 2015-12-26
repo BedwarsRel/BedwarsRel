@@ -419,6 +419,12 @@ shop:
                 item: MONSTER_EGG
                 meta: 91
                 amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 5
+              reward:
+                item: COMPASS
+                amount: 1
     drinks:
         item: POTION
         name: Tränke

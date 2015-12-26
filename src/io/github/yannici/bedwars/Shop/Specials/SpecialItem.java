@@ -52,12 +52,14 @@ public abstract class SpecialItem {
         SpecialItem.availableSpecials.add(ProtectionWall.class);
         SpecialItem.availableSpecials.add(WarpPowder.class);
         SpecialItem.availableSpecials.add(TNTSheep.class);
+        SpecialItem.availableSpecials.add(Tracker.class);
         Main.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new TrapListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new MagnetShoeListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new ProtectionWallListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new WarpPowderListener(), Main.getInstance());
         Main.getInstance().getServer().getPluginManager().registerEvents(new TNTSheepListener(), Main.getInstance());
+        Main.getInstance().getServer().getPluginManager().registerEvents(new TrackerListener(), Main.getInstance());
     }
     
     public static List<Class<? extends SpecialItem>> getSpecials() {

@@ -158,6 +158,8 @@ lobby:
     leavegame: "Покинуть игру"
     playerjoin: "Игрок $player$ присоеденился к игре"
     kickedbyvip: "Вы были кикнуты из-за вип игрока, который присоеденился в заполненую игру"
+    moreplayersneeded: "$count$ more players needed."
+    moreplayersneeded-one: "$count$ more player needed."
     notenoughplayers-rule0: "Нужно больше игроков для начала игры"
     notenoughplayers-rule1: "Каждая команда должна состоять из 1 или больше игроков"
 sign:

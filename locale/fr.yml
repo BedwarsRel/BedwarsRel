@@ -160,6 +160,8 @@ lobby:
     leavegame: "Quitter la partie"
     playerjoin: "Le joueur $player$ a rejoint la partie !"
     kickedbyvip: "Vous avez été éjecté de la partie par un VIP qui a rejoint la partie complète !"
+    moreplayersneeded: "$count$ joueurs sont nécessaires."
+    moreplayersneeded-one: "$count$ joueur est nécessaire."
     notenoughplayers-rule0: "Plus de joueurs sont nécessaires pour commencer la partie !"
     notenoughplayers-rule1: "Toutes les équipes doivent avoir un joueur ou plus pour commencer la partie !"
 sign:
