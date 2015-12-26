@@ -227,10 +227,11 @@ public class BungeeGameCycle extends GameCycle {
 			for (Player player : players) {
 
 				if (!player.getWorld().equals(this.getGame().getLobby().getWorld())) {
-					player.getInventory().clear();
 					this.getGame().getPlayerSettings(player).setTeleporting(true);
 					player.teleport(this.getGame().getLobby());
 
+					this.getGame().getPlayerStorage(player).clean();
+					
 					// lobby gamemode
 					GameMode mode = GameMode.SURVIVAL;
 					try {
@@ -243,7 +244,7 @@ public class BungeeGameCycle extends GameCycle {
 						mode = GameMode.SURVIVAL;
 					}
 					player.setGameMode(mode);
-					
+
 					for (Player playerToShow : players) {
 						player.showPlayer(playerToShow);
 					}
