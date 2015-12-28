@@ -231,7 +231,7 @@ public class BungeeGameCycle extends GameCycle {
 					player.teleport(this.getGame().getLobby());
 
 					this.getGame().getPlayerStorage(player).clean();
-					
+
 					// lobby gamemode
 					GameMode mode = GameMode.SURVIVAL;
 					try {
@@ -265,7 +265,7 @@ public class BungeeGameCycle extends GameCycle {
 
 			this.onGameEnds();
 			task.cancel();
-		} else {
+		} else if ((task.getCounter() == task.getStartCount()) || (task.getCounter() % 10 == 0) || (task.getCounter() <= 5 && (task.getCounter() > 0))) {
 			this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart",
 					ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
 		}
