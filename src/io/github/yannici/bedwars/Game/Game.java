@@ -425,6 +425,46 @@ public class Game {
 			this.freePlayers.add(player);
 		}
 
+		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
+			
+			new BukkitRunnable() {
+
+				@SuppressWarnings("deprecation")
+				@Override
+				public void run() {
+					p.setAllowFlight(false);
+					p.setFlying(false);
+
+					GameMode mode = GameMode.SURVIVAL;
+					try {
+						mode = GameMode.getByValue(Main.getInstance().getIntConfig("lobby-gamemode", 0));
+					} catch (Exception ex) {
+						// not valid gamemode
+					}
+
+					if (mode == null) {
+						mode = GameMode.SURVIVAL;
+					}
+					p.setGameMode(mode);
+
+					ArrayList<Player> players = new ArrayList<Player>();
+					players.addAll(Game.this.getTeamPlayers());
+					players.addAll(Game.this.getFreePlayers());
+					
+					for (Player pl : players) {
+						if (pl.equals(p)) {
+							continue;
+						}
+						pl.showPlayer(p);
+					}
+				}
+
+			}.runTaskLater(Main.getInstance(), 5L);
+			
+			return;
+		}
+
 		PlayerStorage storage = this.getPlayerStorage(player);
 		if (storage != null) {
 			storage.clean();
@@ -559,8 +599,8 @@ public class Game {
 					}
 				} else {
 					int playersNeeded = this.getMinPlayers() - this.getPlayerAmount();
-					this.broadcast(ChatColor.GREEN
-							+ Main._l("lobby.moreplayersneeded", "count", ImmutableMap.of("count", String.valueOf(playersNeeded))));
+					this.broadcast(ChatColor.GREEN + Main._l("lobby.moreplayersneeded", "count",
+							ImmutableMap.of("count", String.valueOf(playersNeeded))));
 
 				}
 			}
