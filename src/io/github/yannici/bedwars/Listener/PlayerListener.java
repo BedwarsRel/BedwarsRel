@@ -81,7 +81,7 @@ public class PlayerListener extends BaseListener {
 			Player player = je.getPlayer();
 			Game firstGame = games.get(0);
 
-			if (firstGame.getState() == GameState.STOPPED) {
+			if (firstGame.getState() == GameState.STOPPED && player.hasPermission("bw.setup")) {
 				return;
 			}
 
