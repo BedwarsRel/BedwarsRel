@@ -520,7 +520,6 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (game.getState() != GameState.RUNNING && game.getState() == GameState.WAITING) {
-
 			String format = null;
 			if (team == null) {
 				format = this.getChatFormat(Main.getInstance().getStringConfig("lobby-chatformat", "$player$: $msg$"),
@@ -532,6 +531,19 @@ public class PlayerListener extends BaseListener {
 			}
 
 			ce.setFormat(format);
+			
+			if (!Main.getInstance().getBooleanConfig("seperate-game-chat", true)) {
+				return;
+			}
+			
+			Iterator<Player> recipiens = ce.getRecipients().iterator();
+			while (recipiens.hasNext()) {
+				Player recipient = recipiens.next();
+				if (!game.isInGame(recipient)) {
+					recipiens.remove();
+				}
+			}
+			
 			return;
 		}
 
