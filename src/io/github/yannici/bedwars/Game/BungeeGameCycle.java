@@ -12,7 +12,6 @@ import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -217,39 +216,31 @@ public class BungeeGameCycle extends GameCycle {
 		}.runTaskLater(Main.getInstance(), (preventDelay) ? 0L : 20L);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onGameOver(GameOverTask task) {
 		if (Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
-			ArrayList<Player> players = new ArrayList<Player>();
+			final ArrayList<Player> players = new ArrayList<Player>();
+			final Game game = this.getGame();
 			players.addAll(this.getGame().getTeamPlayers());
 			players.addAll(this.getGame().getFreePlayers());
 			for (Player player : players) {
 
 				if (!player.getWorld().equals(this.getGame().getLobby().getWorld())) {
-					this.getGame().getPlayerSettings(player).setTeleporting(true);
+					game.getPlayerSettings(player).setTeleporting(true);
 					player.teleport(this.getGame().getLobby());
-
-					this.getGame().getPlayerStorage(player).clean();
-
-					// lobby gamemode
-					GameMode mode = GameMode.SURVIVAL;
-					try {
-						mode = GameMode.getByValue(Main.getInstance().getIntConfig("lobby-gamemode", 0));
-					} catch (Exception ex) {
-						// not valid gamemode
-					}
-
-					if (mode == null) {
-						mode = GameMode.SURVIVAL;
-					}
-					player.setGameMode(mode);
-
-					for (Player playerToShow : players) {
-						player.showPlayer(playerToShow);
-					}
+					game.getPlayerStorage(player).clean();					
 				}
 			}
+			
+			new BukkitRunnable() {
+				@Override
+				public void run() {				
+					for (Player player : players) {						
+						game.setPlayerGameMode(player);
+						game.setPlayerVisibility(player);
+					}	
+				}
+			}.runTaskLater(Main.getInstance(), 20L);
 		}
 		if (task.getCounter() == task.getStartCount() && task.getWinner() != null) {
 			this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon",

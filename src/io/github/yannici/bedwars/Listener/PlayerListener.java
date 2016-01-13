@@ -78,8 +78,8 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 
-			Player player = je.getPlayer();
-			Game firstGame = games.get(0);
+			final Player player = je.getPlayer();
+			final Game firstGame = games.get(0);
 
 			if (firstGame.getState() == GameState.STOPPED) {
 				return;
@@ -91,6 +91,16 @@ public class PlayerListener extends BaseListener {
 							player, true);
 				}
 			}
+			
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					firstGame.setPlayerGameMode(player);
+					firstGame.setPlayerVisibility(player);
+				}
+
+			}.runTaskLater(Main.getInstance(), 20L);
 		}
 
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
@@ -557,7 +567,7 @@ public class PlayerListener extends BaseListener {
 			}
 
 			ce.setFormat(format);
-			
+
 			if (!Main.getInstance().isBungee() || seperateSpectatorChat) {
 				Iterator<Player> recipiens = ce.getRecipients().iterator();
 				while (recipiens.hasNext()) {
