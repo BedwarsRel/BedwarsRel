@@ -440,7 +440,7 @@ public class Game {
 				Game.this.setPlayerVisibility(p);
 			}
 
-		}.runTaskLater(Main.getInstance(), 40L);
+		}.runTaskLater(Main.getInstance(), 20L);
 
 		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
 				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
