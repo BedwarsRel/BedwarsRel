@@ -59,12 +59,13 @@ public class Tracker extends SpecialItem {
 				for (Player player : game.getTeamPlayers()) {
 					if (player.getInventory().contains(getItemMaterial())) {
 						Player target = findTargetPlayer(player);
-						if (target == null) {
-							player.setCompassTarget(game.getPlayerTeam(player).getSpawnLocation());
-							return;
+						if (target != null) {
+							player.setCompassTarget(target.getLocation());
+							continue;
 						}
-						player.setCompassTarget(target.getLocation());
 					}
+					player.setCompassTarget(game.getPlayerTeam(player).getSpawnLocation());
+					continue;
 				}
 			}
 		}.runTaskTimer(Main.getInstance(), 20L, 20L);
