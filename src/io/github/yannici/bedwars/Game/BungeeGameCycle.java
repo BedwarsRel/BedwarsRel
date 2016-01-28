@@ -241,12 +241,14 @@ public class BungeeGameCycle extends GameCycle {
 					for (Player player : players) {						
 						game.setPlayerGameMode(player);
 						game.setPlayerVisibility(player);
+						
 						// Leave Game (Slimeball)
 						ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
 						ItemMeta im = leaveGame.getItemMeta();
 						im.setDisplayName(Main._l("lobby.leavegame"));
 						leaveGame.setItemMeta(im);
 						player.getInventory().setItem(8, leaveGame);
+						player.updateInventory();
 						
 					}	
 				}
