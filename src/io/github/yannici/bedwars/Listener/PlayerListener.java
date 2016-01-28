@@ -376,7 +376,8 @@ public class PlayerListener extends BaseListener {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
-			if (game.isSpectator(player)) {
+			if (game.isSpectator(player) || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
+				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
 				ItemStack clickedStack = ice.getCurrentItem();
 				if (clickedStack == null) {
 					return;
