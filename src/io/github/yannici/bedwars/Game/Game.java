@@ -425,11 +425,19 @@ public class Game {
 			this.freePlayers.add(player);
 		}
 
-		Location location = this.getPlayerTeleportLocation(p);
+		final Location location = this.getPlayerTeleportLocation(p);
 
 		if (!p.getLocation().equals(location)) {
 			this.getPlayerSettings(p).setTeleporting(true);
-			p.teleport(location);
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					p.teleport(location);
+				}
+
+			}.runTaskLater(Main.getInstance(), 5L);
+			
 		}
 
 		new BukkitRunnable() {
@@ -440,7 +448,7 @@ public class Game {
 				Game.this.setPlayerVisibility(p);
 			}
 
-		}.runTaskLater(Main.getInstance(), 20L);
+		}.runTaskLater(Main.getInstance(), 5L);
 
 		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
 				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
