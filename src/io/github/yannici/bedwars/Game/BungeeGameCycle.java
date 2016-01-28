@@ -12,7 +12,10 @@ import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
@@ -238,6 +241,13 @@ public class BungeeGameCycle extends GameCycle {
 					for (Player player : players) {						
 						game.setPlayerGameMode(player);
 						game.setPlayerVisibility(player);
+						// Leave Game (Slimeball)
+						ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
+						ItemMeta im = leaveGame.getItemMeta();
+						im.setDisplayName(Main._l("lobby.leavegame"));
+						leaveGame.setItemMeta(im);
+						player.getInventory().setItem(8, leaveGame);
+						
 					}	
 				}
 			}.runTaskLater(Main.getInstance(), 20L);

@@ -450,10 +450,6 @@ public class Game {
 
 		}.runTaskLater(Main.getInstance(), 5L);
 
-		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
-			return;
-		}
 
 		PlayerStorage storage = this.getPlayerStorage(player);
 		if (storage != null) {
@@ -463,6 +459,7 @@ public class Game {
 			storage.store();
 			storage.clean();
 		}
+		
 
 		// Leave Game (Slimeball)
 		ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
@@ -470,6 +467,12 @@ public class Game {
 		im.setDisplayName(Main._l("lobby.leavegame"));
 		leaveGame.setItemMeta(im);
 		p.getInventory().setItem(8, leaveGame);
+		
+		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
+			p.updateInventory();
+			return;
+		}
 
 		// Teleport to player (Compass)
 		ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
