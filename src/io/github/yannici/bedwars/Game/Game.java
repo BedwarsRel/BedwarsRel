@@ -436,7 +436,7 @@ public class Game {
 					p.teleport(location);
 				}
 
-			}.runTaskLater(Main.getInstance(), 5L);
+			}.runTaskLater(Main.getInstance(), 1L);
 			
 		}
 
@@ -448,7 +448,7 @@ public class Game {
 				Game.this.setPlayerVisibility(p);
 			}
 
-		}.runTaskLater(Main.getInstance(), 5L);
+		}.runTaskLater(Main.getInstance(), 2L);
 
 
 		PlayerStorage storage = this.getPlayerStorage(player);

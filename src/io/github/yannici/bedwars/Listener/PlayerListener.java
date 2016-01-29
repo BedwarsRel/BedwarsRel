@@ -91,7 +91,7 @@ public class PlayerListener extends BaseListener {
 							player, true);
 				}
 			}
-			
+
 			new BukkitRunnable() {
 
 				@Override
@@ -100,7 +100,7 @@ public class PlayerListener extends BaseListener {
 					firstGame.setPlayerVisibility(player);
 				}
 
-			}.runTaskLater(Main.getInstance(), 20L);
+			}.runTaskLater(Main.getInstance(), 1L);
 		}
 
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
@@ -376,8 +376,10 @@ public class PlayerListener extends BaseListener {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
-			if (game.isSpectator(player) || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
-				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+			if (game.isSpectator(player)
+					|| (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
+							&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+
 				ItemStack clickedStack = ice.getCurrentItem();
 				if (clickedStack == null) {
 					return;
@@ -813,7 +815,8 @@ public class PlayerListener extends BaseListener {
 				}
 			}
 
-			if (g.isSpectator(player)) {
+			if (g.isSpectator(player) || (g.getCycle() instanceof BungeeGameCycle && g.getCycle().isEndGameRunning()
+					&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
 				if (interactingMaterial == Material.SLIME_BALL) {
 					g.playerLeave(player, false);
 					return;
