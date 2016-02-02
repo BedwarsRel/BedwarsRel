@@ -1273,7 +1273,7 @@ public class Game {
 	}
 
 	public void removeTeam(Team team) {
-		this.teams.remove(team);
+		this.teams.remove(team.getName());
 		this.updateSigns();
 	}
 
