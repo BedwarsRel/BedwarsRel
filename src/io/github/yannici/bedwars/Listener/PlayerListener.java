@@ -78,8 +78,8 @@ public class PlayerListener extends BaseListener {
 				return;
 			}
 
-			Player player = je.getPlayer();
-			Game firstGame = games.get(0);
+			final Player player = je.getPlayer();
+			final Game firstGame = games.get(0);
 
 			if (firstGame.getState() == GameState.STOPPED) {
 				return;
@@ -91,6 +91,16 @@ public class PlayerListener extends BaseListener {
 							player, true);
 				}
 			}
+
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					firstGame.setPlayerGameMode(player);
+					firstGame.setPlayerVisibility(player);
+				}
+
+			}.runTaskLater(Main.getInstance(), 1L);
 		}
 
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
@@ -366,7 +376,10 @@ public class PlayerListener extends BaseListener {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
-			if (game.isSpectator(player)) {
+			if (game.isSpectator(player)
+					|| (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
+							&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+
 				ItemStack clickedStack = ice.getCurrentItem();
 				if (clickedStack == null) {
 					return;
@@ -569,7 +582,7 @@ public class PlayerListener extends BaseListener {
 			}
 
 			ce.setFormat(format);
-			
+
 			if (!Main.getInstance().isBungee() || seperateSpectatorChat) {
 				Iterator<Player> recipiens = ce.getRecipients().iterator();
 				while (recipiens.hasNext()) {
@@ -814,7 +827,8 @@ public class PlayerListener extends BaseListener {
 				}
 			}
 
-			if (g.isSpectator(player)) {
+			if (g.isSpectator(player) || (g.getCycle() instanceof BungeeGameCycle && g.getCycle().isEndGameRunning()
+					&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
 				if (interactingMaterial == Material.SLIME_BALL) {
 					g.playerLeave(player, false);
 					return;
