@@ -621,12 +621,30 @@ public class Game {
 			this.displayMapInfo(p);
 		} else {
 
-			Location location = this.getPlayerTeleportLocation(p);
+			final Location location = this.getPlayerTeleportLocation(p);
 
 			if (!p.getLocation().equals(location)) {
 				this.getPlayerSettings(p).setTeleporting(true);
-				p.teleport(location);
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						p.teleport(location);
+					}
+
+				}.runTaskLater(Main.getInstance(), 1L);
 			}
+			
+			
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					Game.this.setPlayerGameMode(p);
+					Game.this.setPlayerVisibility(p);
+				}
+
+			}.runTaskLater(Main.getInstance(), 2L);
 
 			this.broadcast(ChatColor.GREEN
 					+ Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
