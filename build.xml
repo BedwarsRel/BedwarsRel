@@ -3,6 +3,7 @@
         jenkins ant build file for Bedwars
     </description>
 	<!-- set global properties for this build -->
+	<property environment="env" />
 	<property name="src" location="./" />
 	<property name="build" location="build" />
 	<property name="dist" location="dist" />
@@ -41,7 +42,7 @@
 		<mkdir dir="${dist}" />
 
 		<!-- Put everything in ${build} into the BedwarsRel-${version}.jar file -->
-		<jar jarfile="${dist}/BedwarsRel-${version}-${GIT_COMMIT}.jar" basedir="${build}">
+		<jar jarfile="${dist}/BedwarsRel-${version}-${env.GIT_COMMIT}.jar" basedir="${build}">
 			<fileset dir="./">
 			    <include name="config.yml" />
 				<include name="plugin.yml" />
