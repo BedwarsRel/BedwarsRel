@@ -100,7 +100,7 @@ public class PlayerListener extends BaseListener {
 					firstGame.setPlayerVisibility(player);
 				}
 
-			}.runTaskLater(Main.getInstance(), 1L);
+			}.runTaskLater(Main.getInstance(), 5L);
 		}
 
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
