@@ -92,15 +92,6 @@ public class PlayerListener extends BaseListener {
 				}
 			}
 
-			new BukkitRunnable() {
-
-				@Override
-				public void run() {
-					firstGame.setPlayerGameMode(player);
-					firstGame.setPlayerVisibility(player);
-				}
-
-			}.runTaskLater(Main.getInstance(), 5L);
 		}
 
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
