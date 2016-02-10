@@ -32,8 +32,6 @@ public enum GameLobbyCountdownRule {
 			for (Team team : game.getTeams().values()) {
 				if (team.getPlayers().size() > 0) {
 					teamsWithPlayers++;
-				} else {
-				    teamsWithoutPlayers++;
 				}
 			}
 			
