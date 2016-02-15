@@ -164,7 +164,17 @@ public class BungeeGameCycle extends GameCycle {
 				}.runTaskLater(Main.getInstance(), 60L);
 			} else {
 				if (this.getGame().getState() == GameState.RUNNING && !Main.getInstance().spectationEnabled()) {
-					this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
+					
+					new BukkitRunnable() {
+
+						@Override
+						public void run() {
+							BungeeGameCycle.this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
+						}
+
+					}.runTaskLater(Main.getInstance(), 5L);
+					
+
 					new BukkitRunnable() {
 
 						@Override

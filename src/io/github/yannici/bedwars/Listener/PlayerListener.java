@@ -86,10 +86,17 @@ public class PlayerListener extends BaseListener {
 			}
 
 			if (!firstGame.playerJoins(player)) {
-				if (firstGame.getCycle() instanceof BungeeGameCycle) {
-					((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance().getBungeeHub(),
-							player, true);
-				}
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						if (firstGame.getCycle() instanceof BungeeGameCycle) {
+							((BungeeGameCycle) firstGame.getCycle())
+									.bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
+						}
+					}
+
+				}.runTaskLater(Main.getInstance(), 5L);
 			}
 
 		}
@@ -535,11 +542,11 @@ public class PlayerListener extends BaseListener {
 			}
 
 			ce.setFormat(format);
-			
+
 			if (!Main.getInstance().getBooleanConfig("seperate-game-chat", true)) {
 				return;
 			}
-			
+
 			Iterator<Player> recipiens = ce.getRecipients().iterator();
 			while (recipiens.hasNext()) {
 				Player recipient = recipiens.next();
@@ -547,7 +554,7 @@ public class PlayerListener extends BaseListener {
 					recipiens.remove();
 				}
 			}
-			
+
 			return;
 		}
 
