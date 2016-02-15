@@ -427,7 +427,7 @@ public class Game {
 
 		final Location location = this.getPlayerTeleportLocation(p);
 
-		if (!p.getLocation().equals(location)) {
+		if (!p.getLocation().getWorld().equals(location.getWorld())) {
 			this.getPlayerSettings(p).setTeleporting(true);
 			new BukkitRunnable() {
 
@@ -436,8 +436,8 @@ public class Game {
 					p.teleport(location);
 				}
 
-			}.runTaskLater(Main.getInstance(), 1L);
-			
+			}.runTaskLater(Main.getInstance(), 10L);
+
 		}
 
 		new BukkitRunnable() {
@@ -448,8 +448,7 @@ public class Game {
 				Game.this.setPlayerVisibility(p);
 			}
 
-		}.runTaskLater(Main.getInstance(), 2L);
-
+		}.runTaskLater(Main.getInstance(), 15L);
 
 		PlayerStorage storage = this.getPlayerStorage(player);
 		if (storage != null) {
@@ -459,7 +458,6 @@ public class Game {
 			storage.store();
 			storage.clean();
 		}
-		
 
 		// Leave Game (Slimeball)
 		ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
@@ -467,7 +465,7 @@ public class Game {
 		im.setDisplayName(Main._l("lobby.leavegame"));
 		leaveGame.setItemMeta(im);
 		p.getInventory().setItem(8, leaveGame);
-		
+
 		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
 				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
 			p.updateInventory();
@@ -611,31 +609,39 @@ public class Game {
 		// add player settings
 		this.addPlayerSettings(p);
 
-		for (Player playerInGame : this.getPlayers()) {
-			playerInGame.hidePlayer(p);
-			p.hidePlayer(playerInGame);
-		}
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				for (Player playerInGame : Game.this.getPlayers()) {
+					playerInGame.hidePlayer(p);
+					p.hidePlayer(playerInGame);
+				}
+			}
+
+		}.runTaskLater(Main.getInstance(), 5L);
 
 		if (this.state == GameState.RUNNING) {
 			this.toSpectator(p);
 			this.displayMapInfo(p);
 		} else {
 
-			final Location location = this.getPlayerTeleportLocation(p);
+			if (!Utils.isSupportingTitles()) {
+				final Location location = this.getPlayerTeleportLocation(p);
 
-			if (!p.getLocation().equals(location)) {
-				this.getPlayerSettings(p).setTeleporting(true);
-				new BukkitRunnable() {
+				if (!p.getLocation().equals(location)) {
+					this.getPlayerSettings(p).setTeleporting(true);
+					new BukkitRunnable() {
 
-					@Override
-					public void run() {
-						p.teleport(location);
-					}
+						@Override
+						public void run() {
+							p.teleport(location);
+						}
 
-				}.runTaskLater(Main.getInstance(), 1L);
+					}.runTaskLater(Main.getInstance(), 10L);
+				}
 			}
-			
-			
+
 			new BukkitRunnable() {
 
 				@Override
@@ -644,7 +650,7 @@ public class Game {
 					Game.this.setPlayerVisibility(p);
 				}
 
-			}.runTaskLater(Main.getInstance(), 2L);
+			}.runTaskLater(Main.getInstance(), 15L);
 
 			this.broadcast(ChatColor.GREEN
 					+ Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
