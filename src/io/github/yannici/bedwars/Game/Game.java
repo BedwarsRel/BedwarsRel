@@ -425,6 +425,31 @@ public class Game {
 			this.freePlayers.add(player);
 		}
 
+		final Location location = this.getPlayerTeleportLocation(p);
+
+		if (!p.getLocation().getWorld().equals(location.getWorld())) {
+			this.getPlayerSettings(p).setTeleporting(true);
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					p.teleport(location);
+				}
+
+			}.runTaskLater(Main.getInstance(), 10L);
+
+		}
+
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				Game.this.setPlayerGameMode(p);
+				Game.this.setPlayerVisibility(p);
+			}
+
+		}.runTaskLater(Main.getInstance(), 15L);
+
 		PlayerStorage storage = this.getPlayerStorage(player);
 		if (storage != null) {
 			storage.clean();
@@ -434,37 +459,18 @@ public class Game {
 			storage.clean();
 		}
 
-		new BukkitRunnable() {
-
-			@Override
-			public void run() {
-				p.setAllowFlight(true);
-				p.setFlying(true);
-
-				// 1.7 compatible
-				try {
-					p.setGameMode(GameMode.valueOf("SPECTATOR"));
-				} catch (Exception ex) {
-					p.setGameMode(GameMode.SURVIVAL);
-				}
-
-				for (Player pl : Game.this.getPlayers()) {
-					if (pl.equals(p)) {
-						continue;
-					}
-
-					pl.hidePlayer(p);
-				}
-			}
-
-		}.runTaskLater(Main.getInstance(), 5L);
-
 		// Leave Game (Slimeball)
 		ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
 		ItemMeta im = leaveGame.getItemMeta();
 		im.setDisplayName(Main._l("lobby.leavegame"));
 		leaveGame.setItemMeta(im);
 		p.getInventory().setItem(8, leaveGame);
+
+		if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+				&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
+			p.updateInventory();
+			return;
+		}
 
 		// Teleport to player (Compass)
 		ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
@@ -475,13 +481,100 @@ public class Game {
 
 		p.updateInventory();
 		this.updateScoreboard();
+
+	}
+
+	public Location getPlayerTeleportLocation(Player player) {
+		if (this.isSpectator(player)
+				&& !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+						&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+			return ((Team) this.teams.values().toArray()[Utils.randInt(0, this.teams.size() - 1)]).getSpawnLocation();
+		}
+
+		if (this.getPlayerTeam(player) != null
+				&& !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+						&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+			return this.getPlayerTeam(player).getSpawnLocation();
+		}
+
+		return this.getLobby();
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setPlayerGameMode(Player player) {
+		if (this.isSpectator(player)
+				&& !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+						&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+
+			player.setAllowFlight(true);
+			player.setFlying(true);
+
+			// 1.7 compatible
+			try {
+				player.setGameMode(GameMode.valueOf("SPECTATOR"));
+			} catch (Exception ex) {
+				player.setGameMode(GameMode.SURVIVAL);
+			}
+		} else {
+			GameMode gameMode = null;
+			try {
+				gameMode = GameMode.getByValue(Main.getInstance().getIntConfig("lobby-gamemode", 0));
+			} catch (Exception ex) {
+				// not valid gamemode
+			}
+
+			if (gameMode == null) {
+				gameMode = GameMode.SURVIVAL;
+			}
+			player.setGameMode(gameMode);
+		}
+	}
+
+	public void setPlayerVisibility(Player player) {
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.addAll(this.getPlayers());
+
+		if (this.state == GameState.RUNNING
+				&& !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+						&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+			if (this.isSpectator(player)) {
+				if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+					for (Player playerInGame : players) {
+						playerInGame.hidePlayer(player);
+						player.showPlayer(playerInGame);
+					}
+				} else {
+					for (Player teamPlayer : this.getTeamPlayers()) {
+						teamPlayer.hidePlayer(player);
+						player.showPlayer(teamPlayer);
+					}
+					for (Player freePlayer : this.getFreePlayers()) {
+						freePlayer.showPlayer(player);
+						player.showPlayer(freePlayer);
+					}
+				}
+			} else {
+				for (Player playerInGame : players) {
+					playerInGame.showPlayer(player);
+					player.showPlayer(playerInGame);
+				}
+			}
+		} else {
+			for (Player playerInGame : players) {
+				if (!playerInGame.equals(player)) {
+					playerInGame.showPlayer(player);
+					player.showPlayer(playerInGame);
+				}
+			}
+		}
+
 	}
 
 	public boolean isSpectator(Player player) {
 		return (this.getState() == GameState.RUNNING && this.freePlayers.contains(player));
 	}
 
-	public boolean playerJoins(Player p) {
+	public boolean playerJoins(final Player p) {
 		if (this.state == GameState.STOPPED
 				|| (this.state == GameState.RUNNING && !Main.getInstance().spectationEnabled())) {
 			if (this.cycle instanceof BungeeGameCycle) {
@@ -516,14 +609,49 @@ public class Game {
 		// add player settings
 		this.addPlayerSettings(p);
 
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				for (Player playerInGame : Game.this.getPlayers()) {
+					playerInGame.hidePlayer(p);
+					p.hidePlayer(playerInGame);
+				}
+			}
+
+		}.runTaskLater(Main.getInstance(), 5L);
+
 		if (this.state == GameState.RUNNING) {
 			this.toSpectator(p);
-
-			this.getPlayerSettings(p).setTeleporting(true);
-			p.teleport(
-					((Team) this.teams.values().toArray()[Utils.randInt(0, this.teams.size() - 1)]).getSpawnLocation());
 			this.displayMapInfo(p);
 		} else {
+
+			if (!Utils.isSupportingTitles()) {
+				final Location location = this.getPlayerTeleportLocation(p);
+
+				if (!p.getLocation().equals(location)) {
+					this.getPlayerSettings(p).setTeleporting(true);
+					new BukkitRunnable() {
+
+						@Override
+						public void run() {
+							p.teleport(location);
+						}
+
+					}.runTaskLater(Main.getInstance(), 10L);
+				}
+			}
+
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					Game.this.setPlayerGameMode(p);
+					Game.this.setPlayerVisibility(p);
+				}
+
+			}.runTaskLater(Main.getInstance(), 15L);
+
 			this.broadcast(ChatColor.GREEN
 					+ Main._l("lobby.playerjoin", ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
 
@@ -538,10 +666,6 @@ public class Game {
 			storage.store();
 			storage.clean();
 
-			if (!this.lobby.getWorld().equals(p.getWorld())) {
-				this.getPlayerSettings(p).setTeleporting(true);
-			}
-			p.teleport(this.lobby);
 			storage.loadLobbyInventory(this);
 
 			if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
@@ -559,8 +683,8 @@ public class Game {
 					}
 				} else {
 					int playersNeeded = this.getMinPlayers() - this.getPlayerAmount();
-					this.broadcast(ChatColor.GREEN
-							+ Main._l("lobby.moreplayersneeded", "count", ImmutableMap.of("count", String.valueOf(playersNeeded))));
+					this.broadcast(ChatColor.GREEN + Main._l("lobby.moreplayersneeded", "count",
+							ImmutableMap.of("count", String.valueOf(playersNeeded))));
 
 				}
 			}
@@ -572,6 +696,7 @@ public class Game {
 		this.updateScoreboard();
 		this.updateSigns();
 		return true;
+
 	}
 
 	public boolean playerLeave(Player p, boolean kicked) {
@@ -1172,7 +1297,7 @@ public class Game {
 	}
 
 	public void removeTeam(Team team) {
-		this.teams.remove(team);
+		this.teams.remove(team.getName());
 		this.updateSigns();
 	}
 
