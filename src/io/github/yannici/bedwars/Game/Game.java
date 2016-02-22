@@ -429,15 +429,19 @@ public class Game {
 
 		if (!p.getLocation().getWorld().equals(location.getWorld())) {
 			this.getPlayerSettings(p).setTeleporting(true);
-			new BukkitRunnable() {
+			if (Main.getInstance().isBungee()) {
+				new BukkitRunnable() {
 
-				@Override
-				public void run() {
-					p.teleport(location);
-				}
+					@Override
+					public void run() {
+						p.teleport(location);
+					}
 
-			}.runTaskLater(Main.getInstance(), 10L);
+				}.runTaskLater(Main.getInstance(), 10L);
 
+			} else {
+				p.teleport(location);
+			}
 		}
 
 		new BukkitRunnable() {
@@ -575,6 +579,7 @@ public class Game {
 	}
 
 	public boolean playerJoins(final Player p) {
+
 		if (this.state == GameState.STOPPED
 				|| (this.state == GameState.RUNNING && !Main.getInstance().spectationEnabled())) {
 			if (this.cycle instanceof BungeeGameCycle) {
@@ -625,23 +630,24 @@ public class Game {
 			this.toSpectator(p);
 			this.displayMapInfo(p);
 		} else {
-
-			if (!Utils.isSupportingTitles()) {
+			if (!Utils.isSupportingTitles() || !Main.getInstance().isBungee()) {
 				final Location location = this.getPlayerTeleportLocation(p);
-
 				if (!p.getLocation().equals(location)) {
 					this.getPlayerSettings(p).setTeleporting(true);
-					new BukkitRunnable() {
+					if (Main.getInstance().isBungee()) {
+						new BukkitRunnable() {
 
-						@Override
-						public void run() {
-							p.teleport(location);
-						}
+							@Override
+							public void run() {
+								p.teleport(location);
+							}
 
-					}.runTaskLater(Main.getInstance(), 10L);
+						}.runTaskLater(Main.getInstance(), 10L);
+					} else {
+						p.teleport(location);
+					}
 				}
 			}
-
 			new BukkitRunnable() {
 
 				@Override
