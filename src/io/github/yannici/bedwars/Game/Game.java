@@ -425,6 +425,15 @@ public class Game {
 			this.freePlayers.add(player);
 		}
 
+		PlayerStorage storage = this.getPlayerStorage(player);
+		if (storage != null) {
+			storage.clean();
+		} else {
+			storage = this.addPlayerStorage(player);
+			storage.store();
+			storage.clean();
+		}
+		
 		final Location location = this.getPlayerTeleportLocation(p);
 
 		if (!p.getLocation().getWorld().equals(location.getWorld())) {
@@ -453,15 +462,6 @@ public class Game {
 			}
 
 		}.runTaskLater(Main.getInstance(), 15L);
-
-		PlayerStorage storage = this.getPlayerStorage(player);
-		if (storage != null) {
-			storage.clean();
-		} else {
-			storage = this.addPlayerStorage(player);
-			storage.store();
-			storage.clean();
-		}
 
 		// Leave Game (Slimeball)
 		ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
@@ -630,6 +630,12 @@ public class Game {
 			this.toSpectator(p);
 			this.displayMapInfo(p);
 		} else {
+			
+
+			PlayerStorage storage = this.addPlayerStorage(p);
+			storage.store();
+			storage.clean();
+			
 			if (!Utils.isSupportingTitles() || !Main.getInstance().isBungee()) {
 				final Location location = this.getPlayerTeleportLocation(p);
 				if (!p.getLocation().equals(location)) {
@@ -647,7 +653,10 @@ public class Game {
 						p.teleport(location);
 					}
 				}
-			}
+			}	
+
+			storage.loadLobbyInventory(this);
+			
 			new BukkitRunnable() {
 
 				@Override
@@ -667,12 +676,6 @@ public class Game {
 				Team team = this.getLowestTeam();
 				team.addPlayer(p);
 			}
-
-			PlayerStorage storage = this.addPlayerStorage(p);
-			storage.store();
-			storage.clean();
-
-			storage.loadLobbyInventory(this);
 
 			if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
 				this.displayRecord(p);
