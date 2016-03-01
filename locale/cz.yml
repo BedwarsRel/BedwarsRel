@@ -55,7 +55,7 @@ errors:
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
-    joined: "Pripojeni bylo uspesne!"
+    joined: "Pripojeni do hry bylo uspesne!"
     left: "Odpojeni ze hry bylo uspesne."
     saved: "Hra byla uspesne ulozena!"
     bedset: "Postel tymu $team$ nastavena!"
