@@ -130,17 +130,13 @@ public abstract class GameCycle {
 		String title = this.winTitleReplace(Main._l("ingame.title.win-title"), winner);
 		String subtitle = this.winTitleReplace(Main._l("ingame.title.win-subtitle"), winner);
 		
-		boolean supportingTitles = Utils.isSupportingTitles();
-		
 		if (Main.getInstance().statisticsEnabled()
 		        || Main.getInstance().getBooleanConfig("rewards.enabled", false)
 		        || (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
-		        		&& supportingTitles
 		        		&& (!title.equals("") || !subtitle.equals("")))) {
 			if (winner != null) {
 				for (Player player : winner.getPlayers()) {
 					if(Main.getInstance().getBooleanConfig("titles.win.enabled", true)
-			        		&& supportingTitles
 			        		&& (!title.equals("") || !subtitle.equals(""))) {
 						try {
 							Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".Title");

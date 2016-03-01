@@ -28,7 +28,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.google.common.collect.ImmutableMap;
@@ -93,7 +93,7 @@ public class EntityListener extends BaseListener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onInteractEntity(PlayerInteractEntityEvent event) {
+	public void onInteractEntity(PlayerInteractAtEntityEvent event) {
 		if (event.getRightClicked() == null) {
 			return;
 		}
@@ -147,10 +147,8 @@ public class EntityListener extends BaseListener {
 		living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
 		living.setCustomNameVisible(Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
 
-		if (Utils.isSupportingTitles()) {
-			if (living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
-				Utils.equipArmorStand(living, value.getTeam());
-			}
+		if (living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
+			Utils.equipArmorStand(living, value.getTeam());
 		}
 
 		player.removeMetadata("bw-addteamjoin", Main.getInstance());

@@ -58,6 +58,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 public class PlayerListener extends BaseListener {
 
@@ -103,6 +104,22 @@ public class PlayerListener extends BaseListener {
 
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
 			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
+		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onPlayerSpawnLocation(PlayerSpawnLocationEvent event) {
+		if (Main.getInstance().isBungee()) {
+			Player player = event.getPlayer();
+
+			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
+			if (games.size() == 0) {
+				return;
+			}
+
+			Game firstGame = games.get(0);
+
+			event.setSpawnLocation(firstGame.getPlayerTeleportLocation(player));
 		}
 	}
 
@@ -521,7 +538,7 @@ public class PlayerListener extends BaseListener {
 
 		}
 
-		if (Main.getInstance().getBooleanConfig("teamname-on-tab", false) && Utils.isSupportingTitles()) {
+		if (Main.getInstance().getBooleanConfig("teamname-on-tab", false)) {
 			if (team == null || isSpectator) {
 				player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
 			} else {

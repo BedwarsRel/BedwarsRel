@@ -88,7 +88,7 @@ public class PlayerStorage {
             }
         }
         
-        if(teamnameOnTab && Utils.isSupportingTitles()) {
+        if(teamnameOnTab) {
         	Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
             if(game != null) {
                 Team team = game.getPlayerTeam(this.player);

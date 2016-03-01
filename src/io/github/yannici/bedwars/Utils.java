@@ -739,18 +739,6 @@ public final class Utils {
 		}
 	}
 
-	public static boolean isSupportingTitles() {
-		try {
-			Class.forName("io.github.yannici.bedwars.Com."
-					+ Main.getInstance().getCurrentVersion() + ".Title");
-			return true;
-		} catch (Exception ex) {
-			// no support
-		}
-
-		return false;
-	}
-
 	public static String getFormattedTime(int time) {
 		int hr = 0;
 		int min = 0;

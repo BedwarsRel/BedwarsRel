@@ -95,7 +95,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 					Main.getInstance().getStringConfig("titles.countdown.format", "&3{countdown}"));
 			title = title.replace("{countdown}", String.valueOf(this.counter));
 
-			if (Utils.isSupportingTitles() && Main.getInstance().getBooleanConfig("titles.countdown.enabled", true)) {
+			if (Main.getInstance().getBooleanConfig("titles.countdown.enabled", true)) {
 				try {
 					titleClass = Main.getInstance().getVersionRelatedClass("Title");
 					showTitle = titleClass.getMethod("showTitle", Player.class, String.class, double.class,

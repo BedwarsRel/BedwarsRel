@@ -77,7 +77,7 @@ public class Team implements ConfigurationSerializable {
 			}
 			
 			boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
-			if(teamnameOnTab && Utils.isSupportingTitles()) {
+			if(teamnameOnTab) {
 				player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE
 						+ " | " + this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
 			}

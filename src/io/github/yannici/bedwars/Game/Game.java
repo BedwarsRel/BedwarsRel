@@ -636,7 +636,7 @@ public class Game {
 			storage.store();
 			storage.clean();
 			
-			if (!Utils.isSupportingTitles() || !Main.getInstance().isBungee()) {
+			if (!Main.getInstance().isBungee()) {
 				final Location location = this.getPlayerTeleportLocation(p);
 				if (!p.getLocation().equals(location)) {
 					this.getPlayerSettings(p).setTeleporting(true);
@@ -1138,8 +1138,7 @@ public class Game {
 	}
 
 	public void updateScoreboard() {
-		if (this.state == GameState.WAITING && Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)
-				&& Utils.isSupportingTitles()) {
+		if (this.state == GameState.WAITING && Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)) {
 			this.updateLobbyScoreboard();
 			return;
 		}
@@ -1675,18 +1674,12 @@ public class Game {
 	 */
 
 	private void displayMapInfo() {
-		if (!Utils.isSupportingTitles())
-			return;
-
 		for (Player player : this.getPlayers()) {
 			this.displayMapInfo(player);
 		}
 	}
 
 	private void displayMapInfo(Player player) {
-		if (!Utils.isSupportingTitles())
-			return;
-
 		try {
 			Class<?> clazz = Class
 					.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".Title");
