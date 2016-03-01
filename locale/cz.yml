@@ -8,8 +8,8 @@ default:
     currently: Aktualni
 errors:
     argumentslength: "Pocet argumentu prikazu neodpovida spravnemu mnozstvi!"
-    packagenotfound: "Nelze nacist $package$ package!"
-    classnotfound: "Nelze nacist $package$ class $class$!"
+    packagenotfound: "Nelze nacist balicek $package$!"
+    classnotfound: "Nelze nacist balicek $package$ v tride $class$!"
     gameexists: "Hra s timto jmenem jiz existuje!"
     gamenotfound: "Hra '$game$' nebyla nalezena!"
     gamenotfoundsimple: "Hra nenalezena!"
@@ -55,10 +55,10 @@ errors:
 success:
     gameadded: "Nova hra '$game$' uspesne pridana!"
     teamadded: "Tym '$team$' uspesne pridan!"
-    joined: "Pripojil jsi se do hry!"
-    left: "Uspesne jsi se odpojil ze hry."
+    joined: "Pripojeni bylo uspesne!"
+    left: "Odpojeni ze hry bylo uspesne."
     saved: "Hra byla uspesne ulozena!"
-    bedset: "Uspesne jsi nastavil respawn blok tymu $team$!"
+    bedset: "Postel tymu $team$ nastavena!"
     regionset: "Oblast $location$ pro hru $game$ uspesne nastavena!"
     spawnset: "Spawn lokace pro tym $team$ uspesne nastavena!"
     spawnerset: "Spawn surovin $name$ uspesne nastaven!"
@@ -254,7 +254,7 @@ commands:
         desc: "Smaze hru a konfiguraci"
     clearspawner:
         name: "Smazat spawnery"
-        desc: "Odstrani vsechny spawnery surovin. Ulozeny areny je nutne."
+        desc: "Odstrani vsechny spawnery surovin. Ulozeni areny je nutne."
     gametime:
         name: "Nastavit cas hry"
         desc: "Nastavi cas, ktery bude v arene po dobu hry"
