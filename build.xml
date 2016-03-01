@@ -16,10 +16,7 @@
 		<pathelement location="lib/spigot-1.8-R0.1-SNAPSHOT-latest.jar" />
 		<pathelement location="lib/spigot-1.8.3-R0.1-SNAPSHOT-latest .jar" />
 		<pathelement location="lib/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar" />
-		<pathelement location="lib/spigot-1.7.10-R0.1-SNAPSHOTBuild1646.jar" />
-		<pathelement location="lib/spigot-1.7.2-R0.4-SNAPSHOT-1339.jar" />
-		<pathelement location="lib/spigot-1.7.5-R0.1-SNAPSHOT-1387.jar" />
-		<pathelement location="lib/spigot-1.7.9-R0.3-SNAPSHOTBuild1543.jar" />
+		<pathelement location="lib/spigot-1.9-R0.1-SNAPSHOT-latest.jar" />
 	</path>
 
 	<target name="init">
