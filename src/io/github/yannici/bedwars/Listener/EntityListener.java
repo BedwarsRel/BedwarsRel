@@ -4,14 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -32,6 +24,14 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 
 public class EntityListener extends BaseListener {
 

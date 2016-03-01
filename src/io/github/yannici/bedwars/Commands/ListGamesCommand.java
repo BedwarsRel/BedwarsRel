@@ -1,11 +1,5 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameCheckCode;
-import io.github.yannici.bedwars.Game.GameState;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +9,12 @@ import org.bukkit.util.ChatPaginator;
 import org.bukkit.util.ChatPaginator.ChatPage;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameCheckCode;
+import io.github.yannici.bedwars.Game.GameState;
 
 public class ListGamesCommand extends BaseCommand {
 
@@ -51,28 +51,27 @@ public class ListGamesCommand extends BaseCommand {
 		String paginate;
 		int page = 1;
 		ArrayList<Game> showedGames = new ArrayList<Game>();
-		
-		if(args != null) {
-		    if (args.size() == 0 || args.size() > 1) {
-	            paginate = "1";
-	        } else {
-	            paginate = args.get(0);
-	            if (paginate.isEmpty()) {
-	                paginate = "1";
-	            }
 
-	            if (!Utils.isNumber(paginate)) {
-	                paginate = "1";
-	            }
-	        }
+		if (args != null) {
+			if (args.size() == 0 || args.size() > 1) {
+				paginate = "1";
+			} else {
+				paginate = args.get(0);
+				if (paginate.isEmpty()) {
+					paginate = "1";
+				}
+
+				if (!Utils.isNumber(paginate)) {
+					paginate = "1";
+				}
+			}
 		} else {
-		    paginate = "1";
+			paginate = "1";
 		}
 
 		page = Integer.parseInt(paginate);
 		StringBuilder sb = new StringBuilder();
-		sender.sendMessage(ChatColor.GREEN
-				+ "---------- Bedwars Games ----------");
+		sender.sendMessage(ChatColor.GREEN + "---------- Bedwars Games ----------");
 
 		List<Game> games = Main.getInstance().getGameManager().getGames();
 		for (Game game : games) {
@@ -91,30 +90,23 @@ public class ListGamesCommand extends BaseCommand {
 
 			sb.append(ChatColor.YELLOW
 					+ ((code != GameCheckCode.OK) ? ChatColor.RED + game.getName() + ChatColor.YELLOW : game.getName())
-					+ " - "
-					+ game.getRegion().getName()
-					+ " - "
-					+ Main._l("sign.gamestate."
-							+ game.getState().toString().toLowerCase())
-					+ ChatColor.YELLOW + " - " + Main._l("sign.players") + ": "
-					+ ChatColor.WHITE + "[" + ChatColor.YELLOW + players
-					+ ChatColor.WHITE + "/" + ChatColor.YELLOW
-					+ game.getMaxPlayers() + ChatColor.WHITE + "]\n");
+					+ " - " + game.getRegion().getName() + " - "
+					+ Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + ChatColor.YELLOW + " - "
+					+ Main._l("sign.players") + ": " + ChatColor.WHITE + "[" + ChatColor.YELLOW + players
+					+ ChatColor.WHITE + "/" + ChatColor.YELLOW + game.getMaxPlayers() + ChatColor.WHITE + "]\n");
 		}
 
 		if (showedGames.size() == 0) {
 			sb.append(ChatColor.RED + Main._l("errors.nogames"));
 		}
-		
+
 		ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
 		for (String line : chatPage.getLines()) {
 			sender.sendMessage(line);
 		}
 		sender.sendMessage(ChatColor.GREEN
-				+ "---------- "
-				+ Main._l("default.pages", ImmutableMap.of("current",
-						String.valueOf(chatPage.getPageNumber()), "max",
-						String.valueOf(chatPage.getTotalPages())))
+				+ "---------- " + Main._l("default.pages", ImmutableMap.of("current",
+						String.valueOf(chatPage.getPageNumber()), "max", String.valueOf(chatPage.getTotalPages())))
 				+ " ----------");
 
 		return true;

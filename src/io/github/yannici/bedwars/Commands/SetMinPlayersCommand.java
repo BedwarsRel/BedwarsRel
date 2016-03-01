@@ -1,17 +1,17 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 
 public class SetMinPlayersCommand extends BaseCommand implements ICommand {
 
@@ -47,23 +47,20 @@ public class SetMinPlayersCommand extends BaseCommand implements ICommand {
 
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		String minplayers = args.get(1).toString();
-		
+
 		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotfound",
-							ImmutableMap.of("game", args.get(0).toString()))));
+			sender.sendMessage(ChatWriter.pluginMessage(
+					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
-		
-		if(game.getState() == GameState.RUNNING) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.notwhilegamerunning")));
+
+		if (game.getState() == GameState.RUNNING) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
-		
-		if(!Utils.isNumber(minplayers)) {
-		    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.minplayersnumeric")));
+
+		if (!Utils.isNumber(minplayers)) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.minplayersnumeric")));
 			return true;
 		}
 

@@ -34,13 +34,12 @@ public enum GameLobbyCountdownRule {
 				if (team.getPlayers().size() > 0) {
 					teamsWithPlayers++;
 				} else {
-				    teamsWithoutPlayers++;
+					teamsWithoutPlayers++;
 				}
 			}
-			
+
 			if (game.getMinPlayers() > game.getPlayers().size()
-					|| (teamsWithPlayers == 1 
-					    && teamsWithoutPlayers > game.getFreePlayers().size())) {
+					|| (teamsWithPlayers == 1 && teamsWithoutPlayers > game.getFreePlayers().size())) {
 				return false;
 			}
 		}

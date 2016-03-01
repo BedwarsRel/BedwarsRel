@@ -1,8 +1,5 @@
 package io.github.yannici.bedwars.Game;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,6 +15,9 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+
 @SerializableAs("RessourceSpawner")
 public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
@@ -30,33 +30,35 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
 	public RessourceSpawner(Map<String, Object> deserialize) {
 		this.location = Utils.locationDeserialize(deserialize.get("location"));
-		
-		if(deserialize.containsKey("name")) {
+
+		if (deserialize.containsKey("name")) {
 			this.name = deserialize.get("name").toString();
-			
-			if(!Main.getInstance().getConfig().contains("ressource." + this.name)) {
+
+			if (!Main.getInstance().getConfig().contains("ressource." + this.name)) {
 				this.itemstack = (ItemStack) deserialize.get("itemstack");
 				this.interval = Integer.parseInt(deserialize.get("interval").toString());
-				if(deserialize.containsKey("spread")) {
+				if (deserialize.containsKey("spread")) {
 					this.spread = Double.parseDouble(deserialize.get("spread").toString());
 				}
 			} else {
-				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
+				this.itemstack = RessourceSpawner
+						.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
 				this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
 				this.spread = Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
 			}
 		} else {
 			ItemStack stack = (ItemStack) deserialize.get("itemstack");
 			this.name = this.getNameByMaterial(stack.getType());
-			
-			if(this.name == null) {
+
+			if (this.name == null) {
 				this.itemstack = stack;
 				this.interval = Integer.parseInt(deserialize.get("interval").toString());
-				if(deserialize.containsKey("spread")) {
+				if (deserialize.containsKey("spread")) {
 					this.spread = Double.parseDouble(deserialize.get("spread").toString());
 				}
 			} else {
-				this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
+				this.itemstack = RessourceSpawner
+						.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
 				this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
 				this.spread = Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
 			}
@@ -68,27 +70,30 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		this.name = name;
 		this.interval = Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
 		this.location = location;
-		this.itemstack = RessourceSpawner.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));;
+		this.itemstack = RessourceSpawner
+				.createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
+		;
 		this.spread = Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
 	}
-	
+
 	private String getNameByMaterial(Material material) {
-		for(String key : Main.getInstance().getConfig().getConfigurationSection("ressource").getKeys(true)) {
-			ConfigurationSection keySection = Main.getInstance().getConfig().getConfigurationSection("ressource." + key);
-			if(keySection == null) {
+		for (String key : Main.getInstance().getConfig().getConfigurationSection("ressource").getKeys(true)) {
+			ConfigurationSection keySection = Main.getInstance().getConfig()
+					.getConfigurationSection("ressource." + key);
+			if (keySection == null) {
 				continue;
 			}
-			
-			if(!keySection.contains("item")) {
+
+			if (!keySection.contains("item")) {
 				continue;
 			}
-			
+
 			Material mat = Utils.parseMaterial(keySection.getString("item"));
-			if(mat.equals(material)) {
+			if (mat.equals(material)) {
 				return key;
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -103,11 +108,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 	@Override
 	public void run() {
 		Location dropLocation = this.location;
-		Item item = this.game.getRegion().getWorld()
-				.dropItemNaturally(dropLocation, this.itemstack);
+		Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
 		item.setPickupDelay(0);
-		
-		if(this.spread != 1.0) {
+
+		if (this.spread != 1.0) {
 			item.setVelocity(item.getVelocity().multiply(this.spread));
 		}
 	}
@@ -120,31 +124,31 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		rs.put("name", this.name);
 		return rs;
 	}
-	
+
 	public ItemStack getItemStack() {
 		return this.itemstack;
 	}
-	
+
 	public Location getLocation() {
-	    return this.location;
+		return this.location;
 	}
-	
+
 	@SuppressWarnings({ "deprecation", "unchecked" })
 	public static ItemStack createSpawnerStackByConfig(Object section) {
 		LinkedHashMap<String, Object> linkedMap = new LinkedHashMap<String, Object>();
-		
+
 		if (!(section instanceof LinkedHashMap)) {
-			ConfigurationSection newSection = (ConfigurationSection)section;
-			for(String key : newSection.getKeys(false)) {
+			ConfigurationSection newSection = (ConfigurationSection) section;
+			for (String key : newSection.getKeys(false)) {
 				linkedMap.put(key, newSection.get(key));
 			}
 		} else {
-			linkedMap = (LinkedHashMap<String, Object>)section;
+			linkedMap = (LinkedHashMap<String, Object>) section;
 		}
-		
+
 		try {
 			LinkedHashMap<String, Object> cfgSection = linkedMap;
-			
+
 			String materialString = cfgSection.get("item").toString();
 			Material material = null;
 			boolean hasMeta = false;
@@ -155,16 +159,14 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			short potionMeta = 0;
 
 			if (Utils.isNumber(materialString)) {
-				material = Material.getMaterial(Integer
-						.parseInt(materialString));
+				material = Material.getMaterial(Integer.parseInt(materialString));
 			} else {
 				material = Material.getMaterial(materialString);
 			}
 
 			try {
 				if (cfgSection.containsKey("amount")) {
-					amount = Integer.parseInt(cfgSection.get("amount")
-							.toString());
+					amount = Integer.parseInt(cfgSection.get("amount").toString());
 				}
 			} catch (Exception ex) {
 				amount = 1;
@@ -173,16 +175,14 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			if (cfgSection.containsKey("meta")) {
 				if (!material.equals(Material.POTION)) {
 					try {
-						meta = Byte
-								.parseByte(cfgSection.get("meta").toString());
+						meta = Byte.parseByte(cfgSection.get("meta").toString());
 						hasMeta = true;
 					} catch (Exception ex) {
 						hasMeta = false;
 					}
 				} else {
 					hasPotionMeta = true;
-					potionMeta = Short.parseShort(cfgSection.get("meta")
-							.toString());
+					potionMeta = Short.parseShort(cfgSection.get("meta").toString());
 				}
 			}
 
@@ -208,12 +208,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
 							if (Utils.isNumber(key)) {
 								en = Enchantment.getById(Integer.parseInt(key));
-								level = Integer.parseInt(enchantSection.get(
-										Integer.parseInt(key)).toString());
+								level = Integer.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
 							} else {
 								en = Enchantment.getByName(key.toUpperCase());
-								level = Integer.parseInt(enchantSection
-										.get(key).toString()) - 1;
+								level = Integer.parseInt(enchantSection.get(key).toString()) - 1;
 							}
 
 							if (en == null) {
@@ -227,14 +225,13 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			}
 
 			if (cfgSection.containsKey("name")) {
-				String name = ChatColor.translateAlternateColorCodes('&',
-						cfgSection.get("name").toString());
+				String name = ChatColor.translateAlternateColorCodes('&', cfgSection.get("name").toString());
 				ItemMeta im = finalStack.getItemMeta();
-				
+
 				im.setDisplayName(name);
 				finalStack.setItemMeta(im);
 			}
-			
+
 			return finalStack;
 
 		} catch (Exception ex) {

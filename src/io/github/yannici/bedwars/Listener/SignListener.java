@@ -1,12 +1,12 @@
 package io.github.yannici.bedwars.Listener;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.SignChangeEvent;
+
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
 
 public class SignListener extends BaseListener {
 

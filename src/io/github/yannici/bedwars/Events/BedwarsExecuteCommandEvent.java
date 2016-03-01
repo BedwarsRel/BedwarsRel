@@ -2,12 +2,12 @@ package io.github.yannici.bedwars.Events;
 
 import java.util.ArrayList;
 
-import io.github.yannici.bedwars.Commands.BaseCommand;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.yannici.bedwars.Commands.BaseCommand;
 
 public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 
@@ -17,8 +17,7 @@ public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 	private ArrayList<String> params = null;
 	private boolean cancelled = false;
 
-	public BedwarsExecuteCommandEvent(CommandSender sender,
-			BaseCommand command, ArrayList<String> params) {
+	public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command, ArrayList<String> params) {
 		this.sender = sender;
 		this.command = command;
 		this.params = params;

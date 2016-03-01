@@ -7,7 +7,7 @@ import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 
 public class HangingListener extends BaseListener {
-	
+
 	public HangingListener() {
 		super();
 	}

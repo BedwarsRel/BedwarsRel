@@ -9,8 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 
 public @interface StatField {
-    
-    public String name();
-    public int order() default 0;
-    
+
+	public String name();
+
+	public int order() default 0;
+
 }

@@ -1,16 +1,16 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Game.Game;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
 
 public class AddGameCommand extends BaseCommand {
 
@@ -48,14 +48,12 @@ public class AddGameCommand extends BaseCommand {
 		String minPlayers = args.get(1);
 
 		if (!Utils.isNumber(minPlayers)) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.minplayersmustnumber")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.minplayersmustnumber")));
 			return false;
 		}
 
 		if (addGame == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gameexists")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameexists")));
 			return false;
 		}
 
@@ -65,9 +63,8 @@ public class AddGameCommand extends BaseCommand {
 		}
 
 		addGame.setMinPlayers(min);
-		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.gameadded",
-						ImmutableMap.of("game", args.get(0).toString()))));
+		sender.sendMessage(ChatWriter.pluginMessage(
+				ChatColor.GREEN + Main._l("success.gameadded", ImmutableMap.of("game", args.get(0).toString()))));
 		return true;
 	}
 

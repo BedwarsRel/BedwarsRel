@@ -1,9 +1,9 @@
 package io.github.yannici.bedwars.Database;
 
 public abstract class DatabaseObject {
-	
+
 	private long id = 0;
-	
+
 	public DatabaseObject() {
 		this.id = 0;
 	}
@@ -17,9 +17,9 @@ public abstract class DatabaseObject {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public boolean isNew() {
 		return (this.id == 0);
 	}
-	
+
 }

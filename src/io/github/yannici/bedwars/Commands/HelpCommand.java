@@ -1,8 +1,5 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
@@ -11,6 +8,9 @@ import org.bukkit.util.ChatPaginator;
 import org.bukkit.util.ChatPaginator.ChatPage;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 
 public class HelpCommand extends BaseCommand {
 
@@ -62,21 +62,17 @@ public class HelpCommand extends BaseCommand {
 
 		page = Integer.parseInt(paginate);
 		StringBuilder sb = new StringBuilder();
-		sender.sendMessage(ChatColor.GREEN
-				+ "---------- Bedwars Help ----------");
+		sender.sendMessage(ChatColor.GREEN + "---------- Bedwars Help ----------");
 
-		ArrayList<BaseCommand> baseCommands = Main.getInstance()
-				.getBaseCommands();
-		ArrayList<BaseCommand> setupCommands = Main.getInstance()
-				.getSetupCommands();
-		ArrayList<BaseCommand> kickCommands = Main.getInstance()
-				.getCommandsByPermission("kick");
+		ArrayList<BaseCommand> baseCommands = Main.getInstance().getBaseCommands();
+		ArrayList<BaseCommand> setupCommands = Main.getInstance().getSetupCommands();
+		ArrayList<BaseCommand> kickCommands = Main.getInstance().getCommandsByPermission("kick");
 
 		for (BaseCommand command : baseCommands) {
 			this.appendCommand(command, sb);
 		}
-		
-		if(sender.hasPermission("bw.kick")) {
+
+		if (sender.hasPermission("bw.kick")) {
 			for (BaseCommand command : kickCommands) {
 				this.appendCommand(command, sb);
 			}
@@ -95,10 +91,8 @@ public class HelpCommand extends BaseCommand {
 			sender.sendMessage(line);
 		}
 		sender.sendMessage(ChatColor.GREEN
-				+ "---------- "
-				+ Main._l("default.pages", ImmutableMap.of("current",
-						String.valueOf(chatPage.getPageNumber()), "max",
-						String.valueOf(chatPage.getTotalPages())))
+				+ "---------- " + Main._l("default.pages", ImmutableMap.of("current",
+						String.valueOf(chatPage.getPageNumber()), "max", String.valueOf(chatPage.getTotalPages())))
 				+ " ----------");
 
 		return true;
@@ -115,13 +109,13 @@ public class HelpCommand extends BaseCommand {
 		} else if (command.getCommand().equalsIgnoreCase("list")) {
 			arg = " {page?}";
 		} else if (command.getCommand().equalsIgnoreCase("stats")) {
-		    arg = " {player?}";
+			arg = " {player?}";
 		} else if (command.getCommand().equalsIgnoreCase("reload")) {
 			arg = " {config;locale;shop;games;all?}";
 		}
 
-		sb.append(ChatColor.YELLOW + "/" + Main.getInstance().getStringConfig("command-prefix", "bw") + " " + command.getCommand() + arg
-				+ " - " + command.getDescription() + "\n");
+		sb.append(ChatColor.YELLOW + "/" + Main.getInstance().getStringConfig("command-prefix", "bw") + " "
+				+ command.getCommand() + arg + " - " + command.getDescription() + "\n");
 	}
 
 	@Override

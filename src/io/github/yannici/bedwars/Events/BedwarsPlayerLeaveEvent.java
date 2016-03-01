@@ -1,10 +1,10 @@
 package io.github.yannici.bedwars.Events;
 
-import io.github.yannici.bedwars.Game.Game;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.yannici.bedwars.Game.Game;
 
 public class BedwarsPlayerLeaveEvent extends Event {
 

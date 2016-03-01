@@ -1,10 +1,5 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.Team;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
@@ -15,6 +10,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.Team;
 
 public class Tracker extends SpecialItem {
 
@@ -40,13 +40,15 @@ public class Tracker extends SpecialItem {
 		Player target = findTargetPlayer(this.player);
 
 		if (target == null) {
-			this.player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.specials.tracker.no-target-found")));
+			this.player.sendMessage(
+					ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.specials.tracker.no-target-found")));
 			this.player.setCompassTarget(this.game.getPlayerTeam(this.player).getSpawnLocation());
 			return;
 		}
 
 		int blocks = (int) this.player.getLocation().distance(target.getLocation());
-		this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.tracker.target-found", ImmutableMap.of("player", target.getDisplayName(), "blocks", String.valueOf(blocks)))));
+		this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.tracker.target-found",
+				ImmutableMap.of("player", target.getDisplayName(), "blocks", String.valueOf(blocks)))));
 	}
 
 	public void createTask() {

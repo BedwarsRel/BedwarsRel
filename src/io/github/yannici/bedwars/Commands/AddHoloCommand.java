@@ -1,9 +1,11 @@
 package io.github.yannici.bedwars.Commands;
-import io.github.yannici.bedwars.Main;
 
 import java.util.ArrayList;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import io.github.yannici.bedwars.Main;
 
 public class AddHoloCommand extends BaseCommand implements ICommand {
 
@@ -36,12 +38,11 @@ public class AddHoloCommand extends BaseCommand implements ICommand {
 		if (!super.hasPermission(sender)) {
 			return false;
 		}
-		
-		if(!Main.getInstance().isHologramsEnabled() 
-		        && Main.getInstance().getHolographicInteractor() != null) {
-		    return true;
+
+		if (!Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
+			return true;
 		}
-		
+
 		Player player = (Player) sender;
 		Main.getInstance().getHolographicInteractor().addHologramLocation(player.getEyeLocation());
 		Main.getInstance().getHolographicInteractor().updateHolograms();

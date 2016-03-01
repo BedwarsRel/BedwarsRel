@@ -1,9 +1,5 @@
 package io.github.yannici.bedwars.Game;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -20,6 +16,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
 
 public class GameManager {
 
@@ -43,23 +43,23 @@ public class GameManager {
 		this.games.add(newGame);
 		return newGame;
 	}
-	
+
 	public Game getGameOfPlayer(Player player) {
-	    return this.gamePlayer.get(player);
+		return this.gamePlayer.get(player);
 	}
-	
+
 	public void addGamePlayer(Player player, Game game) {
-	    if(this.gamePlayer.containsKey(player)) {
-	        this.gamePlayer.remove(player);
-	    }
-	    
-	    this.gamePlayer.put(player, game);
+		if (this.gamePlayer.containsKey(player)) {
+			this.gamePlayer.remove(player);
+		}
+
+		this.gamePlayer.put(player, game);
 	}
-	
+
 	public void removeGamePlayer(Player player) {
-	    this.gamePlayer.remove(player);
+		this.gamePlayer.remove(player);
 	}
-	
+
 	public ArrayList<Game> getGames() {
 		return this.games;
 	}
@@ -73,45 +73,43 @@ public class GameManager {
 
 		return null;
 	}
-	
+
 	public void reloadGames() {
-	    this.unloadGames();
-	    
-	    this.gamePlayer.clear();
-	    this.loadGames();
+		this.unloadGames();
+
+		this.gamePlayer.clear();
+		this.loadGames();
 	}
-	
+
 	public void removeGame(Game game) {
-		if(game == null) {
+		if (game == null) {
 			return;
 		}
-		
-		File configs = new File(Main.getInstance().getDataFolder() + File.separator
-				+ GameManager.gamesPath + File.separator + game.getName());
-		
-		if(configs.exists()) {
+
+		File configs = new File(Main.getInstance().getDataFolder() + File.separator + GameManager.gamesPath
+				+ File.separator + game.getName());
+
+		if (configs.exists()) {
 			configs.delete();
 		}
-		
+
 		this.games.remove(game);
 	}
-	
+
 	public void unloadGame(Game game) {
 		if (game.getState() != GameState.STOPPED) {
 			game.stop();
 		}
-		
+
 		game.setState(GameState.STOPPED);
-		game.setScoreboard(Main.getInstance().getScoreboardManager()
-				.getNewScoreboard());
+		game.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
 		game.kickAllPlayers();
 		game.resetRegion();
 		game.updateSigns();
 	}
 
 	public void loadGames() {
-		String path = Main.getInstance().getDataFolder() + File.separator
-				+ GameManager.gamesPath;
+		String path = Main.getInstance().getDataFolder() + File.separator + GameManager.gamesPath;
 		File file = new File(path);
 
 		if (!file.exists()) {
@@ -143,9 +141,8 @@ public class GameManager {
 
 		for (Game g : this.games) {
 			if (!g.run(Main.getInstance().getServer().getConsoleSender())) {
-				Main.getInstance().getServer().getConsoleSender().sendMessage(
-								ChatWriter.pluginMessage(ChatColor.RED
-										+ Main._l("errors.gamenotloaded")));
+				Main.getInstance().getServer().getConsoleSender()
+						.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotloaded")));
 			} else {
 				g.getCycle().onGameLoaded();
 			}
@@ -156,8 +153,7 @@ public class GameManager {
 	private void loadGame(File configFile) {
 		try {
 
-			YamlConfiguration cfg = YamlConfiguration
-					.loadConfiguration(configFile);
+			YamlConfiguration cfg = YamlConfiguration.loadConfiguration(configFile);
 			String name = cfg.get("name").toString();
 			if (name.isEmpty()) {
 				return;
@@ -175,34 +171,33 @@ public class GameManager {
 			}
 
 			if (cfg.contains("spawner")) {
-			    if(cfg.isConfigurationSection("spawner")) {
-			        spawner = cfg.getConfigurationSection("spawner").getValues(
-	                        false);
-			        
-			        for (Object obj : spawner.values()) {
-		                if (!(obj instanceof RessourceSpawner)) {
-		                    continue;
-		                }
-		                
-		                RessourceSpawner rs = (RessourceSpawner) obj;
-		                rs.setGame(game);
-		                game.addRessourceSpawner(rs);
-		            }
-			    }
-			    
-			    if(cfg.isList("spawner")) {
-			        for(Object rs : cfg.getList("spawner")) {
-			            if(!(rs instanceof RessourceSpawner)) {
-			                continue;
-			            }
-			            
-			            RessourceSpawner rsp = (RessourceSpawner) rs;
-			            rsp.setGame(game);
-                        game.addRessourceSpawner(rsp);
-			        }
-			    }
+				if (cfg.isConfigurationSection("spawner")) {
+					spawner = cfg.getConfigurationSection("spawner").getValues(false);
+
+					for (Object obj : spawner.values()) {
+						if (!(obj instanceof RessourceSpawner)) {
+							continue;
+						}
+
+						RessourceSpawner rs = (RessourceSpawner) obj;
+						rs.setGame(game);
+						game.addRessourceSpawner(rs);
+					}
+				}
+
+				if (cfg.isList("spawner")) {
+					for (Object rs : cfg.getList("spawner")) {
+						if (!(rs instanceof RessourceSpawner)) {
+							continue;
+						}
+
+						RessourceSpawner rsp = (RessourceSpawner) rs;
+						rsp.setGame(game);
+						game.addRessourceSpawner(rsp);
+					}
+				}
 			}
-			
+
 			for (Object obj : teams.values()) {
 				if (!(obj instanceof Team)) {
 					continue;
@@ -214,27 +209,25 @@ public class GameManager {
 			Location loc1 = Utils.locationDeserialize(cfg.get("loc1"));
 			Location loc2 = Utils.locationDeserialize(cfg.get("loc2"));
 
-			File signFile = new File(Main.getInstance().getDataFolder() + File.separator
-					+ GameManager.gamesPath + File.separator + game.getName()
-					, "sign.yml");
+			File signFile = new File(Main.getInstance().getDataFolder() + File.separator + GameManager.gamesPath
+					+ File.separator + game.getName(), "sign.yml");
 			if (signFile.exists()) {
-				YamlConfiguration signConfig = YamlConfiguration
-						.loadConfiguration(signFile);
-				
+				YamlConfiguration signConfig = YamlConfiguration.loadConfiguration(signFile);
+
 				List<Object> signs = (List<Object>) signConfig.get("signs");
 				for (Object sign : signs) {
 					Location signLocation = Utils.locationDeserialize(sign);
-					if(signLocation == null) {
+					if (signLocation == null) {
 						continue;
 					}
-					
+
 					signLocation.getChunk().load(true);
-					
+
 					Block signBlock = signLocation.getBlock();
 					if (!(signBlock.getState() instanceof Sign)) {
 						continue;
 					}
-					
+
 					signBlock.getState().update(true, true);
 					game.addJoinSign(signBlock.getLocation());
 				}
@@ -243,24 +236,24 @@ public class GameManager {
 			game.setLoc(loc1, "loc1");
 			game.setLoc(loc2, "loc2");
 			game.setLobby(Utils.locationDeserialize(cfg.get("lobby")));
-			
+
 			String regionName = loc1.getWorld().getName();
-			
-			if(cfg.contains("regionname")) {
+
+			if (cfg.contains("regionname")) {
 				regionName = cfg.getString("regionname");
 			}
-			
-			if(cfg.contains("time") && cfg.isInt("time")) {
+
+			if (cfg.contains("time") && cfg.isInt("time")) {
 				game.setTime(cfg.getInt("time"));
 			}
-			
+
 			game.setRegionName(regionName);
 			game.setRegion(new Region(loc1, loc2, regionName));
-			
-			if(cfg.contains("autobalance")) {
+
+			if (cfg.contains("autobalance")) {
 				game.setAutobalance(cfg.getBoolean("autobalance"));
 			}
-			
+
 			if (cfg.contains("minplayers")) {
 				game.setMinPlayers(cfg.getInt("minplayers"));
 			}
@@ -268,47 +261,38 @@ public class GameManager {
 			if (cfg.contains("mainlobby")) {
 				game.setMainLobby(Utils.locationDeserialize(cfg.get("mainlobby")));
 			}
-			
-			if(cfg.contains("record")) {
+
+			if (cfg.contains("record")) {
 				game.setRecord(cfg.getInt("record", Main.getInstance().getMaxLength()));
 			}
-			
-			if(cfg.contains("targetmaterial")) {
+
+			if (cfg.contains("targetmaterial")) {
 				targetMaterialObj = cfg.getString("targetmaterial");
-				if(targetMaterialObj != null && !targetMaterialObj.equals("")) {
+				if (targetMaterialObj != null && !targetMaterialObj.equals("")) {
 					game.setTargetMaterial(Utils.parseMaterial(targetMaterialObj));
 				}
 			}
-			
-			if(cfg.contains("builder")) {
+
+			if (cfg.contains("builder")) {
 				game.setBuilder(cfg.getString("builder"));
 			}
-			
-			if(cfg.contains("record-holders")) {
+
+			if (cfg.contains("record-holders")) {
 				List<Object> list = (List<Object>) cfg.getList("record-holders", new ArrayList<Object>());
-				for(Object holder : list) {
+				for (Object holder : list) {
 					game.addRecordHolder(holder.toString());
 				}
 			}
-			
+
 			game.getFreePlayers().clear();
 			game.updateSigns();
-			
+
 			this.games.add(game);
-			Main.getInstance().getServer().getConsoleSender().sendMessage(
-							ChatWriter.pluginMessage(ChatColor.GREEN
-									+ Main._l(
-											"success.gameloaded",
-											ImmutableMap.of("game",
-													game.getName()))));
+			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
+					ChatColor.GREEN + Main._l("success.gameloaded", ImmutableMap.of("game", game.getName()))));
 		} catch (Exception ex) {
-			Main.getInstance().getServer().getConsoleSender().sendMessage(
-							ChatWriter.pluginMessage(ChatColor.RED
-									+ Main._l(
-											"errors.gameloaderror",
-											ImmutableMap.of(
-													"game",
-													configFile.getParentFile().getName()))));
+			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+					+ Main._l("errors.gameloaderror", ImmutableMap.of("game", configFile.getParentFile().getName()))));
 		}
 	}
 
@@ -322,14 +306,14 @@ public class GameManager {
 
 	public Game getGameByLocation(Location loc) {
 		for (Game game : this.games) {
-			if(game.getRegion() == null) {
+			if (game.getRegion() == null) {
 				continue;
 			}
-			
-			if(game.getRegion().getWorld() == null) {
+
+			if (game.getRegion().getWorld() == null) {
 				continue;
 			}
-			
+
 			if (game.getRegion().isInRegion(loc)) {
 				return game;
 			}
@@ -350,16 +334,16 @@ public class GameManager {
 
 	public List<Game> getGamesByWorld(World world) {
 		List<Game> games = new ArrayList<Game>();
-		
+
 		for (Game game : this.games) {
-			if(game.getRegion() == null) {
+			if (game.getRegion() == null) {
 				continue;
 			}
-			
-			if(game.getRegion().getWorld() == null) {
+
+			if (game.getRegion().getWorld() == null) {
 				continue;
 			}
-			
+
 			if (game.getRegion().getWorld().equals(world)) {
 				games.add(game);
 			}
@@ -378,8 +362,8 @@ public class GameManager {
 		return null;
 	}
 
-    public int getGamePlayerAmount() {
-        return this.gamePlayer.size();
-    }
+	public int getGamePlayerAmount() {
+		return this.gamePlayer.size();
+	}
 
 }

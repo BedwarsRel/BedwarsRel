@@ -1,11 +1,11 @@
 package io.github.yannici.bedwars.Com.v1_9_R1;
 
-import net.minecraft.server.v1_9_R1.PacketPlayInClientCommand;
-import net.minecraft.server.v1_9_R1.PacketPlayInClientCommand.EnumClientCommand;
-
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import net.minecraft.server.v1_9_R1.PacketPlayInClientCommand;
+import net.minecraft.server.v1_9_R1.PacketPlayInClientCommand.EnumClientCommand;
 
 public class PerformRespawnRunnable extends BukkitRunnable {
 
@@ -17,8 +17,7 @@ public class PerformRespawnRunnable extends BukkitRunnable {
 
 	@Override
 	public void run() {
-		PacketPlayInClientCommand clientCommand = new PacketPlayInClientCommand(
-				EnumClientCommand.PERFORM_RESPAWN);
+		PacketPlayInClientCommand clientCommand = new PacketPlayInClientCommand(EnumClientCommand.PERFORM_RESPAWN);
 		CraftPlayer cp = (CraftPlayer) player;
 
 		cp.getHandle().playerConnection.a(clientCommand);

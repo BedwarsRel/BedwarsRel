@@ -19,21 +19,17 @@ public class VillagerTrade {
 
 	public VillagerTrade(MerchantRecipe handle) {
 		this.item1 = new CraftItemStack(handle.getItem1()).asBukkitCopy();
-		this.item2 = (handle.getItem1() == null ? null : new CraftItemStack(
-				handle.getItem2()).asBukkitCopy());
-		this.rewardItem = new CraftItemStack(handle.getRewardItem())
-				.asBukkitCopy();
+		this.item2 = (handle.getItem1() == null ? null : new CraftItemStack(handle.getItem2()).asBukkitCopy());
+		this.rewardItem = new CraftItemStack(handle.getRewardItem()).asBukkitCopy();
 	}
 
 	public MerchantRecipe getHandle() {
 		if (this.item2 == null) {
-			return new MerchantRecipe(
-					new CraftItemStack(this.item1).asNMSCopy(),
+			return new MerchantRecipe(new CraftItemStack(this.item1).asNMSCopy(),
 					new CraftItemStack(this.rewardItem).asNMSCopy());
 		}
 		return new MerchantRecipe(new CraftItemStack(this.item1).asNMSCopy(),
-				new CraftItemStack(this.item2).asNMSCopy(), new CraftItemStack(
-						this.rewardItem).asNMSCopy());
+				new CraftItemStack(this.item2).asNMSCopy(), new CraftItemStack(this.rewardItem).asNMSCopy());
 	}
 
 	public boolean hasItem2() {

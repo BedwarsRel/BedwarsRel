@@ -1,15 +1,15 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
 
 public class StopGameCommand extends BaseCommand implements ICommand {
 
@@ -45,20 +45,17 @@ public class StopGameCommand extends BaseCommand implements ICommand {
 
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotfound",
-							ImmutableMap.of("game", args.get(0).toString()))));
+			sender.sendMessage(ChatWriter.pluginMessage(
+					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
 
 		if (!game.stop()) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotrunning")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotrunning")));
 			return false;
 		}
 
-		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.stopped")));
+		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.stopped")));
 		return true;
 	}
 

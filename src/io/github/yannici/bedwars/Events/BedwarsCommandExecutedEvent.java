@@ -2,11 +2,11 @@ package io.github.yannici.bedwars.Events;
 
 import java.util.ArrayList;
 
-import io.github.yannici.bedwars.Commands.BaseCommand;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.yannici.bedwars.Commands.BaseCommand;
 
 public class BedwarsCommandExecutedEvent extends Event {
 
@@ -16,8 +16,8 @@ public class BedwarsCommandExecutedEvent extends Event {
 	private boolean result = false;
 	private ArrayList<String> params = null;
 
-	public BedwarsCommandExecutedEvent(CommandSender sender,
-			BaseCommand command, ArrayList<String> params, boolean result) {
+	public BedwarsCommandExecutedEvent(CommandSender sender, BaseCommand command, ArrayList<String> params,
+			boolean result) {
 		this.sender = sender;
 		this.command = command;
 		this.params = params;
@@ -44,7 +44,7 @@ public class BedwarsCommandExecutedEvent extends Event {
 	public ArrayList<String> getParameter() {
 		return this.params;
 	}
-	
+
 	public boolean isSuccess() {
 		return this.result;
 	}

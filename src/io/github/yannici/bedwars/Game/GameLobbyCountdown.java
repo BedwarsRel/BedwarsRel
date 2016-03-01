@@ -11,7 +11,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
@@ -43,7 +42,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			this.cancel();
 			return;
 		}
-		
+
 		if (this.counter > this.lobbytimeWhenFull && this.game.getPlayerAmount() == this.game.getMaxPlayers()) {
 			this.counter = this.lobbytimeWhenFull;
 			this.game.broadcast(
@@ -80,8 +79,6 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			this.game.setGameLobbyCountdown(null);
 			this.cancel();
 		}
-
-		
 
 		if (this.counter <= 10 && this.counter > 0) {
 			this.game.broadcast(
