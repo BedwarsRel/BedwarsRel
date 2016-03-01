@@ -94,7 +94,7 @@ public class VillagerItemShop {
 						recipeList.add(recipe);
 					}
 
-					entityVillager.a_(entityHuman);
+					entityVillager.a(entityHuman);
 					((CraftPlayer) player).getHandle().openTrade(entityVillager);
 					((CraftPlayer) player).getHandle().b(StatisticList.F);
 

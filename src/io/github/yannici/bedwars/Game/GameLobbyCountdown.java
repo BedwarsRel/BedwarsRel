@@ -4,13 +4,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.SoundMachine;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
@@ -103,7 +103,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			}
 
 			for (Player player : players) {
-				player.playSound(player.getLocation(), Sound.CLICK, 20.0F, 20.0F);
+				player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 20.0F, 20.0F);
 
 				if (titleClass == null) {
 					continue;
@@ -121,7 +121,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			this.game.setGameLobbyCountdown(null);
 			this.cancel();
 			for (Player player : players) {
-				player.playSound(player.getLocation(), Sound.LEVEL_UP, 20.0F, 20.0F);
+				player.playSound(player.getLocation(), SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"), 20.0F, 20.0F);
 				player.setLevel(0);
 				player.setExp(0.0F);
 			}

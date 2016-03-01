@@ -18,7 +18,6 @@ import org.bukkit.event.entity.EntityTargetEvent;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
-import net.minecraft.server.v1_9_R1.EntityHuman;
 import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntitySheep;
 import net.minecraft.server.v1_9_R1.EntityTNTPrimed;
@@ -53,7 +52,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 			e.printStackTrace();
 		}
 
-		this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, EntityHuman.class, 1D, false));
+		this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, 1D, false));
 		this.setGoalTarget((EntityLiving) (((CraftPlayer) target).getHandle()),
 				EntityTargetEvent.TargetReason.OWNER_ATTACKED_TARGET, false);
 		((Creature) this.getBukkitEntity()).setTarget((LivingEntity) target);

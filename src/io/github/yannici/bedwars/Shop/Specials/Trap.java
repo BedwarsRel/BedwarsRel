@@ -6,13 +6,13 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.SoundMachine;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.Team;
 
@@ -128,7 +128,7 @@ public class Trap extends SpecialItem {
 						return;
 					}
 
-					player.playSound(player.getLocation(), Sound.FUSE, 2.0F, 1.0F);
+					player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"), 2.0F, 1.0F);
 					this.counter++;
 				}
 			}.runTaskTimer(Main.getInstance(), 0L, 20L));
@@ -145,7 +145,7 @@ public class Trap extends SpecialItem {
 
 			this.game.broadcast(Main._l("ingame.specials.trap.trapped"), new ArrayList<Player>(this.team.getPlayers()));
 			if (this.playSound) {
-				this.game.broadcastSound(Sound.SHEEP_IDLE, 3.0F, 1.0F, this.team.getPlayers());
+				this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"), 4.0F, 1.0F, this.team.getPlayers());
 			}
 
 			this.game.getRegion().removePlacedUnbreakableBlock(this.location.getBlock());

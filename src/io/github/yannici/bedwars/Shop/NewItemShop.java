@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -21,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.SoundMachine;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
@@ -170,7 +170,7 @@ public class NewItemShop {
 	private void changeToOldShop(Game game, Player player) {
 		game.useOldShop(player);
 
-		player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+		player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F, 1.0F);
 
 		// open old shop
 		MerchantCategory.openCategorySelection(player, game);
@@ -191,12 +191,12 @@ public class NewItemShop {
 
 			if (ice.getCurrentItem().getType() == Material.BUCKET) {
 				game.getPlayerSettings(player).setOneStackPerShift(false);
-				player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+				player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F, 1.0F);
 				this.openCategoryInventory(player);
 				return;
 			} else if (ice.getCurrentItem().getType() == Material.LAVA_BUCKET) {
 				game.getPlayerSettings(player).setOneStackPerShift(true);
-				player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+				player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F, 1.0F);
 				this.openCategoryInventory(player);
 				return;
 			}
@@ -233,7 +233,7 @@ public class NewItemShop {
 		int sizeItems = offers.size();
 		int invSize = this.getBuyInventorySize(sizeCategories, sizeItems);
 
-		player.playSound(player.getLocation(), Sound.CLICK, 10.0F, 1.0F);
+		player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F, 1.0F);
 
 		this.currentCategory = category;
 		Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l("ingame.shop.name"));
@@ -337,7 +337,7 @@ public class NewItemShop {
 				return;
 			}
 
-			player.playSound(player.getLocation(), Sound.ITEM_PICKUP, 10.0F, 1.0F);
+			player.playSound(player.getLocation(), SoundMachine.get("ITEM_PICKUP", "ENTITY_ITEM_PICKUP"), 10.0F, 1.0F);
 
 			// enough ressources?
 			if (!this.hasEnoughRessource(player, trade)) {
