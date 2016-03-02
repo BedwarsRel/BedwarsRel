@@ -33,6 +33,11 @@ public class ProtectionWallListener implements Listener {
 			return;
 		}
 		
+		if(interact.getItem().getItemMeta().getDisplayName() == null) {
+			return;
+			
+		}
+		
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(interact.getPlayer());
 		if(game == null) {
 			return;
@@ -58,6 +63,10 @@ public class ProtectionWallListener implements Listener {
 	    ProtectionWall wall = new ProtectionWall();
 	    if(place.getBlock().getType() != wall.getItemMaterial()) {
 	        return;
+	    }
+	    
+	    if(place.getItemInHand().getItemMeta().getDisplayName() == null){
+	    	return;
 	    }
 	    
 	    Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
