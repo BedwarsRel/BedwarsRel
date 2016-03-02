@@ -35,7 +35,6 @@ public class ProtectionWallListener implements Listener {
 		
 		if(interact.getItem().getItemMeta().getDisplayName() == null) {
 			return;
-			
 		}
 		
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(interact.getPlayer());
