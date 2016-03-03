@@ -16,6 +16,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
@@ -152,11 +155,9 @@ public class MerchantCategory {
 			String materialString = cfgSection.get("item").toString();
 			Material material = null;
 			boolean hasMeta = false;
-			boolean hasPotionMeta = false;
 			byte meta = 0;
 			ItemStack finalStack = null;
 			int amount = 1;
-			short potionMeta = 0;
 
 			if (Utils.isNumber(materialString)) {
 				material = Material.getMaterial(Integer.parseInt(materialString));
@@ -181,15 +182,12 @@ public class MerchantCategory {
 						hasMeta = false;
 					}
 				} else {
-					hasPotionMeta = true;
-					potionMeta = Short.parseShort(cfgSection.get("meta").toString());
+					hasMeta = false;
 				}
 			}
 
 			if (hasMeta) {
 				finalStack = new ItemStack(material, amount, meta);
-			} else if (hasPotionMeta) {
-				finalStack = new ItemStack(material, amount, potionMeta);
 			} else {
 				finalStack = new ItemStack(material, amount);
 			}
@@ -204,6 +202,40 @@ public class MerchantCategory {
 
 				im.setLore(lores);
 				finalStack.setItemMeta(im);
+			}
+
+			if (material.equals(Material.POTION)) {
+				if (cfgSection.containsKey("effects")) {
+					PotionMeta potionMeta = (PotionMeta) finalStack.getItemMeta();
+					for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
+						LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
+
+						if (!potionEffectSection.containsKey("type")) {
+							continue;
+						}
+
+						PotionEffectType potionEffectType = null;
+						int duration = 0;
+						int amplifier = 0;
+
+						potionEffectType = PotionEffectType
+								.getByName(potionEffectSection.get("type").toString().toUpperCase());
+						if (potionEffectSection.containsKey("duration")) {
+							duration = Integer.parseInt(potionEffectSection.get("duration").toString());
+						}
+						if (potionEffectSection.containsKey("amplifier")) {
+							amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
+						}
+						
+						if (potionEffectType == null) {
+							continue;
+						}
+
+						potionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration * 20, amplifier), true);
+					}
+
+					finalStack.setItemMeta(potionMeta);
+				}
 			}
 
 			if (cfgSection.containsKey("enchants")) {
