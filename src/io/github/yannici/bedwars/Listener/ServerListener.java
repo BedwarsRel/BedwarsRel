@@ -57,26 +57,10 @@ public class ServerListener extends BaseListener {
 
 	private String getMaxPlayersString(Game game) {
 		int maxPlayers = game.getMaxPlayers();
-		int currentPlayers = 0;
-		if (game.getState() == GameState.RUNNING) {
-			currentPlayers = game.getTeamPlayers().size();
-		} else if (game.getState() == GameState.WAITING) {
-			currentPlayers = game.getPlayers().size();
-		} else {
-			currentPlayers = 0;
-		}
-
-		String max = String.valueOf(maxPlayers);
-
-		if (currentPlayers >= maxPlayers) {
-			max = ChatColor.RED + max + ChatColor.WHITE;
-		}
-
-		return max;
+		return String.valueOf(maxPlayers);
 	}
 
 	private String getCurrentPlayersString(Game game) {
-		int maxPlayers = game.getMaxPlayers();
 		int currentPlayers = 0;
 		if (game.getState() == GameState.RUNNING) {
 			currentPlayers = game.getTeamPlayers().size();
@@ -86,14 +70,7 @@ public class ServerListener extends BaseListener {
 			currentPlayers = 0;
 		}
 
-		String current = "0";
-		if (currentPlayers >= maxPlayers) {
-			current = ChatColor.RED + String.valueOf(currentPlayers) + ChatColor.WHITE;
-		} else {
-			current = String.valueOf(currentPlayers);
-		}
-
-		return current;
+		return String.valueOf(currentPlayers);
 	}
 
 	private String getStatus(Game game) {
