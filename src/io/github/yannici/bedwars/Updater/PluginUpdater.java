@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
@@ -720,7 +721,18 @@ public class PluginUpdater {
 
 			// request
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			version = reader.readLine();
+			String line;
+			ArrayList<String> versions = new ArrayList<String>();
+			while ((line = reader.readLine()) != null) {
+				versions.add(line);
+			}
+			if(Main.getInstance().getCurrentVersion().startsWith("v1_7")) {
+				version = versions.get(0);
+			} else if(Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+				version = versions.get(1);
+			} else if(Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+				version = versions.get(1);
+			}
 			reader.close();
 
 		} catch (Exception ex) {
