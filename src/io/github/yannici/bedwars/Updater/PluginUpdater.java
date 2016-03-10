@@ -728,9 +728,7 @@ public class PluginUpdater {
 			}
 			if(Main.getInstance().getCurrentVersion().startsWith("v1_7")) {
 				version = versions.get(0);
-			} else if(Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
-				version = versions.get(1);
-			} else if(Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+			} else {
 				version = versions.get(1);
 			}
 			reader.close();
