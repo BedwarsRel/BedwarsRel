@@ -16,7 +16,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.yannici.bedwars.Main;
@@ -175,7 +174,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			}
 
 			if (cfgSection.containsKey("meta")) {
-				if (!material.equals(Material.POTION)) {
+				if (!material.equals(Material.POTION) && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+						&& material.equals(Material.valueOf("TIPPED_ARROW")))) {
 					try {
 						meta = Byte.parseByte(cfgSection.get("meta").toString());
 						hasMeta = true;
@@ -193,12 +193,12 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 				finalStack = new ItemStack(material, amount);
 			}
 
-			if (material.equals(Material.POTION)) {
+			if (material.equals(Material.POTION) || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+					&& material.equals(Material.valueOf("TIPPED_ARROW")))) {
 				if (cfgSection.containsKey("effects")) {
 					PotionMeta potionMeta = (PotionMeta) finalStack.getItemMeta();
 					for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
 						LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
-
 						if (!potionEffectSection.containsKey("type")) {
 							continue;
 						}
@@ -209,18 +209,19 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
 						potionEffectType = PotionEffectType
 								.getByName(potionEffectSection.get("type").toString().toUpperCase());
+
 						if (potionEffectSection.containsKey("duration")) {
 							duration = Integer.parseInt(potionEffectSection.get("duration").toString());
 						}
 						if (potionEffectSection.containsKey("amplifier")) {
 							amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
 						}
-						
+
 						if (potionEffectType == null) {
 							continue;
 						}
 
-						potionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration * 20, amplifier), true);
+						potionMeta.addCustomEffect(potionEffectType.createEffect(duration * 20, amplifier), true);
 					}
 
 					finalStack.setItemMeta(potionMeta);
