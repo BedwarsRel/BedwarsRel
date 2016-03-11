@@ -71,6 +71,11 @@ public class PlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
+		
+		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
+			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
+		}
+		
 		if (Main.getInstance().isBungee()) {
 			je.setJoinMessage("");
 			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
@@ -99,10 +104,6 @@ public class PlayerListener extends BaseListener {
 				}.runTaskLater(Main.getInstance(), 5L);
 			}
 
-		}
-
-		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
-			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
 		}
 	}
 
