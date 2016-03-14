@@ -40,6 +40,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -71,11 +72,11 @@ public class PlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
-		
+
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
 			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
 		}
-		
+
 		if (Main.getInstance().isBungee()) {
 			je.setJoinMessage("");
 			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
@@ -104,6 +105,23 @@ public class PlayerListener extends BaseListener {
 				}.runTaskLater(Main.getInstance(), 5L);
 			}
 
+		}
+	}
+
+	@EventHandler
+	public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
+		Player player = event.getPlayer();
+		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+		if (game == null) {
+			return;
+		}
+
+		if (game.getState() == GameState.WAITING
+				|| (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
+						&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+			event.setCancelled(true);
+			return;
 		}
 	}
 
