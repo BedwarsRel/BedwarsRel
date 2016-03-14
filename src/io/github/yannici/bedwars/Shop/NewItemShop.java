@@ -17,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
@@ -264,7 +265,6 @@ public class NewItemShop {
 		ItemMeta meta = tradeStack.getItemMeta();
 		ItemStack item1 = trade.getItem1();
 		ItemStack item2 = trade.getItem2();
-
 		if (colorable != null) {
 			colorable.setAccessible(true);
 			try {
@@ -273,7 +273,6 @@ public class NewItemShop {
 				e.printStackTrace();
 			}
 		}
-
 		List<String> lores = meta.getLore();
 		if (lores == null) {
 			lores = new ArrayList<String>();
@@ -285,7 +284,6 @@ public class NewItemShop {
 		}
 
 		meta.setLore(lores);
-
 		tradeStack.setItemMeta(meta);
 		return tradeStack;
 	}
@@ -489,11 +487,18 @@ public class NewItemShop {
 			if (trade.getItem1().getType() == Material.AIR && trade.getRewardItem().getType() == Material.AIR) {
 				continue;
 			}
-
 			ItemStack iStack = this.toItemStack(trade, player, game);
-			if (iStack.equals(stack)) {
+			if (iStack.getType() == Material.ENDER_CHEST && stack.getType() == Material.ENDER_CHEST) {
 				return trade;
-			} else if (iStack.getType() == Material.ENDER_CHEST && stack.getType() == Material.ENDER_CHEST) {
+			} else if ((iStack.getType() == Material.POTION
+					|| (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+							&& (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+									|| iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
+									|| iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))
+					&& (((PotionMeta) iStack.getItemMeta()).getCustomEffects()
+							.equals(((PotionMeta) stack.getItemMeta()).getCustomEffects()))) {
+				return trade;
+			} else if (iStack.equals(stack)) {
 				return trade;
 			}
 		}

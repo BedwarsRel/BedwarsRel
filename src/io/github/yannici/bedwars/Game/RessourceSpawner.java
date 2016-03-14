@@ -1,5 +1,6 @@
 package io.github.yannici.bedwars.Game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -156,9 +157,11 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 			String materialString = cfgSection.get("item").toString();
 			Material material = null;
 			boolean hasMeta = false;
+			boolean hasPotionMeta = false;
 			byte meta = 0;
 			ItemStack finalStack = null;
 			int amount = 1;
+			short potionMeta = 0;
 
 			if (Utils.isNumber(materialString)) {
 				material = Material.getMaterial(Integer.parseInt(materialString));
@@ -176,7 +179,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
 			if (cfgSection.containsKey("meta")) {
 				if (!material.equals(Material.POTION) && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-						&& material.equals(Material.valueOf("TIPPED_ARROW")))) {
+						&& (material.equals(Material.valueOf("TIPPED_ARROW"))
+								|| material.equals(Material.valueOf("LINGERING_POTION"))
+								|| material.equals(Material.valueOf("SPLASH_POTION"))))) {
+
 					try {
 						meta = Byte.parseByte(cfgSection.get("meta").toString());
 						hasMeta = true;
@@ -184,20 +190,39 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 						hasMeta = false;
 					}
 				} else {
-					hasMeta = false;
+					hasPotionMeta = true;
+					potionMeta = Short.parseShort(cfgSection.get("meta").toString());
 				}
 			}
 
 			if (hasMeta) {
 				finalStack = new ItemStack(material, amount, meta);
+			} else if (hasPotionMeta) {
+				finalStack = new ItemStack(material, amount, potionMeta);
 			} else {
 				finalStack = new ItemStack(material, amount);
 			}
 
-			if (material.equals(Material.POTION) || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-					&& material.equals(Material.valueOf("TIPPED_ARROW")))) {
+			if (cfgSection.containsKey("lore")) {
+				List<String> lores = new ArrayList<String>();
+				ItemMeta im = finalStack.getItemMeta();
+
+				for (Object lore : (List<String>) cfgSection.get("lore")) {
+					lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
+				}
+
+				im.setLore(lores);
+				finalStack.setItemMeta(im);
+			}
+
+			if (!hasPotionMeta
+					&& (material.equals(Material.POTION) || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+							&& (material.equals(Material.valueOf("TIPPED_ARROW"))
+									|| material.equals(Material.valueOf("LINGERING_POTION"))
+									|| material.equals(Material.valueOf("SPLASH_POTION")))))) {
+
 				if (cfgSection.containsKey("effects")) {
-					PotionMeta potionMeta = (PotionMeta) finalStack.getItemMeta();
+					PotionMeta customPotionMeta = (PotionMeta) finalStack.getItemMeta();
 					for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
 						LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
 						if (!potionEffectSection.containsKey("type")) {
@@ -205,15 +230,16 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 						}
 
 						PotionEffectType potionEffectType = null;
-						int duration = 0;
+						int duration = 1;
 						int amplifier = 0;
 
 						potionEffectType = PotionEffectType
 								.getByName(potionEffectSection.get("type").toString().toUpperCase());
 
 						if (potionEffectSection.containsKey("duration")) {
-							duration = Integer.parseInt(potionEffectSection.get("duration").toString());
+							duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
 						}
+
 						if (potionEffectSection.containsKey("amplifier")) {
 							amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
 						}
@@ -222,10 +248,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 							continue;
 						}
 
-						potionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration * 20, amplifier), true);
+						customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier), true);
 					}
 
-					finalStack.setItemMeta(potionMeta);
+					finalStack.setItemMeta(customPotionMeta);
 				}
 			}
 
@@ -237,9 +263,13 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 					for (Object sKey : enchantSection.keySet()) {
 						String key = sKey.toString();
 
-						if (finalStack.getType() != Material.POTION
+						if (!finalStack
+								.getType().equals(
+										Material.POTION)
 								&& !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-										&& material.equals(Material.valueOf("TIPPED_ARROW")))) {
+										&& (finalStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+												|| finalStack.getType().equals(Material.valueOf("LINGERING_POTION"))
+												|| finalStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
 							Enchantment en = null;
 							int level = 0;
 
