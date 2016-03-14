@@ -16,6 +16,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.yannici.bedwars.Main;
@@ -221,7 +222,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 							continue;
 						}
 
-						potionMeta.addCustomEffect(potionEffectType.createEffect(duration * 20, amplifier), true);
+						potionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration * 20, amplifier), true);
 					}
 
 					finalStack.setItemMeta(potionMeta);
@@ -236,7 +237,9 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 					for (Object sKey : enchantSection.keySet()) {
 						String key = sKey.toString();
 
-						if (finalStack.getType() != Material.POTION) {
+						if (finalStack.getType() != Material.POTION
+								&& !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+										&& material.equals(Material.valueOf("TIPPED_ARROW")))) {
 							Enchantment en = null;
 							int level = 0;
 
