@@ -73,6 +73,7 @@ import io.github.yannici.bedwars.Listener.BlockListener;
 import io.github.yannici.bedwars.Listener.ChunkListener;
 import io.github.yannici.bedwars.Listener.EntityListener;
 import io.github.yannici.bedwars.Listener.HangingListener;
+import io.github.yannici.bedwars.Listener.Player19Listener;
 import io.github.yannici.bedwars.Listener.PlayerListener;
 import io.github.yannici.bedwars.Listener.ServerListener;
 import io.github.yannici.bedwars.Listener.SignListener;
@@ -671,6 +672,9 @@ public class Main extends JavaPlugin {
 		new WeatherListener();
 		new BlockListener();
 		new PlayerListener();
+		if (Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+			new Player19Listener();
+		}
 		new HangingListener();
 		new EntityListener();
 		new ServerListener();
