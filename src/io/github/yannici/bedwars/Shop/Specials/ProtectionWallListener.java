@@ -32,6 +32,10 @@ public class ProtectionWallListener implements Listener {
 		if (interact.getMaterial() != wall.getItemMaterial()) {
 			return;
 		}
+		
+		if(interact.getItem().getItemMeta().getDisplayName() == null) {
+			return;
+		}
 
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(interact.getPlayer());
 		if (game == null) {
@@ -51,32 +55,36 @@ public class ProtectionWallListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlace(BlockPlaceEvent place) {
-		if (place.isCancelled()) {
-			return;
-		}
-
-		ProtectionWall wall = new ProtectionWall();
-		if (place.getBlock().getType() != wall.getItemMaterial()) {
-			return;
-		}
-
-		Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
-		if (game == null) {
-			return;
-		}
-
-		if (game.getState() != GameState.RUNNING) {
-			return;
-		}
-
-		if (game.isSpectator(place.getPlayer())) {
-			place.setBuild(false);
-			place.setCancelled(true);
-			return;
-		}
-
-		place.setBuild(false);
-		place.setCancelled(true);
+	    if(place.isCancelled()) {
+	        return;
+	    }
+	    
+	    ProtectionWall wall = new ProtectionWall();
+	    if(place.getBlock().getType() != wall.getItemMaterial()) {
+	        return;
+	    }
+	    
+	    if(place.getItemInHand().getItemMeta().getDisplayName() == null){
+	    	return;
+	    }
+	    
+	    Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
+	    if(game == null) {
+	        return;
+	    }
+	    
+	    if(game.getState() != GameState.RUNNING) {
+	        return;
+	    }
+	    
+	    if(game.isSpectator(place.getPlayer())) {
+	    	place.setBuild(false);
+	    	place.setCancelled(true);
+            return;
+        }
+	    
+	    place.setBuild(false);
+	    place.setCancelled(true);
 	}
 
 }
