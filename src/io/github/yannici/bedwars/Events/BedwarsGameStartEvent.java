@@ -1,10 +1,10 @@
 package io.github.yannici.bedwars.Events;
 
-import io.github.yannici.bedwars.Game.Game;
-
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.yannici.bedwars.Game.Game;
 
 public class BedwarsGameStartEvent extends Event implements Cancellable {
 

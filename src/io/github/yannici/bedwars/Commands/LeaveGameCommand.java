@@ -1,12 +1,12 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-
 import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
 
 public class LeaveGameCommand extends BaseCommand {
 

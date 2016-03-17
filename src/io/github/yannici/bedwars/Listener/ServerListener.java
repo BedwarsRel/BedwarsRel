@@ -1,12 +1,12 @@
 package io.github.yannici.bedwars.Listener;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.ServerListPingEvent;
+
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 
 public class ServerListener extends BaseListener {
 
@@ -24,96 +24,64 @@ public class ServerListener extends BaseListener {
 		Game game = Main.getInstance().getGameManager().getGames().get(0);
 		switch (game.getState()) {
 		case STOPPED:
-			slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes(
-							'&',
-							Main.getInstance().getConfig()
-									.getString("bungeecord.motds.stopped"))));
+			slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes('&',
+					Main.getInstance().getConfig().getString("bungeecord.motds.stopped"))));
 			break;
 		case WAITING:
-		    if(game.isFull()) {
-		        slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes(
-                        '&',
-                        Main.getInstance().getConfig()
-                                .getString("bungeecord.motds.full"))));
-		    } else {
-		        slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes(
-                        '&',
-                        Main.getInstance().getConfig()
-                                .getString("bungeecord.motds.lobby"))));
-		    }
-			
+			if (game.isFull()) {
+				slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes('&',
+						Main.getInstance().getConfig().getString("bungeecord.motds.full"))));
+			} else {
+				slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes('&',
+						Main.getInstance().getConfig().getString("bungeecord.motds.lobby"))));
+			}
+
 			break;
 		case RUNNING:
-			slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes(
-							'&',
-							Main.getInstance().getConfig()
-									.getString("bungeecord.motds.running"))));
+			slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes('&',
+					Main.getInstance().getConfig().getString("bungeecord.motds.running"))));
 			break;
 		}
 	}
-	
+
 	private String replacePlaceholder(Game game, String line) {
-	    line = line.replace("$title$", Main._l("sign.firstline"));
-	    line = line.replace("$gamename$", game.getName());
-	    line = line.replace("$regionname$", game.getRegion().getName());
-	    line = line.replace("$maxplayers$", getMaxPlayersString(game));
-	    line = line.replace("$currentplayers$", getCurrentPlayersString(game));
-	    line = line.replace("$status$", getStatus(game));
-	    
-	    return line;
+		line = line.replace("$title$", Main._l("sign.firstline"));
+		line = line.replace("$gamename$", game.getName());
+		line = line.replace("$regionname$", game.getRegion().getName());
+		line = line.replace("$maxplayers$", getMaxPlayersString(game));
+		line = line.replace("$currentplayers$", getCurrentPlayersString(game));
+		line = line.replace("$status$", getStatus(game));
+
+		return line;
 	}
-	
+
 	private String getMaxPlayersString(Game game) {
-	    int maxPlayers = game.getMaxPlayers();
-        int currentPlayers = 0;
-        if (game.getState() == GameState.RUNNING) {
-            currentPlayers = game.getTeamPlayers().size();
-        } else if (game.getState() == GameState.WAITING) {
-            currentPlayers = game.getPlayers().size();
-        } else {
-            currentPlayers = 0;
-        }
-
-        String max = String.valueOf(maxPlayers);
-
-        if (currentPlayers >= maxPlayers) {
-            max = ChatColor.RED + max + ChatColor.WHITE;
-        }
-        
-        return max;
+		int maxPlayers = game.getMaxPlayers();
+		return String.valueOf(maxPlayers);
 	}
-	
+
 	private String getCurrentPlayersString(Game game) {
-	    int maxPlayers = game.getMaxPlayers();
-        int currentPlayers = 0;
-        if (game.getState() == GameState.RUNNING) {
-            currentPlayers = game.getTeamPlayers().size();
-        } else if (game.getState() == GameState.WAITING) {
-            currentPlayers = game.getPlayers().size();
-        } else {
-            currentPlayers = 0;
-        }
+		int currentPlayers = 0;
+		if (game.getState() == GameState.RUNNING) {
+			currentPlayers = game.getTeamPlayers().size();
+		} else if (game.getState() == GameState.WAITING) {
+			currentPlayers = game.getPlayers().size();
+		} else {
+			currentPlayers = 0;
+		}
 
-        String current = "0";
-        if (currentPlayers >= maxPlayers) {
-            current = ChatColor.RED + String.valueOf(currentPlayers) + ChatColor.WHITE;
-        } else {
-            current = String.valueOf(currentPlayers);
-        }
-        
-        return current;
+		return String.valueOf(currentPlayers);
 	}
-	
+
 	private String getStatus(Game game) {
-	    String status = null;
-	    if (game.getState() == GameState.WAITING && game.isFull()) {
-            status = ChatColor.RED + Main._l("sign.gamestate.full");
-        } else {
-            status = Main._l("sign.gamestate."
-                    + game.getState().toString().toLowerCase());
-        }
-	    
-	    return status;
+		String status = null;
+		if (game.getState() == GameState.WAITING && game.isFull()) {
+			status = ChatColor.RED + Main._l("sign.gamestate.full");
+		} else {
+			status = Main._l("sign.gamestate." + game.getState().toString().toLowerCase());
+		}
+
+		return status;
 	}
 
 }

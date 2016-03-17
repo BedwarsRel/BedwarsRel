@@ -1,17 +1,17 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Game.TeamColor;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.TeamColor;
 
 public class AddTeamCommand extends BaseCommand {
 
@@ -53,47 +53,41 @@ public class AddTeamCommand extends BaseCommand {
 		TeamColor tColor = TeamColor.valueOf(color.toUpperCase());
 
 		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotfound",
-							ImmutableMap.of("game", args.get(0).toString()))));
+			sender.sendMessage(ChatWriter.pluginMessage(
+					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
-		
-		if(game.getState() != GameState.STOPPED) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.notwhilegamerunning")));
+
+		if (game.getState() != GameState.STOPPED) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
 
 		int playerMax = Integer.parseInt(maxPlayers);
 
 		if (playerMax < 1 || playerMax > 24) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.playeramount")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.playeramount")));
 			return false;
 		}
 
 		if (tColor == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.teamcolornotallowed")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamcolornotallowed")));
 			return false;
 		}
 
 		if (name.length() < 3 || name.length() > 20) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.teamnamelength")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnamelength")));
 			return false;
 		}
 
 		if (game.getTeam(name) != null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.teamnameinuse")));
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnameinuse")));
 			return false;
 		}
 
 		game.addTeam(name, tColor, playerMax);
-		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.teamadded", ImmutableMap.of("team", name))));
+		sender.sendMessage(ChatWriter
+				.pluginMessage(ChatColor.GREEN + Main._l("success.teamadded", ImmutableMap.of("team", name))));
 		return true;
 	}
 

@@ -1,9 +1,5 @@
 package io.github.yannici.bedwars.Villager;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Game.Game;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,6 +16,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
 
 public class MerchantCategory {
 
@@ -31,12 +34,11 @@ public class MerchantCategory {
 	private String permission = null;
 
 	public MerchantCategory(String name, Material item) {
-		this(name, item, new ArrayList<VillagerTrade>(),
-				new ArrayList<String>(), 0, "bw.base");
+		this(name, item, new ArrayList<VillagerTrade>(), new ArrayList<String>(), 0, "bw.base");
 	}
 
-	public MerchantCategory(String name, Material item,
-			ArrayList<VillagerTrade> offers, List<String> lores, int order, String permission) {
+	public MerchantCategory(String name, Material item, ArrayList<VillagerTrade> offers, List<String> lores, int order,
+			String permission) {
 		this.name = name;
 		this.item = item;
 		this.offers = offers;
@@ -54,8 +56,7 @@ public class MerchantCategory {
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
-	public static HashMap<Material, MerchantCategory> loadCategories(
-			FileConfiguration cfg) {
+	public static HashMap<Material, MerchantCategory> loadCategories(FileConfiguration cfg) {
 		if (cfg.getConfigurationSection("shop") == null) {
 			return new HashMap<Material, MerchantCategory>();
 		}
@@ -65,8 +66,7 @@ public class MerchantCategory {
 		ConfigurationSection section = cfg.getConfigurationSection("shop");
 
 		for (String cat : section.getKeys(false)) {
-			String catName = ChatColor.translateAlternateColorCodes('&',
-					section.getString(cat + ".name"));
+			String catName = ChatColor.translateAlternateColorCodes('&', section.getString(cat + ".name"));
 			Material catItem = null;
 			List<String> lores = new ArrayList<String>();
 			String item = section.get(cat + ".item").toString();
@@ -74,16 +74,14 @@ public class MerchantCategory {
 			int order = 0;
 
 			if (!Utils.isNumber(item)) {
-				catItem = Material
-						.getMaterial(section.getString(cat + ".item"));
+				catItem = Material.getMaterial(section.getString(cat + ".item"));
 			} else {
 				catItem = Material.getMaterial(section.getInt(cat + ".item"));
 			}
 
 			if (section.contains(cat + ".lore")) {
 				for (Object lore : section.getList(cat + ".lore")) {
-					lores.add(ChatColor.translateAlternateColorCodes('&',
-							lore.toString()));
+					lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
 				}
 			}
 
@@ -92,41 +90,37 @@ public class MerchantCategory {
 					order = section.getInt(cat + ".order");
 				}
 			}
-			
+
 			if (section.contains(cat + ".permission")) {
-                permission = section.getString(cat + ".permission", "bw.base");
-            }
+				permission = section.getString(cat + ".permission", "bw.base");
+			}
 
 			ArrayList<VillagerTrade> offers = new ArrayList<VillagerTrade>();
 
 			for (Object offer : section.getList(cat + ".offers")) {
-				if(offer instanceof String) {
-					if(offer.toString().equalsIgnoreCase("empty")
-							|| offer.toString().equalsIgnoreCase("null")
+				if (offer instanceof String) {
+					if (offer.toString().equalsIgnoreCase("empty") || offer.toString().equalsIgnoreCase("null")
 							|| offer.toString().equalsIgnoreCase("e")) {
-						VillagerTrade trade = new VillagerTrade(new ItemStack(Material.AIR, 1), new ItemStack(Material.AIR, 1));
+						VillagerTrade trade = new VillagerTrade(new ItemStack(Material.AIR, 1),
+								new ItemStack(Material.AIR, 1));
 						offers.add(trade);
 					}
-					
+
 					continue;
 				}
-				
+
 				LinkedHashMap<String, Object> offerSection = (LinkedHashMap<String, Object>) offer;
 
-				if (!offerSection.containsKey("item1")
-						|| !offerSection.containsKey("reward")) {
+				if (!offerSection.containsKey("item1") || !offerSection.containsKey("reward")) {
 					continue;
 				}
 
-				ItemStack item1 = MerchantCategory
-						.createItemStackByConfig(offerSection.get("item1"));
+				ItemStack item1 = MerchantCategory.createItemStackByConfig(offerSection.get("item1"));
 				ItemStack item2 = null;
 				if (offerSection.containsKey("item2")) {
-					item2 = MerchantCategory
-							.createItemStackByConfig(offerSection.get("item2"));
+					item2 = MerchantCategory.createItemStackByConfig(offerSection.get("item2"));
 				}
-				ItemStack reward = MerchantCategory
-						.createItemStackByConfig(offerSection.get("reward"));
+				ItemStack reward = MerchantCategory.createItemStackByConfig(offerSection.get("reward"));
 
 				if (item1 == null || reward == null) {
 					continue;
@@ -142,9 +136,8 @@ public class MerchantCategory {
 
 				offers.add(tradeObj);
 			}
-			
-			mc.put(catItem, new MerchantCategory(catName, catItem, offers,
-					lores, order, permission));
+
+			mc.put(catItem, new MerchantCategory(catName, catItem, offers, lores, order, permission));
 		}
 
 		return mc;
@@ -169,34 +162,34 @@ public class MerchantCategory {
 			short potionMeta = 0;
 
 			if (Utils.isNumber(materialString)) {
-				material = Material.getMaterial(Integer
-						.parseInt(materialString));
+				material = Material.getMaterial(Integer.parseInt(materialString));
 			} else {
 				material = Material.getMaterial(materialString);
 			}
 
 			try {
 				if (cfgSection.containsKey("amount")) {
-					amount = Integer.parseInt(cfgSection.get("amount")
-							.toString());
+					amount = Integer.parseInt(cfgSection.get("amount").toString());
 				}
 			} catch (Exception ex) {
 				amount = 1;
 			}
 
 			if (cfgSection.containsKey("meta")) {
-				if (!material.equals(Material.POTION)) {
+				if (!material.equals(Material.POTION) && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+						&& (material.equals(Material.valueOf("TIPPED_ARROW"))
+								|| material.equals(Material.valueOf("LINGERING_POTION"))
+								|| material.equals(Material.valueOf("SPLASH_POTION"))))) {
+
 					try {
-						meta = Byte
-								.parseByte(cfgSection.get("meta").toString());
+						meta = Byte.parseByte(cfgSection.get("meta").toString());
 						hasMeta = true;
 					} catch (Exception ex) {
 						hasMeta = false;
 					}
 				} else {
 					hasPotionMeta = true;
-					potionMeta = Short.parseShort(cfgSection.get("meta")
-							.toString());
+					potionMeta = Short.parseShort(cfgSection.get("meta").toString());
 				}
 			}
 
@@ -207,19 +200,58 @@ public class MerchantCategory {
 			} else {
 				finalStack = new ItemStack(material, amount);
 			}
-			
+
 			if (cfgSection.containsKey("lore")) {
-			    List<String> lores = new ArrayList<String>();
-			    ItemMeta im = finalStack.getItemMeta();
-			    
-                for (Object lore : (List<String>)cfgSection.get("lore")) {
-                    lores.add(ChatColor.translateAlternateColorCodes('&',
-                            lore.toString()));
-                }
-                
-                im.setLore(lores);
-                finalStack.setItemMeta(im);
-            }
+				List<String> lores = new ArrayList<String>();
+				ItemMeta im = finalStack.getItemMeta();
+
+				for (Object lore : (List<String>) cfgSection.get("lore")) {
+					lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
+				}
+
+				im.setLore(lores);
+				finalStack.setItemMeta(im);
+			}
+
+			if (!hasPotionMeta
+					&& (material.equals(Material.POTION) || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+							&& (material.equals(Material.valueOf("TIPPED_ARROW"))
+									|| material.equals(Material.valueOf("LINGERING_POTION"))
+									|| material.equals(Material.valueOf("SPLASH_POTION")))))) {
+
+				if (cfgSection.containsKey("effects")) {
+					PotionMeta customPotionMeta = (PotionMeta) finalStack.getItemMeta();
+					for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
+						LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
+						if (!potionEffectSection.containsKey("type")) {
+							continue;
+						}
+
+						PotionEffectType potionEffectType = null;
+						int duration = 1;
+						int amplifier = 0;
+
+						potionEffectType = PotionEffectType
+								.getByName(potionEffectSection.get("type").toString().toUpperCase());
+
+						if (potionEffectSection.containsKey("duration")) {
+							duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
+						}
+
+						if (potionEffectSection.containsKey("amplifier")) {
+							amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
+						}
+
+						if (potionEffectType == null) {
+							continue;
+						}
+
+						customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier), true);
+					}
+
+					finalStack.setItemMeta(customPotionMeta);
+				}
+			}
 
 			if (cfgSection.containsKey("enchants")) {
 				Object cfgEnchants = cfgSection.get("enchants");
@@ -229,18 +261,22 @@ public class MerchantCategory {
 					for (Object sKey : enchantSection.keySet()) {
 						String key = sKey.toString();
 
-						if (finalStack.getType() != Material.POTION) {
+						if (!finalStack
+								.getType().equals(
+										Material.POTION)
+								&& !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+										&& (finalStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+												|| finalStack.getType().equals(Material.valueOf("LINGERING_POTION"))
+												|| finalStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
 							Enchantment en = null;
 							int level = 0;
 
 							if (Utils.isNumber(key)) {
 								en = Enchantment.getById(Integer.parseInt(key));
-								level = Integer.parseInt(enchantSection.get(
-										Integer.parseInt(key)).toString());
+								level = Integer.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
 							} else {
 								en = Enchantment.getByName(key.toUpperCase());
-								level = Integer.parseInt(enchantSection
-										.get(key).toString()) - 1;
+								level = Integer.parseInt(enchantSection.get(key).toString()) - 1;
 							}
 
 							if (en == null) {
@@ -254,8 +290,7 @@ public class MerchantCategory {
 			}
 
 			if (cfgSection.containsKey("name")) {
-				String name = ChatColor.translateAlternateColorCodes('&',
-						cfgSection.get("name").toString());
+				String name = ChatColor.translateAlternateColorCodes('&', cfgSection.get("name").toString());
 				ItemMeta im = finalStack.getItemMeta();
 
 				im.setDisplayName(name);
@@ -266,51 +301,55 @@ public class MerchantCategory {
 				String name = im.getDisplayName();
 
 				// check if is ressource
-				ConfigurationSection ressourceSection = Main.getInstance().getConfig().getConfigurationSection("ressource");
-				for(String key : ressourceSection.getKeys(false)) {
+				ConfigurationSection ressourceSection = Main.getInstance().getConfig()
+						.getConfigurationSection("ressource");
+				for (String key : ressourceSection.getKeys(false)) {
 					Material ressMaterial = null;
 					String itemType = ressourceSection.getString(key + ".item");
-					
-					if(Utils.isNumber(itemType)) {
+
+					if (Utils.isNumber(itemType)) {
 						ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
 					} else {
 						ressMaterial = Material.getMaterial(itemType);
 					}
-					
-					if(finalStack.getType().equals(ressMaterial)) {
+
+					if (finalStack.getType().equals(ressMaterial)) {
 						name = ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
 					}
 				}
-				
+
 				im.setDisplayName(name);
 				finalStack.setItemMeta(im);
 			}
 
 			return finalStack;
 
-		} catch (Exception ex) {
+		} catch (
+
+		Exception ex)
+
+		{
 			ex.printStackTrace();
 		}
 
 		return null;
+
 	}
 
 	public static void openCategorySelection(Player p, Game g) {
 		List<MerchantCategory> cats = g.getOrderedItemShopCategories();
-		
+
 		int nom = (cats.size() % 9 == 0) ? 9 : (cats.size() % 9);
 		int size = (cats.size() + (9 - nom)) + 9;
-		
-		Inventory inv = Bukkit.createInventory(p,
-				size,
-				Main._l("ingame.shop.name"));
+
+		Inventory inv = Bukkit.createInventory(p, size, Main._l("ingame.shop.name"));
 		for (MerchantCategory cat : cats) {
-		    if(p != null) {
-                if(!p.hasPermission(cat.getPermission())) {
-                    continue;
-                }
-            }
-		    
+			if (p != null) {
+				if (!p.hasPermission(cat.getPermission())) {
+					continue;
+				}
+			}
+
 			ItemStack is = new ItemStack(cat.getMaterial(), 1);
 			ItemMeta im = is.getItemMeta();
 
@@ -344,24 +383,23 @@ public class MerchantCategory {
 	public ArrayList<VillagerTrade> getFilteredOffers() {
 		ArrayList<VillagerTrade> trades = (ArrayList<VillagerTrade>) this.offers.clone();
 		Iterator<VillagerTrade> iterator = trades.iterator();
-		
-		while(iterator.hasNext()) {
+
+		while (iterator.hasNext()) {
 			VillagerTrade trade = iterator.next();
-			if(trade.getItem1().getType() == Material.AIR
-					&& trade.getRewardItem().getType() == Material.AIR) {
+			if (trade.getItem1().getType() == Material.AIR && trade.getRewardItem().getType() == Material.AIR) {
 				iterator.remove();
 			}
 		}
-		
+
 		return trades;
 	}
-	
+
 	public ArrayList<VillagerTrade> getOffers() {
 		return this.offers;
 	}
 
-    public String getPermission() {
-        return this.permission;
-    }
+	public String getPermission() {
+		return this.permission;
+	}
 
 }

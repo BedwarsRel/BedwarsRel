@@ -1,8 +1,5 @@
 package io.github.yannici.bedwars;
 
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.Team;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -36,6 +33,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.Team;
+
 public final class Utils {
 
 	public static String implode(String glue, ArrayList<String> strings) {
@@ -53,65 +53,59 @@ public final class Utils {
 
 		return builder.toString();
 	}
-	
+
 	public static void equipArmorStand(LivingEntity armor, Team team) {
-	    if(!(armor instanceof ArmorStand)) {
-	        return;
-	    }
-	    
-	    ArmorStand stand = (ArmorStand) armor;
-	    
-        // helmet
-        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
-        LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        helmet.setItemMeta(meta);
-        
-        // chestplate
-        ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-        meta = (LeatherArmorMeta) chestplate.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        chestplate.setItemMeta(meta);
-        
-        // leggings
-        ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
-        meta = (LeatherArmorMeta) leggings.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        leggings.setItemMeta(meta);
-        
-        // boots
-        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
-        meta = (LeatherArmorMeta) boots.getItemMeta();
-        meta.setColor(team.getColor().getColor());
-        boots.setItemMeta(meta);
-        
-        stand.setHelmet(helmet);
-        stand.setChestplate(chestplate);
-        stand.setLeggings(leggings);
-        stand.setBoots(boots);
-    }
+		if (!(armor instanceof ArmorStand)) {
+			return;
+		}
 
-	public static void createParticleInGame(Game game, String particle,
-			Location loc) {
+		ArmorStand stand = (ArmorStand) armor;
+
+		// helmet
+		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
+		LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+		meta.setColor(team.getColor().getColor());
+		helmet.setItemMeta(meta);
+
+		// chestplate
+		ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+		meta = (LeatherArmorMeta) chestplate.getItemMeta();
+		meta.setColor(team.getColor().getColor());
+		chestplate.setItemMeta(meta);
+
+		// leggings
+		ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+		meta = (LeatherArmorMeta) leggings.getItemMeta();
+		meta.setColor(team.getColor().getColor());
+		leggings.setItemMeta(meta);
+
+		// boots
+		ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
+		meta = (LeatherArmorMeta) boots.getItemMeta();
+		meta.setColor(team.getColor().getColor());
+		boots.setItemMeta(meta);
+
+		stand.setHelmet(helmet);
+		stand.setChestplate(chestplate);
+		stand.setLeggings(leggings);
+		stand.setBoots(boots);
+	}
+
+	public static void createParticleInGame(Game game, String particle, Location loc) {
 		try {
-			Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com."
-					+ Main.getInstance().getCurrentVersion()
-					+ ".ParticleSpawner");
+			Class<?> clazz = Class.forName(
+					"io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".ParticleSpawner");
 
-			Method particleMethod = clazz.getDeclaredMethod("spawnParticle",
-					List.class, String.class, float.class, float.class,
-					float.class);
-			particleMethod.invoke(null, game.getPlayers(), particle,
-					(float) loc.getX(), (float) loc.getY(), (float) loc.getZ());
+			Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class, float.class,
+					float.class, float.class);
+			particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(), (float) loc.getY(),
+					(float) loc.getZ());
 		} catch (Exception ex) {
 			try {
-				Class<?> clazz = Class
-						.forName("io.github.yannici.bedwars.Com.Fallback.ParticleSpawner");
-				Method particleMethod = clazz.getDeclaredMethod(
-						"spawnParticle", List.class, String.class, float.class,
+				Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.ParticleSpawner");
+				Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class, float.class,
 						float.class, float.class);
-				particleMethod.invoke(null, game.getPlayers(), particle,
-						(float) loc.getX(), (float) loc.getY(),
+				particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(), (float) loc.getY(),
 						(float) loc.getZ());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -119,11 +113,9 @@ public final class Utils {
 		}
 	}
 
-	public static Location getDirectionLocation(Location location,
-			int blockOffset) {
+	public static Location getDirectionLocation(Location location, int blockOffset) {
 		Location loc = location.clone();
-		return loc.add(loc.getDirection().setY(0).normalize()
-				.multiply(blockOffset));
+		return loc.add(loc.getDirection().setY(0).normalize().multiply(blockOffset));
 	}
 
 	public static Block getBedNeighbor(Block head) {
@@ -147,11 +139,9 @@ public final class Utils {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static Material getMaterialByConfig(String key,
-			Material defaultMaterial) {
+	public static Material getMaterialByConfig(String key, Material defaultMaterial) {
 		try {
-			String cfg = Main.getInstance().getStringConfig(key,
-					defaultMaterial.name());
+			String cfg = Main.getInstance().getStringConfig(key, defaultMaterial.name());
 			if (Utils.isNumber(cfg)) {
 				return Material.getMaterial(Integer.valueOf(cfg));
 			} else {
@@ -166,10 +156,8 @@ public final class Utils {
 
 	public static Object getCraftPlayer(Player player) {
 		try {
-			Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass(
-					"entity.CraftPlayer");
-			Method getHandle = craftPlayerClass.getMethod("getHandle",
-					new Class[] {});
+			Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
+			Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[] {});
 			getHandle.setAccessible(true);
 
 			return getHandle.invoke(player, new Object[] {});
@@ -190,8 +178,7 @@ public final class Utils {
 	public static Method getColorableMethod(Material mat) {
 		try {
 			ItemStack tempStack = new ItemStack(mat, 1);
-			Method method = tempStack.getItemMeta().getClass()
-					.getMethod("setColor", new Class[] { Color.class });
+			Method method = tempStack.getItemMeta().getClass().getMethod("setColor", new Class[] { Color.class });
 			if (method != null) {
 				return method;
 			}
@@ -213,8 +200,7 @@ public final class Utils {
 	}
 
 	@SuppressWarnings("resource")
-	public static String[] getResourceListing(Class<?> clazz, String path)
-			throws URISyntaxException, IOException {
+	public static String[] getResourceListing(Class<?> clazz, String path) throws URISyntaxException, IOException {
 		URL dirURL = clazz.getClassLoader().getResource(path);
 		if (dirURL != null && dirURL.getProtocol().equals("file")) {
 			/* A file path: easy enough */
@@ -232,9 +218,12 @@ public final class Utils {
 
 		if (dirURL.getProtocol().equals("jar")) {
 			/* A JAR path */
-			String jarPath = dirURL.getPath().substring(5,
-					dirURL.getPath().indexOf("!")); // strip out only the JAR
-													// file
+			String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); // strip
+																							// out
+																							// only
+																							// the
+																							// JAR
+																							// file
 			JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
 			Enumeration<JarEntry> entries = jar.entries(); // gives ALL entries
 															// in jar
@@ -257,8 +246,7 @@ public final class Utils {
 			return result.toArray(new String[result.size()]);
 		}
 
-		throw new UnsupportedOperationException("Cannot list files for URL "
-				+ dirURL);
+		throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
 	}
 
 	public static int randInt(int min, int max) {
@@ -311,8 +299,7 @@ public final class Utils {
 			double z = Double.valueOf(section.get("z").toString());
 			float yaw = Float.valueOf(section.get("yaw").toString());
 			float pitch = Float.valueOf(section.get("pitch").toString());
-			World world = Main.getInstance().getServer()
-					.getWorld(section.get("world").toString());
+			World world = Main.getInstance().getServer().getWorld(section.get("world").toString());
 
 			if (world == null) {
 				return null;
@@ -327,8 +314,7 @@ public final class Utils {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static Location locationDeserialize(String key,
-			FileConfiguration config) {
+	public static Location locationDeserialize(String key, FileConfiguration config) {
 		if (!config.contains(key)) {
 			return null;
 		}
@@ -349,8 +335,7 @@ public final class Utils {
 			double z = Double.valueOf(section.get("z").toString());
 			float yaw = Float.valueOf(section.get("yaw").toString());
 			float pitch = Float.valueOf(section.get("pitch").toString());
-			World world = Main.getInstance().getServer()
-					.getWorld(section.get("world").toString());
+			World world = Main.getInstance().getServer().getWorld(section.get("world").toString());
 
 			if (world == null) {
 				return null;
@@ -390,20 +375,15 @@ public final class Utils {
 		}
 	}
 
-	public static Class<?> getGenericTypeOfParameter(Class<?> clazz,
-			String method, int parameterIndex) {
+	public static Class<?> getGenericTypeOfParameter(Class<?> clazz, String method, int parameterIndex) {
 		try {
-			Method m = clazz.getMethod(method, new Class<?>[] { Set.class,
-					int.class });
-			ParameterizedType type = (ParameterizedType) m
-					.getGenericParameterTypes()[parameterIndex];
+			Method m = clazz.getMethod(method, new Class<?>[] { Set.class, int.class });
+			ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
 			return (Class<?>) type.getActualTypeArguments()[0];
 		} catch (Exception e) {
 			try {
-				Method m = clazz.getMethod(method, new Class<?>[] {
-						HashSet.class, int.class });
-				ParameterizedType type = (ParameterizedType) m
-						.getGenericParameterTypes()[parameterIndex];
+				Method m = clazz.getMethod(method, new Class<?>[] { HashSet.class, int.class });
+				ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
 				return (Class<?>) type.getActualTypeArguments()[0];
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -552,8 +532,7 @@ public final class Utils {
 				}
 				int value = 0;
 				try {
-					value = Integer
-							.parseInt(oldstr.substring(i, i + digits), 8);
+					value = Integer.parseInt(oldstr.substring(i, i + digits), 8);
 				} catch (NumberFormatException nfe) {
 					die("invalid octal value for \\0 escape");
 				}
@@ -593,8 +572,7 @@ public final class Utils {
 					}
 
 					if (!((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F'))) {
-						die(String.format("illegal hex digit #%d '%c' in \\x",
-								ch, ch));
+						die(String.format("illegal hex digit #%d '%c' in \\x", ch, ch));
 					}
 
 				}
@@ -739,18 +717,6 @@ public final class Utils {
 		}
 	}
 
-	public static boolean isSupportingTitles() {
-		try {
-			Class.forName("io.github.yannici.bedwars.Com."
-					+ Main.getInstance().getCurrentVersion() + ".Title");
-			return true;
-		} catch (Exception ex) {
-			// no support
-		}
-
-		return false;
-	}
-
 	public static String getFormattedTime(int time) {
 		int hr = 0;
 		int min = 0;
@@ -766,22 +732,22 @@ public final class Utils {
 		hrStr = (hr < 10) ? "0" + String.valueOf(hr) : String.valueOf(hr);
 		minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
 		secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
-		
+
 		return hrStr + ":" + minStr + ":" + secStr;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public static Material parseMaterial(String material) {
 		try {
-			if(Utils.isNumber(material)) {
+			if (Utils.isNumber(material)) {
 				return Material.getMaterial(Integer.parseInt(material));
 			} else {
 				return Material.getMaterial(material.toUpperCase());
 			}
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			// failed to parse
 		}
-		
+
 		return null;
 	}
 

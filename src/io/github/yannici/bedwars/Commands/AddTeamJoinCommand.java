@@ -1,12 +1,5 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
@@ -16,13 +9,20 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
+
 public class AddTeamJoinCommand extends BaseCommand {
 
 	public AddTeamJoinCommand(Main plugin) {
-        super(plugin);
-    }
+		super(plugin);
+	}
 
-    @Override
+	@Override
 	public String getPermission() {
 		return "setup";
 	}
@@ -44,7 +44,7 @@ public class AddTeamJoinCommand extends BaseCommand {
 
 	@Override
 	public String[] getArguments() {
-		return new String[]{"game", "team"};
+		return new String[] { "game", "team" };
 	}
 
 	@Override
@@ -58,56 +58,52 @@ public class AddTeamJoinCommand extends BaseCommand {
 
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		if (game == null) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotfound",
-							ImmutableMap.of("game", args.get(0).toString()))));
+			player.sendMessage(ChatWriter.pluginMessage(
+					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
-		
-		if(game.getState() == GameState.RUNNING) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.notwhilegamerunning")));
+
+		if (game.getState() == GameState.RUNNING) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
 
 		Team gameTeam = game.getTeam(team);
 
 		if (gameTeam == null) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.teamnotfound")));
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
 			return false;
 		}
-		
+
 		// only in lobby
-		if(game.getLobby() == null || !player.getWorld().equals(game.getLobby().getWorld())) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.mustbeinlobbyworld")));
+		if (game.getLobby() == null || !player.getWorld().equals(game.getLobby().getWorld())) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.mustbeinlobbyworld")));
 			return false;
 		}
-		
-		if(player.hasMetadata("bw-addteamjoin")) {
+
+		if (player.hasMetadata("bw-addteamjoin")) {
 			player.removeMetadata("bw-addteamjoin", Main.getInstance());
 		}
-		
+
 		player.setMetadata("bw-addteamjoin", new TeamJoinMetaDataValue(gameTeam));
 		final Player runnablePlayer = player;
-		
+
 		new BukkitRunnable() {
-			
+
 			@Override
 			public void run() {
 				try {
-					if(!runnablePlayer.hasMetadata("bw-addteamjoin")) {
+					if (!runnablePlayer.hasMetadata("bw-addteamjoin")) {
 						return;
 					}
-					
+
 					runnablePlayer.removeMetadata("bw-addteamjoin", Main.getInstance());
-				} catch(Exception ex) {
+				} catch (Exception ex) {
 					// just ignore
 				}
 			}
-		}.runTaskLater(Main.getInstance(), 20L*10L);
-		
+		}.runTaskLater(Main.getInstance(), 20L * 10L);
+
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.selectteamjoinentity")));
 		return true;
 	}

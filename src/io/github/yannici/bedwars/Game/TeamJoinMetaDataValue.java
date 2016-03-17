@@ -1,15 +1,15 @@
 package io.github.yannici.bedwars.Game;
 
-import io.github.yannici.bedwars.Main;
-
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
+import io.github.yannici.bedwars.Main;
+
 public class TeamJoinMetaDataValue implements MetadataValue {
-	
+
 	private boolean teamjoin = true;
 	private Team team = null;
-	
+
 	public TeamJoinMetaDataValue(Team team) {
 		this.team = team;
 	}
@@ -21,7 +21,7 @@ public class TeamJoinMetaDataValue implements MetadataValue {
 
 	@Override
 	public byte asByte() {
-		return this.asBoolean() ? (byte)1 : (byte)0;
+		return this.asBoolean() ? (byte) 1 : (byte) 0;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class TeamJoinMetaDataValue implements MetadataValue {
 
 	@Override
 	public short asShort() {
-		return this.asBoolean() ? (short)1 : (short)0;
+		return this.asBoolean() ? (short) 1 : (short) 0;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class TeamJoinMetaDataValue implements MetadataValue {
 	public Object value() {
 		return this.teamjoin;
 	}
-	
+
 	public Team getTeam() {
 		return this.team;
 	}

@@ -1,19 +1,5 @@
 package io.github.yannici.bedwars.Game;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Events.BedwarsGameStartEvent;
-import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
-import io.github.yannici.bedwars.Events.BedwarsPlayerJoinedEvent;
-import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
-import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
-import io.github.yannici.bedwars.Shop.NewItemShop;
-import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
-import io.github.yannici.bedwars.Statistics.PlayerStatistic;
-import io.github.yannici.bedwars.Villager.MerchantCategory;
-import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -53,6 +39,20 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Events.BedwarsGameStartEvent;
+import io.github.yannici.bedwars.Events.BedwarsPlayerJoinEvent;
+import io.github.yannici.bedwars.Events.BedwarsPlayerJoinedEvent;
+import io.github.yannici.bedwars.Events.BedwarsPlayerLeaveEvent;
+import io.github.yannici.bedwars.Events.BedwarsSaveGameEvent;
+import io.github.yannici.bedwars.Shop.NewItemShop;
+import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
+import io.github.yannici.bedwars.Statistics.PlayerStatistic;
+import io.github.yannici.bedwars.Villager.MerchantCategory;
+import io.github.yannici.bedwars.Villager.MerchantCategoryComparator;
 
 public class Game {
 
@@ -433,7 +433,7 @@ public class Game {
 			storage.store();
 			storage.clean();
 		}
-		
+
 		final Location location = this.getPlayerTeleportLocation(p);
 
 		if (!p.getLocation().getWorld().equals(location.getWorld())) {
@@ -630,13 +630,12 @@ public class Game {
 			this.toSpectator(p);
 			this.displayMapInfo(p);
 		} else {
-			
 
 			PlayerStorage storage = this.addPlayerStorage(p);
 			storage.store();
 			storage.clean();
-			
-			if (!Utils.isSupportingTitles() || !Main.getInstance().isBungee()) {
+
+			if (!Main.getInstance().isBungee()) {
 				final Location location = this.getPlayerTeleportLocation(p);
 				if (!p.getLocation().equals(location)) {
 					this.getPlayerSettings(p).setTeleporting(true);
@@ -653,10 +652,10 @@ public class Game {
 						p.teleport(location);
 					}
 				}
-			}	
+			}
 
 			storage.loadLobbyInventory(this);
-			
+
 			new BukkitRunnable() {
 
 				@Override
@@ -1138,8 +1137,7 @@ public class Game {
 	}
 
 	public void updateScoreboard() {
-		if (this.state == GameState.WAITING && Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)
-				&& Utils.isSupportingTitles()) {
+		if (this.state == GameState.WAITING && Main.getInstance().getBooleanConfig("lobby-scoreboard.enabled", true)) {
 			this.updateLobbyScoreboard();
 			return;
 		}
@@ -1675,18 +1673,12 @@ public class Game {
 	 */
 
 	private void displayMapInfo() {
-		if (!Utils.isSupportingTitles())
-			return;
-
 		for (Player player : this.getPlayers()) {
 			this.displayMapInfo(player);
 		}
 	}
 
 	private void displayMapInfo(Player player) {
-		if (!Utils.isSupportingTitles())
-			return;
-
 		try {
 			Class<?> clazz = Class
 					.forName("io.github.yannici.bedwars.Com." + Main.getInstance().getCurrentVersion() + ".Title");

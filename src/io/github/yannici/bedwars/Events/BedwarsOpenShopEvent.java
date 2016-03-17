@@ -2,9 +2,6 @@ package io.github.yannici.bedwars.Events;
 
 import java.util.HashMap;
 
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Villager.MerchantCategory;
-
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -12,6 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 public class BedwarsOpenShopEvent extends Event implements Cancellable {
 
@@ -22,8 +22,8 @@ public class BedwarsOpenShopEvent extends Event implements Cancellable {
 	private Entity clickedEntity = null;
 	private boolean cancelled = false;
 
-	public BedwarsOpenShopEvent(Game game, Player player,
-			HashMap<Material, MerchantCategory> itemshop, Entity clickedEntity) {
+	public BedwarsOpenShopEvent(Game game, Player player, HashMap<Material, MerchantCategory> itemshop,
+			Entity clickedEntity) {
 		this.player = player;
 		this.game = game;
 		this.itemshop = itemshop;

@@ -1,10 +1,5 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
@@ -12,6 +7,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 
 public class SetAutobalanceCommand extends BaseCommand implements ICommand {
 
@@ -44,46 +44,37 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
 		if (!sender.hasPermission("bw." + this.getPermission())) {
 			return false;
 		}
-		
+
 		Player player = (Player) sender;
 
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		String value = args.get(1).toString().trim();
-		
+
 		if (game == null) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotfound",
-							ImmutableMap.of("game", args.get(0).toString()))));
+			player.sendMessage(ChatWriter.pluginMessage(
+					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
-		
-		if(game.getState() == GameState.RUNNING) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.notwhilegamerunning")));
+
+		if (game.getState() == GameState.RUNNING) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
-		
-		if(!value.equalsIgnoreCase("true") 
-				&& !value.equalsIgnoreCase("false") 
-				&& !value.equalsIgnoreCase("off") 
-				&& !value.equalsIgnoreCase("on")
-				&& !value.equalsIgnoreCase("1") 
-				&& !value.equalsIgnoreCase("0")) {
-			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.wrongvalueonoff")));
+
+		if (!value.equalsIgnoreCase("true") && !value.equalsIgnoreCase("false") && !value.equalsIgnoreCase("off")
+				&& !value.equalsIgnoreCase("on") && !value.equalsIgnoreCase("1") && !value.equalsIgnoreCase("0")) {
+			player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.wrongvalueonoff")));
 			return true;
 		}
-		
+
 		boolean autobalance = false;
-		if(value.equalsIgnoreCase("true")
-				|| value.equalsIgnoreCase("on")
-				|| value.equalsIgnoreCase("1")) {
+		if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("on") || value.equalsIgnoreCase("1")) {
 			autobalance = true;
 		}
-		
+
 		game.setAutobalance(autobalance);
-		
-		if(autobalance) {
+
+		if (autobalance) {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.autobalanceseton")));
 		} else {
 			player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.autobalancesetoff")));

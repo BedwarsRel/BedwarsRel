@@ -5,11 +5,6 @@ import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -21,6 +16,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Events.BedwarsGameEndEvent;
 
 public class BungeeGameCycle extends GameCycle {
 
@@ -164,7 +164,7 @@ public class BungeeGameCycle extends GameCycle {
 				}.runTaskLater(Main.getInstance(), 60L);
 			} else {
 				if (this.getGame().getState() == GameState.RUNNING && !Main.getInstance().spectationEnabled()) {
-					
+
 					new BukkitRunnable() {
 
 						@Override
@@ -173,7 +173,6 @@ public class BungeeGameCycle extends GameCycle {
 						}
 
 					}.runTaskLater(Main.getInstance(), 5L);
-					
 
 					new BukkitRunnable() {
 
@@ -241,26 +240,27 @@ public class BungeeGameCycle extends GameCycle {
 				if (!player.getWorld().equals(this.getGame().getLobby().getWorld())) {
 					game.getPlayerSettings(player).setTeleporting(true);
 					player.teleport(this.getGame().getLobby());
-					game.getPlayerStorage(player).clean();					
+					game.getPlayerStorage(player).clean();
 				}
 			}
-			
+
 			new BukkitRunnable() {
 				@Override
-				public void run() {				
-					for (Player player : players) {						
+				public void run() {
+					for (Player player : players) {
 						game.setPlayerGameMode(player);
 						game.setPlayerVisibility(player);
-						
-						// Leave Game (Slimeball)
-						ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
-						ItemMeta im = leaveGame.getItemMeta();
-						im.setDisplayName(Main._l("lobby.leavegame"));
-						leaveGame.setItemMeta(im);
-						player.getInventory().setItem(8, leaveGame);
-						player.updateInventory();
-						
-					}	
+
+						if (!player.getInventory().contains(Material.SLIME_BALL)) {
+							// Leave Game (Slimeball)
+							ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
+							ItemMeta im = leaveGame.getItemMeta();
+							im.setDisplayName(Main._l("lobby.leavegame"));
+							leaveGame.setItemMeta(im);
+							player.getInventory().setItem(8, leaveGame);
+							player.updateInventory();
+						}
+					}
 				}
 			}.runTaskLater(Main.getInstance(), 20L);
 		}
@@ -278,7 +278,8 @@ public class BungeeGameCycle extends GameCycle {
 
 			this.onGameEnds();
 			task.cancel();
-		} else if ((task.getCounter() == task.getStartCount()) || (task.getCounter() % 10 == 0) || (task.getCounter() <= 5 && (task.getCounter() > 0))) {
+		} else if ((task.getCounter() == task.getStartCount()) || (task.getCounter() % 10 == 0)
+				|| (task.getCounter() <= 5 && (task.getCounter() > 0))) {
 			this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart",
 					ImmutableMap.of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
 		}

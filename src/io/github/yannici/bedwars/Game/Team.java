@@ -1,8 +1,5 @@
 package io.github.yannici.bedwars.Game;
 
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +19,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+
 @SerializableAs("Team")
 public class Team implements ConfigurationSerializable {
 
@@ -34,29 +34,27 @@ public class Team implements ConfigurationSerializable {
 	private Location targetFeetBlock = null;
 	private Inventory inventory = null;
 	private List<Block> chests = null;
-	
+
 	public Team(Map<String, Object> deserialize) {
 		this.name = deserialize.get("name").toString();
-		this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers")
-				.toString());
-		this.color = TeamColor.valueOf(deserialize.get("color").toString()
-				.toUpperCase());
+		this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers").toString());
+		this.color = TeamColor.valueOf(deserialize.get("color").toString().toUpperCase());
 		this.spawnLocation = Utils.locationDeserialize(deserialize.get("spawn"));
 		this.chests = new ArrayList<Block>();
 
 		if (deserialize.containsKey("bedhead")) {
 			this.targetHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
-			
-			if(this.targetHeadBlock != null) {
-				if(deserialize.containsKey("bedfeed") && this.targetHeadBlock.getBlock().getType().equals(Material.BED_BLOCK)) {
+
+			if (this.targetHeadBlock != null) {
+				if (deserialize.containsKey("bedfeed")
+						&& this.targetHeadBlock.getBlock().getType().equals(Material.BED_BLOCK)) {
 					this.targetFeetBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
 				}
 			}
 		}
 	}
 
-	public Team(String name, TeamColor color, int maxPlayers,
-			org.bukkit.scoreboard.Team sTeam) {
+	public Team(String name, TeamColor color, int maxPlayers, org.bukkit.scoreboard.Team sTeam) {
 		this.name = name;
 		this.color = color;
 		this.maxPlayers = maxPlayers;
@@ -68,24 +66,24 @@ public class Team implements ConfigurationSerializable {
 		if (this.scoreboardTeam.getPlayers().size() >= this.maxPlayers) {
 			return false;
 		}
-		
+
 		try {
 			boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-			if(overwriteNames) {
+			if (overwriteNames) {
 				player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getName()));
 				player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getName()));
 			}
-			
+
 			boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
-			if(teamnameOnTab && Utils.isSupportingTitles()) {
-				player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE
-						+ " | " + this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+			if (teamnameOnTab) {
+				player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE + " | "
+						+ this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
 			}
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return false;
 		}
-		
+
 		this.scoreboardTeam.addPlayer(player);
 		return true;
 	}
@@ -100,27 +98,27 @@ public class Team implements ConfigurationSerializable {
 
 	public void setTargets(Block head, Block feed) {
 		this.targetHeadBlock = head.getLocation();
-		if(feed != null) {
+		if (feed != null) {
 			this.targetFeetBlock = feed.getLocation();
 		} else {
-		    this.targetFeetBlock = null;
+			this.targetFeetBlock = null;
 		}
 	}
 
 	public Block getHeadTarget() {
-		if(this.targetHeadBlock == null) {
+		if (this.targetHeadBlock == null) {
 			return null;
 		}
-		
+
 		this.targetHeadBlock.getBlock().getChunk().load(true);
 		return this.targetHeadBlock.getBlock();
 	}
-	
+
 	public Block getFeetTarget() {
-		if(this.targetFeetBlock == null) {
+		if (this.targetFeetBlock == null) {
 			return null;
 		}
-		
+
 		this.targetFeetBlock.getBlock().getChunk().load(true);
 		return this.targetFeetBlock.getBlock();
 	}
@@ -129,14 +127,14 @@ public class Team implements ConfigurationSerializable {
 		if (this.scoreboardTeam.hasPlayer(player)) {
 			this.scoreboardTeam.removePlayer(player);
 		}
-		
-	    boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-	    if(overwriteNames) {
-	    	if(player.isOnline()) {
-	    		player.getPlayer().setDisplayName(ChatColor.RESET +  ChatColor.stripColor(player.getPlayer().getName()));
-	    		player.getPlayer().setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
-	    	}
-	    }
+
+		boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
+		if (overwriteNames) {
+			if (player.isOnline()) {
+				player.getPlayer().setDisplayName(ChatColor.RESET + ChatColor.stripColor(player.getPlayer().getName()));
+				player.getPlayer().setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
+			}
+		}
 	}
 
 	public boolean isInTeam(Player p) {
@@ -174,14 +172,14 @@ public class Team implements ConfigurationSerializable {
 
 		return players;
 	}
-	
+
 	public List<OfflinePlayer> getTeamPlayers() {
-	    List<OfflinePlayer> players = new ArrayList<>();
-        for (OfflinePlayer player : this.scoreboardTeam.getPlayers()) {
-            players.add(player);
-        }
-        
-        return players;
+		List<OfflinePlayer> players = new ArrayList<>();
+		for (OfflinePlayer player : this.scoreboardTeam.getPlayers()) {
+			players.add(player);
+		}
+
+		return players;
 	}
 
 	public Location getSpawnLocation() {
@@ -194,12 +192,12 @@ public class Team implements ConfigurationSerializable {
 
 	public boolean isDead(Game game) {
 		Material targetMaterial = game.getTargetMaterial();
-		
+
 		this.targetHeadBlock.getBlock().getChunk().load(true);
-		if(this.targetFeetBlock == null) {
+		if (this.targetFeetBlock == null) {
 			return this.targetHeadBlock.getBlock().getType() != targetMaterial;
 		}
-		
+
 		this.targetFeetBlock.getBlock().getChunk().load(true);
 		return (this.targetHeadBlock.getBlock().getType() != targetMaterial
 				&& this.targetFeetBlock.getBlock().getType() != targetMaterial);
@@ -214,11 +212,11 @@ public class Team implements ConfigurationSerializable {
 		team.put("maxplayers", this.maxPlayers);
 		team.put("spawn", Utils.locationSerialize(this.spawnLocation));
 		team.put("bedhead", Utils.locationSerialize(this.targetHeadBlock));
-		
-		if(this.targetFeetBlock != null) {
+
+		if (this.targetFeetBlock != null) {
 			team.put("bedfeed", Utils.locationSerialize(this.targetFeetBlock));
 		}
-		
+
 		return team;
 	}
 
@@ -250,41 +248,40 @@ public class Team implements ConfigurationSerializable {
 	}
 
 	public void createTeamInventory() {
-		Inventory inv = Bukkit.createInventory(null, InventoryType.ENDER_CHEST,
-				Main._l("ingame.teamchest"));
+		Inventory inv = Bukkit.createInventory(null, InventoryType.ENDER_CHEST, Main._l("ingame.teamchest"));
 		this.inventory = inv;
 	}
 
-    public void equipPlayerWithLeather(Player player) {
-        // helmet
-        ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
-        LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
-        meta.setColor(this.getColor().getColor());
-        helmet.setItemMeta(meta);
-        
-        // chestplate
-        ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-        meta = (LeatherArmorMeta) chestplate.getItemMeta();
-        meta.setColor(this.getColor().getColor());
-        chestplate.setItemMeta(meta);
-        
-        // leggings
-        ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
-        meta = (LeatherArmorMeta) leggings.getItemMeta();
-        meta.setColor(this.getColor().getColor());
-        leggings.setItemMeta(meta);
-        
-        // boots
-        ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
-        meta = (LeatherArmorMeta) boots.getItemMeta();
-        meta.setColor(this.getColor().getColor());
-        boots.setItemMeta(meta);
-        
-        player.getInventory().setHelmet(helmet);
-        player.getInventory().setChestplate(chestplate);
-        player.getInventory().setLeggings(leggings);
-        player.getInventory().setBoots(boots);
-        player.updateInventory();
-    }
+	public void equipPlayerWithLeather(Player player) {
+		// helmet
+		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
+		LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+		meta.setColor(this.getColor().getColor());
+		helmet.setItemMeta(meta);
+
+		// chestplate
+		ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+		meta = (LeatherArmorMeta) chestplate.getItemMeta();
+		meta.setColor(this.getColor().getColor());
+		chestplate.setItemMeta(meta);
+
+		// leggings
+		ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+		meta = (LeatherArmorMeta) leggings.getItemMeta();
+		meta.setColor(this.getColor().getColor());
+		leggings.setItemMeta(meta);
+
+		// boots
+		ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
+		meta = (LeatherArmorMeta) boots.getItemMeta();
+		meta.setColor(this.getColor().getColor());
+		boots.setItemMeta(meta);
+
+		player.getInventory().setHelmet(helmet);
+		player.getInventory().setChestplate(chestplate);
+		player.getInventory().setLeggings(leggings);
+		player.getInventory().setBoots(boots);
+		player.updateInventory();
+	}
 
 }

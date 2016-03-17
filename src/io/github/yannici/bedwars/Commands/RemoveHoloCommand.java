@@ -1,6 +1,4 @@
 package io.github.yannici.bedwars.Commands;
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
 
 import java.util.ArrayList;
 
@@ -8,6 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
 
 public class RemoveHoloCommand extends BaseCommand implements ICommand {
 
@@ -40,21 +41,21 @@ public class RemoveHoloCommand extends BaseCommand implements ICommand {
 		if (!super.hasPermission(sender)) {
 			return false;
 		}
-		
+
 		final Player player = (Player) sender;
 		player.setMetadata("bw-remove-holo", new FixedMetadataValue(Main.getInstance(), true));
 		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("commands.removeholo.explain")));
-		
+
 		Main.getInstance().getServer().getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
-            
-            @Override
-            public void run() {
-                if(player.hasMetadata("bw-remove-holo")) {
-                    player.removeMetadata("bw-remove-holo", Main.getInstance());
-                }
-            }
-            
-        }, 10L * 20L);
+
+			@Override
+			public void run() {
+				if (player.hasMetadata("bw-remove-holo")) {
+					player.removeMetadata("bw-remove-holo", Main.getInstance());
+				}
+			}
+
+		}, 10L * 20L);
 		return true;
 	}
 

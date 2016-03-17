@@ -1,16 +1,16 @@
 package io.github.yannici.bedwars.Commands;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
 
 public class ClearSpawnerCommand extends BaseCommand implements ICommand {
 
@@ -46,21 +46,18 @@ public class ClearSpawnerCommand extends BaseCommand implements ICommand {
 
 		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.gamenotfound",
-							ImmutableMap.of("game", args.get(0).toString()))));
+			sender.sendMessage(ChatWriter.pluginMessage(
+					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
 			return false;
 		}
-		
-		if(game.getState() == GameState.RUNNING) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-					+ Main._l("errors.notwhilegamerunning")));
+
+		if (game.getState() == GameState.RUNNING) {
+			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
 			return false;
 		}
-		
+
 		game.getRessourceSpawner().clear();
-		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-				+ Main._l("success.spawnercleared")));
+		sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnercleared")));
 		return true;
 	}
 

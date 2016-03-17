@@ -4,14 +4,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.SoundMachine;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
@@ -43,7 +42,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			this.cancel();
 			return;
 		}
-		
+
 		if (this.counter > this.lobbytimeWhenFull && this.game.getPlayerAmount() == this.game.getMaxPlayers()) {
 			this.counter = this.lobbytimeWhenFull;
 			this.game.broadcast(
@@ -81,8 +80,6 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			this.cancel();
 		}
 
-		
-
 		if (this.counter <= 10 && this.counter > 0) {
 			this.game.broadcast(
 					ChatColor.YELLOW + Main._l("lobby.countdown",
@@ -95,7 +92,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 					Main.getInstance().getStringConfig("titles.countdown.format", "&3{countdown}"));
 			title = title.replace("{countdown}", String.valueOf(this.counter));
 
-			if (Utils.isSupportingTitles() && Main.getInstance().getBooleanConfig("titles.countdown.enabled", true)) {
+			if (Main.getInstance().getBooleanConfig("titles.countdown.enabled", true)) {
 				try {
 					titleClass = Main.getInstance().getVersionRelatedClass("Title");
 					showTitle = titleClass.getMethod("showTitle", Player.class, String.class, double.class,
@@ -106,7 +103,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			}
 
 			for (Player player : players) {
-				player.playSound(player.getLocation(), Sound.CLICK, 20.0F, 20.0F);
+				player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 20.0F, 20.0F);
 
 				if (titleClass == null) {
 					continue;
@@ -124,7 +121,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
 			this.game.setGameLobbyCountdown(null);
 			this.cancel();
 			for (Player player : players) {
-				player.playSound(player.getLocation(), Sound.LEVEL_UP, 20.0F, 20.0F);
+				player.playSound(player.getLocation(), SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"), 20.0F, 20.0F);
 				player.setLevel(0);
 				player.setExp(0.0F);
 			}

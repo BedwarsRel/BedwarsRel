@@ -6,18 +6,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
-import io.github.yannici.bedwars.Game.BungeeGameCycle;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
-import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Shop.NewItemShop;
-import io.github.yannici.bedwars.Villager.MerchantCategory;
-
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
@@ -34,9 +22,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
@@ -58,6 +46,18 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.spigotmc.event.player.PlayerSpawnLocationEvent;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
+import io.github.yannici.bedwars.Game.BungeeGameCycle;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
+import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Shop.NewItemShop;
+import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 public class PlayerListener extends BaseListener {
 
@@ -71,6 +71,11 @@ public class PlayerListener extends BaseListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent je) {
+
+		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
+			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
+		}
+
 		if (Main.getInstance().isBungee()) {
 			je.setJoinMessage("");
 			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
@@ -100,9 +105,21 @@ public class PlayerListener extends BaseListener {
 			}
 
 		}
+	}
 
-		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
-			Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onPlayerSpawnLocation(PlayerSpawnLocationEvent event) {
+		if (Main.getInstance().isBungee()) {
+			Player player = event.getPlayer();
+
+			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
+			if (games.size() == 0) {
+				return;
+			}
+
+			Game firstGame = games.get(0);
+
+			event.setSpawnLocation(firstGame.getPlayerTeleportLocation(player));
 		}
 	}
 
@@ -521,7 +538,7 @@ public class PlayerListener extends BaseListener {
 
 		}
 
-		if (Main.getInstance().getBooleanConfig("teamname-on-tab", false) && Utils.isSupportingTitles()) {
+		if (Main.getInstance().getBooleanConfig("teamname-on-tab", false)) {
 			if (team == null || isSpectator) {
 				player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
 			} else {

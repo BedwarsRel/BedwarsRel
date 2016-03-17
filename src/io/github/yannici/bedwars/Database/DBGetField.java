@@ -9,11 +9,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 
 public @interface DBGetField {
-	
+
 	public String name();
+
 	public String dbType();
+
 	public String defaultValue() default "";
+
 	public boolean notNull() default true;
+
 	public boolean autoInc() default false;
-	
+
 }

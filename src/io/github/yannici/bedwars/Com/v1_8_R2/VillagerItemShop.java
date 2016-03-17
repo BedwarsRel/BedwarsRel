@@ -3,12 +3,6 @@ package io.github.yannici.bedwars.Com.v1_8_R2;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityVillager;
-import net.minecraft.server.v1_8_R2.MerchantRecipe;
-import net.minecraft.server.v1_8_R2.MerchantRecipeList;
-import net.minecraft.server.v1_8_R2.StatisticList;
-
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -20,6 +14,11 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityVillager;
+import net.minecraft.server.v1_8_R2.MerchantRecipe;
+import net.minecraft.server.v1_8_R2.MerchantRecipeList;
+import net.minecraft.server.v1_8_R2.StatisticList;
 
 public class VillagerItemShop {
 
@@ -35,8 +34,7 @@ public class VillagerItemShop {
 
 	private EntityVillager createVillager() {
 		try {
-			EntityVillager ev = new EntityVillager(((CraftWorld) this.game
-					.getRegion().getWorld()).getHandle());
+			EntityVillager ev = new EntityVillager(((CraftWorld) this.game.getRegion().getWorld()).getHandle());
 			Field careerField = EntityVillager.class.getDeclaredField("by");
 			careerField.setAccessible(true);
 			careerField.set(ev, Integer.valueOf(10));
@@ -65,30 +63,25 @@ public class VillagerItemShop {
 			@Override
 			public void run() {
 				try {
-					EntityVillager entityVillager = VillagerItemShop.this
-							.createVillager();
-					EntityHuman entityHuman = VillagerItemShop.this
-							.getEntityHuman();
+					EntityVillager entityVillager = VillagerItemShop.this.createVillager();
+					EntityHuman entityHuman = VillagerItemShop.this.getEntityHuman();
 
 					// set location
-					MerchantRecipeList recipeList = entityVillager
-							.getOffers(entityHuman);
+					MerchantRecipeList recipeList = entityVillager.getOffers(entityHuman);
 					recipeList.clear();
 
 					for (io.github.yannici.bedwars.Villager.VillagerTrade trade : VillagerItemShop.this.category
 							.getFilteredOffers()) {
 						ItemStack reward = trade.getRewardItem();
-						Method colorable = Utils.getColorableMethod(reward
-								.getType());
+						Method colorable = Utils.getColorableMethod(reward.getType());
 						if (colorable != null) {
 							ItemMeta meta = reward.getItemMeta();
 							colorable.setAccessible(true);
 							colorable
 									.invoke(meta,
 											new Object[] { VillagerItemShop.this.game
-													.getPlayerTeam(
-															VillagerItemShop.this.player)
-													.getColor().getColor() });
+													.getPlayerTeam(VillagerItemShop.this.player).getColor()
+													.getColor() });
 							reward.setItemMeta(meta);
 						}
 
@@ -96,15 +89,13 @@ public class VillagerItemShop {
 							continue;
 						}
 
-						MerchantRecipe recipe = (MerchantRecipe) trade
-								.getHandle().getInstance();
+						MerchantRecipe recipe = (MerchantRecipe) trade.getHandle().getInstance();
 						recipe.a(1000);
 						recipeList.add(recipe);
 					}
 
 					entityVillager.a_(entityHuman);
-					((CraftPlayer) player).getHandle()
-							.openTrade(entityVillager);
+					((CraftPlayer) player).getHandle().openTrade(entityVillager);
 					((CraftPlayer) player).getHandle().b(StatisticList.F);
 
 				} catch (Exception ex) {

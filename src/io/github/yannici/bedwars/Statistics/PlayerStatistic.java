@@ -9,22 +9,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.UUIDFetcher;
 import io.github.yannici.bedwars.Database.DBGetField;
 import io.github.yannici.bedwars.Database.DBSetField;
 
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-
 public class PlayerStatistic extends StoringTable {
-	
+
 	public static final String tableName = "stats_players";
-	
+
 	private OfflinePlayer player = null;
 	private UUID uuid = null;
-	
+
 	// Statistics
 	private int kills = 0;
 	private int deaths = 0;
@@ -33,114 +33,112 @@ public class PlayerStatistic extends StoringTable {
 	private int loses = 0;
 	private int score = 0;
 	private int currentScore = 0;
-	
+
 	private boolean once = false;
-	
+
 	public PlayerStatistic() {
 		super();
 	}
-	
+
 	public PlayerStatistic(OfflinePlayer player) {
 		super();
-		
+
 		this.player = player;
 	}
-	
-	public List<String> createStatisticLines(boolean withPrefix, ChatColor nameColor, ChatColor valueColor) {
-	    return this.createStatisticLines(withPrefix, nameColor.toString(), valueColor.toString());
-	}
-	
-	public List<String> createStatisticLines(boolean withPrefix, String nameColor, String valueColor) {
-	    List<String> lines = new ArrayList<String>();
-	    
-	    HashMap<StatField, Method> values = new HashMap<StatField, Method>();
-        List<StatField> ordered = new ArrayList<StatField>();
-        
-        for (Method method : this.getClass().getMethods()) {
-            if(!method.isAnnotationPresent(StatField.class)) {
-                continue;
-            }
-            
-            StatField stat = method.getAnnotation(StatField.class);
-            if(stat != null) {
-                values.put(stat, method);
-                ordered.add(stat);
-            }
-        }
-        
-        Comparator<StatField> statComparator = null;
-        statComparator = new Comparator<StatField>() {
 
-            @Override
-            public int compare(StatField o1, StatField o2) {
-                return Integer.valueOf(o1.order()).compareTo(Integer.valueOf(o2.order()));
-            }
-        };
-        
-        Collections.sort(ordered, statComparator);
-        
-        for(StatField statField : ordered) {
-            Method valueMethod = values.get(statField);
-            try {
-                Object value = valueMethod.invoke(this);
-                if(statField.name().equals("kd")) {
-                    value = (BigDecimal.valueOf(Double.valueOf(value.toString())).setScale(2, BigDecimal.ROUND_HALF_UP)).toPlainString();
-                }
-                
-                if(withPrefix) {
-                    lines.add(ChatWriter.pluginMessage(nameColor
-                            + Main._l("stats." + statField.name()) + ": "
-                            + valueColor + value.toString()));
-                } else {
-                    lines.add(nameColor
-                            + Main._l("stats." + statField.name()) + ": "
-                            + valueColor + value.toString());
-                }
-                
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        
-        return lines;
+	public List<String> createStatisticLines(boolean withPrefix, ChatColor nameColor, ChatColor valueColor) {
+		return this.createStatisticLines(withPrefix, nameColor.toString(), valueColor.toString());
 	}
-	
+
+	public List<String> createStatisticLines(boolean withPrefix, String nameColor, String valueColor) {
+		List<String> lines = new ArrayList<String>();
+
+		HashMap<StatField, Method> values = new HashMap<StatField, Method>();
+		List<StatField> ordered = new ArrayList<StatField>();
+
+		for (Method method : this.getClass().getMethods()) {
+			if (!method.isAnnotationPresent(StatField.class)) {
+				continue;
+			}
+
+			StatField stat = method.getAnnotation(StatField.class);
+			if (stat != null) {
+				values.put(stat, method);
+				ordered.add(stat);
+			}
+		}
+
+		Comparator<StatField> statComparator = null;
+		statComparator = new Comparator<StatField>() {
+
+			@Override
+			public int compare(StatField o1, StatField o2) {
+				return Integer.valueOf(o1.order()).compareTo(Integer.valueOf(o2.order()));
+			}
+		};
+
+		Collections.sort(ordered, statComparator);
+
+		for (StatField statField : ordered) {
+			Method valueMethod = values.get(statField);
+			try {
+				Object value = valueMethod.invoke(this);
+				if (statField.name().equals("kd")) {
+					value = (BigDecimal.valueOf(Double.valueOf(value.toString())).setScale(2, BigDecimal.ROUND_HALF_UP))
+							.toPlainString();
+				}
+
+				if (withPrefix) {
+					lines.add(ChatWriter.pluginMessage(
+							nameColor + Main._l("stats." + statField.name()) + ": " + valueColor + value.toString()));
+				} else {
+					lines.add(nameColor + Main._l("stats." + statField.name()) + ": " + valueColor + value.toString());
+				}
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return lines;
+	}
+
 	public OfflinePlayer getPlayer() {
 		return this.player;
 	}
-	
+
 	public int getCurrentScore() {
 		return this.currentScore;
 	}
-	
+
 	public void addCurrentScore(int score) {
 		this.currentScore += score;
 	}
-	
+
 	public void setCurrentScore(int score) {
 		this.currentScore = score;
 	}
-	
+
 	@DBGetField(name = "uuid", dbType = "VARCHAR(255)")
 	public String getUUID() throws Exception {
-	    if(this.uuid == null) {
-	        try {
-	            if(this.player.isOnline()) {
-	                this.uuid = this.player.getPlayer().getUniqueId();
-	            } else {
-	                this.uuid = this.player.getUniqueId();
-	            }
-	        } catch(Exception ex) {
-	            this.uuid = UUIDFetcher.getUUIDOf(this.player.getName());
-	        }
-	    }
-	    
+		if (this.uuid == null) {
+			try {
+				if (this.player.isOnline()) {
+					this.uuid = this.player.getPlayer().getUniqueId();
+				} else {
+					this.uuid = this.player.getUniqueId();
+				}
+			} catch (Exception ex) {
+				this.uuid = UUIDFetcher.getUUIDOf(this.player.getName());
+			}
+		}
+
 		return this.uuid.toString();
 	}
-	
+
 	@DBGetField(name = "name", dbType = "VARCHAR(255)")
 	public String getName() {
-	    return this.player.getName();
+		return this.player.getName();
 	}
 
 	@DBGetField(name = "kills", dbType = "INT(11)", defaultValue = "0")
@@ -153,26 +151,26 @@ public class PlayerStatistic extends StoringTable {
 	public void setKills(int kills) {
 		this.kills = kills;
 	}
-	
+
 	@DBGetField(name = "deaths", dbType = "INT(11)", defaultValue = "0")
 	@StatField(name = "deaths", order = 20)
 	public int getDeaths() {
 		return deaths;
 	}
-	
+
 	@StatField(name = "kd", order = 25)
 	@DBGetField(name = "kd", dbType = "DOUBLE", defaultValue = "0.0")
 	public double getKD() {
-	    double kd = 0.0;
-        if(this.getDeaths() == 0) {
-            kd = this.getKills();
-        } else if(this.getKills() == 0) {
-            kd = 0.0;
-        } else {
-            kd = ((double)this.getKills())/((double)this.getDeaths());
-        }
-        
-        return kd;
+		double kd = 0.0;
+		if (this.getDeaths() == 0) {
+			kd = this.getKills();
+		} else if (this.getKills() == 0) {
+			kd = 0.0;
+		} else {
+			kd = ((double) this.getKills()) / ((double) this.getDeaths());
+		}
+
+		return kd;
 	}
 
 	@DBSetField(name = "deaths")
@@ -212,11 +210,11 @@ public class PlayerStatistic extends StoringTable {
 	public void setLoses(int loses) {
 		this.loses = loses;
 	}
-	
+
 	@DBGetField(name = "games", dbType = "INT(11)", defaultValue = "0")
 	@StatField(name = "games", order = 60)
 	public int getGames() {
-		return this.wins+this.loses;
+		return this.wins + this.loses;
 	}
 
 	@DBGetField(name = "score", dbType = "INT(11)", defaultValue = "0")
@@ -235,25 +233,25 @@ public class PlayerStatistic extends StoringTable {
 		return "uuid";
 	}
 
-    @Override
-    public void load() {
-        Main.getInstance().getPlayerStatisticManager().loadStatistic(this);
-    }
-    
-    public void setOnce(boolean once) {
-    	this.once = once;
-    }
-    
-    public boolean isOnce() {
-    	return this.once;
-    }
+	@Override
+	public void load() {
+		Main.getInstance().getPlayerStatisticManager().loadStatistic(this);
+	}
 
-    @Override
-    public void store() {
-        Main.getInstance().getPlayerStatisticManager().storeStatistic(this);
-    }
+	public void setOnce(boolean once) {
+		this.once = once;
+	}
 
-    @Override
+	public boolean isOnce() {
+		return this.once;
+	}
+
+	@Override
+	public void store() {
+		Main.getInstance().getPlayerStatisticManager().storeStatistic(this);
+	}
+
+	@Override
 	public void setDefault() {
 		this.kills = 0;
 		this.deaths = 0;
@@ -267,5 +265,5 @@ public class PlayerStatistic extends StoringTable {
 	public String getTableName() {
 		return "stats_players";
 	}
-	
+
 }

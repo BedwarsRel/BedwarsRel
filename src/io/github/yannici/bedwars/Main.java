@@ -1,33 +1,5 @@
 package io.github.yannici.bedwars;
 
-import io.github.yannici.bedwars.Commands.*;
-import io.github.yannici.bedwars.Database.DatabaseManager;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
-import io.github.yannici.bedwars.Game.GameManager;
-import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Game.RessourceSpawner;
-import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Listener.BlockListener;
-import io.github.yannici.bedwars.Listener.ChunkListener;
-import io.github.yannici.bedwars.Listener.Entity18Listener;
-import io.github.yannici.bedwars.Listener.EntityListener;
-import io.github.yannici.bedwars.Listener.HangingListener;
-import io.github.yannici.bedwars.Listener.Player18Listener;
-import io.github.yannici.bedwars.Listener.PlayerListener;
-import io.github.yannici.bedwars.Listener.ServerListener;
-import io.github.yannici.bedwars.Listener.SignListener;
-import io.github.yannici.bedwars.Listener.WeatherListener;
-import io.github.yannici.bedwars.Localization.LocalizationConfig;
-import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
-import io.github.yannici.bedwars.Statistics.StorageType;
-import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
-import io.github.yannici.bedwars.Updater.ConfigUpdater;
-import io.github.yannici.bedwars.Updater.DatabaseUpdater;
-import io.github.yannici.bedwars.Updater.PluginUpdater;
-import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateCallback;
-import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateResult;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -57,6 +29,64 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.Commands.AddGameCommand;
+import io.github.yannici.bedwars.Commands.AddHoloCommand;
+import io.github.yannici.bedwars.Commands.AddTeamCommand;
+import io.github.yannici.bedwars.Commands.AddTeamJoinCommand;
+import io.github.yannici.bedwars.Commands.BaseCommand;
+import io.github.yannici.bedwars.Commands.ClearSpawnerCommand;
+import io.github.yannici.bedwars.Commands.GameTimeCommand;
+import io.github.yannici.bedwars.Commands.HelpCommand;
+import io.github.yannici.bedwars.Commands.JoinGameCommand;
+import io.github.yannici.bedwars.Commands.KickCommand;
+import io.github.yannici.bedwars.Commands.LeaveGameCommand;
+import io.github.yannici.bedwars.Commands.ListGamesCommand;
+import io.github.yannici.bedwars.Commands.RegionNameCommand;
+import io.github.yannici.bedwars.Commands.ReloadCommand;
+import io.github.yannici.bedwars.Commands.RemoveGameCommand;
+import io.github.yannici.bedwars.Commands.RemoveHoloCommand;
+import io.github.yannici.bedwars.Commands.RemoveTeamCommand;
+import io.github.yannici.bedwars.Commands.SaveGameCommand;
+import io.github.yannici.bedwars.Commands.SetAutobalanceCommand;
+import io.github.yannici.bedwars.Commands.SetBedCommand;
+import io.github.yannici.bedwars.Commands.SetBuilderCommand;
+import io.github.yannici.bedwars.Commands.SetGameBlockCommand;
+import io.github.yannici.bedwars.Commands.SetLobbyCommand;
+import io.github.yannici.bedwars.Commands.SetMainLobbyCommand;
+import io.github.yannici.bedwars.Commands.SetMinPlayersCommand;
+import io.github.yannici.bedwars.Commands.SetRegionCommand;
+import io.github.yannici.bedwars.Commands.SetSpawnCommand;
+import io.github.yannici.bedwars.Commands.SetSpawnerCommand;
+import io.github.yannici.bedwars.Commands.SetTargetCommand;
+import io.github.yannici.bedwars.Commands.StartGameCommand;
+import io.github.yannici.bedwars.Commands.StatsCommand;
+import io.github.yannici.bedwars.Commands.StopGameCommand;
+import io.github.yannici.bedwars.Database.DatabaseManager;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
+import io.github.yannici.bedwars.Game.GameManager;
+import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.RessourceSpawner;
+import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Listener.BlockListener;
+import io.github.yannici.bedwars.Listener.ChunkListener;
+import io.github.yannici.bedwars.Listener.EntityListener;
+import io.github.yannici.bedwars.Listener.HangingListener;
+import io.github.yannici.bedwars.Listener.Player19Listener;
+import io.github.yannici.bedwars.Listener.PlayerListener;
+import io.github.yannici.bedwars.Listener.ServerListener;
+import io.github.yannici.bedwars.Listener.SignListener;
+import io.github.yannici.bedwars.Listener.WeatherListener;
+import io.github.yannici.bedwars.Localization.LocalizationConfig;
+import io.github.yannici.bedwars.Shop.Specials.SpecialItem;
+import io.github.yannici.bedwars.Statistics.PlayerStatisticManager;
+import io.github.yannici.bedwars.Statistics.StorageType;
+import io.github.yannici.bedwars.Updater.ConfigUpdater;
+import io.github.yannici.bedwars.Updater.DatabaseUpdater;
+import io.github.yannici.bedwars.Updater.PluginUpdater;
+import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateCallback;
+import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateResult;
 
 public class Main extends JavaPlugin {
 
@@ -642,17 +672,11 @@ public class Main extends JavaPlugin {
 		new WeatherListener();
 		new BlockListener();
 		new PlayerListener();
-		
-		if (Utils.isSupportingTitles()) {
-			new Player18Listener();
+		if (Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+			new Player19Listener();
 		}
-		
-		EntityListener el = new EntityListener();
-		if (Utils.isSupportingTitles()) {
-			new Entity18Listener(el);
-		}
-		
 		new HangingListener();
+		new EntityListener();
 		new ServerListener();
 		new SignListener();
 		new ChunkListener();

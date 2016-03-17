@@ -1,8 +1,8 @@
 package io.github.yannici.bedwars.Listener;
 
-import io.github.yannici.bedwars.Main;
-
 import org.bukkit.event.Listener;
+
+import io.github.yannici.bedwars.Main;
 
 public abstract class BaseListener implements Listener {
 
@@ -11,8 +11,7 @@ public abstract class BaseListener implements Listener {
 	}
 
 	private void registerEvents() {
-		Main.getInstance().getServer().getPluginManager()
-				.registerEvents(this, Main.getInstance());
+		Main.getInstance().getServer().getPluginManager().registerEvents(this, Main.getInstance());
 	}
 
 }

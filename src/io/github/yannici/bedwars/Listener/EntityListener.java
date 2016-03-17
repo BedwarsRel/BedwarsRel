@@ -4,14 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import io.github.yannici.bedwars.ChatWriter;
-import io.github.yannici.bedwars.Main;
-import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameState;
-import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -28,10 +20,18 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.github.yannici.bedwars.ChatWriter;
+import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Game.Game;
+import io.github.yannici.bedwars.Game.GameState;
+import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 
 public class EntityListener extends BaseListener {
 
@@ -93,7 +93,7 @@ public class EntityListener extends BaseListener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onInteractEntity(PlayerInteractEntityEvent event) {
+	public void onInteractEntity(PlayerInteractAtEntityEvent event) {
 		if (event.getRightClicked() == null) {
 			return;
 		}
@@ -147,10 +147,8 @@ public class EntityListener extends BaseListener {
 		living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
 		living.setCustomNameVisible(Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
 
-		if (Utils.isSupportingTitles()) {
-			if (living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
-				Utils.equipArmorStand(living, value.getTeam());
-			}
+		if (living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
+			Utils.equipArmorStand(living, value.getTeam());
 		}
 
 		player.removeMetadata("bw-addteamjoin", Main.getInstance());

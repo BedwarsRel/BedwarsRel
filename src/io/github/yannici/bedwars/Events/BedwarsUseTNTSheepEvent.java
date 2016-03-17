@@ -1,13 +1,13 @@
 package io.github.yannici.bedwars.Events;
 
-import io.github.yannici.bedwars.Game.Game;
-
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+
+import io.github.yannici.bedwars.Game.Game;
 
 public class BedwarsUseTNTSheepEvent extends Event implements Cancellable {
 
@@ -45,15 +45,15 @@ public class BedwarsUseTNTSheepEvent extends Event implements Cancellable {
 	public Location getStartLocation() {
 		return this.startLocation;
 	}
-	
+
 	public Player getTargetPlayer() {
 		return this.targetPlayer;
 	}
-	
+
 	public void setStartLocation(Location loc) {
 		this.startLocation = loc;
 	}
-	
+
 	public void setTargetPlayer(Player target) {
 		this.targetPlayer = target;
 	}

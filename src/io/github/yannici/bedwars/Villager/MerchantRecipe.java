@@ -15,12 +15,11 @@ public class MerchantRecipe {
 	}
 
 	public MerchantRecipe(Object item1, Object item2, Object reward) {
-		this.merchantRecipe = Main.getInstance().getMinecraftServerClass(
-				"MerchantRecipe");
+		this.merchantRecipe = Main.getInstance().getMinecraftServerClass("MerchantRecipe");
 		Class isClass = Main.getInstance().getMinecraftServerClass("ItemStack");
 		try {
-			this.instance = this.merchantRecipe.getDeclaredConstructor(isClass,
-					isClass, isClass).newInstance(item1, item2, reward);
+			this.instance = this.merchantRecipe.getDeclaredConstructor(isClass, isClass, isClass).newInstance(item1,
+					item2, reward);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
