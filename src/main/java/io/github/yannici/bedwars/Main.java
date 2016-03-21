@@ -4,12 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -388,7 +384,6 @@ public class Main extends JavaPlugin {
 
 		this.getServer().getConsoleSender()
 				.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Initialize database ..."));
-		this.loadingRequiredLibs();
 
 		String host = this.getStringConfig("database.host", null);
 		int port = this.getIntConfig("database.port", 3306);
@@ -422,42 +417,6 @@ public class Main extends JavaPlugin {
 	private void cleanDatabase() {
 		if (this.dbManager != null) {
 			this.dbManager.cleanUp();
-		}
-	}
-
-	private void loadingRequiredLibs() {
-		try {
-			final File[] libs = new File[] { new File(this.getDataFolder() + "/lib/", "c3p0-0.9.5.jar"),
-					new File(this.getDataFolder() + "/lib/", "mchange-commons-java-0.2.9.jar") };
-			for (final File lib : libs) {
-				if (!lib.exists()) {
-					JarUtils.extractFromJar(lib.getName(), lib.getAbsolutePath());
-				}
-			}
-			for (final File lib : libs) {
-				if (!lib.exists()) {
-					this.getLogger().warning(
-							"There was a critical error loading bedwars plugin! Could not find lib: " + lib.getName());
-					Bukkit.getServer().getPluginManager().disablePlugin(this);
-					return;
-				}
-				this.addClassPath(JarUtils.getJarUrl(lib));
-			}
-		} catch (final Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void addClassPath(final URL url) throws IOException {
-		final URLClassLoader sysloader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-		final Class<URLClassLoader> sysclass = URLClassLoader.class;
-		try {
-			final Method method = sysclass.getDeclaredMethod("addURL", new Class[] { URL.class });
-			method.setAccessible(true);
-			method.invoke(sysloader, new Object[] { url });
-		} catch (final Throwable t) {
-			t.printStackTrace();
-			throw new IOException("Error adding " + url + " to system classloader");
 		}
 	}
 
