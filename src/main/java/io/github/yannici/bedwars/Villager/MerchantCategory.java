@@ -55,7 +55,7 @@ public class MerchantCategory {
 		return this.order;
 	}
 
-	@SuppressWarnings({ "unchecked", "deprecation" })
+	@SuppressWarnings("unchecked")
 	public static HashMap<Material, MerchantCategory> loadCategories(FileConfiguration cfg) {
 		if (cfg.getConfigurationSection("shop") == null) {
 			return new HashMap<Material, MerchantCategory>();
@@ -143,7 +143,7 @@ public class MerchantCategory {
 		return mc;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static ItemStack createItemStackByConfig(Object section) {
 		if (!(section instanceof LinkedHashMap)) {
 			return null;

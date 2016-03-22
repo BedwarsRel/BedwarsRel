@@ -963,7 +963,6 @@ public class PlayerListener extends BaseListener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		Inventory inv = ice.getInventory();
 		ItemStack clickedStack = ice.getCurrentItem();

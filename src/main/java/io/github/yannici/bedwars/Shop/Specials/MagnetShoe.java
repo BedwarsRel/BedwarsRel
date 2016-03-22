@@ -11,7 +11,6 @@ public class MagnetShoe extends SpecialItem {
 		super();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public Material getItemMaterial() {
 		String item = Main.getInstance().getStringConfig("specials.magnetshoe.boots", "IRON_BOOTS");

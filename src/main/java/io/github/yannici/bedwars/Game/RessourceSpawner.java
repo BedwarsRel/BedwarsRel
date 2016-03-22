@@ -138,7 +138,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 		return this.location;
 	}
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
+	@SuppressWarnings("unchecked")
 	public static ItemStack createSpawnerStackByConfig(Object section) {
 		LinkedHashMap<String, Object> linkedMap = new LinkedHashMap<String, Object>();
 

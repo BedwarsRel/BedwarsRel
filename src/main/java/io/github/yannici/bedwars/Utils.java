@@ -138,7 +138,6 @@ public final class Utils {
 		return (isBed.getType() == Material.BED || isBed.getType() == Material.BED_BLOCK);
 	}
 
-	@SuppressWarnings("deprecation")
 	public static Material getMaterialByConfig(String key, Material defaultMaterial) {
 		try {
 			String cfg = Main.getInstance().getStringConfig(key, defaultMaterial.name());
@@ -736,7 +735,6 @@ public final class Utils {
 		return hrStr + ":" + minStr + ":" + secStr;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static Material parseMaterial(String material) {
 		try {
 			if (Utils.isNumber(material)) {

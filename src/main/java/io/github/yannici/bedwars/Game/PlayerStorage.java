@@ -183,7 +183,6 @@ public class PlayerStorage {
 		this.player.updateInventory();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void openTeamSelection(Game game) {
 		BedwarsOpenTeamSelectionEvent openEvent = new BedwarsOpenTeamSelectionEvent(game, this.player);
 		Main.getInstance().getServer().getPluginManager().callEvent(openEvent);
