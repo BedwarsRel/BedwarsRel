@@ -176,6 +176,10 @@ public class ConfigUpdater {
 		Main.getInstance().getConfig().addDefault("lobbytime-full", 15);
 		Main.getInstance().getConfig().addDefault("bungeecord.endgame-in-lobby", true);
 		// </1.2.8>
+
+		// <1.3.0>
+		Main.getInstance().getConfig().addDefault("hearts-in-halfs", true);
+		// </1.3.0>
 	}
 
 	private void excludeShop() {
