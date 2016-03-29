@@ -1,12 +1,15 @@
 package io.github.yannici.bedwars.Com.v1_9_R1;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftVillager;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -16,8 +19,6 @@ import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 import net.minecraft.server.v1_9_R1.EntityHuman;
 import net.minecraft.server.v1_9_R1.EntityVillager;
-import net.minecraft.server.v1_9_R1.MerchantRecipe;
-import net.minecraft.server.v1_9_R1.MerchantRecipeList;
 import net.minecraft.server.v1_9_R1.StatisticList;
 
 public class VillagerItemShop {
@@ -35,10 +36,7 @@ public class VillagerItemShop {
 	private EntityVillager createVillager() {
 		try {
 			EntityVillager ev = new EntityVillager(((CraftWorld) this.game.getRegion().getWorld()).getHandle());
-			Field careerField = EntityVillager.class.getDeclaredField("by");
-			careerField.setAccessible(true);
-			careerField.set(ev, Integer.valueOf(10));
-
+			
 			return ev;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,11 +62,11 @@ public class VillagerItemShop {
 			public void run() {
 				try {
 					EntityVillager entityVillager = VillagerItemShop.this.createVillager();
+					CraftVillager craftVillager = (CraftVillager) entityVillager.getBukkitEntity();
 					EntityHuman entityHuman = VillagerItemShop.this.getEntityHuman();
 
 					// set location
-					MerchantRecipeList recipeList = entityVillager.getOffers(entityHuman);
-					recipeList.clear();
+					List<MerchantRecipe> recipeList = new ArrayList<MerchantRecipe>();
 
 					for (io.github.yannici.bedwars.Villager.VillagerTrade trade : VillagerItemShop.this.category
 							.getFilteredOffers()) {
@@ -85,19 +83,26 @@ public class VillagerItemShop {
 							reward.setItemMeta(meta);
 						}
 
-						if (!(trade.getHandle().getInstance() instanceof MerchantRecipe)) {
+						if (!(trade.getHandle().getInstance() instanceof net.minecraft.server.v1_9_R1.MerchantRecipe)) {
 							continue;
 						}
-
-						MerchantRecipe recipe = (MerchantRecipe) trade.getHandle().getInstance();
-						recipe.a(1000);
+						
+						MerchantRecipe recipe = new MerchantRecipe(trade.getRewardItem(), 1024);
+						recipe.addIngredient(trade.getItem1());
+						
+						if(trade.getItem2() != null) {
+							recipe.addIngredient(trade.getItem2());
+						}
+						
 						recipeList.add(recipe);
 					}
-
-					entityVillager.a(entityHuman);
+					
+					craftVillager.setRecipes(recipeList);
+					craftVillager.setRiches(0);
+					entityVillager.setTradingPlayer(entityHuman);
+					
 					((CraftPlayer) player).getHandle().openTrade(entityVillager);
 					((CraftPlayer) player).getHandle().b(StatisticList.F);
-
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
