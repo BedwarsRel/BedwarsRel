@@ -22,10 +22,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/spigot-1.8-R0.1-SNAPSHOT-latest.jar"/>
-	<classpathentry kind="lib" path="lib/spigot-1.8.3-R0.1-SNAPSHOT-latest .jar"/>
-	<classpathentry kind="lib" path="lib/spigot-1.8.4-R0.1-SNAPSHOT-latest.jar"/>
-	<classpathentry kind="lib" path="lib/spigot-1.9-R0.1-SNAPSHOT-latest.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
