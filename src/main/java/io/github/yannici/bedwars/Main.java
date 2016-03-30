@@ -404,7 +404,7 @@ public class Main extends JavaPlugin {
 
 		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
 	}
-
+	
 	public StorageType getStatisticStorageType() {
 		String storage = this.getStringConfig("statistics.storage", "yaml");
 		return StorageType.getByName(storage);
