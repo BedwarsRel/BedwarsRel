@@ -67,7 +67,8 @@ public class TNTSheepListener implements Listener {
 			return;
 		}
 
-		if (((SpawnEgg) inHand.getData()).getSpawnedType() != EntityType.SHEEP) {
+		if (!Main.getInstance().getCurrentVersion().startsWith("v1_9")
+				&& ((SpawnEgg) inHand.getData()).getSpawnedType() != EntityType.SHEEP) {
 			return;
 		}
 

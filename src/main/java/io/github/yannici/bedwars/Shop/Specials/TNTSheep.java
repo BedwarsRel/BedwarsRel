@@ -185,22 +185,26 @@ public class TNTSheep extends SpecialItem {
 
 	private Player findTargetPlayer(Player player) {
 		Player foundPlayer = null;
-		double distance = Double.MAX_VALUE;
 
-		Team playerTeam = this.game.getPlayerTeam(player);
+		if (game.getPlayers().size() == 1) {
+			foundPlayer = player;
+		} else {
+			double distance = Double.MAX_VALUE;
 
-		ArrayList<Player> possibleTargets = new ArrayList<Player>();
-		possibleTargets.addAll(this.game.getTeamPlayers());
-		possibleTargets.removeAll(playerTeam.getPlayers());
+			Team playerTeam = this.game.getPlayerTeam(player);
 
-		for (Player p : possibleTargets) {
-			double dist = player.getLocation().distance(p.getLocation());
-			if (dist < distance) {
-				foundPlayer = p;
-				distance = dist;
+			ArrayList<Player> possibleTargets = new ArrayList<Player>();
+			possibleTargets.addAll(this.game.getTeamPlayers());
+			possibleTargets.removeAll(playerTeam.getPlayers());
+
+			for (Player p : possibleTargets) {
+				double dist = player.getLocation().distance(p.getLocation());
+				if (dist < distance) {
+					foundPlayer = p;
+					distance = dist;
+				}
 			}
 		}
-
 		return foundPlayer;
 	}
 

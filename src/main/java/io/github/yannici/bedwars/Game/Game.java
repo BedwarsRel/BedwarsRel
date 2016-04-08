@@ -504,7 +504,6 @@ public class Game {
 		return this.getLobby();
 	}
 
-	@SuppressWarnings("deprecation")
 	public void setPlayerGameMode(Player player) {
 		if (this.isSpectator(player)
 				&& !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
@@ -512,25 +511,19 @@ public class Game {
 
 			player.setAllowFlight(true);
 			player.setFlying(true);
+			player.setGameMode(GameMode.SPECTATOR);
 
-			// 1.7 compatible
-			try {
-				player.setGameMode(GameMode.valueOf("SPECTATOR"));
-			} catch (Exception ex) {
-				player.setGameMode(GameMode.SURVIVAL);
-			}
 		} else {
-			GameMode gameMode = null;
-			try {
-				gameMode = GameMode.getByValue(Main.getInstance().getIntConfig("lobby-gamemode", 0));
-			} catch (Exception ex) {
-				// not valid gamemode
+			Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
+			if (gameMode == 0) {
+				player.setGameMode(GameMode.SURVIVAL);
+			} else if (gameMode == 1) {
+				player.setGameMode(GameMode.CREATIVE);
+			} else if (gameMode == 2) {
+				player.setGameMode(GameMode.ADVENTURE);
+			} else if (gameMode == 3) {
+				player.setGameMode(GameMode.SPECTATOR);
 			}
-
-			if (gameMode == null) {
-				gameMode = GameMode.SURVIVAL;
-			}
-			player.setGameMode(gameMode);
 		}
 	}
 

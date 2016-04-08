@@ -9,7 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -63,7 +62,7 @@ public class Team implements ConfigurationSerializable {
 	}
 
 	public boolean addPlayer(Player player) {
-		if (this.scoreboardTeam.getPlayers().size() >= this.maxPlayers) {
+		if (this.scoreboardTeam.getEntries().size() >= this.maxPlayers) {
 			return false;
 		}
 
@@ -84,7 +83,7 @@ public class Team implements ConfigurationSerializable {
 			return false;
 		}
 
-		this.scoreboardTeam.addPlayer(player);
+		this.scoreboardTeam.addEntry(player.getName());
 		return true;
 	}
 
@@ -123,9 +122,9 @@ public class Team implements ConfigurationSerializable {
 		return this.targetFeetBlock.getBlock();
 	}
 
-	public void removePlayer(OfflinePlayer player) {
-		if (this.scoreboardTeam.hasPlayer(player)) {
-			this.scoreboardTeam.removePlayer(player);
+	public void removePlayer(Player player) {
+		if (this.scoreboardTeam.hasEntry(player.getName())) {
+			this.scoreboardTeam.removeEntry(player.getName());
 		}
 
 		boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
@@ -138,7 +137,7 @@ public class Team implements ConfigurationSerializable {
 	}
 
 	public boolean isInTeam(Player p) {
-		if (this.scoreboardTeam.hasPlayer(p)) {
+		if (this.scoreboardTeam.hasEntry(p.getName())) {
 			return true;
 		}
 
@@ -164,19 +163,23 @@ public class Team implements ConfigurationSerializable {
 
 	public List<Player> getPlayers() {
 		List<Player> players = new ArrayList<>();
-		for (OfflinePlayer player : this.scoreboardTeam.getPlayers()) {
-			if (player.isOnline()) {
-				players.add(player.getPlayer());
+		for (String playerName : this.scoreboardTeam.getEntries()) {
+			Player player = Main.getInstance().getServer().getPlayer(playerName);
+			if (player != null) {
+				players.add(player);
 			}
 		}
 
 		return players;
 	}
 
-	public List<OfflinePlayer> getTeamPlayers() {
-		List<OfflinePlayer> players = new ArrayList<>();
-		for (OfflinePlayer player : this.scoreboardTeam.getPlayers()) {
-			players.add(player);
+	public List<Player> getTeamPlayers() {
+		List<Player> players = new ArrayList<>();
+		for (String playerName : this.scoreboardTeam.getEntries()) {
+			Player player = Main.getInstance().getServer().getPlayer(playerName);
+			if (player != null) {
+				players.add(player);
+			}
 		}
 
 		return players;
