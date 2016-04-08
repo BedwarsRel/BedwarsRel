@@ -22,6 +22,11 @@ public class ServerListener extends BaseListener {
 		}
 
 		Game game = Main.getInstance().getGameManager().getGames().get(0);
+		
+		if (game == null){
+			return;
+		}
+		
 		switch (game.getState()) {
 		case STOPPED:
 			slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes('&',
