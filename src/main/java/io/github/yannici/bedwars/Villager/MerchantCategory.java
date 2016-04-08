@@ -12,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -194,7 +196,13 @@ public class MerchantCategory {
 			}
 
 			if (hasMeta) {
-				finalStack = new ItemStack(material, amount, meta);
+				if (material.equals(Material.MONSTER_EGG) && meta == 91
+						&& Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+					finalStack = new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
+							.toItemStack(amount);
+				} else {
+					finalStack = new ItemStack(material, amount, meta);
+				}
 			} else if (hasPotionMeta) {
 				finalStack = new ItemStack(material, amount, potionMeta);
 			} else {
