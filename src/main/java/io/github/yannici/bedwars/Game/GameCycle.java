@@ -390,6 +390,10 @@ public abstract class GameCycle {
 		DecimalFormat format = new DecimalFormat("#");
 		double health = ((double) killer.getHealth()) / ((double) killer.getMaxHealth())
 				* ((double) killer.getHealthScale());
+		if (!Main.getInstance().getBooleanConfig("hearts-in-halfs", true)) {
+			format = new DecimalFormat("#.#");
+			health = health / 2;
+		}
 		if (Main.getInstance().getBooleanConfig("hearts-on-death", true)) {
 			format = new DecimalFormat("#.#");
 			health = health / 2;
