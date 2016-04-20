@@ -395,6 +395,10 @@ public abstract class GameCycle {
 			health = health / 2;
 		}
 		if (Main.getInstance().getBooleanConfig("hearts-on-death", true)) {
+			format = new DecimalFormat("#.#");
+			health = health / 2;
+		}
+		if (Main.getInstance().getBooleanConfig("hearts-on-death", true)) {
 			hearts = "[" + ChatColor.RED + "\u2764" + format.format(health) + ChatColor.GOLD + "]";
 		}
 
