@@ -1,0 +1,470 @@
+### SHOP ###
+### NOT ALLOWED CATEGORY MATERIAL: SLIME_BALL, SNOW_BALL, BUCKET, LAVA_BUCKET
+### The categories (unique key!)
+###### Categories:
+###### item:
+######  type: string or int
+######  Itemname or Item-ID which should be 
+######  displayed to represent the category
+###### name: 
+######  type: string
+######  Name of the category
+###### lore:
+######  type: list<string>
+######  The lore (description) the category should have.
+###### order:
+######  type: int
+######  The order the categories will be displayed
+######### Offers:
+######### item1 (first trade item):
+#########  item: 
+#########   type: string or int
+#########   Item-Name or Item-ID
+#########  amount: 
+#########   type: int
+#########   The stack amount the item should have
+#########  name:
+#########   type: string (colorcodes with &)
+#########   A specific name for the item
+#########  enchants:
+#########   key: Has to be the enchant-ID or enchant-name!
+#########   value: The level of the enchant
+#########  lore:
+#########   type: list<string> (colorcodes with &)
+#########   The lores this item should have
+#########  meta:
+#########   type: short (potion) or byte (any other item)
+#########   The meta byte which should be added to the item
+######### item2 (optional, second trade item): See item1
+######### reward (reward item): See item1
+shop:
+    armor:
+        item: DIAMOND_CHESTPLATE
+        name: Rüstung 
+        order: 10
+        permission: bw.base
+        lore:
+            - Protect yourself with armor! Click here.
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: LEATHER_HELMET
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: LEATHER_LEGGINGS
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: LEATHER_BOOTS
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 6
+              item2:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                name: '&aMagnetschuhe'
+                lore:
+                  - "Trage diese Schuhe und erhalte 75%"
+                  - "Wahrscheinlichkeit auf keinen Knockback!"
+                item: IRON_BOOTS
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 303
+                amount: 1
+                enchants:
+                    0: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 303
+                amount: 1
+                enchants:
+                    0: 2
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                item: 303
+                amount: 1
+                enchants:
+                    0: 3
+            - item1:
+                item: GOLD_INGOT
+                amount: 10
+              reward:
+                name: Helm
+                namecolor: RED
+                item: 306
+                amount: 1
+                enchants:
+                    0: 2
+    swords:
+        item: DIAMOND_SWORD
+        name: Schwerter
+        order: 20
+        permission: bw.base
+        lore:
+            - Click here to get sword for attacking your enemies
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 8
+              reward:
+                item: 280
+                amount: 1
+                enchants:
+                    19: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 283
+                amount: 1
+                enchants:
+                    16: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 283
+                amount: 1
+                enchants:
+                    16: 2
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                item: 283
+                amount: 1
+                enchants:
+                    16: 3
+            - item1:
+                item: GOLD_INGOT
+                amount: 3
+              reward:
+                item: 267
+                amount: 1
+                enchants:
+                    16: 2
+                    19: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 15
+              reward:
+                name: Axt der Unendlichkeit
+                namecolor: GOLD
+                item: 286
+                amount: 1
+                enchants:
+                    34: 1
+                    16: 1
+                    19: 1
+    bows:
+        item: 261
+        name: Bögen
+        order: 30
+        permission: bw.base
+        lore:
+            - Prove yourself as a marksman with these wonderful bows
+        offers:
+            - item1:
+                item: GOLD_INGOT
+                amount: 3
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 7
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    48: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 13
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    48: 2
+            - item1:
+                item: GOLD_INGOT
+                amount: 16
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    50: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 15
+              reward:
+                item: 261
+                amount: 1
+                enchants:
+                    51: 1
+                    50: 1
+                    49: 1
+            - item1:
+                item: GOLD_INGOT
+                amount:
+              reward:
+                item: 262
+                amount: 1
+    eat:
+        item: GRILLED_PORK
+        name: Essen
+        order: 40
+        permission: bw.base
+        lore:
+            - Are you hungry? Get something to eat.
+        offers: 
+            - item1:
+                item: CLAY_BRICK
+                amount: 4
+              reward:
+                item: GRILLED_PORK
+                amount: 2
+            - item1:
+                item: IRON_INGOT
+                amount: 2
+              reward:
+                item: 322
+                amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 5
+              reward:
+                item: 297
+                amount: 10
+    pickaxes:
+        item: DIAMOND_PICKAXE
+        name: Spitzhacken
+        order: 50
+        permission: bw.base
+        lore:
+            - Destroy others blocks? Use these pickaxes.
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 4
+              reward:
+                item: IRON_PICKAXE
+                amount: 1
+                enchants:
+                    35: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 2
+              reward:
+                item: IRON_PICKAXE
+                amount: 1
+                enchants:
+                    35: 2
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: IRON_PICKAXE
+                amount: 1
+                enchants:
+                    35: 3
+    blocks:
+        item: SANDSTONE
+        name: Blöcke
+        order: 60
+        permission: bw.base
+        lore:
+            - Get to the others! Possible with blocks.
+        offers:
+            - item1:
+                item: CLAY_BRICK
+                amount: 1
+              reward:
+                item: 24
+                meta: 2
+                amount: 2
+            - item1:
+                item: CLAY_BRICK
+                amount: 7
+              reward:
+                item: 121
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 42
+                amount: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 15
+              reward:
+                item: 89
+                amount: 4
+            - item1:
+                item: CLAY_BRICK
+                amount: 4
+              reward:
+                item: 20
+                amount: 1
+    usefulstuff:
+        item: TNT
+        name: Nützliche Sachen
+        order: 70
+        permission: bw.base
+        lore:
+            - Looking for useful stuff? Here are some!
+        offers:
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: TNT
+                amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: 259
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 1
+              reward:
+                item: 54
+                amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: 130
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 15
+              reward:
+                name: '&cRettungsplattform'
+                lore:
+                    - Rette dich vor dem Abstürzen
+                    - mit der Rettungsplattform
+                item: 369
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                name: '&7Trap'
+                lore:
+                    - Tritt ein Gegner drauf, wirst du informiert
+                    - "und er kann sich nur eingeschränkt bewegen."
+                item: 287
+                amount: 1
+            - item1:
+                item: CLAY_BRICK
+                amount: 64
+              reward:
+                name: '&4Schutzmauer'
+                lore:
+                    - "Aktiviere es und erhalte sofort eine"
+                    - "5x3 große Mauer vor dir!"
+                item: BRICK
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                name: '&fTeleportationspuder'
+                lore:
+                    - "Aktiviere dieses Pulver und du wirst"
+                    - "in 6 Sekunden an den Spawn teleportiert."
+                    - "Achtung: Bewegen bricht den Vorgang ab!"
+                item: 289
+                amount: 1
+            - item1:
+                item: GOLD_INGOT
+                amount: 10
+              reward:
+                name: '&cTNT-Schaf'
+                lore:
+                    - "Aktiviere das TNT-Schaf! Es wird"
+                    - "auf den nächsten Gegner zugehen"
+                    - "und nach 8 Sekunden explodieren!"
+                item: MONSTER_EGG
+                meta: 91
+                amount: 1
+            - item1:
+                item: IRON_INGOT
+                amount: 5
+              reward:
+                item: COMPASS
+                amount: 1
+    drinks:
+        item: POTION
+        name: Tränke
+        order: 80
+        permission: bw.base
+        lore:
+            - Not enough? Use these potions and you'll feel better!
+        offers:
+            - item1:
+                item: IRON_INGOT
+                amount: 3
+              reward:
+                item: 373
+                amount: 1
+                meta: 8197
+            - item1:
+                item: IRON_INGOT
+                amount: 5
+              reward:
+                item: 373
+                amount: 1
+                meta: 8229
+            - item1:
+                item: IRON_INGOT
+                amount: 7
+              reward:
+                item: 373
+                amount: 1
+                meta: 8194
+            - item1:
+                item: GOLD_INGOT
+                amount: 1
+              reward:
+                item: 373
+                amount: 1
+                meta: 8201
+            - item1:
+                item: GOLD_INGOT
+                amount: 3
+              reward:
+                item: 373
+                amount: 1
+                meta: 8193

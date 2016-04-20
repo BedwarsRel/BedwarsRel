@@ -1,0 +1,154 @@
+name: BedwarsRel
+description: Destroy other's beds with bedwars reloaded
+author: Yannici
+website: http://www.spigotmc.org/resources/bedwars-rel.6799/
+
+main: io.github.yannici.bedwars.Main
+version: 1.3.0
+
+awareness:
+    - !@UTF8
+
+depend: []
+softdepend: [Multiverse-Core, Multiworld, MultiWorld, HolographicDisplays, UltimateCore]
+
+commands:
+    bw:
+        description: Base command for all Test-Plugin commands
+        usage: /<command> help
+        permission: bw.base
+    bw setspawner:
+        description: Sets a ressource spawn point of a specific type
+        usage: /<command> [Game] [Ressource]
+        permission: bw.setup
+    bw addgame:
+        description: Add a new game
+        usage: /<command> [Name]
+        permission: bw.setup
+    bw start:
+        description: Starts a game
+        usage: /<command> [Game]
+        permission: bw.setup
+    bw addteam:
+        description: Adds a team to a game
+        usage: /<command> [Name] [Color]
+        permission: bw.setup
+    bw save:
+        description: Saves a game to config files
+        usage: /<command> [Name]
+        permission: bw.setup
+    bw setregion:
+        description: Sets one of the two possible region of the game
+        usage: /<command> [Name] [loc1;loc2]
+        permission: bw.setup
+    bw join:
+        description: Joins a specific team in a game
+        usage: /<command> [Game] [Team]
+        permission: bw.base
+    bw setspawn:
+        description: Sets the spawn of a team
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
+    bw setlobby:
+        description: Sets the lobby location of a game
+        usage: /<command> [Game]
+        permission: bw.setup
+    bw settarget:
+        description: Sets the bed of a team in a game
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
+    bw setbed:
+        description: Sets the bed of a team in a game
+        usage: /<command> [Game] [Team]
+        permission: bw.setup
+    bw leave:
+        description: Leaves the current game
+        usage: /<command>
+        permission: bw.base
+    bw reload:
+        description: Reloads the configurations and translations
+        usage: /<command>
+        permission: bw.setup
+    bw list:
+        description: List all availabe games
+        usage: /<command>
+        permission: bw.base
+    bw regionname:
+        description: Sets a region name
+        usage: /<command>
+        permission: bw.setup
+    bw removeteam:
+        description: Removes a team of the game
+        usage: /<command>
+        permission: bw.setup
+    bw removegame:
+        description: Removes a game
+        usage: /<command>
+        permission: bw.setup
+    bw clearspawner:
+        description: Removes all ressource spawners from the game
+        usage: /<command>
+        permission: bw.setup
+    bw gametime:
+        description: Sets the time for the game used in the world
+        usage: /<command>
+        permission: bw.setup
+    bw stats:
+        description: Shows the stats of bedwars
+        usage: /<command>
+        permission: bw.base
+    bw setminplayers:
+        description: Sets the min player amount for a game
+        usage: /<command>
+        permission: bw.setup
+    bw setgameblock:
+        description: Sets the target block for a specific game
+        usage: /<command>
+        permission: bw.setup
+    bw setbuilder:
+        description: Sets the map-builder of the map for displaying title when game starts
+        usage: /<command>
+        permission: bw.setup
+    bw setautobalance:
+        description: Turn the autobalance for this game on or off when global-autobalance is false
+        usage: /<command>
+        permission: bw.setup
+    bw kick:
+        description: Kicks a player from the game
+        usage: /<command>
+        permission: bw.kick
+    bw addteamjoin:
+        description: Mark a creature which can be used to join a specific team
+        usage: /<command>
+        permission: bw.setup
+    bw addholo:
+        description: Adds a location of the hologram stats
+        usage: /<command>
+        permission: bw.setup
+    bw removeholo:
+        description: Removes a hologram statistic location
+        usage: /<command>
+        permission: bw.setup
+permissions:
+    bw.base:
+        description: Allows you to show to play games
+        default: true
+    bw.setup:
+        description: Allows you to set up new or existing games
+        default: op
+    bw.kick:
+        description: Allows a player to kick other players from the game
+        default: op
+    bw.vip.*:
+        description: Allows special user permissions
+        default: op
+        children:
+            bw.vip.joinfull: true
+            bw.vip.forcestart: true
+            bw.vip.skipbalance: true
+    bw.cmd:
+        description: Allows to execute non-bedwars commands ingame
+        default: op
+    bw.otherstats:
+        description: Allows to show stats of other players
+        default: op
