@@ -578,15 +578,14 @@ public class PlayerListener extends BaseListener {
 		@SuppressWarnings("unchecked")
 		List<String> toAllPrefixList = (List<String>) Main.getInstance().getConfig().getList("chat-to-all-prefix",
 				Arrays.asList("@"));
-		
+
 		String toAllPrefix = "";
-		
-		for(String oneToAllPrefix : toAllPrefixList){
-			if(message.trim().startsWith(oneToAllPrefix)){
+
+		for (String oneToAllPrefix : toAllPrefixList) {
+			if (message.trim().startsWith(oneToAllPrefix)) {
 				toAllPrefix = oneToAllPrefix;
 			}
 		}
-		
 
 		if (!toAllPrefix.equals("") || isSpectator || (game.getCycle().isEndGameRunning()
 				&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
@@ -653,7 +652,10 @@ public class PlayerListener extends BaseListener {
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
-			return;
+			game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
+			if (game == null) {
+				return;
+			}
 		}
 
 		if (game.getState() != GameState.WAITING) {
