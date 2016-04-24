@@ -180,6 +180,13 @@ public class ConfigUpdater {
 		// <1.3.0>
 		Main.getInstance().getConfig().addDefault("hearts-in-halfs", true);
 		// </1.3.0>
+
+		// <1.3.1>
+		if (Main.getInstance().getConfig().isString("chat-to-all-prefix")) {
+			String chatToAllPrefixString = Main.getInstance().getConfig().getString("chat-to-all-prefix");
+			Main.getInstance().getConfig().set("chat-to-all-prefix", Arrays.asList(chatToAllPrefixString));
+		}
+		// </1.3.1>
 	}
 
 	private void excludeShop() {

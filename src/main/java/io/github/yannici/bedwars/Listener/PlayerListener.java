@@ -575,9 +575,21 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
+		@SuppressWarnings("unchecked")
+		List<String> toAllPrefixList = (List<String>) Main.getInstance().getConfig().getList("chat-to-all-prefix",
+				Arrays.asList("@"));
+		
+		String toAllPrefix = "";
+		
+		for(String oneToAllPrefix : toAllPrefixList){
+			if(message.trim().startsWith(oneToAllPrefix)){
+				toAllPrefix = oneToAllPrefix;
+				break;
+			}
+		}
+		
 
-		if (message.trim().startsWith(toAllPrefix) || isSpectator || (game.getCycle().isEndGameRunning()
+		if (!toAllPrefix.equals("") || isSpectator || (game.getCycle().isEndGameRunning()
 				&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
 			boolean seperateSpectatorChat = Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
 
@@ -585,7 +597,7 @@ public class PlayerListener extends BaseListener {
 			String format = null;
 			if (!isSpectator && !(game.getCycle().isEndGameRunning()
 					&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
-				ce.setMessage(message.substring(1, message.length()));
+				ce.setMessage(message.substring(toAllPrefix.length(), message.length()).trim());
 				format = this.getChatFormat(
 						Main.getInstance().getStringConfig("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$"),
 						team, false, true);
