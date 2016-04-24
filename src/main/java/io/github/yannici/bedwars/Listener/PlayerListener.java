@@ -584,7 +584,6 @@ public class PlayerListener extends BaseListener {
 		for(String oneToAllPrefix : toAllPrefixList){
 			if(message.trim().startsWith(oneToAllPrefix)){
 				toAllPrefix = oneToAllPrefix;
-				break;
 			}
 		}
 		
