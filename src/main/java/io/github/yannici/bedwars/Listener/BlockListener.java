@@ -20,6 +20,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockSpreadEvent;
+import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -113,12 +114,30 @@ public class BlockListener extends BaseListener {
 	}
 
 	@EventHandler
-	public void onGrow(BlockGrowEvent grow) {
+	public void onBlockGrow(BlockGrowEvent grow) {
 		if (grow.isCancelled()) {
 			return;
 		}
 
 		Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getBlock().getLocation());
+		if (game == null) {
+			return;
+		}
+
+		if (game.getState() != GameState.RUNNING) {
+			return;
+		}
+
+		grow.setCancelled(true);
+	}
+	
+	@EventHandler
+	public void onStructureGrow(StructureGrowEvent grow) {
+		if (grow.isCancelled()) {
+			return;
+		}
+
+		Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getLocation());
 		if (game == null) {
 			return;
 		}
