@@ -14,7 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
-import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Shop.Specials.ITNTSheep;
@@ -56,8 +56,15 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
 		}
 		
 		this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, 1D, false)); // Add bedwars player goal
-		this.setGoalTarget((EntityLiving) (((CraftPlayer) target).getHandle()),
-				EntityTargetEvent.TargetReason.TARGET_ATTACKED_ENTITY, false);
+		try {
+			this.setGoalTarget((EntityLiving) (((CraftPlayer) target).getHandle()), TargetReason.TARGET_ATTACKED_ENTITY, false);
+		} catch(Exception ex) {
+			// newer spigot builds
+			if(ex instanceof NoSuchMethodException) {
+				this.setGoalTarget((EntityLiving) (((CraftPlayer) target).getHandle()));
+			}
+		}
+		
 		((Creature) this.getBukkitEntity()).setTarget((LivingEntity) target);
 	}
 
