@@ -27,6 +27,7 @@ public class RescuePlatformListener implements Listener {
 		super();
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInteract(PlayerInteractEvent ev) {
 		Player player = ev.getPlayer();

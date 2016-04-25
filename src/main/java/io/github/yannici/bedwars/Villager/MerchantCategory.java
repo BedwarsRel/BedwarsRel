@@ -12,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -57,7 +56,7 @@ public class MerchantCategory {
 		return this.order;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public static HashMap<Material, MerchantCategory> loadCategories(FileConfiguration cfg) {
 		if (cfg.getConfigurationSection("shop") == null) {
 			return new HashMap<Material, MerchantCategory>();
@@ -145,7 +144,7 @@ public class MerchantCategory {
 		return mc;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes", "deprecation" })
 	public static ItemStack createItemStackByConfig(Object section) {
 		if (!(section instanceof LinkedHashMap)) {
 			return null;
