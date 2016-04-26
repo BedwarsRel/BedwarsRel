@@ -77,7 +77,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (Main.getInstance().isBungee()) {
-			je.setJoinMessage("");
+			je.setJoinMessage(null);
 			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
 			if (games.size() == 0) {
 				return;
@@ -659,11 +659,9 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (game.getState() != GameState.WAITING) {
-			if (game.isSpectator(player)) {
-				ppie.setCancelled(true);
+			if (game.isInGame(player)) {
+				return;
 			}
-
-			return;
 		}
 
 		ppie.setCancelled(true);
@@ -1028,6 +1026,10 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent pqe) {
 		Player player = pqe.getPlayer();
+		
+		if (Main.getInstance().isBungee()) {
+			pqe.setQuitMessage(null);
+		}
 
 		// Remove holographs
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {
