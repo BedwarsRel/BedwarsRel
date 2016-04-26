@@ -124,10 +124,6 @@ public class BlockListener extends BaseListener {
 			return;
 		}
 
-		if (game.getState() != GameState.RUNNING) {
-			return;
-		}
-
 		grow.setCancelled(true);
 	}
 	
@@ -139,10 +135,6 @@ public class BlockListener extends BaseListener {
 
 		Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getLocation());
 		if (game == null) {
-			return;
-		}
-
-		if (game.getState() != GameState.RUNNING) {
 			return;
 		}
 
