@@ -109,7 +109,7 @@ public class BlockListener extends BaseListener {
 
 	@EventHandler(ignoreCancelled = true)
 	public void onBlockGrow(BlockGrowEvent grow) {
-		
+
 		Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getBlock().getLocation());
 		if (game == null) {
 			return;
@@ -117,7 +117,7 @@ public class BlockListener extends BaseListener {
 
 		grow.setCancelled(true);
 	}
-	
+
 	@EventHandler(ignoreCancelled = true)
 	public void onStructureGrow(StructureGrowEvent grow) {
 
@@ -359,6 +359,11 @@ public class BlockListener extends BaseListener {
 				bpe.setCancelled(true);
 				bpe.setBuild(false);
 				return;
+			}
+
+			if (placeBlock.getType().equals(Material.STAINED_GLASS) || placeBlock.getType().equals(Material.WOOL)
+					|| placeBlock.getType().equals(Material.STAINED_CLAY)) {
+				placeBlock.setData(game.getPlayerTeam(player).getColor().getDyeColor().getData());
 			}
 
 			if (replacedBlock != null) {
