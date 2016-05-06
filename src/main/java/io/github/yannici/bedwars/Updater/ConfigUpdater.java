@@ -1,17 +1,37 @@
 package io.github.yannici.bedwars.Updater;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.Utils;
+import io.github.yannici.bedwars.Villager.MerchantCategory;
+import io.github.yannici.bedwars.Villager.VillagerTrade;
 
 public class ConfigUpdater {
 
@@ -187,6 +207,352 @@ public class ConfigUpdater {
 			Main.getInstance().getConfig().set("chat-to-all-prefix", Arrays.asList(chatToAllPrefixString));
 		}
 		// </1.3.1>
+	}
+
+	public void updateShop() {
+		File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
+
+		YamlConfiguration shopConfig = (YamlConfiguration) Main.getInstance().getShopConfig();
+
+		Integer schemaVersion = null;
+		if (shopConfig.contains("schema-version")) {
+			schemaVersion = shopConfig.getInt("schema-version");
+		} else {
+			shopConfig.set("schema-version", 0);
+			schemaVersion = 0;
+		}
+
+		ConfigurationSection oldConfsection = shopConfig.getConfigurationSection("shop");
+
+		if (schemaVersion < 1) {
+			for (String cat : oldConfsection.getKeys(false)) {
+				for (Object oldOffer : oldConfsection.getList(cat + ".offers")) {
+					HashMap<String, Object> offer = new HashMap<String, Object>();
+					if (oldOffer instanceof String) {
+						if (oldOffer.toString().equalsIgnoreCase("empty")
+								|| oldOffer.toString().equalsIgnoreCase("null")
+								|| oldOffer.toString().equalsIgnoreCase("e")) {
+						}
+						continue;
+					}
+
+					LinkedHashMap<String, Object> oldOfferSection = (LinkedHashMap<String, Object>) oldOffer;
+
+					if (!oldOfferSection.containsKey("item1") || !oldOfferSection.containsKey("reward")) {
+						continue;
+					}
+					List<Object> costs = new ArrayList<Object>();
+					List<Object> rewards = new ArrayList<Object>();
+
+					Object oldRewardSection = oldOfferSection.get("reward");
+					ItemStack finalRewardStack = null;
+
+					if (!(oldRewardSection instanceof LinkedHashMap)) {
+						continue;
+					}
+
+					try {
+						LinkedHashMap<String, Object> oldCfgSection = (LinkedHashMap<String, Object>) oldRewardSection;
+
+						String materialString = oldCfgSection.get("item").toString();
+						Material material = null;
+						boolean hasMeta = false;
+						boolean hasPotionMeta = false;
+						byte meta = 0;
+
+						int amount = 1;
+						short potionMeta = 0;
+
+						if (Utils.isNumber(materialString)) {
+							material = Material.getMaterial(Integer.parseInt(materialString));
+						} else {
+							material = Material.getMaterial(materialString);
+						}
+
+						try {
+							if (oldCfgSection.containsKey("amount")) {
+								amount = Integer.parseInt(oldCfgSection.get("amount").toString());
+							}
+						} catch (Exception ex) {
+							amount = 1;
+						}
+
+						if (oldCfgSection.containsKey("meta")) {
+							if (!material.equals(Material.POTION)
+									&& !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+											&& (material.equals(Material.valueOf("TIPPED_ARROW"))
+													|| material.equals(Material.valueOf("LINGERING_POTION"))
+													|| material.equals(Material.valueOf("SPLASH_POTION"))))) {
+
+								try {
+									meta = Byte.parseByte(oldCfgSection.get("meta").toString());
+									hasMeta = true;
+								} catch (Exception ex) {
+									hasMeta = false;
+								}
+							} else {
+								hasPotionMeta = true;
+								potionMeta = Short.parseShort(oldCfgSection.get("meta").toString());
+							}
+						}
+
+						if (hasMeta) {
+							if (material.equals(Material.MONSTER_EGG) && meta == 91
+									&& Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+								finalRewardStack = new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(
+										EntityType.SHEEP).toItemStack(amount);
+							} else {
+								finalRewardStack = new ItemStack(material, amount, meta);
+							}
+						} else if (hasPotionMeta) {
+							finalRewardStack = new ItemStack(material, amount, potionMeta);
+						} else {
+							finalRewardStack = new ItemStack(material, amount);
+						}
+
+						if (oldCfgSection.containsKey("lore")) {
+							List<String> lores = new ArrayList<String>();
+							ItemMeta im = finalRewardStack.getItemMeta();
+
+							for (Object lore : (List<String>) oldCfgSection.get("lore")) {
+								lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
+							}
+
+							im.setLore(lores);
+							finalRewardStack.setItemMeta(im);
+						}
+
+						if (!hasPotionMeta && (material.equals(Material.POTION)
+								|| (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+										&& (material.equals(Material.valueOf("TIPPED_ARROW"))
+												|| material.equals(Material.valueOf("LINGERING_POTION"))
+												|| material.equals(Material.valueOf("SPLASH_POTION")))))) {
+
+							if (oldCfgSection.containsKey("effects")) {
+								PotionMeta customPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
+								for (Object potionEffect : (List<Object>) oldCfgSection.get("effects")) {
+									LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
+									if (!potionEffectSection.containsKey("type")) {
+										continue;
+									}
+
+									PotionEffectType potionEffectType = null;
+									int duration = 1;
+									int amplifier = 0;
+
+									potionEffectType = PotionEffectType
+											.getByName(potionEffectSection.get("type").toString().toUpperCase());
+
+									if (potionEffectSection.containsKey("duration")) {
+										duration = Integer.parseInt(potionEffectSection.get("duration").toString())
+												* 20;
+									}
+
+									if (potionEffectSection.containsKey("amplifier")) {
+										amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString())
+												- 1;
+									}
+
+									if (potionEffectType == null) {
+										continue;
+									}
+
+									customPotionMeta.addCustomEffect(
+											new PotionEffect(potionEffectType, duration, amplifier), true);
+								}
+								finalRewardStack.setItemMeta(customPotionMeta);
+							}
+						}
+
+						if (oldCfgSection.containsKey("enchants")) {
+							Object cfgEnchants = oldCfgSection.get("enchants");
+
+							if (cfgEnchants instanceof LinkedHashMap) {
+								LinkedHashMap<Object, Object> enchantSection = (LinkedHashMap) cfgEnchants;
+								for (Object sKey : enchantSection.keySet()) {
+									String key = sKey.toString();
+
+									if (!finalRewardStack.getType().equals(Material.POTION) && !(Main.getInstance()
+											.getCurrentVersion().startsWith("v1_9")
+											&& (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+													|| finalRewardStack.getType()
+															.equals(Material.valueOf("LINGERING_POTION"))
+													|| finalRewardStack.getType()
+															.equals(Material.valueOf("SPLASH_POTION"))))) {
+										Enchantment en = null;
+										int level = 0;
+
+										if (Utils.isNumber(key)) {
+											en = Enchantment.getById(Integer.parseInt(key));
+											level = Integer
+													.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
+										} else {
+											en = Enchantment.getByName(key.toUpperCase());
+											level = Integer.parseInt(enchantSection.get(key).toString()) - 1;
+										}
+
+										if (en == null) {
+											continue;
+										}
+
+										finalRewardStack.addUnsafeEnchantment(en, level);
+									}
+								}
+							}
+						}
+
+						if (oldCfgSection.containsKey("name")) {
+							String name = ChatColor.translateAlternateColorCodes('&',
+									oldCfgSection.get("name").toString());
+							ItemMeta im = finalRewardStack.getItemMeta();
+
+							im.setDisplayName(name);
+							finalRewardStack.setItemMeta(im);
+						} else {
+
+							ItemMeta im = finalRewardStack.getItemMeta();
+							String name = im.getDisplayName();
+
+							// check if is ressource
+							ConfigurationSection ressourceSection = Main.getInstance().getConfig()
+									.getConfigurationSection("ressource");
+							for (String key : ressourceSection.getKeys(false)) {
+								Material ressMaterial = null;
+								String itemType = ressourceSection.getString(key + ".item");
+
+								if (Utils.isNumber(itemType)) {
+									ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
+								} else {
+									ressMaterial = Material.getMaterial(itemType);
+								}
+
+								if (finalRewardStack.getType().equals(ressMaterial)) {
+									name = ChatColor.translateAlternateColorCodes('&',
+											ressourceSection.getString(key + ".name"));
+								}
+							}
+
+							im.setDisplayName(name);
+							finalRewardStack.setItemMeta(im);
+						}
+
+					} catch (
+
+					Exception ex)
+
+					{
+						ex.printStackTrace();
+					}
+
+					if (finalRewardStack == null) {
+						continue;
+					}
+
+					rewards.add(finalRewardStack.serialize());
+					offer.put("reward", rewards);
+
+					Object oldCostSection = oldOfferSection.get("item1");
+					ItemStack finalCostStack = null;
+
+					if (!(oldCostSection instanceof LinkedHashMap)) {
+						continue;
+					}
+
+					try {
+						LinkedHashMap<String, Object> oldCfgSection = (LinkedHashMap<String, Object>) oldCostSection;
+
+						String materialString = oldCfgSection.get("item").toString();
+						Material material = null;
+						int amount = 1;
+
+						if (Utils.isNumber(materialString)) {
+							material = Material.getMaterial(Integer.parseInt(materialString));
+						} else {
+							material = Material.getMaterial(materialString);
+						}
+
+						try {
+							if (oldCfgSection.containsKey("amount")) {
+								amount = Integer.parseInt(oldCfgSection.get("amount").toString());
+							}
+						} catch (Exception ex) {
+							amount = 1;
+						}
+
+						finalCostStack = new ItemStack(material, amount);
+
+					} catch (
+
+					Exception ex)
+
+					{
+						ex.printStackTrace();
+					}
+
+					if (finalCostStack == null) {
+						continue;
+					}
+
+					costs.add(finalCostStack.serialize());
+
+					oldCostSection = oldOfferSection.get("item2");
+					finalCostStack = null;
+
+					if (oldCostSection instanceof LinkedHashMap) {
+						try {
+							LinkedHashMap<String, Object> oldCfgSection = (LinkedHashMap<String, Object>) oldCostSection;
+
+							String materialString = oldCfgSection.get("item").toString();
+							Material material = null;
+							int amount = 1;
+
+							if (Utils.isNumber(materialString)) {
+								material = Material.getMaterial(Integer.parseInt(materialString));
+							} else {
+								material = Material.getMaterial(materialString);
+							}
+
+							try {
+								if (oldCfgSection.containsKey("amount")) {
+									amount = Integer.parseInt(oldCfgSection.get("amount").toString());
+								}
+							} catch (Exception ex) {
+								amount = 1;
+							}
+
+							finalCostStack = new ItemStack(material, amount);
+
+						} catch (
+
+						Exception ex)
+
+						{
+							ex.printStackTrace();
+						}
+
+						if (finalCostStack == null) {
+							continue;
+						}
+
+						costs.add(finalCostStack.serialize());
+					}
+
+					oldOfferSection.clear();
+					oldOfferSection.put("price", costs);
+					oldOfferSection.put("reward", rewards);
+
+				}
+			}
+			shopConfig.set("schema-version", 1);
+			schemaVersion = 1;
+		}
+
+		try {
+			shopConfig.save(file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void excludeShop() {

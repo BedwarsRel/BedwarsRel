@@ -132,6 +132,7 @@ public class Main extends JavaPlugin {
 		this.saveConfiguration();
 		this.loadConfigInUTF();
 		this.loadShop();
+		configUpdater.updateShop();
 
 		this.isSpigot = this.getIsSpigot();
 		this.loadDatabase();
