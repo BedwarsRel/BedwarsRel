@@ -56,11 +56,8 @@ public class BlockListener extends BaseListener {
 		return;
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onSpread(BlockSpreadEvent spread) {
-		if (spread.isCancelled()) {
-			return;
-		}
 
 		if (spread.getBlock() == null) {
 			return;
@@ -91,11 +88,8 @@ public class BlockListener extends BaseListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onForm(BlockFormEvent form) {
-		if (form.isCancelled()) {
-			return;
-		}
 
 		if (form.getNewState().getType() != Material.SNOW) {
 			return;
@@ -113,47 +107,30 @@ public class BlockListener extends BaseListener {
 		form.setCancelled(true);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockGrow(BlockGrowEvent grow) {
-		if (grow.isCancelled()) {
-			return;
-		}
 
 		Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getBlock().getLocation());
 		if (game == null) {
 			return;
 		}
 
-		if (game.getState() != GameState.RUNNING) {
-			return;
-		}
-
 		grow.setCancelled(true);
 	}
-	
-	@EventHandler
+
+	@EventHandler(ignoreCancelled = true)
 	public void onStructureGrow(StructureGrowEvent grow) {
-		if (grow.isCancelled()) {
-			return;
-		}
 
 		Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getLocation());
 		if (game == null) {
 			return;
 		}
 
-		if (game.getState() != GameState.RUNNING) {
-			return;
-		}
-
 		grow.setCancelled(true);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onFade(BlockFadeEvent e) {
-		if (e.isCancelled()) {
-			return;
-		}
 
 		Game game = Main.getInstance().getGameManager().getGameByLocation(e.getBlock().getLocation());
 		if (game == null) {
@@ -169,11 +146,8 @@ public class BlockListener extends BaseListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	public void onBreak(BlockBreakEvent e) {
-		if (e.isCancelled()) {
-			return;
-		}
 
 		Player p = e.getPlayer();
 		if (p == null) {
@@ -300,11 +274,8 @@ public class BlockListener extends BaseListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onIgnite(BlockIgniteEvent ignite) {
-		if (ignite.isCancelled()) {
-			return;
-		}
 
 		if (ignite.getIgnitingBlock() == null && ignite.getIgnitingEntity() == null) {
 			return;
@@ -388,6 +359,11 @@ public class BlockListener extends BaseListener {
 				bpe.setCancelled(true);
 				bpe.setBuild(false);
 				return;
+			}
+
+			if (placeBlock.getType().equals(Material.STAINED_GLASS) || placeBlock.getType().equals(Material.WOOL)
+					|| placeBlock.getType().equals(Material.STAINED_CLAY)) {
+				placeBlock.setData(game.getPlayerTeam(player).getColor().getDyeColor().getData());
 			}
 
 			if (replacedBlock != null) {

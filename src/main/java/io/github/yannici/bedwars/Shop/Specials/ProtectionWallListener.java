@@ -64,7 +64,7 @@ public class ProtectionWallListener implements Listener {
 	        return;
 	    }
 	    
-	    if(place.getItemInHand().getItemMeta().getDisplayName() == null){
+	    if(place.getItemInHand().getItemMeta() == null || place.getItemInHand().getItemMeta().getDisplayName() == null){
 	    	return;
 	    }
 	    
