@@ -552,6 +552,9 @@ public class ConfigUpdater {
 							}
 							if (hasPotionMeta) {
 								PotionMeta customPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
+								if(potionMetaDuration != 1){
+									potionMetaDuration = potionMetaDuration * 20;
+								}
 								customPotionMeta.addCustomEffect(
 										new PotionEffect(potionMetaEffectType, potionMetaDuration, potionMetaAmplifier),
 										true);
