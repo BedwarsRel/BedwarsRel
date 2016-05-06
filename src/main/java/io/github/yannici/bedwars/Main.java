@@ -126,20 +126,20 @@ public class Main extends JavaPlugin {
 
 		this.getConfig().options().copyDefaults(true);
 		this.getConfig().options().copyHeader(true);
+		
+		this.craftbukkit = this.getCraftBukkit();
+		this.minecraft = this.getMinecraftPackage();
+		this.version = this.loadVersion();
 
 		ConfigUpdater configUpdater = new ConfigUpdater();
 		configUpdater.addConfigs();
 		this.saveConfiguration();
 		this.loadConfigInUTF();
-		this.loadShop();
 		configUpdater.updateShop();
+		this.loadShop();
 
 		this.isSpigot = this.getIsSpigot();
 		this.loadDatabase();
-
-		this.craftbukkit = this.getCraftBukkit();
-		this.minecraft = this.getMinecraftPackage();
-		this.version = this.loadVersion();
 
 		this.registerCommands();
 		this.registerListener();

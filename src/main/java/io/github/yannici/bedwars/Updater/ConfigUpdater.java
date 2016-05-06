@@ -210,9 +210,22 @@ public class ConfigUpdater {
 	}
 
 	public void updateShop() {
+		
 		File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
+		if (!file.exists()) {
+			return;
+		}
 
-		YamlConfiguration shopConfig = (YamlConfiguration) Main.getInstance().getShopConfig();
+		YamlConfiguration shopConfig = new YamlConfiguration();
+
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+			shopConfig.load(reader);
+		} catch (Exception e) {
+			Main.getInstance().getServer().getConsoleSender().sendMessage(
+					ChatWriter.pluginMessage(ChatColor.RED + "Couldn't load shop! Error in parsing shop!"));
+			e.printStackTrace();
+		}
 
 		Integer schemaVersion = null;
 		if (shopConfig.contains("schema-version")) {
@@ -258,6 +271,9 @@ public class ConfigUpdater {
 						Material material = null;
 						boolean hasMeta = false;
 						boolean hasPotionMeta = false;
+						PotionEffectType potionMetaEffectType = null;
+						int potionMetaDuration = 1;
+						int potionMetaAmplifier = 0;
 						byte meta = 0;
 
 						int amount = 1;
@@ -293,6 +309,178 @@ public class ConfigUpdater {
 							} else {
 								hasPotionMeta = true;
 								potionMeta = Short.parseShort(oldCfgSection.get("meta").toString());
+								switch (potionMeta) {
+								case 8193:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 45;
+									potionMetaAmplifier = 0;
+									break;
+								case 8194:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8195:
+									potionMetaEffectType = PotionEffectType.FIRE_RESISTANCE;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8196:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 45;
+									potionMetaAmplifier = 0;
+									break;
+								case 8197:
+									potionMetaEffectType = PotionEffectType.HEAL;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 0;
+									break;
+								case 8198:
+									potionMetaEffectType = PotionEffectType.NIGHT_VISION;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8200:
+									potionMetaEffectType = PotionEffectType.WEAKNESS;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 0;
+									break;
+								case 8201:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8202:
+									potionMetaEffectType = PotionEffectType.SLOW;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 0;
+									break;
+								case 8204:
+									potionMetaEffectType = PotionEffectType.HARM;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 0;
+									break;
+								case 8205:
+									potionMetaEffectType = PotionEffectType.WATER_BREATHING;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8206:
+									potionMetaEffectType = PotionEffectType.INVISIBILITY;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8225:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 22;
+									potionMetaAmplifier = 1;
+									break;
+								case 8226:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 1;
+									break;
+								case 8228:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 22;
+									potionMetaAmplifier = 1;
+									break;
+								case 8229:
+									potionMetaEffectType = PotionEffectType.HEAL;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 1;
+									break;
+								case 8233:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 1;
+									break;
+								case 8235:
+									potionMetaEffectType = PotionEffectType.JUMP;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 1;
+									break;
+								case 8236:
+									potionMetaEffectType = PotionEffectType.HARM;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 1;
+									break;
+								case 8257:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 2 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8258:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 8 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8259:
+									potionMetaEffectType = PotionEffectType.FIRE_RESISTANCE;
+									potionMetaDuration = 8 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8260:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 2 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8262:
+									potionMetaEffectType = PotionEffectType.NIGHT_VISION;
+									potionMetaDuration = 8 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8264:
+									potionMetaEffectType = PotionEffectType.WEAKNESS;
+									potionMetaDuration = 4 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8265:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 8 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8266:
+									potionMetaEffectType = PotionEffectType.SLOW;
+									potionMetaDuration = 4 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8267:
+									potionMetaEffectType = PotionEffectType.JUMP;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8269:
+									potionMetaEffectType = PotionEffectType.WATER_BREATHING;
+									potionMetaDuration = 8 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8270:
+									potionMetaEffectType = PotionEffectType.INVISIBILITY;
+									potionMetaDuration = 8 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 8289:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 60;
+									potionMetaAmplifier = 1;
+									break;
+								case 8290:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 4 * 60;
+									potionMetaAmplifier = 1;
+									break;
+								case 8292:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 60;
+									potionMetaAmplifier = 1;
+									break;
+								case 8297:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 4 * 60;
+									potionMetaAmplifier = 1;
+									break;
+								}
 							}
 						}
 
@@ -305,7 +493,7 @@ public class ConfigUpdater {
 								finalRewardStack = new ItemStack(material, amount, meta);
 							}
 						} else if (hasPotionMeta) {
-							finalRewardStack = new ItemStack(material, amount, potionMeta);
+							finalRewardStack = new ItemStack(material, amount);
 						} else {
 							finalRewardStack = new ItemStack(material, amount);
 						}
@@ -322,13 +510,13 @@ public class ConfigUpdater {
 							finalRewardStack.setItemMeta(im);
 						}
 
-						if (!hasPotionMeta && (material.equals(Material.POTION)
+						if (material.equals(Material.POTION)
 								|| (Main.getInstance().getCurrentVersion().startsWith("v1_9")
 										&& (material.equals(Material.valueOf("TIPPED_ARROW"))
 												|| material.equals(Material.valueOf("LINGERING_POTION"))
-												|| material.equals(Material.valueOf("SPLASH_POTION")))))) {
+												|| material.equals(Material.valueOf("SPLASH_POTION"))))) {
 
-							if (oldCfgSection.containsKey("effects")) {
+							if (!hasPotionMeta && (oldCfgSection.containsKey("effects"))) {
 								PotionMeta customPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
 								for (Object potionEffect : (List<Object>) oldCfgSection.get("effects")) {
 									LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
@@ -360,6 +548,13 @@ public class ConfigUpdater {
 									customPotionMeta.addCustomEffect(
 											new PotionEffect(potionEffectType, duration, amplifier), true);
 								}
+								finalRewardStack.setItemMeta(customPotionMeta);
+							}
+							if (hasPotionMeta) {
+								PotionMeta customPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
+								customPotionMeta.addCustomEffect(
+										new PotionEffect(potionMetaEffectType, potionMetaDuration, potionMetaAmplifier),
+										true);
 								finalRewardStack.setItemMeta(customPotionMeta);
 							}
 						}
@@ -547,12 +742,19 @@ public class ConfigUpdater {
 			schemaVersion = 1;
 		}
 
-		try {
+		try
+
+		{
 			shopConfig.save(file);
-		} catch (IOException e) {
+		} catch (
+
+		IOException e)
+
+		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 	}
 
 	private void excludeShop() {
