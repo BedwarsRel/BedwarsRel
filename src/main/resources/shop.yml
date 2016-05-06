@@ -372,7 +372,7 @@ shop:
           display-name: "Trap"
           lore:
           - "Get informed if an enemy steps on your trap"
-          - "and your enemy won't be able to move properly".
+          - "and your enemy won't be able to move properly."
     - price:
       - type: CLAY_BRICK
         amount: 64
