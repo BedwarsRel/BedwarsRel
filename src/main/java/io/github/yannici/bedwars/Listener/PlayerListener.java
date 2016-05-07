@@ -254,21 +254,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		InventoryHolder holder = ioe.getInventory().getHolder();
-		for (Class<?> interfaze : holder.getClass().getInterfaces()) {
-
-			if (interfaze.equals(BlockState.class)) {
-				game.getRegion().addInventory(ioe.getInventory());
-				return;
-			}
-
-			for (Class<?> interfaze2 : interfaze.getInterfaces()) {
-				if (interfaze2.equals(BlockState.class)) {
-					game.getRegion().addInventory(ioe.getInventory());
-					return;
-				}
-			}
-		}
+		game.getRegion().addInventory(ioe.getInventory());
 	}
 
 	@EventHandler
