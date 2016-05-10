@@ -92,6 +92,13 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/lib/spigot-1.9-R0.1-SNAPSHOT-latest.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>net.minecraft</groupId>
+            <artifactId>minecraft-server-194</artifactId>
+            <version>1.9.4</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/spigot-1.9.4-R0.2-SNAPSHOT-latest.jar</systemPath>
+        </dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
