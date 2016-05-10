@@ -934,8 +934,8 @@ public class ConfigUpdater {
 					}
 
 					oldOfferSection.clear();
-					oldOfferSection.put("price", costs);
 					oldOfferSection.put("reward", rewards);
+					oldOfferSection.put("price", costs);
 
 				}
 			}
