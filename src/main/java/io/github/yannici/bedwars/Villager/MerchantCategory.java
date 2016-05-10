@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
@@ -140,6 +139,7 @@ public class MerchantCategory {
 		return mc;
 	}
 
+	@SuppressWarnings("deprecation")
 	private static ItemStack setRessourceName(ItemStack item) {
 
 		ItemMeta im = item.getItemMeta();

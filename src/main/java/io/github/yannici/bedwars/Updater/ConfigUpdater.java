@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -30,8 +28,6 @@ import org.bukkit.potion.PotionEffectType;
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
-import io.github.yannici.bedwars.Villager.MerchantCategory;
-import io.github.yannici.bedwars.Villager.VillagerTrade;
 
 public class ConfigUpdater {
 
@@ -209,6 +205,7 @@ public class ConfigUpdater {
 		// </1.3.1>
 	}
 
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public void updateShop() {
 
 		File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
@@ -745,7 +742,7 @@ public class ConfigUpdater {
 							Object cfgEnchants = oldCfgSection.get("enchants");
 
 							if (cfgEnchants instanceof LinkedHashMap) {
-								LinkedHashMap<Object, Object> enchantSection = (LinkedHashMap) cfgEnchants;
+								LinkedHashMap<Object, Object> enchantSection = (LinkedHashMap<Object, Object>) cfgEnchants;
 								for (Object sKey : enchantSection.keySet()) {
 									String key = sKey.toString();
 
@@ -943,19 +940,8 @@ public class ConfigUpdater {
 			schemaVersion = 1;
 		}
 
-		try
-
-		{
-			shopConfig.save(file);
-		} catch (
-
-		IOException e)
-
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		// Save shop in UTF-8
+		this.saveShopFile(shopConfig, file);
 	}
 
 	private void excludeShop() {

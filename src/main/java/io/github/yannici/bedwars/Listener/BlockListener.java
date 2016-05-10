@@ -320,6 +320,7 @@ public class BlockListener extends BaseListener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlace(BlockPlaceEvent bpe) {
 		Player player = bpe.getPlayer();
