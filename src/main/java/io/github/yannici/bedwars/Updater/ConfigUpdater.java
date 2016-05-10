@@ -210,7 +210,7 @@ public class ConfigUpdater {
 	}
 
 	public void updateShop() {
-		
+
 		File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
 		if (!file.exists()) {
 			return;
@@ -552,7 +552,7 @@ public class ConfigUpdater {
 							}
 							if (hasPotionMeta) {
 								PotionMeta customPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
-								if(potionMetaDuration != 1){
+								if (potionMetaDuration != 1) {
 									potionMetaDuration = potionMetaDuration * 20;
 								}
 								customPotionMeta.addCustomEffect(
@@ -627,6 +627,25 @@ public class ConfigUpdater {
 								if (finalRewardStack.getType().equals(ressMaterial)) {
 									name = ChatColor.translateAlternateColorCodes('&',
 											ressourceSection.getString(key + ".name"));
+								}
+							}
+
+							if (finalRewardStack.getType().equals(Material.POTION) || (Main.getInstance()
+									.getCurrentVersion().startsWith("v1_9")
+									&& (finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
+											|| finalRewardStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
+								PotionMeta finalRewardStackPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
+								if (finalRewardStackPotionMeta.getCustomEffects().size() >= 1) {
+									String effectName = finalRewardStackPotionMeta.getCustomEffects().get(0).getType()
+											.getName();
+									name = "";
+									String[] effectNameParts = effectName.split("_");
+									for (String effectNamePart : effectNameParts) {
+										name = name + effectNamePart.substring(0, 1).toUpperCase()
+												+ effectNamePart.substring(1).toLowerCase() + " ";
+									}
+									name = name
+											+ (finalRewardStackPotionMeta.getCustomEffects().get(0).getAmplifier() + 1);
 								}
 							}
 

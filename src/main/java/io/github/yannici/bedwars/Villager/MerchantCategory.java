@@ -3,7 +3,6 @@ package io.github.yannici.bedwars.Villager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,16 +11,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.Potion;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
@@ -145,15 +139,14 @@ public class MerchantCategory {
 
 		return mc;
 	}
-	
-	private static ItemStack setRessourceName(ItemStack item){
-		
+
+	private static ItemStack setRessourceName(ItemStack item) {
+
 		ItemMeta im = item.getItemMeta();
 		String name = im.getDisplayName();
-		
+
 		// check if is ressource
-		ConfigurationSection ressourceSection = Main.getInstance().getConfig()
-				.getConfigurationSection("ressource");
+		ConfigurationSection ressourceSection = Main.getInstance().getConfig().getConfigurationSection("ressource");
 		for (String key : ressourceSection.getKeys(false)) {
 			Material ressMaterial = null;
 			String itemType = ressourceSection.getString(key + ".item");
@@ -171,7 +164,7 @@ public class MerchantCategory {
 
 		im.setDisplayName(name);
 		item.setItemMeta(im);
-		
+
 		return item;
 	}
 
