@@ -271,6 +271,7 @@ public class ConfigUpdater {
 						Material material = null;
 						boolean hasMeta = false;
 						boolean hasPotionMeta = false;
+						boolean potionIsSplash = false;
 						PotionEffectType potionMetaEffectType = null;
 						int potionMetaDuration = 1;
 						int potionMetaAmplifier = 0;
@@ -309,6 +310,9 @@ public class ConfigUpdater {
 							} else {
 								hasPotionMeta = true;
 								potionMeta = Short.parseShort(oldCfgSection.get("meta").toString());
+								if (potionMeta > 16000) {
+									potionIsSplash = true;
+								}
 								switch (potionMeta) {
 								case 8193:
 									potionMetaEffectType = PotionEffectType.REGENERATION;
@@ -480,6 +484,176 @@ public class ConfigUpdater {
 									potionMetaDuration = 4 * 60;
 									potionMetaAmplifier = 1;
 									break;
+								case 16385:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 33;
+									potionMetaAmplifier = 0;
+									break;
+								case 16386:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16387:
+									potionMetaEffectType = PotionEffectType.FIRE_RESISTANCE;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16388:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 33;
+									potionMetaAmplifier = 0;
+									break;
+								case 16389:
+									potionMetaEffectType = PotionEffectType.HEAL;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 0;
+									break;
+								case 16390:
+									potionMetaEffectType = PotionEffectType.NIGHT_VISION;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16392:
+									potionMetaEffectType = PotionEffectType.WEAKNESS;
+									potionMetaDuration = 67;
+									potionMetaAmplifier = 0;
+									break;
+								case 16393:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16394:
+									potionMetaEffectType = PotionEffectType.SLOW;
+									potionMetaDuration = 67;
+									potionMetaAmplifier = 0;
+									break;
+								case 16396:
+									potionMetaEffectType = PotionEffectType.HARM;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 0;
+									break;
+								case 16397:
+									potionMetaEffectType = PotionEffectType.WATER_BREATHING;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16398:
+									potionMetaEffectType = PotionEffectType.INVISIBILITY;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16417:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 16;
+									potionMetaAmplifier = 1;
+									break;
+								case 16418:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 67;
+									potionMetaAmplifier = 1;
+									break;
+								case 16420:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 16;
+									potionMetaAmplifier = 1;
+									break;
+								case 16421:
+									potionMetaEffectType = PotionEffectType.HEAL;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 1;
+									break;
+								case 16425:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 67;
+									potionMetaAmplifier = 1;
+									break;
+								case 16427:
+									potionMetaEffectType = PotionEffectType.JUMP;
+									potionMetaDuration = 67;
+									potionMetaAmplifier = 1;
+									break;
+								case 16428:
+									potionMetaEffectType = PotionEffectType.HARM;
+									potionMetaDuration = 1;
+									potionMetaAmplifier = 1;
+									break;
+								case 16449:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 0;
+									break;
+								case 16450:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 6 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16451:
+									potionMetaEffectType = PotionEffectType.FIRE_RESISTANCE;
+									potionMetaDuration = 6 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16452:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 90;
+									potionMetaAmplifier = 0;
+									break;
+								case 16454:
+									potionMetaEffectType = PotionEffectType.NIGHT_VISION;
+									potionMetaDuration = 6 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16456:
+									potionMetaEffectType = PotionEffectType.WEAKNESS;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16457:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 6 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16458:
+									potionMetaEffectType = PotionEffectType.SLOW;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16459:
+									potionMetaEffectType = PotionEffectType.JUMP;
+									potionMetaDuration = 135;
+									potionMetaAmplifier = 0;
+									break;
+								case 16461:
+									potionMetaEffectType = PotionEffectType.WATER_BREATHING;
+									potionMetaDuration = 6 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16462:
+									potionMetaEffectType = PotionEffectType.INVISIBILITY;
+									potionMetaDuration = 6 * 60;
+									potionMetaAmplifier = 0;
+									break;
+								case 16481:
+									potionMetaEffectType = PotionEffectType.REGENERATION;
+									potionMetaDuration = 45;
+									potionMetaAmplifier = 1;
+									break;
+								case 16482:
+									potionMetaEffectType = PotionEffectType.SPEED;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 1;
+									break;
+								case 16484:
+									potionMetaEffectType = PotionEffectType.POISON;
+									potionMetaDuration = 45;
+									potionMetaAmplifier = 1;
+									break;
+								case 16489:
+									potionMetaEffectType = PotionEffectType.INCREASE_DAMAGE;
+									potionMetaDuration = 3 * 60;
+									potionMetaAmplifier = 1;
+									break;
 								}
 							}
 						}
@@ -493,7 +667,12 @@ public class ConfigUpdater {
 								finalRewardStack = new ItemStack(material, amount, meta);
 							}
 						} else if (hasPotionMeta) {
-							finalRewardStack = new ItemStack(material, amount);
+							if (Main.getInstance().getCurrentVersion().startsWith("v1_9") && potionIsSplash) {
+								finalRewardStack = new ItemStack(Material.valueOf("SPLASH_POTION"), amount);
+							} else {
+								finalRewardStack = new ItemStack(material, amount);
+							}
+
 						} else {
 							finalRewardStack = new ItemStack(material, amount);
 						}
