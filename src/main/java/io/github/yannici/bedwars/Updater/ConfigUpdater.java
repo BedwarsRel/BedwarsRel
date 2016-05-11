@@ -35,6 +35,7 @@ public class ConfigUpdater {
 		super();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addConfigs() {
 		// <1.1.3>
 		Main.getInstance().getConfig().addDefault("check-updates", true);
@@ -202,6 +203,11 @@ public class ConfigUpdater {
 			String chatToAllPrefixString = Main.getInstance().getConfig().getString("chat-to-all-prefix");
 			Main.getInstance().getConfig().set("chat-to-all-prefix", Arrays.asList(chatToAllPrefixString));
 		}
+		if (Main.getInstance().getConfig().isList("breakable-blocks")) {
+			List<String> breakableBlocks = (List<String>) Main.getInstance().getConfig().getList("breakable-blocks");
+			Main.getInstance().getConfig().set("breakable-blocks.list", breakableBlocks);
+		}
+		Main.getInstance().getConfig().addDefault("breakable-blocks.use-as-blacklist", false);
 		// </1.3.1>
 	}
 
