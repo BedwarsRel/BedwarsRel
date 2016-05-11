@@ -126,7 +126,7 @@ public class Main extends JavaPlugin {
 
 		this.getConfig().options().copyDefaults(true);
 		this.getConfig().options().copyHeader(true);
-		
+
 		this.craftbukkit = this.getCraftBukkit();
 		this.minecraft = this.getMinecraftPackage();
 		this.version = this.loadVersion();
@@ -199,7 +199,7 @@ public class Main extends JavaPlugin {
 
 		// load breakable materials
 		this.breakableTypes = new ArrayList<Material>();
-		for (String material : this.getConfig().getStringList("breakable-blocks")) {
+		for (String material : this.getConfig().getStringList("breakable-blocks.list")) {
 			if (material.equalsIgnoreCase("none")) {
 				continue;
 			}
@@ -317,7 +317,13 @@ public class Main extends JavaPlugin {
 	}
 
 	public boolean isBreakableType(Material type) {
-		return (this.breakableTypes.contains(type));
+		if ((Main.getInstance().getConfig().getBoolean("breakable-blocks.use-as-blacklist")
+				&& !this.breakableTypes.contains(type))
+				|| (!Main.getInstance().getConfig().getBoolean("breakable-blocks.use-as-blacklist")
+						&& this.breakableTypes.contains(type))) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isMineshafterPresent() {
@@ -405,7 +411,7 @@ public class Main extends JavaPlugin {
 
 		this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
 	}
-	
+
 	public StorageType getStatisticStorageType() {
 		String storage = this.getStringConfig("statistics.storage", "yaml");
 		return StorageType.getByName(storage);
