@@ -204,6 +204,11 @@ public class Main extends JavaPlugin {
 				continue;
 			}
 
+	        	//use bedrock as synonym for "all"
+	        	if (material.equalsIgnoreCase("all")) {
+	        		material = "bedrock";
+	        	}
+
 			Material mat = Utils.parseMaterial(material);
 			if (mat == null) {
 				continue;
@@ -317,7 +322,15 @@ public class Main extends JavaPlugin {
 	}
 
 	public boolean isBreakableType(Material type) {
-		return (this.breakableTypes.contains(type));
+		if(this.breakableTypes.contains(type)){
+			return true;
+		}
+		
+		//bedrock is synonym for all
+		if(this.breakableTypes.contains(Material.BEDROCK)){
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isMineshafterPresent() {
