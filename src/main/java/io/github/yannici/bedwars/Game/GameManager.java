@@ -103,7 +103,12 @@ public class GameManager {
 
 		game.setState(GameState.STOPPED);
 		game.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
-		game.kickAllPlayers();
+		
+		try {
+			game.kickAllPlayers();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		game.resetRegion();
 		game.updateSigns();
 	}
