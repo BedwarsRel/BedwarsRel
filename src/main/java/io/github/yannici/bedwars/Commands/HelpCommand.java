@@ -114,6 +114,7 @@ public class HelpCommand extends BaseCommand {
 			arg = " {config;locale;shop;games;all?}";
 		} else if (command.getCommand().equalsIgnoreCase("stop")) {
 			arg = " {game?}";
+		}
 
 		sb.append(ChatColor.YELLOW + "/" + Main.getInstance().getStringConfig("command-prefix", "bw") + " "
 				+ command.getCommand() + arg + " - " + command.getDescription() + "\n");
