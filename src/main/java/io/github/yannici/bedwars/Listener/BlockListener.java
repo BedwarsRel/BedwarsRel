@@ -320,7 +320,6 @@ public class BlockListener extends BaseListener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onPlace(BlockPlaceEvent bpe) {
 		Player player = bpe.getPlayer();
@@ -360,11 +359,6 @@ public class BlockListener extends BaseListener {
 				bpe.setCancelled(true);
 				bpe.setBuild(false);
 				return;
-			}
-
-			if (placeBlock.getType().equals(Material.STAINED_GLASS) || placeBlock.getType().equals(Material.WOOL)
-					|| placeBlock.getType().equals(Material.STAINED_CLAY)) {
-				placeBlock.setData(game.getPlayerTeam(player).getColor().getDyeColor().getData());
 			}
 
 			if (replacedBlock != null) {
