@@ -433,14 +433,7 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: POTION
-          display-name: "Potion of Healing I"
-          custom-effects:
-          - ==: PotionEffect
-            effect: 6
-            duration: 1
-            amplifier: 0
-            ambient: true
-            has-particles: true
+          potion-type: healing
     - price:
       - type: IRON_INGOT
         amount: 5
@@ -449,14 +442,7 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: POTION
-          display-name: "Potion of Healing II"
-          custom-effects:
-          - ==: PotionEffect
-            effect: 6
-            duration: 1
-            amplifier: 1
-            ambient: true
-            has-particles: true
+          potion-type: strong_healing
     - price:
       - type: IRON_INGOT
         amount: 7
@@ -465,14 +451,7 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: POTION
-          display-name: "Potion of Speed I"
-          custom-effects:
-          - ==: PotionEffect
-            effect: 1
-            duration: 3600
-            amplifier: 0
-            ambient: true
-            has-particles: true
+          potion-type: swiftness
     - price:
       - type: GOLD_INGOT
       reward:
@@ -480,14 +459,7 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: POTION
-          display-name: "Potion of Strength I"
-          custom-effects:
-          - ==: PotionEffect
-            effect: 5
-            duration: 3600
-            amplifier: 0
-            ambient: true
-            has-particles: true
+          potion-type: strength
     - price:
       - type: GOLD_INGOT
         amount: 3
@@ -496,12 +468,5 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: POTION
-          display-name: "Potion of Regeneration I"
-          custom-effects:
-          - ==: PotionEffect
-            effect: 10
-            duration: 900
-            amplifier: 0
-            ambient: true
-            has-particles: true
+          potion-type: regeneration
 schema-version: 1
