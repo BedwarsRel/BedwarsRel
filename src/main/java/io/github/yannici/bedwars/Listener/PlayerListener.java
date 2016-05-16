@@ -12,7 +12,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -42,7 +41,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -77,7 +75,7 @@ public class PlayerListener extends BaseListener {
 		}
 
 		if (Main.getInstance().isBungee()) {
-			je.setJoinMessage("");
+			je.setJoinMessage(null);
 			ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
 			if (games.size() == 0) {
 				return;
@@ -254,21 +252,7 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		InventoryHolder holder = ioe.getInventory().getHolder();
-		for (Class<?> interfaze : holder.getClass().getInterfaces()) {
-
-			if (interfaze.equals(BlockState.class)) {
-				game.getRegion().addInventory(ioe.getInventory());
-				return;
-			}
-
-			for (Class<?> interfaze2 : interfaze.getInterfaces()) {
-				if (interfaze2.equals(BlockState.class)) {
-					game.getRegion().addInventory(ioe.getInventory());
-					return;
-				}
-			}
-		}
+		game.getRegion().addInventory(ioe.getInventory());
 	}
 
 	@EventHandler
@@ -575,9 +559,19 @@ public class PlayerListener extends BaseListener {
 			return;
 		}
 
-		String toAllPrefix = Main.getInstance().getConfig().getString("chat-to-all-prefix", "@");
+		@SuppressWarnings("unchecked")
+		List<String> toAllPrefixList = (List<String>) Main.getInstance().getConfig().getList("chat-to-all-prefix",
+				Arrays.asList("@"));
 
-		if (message.trim().startsWith(toAllPrefix) || isSpectator || (game.getCycle().isEndGameRunning()
+		String toAllPrefix = "";
+
+		for (String oneToAllPrefix : toAllPrefixList) {
+			if (message.trim().startsWith(oneToAllPrefix)) {
+				toAllPrefix = oneToAllPrefix;
+			}
+		}
+
+		if (!toAllPrefix.equals("") || isSpectator || (game.getCycle().isEndGameRunning()
 				&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
 			boolean seperateSpectatorChat = Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
 
@@ -585,7 +579,7 @@ public class PlayerListener extends BaseListener {
 			String format = null;
 			if (!isSpectator && !(game.getCycle().isEndGameRunning()
 					&& Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
-				ce.setMessage(message.substring(1, message.length()));
+				ce.setMessage(message.substring(toAllPrefix.length(), message.length()).trim());
 				format = this.getChatFormat(
 						Main.getInstance().getStringConfig("ingame-chatformat-all", "[$all$] <$team$>$player$: $msg$"),
 						team, false, true);
@@ -642,15 +636,16 @@ public class PlayerListener extends BaseListener {
 		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
 		if (game == null) {
-			return;
+			game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
+			if (game == null) {
+				return;
+			}
 		}
 
 		if (game.getState() != GameState.WAITING) {
-			if (game.isSpectator(player)) {
-				ppie.setCancelled(true);
+			if (game.isInGame(player)) {
+				return;
 			}
-
-			return;
 		}
 
 		ppie.setCancelled(true);
@@ -963,6 +958,7 @@ public class PlayerListener extends BaseListener {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
 		Inventory inv = ice.getInventory();
 		ItemStack clickedStack = ice.getCurrentItem();
@@ -1014,6 +1010,10 @@ public class PlayerListener extends BaseListener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onQuit(PlayerQuitEvent pqe) {
 		Player player = pqe.getPlayer();
+		
+		if (Main.getInstance().isBungee()) {
+			pqe.setQuitMessage(null);
+		}
 
 		// Remove holographs
 		if (Main.getInstance().isHologramsEnabled() && Main.getInstance().getHolographicInteractor() != null) {

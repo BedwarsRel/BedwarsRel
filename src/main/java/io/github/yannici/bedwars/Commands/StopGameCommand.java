@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -34,7 +35,7 @@ public class StopGameCommand extends BaseCommand implements ICommand {
 
 	@Override
 	public String[] getArguments() {
-		return new String[] { "game" };
+		return new String[] {};
 	}
 
 	@Override
@@ -43,11 +44,27 @@ public class StopGameCommand extends BaseCommand implements ICommand {
 			return false;
 		}
 
-		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
-		if (game == null) {
-			sender.sendMessage(ChatWriter.pluginMessage(
-					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-			return false;
+		Game game = null;
+		
+		if(args.size() == 0){
+			game = this.getPlugin().getGameManager().getGameOfPlayer((Player) sender);
+			
+			if (game == null) {
+				sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("errors.notingame")));
+				return false;
+			}
+		}
+
+		if(args.size() != 0){
+			game = this.getPlugin().getGameManager().getGame(args.get(0));
+		
+			if (game == null) {
+				sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+						+ Main._l("errors.gamenotfound",
+								ImmutableMap.of("game", args.get(0).toString()))));
+				return false;
+			}
 		}
 
 		if (!game.stop()) {

@@ -3,24 +3,18 @@ package io.github.yannici.bedwars.Villager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
@@ -57,7 +51,7 @@ public class MerchantCategory {
 		return this.order;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public static HashMap<Material, MerchantCategory> loadCategories(FileConfiguration cfg) {
 		if (cfg.getConfigurationSection("shop") == null) {
 			return new HashMap<Material, MerchantCategory>();
@@ -111,18 +105,18 @@ public class MerchantCategory {
 					continue;
 				}
 
-				LinkedHashMap<String, Object> offerSection = (LinkedHashMap<String, Object>) offer;
+				HashMap<String, List<Map<String, Object>>> offerSection = (HashMap<String, List<Map<String, Object>>>) offer;
 
-				if (!offerSection.containsKey("item1") || !offerSection.containsKey("reward")) {
+				if (!offerSection.containsKey("price") || !offerSection.containsKey("reward")) {
 					continue;
 				}
 
-				ItemStack item1 = MerchantCategory.createItemStackByConfig(offerSection.get("item1"));
+				ItemStack item1 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(0)));
 				ItemStack item2 = null;
-				if (offerSection.containsKey("item2")) {
-					item2 = MerchantCategory.createItemStackByConfig(offerSection.get("item2"));
+				if (offerSection.get("price").size() == 2) {
+					item2 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(1)));
 				}
-				ItemStack reward = MerchantCategory.createItemStackByConfig(offerSection.get("reward"));
+				ItemStack reward = ItemStack.deserialize(offerSection.get("reward").get(0));
 
 				if (item1 == null || reward == null) {
 					continue;
@@ -145,203 +139,33 @@ public class MerchantCategory {
 		return mc;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static ItemStack createItemStackByConfig(Object section) {
-		if (!(section instanceof LinkedHashMap)) {
-			return null;
+	@SuppressWarnings("deprecation")
+	private static ItemStack setRessourceName(ItemStack item) {
+
+		ItemMeta im = item.getItemMeta();
+		String name = im.getDisplayName();
+
+		// check if is ressource
+		ConfigurationSection ressourceSection = Main.getInstance().getConfig().getConfigurationSection("ressource");
+		for (String key : ressourceSection.getKeys(false)) {
+			Material ressMaterial = null;
+			String itemType = ressourceSection.getString(key + ".item");
+
+			if (Utils.isNumber(itemType)) {
+				ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
+			} else {
+				ressMaterial = Material.getMaterial(itemType);
+			}
+
+			if (item.getType().equals(ressMaterial)) {
+				name = ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
+			}
 		}
 
-		try {
-			LinkedHashMap<String, Object> cfgSection = (LinkedHashMap<String, Object>) section;
+		im.setDisplayName(name);
+		item.setItemMeta(im);
 
-			String materialString = cfgSection.get("item").toString();
-			Material material = null;
-			boolean hasMeta = false;
-			boolean hasPotionMeta = false;
-			byte meta = 0;
-			ItemStack finalStack = null;
-			int amount = 1;
-			short potionMeta = 0;
-
-			if (Utils.isNumber(materialString)) {
-				material = Material.getMaterial(Integer.parseInt(materialString));
-			} else {
-				material = Material.getMaterial(materialString);
-			}
-
-			try {
-				if (cfgSection.containsKey("amount")) {
-					amount = Integer.parseInt(cfgSection.get("amount").toString());
-				}
-			} catch (Exception ex) {
-				amount = 1;
-			}
-
-			if (cfgSection.containsKey("meta")) {
-				if (!material.equals(Material.POTION) && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-						&& (material.equals(Material.valueOf("TIPPED_ARROW"))
-								|| material.equals(Material.valueOf("LINGERING_POTION"))
-								|| material.equals(Material.valueOf("SPLASH_POTION"))))) {
-
-					try {
-						meta = Byte.parseByte(cfgSection.get("meta").toString());
-						hasMeta = true;
-					} catch (Exception ex) {
-						hasMeta = false;
-					}
-				} else {
-					hasPotionMeta = true;
-					potionMeta = Short.parseShort(cfgSection.get("meta").toString());
-				}
-			}
-
-			if (hasMeta) {
-				if (material.equals(Material.MONSTER_EGG) && meta == 91
-						&& Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
-					finalStack = new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
-							.toItemStack(amount);
-				} else {
-					finalStack = new ItemStack(material, amount, meta);
-				}
-			} else if (hasPotionMeta) {
-				finalStack = new ItemStack(material, amount, potionMeta);
-			} else {
-				finalStack = new ItemStack(material, amount);
-			}
-
-			if (cfgSection.containsKey("lore")) {
-				List<String> lores = new ArrayList<String>();
-				ItemMeta im = finalStack.getItemMeta();
-
-				for (Object lore : (List<String>) cfgSection.get("lore")) {
-					lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
-				}
-
-				im.setLore(lores);
-				finalStack.setItemMeta(im);
-			}
-
-			if (!hasPotionMeta
-					&& (material.equals(Material.POTION) || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-							&& (material.equals(Material.valueOf("TIPPED_ARROW"))
-									|| material.equals(Material.valueOf("LINGERING_POTION"))
-									|| material.equals(Material.valueOf("SPLASH_POTION")))))) {
-
-				if (cfgSection.containsKey("effects")) {
-					PotionMeta customPotionMeta = (PotionMeta) finalStack.getItemMeta();
-					for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
-						LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
-						if (!potionEffectSection.containsKey("type")) {
-							continue;
-						}
-
-						PotionEffectType potionEffectType = null;
-						int duration = 1;
-						int amplifier = 0;
-
-						potionEffectType = PotionEffectType
-								.getByName(potionEffectSection.get("type").toString().toUpperCase());
-
-						if (potionEffectSection.containsKey("duration")) {
-							duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
-						}
-
-						if (potionEffectSection.containsKey("amplifier")) {
-							amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
-						}
-
-						if (potionEffectType == null) {
-							continue;
-						}
-
-						customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier), true);
-					}
-
-					finalStack.setItemMeta(customPotionMeta);
-				}
-			}
-
-			if (cfgSection.containsKey("enchants")) {
-				Object cfgEnchants = cfgSection.get("enchants");
-
-				if (cfgEnchants instanceof LinkedHashMap) {
-					LinkedHashMap<Object, Object> enchantSection = (LinkedHashMap) cfgEnchants;
-					for (Object sKey : enchantSection.keySet()) {
-						String key = sKey.toString();
-
-						if (!finalStack
-								.getType().equals(
-										Material.POTION)
-								&& !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-										&& (finalStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
-												|| finalStack.getType().equals(Material.valueOf("LINGERING_POTION"))
-												|| finalStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
-							Enchantment en = null;
-							int level = 0;
-
-							if (Utils.isNumber(key)) {
-								en = Enchantment.getById(Integer.parseInt(key));
-								level = Integer.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
-							} else {
-								en = Enchantment.getByName(key.toUpperCase());
-								level = Integer.parseInt(enchantSection.get(key).toString()) - 1;
-							}
-
-							if (en == null) {
-								continue;
-							}
-
-							finalStack.addUnsafeEnchantment(en, level);
-						}
-					}
-				}
-			}
-
-			if (cfgSection.containsKey("name")) {
-				String name = ChatColor.translateAlternateColorCodes('&', cfgSection.get("name").toString());
-				ItemMeta im = finalStack.getItemMeta();
-
-				im.setDisplayName(name);
-				finalStack.setItemMeta(im);
-			} else {
-
-				ItemMeta im = finalStack.getItemMeta();
-				String name = im.getDisplayName();
-
-				// check if is ressource
-				ConfigurationSection ressourceSection = Main.getInstance().getConfig()
-						.getConfigurationSection("ressource");
-				for (String key : ressourceSection.getKeys(false)) {
-					Material ressMaterial = null;
-					String itemType = ressourceSection.getString(key + ".item");
-
-					if (Utils.isNumber(itemType)) {
-						ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
-					} else {
-						ressMaterial = Material.getMaterial(itemType);
-					}
-
-					if (finalStack.getType().equals(ressMaterial)) {
-						name = ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
-					}
-				}
-
-				im.setDisplayName(name);
-				finalStack.setItemMeta(im);
-			}
-
-			return finalStack;
-
-		} catch (
-
-		Exception ex)
-
-		{
-			ex.printStackTrace();
-		}
-
-		return null;
-
+		return item;
 	}
 
 	public static void openCategorySelection(Player p, Game g) {

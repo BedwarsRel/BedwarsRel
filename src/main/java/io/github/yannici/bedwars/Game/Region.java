@@ -136,6 +136,7 @@ public class Region {
 		this.removingEntities.remove(removing);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void reset(Game game) {
 		this.loadChunks();
 
@@ -288,6 +289,7 @@ public class Region {
 		return this.placedBlocks.contains(block);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void addPlacedBlock(Block placeBlock, BlockState replacedBlock) {
 		this.placedBlocks.add(placeBlock);
 		if (replacedBlock != null) {
@@ -315,6 +317,7 @@ public class Region {
 		return this.name;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void addBreakedBlock(Block bedBlock) {
 		if (bedBlock.getState().getData() instanceof Directional) {
 			this.breakedBlockFace.put(bedBlock, ((Directional) bedBlock.getState().getData()).getFacing());
@@ -330,6 +333,7 @@ public class Region {
 		this.breakedBlocks.add(bedBlock);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void addPlacedUnbreakableBlock(Block placed, BlockState replaced) {
 		this.placedUnbreakableBlocks.add(placed);
 		if (replaced != null) {

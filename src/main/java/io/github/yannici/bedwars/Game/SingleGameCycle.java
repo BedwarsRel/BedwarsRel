@@ -22,7 +22,7 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public void onGameStart() {
-		this.getGame().resetRegion();
+		// Reset on game end
 	}
 
 	@Override
@@ -52,6 +52,9 @@ public class SingleGameCycle extends GameCycle {
 
 		// clear protections
 		this.getGame().clearProtections();
+
+		// reset region
+		this.getGame().resetRegion();
 
 		// Restart lobby directly?
 		GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
@@ -142,7 +145,7 @@ public class SingleGameCycle extends GameCycle {
 
 	@Override
 	public void onGameLoaded() {
-		// reset on start
+		// Reset on game end
 	}
 
 	@Override

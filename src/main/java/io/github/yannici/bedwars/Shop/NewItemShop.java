@@ -259,13 +259,17 @@ public class NewItemShop {
 		return this.getInventorySize(sizeCategories) + this.getInventorySize(sizeOffers);
 	}
 
+	@SuppressWarnings("deprecation")
 	private ItemStack toItemStack(VillagerTrade trade, Player player, Game game) {
 		ItemStack tradeStack = trade.getRewardItem().clone();
 		Method colorable = Utils.getColorableMethod(tradeStack.getType());
 		ItemMeta meta = tradeStack.getItemMeta();
 		ItemStack item1 = trade.getItem1();
 		ItemStack item2 = trade.getItem2();
-		if (colorable != null) {
+		if (tradeStack.getType().equals(Material.STAINED_GLASS) || tradeStack.getType().equals(Material.WOOL)
+				|| tradeStack.getType().equals(Material.STAINED_CLAY)) {
+			tradeStack.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+		} else if (colorable != null) {
 			colorable.setAccessible(true);
 			try {
 				colorable.invoke(meta, new Object[] { game.getPlayerTeam(player).getColor().getColor() });

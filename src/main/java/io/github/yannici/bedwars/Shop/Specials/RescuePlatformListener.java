@@ -27,6 +27,7 @@ public class RescuePlatformListener implements Listener {
 		super();
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInteract(PlayerInteractEvent ev) {
 		Player player = ev.getPlayer();
@@ -94,7 +95,7 @@ public class RescuePlatformListener implements Listener {
 			Material configMaterial = Utils.getMaterialByConfig("specials.rescue-platform.block",
 					Material.STAINED_GLASS);
 			placed.setType(configMaterial);
-			if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL)) {
+			if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL) || configMaterial.equals(Material.STAINED_CLAY)) {
 				placed.setData(team.getColor().getDyeColor().getData());
 			}
 

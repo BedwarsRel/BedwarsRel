@@ -270,7 +270,12 @@ public class Game {
 
 		this.stopWorkers();
 		this.clearProtections();
-		this.kickAllPlayers();
+		
+		try {
+			this.kickAllPlayers();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.resetRegion();
 		this.state = GameState.STOPPED;
 		this.updateSigns();
