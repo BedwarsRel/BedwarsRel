@@ -209,6 +209,10 @@ public class ConfigUpdater {
 		}
 		Main.getInstance().getConfig().addDefault("breakable-blocks.use-as-blacklist", false);
 		// </1.3.1>
+		
+		// <1.3.2>
+			Main.getInstance().getConfig().addDefault("statistics.player-leave-kills", false);
+		// </1.3.2>
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })

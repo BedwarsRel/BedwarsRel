@@ -103,7 +103,7 @@ public class GameManager {
 
 		game.setState(GameState.STOPPED);
 		game.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
-		
+
 		try {
 			game.kickAllPlayers();
 		} catch (Exception e) {
@@ -210,7 +210,7 @@ public class GameManager {
 
 				game.addTeam((Team) obj);
 			}
-
+			
 			Location loc1 = Utils.locationDeserialize(cfg.get("loc1"));
 			Location loc2 = Utils.locationDeserialize(cfg.get("loc2"));
 
@@ -293,8 +293,8 @@ public class GameManager {
 			game.updateSigns();
 
 			this.games.add(game);
-			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
-					ChatColor.GREEN + Main._l("success.gameloaded", ImmutableMap.of("game", game.getName()))));
+			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+					+ Main._l("success.gameloaded", ImmutableMap.of("game", game.getRegion().getName()))));
 		} catch (Exception ex) {
 			Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
 					+ Main._l("errors.gameloaderror", ImmutableMap.of("game", configFile.getParentFile().getName()))));

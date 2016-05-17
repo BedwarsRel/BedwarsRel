@@ -165,19 +165,7 @@ public class Team implements ConfigurationSerializable {
 		List<Player> players = new ArrayList<>();
 		for (String playerName : this.scoreboardTeam.getEntries()) {
 			Player player = Main.getInstance().getServer().getPlayer(playerName);
-			if (player != null) {
-				players.add(player);
-			}
-		}
-
-		return players;
-	}
-
-	public List<Player> getTeamPlayers() {
-		List<Player> players = new ArrayList<>();
-		for (String playerName : this.scoreboardTeam.getEntries()) {
-			Player player = Main.getInstance().getServer().getPlayer(playerName);
-			if (player != null) {
+			if (player != null && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
 				players.add(player);
 			}
 		}

@@ -270,7 +270,7 @@ public class Game {
 
 		this.stopWorkers();
 		this.clearProtections();
-		
+
 		try {
 			this.kickAllPlayers();
 		} catch (Exception e) {
@@ -421,10 +421,10 @@ public class Game {
 	public void toSpectator(Player player) {
 		final Player p = player;
 
-		Team playerTeam = this.getPlayerTeam(player);
-		if (playerTeam != null) {
-			playerTeam.removePlayer(player);
-		}
+		// Team playerTeam = this.getPlayerTeam(player);
+		// if (playerTeam != null) {
+		// playerTeam.removePlayer(player);
+		// }
 
 		if (!this.freePlayers.contains(player)) {
 			this.freePlayers.add(player);
@@ -696,7 +696,7 @@ public class Game {
 			}
 		}
 
-		BedwarsPlayerJoinedEvent joinEvent = new BedwarsPlayerJoinedEvent(this, p);
+		BedwarsPlayerJoinedEvent joinEvent = new BedwarsPlayerJoinedEvent(this, null, p);
 		Main.getInstance().getServer().getPluginManager().callEvent(joinEvent);
 
 		this.updateScoreboard();
@@ -707,10 +707,10 @@ public class Game {
 
 	public boolean playerLeave(Player p, boolean kicked) {
 		this.getPlayerSettings(p).setTeleporting(true);
-		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this, p);
-		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
-
 		Team team = this.getPlayerTeam(p);
+
+		BedwarsPlayerLeaveEvent leaveEvent = new BedwarsPlayerLeaveEvent(this, p, team);
+		Main.getInstance().getServer().getPluginManager().callEvent(leaveEvent);
 
 		PlayerStatistic statistic = null;
 		if (Main.getInstance().statisticsEnabled()) {
@@ -732,6 +732,16 @@ public class Game {
 			if (this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
 				if (!team.isDead(this) && !p.isDead()) {
 					if (Main.getInstance().statisticsEnabled()) {
+						if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)
+								&& this.getPlayerDamager(p) != null) {
+							statistic.setDeaths(statistic.getDeaths() + 1);
+							statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+
+							PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
+									.getStatistic(this.getPlayerDamager(p));
+							killerPlayer.setKills(killerPlayer.getKills() + 1);
+							killerPlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+						}
 						statistic.setLoses(statistic.getLoses() + 1);
 						statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
 					}
