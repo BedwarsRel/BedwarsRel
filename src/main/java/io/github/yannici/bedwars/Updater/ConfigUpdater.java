@@ -664,8 +664,15 @@ public class ConfigUpdater {
 						if (hasMeta) {
 							if (material.equals(Material.MONSTER_EGG) && meta == 91
 									&& Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
-								finalRewardStack = new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(
-										EntityType.SHEEP).toItemStack(amount);
+				                if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R1")){
+				                  finalRewardStack =
+				                      new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
+				                          .toItemStack(amount);
+				                } else if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R2")){
+				                  finalRewardStack =
+				                      new io.github.yannici.bedwars.Com.v1_9_R2.SpawnEgg1_9(EntityType.SHEEP)
+				                          .toItemStack(amount);
+				                }
 							} else {
 								finalRewardStack = new ItemStack(material, amount, meta);
 							}
