@@ -225,8 +225,8 @@ public class Team implements ConfigurationSerializable {
   }
 
   public void setScoreboardTeam(org.bukkit.scoreboard.Team scoreboardTeam) {
-    this.setScoreboardTeam(scoreboardTeam);
     scoreboardTeam.setDisplayName(this.getChatColor() + this.name);
+    this.scoreboardTeam = scoreboardTeam;
   }
 
   public void setTargets(Block headBlock, Block feetBlock) {
