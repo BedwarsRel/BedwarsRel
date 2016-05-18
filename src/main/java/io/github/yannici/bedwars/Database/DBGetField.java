@@ -10,14 +10,14 @@ import java.lang.annotation.Target;
 
 public @interface DBGetField {
 
-	public String name();
+  public String name();
 
-	public String dbType();
+  public String dbType();
 
-	public String defaultValue() default "";
+  public String defaultValue() default "";
 
-	public boolean notNull() default true;
+  public boolean notNull() default true;
 
-	public boolean autoInc() default false;
+  public boolean autoInc() default false;
 
 }

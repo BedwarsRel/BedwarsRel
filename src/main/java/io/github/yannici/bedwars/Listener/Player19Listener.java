@@ -11,30 +11,30 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class Player19Listener extends BaseListener {
 
-	public Player19Listener() {
-		super();
-	}
+  public Player19Listener() {
+    super();
+  }
 
-	/*
-	 * GLOBAL
-	 */
+  /*
+   * GLOBAL
+   */
 
 
-	@EventHandler
-	public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
-		Player player = event.getPlayer();
-		Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+  @EventHandler
+  public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
+    Player player = event.getPlayer();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
-		if (game == null) {
-			return;
-		}
+    if (game == null) {
+      return;
+    }
 
-		if (game.getState() == GameState.WAITING
-				|| (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
-						&& Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
-			event.setCancelled(true);
-			return;
-		}
-	}
+    if (game.getState() == GameState.WAITING
+        || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
+            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+      event.setCancelled(true);
+      return;
+    }
+  }
 
 }

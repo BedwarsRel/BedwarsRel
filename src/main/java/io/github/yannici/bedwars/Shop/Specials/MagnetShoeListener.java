@@ -14,52 +14,52 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class MagnetShoeListener implements Listener {
 
-	public MagnetShoeListener() {
-		super();
-	}
+  public MagnetShoeListener() {
+    super();
+  }
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onDamage(EntityDamageByEntityEvent ev) {
-		if (ev.isCancelled()) {
-			return;
-		}
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onDamage(EntityDamageByEntityEvent ev) {
+    if (ev.isCancelled()) {
+      return;
+    }
 
-		if (!(ev.getEntity() instanceof Player)) {
-			return;
-		}
+    if (!(ev.getEntity() instanceof Player)) {
+      return;
+    }
 
-		Game game = Main.getInstance().getGameManager().getGameOfPlayer((Player) ev.getEntity());
-		if (game == null) {
-			return;
-		}
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer((Player) ev.getEntity());
+    if (game == null) {
+      return;
+    }
 
-		if (game.getState() != GameState.RUNNING) {
-			return;
-		}
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
 
-		Player player = (Player) ev.getEntity();
-		ItemStack boots = player.getInventory().getBoots();
+    Player player = (Player) ev.getEntity();
+    ItemStack boots = player.getInventory().getBoots();
 
-		if (boots == null) {
-			return;
-		}
+    if (boots == null) {
+      return;
+    }
 
-		MagnetShoe shoe = new MagnetShoe();
-		if (boots.getType() != shoe.getItemMaterial()) {
-			return;
-		}
+    MagnetShoe shoe = new MagnetShoe();
+    if (boots.getType() != shoe.getItemMaterial()) {
+      return;
+    }
 
-		if (this.rollKnockbackDice()) {
-			ev.setCancelled(true);
-			player.damage(ev.getDamage());
-		}
-	}
+    if (this.rollKnockbackDice()) {
+      ev.setCancelled(true);
+      player.damage(ev.getDamage());
+    }
+  }
 
-	private boolean rollKnockbackDice() {
-		int target = Main.getInstance().getIntConfig("specials.magnetshoe.probability", 75);
-		int roll = Utils.randInt(0, 100);
+  private boolean rollKnockbackDice() {
+    int target = Main.getInstance().getIntConfig("specials.magnetshoe.probability", 75);
+    int roll = Utils.randInt(0, 100);
 
-		return (roll <= target);
-	}
+    return (roll <= target);
+  }
 
 }

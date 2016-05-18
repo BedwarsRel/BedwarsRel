@@ -10,6 +10,6 @@ import java.lang.annotation.Target;
 
 public @interface DBSetField {
 
-	public String name();
+  public String name();
 
 }

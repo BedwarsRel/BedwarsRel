@@ -2,15 +2,15 @@ package io.github.yannici.bedwars.Updater;
 
 public class DatabaseUpdate {
 
-	private String sql = null;
+  private String sql = null;
 
-	public DatabaseUpdate(String sql) {
-		super();
+  public DatabaseUpdate(String sql) {
+    super();
 
-		this.sql = sql;
-	}
+    this.sql = sql;
+  }
 
-	public String getSql() {
-		return sql;
-	}
+  public String getSql() {
+    return sql;
+  }
 }

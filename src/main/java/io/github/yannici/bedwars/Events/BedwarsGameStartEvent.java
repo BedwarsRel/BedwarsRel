@@ -8,35 +8,35 @@ import io.github.yannici.bedwars.Game.Game;
 
 public class BedwarsGameStartEvent extends Event implements Cancellable {
 
-	private static final HandlerList handlers = new HandlerList();
-	private boolean cancelled = false;
-	private Game game = null;
+  private static final HandlerList handlers = new HandlerList();
+  private boolean cancelled = false;
+  private Game game = null;
 
-	public BedwarsGameStartEvent(Game game) {
-		this.game = game;
-	}
+  public BedwarsGameStartEvent(Game game) {
+    this.game = game;
+  }
 
-	@Override
-	public HandlerList getHandlers() {
-		return BedwarsGameStartEvent.handlers;
-	}
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsGameStartEvent.handlers;
+  }
 
-	public static HandlerList getHandlerList() {
-		return BedwarsGameStartEvent.handlers;
-	}
+  public static HandlerList getHandlerList() {
+    return BedwarsGameStartEvent.handlers;
+  }
 
-	public Game getGame() {
-		return this.game;
-	}
+  public Game getGame() {
+    return this.game;
+  }
 
-	@Override
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
+  @Override
+  public boolean isCancelled() {
+    return this.cancelled;
+  }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		this.cancelled = cancel;
-	}
+  @Override
+  public void setCancelled(boolean cancel) {
+    this.cancelled = cancel;
+  }
 
 }
