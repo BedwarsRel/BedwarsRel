@@ -756,7 +756,7 @@ public class Game {
 		}
 
 		this.playerDamages.remove(p);
-		if (team != null) {
+		if (team != null && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
 			team.removePlayer(p);
 			if (kicked) {
 				this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
