@@ -425,11 +425,6 @@ public class Game {
   public void toSpectator(Player player) {
     final Player p = player;
 
-    // Team playerTeam = this.getPlayerTeam(player);
-    // if (playerTeam != null) {
-    // playerTeam.removePlayer(player);
-    // }
-
     if (!this.freePlayers.contains(player)) {
       this.freePlayers.add(player);
     }

@@ -514,7 +514,7 @@ public class PlayerListener extends BaseListener {
     boolean isSpectator = game.isSpectator(player);
 
     if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
-      if (team == null || isSpectator) {
+      if (team == null) {
         player.setDisplayName(ChatColor.stripColor(player.getName()));
 
         player.setPlayerListName(ChatColor.stripColor(player.getName()));

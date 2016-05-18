@@ -250,12 +250,10 @@ public abstract class GameCycle {
     // reset damager
     this.getGame().setPlayerDamager(player, null);
 
-    if (team == null) {
-      if (this.getGame().isSpectator(player)) {
-        Collection<Team> teams = this.getGame().getTeams().values();
-        pre.setRespawnLocation(
-            ((Team) teams.toArray()[Utils.randInt(0, teams.size() - 1)]).getSpawnLocation());
-      }
+    if (this.getGame().isSpectator(player)) {
+      Collection<Team> teams = this.getGame().getTeams().values();
+      pre.setRespawnLocation(
+          ((Team) teams.toArray()[Utils.randInt(0, teams.size() - 1)]).getSpawnLocation());
       return;
     }
 
@@ -377,8 +375,8 @@ public abstract class GameCycle {
               Main.getInstance().getConfig().getStringList("rewards.player-kill");
           Main.getInstance()
               .dispatchRewardCommands(commands, ImmutableMap.of("{player}", killer.getName(),
-                  "{score}",
-                  String.valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
+                  "{score}", String
+                      .valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
         }
       }
     }
