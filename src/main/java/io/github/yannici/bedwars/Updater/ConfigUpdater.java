@@ -681,7 +681,7 @@ public class ConfigUpdater {
                   finalRewardStack =
                       new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
                           .toItemStack(amount);
-                } else {
+                } else if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R2")) {
                   finalRewardStack =
                       new io.github.yannici.bedwars.Com.v1_9_R2.SpawnEgg1_9(EntityType.SHEEP)
                           .toItemStack(amount);
