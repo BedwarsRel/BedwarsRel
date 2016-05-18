@@ -15,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.yannici.bedwars.Main;
@@ -158,17 +157,6 @@ public class PlayerStorage {
 		im.setDisplayName(Main._l("lobby.leavegame"));
 		leaveGame.setItemMeta(im);
 		this.player.getInventory().setItem(8, leaveGame);
-
-		Team team = game.getPlayerTeam(this.player);
-		if (team != null) {
-			ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-			LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
-			meta.setDisplayName(team.getChatColor() + team.getDisplayName());
-			meta.setColor(team.getColor().getColor());
-			chestplate.setItemMeta(meta);
-			this.player.getInventory().setItem(7, chestplate);
-			team.equipPlayerWithLeather(this.player);
-		}
 
 		if (this.player.hasPermission("bw.setup") || this.player.isOp()
 				|| this.player.hasPermission("bw.vip.forcestart")) {
