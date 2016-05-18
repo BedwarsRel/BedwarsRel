@@ -751,14 +751,13 @@ public class Game {
       }
     }
 
-    Main.getInstance().getGameManager().removeGamePlayer(p);
-
     if (this.isProtected(p)) {
       this.removeProtection(p);
     }
 
     this.playerDamages.remove(p);
-    if (team != null && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
+    if (team != null && Main.getInstance().getGameManager().getGameOfPlayer(p) != null
+        && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
       team.removePlayer(p);
       if (kicked) {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
@@ -768,6 +767,8 @@ public class Game {
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
       }
     }
+
+    Main.getInstance().getGameManager().removeGamePlayer(p);
 
     if (this.freePlayers.contains(p)) {
       this.freePlayers.remove(p);
