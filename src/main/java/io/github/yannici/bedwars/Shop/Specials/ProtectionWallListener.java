@@ -13,78 +13,79 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class ProtectionWallListener implements Listener {
 
-	public ProtectionWallListener() {
-		super();
-	}
+  public ProtectionWallListener() {
+    super();
+  }
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onInteract(PlayerInteractEvent interact) {
-		if (interact.getAction().equals(Action.LEFT_CLICK_AIR)
-				|| interact.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
-			return;
-		}
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onInteract(PlayerInteractEvent interact) {
+    if (interact.getAction().equals(Action.LEFT_CLICK_AIR)
+        || interact.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+      return;
+    }
 
-		if (interact.getMaterial() == null) {
-			return;
-		}
+    if (interact.getMaterial() == null) {
+      return;
+    }
 
-		ProtectionWall wall = new ProtectionWall();
-		if (interact.getMaterial() != wall.getItemMaterial()) {
-			return;
-		}
-		
-		if(interact.getItem().getItemMeta().getDisplayName() == null) {
-			return;
-		}
+    ProtectionWall wall = new ProtectionWall();
+    if (interact.getMaterial() != wall.getItemMaterial()) {
+      return;
+    }
 
-		Game game = Main.getInstance().getGameManager().getGameOfPlayer(interact.getPlayer());
-		if (game == null) {
-			return;
-		}
+    if (interact.getItem().getItemMeta().getDisplayName() == null) {
+      return;
+    }
 
-		if (game.getState() != GameState.RUNNING) {
-			return;
-		}
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(interact.getPlayer());
+    if (game == null) {
+      return;
+    }
 
-		if (game.isSpectator(interact.getPlayer())) {
-			return;
-		}
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
 
-		wall.create(interact.getPlayer(), game);
-	}
+    if (game.isSpectator(interact.getPlayer())) {
+      return;
+    }
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlace(BlockPlaceEvent place) {
-	    if(place.isCancelled()) {
-	        return;
-	    }
-	    
-	    ProtectionWall wall = new ProtectionWall();
-	    if(place.getBlock().getType() != wall.getItemMaterial()) {
-	        return;
-	    }
-	    
-	    if(place.getItemInHand().getItemMeta() == null || place.getItemInHand().getItemMeta().getDisplayName() == null){
-	    	return;
-	    }
-	    
-	    Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
-	    if(game == null) {
-	        return;
-	    }
-	    
-	    if(game.getState() != GameState.RUNNING) {
-	        return;
-	    }
-	    
-	    if(game.isSpectator(place.getPlayer())) {
-	    	place.setBuild(false);
-	    	place.setCancelled(true);
-            return;
-        }
-	    
-	    place.setBuild(false);
-	    place.setCancelled(true);
-	}
+    wall.create(interact.getPlayer(), game);
+  }
+
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onPlace(BlockPlaceEvent place) {
+    if (place.isCancelled()) {
+      return;
+    }
+
+    ProtectionWall wall = new ProtectionWall();
+    if (place.getBlock().getType() != wall.getItemMaterial()) {
+      return;
+    }
+
+    if (place.getItemInHand().getItemMeta() == null
+        || place.getItemInHand().getItemMeta().getDisplayName() == null) {
+      return;
+    }
+
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (game.isSpectator(place.getPlayer())) {
+      place.setBuild(false);
+      place.setCancelled(true);
+      return;
+    }
+
+    place.setBuild(false);
+    place.setCancelled(true);
+  }
 
 }

@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 
 public interface ITNTSheepRegister {
 
-	public void registerEntities(int entityId);
+  public void registerEntities(int entityId);
 
-	public ITNTSheep spawnCreature(TNTSheep specialItem, Location location, Player owner, Player target,
-			DyeColor color);
+  public ITNTSheep spawnCreature(TNTSheep specialItem, Location location, Player owner,
+      Player target, DyeColor color);
 
 }

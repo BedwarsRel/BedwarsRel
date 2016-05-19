@@ -9,36 +9,36 @@ import io.github.yannici.bedwars.Game.Team;
 
 public class BedwarsPlayerLeaveEvent extends Event {
 
-	private static final HandlerList handlers = new HandlerList();
-	private Game game = null;
-	private Player player = null;
-	private Team team = null;
+  private static final HandlerList handlers = new HandlerList();
+  private Game game = null;
+  private Player player = null;
+  private Team team = null;
 
-	public BedwarsPlayerLeaveEvent(Game game, Player player, Team team) {
-		this.game = game;
-		this.player = player;
-		this.team = team;
-	}
+  public BedwarsPlayerLeaveEvent(Game game, Player player, Team team) {
+    this.game = game;
+    this.player = player;
+    this.team = team;
+  }
 
-	@Override
-	public HandlerList getHandlers() {
-		return BedwarsPlayerLeaveEvent.handlers;
-	}
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsPlayerLeaveEvent.handlers;
+  }
 
-	public static HandlerList getHandlerList() {
-		return BedwarsPlayerLeaveEvent.handlers;
-	}
+  public static HandlerList getHandlerList() {
+    return BedwarsPlayerLeaveEvent.handlers;
+  }
 
-	public Game getGame() {
-		return this.game;
-	}
+  public Game getGame() {
+    return this.game;
+  }
 
-	public Player getPlayer() {
-		return this.player;
-	}
-	
-	public Team getTeam() {
-		return this.team;
-	}
+  public Player getPlayer() {
+    return this.player;
+  }
+
+  public Team getTeam() {
+    return this.team;
+  }
 
 }

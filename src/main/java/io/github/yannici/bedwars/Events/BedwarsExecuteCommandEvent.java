@@ -11,47 +11,48 @@ import io.github.yannici.bedwars.Commands.BaseCommand;
 
 public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 
-	private static final HandlerList handlers = new HandlerList();
-	private CommandSender sender = null;
-	private BaseCommand command = null;
-	private ArrayList<String> params = null;
-	private boolean cancelled = false;
+  private static final HandlerList handlers = new HandlerList();
+  private CommandSender sender = null;
+  private BaseCommand command = null;
+  private ArrayList<String> params = null;
+  private boolean cancelled = false;
 
-	public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command, ArrayList<String> params) {
-		this.sender = sender;
-		this.command = command;
-		this.params = params;
-	}
+  public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command,
+      ArrayList<String> params) {
+    this.sender = sender;
+    this.command = command;
+    this.params = params;
+  }
 
-	@Override
-	public HandlerList getHandlers() {
-		return BedwarsExecuteCommandEvent.handlers;
-	}
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsExecuteCommandEvent.handlers;
+  }
 
-	public static HandlerList getHandlerList() {
-		return BedwarsExecuteCommandEvent.handlers;
-	}
+  public static HandlerList getHandlerList() {
+    return BedwarsExecuteCommandEvent.handlers;
+  }
 
-	public CommandSender getSender() {
-		return this.sender;
-	}
+  public CommandSender getSender() {
+    return this.sender;
+  }
 
-	public BaseCommand getCommand() {
-		return this.command;
-	}
+  public BaseCommand getCommand() {
+    return this.command;
+  }
 
-	public ArrayList<String> getParameter() {
-		return this.params;
-	}
+  public ArrayList<String> getParameter() {
+    return this.params;
+  }
 
-	@Override
-	public boolean isCancelled() {
-		return this.cancelled;
-	}
+  @Override
+  public boolean isCancelled() {
+    return this.cancelled;
+  }
 
-	@Override
-	public void setCancelled(boolean cancel) {
-		this.cancelled = cancel;
-	}
+  @Override
+  public void setCancelled(boolean cancel) {
+    this.cancelled = cancel;
+  }
 
 }
