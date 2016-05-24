@@ -61,6 +61,7 @@ public class VillagerItemShop {
     // As task because of inventory issues
     new BukkitRunnable() {
 
+      @SuppressWarnings("deprecation")
       @Override
       public void run() {
         try {
@@ -75,7 +76,10 @@ public class VillagerItemShop {
               .getFilteredOffers()) {
             ItemStack reward = trade.getRewardItem();
             Method colorable = Utils.getColorableMethod(reward.getType());
-            if (colorable != null) {
+
+            if (Utils.isColorable(reward)) {
+              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+            } else if (colorable != null) {
               ItemMeta meta = reward.getItemMeta();
               colorable.setAccessible(true);
               colorable.invoke(meta, new Object[] {VillagerItemShop.this.game
