@@ -190,6 +190,16 @@ public final class Utils {
     return null;
   }
 
+  public static boolean isColorable(ItemStack itemstack) {
+    if (itemstack.getType().equals(Material.STAINED_CLAY)
+        || itemstack.getType().equals(Material.WOOL) || itemstack.getType().equals(Material.CARPET)
+        || itemstack.getType().equals(Material.STAINED_GLASS)
+        || itemstack.getType().equals(Material.STAINED_GLASS_PANE)) {
+      return true;
+    }
+    return false;
+  }
+
   public static boolean checkBungeePlugin() {
     try {
       Class.forName("net.md_5.bungee.BungeeCord");

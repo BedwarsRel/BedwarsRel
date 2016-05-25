@@ -78,7 +78,9 @@ public class NewItemShop {
 
     Inventory inventory = Bukkit.createInventory(player, size, Main._l("ingame.shop.name"));
 
-    this.addCategoriesToInventory(inventory, player);
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+    
+    this.addCategoriesToInventory(inventory, player, game);
 
     ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
     ItemMeta slimeMeta = slime.getItemMeta();
@@ -86,8 +88,6 @@ public class NewItemShop {
     slimeMeta.setDisplayName(Main._l("ingame.shop.oldshop"));
     slimeMeta.setLore(new ArrayList<String>());
     slime.setItemMeta(slimeMeta);
-
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
     ItemStack stack = null;
 
     if (game != null) {
@@ -123,7 +123,8 @@ public class NewItemShop {
     player.openInventory(inventory);
   }
 
-  private void addCategoriesToInventory(Inventory inventory, Player player) {
+  @SuppressWarnings("deprecation")
+  private void addCategoriesToInventory(Inventory inventory, Player player, Game game) {
     for (MerchantCategory category : this.categories) {
 
       if (category.getMaterial() == null) {
@@ -142,6 +143,9 @@ public class NewItemShop {
       ItemStack is = new ItemStack(category.getMaterial(), 1);
       ItemMeta im = is.getItemMeta();
 
+      if (Utils.isColorable(is)) {
+        is.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+      }
       if (this.currentCategory != null) {
         if (this.currentCategory.equals(category)) {
           im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
@@ -243,7 +247,7 @@ public class NewItemShop {
 
     this.currentCategory = category;
     Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l("ingame.shop.name"));
-    this.addCategoriesToInventory(buyInventory, player);
+    this.addCategoriesToInventory(buyInventory, player, game);
 
     for (int i = 0; i < offers.size(); i++) {
       VillagerTrade trade = offers.get(i);
@@ -272,9 +276,7 @@ public class NewItemShop {
     ItemMeta meta = tradeStack.getItemMeta();
     ItemStack item1 = trade.getItem1();
     ItemStack item2 = trade.getItem2();
-    if (tradeStack.getType().equals(Material.STAINED_GLASS)
-        || tradeStack.getType().equals(Material.WOOL)
-        || tradeStack.getType().equals(Material.STAINED_CLAY)) {
+    if (Utils.isColorable(tradeStack)) {
       tradeStack.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
     } else if (colorable != null) {
       colorable.setAccessible(true);

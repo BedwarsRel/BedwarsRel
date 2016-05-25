@@ -173,6 +173,7 @@ public class MerchantCategory {
     return item;
   }
 
+  @SuppressWarnings("deprecation")
   public static void openCategorySelection(Player p, Game g) {
     List<MerchantCategory> cats = g.getOrderedItemShopCategories();
 
@@ -189,6 +190,10 @@ public class MerchantCategory {
 
       ItemStack is = new ItemStack(cat.getMaterial(), 1);
       ItemMeta im = is.getItemMeta();
+      
+      if (Utils.isColorable(is)) {
+        is.setDurability(g.getPlayerTeam(p).getColor().getDyeColor().getData());
+      }
 
       im.setDisplayName(cat.getName());
       im.setLore(cat.getLores());
