@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Shop.Specials;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.SoundMachine;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.Team;
+import io.github.yannici.bedwars.Villager.VillagerTrade;
 
 public class Trap extends SpecialItem {
 
@@ -40,38 +42,21 @@ public class Trap extends SpecialItem {
 
   @SuppressWarnings("unchecked")
   public Trap() {
-    ConfigurationSection section = cfg.getConfigurationSection("shop").getConfigurationSection("spacials").getConfigurationSection("trap");
+    ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("spacials").getConfigurationSection("trap");
+    
+    for (Object effect : section.getList("effects")) {
+      if (effect instanceof Boolean) {
+        if (effect.toString().equalsIgnoreCase("play-sound")){
+          this.playSound = section.getBoolean("play-sound");
+        }
 
-    if(section.contains("duration")){
-      this.duration = section.getInt("duration");
+        continue;
+      }
+
+      Map<String, Object> map = (Map<String, Object>) effect;
+      PotionEffect pe = new PotionEffect(map);
+      effects.add(pe);
     }
-    
-//    for(Object effect : section.getList("effects")){
-//      
-//      List<Map<String, Object>> noname = (List<Map<String, Object>>) effect;
-//      
-//      ItemStack is = ItemStack.deserialize(noname.get(0));
-//      Potion potion = Potion.fromItemStack(is);
-//      PotionEffect potio = null;
-//      potion.
-//      
-//      effects.add(potion);
-//    }
-    
-    
-    this.duration = Main.getInstance().getIntConfig("specials.trap.duration", 10);
-    this.amplifierBlindness =
-        Main.getInstance().getIntConfig("specials.trap.blindness.amplifier", 2);
-    this.amplifierSlowness = Main.getInstance().getIntConfig("specials.trap.slowness.amplifier", 2);
-    this.amplifierWeakness = Main.getInstance().getIntConfig("specials.trap.weakness.amplifier", 1);
-    this.particles = Main.getInstance().getBooleanConfig("specials.trap.show-particles", true);
-    this.playSound = Main.getInstance().getBooleanConfig("specials.trap.play-sound", true);
-    this.activateBlindness =
-        Main.getInstance().getBooleanConfig("specials.trap.blindness.enabled", true);
-    this.activateSlowness =
-        Main.getInstance().getBooleanConfig("specials.trap.slowness.enabled", true);
-    this.activateWeakness =
-        Main.getInstance().getBooleanConfig("specials.trap.weakness.enabled", true);
   }
 
   @Override
@@ -84,48 +69,8 @@ public class Trap extends SpecialItem {
     return null;
   }
 
-//  private Constructor<PotionEffect> getPotionConstructor() {
-//    Constructor<PotionEffect> effectConstructor = null;
-//    try {
-//      effectConstructor =
-//          PotionEffect.class.getConstructor(PotionEffectType.class, int.class, int.class,
-//              boolean.class, boolean.class);
-//      return effectConstructor;
-//    } catch (Exception ex) {
-//      // no constr
-//    }
-//
-//    try {
-//      effectConstructor =
-//          PotionEffect.class.getConstructor(PotionEffectType.class, int.class, int.class,
-//              boolean.class);
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//    return effectConstructor;
-//  }
-
   public void activate(final Player player) {
     try {
-      List<PotionEffect> effects = new ArrayList<PotionEffect>();
-//      Constructor<PotionEffect> potionEffectConstr = this.getPotionConstructor();
-
-//      if (this.activateBlindness) {
-//        PotionEffect blind = null;
-//
-//        if (potionEffectConstr.getParameterTypes().length == 5) {
-//          blind =
-//              potionEffectConstr.newInstance(PotionEffectType.BLINDNESS, this.duration * 20,
-//                  this.amplifierBlindness, true, this.particles);
-//        } else {
-//          blind =
-//              potionEffectConstr.newInstance(PotionEffectType.BLINDNESS, this.duration * 20,
-//                  this.amplifierBlindness, true);
-//        }
-//
-//        effects.add(blind);
-//      }
-
       this.game.addRunningTask(new BukkitRunnable() {
 
         private int counter = 0;
