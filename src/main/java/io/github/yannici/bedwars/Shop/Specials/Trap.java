@@ -1,8 +1,6 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,17 +9,13 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.SoundMachine;
 import io.github.yannici.bedwars.Game.Game;
 import io.github.yannici.bedwars.Game.Team;
-import io.github.yannici.bedwars.Villager.VillagerTrade;
 
 public class Trap extends SpecialItem {
 
@@ -30,13 +24,6 @@ public class Trap extends SpecialItem {
   private Game game = null;
   private Team team = null;
   private int duration = 10;
-  private int amplifierBlindness = 1;
-  private int amplifierSlowness = 1;
-  private int amplifierWeakness = 1;
-  private boolean activateBlindness = true;
-  private boolean activateSlowness = true;
-  private boolean activateWeakness = true;
-  private boolean particles = true;
   private boolean playSound = true;
   private Location location = null;
 
