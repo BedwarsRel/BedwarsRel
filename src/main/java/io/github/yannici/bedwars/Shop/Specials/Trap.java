@@ -1,6 +1,7 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,23 +30,25 @@ public class Trap extends SpecialItem {
 
   @SuppressWarnings("unchecked")
   public Trap() {
-    ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("spacials").getConfigurationSection("trap");
+    ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("specials").getConfigurationSection("trap");
+    
+    if (section.contains("play-sound")) {
+      this.playSound = section.getBoolean("play-sound");
+    }
     
     for (Object effect : section.getList("effects")) {
-      if (effect instanceof Boolean) {
-        if (effect.toString().equalsIgnoreCase("play-sound")){
-          this.playSound = section.getBoolean("play-sound");
-        }
-
-        continue;
+      List<Map<String, Object>> map = (List<Map<String, Object>>) effect;
+      
+      for (int i = 0; map.size() > i; i++) {
+        PotionEffect pe = new PotionEffect(map.get(i));
+        effects.add(pe);
       }
-
-      Map<String, Object> map = (Map<String, Object>) effect;
-      PotionEffect pe = new PotionEffect(map);
-      effects.add(pe);
     }
   }
 
+//  HashMap<String, List<Map<String, Object>>> offerSection =
+//      (HashMap<String, List<Map<String, Object>>>) offer;
+  
   @Override
   public Material getItemMaterial() {
     return Material.TRIPWIRE;
