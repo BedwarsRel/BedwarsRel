@@ -19,9 +19,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.material.Bed;
 import org.bukkit.material.Directional;
+import org.bukkit.material.Gate;
 import org.bukkit.material.Lever;
 import org.bukkit.material.MaterialData;
+import org.bukkit.material.Openable;
 import org.bukkit.material.Redstone;
+import org.bukkit.material.TrapDoor;
 
 import io.github.yannici.bedwars.Main;
 
@@ -42,6 +45,8 @@ public class Region {
   private HashMap<Block, BlockFace> breakedBlockFace = null;
   private List<Entity> removingEntities = null;
   private List<Inventory> inventories = null;
+  private List<Block> doors = null;
+  private HashMap<Block, Boolean> doorState = null;
 
   public Region(Location pos1, Location pos2, String name) {
     if (pos1 == null || pos2 == null) {
@@ -63,6 +68,8 @@ public class Region {
     this.breakedBlockPower = new HashMap<Block, Boolean>();
     this.inventories = new ArrayList<Inventory>();
     this.removingEntities = new ArrayList<Entity>();
+    this.doors = new ArrayList<Block>();
+    this.doorState = new HashMap<Block, Boolean>();
 
     this.name = name;
   }
@@ -94,8 +101,21 @@ public class Region {
     return this.inventories;
   }
 
+  public List<Block> getDoors() {
+    return this.doors;
+  }
+
+  public boolean isDoorOpen(Block block) {
+    return this.doorState.get(block);
+  }
+
   public void addInventory(Inventory inventory) {
     this.inventories.add(inventory);
+  }
+
+  public void addDoorPosition(Block block, boolean isopen) {
+    this.doors.add(block);
+    this.doorState.put(block, isopen);
   }
 
   public boolean isInRegion(Location location) {
@@ -200,6 +220,43 @@ public class Region {
     }
 
     this.breakedBlocks.clear();
+    
+    for (Block block : this.doors){
+      if (block.getState().getData() instanceof Openable) {
+        if (block.getState().getData()instanceof TrapDoor ) {
+          TrapDoor tp = (TrapDoor) block.getState().getData();
+          tp.setOpen(this.doorState.get(block));
+          block.getState().setData(tp);
+        }
+        
+        if (block.getState().getData() instanceof Gate ) {
+          Gate gt = (Gate) block.getState().getData();
+          gt.setOpen(this.doorState.get(block));
+          block.getState().setData(gt);
+          block.getState().update(true,true);
+        }
+        
+        
+        
+        
+//        MaterialData attach = block.getState().getData();
+//        ((Openable) attach).setOpen(this.doorState.get(block));
+//
+//        Bukkit.getServer().getPlayer("Jan161").sendMessage("Block: " + block.toString());
+//        Bukkit.getServer().getPlayer("Jan161").sendMessage("Offen0: " + this.doorState.get(block));
+//        Bukkit.getServer().getPlayer("Jan161").sendMessage("Offen1: " + ((Openable) attach).isOpen());
+//        block.getState().setData(attach);
+//        
+//        Bukkit.getServer().getPlayer("Jan161").sendMessage("Offen2: " + ((Openable) block.getState().getData()).isOpen());
+//        
+//        block.getState().update(true, true);
+//        
+//        Bukkit.getServer().getPlayer("Jan161").sendMessage("Offen3: " + ((Openable) block.getState().getData()).isOpen());
+      }
+    }
+    
+    this.doors.clear();
+    this.doorState.clear();
 
     Material targetMaterial = game.getTargetMaterial();
     for (Team team : game.getTeams().values()) {
@@ -288,6 +345,10 @@ public class Region {
 
   public boolean isPlacedBlock(Block block) {
     return this.placedBlocks.contains(block);
+  }
+
+  public boolean isPlacedDoor(Block door) {
+    return this.doors.contains(door);
   }
 
   @SuppressWarnings("deprecation")

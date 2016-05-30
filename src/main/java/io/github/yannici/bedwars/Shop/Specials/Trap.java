@@ -3,10 +3,15 @@ package io.github.yannici.bedwars.Shop.Specials;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -18,6 +23,8 @@ import io.github.yannici.bedwars.Game.Team;
 
 public class Trap extends SpecialItem {
 
+  List<PotionEffect> effects = new ArrayList<PotionEffect>();
+  FileConfiguration cfg = null;
   private Game game = null;
   private Team team = null;
   private int duration = 10;
@@ -31,7 +38,27 @@ public class Trap extends SpecialItem {
   private boolean playSound = true;
   private Location location = null;
 
+  @SuppressWarnings("unchecked")
   public Trap() {
+    ConfigurationSection section = cfg.getConfigurationSection("shop").getConfigurationSection("spacials").getConfigurationSection("trap");
+
+    if(section.contains("duration")){
+      this.duration = section.getInt("duration");
+    }
+    
+//    for(Object effect : section.getList("effects")){
+//      
+//      List<Map<String, Object>> noname = (List<Map<String, Object>>) effect;
+//      
+//      ItemStack is = ItemStack.deserialize(noname.get(0));
+//      Potion potion = Potion.fromItemStack(is);
+//      PotionEffect potio = null;
+//      potion.
+//      
+//      effects.add(potion);
+//    }
+    
+    
     this.duration = Main.getInstance().getIntConfig("specials.trap.duration", 10);
     this.amplifierBlindness =
         Main.getInstance().getIntConfig("specials.trap.blindness.amplifier", 2);
@@ -57,68 +84,47 @@ public class Trap extends SpecialItem {
     return null;
   }
 
-  private Constructor<PotionEffect> getPotionConstructor() {
-    Constructor<PotionEffect> effectConstructor = null;
-    try {
-      effectConstructor = PotionEffect.class.getConstructor(PotionEffectType.class, int.class,
-          int.class, boolean.class, boolean.class);
-      return effectConstructor;
-    } catch (Exception ex) {
-      // no constr
-    }
-
-    try {
-      effectConstructor = PotionEffect.class.getConstructor(PotionEffectType.class, int.class,
-          int.class, boolean.class);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return effectConstructor;
-  }
+//  private Constructor<PotionEffect> getPotionConstructor() {
+//    Constructor<PotionEffect> effectConstructor = null;
+//    try {
+//      effectConstructor =
+//          PotionEffect.class.getConstructor(PotionEffectType.class, int.class, int.class,
+//              boolean.class, boolean.class);
+//      return effectConstructor;
+//    } catch (Exception ex) {
+//      // no constr
+//    }
+//
+//    try {
+//      effectConstructor =
+//          PotionEffect.class.getConstructor(PotionEffectType.class, int.class, int.class,
+//              boolean.class);
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//    return effectConstructor;
+//  }
 
   public void activate(final Player player) {
     try {
       List<PotionEffect> effects = new ArrayList<PotionEffect>();
-      Constructor<PotionEffect> potionEffectConstr = this.getPotionConstructor();
+//      Constructor<PotionEffect> potionEffectConstr = this.getPotionConstructor();
 
-      if (this.activateBlindness) {
-        PotionEffect blind = null;
-
-        if (potionEffectConstr.getParameterTypes().length == 5) {
-          blind = potionEffectConstr.newInstance(PotionEffectType.BLINDNESS, this.duration * 20,
-              this.amplifierBlindness, true, this.particles);
-        } else {
-          blind = potionEffectConstr.newInstance(PotionEffectType.BLINDNESS, this.duration * 20,
-              this.amplifierBlindness, true);
-        }
-
-        effects.add(blind);
-      }
-
-      if (this.activateWeakness) {
-        PotionEffect weak = null;
-        if (potionEffectConstr.getParameterTypes().length == 5) {
-          weak = potionEffectConstr.newInstance(PotionEffectType.WEAKNESS, this.duration * 20,
-              this.amplifierWeakness, true, this.particles);
-        } else {
-          weak = potionEffectConstr.newInstance(PotionEffectType.WEAKNESS, this.duration * 20,
-              this.amplifierWeakness, true);
-        }
-        effects.add(weak);
-      }
-
-      if (this.activateSlowness) {
-        PotionEffect slow = null;
-        if (potionEffectConstr.getParameterTypes().length == 5) {
-          slow = potionEffectConstr.newInstance(PotionEffectType.SLOW, this.duration * 20,
-              this.amplifierSlowness, true, this.particles);
-        } else {
-          slow = potionEffectConstr.newInstance(PotionEffectType.SLOW, this.duration * 20,
-              this.amplifierSlowness, true);
-        }
-
-        effects.add(slow);
-      }
+//      if (this.activateBlindness) {
+//        PotionEffect blind = null;
+//
+//        if (potionEffectConstr.getParameterTypes().length == 5) {
+//          blind =
+//              potionEffectConstr.newInstance(PotionEffectType.BLINDNESS, this.duration * 20,
+//                  this.amplifierBlindness, true, this.particles);
+//        } else {
+//          blind =
+//              potionEffectConstr.newInstance(PotionEffectType.BLINDNESS, this.duration * 20,
+//                  this.amplifierBlindness, true);
+//        }
+//
+//        effects.add(blind);
+//      }
 
       this.game.addRunningTask(new BukkitRunnable() {
 
@@ -151,8 +157,8 @@ public class Trap extends SpecialItem {
       this.game.broadcast(Main._l("ingame.specials.trap.trapped"),
           new ArrayList<Player>(this.team.getPlayers()));
       if (this.playSound) {
-        this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"), 4.0F, 1.0F,
-            this.team.getPlayers());
+        this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"), 4.0F,
+            1.0F, this.team.getPlayers());
       }
 
       this.game.getRegion().removePlacedUnbreakableBlock(this.location.getBlock());

@@ -12,6 +12,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -43,6 +44,9 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.Door;
+import org.bukkit.material.MaterialData;
+import org.bukkit.material.Openable;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
@@ -57,6 +61,7 @@ import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
 import io.github.yannici.bedwars.Villager.MerchantCategory;
 
+@SuppressWarnings("deprecation")
 public class PlayerListener extends BaseListener {
 
   public PlayerListener() {
@@ -95,8 +100,8 @@ public class PlayerListener extends BaseListener {
           @Override
           public void run() {
             if (firstGame.getCycle() instanceof BungeeGameCycle) {
-              ((BungeeGameCycle) firstGame.getCycle())
-                  .bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
+              ((BungeeGameCycle) firstGame.getCycle()).bungeeSendToServer(Main.getInstance()
+                  .getBungeeHub(), player, true);
             }
           }
 
@@ -229,8 +234,8 @@ public class PlayerListener extends BaseListener {
 
     if (ioe.getInventory().getType() == InventoryType.ENCHANTING
         || ioe.getInventory().getType() == InventoryType.BREWING
-        || (ioe.getInventory().getType() == InventoryType.CRAFTING
-            && !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
+        || (ioe.getInventory().getType() == InventoryType.CRAFTING && !Main.getInstance()
+            .getBooleanConfig("allow-crafting", false))) {
       ioe.setCancelled(true);
       return;
     } else if (ioe.getInventory().getType() == InventoryType.CRAFTING
@@ -255,6 +260,48 @@ public class PlayerListener extends BaseListener {
     }
 
     game.getRegion().addInventory(ioe.getInventory());
+  }
+
+  @EventHandler
+  public void onDoorInteract(PlayerInteractEvent pie) {
+    if (!pie.getAction().equals(Action.LEFT_CLICK_BLOCK)
+        && !pie.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+      return;
+    }
+
+    if (!(pie.getPlayer() instanceof Player)) {
+      return;
+    }
+
+    Block block = pie.getClickedBlock();
+    MaterialData md = block.getState().getData();
+    if (!(md instanceof Openable)) {
+      return;
+    }
+
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(pie.getPlayer());
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (md instanceof Door) {
+      if (((Door) md).isTopHalf()) {
+        // isOpen - Result is undefined if isTopHalf() is true.
+        block = pie.getClickedBlock().getRelative(BlockFace.DOWN);
+        md = block.getState().getData();
+      }
+    }
+
+    if (game.getRegion().isPlacedDoor(block)) {
+      return;
+    }
+
+    game.getRegion().addDoorPosition(block, ((Openable) md).isOpen());
   }
 
   @EventHandler
@@ -967,7 +1014,6 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  @SuppressWarnings("deprecation")
   private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
     Inventory inv = ice.getInventory();
     ItemStack clickedStack = ice.getCurrentItem();
