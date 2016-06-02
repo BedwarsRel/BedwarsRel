@@ -226,9 +226,9 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("statistics.player-leave-kills", false);
 
     List<PotionEffect> potionEffectList = new ArrayList<PotionEffect>();
-    potionEffectList.add(new PotionEffect(PotionEffectType.BLINDNESS, 100, 2, true, true));
-    potionEffectList.add(new PotionEffect(PotionEffectType.WEAKNESS, 100, 2, true, true));
-    potionEffectList.add(new PotionEffect(PotionEffectType.SLOW, 100, 2, true, true));
+    potionEffectList.add(new PotionEffect(PotionEffectType.BLINDNESS, 5 * 20, 2, true, true));
+    potionEffectList.add(new PotionEffect(PotionEffectType.WEAKNESS, 5 * 20, 2, true, true));
+    potionEffectList.add(new PotionEffect(PotionEffectType.SLOW, 5 * 20, 2, true, true));
     Main.getInstance().getConfig().addDefault("specials.trap.effects", potionEffectList);
     // </1.3.2>
   }
