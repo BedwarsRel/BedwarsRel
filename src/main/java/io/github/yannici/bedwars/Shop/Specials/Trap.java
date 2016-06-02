@@ -1,7 +1,6 @@
 package io.github.yannici.bedwars.Shop.Specials;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class Trap extends SpecialItem {
   FileConfiguration cfg = null;
   private Game game = null;
   private Team team = null;
-  private int duration = 10;
+  private int maxDuration = 5;
   private boolean playSound = true;
   private Location location = null;
 
@@ -37,15 +36,17 @@ public class Trap extends SpecialItem {
     }
     
     for (Object effect : section.getList("effects")) {
-      List<Map<String, Object>> map = (List<Map<String, Object>>) effect;
-      
-      for (int i = 0; map.size() > i; i++) {
-        PotionEffect pe = new PotionEffect(map.get(i));
-        effects.add(pe);
+      //can't cast :(
+      Map<String, Object> map = (Map<String, Object>) effect;
+      PotionEffect pe = new PotionEffect(map);
+      effects.add(pe);
+    }
+    for (PotionEffect effect : effects) {
+      if (effect.getDuration() > this.maxDuration) {
+        this.maxDuration = effect.getDuration();
       }
     }
   }
-
 //  HashMap<String, List<Map<String, Object>>> offerSection =
 //      (HashMap<String, List<Map<String, Object>>>) offer;
   
@@ -67,7 +68,7 @@ public class Trap extends SpecialItem {
 
         @Override
         public void run() {
-          if (this.counter >= Trap.this.duration) {
+          if (this.counter >= Trap.this.maxDuration) {
             Trap.this.game.removeRunningTask(this);
             this.cancel();
             return;
