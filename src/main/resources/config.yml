@@ -836,58 +836,58 @@ specials:
             
         # Now the custom PotionEffect
         # It's al list of effects with few options
-		- ==: PotionEffect
-		    
-		    # Potion id
-		    # type: int
-		    # The id 15 means the PotionEffect Blindness
-		    # You can find a list of possible effect ids you can use on http://minecraft-helpandinfo.weebly.com/potion-effects-ids.html
-		    effect: 15
-		    
-		    
-	        # Effect duration in ticks (20 Tick = 1 Second)
-	        # type: int
-	        # The duration the trapeffect will have effects on the player in ticks
-	        # 100 ticks is default (5 Seconds)
-		    duration: 100
+        - ==: PotionEffect
+            
+            # Potion id
+            # type: int
+            # The id 15 means the PotionEffect Blindness
+            # You can find a list of possible effect ids you can use on http://minecraft-helpandinfo.weebly.com/potion-effects-ids.html
+            effect: 15
+            
+            
+            # Effect duration in ticks (20 Tick = 1 Second)
+            # type: int
+            # The duration the trapeffect will have effects on the player in ticks
+            # 100 ticks is default (5 Seconds)
+            duration: 100
         
             # Effect amplifier
             # type: int
             # The higher the value, the heavier the effect. 2 is default.
             amplifier: 2
-		    
-		    # Effect ambient
-		    # type: boolean
-		    # Makes potion effect produce more, translucent, particles.
-		    ambient: true
-		    
-	        # Effect has particles
-	        # type: boolean
-	        # Set to true, when trap effect should generate particles around the player
-	        # Only in versions higher or equal 1.8
-		    has-particles: true
-		
-		# Two more examples
-		# Feel free to customize and add more effects
-	    - ==: PotionEffect
-	        
-	        # PotionEffect Weakness
-	        effect: 18
-	        
-	        duration: 100
-	        amplifier: 2
-	        ambient: true
-	        has-particles: true
-	        
-	    - ==: PotionEffect
-	    
-	        # PotionEffect Slowness
-  	        effect: 2
-  	        
-     	    duration: 100
-	        amplifier: 2
-	        ambient: true
-	        has-particles: true
+            
+            # Effect ambient
+            # type: boolean
+            # Makes potion effect produce more, translucent, particles.
+            ambient: true
+            
+            # Effect has particles
+            # type: boolean
+            # Set to true, when trap effect should generate particles around the player
+            # Only in versions higher or equal 1.8
+            has-particles: true
+        
+        # Two more examples
+        # Feel free to customize and add more effects
+        - ==: PotionEffect
+            
+            # PotionEffect Weakness
+            effect: 18
+            
+            duration: 100
+            amplifier: 2
+            ambient: true
+            has-particles: true
+            
+        - ==: PotionEffect
+        
+           # PotionEffect Slowness
+            effect: 2
+              
+            duration: 100
+            amplifier: 2
+            ambient: true
+            has-particles: true
     
     # TNT-Creature settings
     tntsheep:
