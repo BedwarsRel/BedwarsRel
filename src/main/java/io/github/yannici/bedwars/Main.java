@@ -71,6 +71,7 @@ import io.github.yannici.bedwars.Listener.EntityListener;
 import io.github.yannici.bedwars.Listener.HangingListener;
 import io.github.yannici.bedwars.Listener.Player19Listener;
 import io.github.yannici.bedwars.Listener.PlayerListener;
+import io.github.yannici.bedwars.Listener.PlayerSpigotListener;
 import io.github.yannici.bedwars.Listener.ServerListener;
 import io.github.yannici.bedwars.Listener.SignListener;
 import io.github.yannici.bedwars.Listener.WeatherListener;
@@ -652,6 +653,10 @@ public class Main extends JavaPlugin {
     new ServerListener();
     new SignListener();
     new ChunkListener();
+    
+    if(this.isSpigot()) {
+    	new PlayerSpigotListener();
+    }
 
     SpecialItem.loadSpecials();
   }
