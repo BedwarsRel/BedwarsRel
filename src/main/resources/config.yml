@@ -831,11 +831,11 @@ specials:
         # of the team, which placed the trap)
         play-sound: true
         
-        # List of Effects the player get by step on a trap
+        # List of effects the player gets after stepping on a trap
         effects:
             
         # Now the custom PotionEffect
-        # It's al list of effects with few options
+        # It's a list of effects
         - ==: PotionEffect
             
             # Potion id
@@ -845,15 +845,15 @@ specials:
             effect: 15
             
             
-            # Effect duration in ticks (20 Tick = 1 Second)
+            # Effect duration in ticks (20 ticks = 1 second)
             # type: int
             # The duration the trapeffect will have effects on the player in ticks
-            # 100 ticks is default (5 Seconds)
+            # 100 ticks is default (5 seconds)
             duration: 100
         
             # Effect amplifier
             # type: int
-            # The higher the value, the heavier the effect. 2 is default.
+            # The higher the value, the heavier the effect.
             amplifier: 2
             
             # Effect ambient
@@ -863,8 +863,7 @@ specials:
             
             # Effect has particles
             # type: boolean
-            # Set to true, when trap effect should generate particles around the player
-            # Only in versions higher or equal 1.8
+            # Set to true, if trap effect should generate particles around the player
             has-particles: true
         
         # Two more examples
