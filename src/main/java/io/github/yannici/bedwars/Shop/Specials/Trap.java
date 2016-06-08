@@ -2,12 +2,10 @@ package io.github.yannici.bedwars.Shop.Specials;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -20,26 +18,21 @@ import io.github.yannici.bedwars.Game.Team;
 public class Trap extends SpecialItem {
 
   List<PotionEffect> effects = new ArrayList<PotionEffect>();
-  FileConfiguration cfg = null;
   private Game game = null;
   private Team team = null;
   private int maxDuration = 5;
   private boolean playSound = true;
   private Location location = null;
 
-  @SuppressWarnings("unchecked")
   public Trap() {
-    ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("specials").getConfigurationSection("trap");
+    ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("specials.trap");
     
     if (section.contains("play-sound")) {
       this.playSound = section.getBoolean("play-sound");
     }
     
     for (Object effect : section.getList("effects")) {
-      //can't cast :(
-      Map<String, Object> map = (Map<String, Object>) effect;
-      PotionEffect pe = new PotionEffect(map);
-      effects.add(pe);
+      effects.add((PotionEffect) effect);
     }
     for (PotionEffect effect : effects) {
       if (effect.getDuration() > this.maxDuration) {
