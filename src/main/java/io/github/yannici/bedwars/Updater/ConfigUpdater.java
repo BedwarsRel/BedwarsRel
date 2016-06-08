@@ -72,6 +72,8 @@ public class ConfigUpdater {
     // </1.1.8>
 
     // <1.1.9>
+    Main.getInstance().getConfig().addDefault("specials.trap.play-sound", true);
+    /*
     Main.getInstance().getConfig().addDefault("specials.trap.duration", 10);
     Main.getInstance().getConfig().addDefault("specials.trap.blindness.amplifier", 2);
     Main.getInstance().getConfig().addDefault("specials.trap.slowness.amplifier", 2);
@@ -80,7 +82,10 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("specials.trap.slowness.enabled", true);
     Main.getInstance().getConfig().addDefault("specials.trap.weakness.enabled", true);
     Main.getInstance().getConfig().addDefault("specials.trap.show-particles", true);
-    Main.getInstance().getConfig().addDefault("specials.trap.play-sound", true);
+    
+    Change Trap in Version: 1.3.2
+    */
+    
     // </1.1.9>
 
     // <1.1.11>
@@ -236,6 +241,39 @@ public class ConfigUpdater {
 
     // <1.3.2>
     Main.getInstance().getConfig().addDefault("statistics.player-leave-kills", false);
+
+    List<PotionEffect> oldPotions = new ArrayList<PotionEffect>();
+    
+    if (Main.getInstance().getConfig().getBoolean("specials.trap.blindness.enabled")) {
+      oldPotions.add(new PotionEffect(PotionEffectType.BLINDNESS, Main.getInstance().getConfig()
+          .getInt("specials.trap.duration"), Main.getInstance().getConfig()
+          .getInt("specials.trap.blindness.amplifier"), true, Main.getInstance().getConfig()
+          .getBoolean("specials.trap.show-particles")));
+    }
+    if (Main.getInstance().getConfig().getBoolean("specials.trap.slowness.enabled")) {
+      oldPotions.add(new PotionEffect(PotionEffectType.SLOW, Main.getInstance().getConfig()
+          .getInt("specials.trap.duration"), Main.getInstance().getConfig()
+          .getInt("specials.trap.slowness.amplifier"), true, Main.getInstance().getConfig()
+          .getBoolean("specials.trap.show-particles")));
+    }
+    if (Main.getInstance().getConfig().getBoolean("specials.trap.weakness.enabled")) {
+      oldPotions.add(new PotionEffect(PotionEffectType.WEAKNESS, Main.getInstance().getConfig()
+          .getInt("specials.trap.duration"), Main.getInstance().getConfig()
+          .getInt("specials.trap.weakness.amplifier"), true, Main.getInstance().getConfig()
+          .getBoolean("specials.trap.show-particles")));
+    }
+    Main.getInstance().getConfig().addDefault("specials.trap.effects", oldPotions);
+    Main.getInstance().getConfig().set("specials.trap.duration", null);
+    Main.getInstance().getConfig().set("specials.trap.blindness", null);
+    Main.getInstance().getConfig().set("specials.trap.slowness", null);
+    Main.getInstance().getConfig().set("specials.trap.weakness", null);
+    Main.getInstance().getConfig().set("specials.trap.show-particles", null);
+    
+    List<PotionEffect> potionEffectList = new ArrayList<PotionEffect>();
+    potionEffectList.add(new PotionEffect(PotionEffectType.BLINDNESS, 5 * 20, 2, true, true));
+    potionEffectList.add(new PotionEffect(PotionEffectType.WEAKNESS, 5 * 20, 2, true, true));
+    potionEffectList.add(new PotionEffect(PotionEffectType.SLOW, 5 * 20, 2, true, true));
+    Main.getInstance().getConfig().addDefault("specials.trap.effects", potionEffectList);
     // </1.3.2>
   }
 

@@ -74,26 +74,26 @@ lobby-gamemode: 0
 
 # Holographic Stats configs
 holographic-stats:
-    # Show prefx
-    # type: boolean
-    # If true, the bedwars prefix will be shown on the bedwars
-    # holographic stats.
-    show-prefix: false
-    
-    # Statistic names color
-    # type: string
-    # The color of the statistic names (like "Kills", "Deaths" ...)
-    name-color: "&7"
-    
-    # Statstic value color
-    # type: string
-    # The color of the statistic values
-    value-color: "&e"
-    
-    # Statistics headline
-    # type: string
-    # Leave the headline empty to remove the headline
-    head-line: "Your &eBEDWARS&f stats"
+  # Show prefx
+  # type: boolean
+  # If true, the bedwars prefix will be shown on the bedwars
+  # holographic stats.
+  show-prefix: false
+  
+  # Statistic names color
+  # type: string
+  # The color of the statistic names (like "Kills", "Deaths" ...)
+  name-color: "&7"
+  
+  # Statstic value color
+  # type: string
+  # The color of the statistic values
+  value-color: "&e"
+  
+  # Statistics headline
+  # type: string
+  # Leave the headline empty to remove the headline
+  head-line: "Your &eBEDWARS&f stats"
 
 # Add teamname in tablist
 # type: boolean
@@ -178,188 +178,188 @@ place-in-liquid: true
 # type: list<int> or list<string>
 # Defines the block types which are allowed to break
 breakable-blocks:
-    - none
+  - none
 
 # Join team with entity config
 jointeam-entity:
-    # Team name visible
-    # type: boolean
-    # Should the name of the team be displayed above
-    # the entity? If so: true, if not: false
-    show-name: true
+  # Team name visible
+  # type: boolean
+  # Should the name of the team be displayed above
+  # the entity? If so: true, if not: false
+  show-name: true
 
 # Lobby Scoreboard settings
 # ONLY 1.8 OR HIGHER
 lobby-scoreboard:
-    # Enable lobby scoreboard
-    # type: boolean
-    # If true, the lobby scoreboard will be used (configurable in this section)
-    # If false, the normal scoreboard (with team display) will be used
-    enabled: true
+  # Enable lobby scoreboard
+  # type: boolean
+  # If true, the lobby scoreboard will be used (configurable in this section)
+  # If false, the normal scoreboard (with team display) will be used
+  enabled: true
 
-    # Lobby scoreboard title
-    # type: string
-    # The title of the lobby scoreboard
-    # Placeholders:
-    #   $regionname$ = Region name (or map name)
-    #   $gamename$   = Name of the game
-    #   $players$    = Current number of players
-    #   $maxplayers$ = The maximum players for this game
-    title: "&eBEDWARS"
-    
-    # Lobby scoreboard content
-    # type: List<string>
-    # The content of the lobby scoreboard (list of texts)
-    # Use " " (see example) for an empty row
-    # Placeholders:
-    #   $regionname$ = Region name (or map name)
-    #   $gamename$   = Name of the game
-    #   $players$    = Current number of players
-    #   $maxplayers$ = The maximum players for this game
-    content:
-        - " "
-        - "&fMap: &2$regionname$"
-        - "&fPlayers: &2$players$&f/&2$maxplayers$"
-        - " "
-        - "&fWaiting ..."
-        - " "
-    
+  # Lobby scoreboard title
+  # type: string
+  # The title of the lobby scoreboard
+  # Placeholders:
+  #  $regionname$ = Region name (or map name)
+  #  $gamename$  = Name of the game
+  #  $players$  = Current number of players
+  #  $maxplayers$ = The maximum players for this game
+  title: "&eBEDWARS"
+  
+  # Lobby scoreboard content
+  # type: List<string>
+  # The content of the lobby scoreboard (list of texts)
+  # Use " " (see example) for an empty row
+  # Placeholders:
+  #  $regionname$ = Region name (or map name)
+  #  $gamename$  = Name of the game
+  #  $players$  = Current number of players
+  #  $maxplayers$ = The maximum players for this game
+  content:
+    - " "
+    - "&fMap: &2$regionname$"
+    - "&fPlayers: &2$players$&f/&2$maxplayers$"
+    - " "
+    - "&fWaiting ..."
+    - " "
+  
 # Scoreboard settings
 scoreboard:
-    # Format for scoreboard teams (bed destroyed)
-    # type: string
-    # The format how the teams on the scoreboard will be displayed
-    # Possible placeholders:
-    # - $status$ (bed status => destroyed/not destroyed)
-    # - $team$ (Colored team name)
-    format-bed-destroyed: "&c$status$ $team$"
-    
-    # Format for scoreboard teams (bed alive)
-    # type: string
-    # The format how the teams on the scoreboard will be displayed
-    # Possible placeholders:
-    # - $status$ (bed status => destroyed/not destroyed)
-    # - $team$ (Colored team name)
-    format-bed-alive: "&a$status$ $team$"
-    
-    # Format for scoreboard title
-    # type: string
-    # The format for the scoreboard title (above teams)
-    # Possible placeholders:
-    # - $game$ (game name)
-    # - $region$ (game's region- or worldname)
-    # - $time$ (the countdown-timer)
-    format-title: "&e$region$&f - $time$"
+  # Format for scoreboard teams (bed destroyed)
+  # type: string
+  # The format how the teams on the scoreboard will be displayed
+  # Possible placeholders:
+  # - $status$ (bed status => destroyed/not destroyed)
+  # - $team$ (Colored team name)
+  format-bed-destroyed: "&c$status$ $team$"
+  
+  # Format for scoreboard teams (bed alive)
+  # type: string
+  # The format how the teams on the scoreboard will be displayed
+  # Possible placeholders:
+  # - $status$ (bed status => destroyed/not destroyed)
+  # - $team$ (Colored team name)
+  format-bed-alive: "&a$status$ $team$"
+  
+  # Format for scoreboard title
+  # type: string
+  # The format for the scoreboard title (above teams)
+  # Possible placeholders:
+  # - $game$ (game name)
+  # - $region$ (game's region- or worldname)
+  # - $time$ (the countdown-timer)
+  format-title: "&e$region$&f - $time$"
 
 # Titles configuration (only compatible with >= 1.8)
 titles:
-    # Win title
-    win:
-        # Enable win title (default: true)
-        # type: boolean
-        # If true, the title configured in this section will be displayed
-        enabled: true
-        
-        # Title Fade-In time
-        # type: double
-        # The time how long the title fade-in should take in seconds
-        title-fade-in: 1.5
-        
-        # Title Stay time
-        # type: double
-        # The time how long the title will stay in seconds
-        title-stay: 5.0
-        
-        # Title Fade-Out time
-        # type: double
-        # The time how long the title fade-out should take in seconds
-        title-fade-out: 2.0
-        
-        # SubTitle Fade-In time
-        # type: double
-        # The time how long the subtitle fade-in should take in seconds
-        subtitle-fade-in: 1.5
-        
-        # SubTitle Stay time
-        # type: double
-        # The time how long the subtitle will stay in seconds
-        subtitle-stay: 5.0
-        
-        # SubTitle Fade-Out time
-        # type: double
-        # The time how long the subtitle fade-out should take in seconds
-        subtitle-fade-out: 2.0
+  # Win title
+  win:
+    # Enable win title (default: true)
+    # type: boolean
+    # If true, the title configured in this section will be displayed
+    enabled: true
     
-    # Map title with builder    
-    map:
-        # Enable map title (default: false)
-        # type: boolean
-        # If true, a title will be displayed on start
-        # with the region name displayed and if set, the builder
-        # as subtitle. (/bw setbuilder {game})
-        enabled: false
-        
-        # Title Fade-In time
-        # type: double
-        # The time how long the title fade-in should take in seconds
-        title-fade-in: 1.5
-        
-        # Title Stay time
-        # type: double
-        # The time how long the title will stay in seconds
-        title-stay: 2.0
-        
-        # Title Fade-Out time
-        # type: double
-        # The time how long the title fade-out should take in seconds
-        title-fade-out: 1.5
-        
-        # SubTitle Fade-In time
-        # type: double
-        # The time how long the subtitle fade-in should take in seconds
-        subtitle-fade-in: 1.5
-        
-        # SubTitle Stay time
-        # type: double
-        # The time how long the subtitle will stay in seconds
-        subtitle-stay: 2.0
-        
-        # SubTitle Fade-Out time
-        # type: double
-        # The time how long the subtitle fade-out should take in seconds
-        subtitle-fade-out: 1.5
+    # Title Fade-In time
+    # type: double
+    # The time how long the title fade-in should take in seconds
+    title-fade-in: 1.5
     
-    # Countdown title
-    countdown:
-        # Enabled countdown title
-        # type: boolean
-        # If true, the countdown will be displayed as title when game is
-        # in countdown (from 10) in lobby
-        enabled: true
-        
-        # Title format
-        # type: string
-        # The format of the countdown (colors addable)
-        format: "&3{countdown}"
+    # Title Stay time
+    # type: double
+    # The time how long the title will stay in seconds
+    title-stay: 5.0
+    
+    # Title Fade-Out time
+    # type: double
+    # The time how long the title fade-out should take in seconds
+    title-fade-out: 2.0
+    
+    # SubTitle Fade-In time
+    # type: double
+    # The time how long the subtitle fade-in should take in seconds
+    subtitle-fade-in: 1.5
+    
+    # SubTitle Stay time
+    # type: double
+    # The time how long the subtitle will stay in seconds
+    subtitle-stay: 5.0
+    
+    # SubTitle Fade-Out time
+    # type: double
+    # The time how long the subtitle fade-out should take in seconds
+    subtitle-fade-out: 2.0
+  
+  # Map title with builder  
+  map:
+    # Enable map title (default: false)
+    # type: boolean
+    # If true, a title will be displayed on start
+    # with the region name displayed and if set, the builder
+    # as subtitle. (/bw setbuilder {game})
+    enabled: false
+    
+    # Title Fade-In time
+    # type: double
+    # The time how long the title fade-in should take in seconds
+    title-fade-in: 1.5
+    
+    # Title Stay time
+    # type: double
+    # The time how long the title will stay in seconds
+    title-stay: 2.0
+    
+    # Title Fade-Out time
+    # type: double
+    # The time how long the title fade-out should take in seconds
+    title-fade-out: 1.5
+    
+    # SubTitle Fade-In time
+    # type: double
+    # The time how long the subtitle fade-in should take in seconds
+    subtitle-fade-in: 1.5
+    
+    # SubTitle Stay time
+    # type: double
+    # The time how long the subtitle will stay in seconds
+    subtitle-stay: 2.0
+    
+    # SubTitle Fade-Out time
+    # type: double
+    # The time how long the subtitle fade-out should take in seconds
+    subtitle-fade-out: 1.5
+  
+  # Countdown title
+  countdown:
+    # Enabled countdown title
+    # type: boolean
+    # If true, the countdown will be displayed as title when game is
+    # in countdown (from 10) in lobby
+    enabled: true
+    
+    # Title format
+    # type: string
+    # The format of the countdown (colors addable)
+    format: "&3{countdown}"
 
 # Explode Behaviour
 explodes:
-    # Destroy world blocks
-    # type: boolean
-    # Set to true to allow destroying region blocks
-    # Set to false to prevent block destroying in region
-    destroy-worldblocks: false
-    
-    # Destroy beds
-    # type: boolean
-    # Set to true, to allow players to destroy beds with tnt
-    destroy-beds: false
-    
-    # Block drops
-    # type: boolean
-    # If set to true, blocks will be dropping on explosions
-    # on false, exploded blocks won't drop anything
-    drop-blocking: false
+  # Destroy world blocks
+  # type: boolean
+  # Set to true to allow destroying region blocks
+  # Set to false to prevent block destroying in region
+  destroy-worldblocks: false
+  
+  # Destroy beds
+  # type: boolean
+  # Set to true, to allow players to destroy beds with tnt
+  destroy-beds: false
+  
+  # Block drops
+  # type: boolean
+  # If set to true, blocks will be dropping on explosions
+  # on false, exploded blocks won't drop anything
+  drop-blocking: false
 
 # Countdown start rule
 # Type: int
@@ -367,7 +367,7 @@ explodes:
 # 0 = If all teams got min. 1 player, the game start countdown starts
 # 1 = If min. X (addgame parameter) players joined the game, game countdown starts
 # 2 = If min. X (addgame parameter) players joined the game and more than 1 team got players 
-#     (or players without team are enough to fill teams without players), game countdown starts
+#   (or players without team are enough to fill teams without players), game countdown starts
 lobbycountdown-rule: 2
 
 # Friendly Fire
@@ -407,110 +407,110 @@ seperate-spectator-chat: false
 
 # Statistic-Configuration
 statistics:
-    # Statistics enable
-    # type: boolean
-    # Set to true to enable statistics. Otherwise set to false
-    enabled: false
+  # Statistics enable
+  # type: boolean
+  # Set to true to enable statistics. Otherwise set to false
+  enabled: false
+  
+  # Show on game end
+  # type: boolean
+  # If true, the stats will be displayed after the game ends
+  show-on-game-end: true
+  
+  # Achievements storage type
+  # type: string
+  # yaml or database
+  # Set to yaml to store statistics in a Yaml-Configuration file or
+  # set to database to store statistics in the defined database. If no database
+  # configured, the statistics will be stored in Yaml-Files
+  storage: yaml
+  
+  # Bed destroy kill
+  # type: boolean
+  # If true, kills will only count if the bed is destroyed
+  # If false, every kill will count as a kill
+  bed-destroyed-kills: false
+  
+  # Scores configuration
+  scores:
+    # Score per kill
+    # type: int
+    # Sets the score which a player gets when he kills someone
+    kill: 10
     
-    # Show on game end
-    # type: boolean
-    # If true, the stats will be displayed after the game ends
-    show-on-game-end: true
+    # Score per death
+    # type: int
+    # Sets the score which a player gets when he dies
+    die: 0
     
-    # Achievements storage type
-    # type: string
-    # yaml or database
-    # Set to yaml to store statistics in a Yaml-Configuration file or
-    # set to database to store statistics in the defined database. If no database
-    # configured, the statistics will be stored in Yaml-Files
-    storage: yaml
+    # Score per win
+    # type: int
+    # Sets the score which all team-players gets when a team wins
+    win: 50
     
-    # Bed destroy kill
-    # type: boolean
-    # If true, kills will only count if the bed is destroyed
-    # If false, every kill will count as a kill
-    bed-destroyed-kills: false
+    # Score per bed destroy
+    # type: int
+    # Sets the score which a player gets when he destroys a bed
+    bed-destroy: 25
     
-    # Scores configuration
-    scores:
-        # Score per kill
-        # type: int
-        # Sets the score which a player gets when he kills someone
-        kill: 10
-        
-        # Score per death
-        # type: int
-        # Sets the score which a player gets when he dies
-        die: 0
-        
-        # Score per win
-        # type: int
-        # Sets the score which all team-players gets when a team wins
-        win: 50
-        
-        # Score per bed destroy
-        # type: int
-        # Sets the score which a player gets when he destroys a bed
-        bed-destroy: 25
-        
-        # Score per lose
-        # type: int
-        # Sets the score which all team-players gets when a lose
-        lose: 0
-        
-        # New record set
-        # type: int
-        # Sets the score which all team-players gets when they made a new record
-        record: 100
+    # Score per lose
+    # type: int
+    # Sets the score which all team-players gets when a lose
+    lose: 0
     
+    # New record set
+    # type: int
+    # Sets the score which all team-players gets when they made a new record
+    record: 100
+  
 # Database (currently only mysql) configuration
 database:
 
-    # Database host
-    # type: string
-    # Hostname of your database
-    host: localhost
-    
-    # Database port
+  # Database host
+  # type: string
+  # Hostname of your database
+  host: localhost
+  
+  # Database port
+  # type: int
+  # Port of your database. Default mysql port: 3306
+  port: 3306
+  
+  # Database name
+  # type: string
+  # The name of your database
+  db: database
+  
+  # Database user
+  # type: string
+  # User for database authentication
+  user: root
+  
+  # Database password
+  # type: string
+  # Password of database user for authentication
+  password: secret
+  
+  # Connection-Pooling configuration (only professional use)
+  # For bungeecord servers it is recommended to use lower pool sizes because
+  # they have only one bedwars game per server and only need a 
+  # very small amount of connections
+  connection-pooling:
+  
+    # Min connection pool size
     # type: int
-    # Port of your database. Default mysql port: 3306
-    port: 3306
+    # Defines how large the min pool size for connections should be
+    # the higher the value the higher the load of the database server
+    min-pool-size: 3
     
-    # Database name
-    # type: string
-    # The name of your database
-    db: database
+    # Max connection pool size
+    # type: int
+    # Defines how large the max pool size for connections should be
+    # the higher the value the higher is the security that no connection locks
+    # will occur. But the load of the database server will be higher when 
+    # many connections are used!
+    max-pool-size: 50
     
-    # Database user
-    # type: string
-    # User for database authentication
-    user: root
-    
-    # Database password
-    # type: string
-    # Password of database user for authentication
-    password: secret
-    
-    # Connection-Pooling configuration (only professional use)
-    # For bungeecord servers it is recommended to use lower pool sizes because
-    # they have only one bedwars game per server and only need a 
-    # very small amount of connections
-    connection-pooling:
-    
-        # Min connection pool size
-        # type: int
-        # Defines how large the min pool size for connections should be
-        # the higher the value the higher the load of the database server
-        min-pool-size: 3
-        
-        # Max connection pool size
-        # type: int
-        # Defines how large the max pool size for connections should be
-        # the higher the value the higher is the security that no connection locks
-        # will occur. But the load of the database server will be higher when 
-        # many connections are used!
-        max-pool-size: 50
-        
 # Spectation enabled
 # Type: boolean
 # Defines if spectators are allowed
@@ -527,7 +527,7 @@ respawn-protection: 0
 # Defines a list of commands which are allowed for all for default.
 # Can be set with an starting / or without
 allowed-commands:
-    - /help
+  - /help
 
 endgame:
 ### Main lobby enabled
@@ -537,66 +537,66 @@ endgame:
 ### location (you can set with /bw setmainlobby {game}) after a game or when a player
 ### uses /bw leave. If this is set to false, the players will be teleported to the location
 ### where they joined the game!
-    mainlobby-enabled: false
-    
+  mainlobby-enabled: false
+  
 ### All players to mainlobby
 ### Type: boolean
 ### Not available with bungeecord!
 ### Configures if all players will be teleported to mainlobby after game.
 ### If false, all players will be teleported back to lobby to restart
 ### a new game. This is only recognized if mainlobby-enabled set to true
-    all-players-to-mainlobby: false 
+  all-players-to-mainlobby: false 
 
 # Bungeecord configurations
 bungeecord:
-  # Enable Bungeecord
-  # Type: boolean
-  # Set to true to enable bungeecord compatibility. Set to false when you have
-  # a single server and don't use bungeecord.
-    enabled: false
+ # Enable Bungeecord
+ # Type: boolean
+ # Set to true to enable bungeecord compatibility. Set to false when you have
+ # a single server and don't use bungeecord.
+  enabled: false
 
-  # Bungeecord Hubserver
-  # Type: string
-  # The name of the hub/main server of the bungeecord server-farm. This will be
-  # the server where the player will be teleported when they leave.
-    hubserver: hub
-    
-  # Endgame Lobby
-  # type: boolean
-  # If true, it sends players to your lobby during the endgame before getting kicked.
-    endgame-in-lobby: true
-    
-  # Full server restart
-  # Type: boolean
-  # If true, the server will do a full restart, with false
-  # it tries just to restart the game
-    full-restart: true
-    
-  # Use spigot restart
-  # type: boolean
-  # If true, it tries to use spigot's /restart command (ONLY WHEN full-restart IS true)
-  # If spigot isn't running, it will just stop the server
-    spigot-restart: true
+ # Bungeecord Hubserver
+ # Type: string
+ # The name of the hub/main server of the bungeecord server-farm. This will be
+ # the server where the player will be teleported when they leave.
+  hubserver: hub
+  
+ # Endgame Lobby
+ # type: boolean
+ # If true, it sends players to your lobby during the endgame before getting kicked.
+  endgame-in-lobby: true
+  
+ # Full server restart
+ # Type: boolean
+ # If true, the server will do a full restart, with false
+ # it tries just to restart the game
+  full-restart: true
+  
+ # Use spigot restart
+ # type: boolean
+ # If true, it tries to use spigot's /restart command (ONLY WHEN full-restart IS true)
+ # If spigot isn't running, it will just stop the server
+  spigot-restart: true
 
-  # Message of the Day configuration
-  # Type: string (colorcodes with &)
-  # Here you can specify the MOTDs which should be used
-  # at this bedwars server of your bungeecord server-farm.
-  # Useful for bedwars join signs in your lobby
-    motds:
-        lobby: |
-          $regionname$
-          &7[&b$currentplayers$&7/&b$maxplayers$&7]
-        running: |
-          $regionname$
-          &7[&b$currentplayers$&7/&b$maxplayers$&7]
-        stopped: |
-          $regionname$
-          &c[Stopped]
-        full: |
-          $regionname$
-          &7[&b$currentplayers$&7/&b$maxplayers$&7]
-        
+ # Message of the Day configuration
+ # Type: string (colorcodes with &)
+ # Here you can specify the MOTDs which should be used
+ # at this bedwars server of your bungeecord server-farm.
+ # Useful for bedwars join signs in your lobby
+  motds:
+    lobby: |
+      $regionname$
+      &7[&b$currentplayers$&7/&b$maxplayers$&7]
+    running: |
+      $regionname$
+      &7[&b$currentplayers$&7/&b$maxplayers$&7]
+    stopped: |
+      $regionname$
+      &c[Stopped]
+    full: |
+      $regionname$
+      &7[&b$currentplayers$&7/&b$maxplayers$&7]
+    
 ### Localization (language)
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
@@ -609,48 +609,48 @@ locale: en
 ressource:
 ## Custom spawners list
 ### Spawners (unique key!):
-###  item: 
-###   type: string or int
-###   Item-Name or Item-ID !! UNIQUE !!
-###  spawn-interval:
-###   type: int
-###   The interval in milliseconds the ressource should spawn
-###  amount: 
-###   type: int
-###   The stack amount the item should have
-###  name:
-###   type: string (color codes with &)
-###   The name for the ressource which will be displayed
-###  spread:
-###   type: double
-###   How far the items should spread on drop
-###  enchants:
-###   key: Has to be the enchant-ID or enchant-name!
-###   value: The level of the enchant
-###  lore:
-###   type: list<string> (colorcodes with &)
-###   The lores this item should have
-###  meta:
-###   type: short (potion) or byte (any other item)
-###   The meta byte which should be added to the item
-    bronze:
-        item: CLAY_BRICK
-        spawn-interval: 1000
-        amount: 1
-        spread: 1.0
-        name: "&4Bronze"
-    iron:
-        item: IRON_INGOT
-        spawn-interval: 10000
-        amount: 1
-        spread: 1.0
-        name: "&7Iron"
-    gold:
-        item: GOLD_INGOT
-        spawn-interval: 20000
-        amount: 1
-        spread: 1.0
-        name: "&6Gold"
+### item: 
+###  type: string or int
+###  Item-Name or Item-ID !! UNIQUE !!
+### spawn-interval:
+###  type: int
+###  The interval in milliseconds the ressource should spawn
+### amount: 
+###  type: int
+###  The stack amount the item should have
+### name:
+###  type: string (color codes with &)
+###  The name for the ressource which will be displayed
+### spread:
+###  type: double
+###  How far the items should spread on drop
+### enchants:
+###  key: Has to be the enchant-ID or enchant-name!
+###  value: The level of the enchant
+### lore:
+###  type: list<string> (colorcodes with &)
+###  The lores this item should have
+### meta:
+###  type: short (potion) or byte (any other item)
+###  The meta byte which should be added to the item
+  bronze:
+    item: CLAY_BRICK
+    spawn-interval: 1000
+    amount: 1
+    spread: 1.0
+    name: "&4Bronze"
+  iron:
+    item: IRON_INGOT
+    spawn-interval: 10000
+    amount: 1
+    spread: 1.0
+    name: "&7Iron"
+  gold:
+    item: GOLD_INGOT
+    spawn-interval: 20000
+    amount: 1
+    spread: 1.0
+    name: "&6Gold"
 
 # Check Updates
 # type: boolean
@@ -670,239 +670,243 @@ update-infos: true
 # {player} - the player for which the command will be executed
 # {score} - the score of the player in the current game (ONLY WHEN STATISTICS ENABLED!)
 rewards:
-    # Enable rewards
-    # type: boolean
-    # Enables reward commands
-    enabled: false
+  # Enable rewards
+  # type: boolean
+  # Enables reward commands
+  enabled: false
+  
+  # Game win
+  # type: List<string>
+  # Commands which will be executed for every player which wins
+  # possible placeholders: {player}, {score}
+  # set the first command to "none", no commands will be executed
+  player-win:
+    - /example {player} 200
+  
+  # Game end (every player in game)
+  # type: List<string>
+  # Commands which will be execute for every player in game
+  # after the game has end
+  # possible placeholders: {player}, {score}
+  # set the first command to "none", no commands will be executed
+  player-end-game:
+    - /example {player} {score}
     
-    # Game win
-    # type: List<string>
-    # Commands which will be executed for every player which wins
-    # possible placeholders: {player}, {score}
-    # set the first command to "none", no commands will be executed
-    player-win:
-        - /example {player} 200
+  # Player destroy bed
+  # type: List<string>
+  # Commands which will be executed for the player which
+  # destroys a bed of a enemy team
+  # possible placeholders: {player}, {score}
+  # {score} here is the score how much is configured 
+  # at "statistics => scores => bed-destroy"
+  # set the first command to "none", no commands will be executed
+  player-destroy-bed:
+    - /example {player} {score}
     
-    # Game end (every player in game)
-    # type: List<string>
-    # Commands which will be execute for every player in game
-    # after the game has end
-    # possible placeholders: {player}, {score}
-    # set the first command to "none", no commands will be executed
-    player-end-game:
-        - /example {player} {score}
-        
-    # Player destroy bed
-    # type: List<string>
-    # Commands which will be executed for the player which
-    # destroys a bed of a enemy team
-    # possible placeholders: {player}, {score}
-    # {score} here is the score how much is configured 
-    # at "statistics => scores => bed-destroy"
-    # set the first command to "none", no commands will be executed
-    player-destroy-bed:
-        - /example {player} {score}
-        
-    # Player kill
-    # type: List<string>
-    # Commands which will be executed for the player which
-    # kills a enemy player
-    # possible placeholders: {player}, {score}
-    # {score} here is the score how much is configured 
-    # at "statistics => scores => kill"
-    # set the first command to "none", no commands will be executed
-    player-kill:
-        - /example {player} 10
+  # Player kill
+  # type: List<string>
+  # Commands which will be executed for the player which
+  # kills a enemy player
+  # possible placeholders: {player}, {score}
+  # {score} here is the score how much is configured 
+  # at "statistics => scores => kill"
+  # set the first command to "none", no commands will be executed
+  player-kill:
+    - /example {player} 10
 
 # Special items
 specials:
-    # Rescue platform settings
-    rescue-platform:
-        # Remove platform time
-        # type: int
-        # The time in seconds when the platform will be break after using
-        # the rescue platform
-        break-time: 10
-        
-        # Using wait time
-        # type: int
-        # The seconds how long a player has to wait until he can 
-        # use a rescue platform again
-        using-wait-time: 20
-        
-        # Item
-        # type: int or string
-        # The name or id of the item which should be used for the rescue platform
-        item: BLAZE_ROD
-        
-        # Can break
-        # type: boolean
-        # If true, the rescue platform can be breaked by other players.
-        can-break: false
-        
-        # Block
-        # type: int or string
-        # The block-type which should be used for the rescue platform
-        block: STAINED_GLASS
-        
-    # Protection wall settings
-    protection-wall:
-        # Break time
-        # type: int
-        # The time in seconds when the wall should be removed again or
-        # 0 when the wall shouldn't be breaked again
-        break-time: 0
+  # Rescue platform settings
+  rescue-platform:
+    # Remove platform time
+    # type: int
+    # The time in seconds when the platform will be break after using
+    # the rescue platform
+    break-time: 10
     
-        # Wait time 
-        # type: int
-        # The wait time in seconds a player has to wait until he can
-        # use a protection wall again or 0 if protection walls can be activated anytime
-        wait-time: 20
-        
-        # Can break wall
-        # type: boolean
-        # If true, the wall can be breaked by other players or
-        # false if it shouldn't be breakable
-        can-break: true
-        
-        # Interact item
-        # type: int or string
-        # The item id or string which indicates which item should be in the
-        # hand to execute the protection wall on interaction
-        item: BRICK
-        
-        # Wall type
-        # type: int or string
-        # The item-type which should be used for the wall. Should be 
-        # a real block!
-        block: SANDSTONE
-        
-        # Wall width
-        # type: int
-        # The width in blocks the wall should be
-        # !! ODD ONLY !!
-        width: 5
-        
-        # Wall height
-        # type: int
-        # The height in blocks the wall should be
-        height: 3
-        
-        # Distance to player
-        # type: int
-        # The distance in blocks the wall should be away from the player
-        distance: 2
-        
-    # Magnetshoe settings
-    magnetshoe:
-        # Knockback probability
-        # type: int
-        # The probability in percent the knockback will be prevented
-        probability: 75
-        
-        # Knockback boots
-        # type: item (boots only!!!)
-        # The boots which are used as magnetshoe
-        boots: IRON_BOOTS
-        
-    # Warp-Powder settings
-    warp-powder:
-        # Show particles
-        # type: boolean
-        # If true, particles will be shown
-        show-particles: true
-        
-        # Particles type
-        # type: string
-        # Decide which particles should be used at teleport.
-        particle: fireworksSpark
-        
-        # Teleport time
-        # type: int
-        # The time in seconds a teleportation should need
-        teleport-time: 6
-        
-    # Trap settings
-    trap:
-        # Trap duration in seconds
-        # type: int
-        # The duration the trap will have effects on the player in seconds
-        # 10 seconds is default
-        duration: 10
-        
-        # Trap blindness settings
-        blindness:
-            # Trap blindness enable
-            # type: boolean
-            # Set to true if blindness should be enabled when setp into a trap
-            # Set to false to disable blindness on traps
-            enabled: true
-        
-            # Trap blindness amplifier
-            # type: int
-            # The amplifier (factor) for the blindness trap effect. The higher the value,
-            # the heavier the effect. 1 is default.
-            amplifier: 2
-        
-        # Trap slowness settings
-        slowness:
-            # Trap slowness enable
-            # type: boolean
-            # Set to true if slowness should be enabled when setp into a trap
-            # Set to false to disable slowness on traps
-            enabled: true
-        
-            # Trap slowness amplifier
-            # type: int
-            # The amplifier (factor) for the slowness trap effect. The higher the value,
-            # the heavier the effect. 1 is default.
-            amplifier: 2
-            
-        # Trap weakness settings
-        weakness:
-            # Trap weakness enable
-            # type: boolean
-            # Set to true if weakness should be enabled when setp into a trap
-            # Set to false to disable weakness on traps
-            enabled: true
+    # Using wait time
+    # type: int
+    # The seconds how long a player has to wait until he can 
+    # use a rescue platform again
+    using-wait-time: 20
+    
+    # Item
+    # type: int or string
+    # The name or id of the item which should be used for the rescue platform
+    item: BLAZE_ROD
+    
+    # Can break
+    # type: boolean
+    # If true, the rescue platform can be breaked by other players.
+    can-break: false
+    
+    # Block
+    # type: int or string
+    # The block-type which should be used for the rescue platform
+    block: STAINED_GLASS
+    
+  # Protection wall settings
+  protection-wall:
+    # Break time
+    # type: int
+    # The time in seconds when the wall should be removed again or
+    # 0 when the wall shouldn't be breaked again
+    break-time: 0
+  
+    # Wait time 
+    # type: int
+    # The wait time in seconds a player has to wait until he can
+    # use a protection wall again or 0 if protection walls can be activated anytime
+    wait-time: 20
+    
+    # Can break wall
+    # type: boolean
+    # If true, the wall can be breaked by other players or
+    # false if it shouldn't be breakable
+    can-break: true
+    
+    # Interact item
+    # type: int or string
+    # The item id or string which indicates which item should be in the
+    # hand to execute the protection wall on interaction
+    item: BRICK
+    
+    # Wall type
+    # type: int or string
+    # The item-type which should be used for the wall. Should be 
+    # a real block!
+    block: SANDSTONE
+    
+    # Wall width
+    # type: int
+    # The width in blocks the wall should be
+    # !! ODD ONLY !!
+    width: 5
+    
+    # Wall height
+    # type: int
+    # The height in blocks the wall should be
+    height: 3
+    
+    # Distance to player
+    # type: int
+    # The distance in blocks the wall should be away from the player
+    distance: 2
+    
+  # Magnetshoe settings
+  magnetshoe:
+    # Knockback probability
+    # type: int
+    # The probability in percent the knockback will be prevented
+    probability: 75
+    
+    # Knockback boots
+    # type: item (boots only!!!)
+    # The boots which are used as magnetshoe
+    boots: IRON_BOOTS
+    
+  # Warp-Powder settings
+  warp-powder:
+    # Show particles
+    # type: boolean
+    # If true, particles will be shown
+    show-particles: true
+    
+    # Particles type
+    # type: string
+    # Decide which particles should be used at teleport.
+    particle: fireworksSpark
+    
+    # Teleport time
+    # type: int
+    # The time in seconds a teleportation should need
+    teleport-time: 6
+    
+  # Trap settings
+  trap:
 
-            # Trap weakness amplifier
-            # type: int
-            # The amplifier (factor) for the weakness trap effect. The higher the value,
-            # the heavier the effect. 1 is default.
-            amplifier: 2
-        
-        # Trap shows particles
-        # type: boolean
-        # Set to true, when trap effects should generate particles around the player
-        # Only in versions higher or equal 1.8
-        show-particles: true
-        
-        # Trap play sound
-        # type: boolean
-        # Set to true, to play sound when someone step into a trap (sound only to players
-        # of the team, which placed the trap)
-        play-sound: true
+    # Trap play sound
+    # type: boolean
+    # Set to true, to play sound when someone step into a trap (sound only to players
+    # of the team, which placed the trap)
+    play-sound: true
+
+    # List of effects the player gets after stepping on a trap
+    effects:
+
+    # Now the custom PotionEffect
+    # It is a list of effects
+    - ==: PotionEffect
+      
+      # Potion id
+      # type: int
+      # The id 15 means the PotionEffect Blindness
+      # You can find a list of possible effect ids you can use on http://minecraft-helpandinfo.weebly.com/potion-effects-ids.html
+      effect: 15
+      
+      
+      # Effect duration in ticks (20 ticks = 1 second)
+      # type: int
+      # The duration the trapeffect will have effects on the player in ticks
+      # 100 ticks is default (5 seconds)
+      duration: 100
     
-    # TNT-Creature settings
-    tntsheep:
-        # TNT fuse time
-        # type: double
-        # The time in seconds when the TNT will explode
-        fuse-time: 8.0
-        
-        # Sheep movement speed
-        # type: double
-        # The movement speed of the sheep
-        # Prefered 0.4! Do not set higher than 0.8!!!
-        speed: 0.4
-        
-        # Explosion factor
-        # type: double
-        # The factor for the explosive! 1.0 is default tnt-explosion.
-        # Its not recommended to use values above 1.0
-        explosion-factor: 1.0
+      # Effect amplifier
+      # type: int
+      # The higher the value, the heavier the effect.
+      amplifier: 2
+      
+      # Effect ambient
+      # type: boolean
+      # Makes potion effect produce more, translucent, particles.
+      ambient: true
+      
+      # Effect has particles
+      # type: boolean
+      # Set to true, if trap effect should generate particles around the player
+      has-particles: true
     
+    # Two more examples
+    # Feel free to customize and add more effects
+    - ==: PotionEffect
+      
+      # PotionEffect Weakness
+      effect: 18
+      
+      duration: 100
+      amplifier: 2
+      ambient: true
+      has-particles: true
+      
+    - ==: PotionEffect
+    
+      # PotionEffect Slowness
+      effect: 2
+       
+      duration: 100
+      amplifier: 2
+      ambient: true
+      has-particles: true
+  
+  # TNT-Creature settings
+  tntsheep:
+    # TNT fuse time
+    # type: double
+    # The time in seconds when the TNT will explode
+    fuse-time: 8.0
+    
+    # Sheep movement speed
+    # type: double
+    # The movement speed of the sheep
+    # Prefered 0.4! Do not set higher than 0.8!!!
+    speed: 0.4
+    
+    # Explosion factor
+    # type: double
+    # The factor for the explosive! 1.0 is default tnt-explosion.
+    # Its not recommended to use values above 1.0
+    explosion-factor: 1.0
+  
 # Sign configuration
 # You can use following placeholder (colors with &):
 # $gamename$ - display game name
@@ -912,16 +916,16 @@ specials:
 # $status$ - display current game status (lobby, running or waiting)
 # $title$ - display bedwars title (sign.firstline of locale file)
 sign:
-    first-line: '$title$'
-    second-line: '$regionname$'
-    third-line: 'Players &7[&b$currentplayers$&7/&b$maxplayers$&7]'
-    fourth-line: '$status$'
+  first-line: '$title$'
+  second-line: '$regionname$'
+  third-line: 'Players &7[&b$currentplayers$&7/&b$maxplayers$&7]'
+  fourth-line: '$status$'
 
-# Configure player default settings    
+# Configure player default settings  
 player-settings:
 
-    # Shop: One Stack on shift click
-    # type: boolean
-    # Only one full stack when doing a shift click to buy items.
-    # Player can change that in shop, this is just a default
-    one-stack-on-shift: false
+  # Shop: One Stack on shift click
+  # type: boolean
+  # Only one full stack when doing a shift click to buy items.
+  # Player can change that in shop, this is just a default
+  one-stack-on-shift: false
