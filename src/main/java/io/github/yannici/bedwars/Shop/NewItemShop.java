@@ -80,7 +80,7 @@ public class NewItemShop {
     Inventory inventory = Bukkit.createInventory(player, size, Main._l("ingame.shop.name"));
 
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-    
+
     this.addCategoriesToInventory(inventory, player, game);
 
     ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
@@ -514,7 +514,8 @@ public class NewItemShop {
       if (iStack.getType() == Material.ENDER_CHEST && stack.getType() == Material.ENDER_CHEST) {
         return trade;
       } else if ((iStack.getType() == Material.POTION
-          || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+          || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+              || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
               && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                   || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                   || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))
