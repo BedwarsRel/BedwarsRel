@@ -48,7 +48,6 @@ import org.bukkit.material.Door;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Openable;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import io.github.yannici.bedwars.ChatWriter;
 import io.github.yannici.bedwars.Main;
@@ -108,22 +107,6 @@ public class PlayerListener extends BaseListener {
         }.runTaskLater(Main.getInstance(), 5L);
       }
 
-    }
-  }
-
-  @EventHandler(priority = EventPriority.HIGH)
-  public void onPlayerSpawnLocation(PlayerSpawnLocationEvent event) {
-    if (Main.getInstance().isBungee()) {
-      Player player = event.getPlayer();
-
-      ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
-      if (games.size() == 0) {
-        return;
-      }
-
-      Game firstGame = games.get(0);
-
-      event.setSpawnLocation(firstGame.getPlayerTeleportLocation(player));
     }
   }
 
