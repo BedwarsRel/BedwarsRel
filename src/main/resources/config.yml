@@ -824,18 +824,18 @@ specials:
         
     # Trap settings
     trap:
-        
+
         # Trap play sound
         # type: boolean
         # Set to true, to play sound when someone step into a trap (sound only to players
         # of the team, which placed the trap)
         play-sound: true
-        
+
         # List of effects the player gets after stepping on a trap
         effects:
-            
+
         # Now the custom PotionEffect
-        # It's a list of effects
+        # It is a list of effects
         - ==: PotionEffect
             
             # Potion id
