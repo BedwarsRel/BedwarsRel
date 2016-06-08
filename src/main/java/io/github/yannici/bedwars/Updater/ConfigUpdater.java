@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -105,7 +106,23 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("specials.protection-wall.width", 4);
     Main.getInstance().getConfig().addDefault("specials.protection-wall.height", 4);
     Main.getInstance().getConfig().addDefault("specials.protection-wall.distance", 2);
-    Main.getInstance().getConfig().addDefault("bed-sound", "ENDERDRAGON_GROWL");
+
+    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+      Main.getInstance().getConfig().addDefault("bed-sound", "ENDERDRAGON_GROWL");
+    } else {
+      Main.getInstance().getConfig().addDefault("bed-sound", "ENTITY_ENDERDRAGON_GROWL");
+    }
+
+    try {
+      Sound.valueOf(
+          Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase());
+    } catch (Exception e) {
+      if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+        Main.getInstance().getConfig().set("bed-sound", "ENDERDRAGON_GROWL");
+      } else {
+        Main.getInstance().getConfig().set("bed-sound", "ENTITY_ENDERDRAGON_GROWL");
+      }
+    }
     // </1.1.14>
 
     // <1.1.15>
@@ -774,13 +791,12 @@ public class ConfigUpdater {
                 for (Object sKey : enchantSection.keySet()) {
                   String key = sKey.toString();
 
-                  if (!finalRewardStack.getType().equals(Material.POTION)
-                      && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                          && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
-                              || finalRewardStack.getType()
-                                  .equals(Material.valueOf("LINGERING_POTION"))
-                              || finalRewardStack.getType()
-                                  .equals(Material.valueOf("SPLASH_POTION"))))) {
+                  if (!finalRewardStack.getType().equals(Material.POTION) && !(Main.getInstance()
+                      .getCurrentVersion().startsWith("v1_9")
+                      && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+                          || finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
+                          || finalRewardStack.getType()
+                              .equals(Material.valueOf("SPLASH_POTION"))))) {
                     Enchantment en = null;
                     int level = 0;
 
