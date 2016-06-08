@@ -3,6 +3,7 @@ package io.github.yannici.bedwars.Shop.Specials;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,24 +25,7 @@ public class Trap extends SpecialItem {
   private boolean playSound = true;
   private Location location = null;
 
-  public Trap() {
-    ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("specials.trap");
-    
-    if (section.contains("play-sound")) {
-      this.playSound = section.getBoolean("play-sound");
-    }
-    
-    for (Object effect : section.getList("effects")) {
-      effects.add((PotionEffect) effect);
-    }
-    for (PotionEffect effect : effects) {
-      if (effect.getDuration() > this.maxDuration) {
-        this.maxDuration = effect.getDuration();
-      }
-    }
-  }
-//  HashMap<String, List<Map<String, Object>>> offerSection =
-//      (HashMap<String, List<Map<String, Object>>>) offer;
+  public Trap() {}
   
   @Override
   public Material getItemMaterial() {
@@ -55,6 +39,20 @@ public class Trap extends SpecialItem {
 
   public void activate(final Player player) {
     try {
+      ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("specials.trap");
+      
+      if (section.contains("play-sound")) {
+        this.playSound = section.getBoolean("play-sound");
+      }
+      
+      for (Object effect : section.getList("effects")) {
+        effects.add((PotionEffect) effect);
+        
+        if (((PotionEffect) effect).getDuration() / 20 > this.maxDuration) {
+          this.maxDuration = ((PotionEffect) effect).getDuration() / 20;
+          }
+      }
+      
       this.game.addRunningTask(new BukkitRunnable() {
 
         private int counter = 0;
@@ -66,9 +64,6 @@ public class Trap extends SpecialItem {
             this.cancel();
             return;
           }
-
-          player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"),
-              2.0F, 1.0F);
           this.counter++;
         }
       }.runTaskTimer(Main.getInstance(), 0L, 20L));
@@ -82,6 +77,8 @@ public class Trap extends SpecialItem {
           player.addPotionEffect(effect);
         }
       }
+
+      player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"), 2.0F, 1.0F);
 
       this.game.broadcast(Main._l("ingame.specials.trap.trapped"),
           new ArrayList<Player>(this.team.getPlayers()));
