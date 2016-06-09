@@ -75,7 +75,7 @@ public class SpawnEgg1_10 {
   @SuppressWarnings("deprecation")
   public ItemStack toItemStack(int amount) {
     ItemStack item = new ItemStack(Material.MONSTER_EGG, amount);
-    net.minecraft.server.v1_9_R2.ItemStack stack = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_10_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
     NBTTagCompound tagCompound = stack.getTag();
     if (tagCompound == null) {
       tagCompound = new NBTTagCompound();
@@ -98,7 +98,7 @@ public class SpawnEgg1_10 {
       throw new IllegalArgumentException("item cannot be null");
     if (item.getType() != Material.MONSTER_EGG)
       throw new IllegalArgumentException("item is not a monster egg");
-    net.minecraft.server.v1_9_R2.ItemStack stack = CraftItemStack.asNMSCopy(item);
+    net.minecraft.server.v1_10_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
     NBTTagCompound tagCompound = stack.getTag();
     if (tagCompound != null) {
       @SuppressWarnings("deprecation")

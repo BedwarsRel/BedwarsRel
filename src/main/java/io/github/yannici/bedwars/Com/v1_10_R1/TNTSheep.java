@@ -28,7 +28,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
   private World world = null;
   private TNTPrimed primedTnt = null;
 
-  public TNTSheep(net.minecraft.server.v1_9_R2.World world) {
+  public TNTSheep(net.minecraft.server.v1_10_R1.World world) {
     super(world);
   }
 
