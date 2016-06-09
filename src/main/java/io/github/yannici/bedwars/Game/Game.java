@@ -805,7 +805,11 @@ public class Game {
     this.playerSettings.remove(p);
     this.updateScoreboard();
 
-    p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
+    try {
+      p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
+    } catch (Exception e) {
+
+    }
 
     this.removeNewItemShop(p);
     this.notUseOldShop(p);
