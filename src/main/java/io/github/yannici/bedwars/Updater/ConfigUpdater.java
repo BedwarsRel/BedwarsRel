@@ -73,19 +73,6 @@ public class ConfigUpdater {
 
     // <1.1.9>
     Main.getInstance().getConfig().addDefault("specials.trap.play-sound", true);
-    /*
-    Main.getInstance().getConfig().addDefault("specials.trap.duration", 10);
-    Main.getInstance().getConfig().addDefault("specials.trap.blindness.amplifier", 2);
-    Main.getInstance().getConfig().addDefault("specials.trap.slowness.amplifier", 2);
-    Main.getInstance().getConfig().addDefault("specials.trap.weakness.amplifier", 2);
-    Main.getInstance().getConfig().addDefault("specials.trap.blindness.enabled", true);
-    Main.getInstance().getConfig().addDefault("specials.trap.slowness.enabled", true);
-    Main.getInstance().getConfig().addDefault("specials.trap.weakness.enabled", true);
-    Main.getInstance().getConfig().addDefault("specials.trap.show-particles", true);
-    
-    Change Trap in Version: 1.3.2
-    */
-    
     // </1.1.9>
 
     // <1.1.11>
@@ -243,24 +230,24 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("statistics.player-leave-kills", false);
 
     List<PotionEffect> oldPotions = new ArrayList<PotionEffect>();
-    
+
     if (Main.getInstance().getConfig().getBoolean("specials.trap.blindness.enabled")) {
-      oldPotions.add(new PotionEffect(PotionEffectType.BLINDNESS, Main.getInstance().getConfig()
-          .getInt("specials.trap.duration"), Main.getInstance().getConfig()
-          .getInt("specials.trap.blindness.amplifier"), true, Main.getInstance().getConfig()
-          .getBoolean("specials.trap.show-particles")));
+      oldPotions.add(new PotionEffect(PotionEffectType.BLINDNESS,
+          Main.getInstance().getConfig().getInt("specials.trap.duration"),
+          Main.getInstance().getConfig().getInt("specials.trap.blindness.amplifier"), true,
+          Main.getInstance().getConfig().getBoolean("specials.trap.show-particles")));
     }
     if (Main.getInstance().getConfig().getBoolean("specials.trap.slowness.enabled")) {
-      oldPotions.add(new PotionEffect(PotionEffectType.SLOW, Main.getInstance().getConfig()
-          .getInt("specials.trap.duration"), Main.getInstance().getConfig()
-          .getInt("specials.trap.slowness.amplifier"), true, Main.getInstance().getConfig()
-          .getBoolean("specials.trap.show-particles")));
+      oldPotions.add(new PotionEffect(PotionEffectType.SLOW,
+          Main.getInstance().getConfig().getInt("specials.trap.duration"),
+          Main.getInstance().getConfig().getInt("specials.trap.slowness.amplifier"), true,
+          Main.getInstance().getConfig().getBoolean("specials.trap.show-particles")));
     }
     if (Main.getInstance().getConfig().getBoolean("specials.trap.weakness.enabled")) {
-      oldPotions.add(new PotionEffect(PotionEffectType.WEAKNESS, Main.getInstance().getConfig()
-          .getInt("specials.trap.duration"), Main.getInstance().getConfig()
-          .getInt("specials.trap.weakness.amplifier"), true, Main.getInstance().getConfig()
-          .getBoolean("specials.trap.show-particles")));
+      oldPotions.add(new PotionEffect(PotionEffectType.WEAKNESS,
+          Main.getInstance().getConfig().getInt("specials.trap.duration"),
+          Main.getInstance().getConfig().getInt("specials.trap.weakness.amplifier"), true,
+          Main.getInstance().getConfig().getBoolean("specials.trap.show-particles")));
     }
     Main.getInstance().getConfig().addDefault("specials.trap.effects", oldPotions);
     Main.getInstance().getConfig().set("specials.trap.duration", null);
@@ -268,7 +255,7 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().set("specials.trap.slowness", null);
     Main.getInstance().getConfig().set("specials.trap.weakness", null);
     Main.getInstance().getConfig().set("specials.trap.show-particles", null);
-    
+
     List<PotionEffect> potionEffectList = new ArrayList<PotionEffect>();
     potionEffectList.add(new PotionEffect(PotionEffectType.BLINDNESS, 5 * 20, 2, true, true));
     potionEffectList.add(new PotionEffect(PotionEffectType.WEAKNESS, 5 * 20, 2, true, true));
@@ -732,7 +719,8 @@ public class ConfigUpdater {
 
             if (hasMeta) {
               if (material.equals(Material.MONSTER_EGG) && meta == 91
-                  && Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+                  && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
                 if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R1")) {
                   finalRewardStack =
                       new io.github.yannici.bedwars.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
@@ -751,7 +739,8 @@ public class ConfigUpdater {
               }
             } else if (hasPotionMeta) {
               if ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")) && potionIsSplash) {
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                  && potionIsSplash) {
                 finalRewardStack = new ItemStack(Material.valueOf("SPLASH_POTION"), amount);
               } else {
                 finalRewardStack = new ItemStack(material, amount);
@@ -836,12 +825,14 @@ public class ConfigUpdater {
                 for (Object sKey : enchantSection.keySet()) {
                   String key = sKey.toString();
 
-                  if (!finalRewardStack.getType().equals(Material.POTION) && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-                      && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
-                          || finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
-                          || finalRewardStack.getType()
-                              .equals(Material.valueOf("SPLASH_POTION"))))) {
+                  if (!finalRewardStack.getType().equals(Material.POTION)
+                      && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+                          || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                          && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+                              || finalRewardStack.getType()
+                                  .equals(Material.valueOf("LINGERING_POTION"))
+                              || finalRewardStack.getType()
+                                  .equals(Material.valueOf("SPLASH_POTION"))))) {
                     Enchantment en = null;
                     int level = 0;
 
@@ -895,7 +886,8 @@ public class ConfigUpdater {
                 }
               }
 
-              if (finalRewardStack.getType().equals(Material.POTION) || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+              if (finalRewardStack.getType().equals(Material.POTION) || ((Main.getInstance()
+                  .getCurrentVersion().startsWith("v1_9")
                   || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
                   && (finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                       || finalRewardStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
