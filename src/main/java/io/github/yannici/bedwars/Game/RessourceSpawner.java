@@ -185,7 +185,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
       if (cfgSection.containsKey("meta")) {
         if (!material.equals(Material.POTION)
-            && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+            && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+                || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
                 && (material.equals(Material.valueOf("TIPPED_ARROW"))
                     || material.equals(Material.valueOf("LINGERING_POTION"))
                     || material.equals(Material.valueOf("SPLASH_POTION"))))) {
@@ -223,7 +224,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
       }
 
       if (!hasPotionMeta && (material.equals(Material.POTION)
-          || (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+          || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+              || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
               && (material.equals(Material.valueOf("TIPPED_ARROW"))
                   || material.equals(Material.valueOf("LINGERING_POTION"))
                   || material.equals(Material.valueOf("SPLASH_POTION")))))) {
@@ -274,7 +276,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
             String key = sKey.toString();
 
             if (!finalStack.getType().equals(Material.POTION)
-                && !(Main.getInstance().getCurrentVersion().startsWith("v1_9")
+                && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+                    || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
                     && (finalStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                         || finalStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                         || finalStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {

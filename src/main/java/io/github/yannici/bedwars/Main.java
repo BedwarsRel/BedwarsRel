@@ -645,7 +645,8 @@ public class Main extends JavaPlugin {
     new WeatherListener();
     new BlockListener();
     new PlayerListener();
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_9")) {
+    if (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_10")) {
       new Player19Listener();
     }
     new HangingListener();
@@ -653,9 +654,9 @@ public class Main extends JavaPlugin {
     new ServerListener();
     new SignListener();
     new ChunkListener();
-    
-    if(this.isSpigot()) {
-    	new PlayerSpigotListener();
+
+    if (this.isSpigot()) {
+      new PlayerSpigotListener();
     }
 
     SpecialItem.loadSpecials();
