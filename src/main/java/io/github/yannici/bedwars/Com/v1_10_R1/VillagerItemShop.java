@@ -86,7 +86,7 @@ public class VillagerItemShop {
             }
 
             if (!(trade.getHandle()
-                .getInstance() instanceof net.minecraft.server.v1_9_R2.MerchantRecipe)) {
+                .getInstance() instanceof net.minecraft.server.v1_10_R1.MerchantRecipe)) {
               continue;
             }
 
