@@ -69,19 +69,34 @@ public class PlayerListener extends BaseListener {
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onJoin(PlayerJoinEvent je) {
 
+    final Player player = je.getPlayer();
+
     if (Main.getInstance().isHologramsEnabled()
         && Main.getInstance().getHolographicInteractor() != null) {
-      Main.getInstance().getHolographicInteractor().updateHolograms(je.getPlayer(), 60L);
+      Main.getInstance().getHolographicInteractor().updateHolograms(player, 60L);
+    }
+
+    ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
+    if (games.size() == 0) {
+      return;
+    }
+
+
+    if (!Main.getInstance().isBungee()) {
+      Game game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
+
+      if (game != null) {
+        if (game.getMainLobby() != null) {
+          player.teleport(game.getMainLobby());
+        } else {
+          game.playerJoins(player);
+        }
+        return;
+      }
     }
 
     if (Main.getInstance().isBungee()) {
       je.setJoinMessage(null);
-      ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
-      if (games.size() == 0) {
-        return;
-      }
-
-      final Player player = je.getPlayer();
       final Game firstGame = games.get(0);
 
       if (firstGame.getState() == GameState.STOPPED && player.hasPermission("bw.setup")) {
