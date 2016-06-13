@@ -20,271 +20,222 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
+import lombok.Data;
 
+@Data
 @SerializableAs("Team")
 public class Team implements ConfigurationSerializable {
 
-	private TeamColor color = null;
-	private org.bukkit.scoreboard.Team scoreboardTeam = null;
-	private String name = null;
-	private int maxPlayers = 0;
-	private Location spawnLocation = null;
-	private Location targetHeadBlock = null;
-	private Location targetFeetBlock = null;
-	private Inventory inventory = null;
-	private List<Block> chests = null;
+  private TeamColor color = null;
+  private org.bukkit.scoreboard.Team scoreboardTeam = null;
+  private String name = null;
+  private int maxPlayers = 0;
+  private Location spawnLocation = null;
+  private Location targetHeadBlock = null;
+  private Location targetFeetBlock = null;
+  private Inventory inventory = null;
+  private List<Block> chests = null;
 
-	public Team(Map<String, Object> deserialize) {
-		this.name = deserialize.get("name").toString();
-		this.maxPlayers = Integer.parseInt(deserialize.get("maxplayers").toString());
-		this.color = TeamColor.valueOf(deserialize.get("color").toString().toUpperCase());
-		this.spawnLocation = Utils.locationDeserialize(deserialize.get("spawn"));
-		this.chests = new ArrayList<Block>();
+  public Team(Map<String, Object> deserialize) {
+    this.setName(deserialize.get("name").toString());
+    this.setMaxPlayers(Integer.parseInt(deserialize.get("maxplayers").toString()));
+    this.setColor(TeamColor.valueOf(deserialize.get("color").toString().toUpperCase()));
+    this.setSpawnLocation(Utils.locationDeserialize(deserialize.get("spawn")));
+    this.setChests(new ArrayList<Block>());
 
-		if (deserialize.containsKey("bedhead")) {
-			this.targetHeadBlock = Utils.locationDeserialize(deserialize.get("bedhead"));
+    if (deserialize.containsKey("bedhead")) {
+      this.setTargetHeadBlock(Utils.locationDeserialize(deserialize.get("bedhead")));
 
-			if (this.targetHeadBlock != null) {
-				if (deserialize.containsKey("bedfeed")
-						&& this.targetHeadBlock.getBlock().getType().equals(Material.BED_BLOCK)) {
-					this.targetFeetBlock = Utils.locationDeserialize(deserialize.get("bedfeed"));
-				}
-			}
-		}
-	}
+      if (this.getTargetHeadBlock() != null) {
+        if (deserialize.containsKey("bedfeed")
+            && this.getTargetHeadBlock().getBlock().getType().equals(Material.BED_BLOCK)) {
+          this.setTargetFeetBlock(Utils.locationDeserialize(deserialize.get("bedfeed")));
+        }
+      }
+    }
+  }
 
-	public Team(String name, TeamColor color, int maxPlayers, org.bukkit.scoreboard.Team sTeam) {
-		this.name = name;
-		this.color = color;
-		this.maxPlayers = maxPlayers;
-		this.scoreboardTeam = sTeam;
-		this.chests = new ArrayList<Block>();
-	}
+  public Team(String name, TeamColor color, int maxPlayers,
+      org.bukkit.scoreboard.Team scoreboardTeam) {
+    this.setName(name);
+    this.setColor(color);
+    this.setMaxPlayers(maxPlayers);
+    this.setScoreboardTeam(scoreboardTeam);
+    this.setChests(new ArrayList<Block>());
+  }
 
-	public boolean addPlayer(Player player) {
-		if (this.scoreboardTeam.getEntries().size() >= this.maxPlayers) {
-			return false;
-		}
+  public void addChest(Block chestBlock) {
+    this.getChests().add(chestBlock);
+  }
 
-		try {
-			boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-			if (overwriteNames) {
-				player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getName()));
-				player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getName()));
-			}
+  public boolean addPlayer(Player player) {
+    if (this.getScoreboardTeam().getEntries().size() >= this.getMaxPlayers()) {
+      return false;
+    }
 
-			boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
-			if (teamnameOnTab) {
-				player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE + " | "
-						+ this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return false;
-		}
+    if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
+      player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getName()));
+      player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getName()));
+    }
 
-		this.scoreboardTeam.addEntry(player.getName());
-		return true;
-	}
+    if (Main.getInstance().getBooleanConfig("teamname-on-tab", true)) {
+      player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE + " | "
+          + this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+    }
 
-	public org.bukkit.scoreboard.Team getScoreboardTeam() {
-		return this.scoreboardTeam;
-	}
+    this.getScoreboardTeam().addEntry(player.getName());
+    this.equipPlayerWithLeather(player);
 
-	public int getMaxPlayers() {
-		return this.maxPlayers;
-	}
+    return true;
+  }
 
-	public void setTargets(Block head, Block feed) {
-		this.targetHeadBlock = head.getLocation();
-		if (feed != null) {
-			this.targetFeetBlock = feed.getLocation();
-		} else {
-			this.targetFeetBlock = null;
-		}
-	}
+  public void createTeamInventory() {
+    Inventory inventory =
+        Bukkit.createInventory(null, InventoryType.ENDER_CHEST, Main._l("ingame.teamchest"));
+    this.setInventory(inventory);
+  }
 
-	public Block getHeadTarget() {
-		if (this.targetHeadBlock == null) {
-			return null;
-		}
+  private void equipPlayerWithLeather(Player player) {
+    // helmet
+    ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
+    LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+    meta.setColor(this.getColor().getColor());
+    helmet.setItemMeta(meta);
 
-		this.targetHeadBlock.getBlock().getChunk().load(true);
-		return this.targetHeadBlock.getBlock();
-	}
+    // chestplate
+    ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+    meta = (LeatherArmorMeta) chestplate.getItemMeta();
+    meta.setColor(this.getColor().getColor());
+    chestplate.setItemMeta(meta);
 
-	public Block getFeetTarget() {
-		if (this.targetFeetBlock == null) {
-			return null;
-		}
+    // leggings
+    ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+    meta = (LeatherArmorMeta) leggings.getItemMeta();
+    meta.setColor(this.getColor().getColor());
+    leggings.setItemMeta(meta);
 
-		this.targetFeetBlock.getBlock().getChunk().load(true);
-		return this.targetFeetBlock.getBlock();
-	}
+    // boots
+    ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
+    meta = (LeatherArmorMeta) boots.getItemMeta();
+    meta.setColor(this.getColor().getColor());
+    boots.setItemMeta(meta);
 
-	public void removePlayer(Player player) {
-		if (this.scoreboardTeam.hasEntry(player.getName())) {
-			this.scoreboardTeam.removeEntry(player.getName());
-		}
+    player.getInventory().setHelmet(helmet);
+    player.getInventory().setChestplate(chestplate);
+    player.getInventory().setLeggings(leggings);
+    player.getInventory().setBoots(boots);
+    player.updateInventory();
+  }
 
-		boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-		if (overwriteNames) {
-			if (player.isOnline()) {
-				player.getPlayer().setDisplayName(ChatColor.RESET + ChatColor.stripColor(player.getPlayer().getName()));
-				player.getPlayer().setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
-			}
-		}
-	}
+  public ChatColor getChatColor() {
+    return this.getColor().getChatColor();
+  }
 
-	public boolean isInTeam(Player p) {
-		if (this.scoreboardTeam.hasEntry(p.getName())) {
-			return true;
-		}
+  public String getDisplayName() {
+    return this.getScoreboardTeam().getDisplayName();
+  }
 
-		return false;
-	}
+  public Block getFeetTarget() {
+    if (this.getTargetFeetBlock() == null) {
+      return null;
+    }
 
-	public void setScoreboardTeam(org.bukkit.scoreboard.Team sbt) {
-		this.scoreboardTeam = sbt;
-		sbt.setDisplayName(this.getChatColor() + this.name);
-	}
+    this.getTargetFeetBlock().getBlock().getChunk().load(true);
+    return this.getTargetFeetBlock().getBlock();
+  }
 
-	public TeamColor getColor() {
-		return this.color;
-	}
+  public Block getHeadTarget() {
+    if (this.targetHeadBlock == null) {
+      return null;
+    }
 
-	public ChatColor getChatColor() {
-		return this.color.getChatColor();
-	}
+    this.getTargetHeadBlock().getBlock().getChunk().load(true);
+    return this.getTargetHeadBlock().getBlock();
+  }
 
-	public String getName() {
-		return this.name;
-	}
+  public List<Player> getPlayers() {
+    List<Player> players = new ArrayList<>();
+    for (String playerName : this.getScoreboardTeam().getEntries()) {
+      Player player = Main.getInstance().getServer().getPlayer(playerName);
+      if (player != null && Main.getInstance().getGameManager().getGameOfPlayer(player) != null
+          && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
+        players.add(player);
+      }
+    }
 
-	public List<Player> getPlayers() {
-		List<Player> players = new ArrayList<>();
-		for (String playerName : this.scoreboardTeam.getEntries()) {
-			Player player = Main.getInstance().getServer().getPlayer(playerName);
-			if (player != null) {
-				players.add(player);
-			}
-		}
+    return players;
+  }
 
-		return players;
-	}
+  public boolean isDead(Game game) {
+    Material targetMaterial = game.getTargetMaterial();
 
-	public List<Player> getTeamPlayers() {
-		List<Player> players = new ArrayList<>();
-		for (String playerName : this.scoreboardTeam.getEntries()) {
-			Player player = Main.getInstance().getServer().getPlayer(playerName);
-			if (player != null) {
-				players.add(player);
-			}
-		}
+    this.getTargetHeadBlock().getBlock().getChunk().load(true);
+    if (this.getTargetFeetBlock() == null) {
+      return this.getTargetHeadBlock().getBlock().getType() != targetMaterial;
+    }
 
-		return players;
-	}
+    this.getTargetFeetBlock().getBlock().getChunk().load(true);
+    return (this.getTargetHeadBlock().getBlock().getType() != targetMaterial
+        && this.getTargetFeetBlock().getBlock().getType() != targetMaterial);
+  }
 
-	public Location getSpawnLocation() {
-		return this.spawnLocation;
-	}
+  public boolean isInTeam(Player p) {
+    if (this.getScoreboardTeam().hasEntry(p.getName())) {
+      return true;
+    }
 
-	public void setSpawnLocation(Location spawn) {
-		this.spawnLocation = spawn;
-	}
+    return false;
+  }
 
-	public boolean isDead(Game game) {
-		Material targetMaterial = game.getTargetMaterial();
+  public void removeChest(Block chest) {
+    this.getChests().remove(chest);
+    if (this.getChests().size() == 0) {
+      this.setInventory(null);
+    }
+  }
 
-		this.targetHeadBlock.getBlock().getChunk().load(true);
-		if (this.targetFeetBlock == null) {
-			return this.targetHeadBlock.getBlock().getType() != targetMaterial;
-		}
+  public void removePlayer(Player player) {
+    if (this.getScoreboardTeam().hasEntry(player.getName())) {
+      this.getScoreboardTeam().removeEntry(player.getName());
+    }
 
-		this.targetFeetBlock.getBlock().getChunk().load(true);
-		return (this.targetHeadBlock.getBlock().getType() != targetMaterial
-				&& this.targetFeetBlock.getBlock().getType() != targetMaterial);
-	}
+    if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
+      if (player.isOnline()) {
+        player.setDisplayName(ChatColor.RESET + ChatColor.stripColor(player.getName()));
+        player.setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
+      }
+    }
+  }
 
-	@Override
-	public Map<String, Object> serialize() {
-		HashMap<String, Object> team = new HashMap<>();
+  @Override
+  public Map<String, Object> serialize() {
+    HashMap<String, Object> team = new HashMap<>();
 
-		team.put("name", this.name);
-		team.put("color", this.color.toString());
-		team.put("maxplayers", this.maxPlayers);
-		team.put("spawn", Utils.locationSerialize(this.spawnLocation));
-		team.put("bedhead", Utils.locationSerialize(this.targetHeadBlock));
+    team.put("name", this.getName());
+    team.put("color", this.getColor().toString());
+    team.put("maxplayers", this.getMaxPlayers());
+    team.put("spawn", Utils.locationSerialize(this.getSpawnLocation()));
+    team.put("bedhead", Utils.locationSerialize(this.getTargetHeadBlock()));
 
-		if (this.targetFeetBlock != null) {
-			team.put("bedfeed", Utils.locationSerialize(this.targetFeetBlock));
-		}
+    if (this.targetFeetBlock != null) {
+      team.put("bedfeed", Utils.locationSerialize(this.targetFeetBlock));
+    }
 
-		return team;
-	}
+    return team;
+  }
 
-	public String getDisplayName() {
-		return this.scoreboardTeam.getDisplayName();
-	}
+  public void setScoreboardTeam(org.bukkit.scoreboard.Team scoreboardTeam) {
+    scoreboardTeam.setDisplayName(this.getChatColor() + this.name);
+    this.scoreboardTeam = scoreboardTeam;
+  }
 
-	public void setInventory(Inventory inv) {
-		this.inventory = inv;
-	}
-
-	public Inventory getInventory() {
-		return this.inventory;
-	}
-
-	public void addChest(Block chestBlock) {
-		this.chests.add(chestBlock);
-	}
-
-	public void removeChest(Block chest) {
-		this.chests.remove(chest);
-		if (this.chests.size() == 0) {
-			this.inventory = null;
-		}
-	}
-
-	public List<Block> getChests() {
-		return this.chests;
-	}
-
-	public void createTeamInventory() {
-		Inventory inv = Bukkit.createInventory(null, InventoryType.ENDER_CHEST, Main._l("ingame.teamchest"));
-		this.inventory = inv;
-	}
-
-	public void equipPlayerWithLeather(Player player) {
-		// helmet
-		ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
-		LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
-		meta.setColor(this.getColor().getColor());
-		helmet.setItemMeta(meta);
-
-		// chestplate
-		ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-		meta = (LeatherArmorMeta) chestplate.getItemMeta();
-		meta.setColor(this.getColor().getColor());
-		chestplate.setItemMeta(meta);
-
-		// leggings
-		ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
-		meta = (LeatherArmorMeta) leggings.getItemMeta();
-		meta.setColor(this.getColor().getColor());
-		leggings.setItemMeta(meta);
-
-		// boots
-		ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
-		meta = (LeatherArmorMeta) boots.getItemMeta();
-		meta.setColor(this.getColor().getColor());
-		boots.setItemMeta(meta);
-
-		player.getInventory().setHelmet(helmet);
-		player.getInventory().setChestplate(chestplate);
-		player.getInventory().setLeggings(leggings);
-		player.getInventory().setBoots(boots);
-		player.updateInventory();
-	}
+  public void setTargets(Block headBlock, Block feetBlock) {
+    this.setTargetHeadBlock(headBlock.getLocation());
+    if (feetBlock != null) {
+      this.setTargetFeetBlock(feetBlock.getLocation());
+    } else {
+      this.setTargetFeetBlock(null);
+    }
+  }
 
 }

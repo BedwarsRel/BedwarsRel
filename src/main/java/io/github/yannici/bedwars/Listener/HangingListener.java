@@ -8,19 +8,19 @@ import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 
 public class HangingListener extends BaseListener {
 
-	public HangingListener() {
-		super();
-	}
+  public HangingListener() {
+    super();
+  }
 
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onHangingBreak(HangingBreakEvent event) {
-		Hanging hanging = event.getEntity();
-		if (event.getCause().equals(RemoveCause.OBSTRUCTION)) {
-			hanging.getLocation().getBlock().breakNaturally();
-			event.setCancelled(true);
-		} else if (event.getCause().equals(RemoveCause.EXPLOSION)) {
-			event.setCancelled(true);
-		}
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onHangingBreak(HangingBreakEvent event) {
+    Hanging hanging = event.getEntity();
+    if (event.getCause().equals(RemoveCause.OBSTRUCTION)) {
+      hanging.getLocation().getBlock().breakNaturally();
+      event.setCancelled(true);
+    } else if (event.getCause().equals(RemoveCause.EXPLOSION)) {
+      event.setCancelled(true);
+    }
 
-	}
+  }
 }

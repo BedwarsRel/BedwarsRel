@@ -15,58 +15,59 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class SetMainLobbyCommand extends BaseCommand implements ICommand {
 
-	public SetMainLobbyCommand(Main plugin) {
-		super(plugin);
-	}
+  public SetMainLobbyCommand(Main plugin) {
+    super(plugin);
+  }
 
-	@Override
-	public String getCommand() {
-		return "setmainlobby";
-	}
+  @Override
+  public String getCommand() {
+    return "setmainlobby";
+  }
 
-	@Override
-	public String getName() {
-		return Main._l("commands.setmainlobby.name");
-	}
+  @Override
+  public String getName() {
+    return Main._l("commands.setmainlobby.name");
+  }
 
-	@Override
-	public String getDescription() {
-		return Main._l("commands.setmainlobby.desc");
-	}
+  @Override
+  public String getDescription() {
+    return Main._l("commands.setmainlobby.desc");
+  }
 
-	@Override
-	public String[] getArguments() {
-		return new String[] { "game" };
-	}
+  @Override
+  public String[] getArguments() {
+    return new String[] {"game"};
+  }
 
-	@Override
-	public boolean execute(CommandSender sender, ArrayList<String> args) {
-		if (!super.hasPermission(sender)) {
-			return false;
-		}
+  @Override
+  public boolean execute(CommandSender sender, ArrayList<String> args) {
+    if (!super.hasPermission(sender)) {
+      return false;
+    }
 
-		Player player = (Player) sender;
+    Player player = (Player) sender;
 
-		Game game = this.getPlugin().getGameManager().getGame(args.get(0));
-		if (game == null) {
-			player.sendMessage(ChatWriter.pluginMessage(
-					ChatColor.RED + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-			return false;
-		}
+    Game game = this.getPlugin().getGameManager().getGame(args.get(0));
+    if (game == null) {
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+      return false;
+    }
 
-		if (game.getState() != GameState.STOPPED) {
-			sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
-			return false;
-		}
+    if (game.getState() != GameState.STOPPED) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+      return false;
+    }
 
-		game.setMainLobby(player.getLocation());
-		player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.mainlobbyset")));
-		return true;
-	}
+    game.setMainLobby(player.getLocation());
+    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.mainlobbyset")));
+    return true;
+  }
 
-	@Override
-	public String getPermission() {
-		return "setup";
-	}
+  @Override
+  public String getPermission() {
+    return "setup";
+  }
 
 }

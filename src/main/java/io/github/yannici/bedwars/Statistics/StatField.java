@@ -10,8 +10,8 @@ import java.lang.annotation.Target;
 
 public @interface StatField {
 
-	public String name();
+  public String name();
 
-	public int order() default 0;
+  public int order() default 0;
 
 }
