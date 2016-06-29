@@ -1,0 +1,7 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+test:
+  post:
+    - mv target/BedwarsRel-*.jar $CIRCLE_ARTIFACTS/
