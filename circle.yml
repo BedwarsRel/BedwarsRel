@@ -5,3 +5,6 @@ general:
 test:
   post:
     - mv target/BedwarsRel-*.jar $CIRCLE_ARTIFACTS/
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/8285c19ad1dde73f2f91
