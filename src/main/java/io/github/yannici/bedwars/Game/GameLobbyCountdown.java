@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -11,12 +12,18 @@ import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.SoundMachine;
+import lombok.Getter;
+import lombok.Setter;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
   private Game game = null;
+  @Getter
+  @Setter
   private int counter = 0;
+  @Getter
   private int lobbytime;
+  @Getter
   private int lobbytimeWhenFull;
 
   public GameLobbyCountdown(Game game) {
@@ -50,6 +57,14 @@ public class GameLobbyCountdown extends BukkitRunnable {
               players);
     }
 
+    if (this.counter == this.lobbytimeWhenFull) {
+      for (Player p : players) {
+        if (p.getInventory().contains(Material.EMERALD)) {
+          p.getInventory().remove(Material.EMERALD);
+        }
+      }
+    }
+
     for (Player p : players) {
       p.setLevel(this.counter);
       if (this.counter == this.lobbytime) {
@@ -69,6 +84,12 @@ public class GameLobbyCountdown extends BukkitRunnable {
                           ImmutableMap.of("sec",
                               ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
               players);
+
+      for (Player p : players) {
+        if (p.isOp() || p.hasPermission("bw.setup") || p.hasPermission("bw.vip.reducecountdown")) {
+          this.game.getPlayerStorage(p).addReduceCountdownItem();
+        }
+      }
     }
 
     if (!this.game.isStartable()) {
@@ -84,6 +105,9 @@ public class GameLobbyCountdown extends BukkitRunnable {
       for (Player p : players) {
         p.setLevel(0);
         p.setExp(0.0F);
+        if (p.getInventory().contains(Material.EMERALD)) {
+          p.getInventory().remove(Material.EMERALD);
+        }
       }
 
       this.game.setGameLobbyCountdown(null);
