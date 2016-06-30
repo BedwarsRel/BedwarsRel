@@ -951,7 +951,7 @@ public class PlayerListener extends BaseListener {
         case EMERALD:
           pie.setCancelled(true);
           if (player.isOp() || player.hasPermission("bw.setup")
-              || player.hasPermission("bw.vip.forcestart")) {
+              || player.hasPermission("bw.vip.reducecountdown")) {
             if (g.getGameLobbyCountdown().getCounter() > g.getGameLobbyCountdown()
                 .getLobbytimeWhenFull())
               g.getGameLobbyCountdown()
