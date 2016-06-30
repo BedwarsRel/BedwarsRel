@@ -361,15 +361,6 @@ explodes:
   # on false, exploded blocks won't drop anything
   drop-blocking: false
 
-# Countdown start rule
-# Type: int
-# Countdown start options:
-# 0 = If all teams got min. 1 player, the game start countdown starts
-# 1 = If min. X (addgame parameter) players joined the game, game countdown starts
-# 2 = If min. X (addgame parameter) players joined the game and more than 1 team got players 
-#   (or players without team are enough to fill teams without players), game countdown starts
-lobbycountdown-rule: 2
-
 # Friendly Fire
 # Type: boolean (true or false)
 # Sets if friendlyfire is enabled (damage team mates)

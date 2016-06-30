@@ -25,18 +25,12 @@ public class GameLobbyCountdown extends BukkitRunnable {
   private int lobbytime;
   @Getter
   private int lobbytimeWhenFull;
-  private GameLobbyCountdownRule rule = null;
 
   public GameLobbyCountdown(Game game) {
     this.game = game;
     this.counter = Main.getInstance().getConfig().getInt("lobbytime");
-    this.rule = Main.getInstance().getLobbyCountdownRule();
     this.lobbytime = this.counter;
     this.lobbytimeWhenFull = Main.getInstance().getConfig().getInt("lobbytime-full");
-  }
-
-  public void setRule(GameLobbyCountdownRule rule) {
-    this.rule = rule;
   }
 
   @Override
@@ -90,6 +84,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
                           ImmutableMap.of("sec",
                               ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
               players);
+
       for (Player p : players) {
         if (p.isOp() || p.hasPermission("bw.setup") || p.hasPermission("bw.vip.reducecountdown")) {
           this.game.getPlayerStorage(p).addReduceCountdownItem();
@@ -97,9 +92,15 @@ public class GameLobbyCountdown extends BukkitRunnable {
       }
     }
 
-    if (!this.rule.isRuleMet(this.game)) {
-      this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown." + this.rule.name()),
-          players);
+    if (!this.game.isStartable()) {
+      if (!this.game.hasEnoughPlayers()) {
+        this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown.not_enough_players"),
+            players);
+      } else if (!this.game.hasEnoughTeams()) {
+        this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown.not_enough_teams"),
+            players);
+      }
+
       this.counter = this.lobbytime;
       for (Player p : players) {
         p.setLevel(0);
@@ -171,5 +172,4 @@ public class GameLobbyCountdown extends BukkitRunnable {
 
     this.counter--;
   }
-
 }

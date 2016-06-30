@@ -42,8 +42,21 @@ public class LocalizationConfig extends YamlConfiguration {
     File locFile =
         new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + locKey + ".yml");
     if (!locFile.exists()) {
-      locFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale/"
-          + Main.getInstance().getFallbackLocale() + ".yml");
+
+      File folder = new File(Main.getInstance().getDataFolder().getPath() + "/locale/");
+      File[] listOfFiles = folder.listFiles();
+      for (int i = 0; i < listOfFiles.length; i++) {
+        if (listOfFiles[i].isFile() && listOfFiles[i].getName().startsWith(locKey)
+            && listOfFiles[i].getName().endsWith(".yml")) {
+          locFile = listOfFiles[i];
+          locKey = listOfFiles[i].getName().substring(0, listOfFiles[i].getName().length() - 4);
+          break;
+        }
+      }
+      if (!locFile.exists()) {
+        locFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale/"
+            + Main.getInstance().getFallbackLocale() + ".yml");
+      }
     }
 
     BufferedReader reader = null;

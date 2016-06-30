@@ -50,7 +50,6 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Events.BedwarsOpenShopEvent;
 import io.github.yannici.bedwars.Game.BungeeGameCycle;
 import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.Team;
 import io.github.yannici.bedwars.Shop.NewItemShop;
@@ -936,17 +935,15 @@ public class PlayerListener extends BaseListener {
           if (player.isOp() || player.hasPermission("bw.setup")) {
             g.start(player);
           } else if (player.hasPermission("bw.vip.forcestart")) {
-            GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
-            if (rule.isRuleMet(g)) {
+            if (g.isStartable()) {
               g.start(player);
             } else {
-              if (rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
-                  || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
+              if (!g.hasEnoughPlayers()) {
                 player.sendMessage(ChatWriter
-                    .pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule0")));
-              } else {
+                    .pluginMessage(ChatColor.RED + Main._l("lobby.cancelstart.not_enough_players")));
+              } else if (!g.hasEnoughTeams()) {
                 player.sendMessage(ChatWriter
-                    .pluginMessage(ChatColor.RED + Main._l("lobby.notenoughplayers-rule1")));
+                    .pluginMessage(ChatColor.RED + Main._l("lobby.cancelstart.not_enough_teams")));
               }
             }
           }
