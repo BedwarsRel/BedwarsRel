@@ -4,7 +4,7 @@
 
 	<groupId>io.github.yannici</groupId>
 	<artifactId>BedwarsRel</artifactId>
-	<version>1.3.2</version>
+	<version>1.3.3</version>
 	<name>BedwarsRel</name>
 
 	<build>
