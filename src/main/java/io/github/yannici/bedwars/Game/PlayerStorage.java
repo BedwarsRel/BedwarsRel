@@ -161,15 +161,34 @@ public class PlayerStorage {
 
     if (this.player.hasPermission("bw.setup") || this.player.isOp()
         || this.player.hasPermission("bw.vip.forcestart")) {
-      // Force start game (Diamond)
-      ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
-      im = startGame.getItemMeta();
-      im.setDisplayName(Main._l("lobby.startgame"));
-      startGame.setItemMeta(im);
-      this.player.getInventory().addItem(startGame);
+      this.addGameStartItem();
+    }
+
+    if (game.getGameLobbyCountdown() != null
+        && game.getGameLobbyCountdown().getLobbytime() > game.getGameLobbyCountdown()
+            .getLobbytimeWhenFull()
+        && (this.player.hasPermission("bw.setup") || this.player.isOp()
+            || this.player.hasPermission("bw.vip.reducecountdown"))) {
+      this.addReduceCountdownItem();
     }
 
     this.player.updateInventory();
+  }
+
+  public void addGameStartItem() {
+    ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
+    ItemMeta im = startGame.getItemMeta();
+    im.setDisplayName(Main._l("lobby.startgame"));
+    startGame.setItemMeta(im);
+    this.player.getInventory().addItem(startGame);
+  }
+
+  public void addReduceCountdownItem() {
+    ItemStack reduceCountdownItem = new ItemStack(Material.EMERALD, 1);
+    ItemMeta im = reduceCountdownItem.getItemMeta();
+    im.setDisplayName(Main._l("lobby.reduce_countdown_item"));
+    reduceCountdownItem.setItemMeta(im);
+    this.player.getInventory().addItem(reduceCountdownItem);
   }
 
   @SuppressWarnings("deprecation")

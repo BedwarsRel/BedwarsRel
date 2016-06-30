@@ -145,6 +145,7 @@ permissions:
         children:
             bw.vip.joinfull: true
             bw.vip.forcestart: true
+            bw.vip.reducecountdown: true
             bw.vip.skipbalance: true
     bw.cmd:
         description: Allows to execute non-bedwars commands ingame

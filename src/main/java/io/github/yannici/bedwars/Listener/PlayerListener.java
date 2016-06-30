@@ -951,6 +951,16 @@ public class PlayerListener extends BaseListener {
             }
           }
           break;
+        case EMERALD:
+          pie.setCancelled(true);
+          if (player.isOp() || player.hasPermission("bw.setup")
+              || player.hasPermission("bw.vip.forcestart")) {
+            if (g.getGameLobbyCountdown().getCounter() > g.getGameLobbyCountdown()
+                .getLobbytimeWhenFull())
+              g.getGameLobbyCountdown()
+                  .setCounter(g.getGameLobbyCountdown().getLobbytimeWhenFull());
+          }
+          break;
         case SLIME_BALL:
           pie.setCancelled(true);
           g.playerLeave(player, false);
