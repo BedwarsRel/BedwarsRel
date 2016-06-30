@@ -939,8 +939,8 @@ public class PlayerListener extends BaseListener {
               g.start(player);
             } else {
               if (!g.hasEnoughPlayers()) {
-                player.sendMessage(ChatWriter
-                    .pluginMessage(ChatColor.RED + Main._l("lobby.cancelstart.not_enough_players")));
+                player.sendMessage(ChatWriter.pluginMessage(
+                    ChatColor.RED + Main._l("lobby.cancelstart.not_enough_players")));
               } else if (!g.hasEnoughTeams()) {
                 player.sendMessage(ChatWriter
                     .pluginMessage(ChatColor.RED + Main._l("lobby.cancelstart.not_enough_teams")));
