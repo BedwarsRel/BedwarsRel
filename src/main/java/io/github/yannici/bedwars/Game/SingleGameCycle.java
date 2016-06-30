@@ -57,11 +57,9 @@ public class SingleGameCycle extends GameCycle {
     this.getGame().resetRegion();
 
     // Restart lobby directly?
-    GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
-    if (rule.isRuleMet(this.getGame())) {
+    if (this.getGame().isStartable()) {
       if (this.getGame().getLobbyCountdown() == null) {
         GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this.getGame());
-        lobbyCountdown.setRule(rule);
         lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
         this.getGame().setLobbyCountdown(lobbyCountdown);
       }

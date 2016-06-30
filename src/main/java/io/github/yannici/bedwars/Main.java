@@ -60,7 +60,6 @@ import io.github.yannici.bedwars.Commands.StatsCommand;
 import io.github.yannici.bedwars.Commands.StopGameCommand;
 import io.github.yannici.bedwars.Database.DatabaseManager;
 import io.github.yannici.bedwars.Game.Game;
-import io.github.yannici.bedwars.Game.GameLobbyCountdownRule;
 import io.github.yannici.bedwars.Game.GameManager;
 import io.github.yannici.bedwars.Game.GameState;
 import io.github.yannici.bedwars.Game.RessourceSpawner;
@@ -575,17 +574,6 @@ public class Main extends JavaPlugin {
     }
   }
 
-  public GameLobbyCountdownRule getLobbyCountdownRule() {
-    int id = 0;
-    if (this.getConfig().contains("lobbycountdown-rule")) {
-      if (this.getConfig().isInt("lobbycountdown-rule")) {
-        id = this.getConfig().getInt("lobbycountdown-rule");
-      }
-    }
-
-    return GameLobbyCountdownRule.getById(id);
-  }
-
   public boolean metricsEnabled() {
     if (this.getConfig().contains("plugin-metrics")) {
       if (this.getConfig().isBoolean("plugin-metrics")) {
@@ -609,7 +597,7 @@ public class Main extends JavaPlugin {
   }
 
   public String getFallbackLocale() {
-    return "en";
+    return "en_US";
   }
 
   public boolean allPlayersBackToMainLobby() {

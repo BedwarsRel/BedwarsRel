@@ -680,20 +680,18 @@ public class Game {
         this.displayRecord(p);
       }
 
-      GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
-      if (rule == GameLobbyCountdownRule.PLAYERS_IN_GAME
-          || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
-        if (rule.isRuleMet(this)) {
-          if (this.gameLobbyCountdown == null) {
-            this.gameLobbyCountdown = new GameLobbyCountdown(this);
-            this.gameLobbyCountdown.setRule(rule);
-            this.gameLobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-          }
-        } else {
+      if (this.isStartable()) {
+        if (this.gameLobbyCountdown == null) {
+          this.gameLobbyCountdown = new GameLobbyCountdown(this);
+          this.gameLobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+        }
+      } else {
+        if (!this.hasEnoughPlayers()) {
           int playersNeeded = this.getMinPlayers() - this.getPlayerAmount();
           this.broadcast(ChatColor.GREEN + Main._l("lobby.moreplayersneeded", "count",
               ImmutableMap.of("count", String.valueOf(playersNeeded))));
-
+        } else if (!this.hasEnoughTeams()) {
+          this.broadcast(ChatColor.RED + Main._l("lobby.moreteamssneeded"));
         }
       }
     }
@@ -1853,6 +1851,34 @@ public class Game {
     return minStr + ":" + secStr;
   }
 
+  public boolean isStartable() {
+    if (this.hasEnoughPlayers() && this.hasEnoughTeams()) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean hasEnoughTeams() {
+    int teamsWithPlayers = 0;
+    for (Team team : this.getTeams().values()) {
+      if (team.getPlayers().size() > 0) {
+        teamsWithPlayers++;
+      }
+    }
+    if (teamsWithPlayers > 1 || (teamsWithPlayers == 1 && this.getFreePlayers().size() >= 1)
+        || (teamsWithPlayers == 0 && this.getFreePlayers().size() >= 2)) {
+      return true;
+    }
+    return false;
+  }
+
+  public boolean hasEnoughPlayers() {
+    if (this.getPlayers().size() >= this.getMinPlayers()) {
+      return true;
+    }
+    return false;
+  }
+
   public void playerJoinTeam(Player player, Team team) {
     if (team.getPlayers().size() >= team.getMaxPlayers()) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
@@ -1878,16 +1904,12 @@ public class Game {
 
     this.updateScoreboard();
 
-    GameLobbyCountdownRule rule = Main.getInstance().getLobbyCountdownRule();
-    if (rule == GameLobbyCountdownRule.TEAMS_HAVE_PLAYERS
-        || rule == GameLobbyCountdownRule.ENOUGH_TEAMS_AND_PLAYERS) {
-      if (rule.isRuleMet(this)) {
-        if (this.getLobbyCountdown() == null) {
-          GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
-          lobbyCountdown.setRule(rule);
-          lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-          this.setLobbyCountdown(lobbyCountdown);
-        }
+
+    if (this.isStartable()) {
+      if (this.getLobbyCountdown() == null) {
+        GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
+        lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+        this.setLobbyCountdown(lobbyCountdown);
       }
     }
 

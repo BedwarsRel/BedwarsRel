@@ -18,18 +18,12 @@ public class GameLobbyCountdown extends BukkitRunnable {
   private int counter = 0;
   private int lobbytime;
   private int lobbytimeWhenFull;
-  private GameLobbyCountdownRule rule = null;
 
   public GameLobbyCountdown(Game game) {
     this.game = game;
     this.counter = Main.getInstance().getConfig().getInt("lobbytime");
-    this.rule = Main.getInstance().getLobbyCountdownRule();
     this.lobbytime = this.counter;
     this.lobbytimeWhenFull = Main.getInstance().getConfig().getInt("lobbytime-full");
-  }
-
-  public void setRule(GameLobbyCountdownRule rule) {
-    this.rule = rule;
   }
 
   @Override
@@ -53,7 +47,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
                       ._l("lobby.countdown",
                           ImmutableMap.of("sec",
                               ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-          players);
+              players);
     }
 
     for (Player p : players) {
@@ -74,12 +68,18 @@ public class GameLobbyCountdown extends BukkitRunnable {
                       ._l("lobby.countdown",
                           ImmutableMap.of("sec",
                               ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-          players);
+              players);
     }
 
-    if (!this.rule.isRuleMet(this.game)) {
-      this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown." + this.rule.name()),
-          players);
+    if (!this.game.isStartable()) {
+      if (!this.game.hasEnoughPlayers()) {
+        this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown.not_enough_players"),
+            players);
+      } else if (!this.game.hasEnoughTeams()) {
+        this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown.not_enough_teams"),
+            players);
+      }
+
       this.counter = this.lobbytime;
       for (Player p : players) {
         p.setLevel(0);
@@ -98,7 +98,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
                       ._l("lobby.countdown",
                           ImmutableMap.of("sec",
                               ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-          players);
+              players);
 
       Class<?> titleClass = null;
       Method showTitle = null;
@@ -148,5 +148,4 @@ public class GameLobbyCountdown extends BukkitRunnable {
 
     this.counter--;
   }
-
 }
