@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -19,8 +18,6 @@ import io.github.yannici.bedwars.Main;
 import io.github.yannici.bedwars.Utils;
 
 public class LocalizationConfig extends YamlConfiguration {
-
-  private LocalizationConfig fallback = null;
 
   @SuppressWarnings("unchecked")
   public String getPlayerLocale(Player player) {
@@ -77,33 +74,6 @@ public class LocalizationConfig extends YamlConfiguration {
         }
       }
     }
-
-    if (!isFallback) {
-      // Fallback load
-      this.fallback = new LocalizationConfig();
-      InputStream stream = null;
-      try {
-        stream = Main.getInstance().getResource("locale/" + locKey + ".yml");
-        if (stream == null) {
-          this.fallback = null;
-          return;
-        }
-
-        reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"));
-        this.fallback.load(reader);
-      } catch (Exception ex) {
-        // read failed
-      } finally {
-        if (reader != null) {
-          try {
-            reader.close();
-            stream.close();
-          } catch (IOException e) {
-            // already closed
-          }
-        }
-      }
-    }
   }
 
   @Override
@@ -118,11 +88,7 @@ public class LocalizationConfig extends YamlConfiguration {
   @Override
   public String getString(String path) {
     if (super.get(path) == null) {
-      if (this.fallback == null) {
         return "LOCALE_NOT_FOUND";
-      }
-
-      return this.fallback.getString(path);
     }
 
     return ChatColor.translateAlternateColorCodes('&', super.getString(path));
