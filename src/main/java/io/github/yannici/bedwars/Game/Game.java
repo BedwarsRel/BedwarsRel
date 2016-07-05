@@ -2,6 +2,7 @@ package io.github.yannici.bedwars.Game;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -246,6 +247,7 @@ public class Game {
     this.teleportPlayersToTeamSpawn();
 
     this.state = GameState.RUNNING;
+    this.startActionBarRunnable();
     this.updateScoreboard();
 
     if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
@@ -265,6 +267,38 @@ public class Game {
           + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getRegion().getName()))));
     }
     return true;
+  }
+
+  private void startActionBarRunnable() {
+    if (Main.getInstance().getBooleanConfig("show-team-in-actionbar", false)) {
+      try {
+        Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com."
+            + Main.getInstance().getCurrentVersion() + ".ActionBar");
+        final Method sendActionBar =
+            clazz.getDeclaredMethod("sendActionBar", Player.class, String.class);
+
+        BukkitTask task = new BukkitRunnable() {
+
+          @Override
+          public void run() {
+            for (Team team : Game.this.getTeams().values()) {
+              for (Player player : team.getPlayers()) {
+                try {
+                  sendActionBar.invoke(null, player,
+                      team.getChatColor() + "Team " + team.getDisplayName());
+                } catch (IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException e) {
+                  e.printStackTrace();
+                }
+              }
+            }
+          }
+        }.runTaskTimer(Main.getInstance(), 0L, 20L);
+        this.addRunningTask(task);
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
+    }
   }
 
   public boolean stop() {

@@ -262,6 +262,10 @@ public class ConfigUpdater {
     potionEffectList.add(new PotionEffect(PotionEffectType.SLOW, 5 * 20, 2, true, true));
     Main.getInstance().getConfig().addDefault("specials.trap.effects", potionEffectList);
     // </1.3.2>
+
+    // <1.3.3>
+    Main.getInstance().getConfig().addDefault("show-team-in-actionbar", false);
+    // </1.3.3>
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
