@@ -378,6 +378,12 @@ friendlybreak: true
 # will be teleported after a game ends.
 gameoverdelay: 10
 
+# Show team in ActionBar
+# Type: boolean
+# Sets if the name of a player's team should be displayed
+# in the ActionBar
+show-team-in-actionbar: false
+
 # Chat to all prefix
 # type: char
 # The prefix character which indicates to chat
