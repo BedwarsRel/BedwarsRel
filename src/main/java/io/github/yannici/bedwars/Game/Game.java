@@ -764,23 +764,20 @@ public class Game {
       }
     } else {
       if (this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
-        if (!team.isDead(this) && !p.isDead()) {
-          if (Main.getInstance().statisticsEnabled()) {
-            if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)
-                && this.getPlayerDamager(p) != null) {
-              statistic.setDeaths(statistic.getDeaths() + 1);
-              statistic
-                  .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+        if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()) {
+          if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)
+              && this.getPlayerDamager(p) != null) {
+            statistic.setDeaths(statistic.getDeaths() + 1);
+            statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
 
-              PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
-                  .getStatistic(this.getPlayerDamager(p));
-              killerPlayer.setKills(killerPlayer.getKills() + 1);
-              killerPlayer
-                  .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
-            }
-            statistic.setLoses(statistic.getLoses() + 1);
-            statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
+            PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
+                .getStatistic(this.getPlayerDamager(p));
+            killerPlayer.setKills(killerPlayer.getKills() + 1);
+            killerPlayer
+                .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
           }
+          statistic.setLoses(statistic.getLoses() + 1);
+          statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
         }
       }
     }
@@ -1034,10 +1031,8 @@ public class Game {
       return GameCheckCode.NO_LOBBY_SET;
     }
 
-    if (Main.getInstance().toMainLobby()) {
-      if (this.mainLobby == null) {
-        return GameCheckCode.NO_MAIN_LOBBY_SET;
-      }
+    if (Main.getInstance().toMainLobby() && this.mainLobby == null) {
+      return GameCheckCode.NO_MAIN_LOBBY_SET;
     }
 
     return GameCheckCode.OK;
@@ -1535,12 +1530,10 @@ public class Game {
   public void setLobby(Player sender) {
     Location lobby = sender.getLocation();
 
-    if (this.region != null) {
-      if (this.region.getWorld().equals(lobby.getWorld())) {
-        sender.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
-        return;
-      }
+    if (this.region != null && this.region.getWorld().equals(lobby.getWorld())) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
+      return;
     }
 
     this.lobby = lobby;
@@ -1939,12 +1932,10 @@ public class Game {
     this.updateScoreboard();
 
 
-    if (this.isStartable()) {
-      if (this.getLobbyCountdown() == null) {
-        GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
-        lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-        this.setLobbyCountdown(lobbyCountdown);
-      }
+    if (this.isStartable() && this.getLobbyCountdown() == null) {
+      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
+      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+      this.setLobbyCountdown(lobbyCountdown);
     }
 
     player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined",

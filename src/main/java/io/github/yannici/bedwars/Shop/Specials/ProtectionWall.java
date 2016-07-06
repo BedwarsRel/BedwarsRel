@@ -167,13 +167,11 @@ public class ProtectionWall extends SpecialItem {
       public void run() {
         ProtectionWall.this.livingTime++;
 
-        if (breakTime > 0) {
-          if (ProtectionWall.this.livingTime == breakTime) {
-            for (Block block : ProtectionWall.this.wallBlocks) {
-              block.getChunk().load(true);
-              block.setType(Material.AIR);
-              ProtectionWall.this.game.getRegion().removePlacedUnbreakableBlock(block);
-            }
+        if (breakTime > 0 && ProtectionWall.this.livingTime == breakTime) {
+          for (Block block : ProtectionWall.this.wallBlocks) {
+            block.getChunk().load(true);
+            block.setType(Material.AIR);
+            ProtectionWall.this.game.getRegion().removePlacedUnbreakableBlock(block);
           }
         }
 
@@ -185,14 +183,12 @@ public class ProtectionWall extends SpecialItem {
           return;
         }
 
-        if (breakTime > 0) {
-          if (waitTime <= 0 && ProtectionWall.this.livingTime >= breakTime) {
-            ProtectionWall.this.game.removeRunningTask(this);
-            ProtectionWall.this.game.removeSpecialItem(ProtectionWall.this);
-            ProtectionWall.this.task = null;
-            this.cancel();
-            return;
-          }
+        if (breakTime > 0 && waitTime <= 0 && ProtectionWall.this.livingTime >= breakTime) {
+          ProtectionWall.this.game.removeRunningTask(this);
+          ProtectionWall.this.game.removeSpecialItem(ProtectionWall.this);
+          ProtectionWall.this.task = null;
+          this.cancel();
+          return;
         }
       }
     }.runTaskTimer(Main.getInstance(), 20L, 20L);

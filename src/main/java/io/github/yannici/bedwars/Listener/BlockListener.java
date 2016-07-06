@@ -53,7 +53,6 @@ public class BlockListener extends BaseListener {
     }
 
     bbe.setCancelled(true);
-    return;
   }
 
   @EventHandler(ignoreCancelled = true)
@@ -371,15 +370,14 @@ public class BlockListener extends BaseListener {
       }
 
       if (replacedBlock != null) {
-        if (!Main.getInstance().getBooleanConfig("place-in-liquid", true)) {
-          if (replacedBlock.getType().equals(Material.WATER)
-              || replacedBlock.getType().equals(Material.STATIONARY_WATER)
-              || replacedBlock.getType().equals(Material.LAVA)
-              || replacedBlock.getType().equals(Material.STATIONARY_LAVA)) {
-            bpe.setCancelled(true);
-            bpe.setBuild(false);
-            return;
-          }
+        if (!Main.getInstance().getBooleanConfig("place-in-liquid", true)
+            && (replacedBlock.getType().equals(Material.WATER)
+                || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+                || replacedBlock.getType().equals(Material.LAVA)
+                || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
+          bpe.setCancelled(true);
+          bpe.setBuild(false);
+          return;
         }
       }
 

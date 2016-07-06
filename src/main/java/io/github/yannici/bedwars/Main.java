@@ -456,34 +456,25 @@ public class Main extends JavaPlugin {
 
   public int getIntConfig(String key, int defaultInt) {
     FileConfiguration config = this.getConfig();
-    if (config.contains(key)) {
-      if (config.isInt(key)) {
-        return config.getInt(key);
-      }
+    if (config.contains(key) && config.isInt(key)) {
+      return config.getInt(key);
     }
-
     return defaultInt;
   }
 
   public String getStringConfig(String key, String defaultString) {
     FileConfiguration config = this.getConfig();
-    if (config.contains(key)) {
-      if (config.isString(key)) {
-        return config.getString(key);
-      }
+    if (config.contains(key) && config.isString(key)) {
+      return config.getString(key);
     }
-
     return defaultString;
   }
 
   public boolean getBooleanConfig(String key, boolean defaultBool) {
     FileConfiguration config = this.getConfig();
-    if (config.contains(key)) {
-      if (config.isBoolean(key)) {
-        return config.getBoolean(key);
-      }
+    if (config.contains(key) && config.isBoolean(key)) {
+      return config.getBoolean(key);
     }
-
     return defaultBool;
   }
 
@@ -575,10 +566,9 @@ public class Main extends JavaPlugin {
   }
 
   public boolean metricsEnabled() {
-    if (this.getConfig().contains("plugin-metrics")) {
-      if (this.getConfig().isBoolean("plugin-metrics")) {
-        return this.getConfig().getBoolean("plugin-metrics");
-      }
+    if (this.getConfig().contains("plugin-metrics")
+        && this.getConfig().isBoolean("plugin-metrics")) {
+      return this.getConfig().getBoolean("plugin-metrics");
     }
 
     return false;
@@ -601,21 +591,19 @@ public class Main extends JavaPlugin {
   }
 
   public boolean allPlayersBackToMainLobby() {
-    if (this.getConfig().contains("endgame.all-players-to-mainlobby")) {
-      if (this.getConfig().isBoolean("endgame.all-players-to-mainlobby")) {
-        return this.getConfig().getBoolean("endgame.all-players-to-mainlobby");
-      }
+    if (this.getConfig().contains("endgame.all-players-to-mainlobby")
+        && this.getConfig().isBoolean("endgame.all-players-to-mainlobby")) {
+      return this.getConfig().getBoolean("endgame.all-players-to-mainlobby");
     }
 
     return false;
+
   }
 
   public List<String> getAllowedCommands() {
     FileConfiguration config = this.getConfig();
-    if (config.contains("allowed-commands")) {
-      if (config.isList("allowed-commands")) {
-        return config.getStringList("allowed-commands");
-      }
+    if (config.contains("allowed-commands") && config.isList("allowed-commands")) {
+      return config.getStringList("allowed-commands");
     }
 
     return new ArrayList<String>();
@@ -787,12 +775,10 @@ public class Main extends JavaPlugin {
   }
 
   public boolean spectationEnabled() {
-    if (this.getConfig().contains("spectation-enabled")) {
-      if (this.getConfig().isBoolean("spectation-enabled")) {
-        return this.getConfig().getBoolean("spectation-enabled");
-      }
+    if (this.getConfig().contains("spectation-enabled")
+        && this.getConfig().isBoolean("spectation-enabled")) {
+      return this.getConfig().getBoolean("spectation-enabled");
     }
-
     return true;
   }
 
@@ -810,10 +796,8 @@ public class Main extends JavaPlugin {
    * @return The length of the game in seconds
    */
   public int getMaxLength() {
-    if (this.getConfig().contains("gamelength")) {
-      if (this.getConfig().isInt("gamelength")) {
-        return this.getConfig().getInt("gamelength") * 60;
-      }
+    if (this.getConfig().contains("gamelength") && this.getConfig().isInt("gamelength")) {
+      return this.getConfig().getInt("gamelength") * 60;
     }
 
     // fallback time is 60 minutes
@@ -822,12 +806,9 @@ public class Main extends JavaPlugin {
 
   public Integer getRespawnProtectionTime() {
     FileConfiguration config = this.getConfig();
-    if (config.contains("respawn-protection")) {
-      if (config.isInt("respawn-protection")) {
-        return config.getInt("respawn-protection");
-      }
+    if (config.contains("respawn-protection") && config.isInt("respawn-protection")) {
+      return config.getInt("respawn-protection");
     }
-
     return 0;
   }
 

@@ -118,11 +118,10 @@ public class TNTSheepListener implements Listener {
       return;
     }
 
-    if (event.getRightClicked().getVehicle() != null) {
-      if (event.getRightClicked().getVehicle() instanceof ITNTSheep) {
-        event.setCancelled(true);
-        return;
-      }
+    if (event.getRightClicked().getVehicle() != null
+        && event.getRightClicked().getVehicle() instanceof ITNTSheep) {
+      event.setCancelled(true);
+      return;
     }
   }
 

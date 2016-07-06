@@ -60,10 +60,8 @@ public class NewItemShop {
         continue;
       }
 
-      if (player != null) {
-        if (!player.hasPermission(cat.getPermission())) {
-          continue;
-        }
+      if (player != null && !player.hasPermission(cat.getPermission())) {
+        continue;
       }
 
       size++;
@@ -135,10 +133,8 @@ public class NewItemShop {
         continue;
       }
 
-      if (player != null) {
-        if (!player.hasPermission(category.getPermission())) {
-          continue;
-        }
+      if (player != null && !player.hasPermission(category.getPermission())) {
+        continue;
       }
 
       ItemStack is = new ItemStack(category.getMaterial(), 1);
@@ -147,11 +143,9 @@ public class NewItemShop {
       if (Utils.isColorable(is)) {
         is.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
       }
-      if (this.currentCategory != null) {
-        if (this.currentCategory.equals(category)) {
-          im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
-          im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        }
+      if (this.currentCategory != null && this.currentCategory.equals(category)) {
+        im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
+        im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
       }
 
       im.setDisplayName(category.getName());
@@ -161,6 +155,7 @@ public class NewItemShop {
 
       inventory.addItem(is);
     }
+
   }
 
   private int getInventorySize(int itemAmount) {
