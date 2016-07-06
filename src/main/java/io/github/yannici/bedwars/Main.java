@@ -362,7 +362,7 @@ public class Main extends JavaPlugin {
       Class.forName("mineshafter.MineServer");
       return true;
     } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
+      // NO ERROR
       return false;
     }
   }

@@ -175,7 +175,7 @@ public final class Utils {
       Integer.parseInt(numberString);
       return true;
     } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
+      // NO ERROR
       return false;
     }
   }
@@ -189,8 +189,7 @@ public final class Utils {
         return method;
       }
     } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      // it's no error
+      // NO ERROR
     }
 
     return null;
