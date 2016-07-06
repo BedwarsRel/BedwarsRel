@@ -32,10 +32,6 @@ import io.github.yannici.bedwars.Utils;
 
 public class ConfigUpdater {
 
-  public ConfigUpdater() {
-    super();
-  }
-
   @SuppressWarnings("unchecked")
   public void addConfigs() {
     // <1.1.3>
@@ -303,10 +299,6 @@ public class ConfigUpdater {
         for (Object oldOffer : oldConfsection.getList(cat + ".offers")) {
           HashMap<String, Object> offer = new HashMap<String, Object>();
           if (oldOffer instanceof String) {
-            if (oldOffer.toString().equalsIgnoreCase("empty")
-                || oldOffer.toString().equalsIgnoreCase("null")
-                || oldOffer.toString().equalsIgnoreCase("e")) {
-            }
             continue;
           }
 

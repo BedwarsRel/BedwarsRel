@@ -57,14 +57,6 @@ import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 public class PlayerListener extends BaseListener {
 
-  public PlayerListener() {
-    super();
-  }
-
-  /*
-   * GLOBAL
-   */
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onJoin(PlayerJoinEvent je) {
 

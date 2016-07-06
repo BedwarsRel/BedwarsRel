@@ -32,10 +32,6 @@ import io.github.yannici.bedwars.Game.Team;
 
 public class BlockListener extends BaseListener {
 
-  public BlockListener() {
-    super();
-  }
-
   @EventHandler(priority = EventPriority.HIGH)
   public void onBurn(BlockBurnEvent bbe) {
     Block block = bbe.getBlock();

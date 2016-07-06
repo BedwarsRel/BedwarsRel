@@ -12,10 +12,6 @@ import io.github.yannici.bedwars.Game.Game;
 
 public class PlayerSpigotListener extends BaseListener {
 	
-	public PlayerSpigotListener() {
-		super();
-	}
-	
   @EventHandler(priority = EventPriority.HIGH)
   public void onPlayerSpawnLocation(PlayerSpawnLocationEvent event) {
     if (Main.getInstance().isBungee()) {

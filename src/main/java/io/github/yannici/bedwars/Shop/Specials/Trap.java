@@ -23,8 +23,6 @@ public class Trap extends SpecialItem {
   private int maxDuration = 5;
   private boolean playSound = true;
   private Location location = null;
-
-  public Trap() {}
   
   @Override
   public Material getItemMaterial() {

@@ -25,10 +25,6 @@ public class HolographicDisplaysInteraction {
   private List<Location> hologramLocations = null;
   private Map<Player, List<Hologram>> holograms = null;
 
-  public HolographicDisplaysInteraction() {
-    super();
-  }
-
   public void unloadHolograms() {
     if (Main.getInstance().isHologramsEnabled()) {
       Iterator<Hologram> iterator = HologramsAPI.getHolograms(Main.getInstance()).iterator();

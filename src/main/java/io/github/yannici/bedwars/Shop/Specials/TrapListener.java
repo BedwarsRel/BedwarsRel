@@ -18,10 +18,6 @@ import io.github.yannici.bedwars.Game.Team;
 
 public class TrapListener implements Listener {
 
-  public TrapListener() {
-    super();
-  }
-
   @EventHandler
   public void onMove(PlayerMoveEvent move) {
     if (move.isCancelled()) {

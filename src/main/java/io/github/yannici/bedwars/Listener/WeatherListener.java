@@ -11,10 +11,6 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class WeatherListener extends BaseListener {
 
-  public WeatherListener() {
-    super();
-  }
-
   @EventHandler
   public void onWeatherEvent(WeatherChangeEvent we) {
     if (we.isCancelled()) {

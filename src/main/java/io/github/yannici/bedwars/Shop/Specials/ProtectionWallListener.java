@@ -13,10 +13,6 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class ProtectionWallListener implements Listener {
 
-  public ProtectionWallListener() {
-    super();
-  }
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onInteract(PlayerInteractEvent interact) {
     if (interact.getAction().equals(Action.LEFT_CLICK_AIR)

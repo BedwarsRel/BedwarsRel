@@ -11,15 +11,6 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class Player19Listener extends BaseListener {
 
-  public Player19Listener() {
-    super();
-  }
-
-  /*
-   * GLOBAL
-   */
-
-
   @EventHandler
   public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
     Player player = event.getPlayer();

@@ -23,10 +23,6 @@ import io.github.yannici.bedwars.Game.Team;
 
 public class RescuePlatformListener implements Listener {
 
-  public RescuePlatformListener() {
-    super();
-  }
-
   @SuppressWarnings("deprecation")
   @EventHandler
   public void onInteract(PlayerInteractEvent ev) {
