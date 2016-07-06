@@ -50,6 +50,7 @@ public class WarpPowder extends SpecialItem {
     try {
       this.teleportingTask.cancel();
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // already stopped
     }
 
@@ -152,6 +153,7 @@ public class WarpPowder extends SpecialItem {
 
           this.through += 1.0;
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
           this.cancel();
           WarpPowder.this.cancelTeleport(true, false);

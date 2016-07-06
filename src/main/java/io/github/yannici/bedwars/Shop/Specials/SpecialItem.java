@@ -15,10 +15,6 @@ public abstract class SpecialItem {
   private static List<Class<? extends SpecialItem>> availableSpecials =
       new ArrayList<Class<? extends SpecialItem>>();
 
-  public SpecialItem() {
-    super();
-  }
-
   public abstract Material getItemMaterial();
 
   public abstract Material getActivatedMaterial();

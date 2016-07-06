@@ -220,6 +220,7 @@ public class BungeeGameCycle extends GameCycle {
           out.writeUTF("Connect");
           out.writeUTF(server);
         } catch (Exception e) {
+          Main.getInstance().getBugsnag().notify(e);
           e.printStackTrace();
           return;
         }

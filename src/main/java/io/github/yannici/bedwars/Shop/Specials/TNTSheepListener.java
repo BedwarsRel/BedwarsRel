@@ -31,6 +31,7 @@ public class TNTSheepListener implements Listener {
       ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
       register.registerEntities(Main.getInstance().getIntConfig("specials.tntsheep.entity-id", 91));
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
   }
@@ -118,11 +119,10 @@ public class TNTSheepListener implements Listener {
       return;
     }
 
-    if (event.getRightClicked().getVehicle() != null) {
-      if (event.getRightClicked().getVehicle() instanceof ITNTSheep) {
-        event.setCancelled(true);
-        return;
-      }
+    if (event.getRightClicked().getVehicle() != null
+        && event.getRightClicked().getVehicle() instanceof ITNTSheep) {
+      event.setCancelled(true);
+      return;
     }
   }
 

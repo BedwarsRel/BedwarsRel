@@ -24,6 +24,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.bugsnag.BeforeNotify;
+import com.bugsnag.Client;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Commands.AddGameCommand;
@@ -83,6 +85,7 @@ import io.github.yannici.bedwars.Updater.DatabaseUpdater;
 import io.github.yannici.bedwars.Updater.PluginUpdater;
 import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateCallback;
 import io.github.yannici.bedwars.Updater.PluginUpdater.UpdateResult;
+import lombok.Getter;
 
 public class Main extends JavaPlugin {
 
@@ -112,10 +115,29 @@ public class Main extends JavaPlugin {
 
   private ScoreboardManager scoreboardManager = null;
   private GameManager gameManager = null;
+  @Getter
+  private Client bugsnag;
 
   @Override
   public void onEnable() {
     Main.instance = this;
+
+    this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
+    this.bugsnag.setAppVersion(this.getDescription().getVersion());
+    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+      @Override
+      public boolean run(com.bugsnag.Error error) {
+        SupportData supportData = new SupportData();
+        error.addToTab("user", "id", supportData.getIdentifier());
+        error.addToTab("Server", "Version", supportData.getServerVersion());
+        error.addToTab("Server", "Version Bukkit", supportData.getBukkitVersion());
+        error.addToTab("Server", "Server Mode", supportData.getServerMode());
+        error.addToTab("Server", "Server Address", supportData.getServerAddress());
+        error.addToTab("Server", "Port", supportData.getPort());
+        error.addToTab("Server", "Plugins", supportData.getPlugins());
+        return true;
+      }
+    });
 
     // register classes
     this.registerConfigurationClasses();
@@ -191,6 +213,7 @@ public class Main extends JavaPlugin {
           new BufferedReader(new InputStreamReader(new FileInputStream(configFile), "UTF-8"));
       this.getConfig().load(reader);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
 
@@ -228,6 +251,7 @@ public class Main extends JavaPlugin {
       try {
         Thread.sleep(100);
       } catch (InterruptedException e) {
+        Main.getInstance().getBugsnag().notify(e);
         e.printStackTrace();
       }
     }
@@ -239,6 +263,7 @@ public class Main extends JavaPlugin {
           new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
       this.shopConfig.load(reader);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       this.getServer().getConsoleSender().sendMessage(
           ChatWriter.pluginMessage(ChatColor.RED + "Couldn't load shop! Error in parsing shop!"));
       e.printStackTrace();
@@ -286,6 +311,7 @@ public class Main extends JavaPlugin {
         stream.close();
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -296,6 +322,7 @@ public class Main extends JavaPlugin {
           .forName("io.github.yannici.bedwars.Com." + this.getCurrentVersion() + "." + className);
       return clazz;
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(
               ChatColor.RED + "Couldn't find version related class io.github.yannici.bedwars.Com."
@@ -313,6 +340,7 @@ public class Main extends JavaPlugin {
 
       return endstring;
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 
@@ -334,6 +362,7 @@ public class Main extends JavaPlugin {
       Class.forName("mineshafter.MineServer");
       return true;
     } catch (Exception e) {
+      // NO ERROR
       return false;
     }
   }
@@ -368,6 +397,7 @@ public class Main extends JavaPlugin {
         }.runTaskTimerAsynchronously(Main.getInstance(), 40L, 36000L);
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender().sendMessage(
           ChatWriter.pluginMessage(ChatColor.RED + "Check for updates not successful: Error!"));
     }
@@ -448,6 +478,7 @@ public class Main extends JavaPlugin {
 
       return true;
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       // nope
     }
 
@@ -456,34 +487,25 @@ public class Main extends JavaPlugin {
 
   public int getIntConfig(String key, int defaultInt) {
     FileConfiguration config = this.getConfig();
-    if (config.contains(key)) {
-      if (config.isInt(key)) {
-        return config.getInt(key);
-      }
+    if (config.contains(key) && config.isInt(key)) {
+      return config.getInt(key);
     }
-
     return defaultInt;
   }
 
   public String getStringConfig(String key, String defaultString) {
     FileConfiguration config = this.getConfig();
-    if (config.contains(key)) {
-      if (config.isString(key)) {
-        return config.getString(key);
-      }
+    if (config.contains(key) && config.isString(key)) {
+      return config.getString(key);
     }
-
     return defaultString;
   }
 
   public boolean getBooleanConfig(String key, boolean defaultBool) {
     FileConfiguration config = this.getConfig();
-    if (config.contains(key)) {
-      if (config.isBoolean(key)) {
-        return config.getBoolean(key);
-      }
+    if (config.contains(key) && config.isBoolean(key)) {
+      return config.getBoolean(key);
     }
-
     return defaultBool;
   }
 
@@ -521,6 +543,7 @@ public class Main extends JavaPlugin {
         return this.craftbukkit;
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
           + Main._l("errors.packagenotfound", ImmutableMap.of("package", "craftbukkit"))));
       return null;
@@ -536,6 +559,7 @@ public class Main extends JavaPlugin {
         return this.minecraft;
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
           + Main._l("errors.packagenotfound", ImmutableMap.of("package", "minecraft server"))));
       return null;
@@ -551,6 +575,7 @@ public class Main extends JavaPlugin {
 
       return Class.forName(this.craftbukkit.getName() + "." + classname);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound",
               ImmutableMap.of("package", "craftbukkit", "class", classname))));
@@ -567,6 +592,7 @@ public class Main extends JavaPlugin {
 
       return Class.forName(this.minecraft.getName() + "." + classname);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound",
               ImmutableMap.of("package", "minecraft server", "class", classname))));
@@ -575,10 +601,9 @@ public class Main extends JavaPlugin {
   }
 
   public boolean metricsEnabled() {
-    if (this.getConfig().contains("plugin-metrics")) {
-      if (this.getConfig().isBoolean("plugin-metrics")) {
-        return this.getConfig().getBoolean("plugin-metrics");
-      }
+    if (this.getConfig().contains("plugin-metrics")
+        && this.getConfig().isBoolean("plugin-metrics")) {
+      return this.getConfig().getBoolean("plugin-metrics");
     }
 
     return false;
@@ -590,6 +615,7 @@ public class Main extends JavaPlugin {
         Metrics metrics = new Metrics(this);
         metrics.start();
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         this.getServer().getConsoleSender().sendMessage(ChatWriter
             .pluginMessage(ChatColor.RED + "Metrics are enabled, but couldn't send data!"));
       }
@@ -601,21 +627,19 @@ public class Main extends JavaPlugin {
   }
 
   public boolean allPlayersBackToMainLobby() {
-    if (this.getConfig().contains("endgame.all-players-to-mainlobby")) {
-      if (this.getConfig().isBoolean("endgame.all-players-to-mainlobby")) {
-        return this.getConfig().getBoolean("endgame.all-players-to-mainlobby");
-      }
+    if (this.getConfig().contains("endgame.all-players-to-mainlobby")
+        && this.getConfig().isBoolean("endgame.all-players-to-mainlobby")) {
+      return this.getConfig().getBoolean("endgame.all-players-to-mainlobby");
     }
 
     return false;
+
   }
 
   public List<String> getAllowedCommands() {
     FileConfiguration config = this.getConfig();
-    if (config.contains("allowed-commands")) {
-      if (config.isList("allowed-commands")) {
-        return config.getStringList("allowed-commands");
-      }
+    if (config.contains("allowed-commands") && config.isList("allowed-commands")) {
+      return config.getStringList("allowed-commands");
     }
 
     return new ArrayList<String>();
@@ -787,12 +811,10 @@ public class Main extends JavaPlugin {
   }
 
   public boolean spectationEnabled() {
-    if (this.getConfig().contains("spectation-enabled")) {
-      if (this.getConfig().isBoolean("spectation-enabled")) {
-        return this.getConfig().getBoolean("spectation-enabled");
-      }
+    if (this.getConfig().contains("spectation-enabled")
+        && this.getConfig().isBoolean("spectation-enabled")) {
+      return this.getConfig().getBoolean("spectation-enabled");
     }
-
     return true;
   }
 
@@ -810,10 +832,8 @@ public class Main extends JavaPlugin {
    * @return The length of the game in seconds
    */
   public int getMaxLength() {
-    if (this.getConfig().contains("gamelength")) {
-      if (this.getConfig().isInt("gamelength")) {
-        return this.getConfig().getInt("gamelength") * 60;
-      }
+    if (this.getConfig().contains("gamelength") && this.getConfig().isInt("gamelength")) {
+      return this.getConfig().getInt("gamelength") * 60;
     }
 
     // fallback time is 60 minutes
@@ -822,12 +842,9 @@ public class Main extends JavaPlugin {
 
   public Integer getRespawnProtectionTime() {
     FileConfiguration config = this.getConfig();
-    if (config.contains("respawn-protection")) {
-      if (config.isInt("respawn-protection")) {
-        return config.getInt("respawn-protection");
-      }
+    if (config.contains("respawn-protection") && config.isInt("respawn-protection")) {
+      return config.getInt("respawn-protection");
     }
-
     return 0;
   }
 
@@ -837,6 +854,7 @@ public class Main extends JavaPlugin {
         Location.class.getMethod("serialize");
         Main.locationSerializable = true;
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         Main.locationSerializable = false;
       }
     }

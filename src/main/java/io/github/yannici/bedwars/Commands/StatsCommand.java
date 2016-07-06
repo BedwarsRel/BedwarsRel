@@ -84,6 +84,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
           return true;
         }
       } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
         e.printStackTrace();
       }
 

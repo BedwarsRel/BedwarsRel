@@ -13,10 +13,6 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class TrackerListener implements Listener {
 
-  public TrackerListener() {
-    super();
-  }
-
   @EventHandler
   public void onInteract(PlayerInteractEvent ev) {
     Player player = ev.getPlayer();

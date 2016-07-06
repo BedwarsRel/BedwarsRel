@@ -8,10 +8,6 @@ import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 
 public class HangingListener extends BaseListener {
 
-  public HangingListener() {
-    super();
-  }
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onHangingBreak(HangingBreakEvent event) {
     Hanging hanging = event.getEntity();

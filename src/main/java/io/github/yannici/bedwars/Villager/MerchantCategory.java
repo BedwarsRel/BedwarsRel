@@ -82,10 +82,8 @@ public class MerchantCategory {
         }
       }
 
-      if (section.contains(cat + ".order")) {
-        if (section.isInt(cat + ".order")) {
-          order = section.getInt(cat + ".order");
-        }
+      if (section.contains(cat + ".order") && section.isInt(cat + ".order")) {
+        order = section.getInt(cat + ".order");
       }
 
       if (section.contains(cat + ".permission")) {
@@ -182,15 +180,13 @@ public class MerchantCategory {
 
     Inventory inv = Bukkit.createInventory(p, size, Main._l("ingame.shop.name"));
     for (MerchantCategory cat : cats) {
-      if (p != null) {
-        if (!p.hasPermission(cat.getPermission())) {
-          continue;
-        }
+      if (p != null && !p.hasPermission(cat.getPermission())) {
+        continue;
       }
 
       ItemStack is = new ItemStack(cat.getMaterial(), 1);
       ItemMeta im = is.getItemMeta();
-      
+
       if (Utils.isColorable(is)) {
         is.setDurability(g.getPlayerTeam(p).getColor().getDyeColor().getData());
       }

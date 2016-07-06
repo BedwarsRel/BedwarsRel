@@ -50,6 +50,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
       this.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED)
           .setValue(Main.getInstance().getConfig().getDouble("specials.tntsheep.speed", 0.4D));
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
 
@@ -96,6 +97,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
       sourceField.set(((CraftTNTPrimed) this.primedTnt).getHandle(),
           ((CraftEntity) source).getHandle());
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // didn't work
     }
   }

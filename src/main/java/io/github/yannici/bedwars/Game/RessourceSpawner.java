@@ -180,6 +180,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
           amount = Integer.parseInt(cfgSection.get("amount").toString());
         }
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         amount = 1;
       }
 
@@ -195,6 +196,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
             meta = Byte.parseByte(cfgSection.get("meta").toString());
             hasMeta = true;
           } catch (Exception ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             hasMeta = false;
           }
         } else {
@@ -223,47 +225,46 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
         finalStack.setItemMeta(im);
       }
 
-      if (!hasPotionMeta && (material.equals(Material.POTION)
-          || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-              || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-              && (material.equals(Material.valueOf("TIPPED_ARROW"))
-                  || material.equals(Material.valueOf("LINGERING_POTION"))
-                  || material.equals(Material.valueOf("SPLASH_POTION")))))) {
-
-        if (cfgSection.containsKey("effects")) {
-          PotionMeta customPotionMeta = (PotionMeta) finalStack.getItemMeta();
-          for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
-            LinkedHashMap<String, Object> potionEffectSection =
-                (LinkedHashMap<String, Object>) potionEffect;
-            if (!potionEffectSection.containsKey("type")) {
-              continue;
-            }
-
-            PotionEffectType potionEffectType = null;
-            int duration = 1;
-            int amplifier = 0;
-
-            potionEffectType = PotionEffectType
-                .getByName(potionEffectSection.get("type").toString().toUpperCase());
-
-            if (potionEffectSection.containsKey("duration")) {
-              duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
-            }
-
-            if (potionEffectSection.containsKey("amplifier")) {
-              amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
-            }
-
-            if (potionEffectType == null) {
-              continue;
-            }
-
-            customPotionMeta
-                .addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier), true);
+      if (!hasPotionMeta
+          && (material.equals(Material.POTION)
+              || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                  && (material.equals(Material.valueOf("TIPPED_ARROW"))
+                      || material.equals(Material.valueOf("LINGERING_POTION"))
+                      || material.equals(Material.valueOf("SPLASH_POTION")))))
+          && (cfgSection.containsKey("effects"))) {
+        PotionMeta customPotionMeta = (PotionMeta) finalStack.getItemMeta();
+        for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
+          LinkedHashMap<String, Object> potionEffectSection =
+              (LinkedHashMap<String, Object>) potionEffect;
+          if (!potionEffectSection.containsKey("type")) {
+            continue;
           }
 
-          finalStack.setItemMeta(customPotionMeta);
+          PotionEffectType potionEffectType = null;
+          int duration = 1;
+          int amplifier = 0;
+
+          potionEffectType =
+              PotionEffectType.getByName(potionEffectSection.get("type").toString().toUpperCase());
+
+          if (potionEffectSection.containsKey("duration")) {
+            duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
+          }
+
+          if (potionEffectSection.containsKey("amplifier")) {
+            amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
+          }
+
+          if (potionEffectType == null) {
+            continue;
+          }
+
+          customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier),
+              true);
         }
+
+        finalStack.setItemMeta(customPotionMeta);
       }
 
       if (cfgSection.containsKey("enchants")) {
@@ -314,6 +315,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
       return finalStack;
 
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 

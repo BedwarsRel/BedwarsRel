@@ -46,11 +46,9 @@ public class Team implements ConfigurationSerializable {
     if (deserialize.containsKey("bedhead")) {
       this.setTargetHeadBlock(Utils.locationDeserialize(deserialize.get("bedhead")));
 
-      if (this.getTargetHeadBlock() != null) {
-        if (deserialize.containsKey("bedfeed")
-            && this.getTargetHeadBlock().getBlock().getType().equals(Material.BED_BLOCK)) {
-          this.setTargetFeetBlock(Utils.locationDeserialize(deserialize.get("bedfeed")));
-        }
+      if (this.getTargetHeadBlock() != null && deserialize.containsKey("bedfeed")
+          && this.getTargetHeadBlock().getBlock().getType().equals(Material.BED_BLOCK)) {
+        this.setTargetFeetBlock(Utils.locationDeserialize(deserialize.get("bedfeed")));
       }
     }
   }
@@ -199,11 +197,9 @@ public class Team implements ConfigurationSerializable {
       this.getScoreboardTeam().removeEntry(player.getName());
     }
 
-    if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
-      if (player.isOnline()) {
-        player.setDisplayName(ChatColor.RESET + ChatColor.stripColor(player.getName()));
-        player.setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
-      }
+    if (Main.getInstance().getBooleanConfig("overwrite-names", false) && player.isOnline()) {
+      player.setDisplayName(ChatColor.RESET + ChatColor.stripColor(player.getName()));
+      player.setPlayerListName(ChatColor.RESET + player.getPlayer().getName());
     }
   }
 

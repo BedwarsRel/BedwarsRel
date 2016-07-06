@@ -42,6 +42,7 @@ public class VillagerItemShop {
 
       return ev;
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
 
@@ -52,6 +53,7 @@ public class VillagerItemShop {
     try {
       return ((CraftPlayer) this.player).getHandle();
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     return null;
@@ -101,6 +103,7 @@ public class VillagerItemShop {
           ((CraftPlayer) player).getHandle().b(StatisticList.F);
 
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
         }
       }

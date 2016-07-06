@@ -7,10 +7,6 @@ import io.github.yannici.bedwars.Utils;
 
 public class MagnetShoe extends SpecialItem {
 
-  public MagnetShoe() {
-    super();
-  }
-
   @SuppressWarnings("deprecation")
   @Override
   public Material getItemMaterial() {

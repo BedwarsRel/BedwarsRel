@@ -35,10 +35,6 @@ import io.github.yannici.bedwars.Game.TeamJoinMetaDataValue;
 
 public class EntityListener extends BaseListener {
 
-  public EntityListener() {
-    super();
-  }
-
   @EventHandler
   public void onEntitySpawn(CreatureSpawnEvent ese) {
     if (Main.getInstance().getGameManager() == null) {

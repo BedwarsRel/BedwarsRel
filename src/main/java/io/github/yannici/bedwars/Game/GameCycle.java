@@ -170,6 +170,7 @@ public abstract class GameCycle {
                     subTitleFadeOut);
               }
             } catch (Exception ex) {
+              Main.getInstance().getBugsnag().notify(ex);
               ex.printStackTrace();
             }
           }
@@ -268,10 +269,8 @@ public abstract class GameCycle {
       }
 
       if (Main.getInstance().spectationEnabled()) {
-        if (storage != null) {
-          if (storage.getLeft() != null) {
-            pre.setRespawnLocation(team.getSpawnLocation());
-          }
+        if (storage != null && storage.getLeft() != null) {
+          pre.setRespawnLocation(team.getSpawnLocation());
         }
 
         this.getGame().toSpectator(player);
@@ -370,15 +369,12 @@ public abstract class GameCycle {
       }
 
       // dispatch reward commands directly
-      if (Main.getInstance().getBooleanConfig("rewards.enabled", false) && killer != null) {
-        if ((onlyOnBedDestroy && teamIsDead) || !onlyOnBedDestroy) {
-          List<String> commands =
-              Main.getInstance().getConfig().getStringList("rewards.player-kill");
-          Main.getInstance()
-              .dispatchRewardCommands(commands, ImmutableMap.of("{player}", killer.getName(),
-                  "{score}", String
-                      .valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
-        }
+      if (Main.getInstance().getBooleanConfig("rewards.enabled", false) && killer != null
+          && ((onlyOnBedDestroy && teamIsDead) || !onlyOnBedDestroy)) {
+        List<String> commands = Main.getInstance().getConfig().getStringList("rewards.player-kill");
+        Main.getInstance().dispatchRewardCommands(commands,
+            ImmutableMap.of("{player}", killer.getName(), "{score}",
+                String.valueOf(Main.getInstance().getIntConfig("statistics.scores.kill", 10))));
       }
     }
 

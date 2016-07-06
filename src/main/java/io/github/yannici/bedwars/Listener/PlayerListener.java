@@ -57,14 +57,6 @@ import io.github.yannici.bedwars.Villager.MerchantCategory;
 
 public class PlayerListener extends BaseListener {
 
-  public PlayerListener() {
-    super();
-  }
-
-  /*
-   * GLOBAL
-   */
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onJoin(PlayerJoinEvent je) {
 
@@ -161,23 +153,16 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    if (iee.getRightClicked() != null) {
-      if (!iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
-        List<EntityType> preventClickTypes = Arrays.asList(EntityType.ITEM_FRAME);
+    if (iee.getRightClicked() != null
+        && !iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
+      List<EntityType> preventClickTypes =
+          Arrays.asList(EntityType.ITEM_FRAME, EntityType.ARMOR_STAND);
 
-        // armor stand in 1.8
-        try {
-          preventClickTypes.add(EntityType.valueOf("ARMOR_STAND"));
-        } catch (Exception ex) {
-          // nothing will happen, just not supported
-        }
-
-        if (preventClickTypes.contains(iee.getRightClicked().getType())) {
-          iee.setCancelled(true);
-        }
-
-        return;
+      if (preventClickTypes.contains(iee.getRightClicked().getType())) {
+        iee.setCancelled(true);
       }
+
+      return;
     }
 
     iee.setCancelled(true);
@@ -317,6 +302,7 @@ public class PlayerListener extends BaseListener {
             clazz = Class.forName("io.github.yannici.bedwars.Com."
                 + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
           } catch (ClassNotFoundException ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.PerformRespawnRunnable");
           }
 
@@ -334,6 +320,7 @@ public class PlayerListener extends BaseListener {
         }
 
       } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
         e.printStackTrace();
       }
 
@@ -341,6 +328,7 @@ public class PlayerListener extends BaseListener {
         pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
         pde.setKeepInventory(false);
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         player.getInventory().clear();
       }
 
@@ -449,6 +437,7 @@ public class PlayerListener extends BaseListener {
         Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[] {});
         openTrade.invoke(villagerItemShop, new Object[] {});
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
     } else {
@@ -643,10 +632,8 @@ public class PlayerListener extends BaseListener {
       }
     }
 
-    if (game.getState() != GameState.WAITING) {
-      if (game.isInGame(player)) {
-        return;
-      }
+    if (game.getState() != GameState.WAITING && game.isInGame(player)) {
+      return;
     }
 
     ppie.setCancelled(true);
@@ -817,12 +804,11 @@ public class PlayerListener extends BaseListener {
     Block clickedBlock = pie.getClickedBlock();
 
     if (g.getState() == GameState.RUNNING) {
-      if (pie.getAction() == Action.PHYSICAL) {
-        if (clickedBlock != null && (clickedBlock.getType() == Material.WHEAT
-            || clickedBlock.getType() == Material.SOIL)) {
-          pie.setCancelled(true);
-          return;
-        }
+      if (pie.getAction() == Action.PHYSICAL && clickedBlock != null
+          && (clickedBlock.getType() == Material.WHEAT
+              || clickedBlock.getType() == Material.SOIL)) {
+        pie.setCancelled(true);
+        return;
       }
 
       if (pie.getAction() != Action.RIGHT_CLICK_BLOCK
@@ -830,14 +816,12 @@ public class PlayerListener extends BaseListener {
         return;
       }
 
-      if (clickedBlock != null) {
-        if (clickedBlock.getType() == Material.LEVER && !g.isSpectator(player)
-            && pie.getAction() == Action.RIGHT_CLICK_BLOCK) {
-          if (!g.getRegion().isPlacedUnbreakableBlock(clickedBlock)) {
-            g.getRegion().addPlacedUnbreakableBlock(clickedBlock, clickedBlock.getState());
-          }
-          return;
+      if (clickedBlock != null && clickedBlock.getType() == Material.LEVER && !g.isSpectator(player)
+          && pie.getAction() == Action.RIGHT_CLICK_BLOCK) {
+        if (!g.getRegion().isPlacedUnbreakableBlock(clickedBlock)) {
+          g.getRegion().addPlacedUnbreakableBlock(clickedBlock, clickedBlock.getState());
         }
+        return;
       }
 
       if (g.isSpectator(player)
@@ -860,6 +844,7 @@ public class PlayerListener extends BaseListener {
         try {
           GameMode.valueOf("SPECTATOR");
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           for (Player p : g.getFreePlayers()) {
             if (!g.getRegion().isInRegion(p.getLocation())) {
               continue;
@@ -879,27 +864,26 @@ public class PlayerListener extends BaseListener {
         }
       }
 
-      if (clickedBlock != null) {
-        if (clickedBlock.getType() == Material.ENDER_CHEST && !g.isSpectator(player)) {
-          pie.setCancelled(true);
+      if (clickedBlock != null && clickedBlock.getType() == Material.ENDER_CHEST
+          && !g.isSpectator(player)) {
+        pie.setCancelled(true);
 
-          Block chest = pie.getClickedBlock();
-          Team chestTeam = g.getTeamOfEnderChest(chest);
-          Team playerTeam = g.getPlayerTeam(player);
+        Block chest = pie.getClickedBlock();
+        Team chestTeam = g.getTeamOfEnderChest(chest);
+        Team playerTeam = g.getPlayerTeam(player);
 
-          if (chestTeam == null) {
-            return;
-          }
-
-          if (chestTeam.equals(playerTeam)) {
-            player.openInventory(chestTeam.getInventory());
-          } else {
-            player.sendMessage(
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.noturteamchest")));
-          }
-
+        if (chestTeam == null) {
           return;
         }
+
+        if (chestTeam.equals(playerTeam)) {
+          player.openInventory(chestTeam.getInventory());
+        } else {
+          player.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.noturteamchest")));
+        }
+
+        return;
       }
 
       return;
@@ -1128,10 +1112,9 @@ public class PlayerListener extends BaseListener {
       } else if (ede.getCause() == DamageCause.VOID) {
         p.teleport(g.getPlayerTeam(p).getSpawnLocation());
       }
-    } else if (g.getState() == GameState.WAITING) {
-      if (ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
-        p.teleport(g.getLobby());
-      }
+    } else if (g.getState() == GameState.WAITING
+        && ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
+      p.teleport(g.getLobby());
     }
 
     ede.setCancelled(true);

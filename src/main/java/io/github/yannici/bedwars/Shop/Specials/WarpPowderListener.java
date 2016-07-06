@@ -16,10 +16,6 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class WarpPowderListener implements Listener {
 
-  public WarpPowderListener() {
-    super();
-  }
-
   @EventHandler
   public void onInteract(PlayerInteractEvent ev) {
     Player player = ev.getPlayer();

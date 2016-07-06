@@ -33,7 +33,7 @@ public class DatabaseUpdater {
       try {
         Main.getInstance().getDatabaseManager().execute(update.getSql());
       } catch (Exception ex) {
-        // nothing ;)
+        // NO ERROR
       }
     }
   }

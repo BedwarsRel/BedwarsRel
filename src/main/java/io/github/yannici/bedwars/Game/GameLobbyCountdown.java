@@ -136,6 +136,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
           showTitle = titleClass.getMethod("showTitle", Player.class, String.class, double.class,
               double.class, double.class);
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
         }
       }
@@ -151,6 +152,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
         try {
           showTitle.invoke(null, player, title, 0.2, 0.6, 0.2);
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
         }
       }

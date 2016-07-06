@@ -31,6 +31,7 @@ public class LocalizationConfig extends YamlConfiguration {
       localeField.setAccessible(true);
       return localeField.get(nmsPlayer).toString().split("_")[0].toLowerCase();
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       return Main.getInstance().getFallbackLocale();
     }
   }
@@ -61,6 +62,7 @@ public class LocalizationConfig extends YamlConfiguration {
       reader = new BufferedReader(new InputStreamReader(new FileInputStream(locFile), "UTF-8"));
       this.load(reader);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       // no localization file, no translation :D
       Main.getInstance().getServer().getConsoleSender().sendMessage(
           ChatWriter.pluginMessage(ChatColor.RED + "Failed to load localization language!"));
@@ -70,6 +72,7 @@ public class LocalizationConfig extends YamlConfiguration {
         try {
           reader.close();
         } catch (IOException e) {
+          Main.getInstance().getBugsnag().notify(e);
           e.printStackTrace();
         }
       }
@@ -113,6 +116,7 @@ public class LocalizationConfig extends YamlConfiguration {
         }
       }
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
   }

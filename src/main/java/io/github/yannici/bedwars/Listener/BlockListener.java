@@ -32,10 +32,6 @@ import io.github.yannici.bedwars.Game.Team;
 
 public class BlockListener extends BaseListener {
 
-  public BlockListener() {
-    super();
-  }
-
   @EventHandler(priority = EventPriority.HIGH)
   public void onBurn(BlockBurnEvent bbe) {
     Block block = bbe.getBlock();
@@ -53,7 +49,6 @@ public class BlockListener extends BaseListener {
     }
 
     bbe.setCancelled(true);
-    return;
   }
 
   @EventHandler(ignoreCancelled = true)
@@ -272,6 +267,9 @@ public class BlockListener extends BaseListener {
         e.setCancelled(true);
         breakedBlock.getDrops().clear();
         breakedBlock.setType(Material.AIR);
+      } else if (e.getBlock().getType() == Material.GLOWSTONE) {
+        breakedBlock.getDrops().clear();
+        breakedBlock.getDrops().add(new ItemStack(Material.GLOWSTONE));
       }
 
       g.getRegion().removePlacedBlock(breakedBlock);
@@ -371,15 +369,14 @@ public class BlockListener extends BaseListener {
       }
 
       if (replacedBlock != null) {
-        if (!Main.getInstance().getBooleanConfig("place-in-liquid", true)) {
-          if (replacedBlock.getType().equals(Material.WATER)
-              || replacedBlock.getType().equals(Material.STATIONARY_WATER)
-              || replacedBlock.getType().equals(Material.LAVA)
-              || replacedBlock.getType().equals(Material.STATIONARY_LAVA)) {
-            bpe.setCancelled(true);
-            bpe.setBuild(false);
-            return;
-          }
+        if (!Main.getInstance().getBooleanConfig("place-in-liquid", true)
+            && (replacedBlock.getType().equals(Material.WATER)
+                || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+                || replacedBlock.getType().equals(Material.LAVA)
+                || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
+          bpe.setCancelled(true);
+          bpe.setBuild(false);
+          return;
         }
       }
 

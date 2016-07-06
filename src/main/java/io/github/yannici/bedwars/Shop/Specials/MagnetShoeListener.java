@@ -14,10 +14,6 @@ import io.github.yannici.bedwars.Game.GameState;
 
 public class MagnetShoeListener implements Listener {
 
-  public MagnetShoeListener() {
-    super();
-  }
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onDamage(EntityDamageByEntityEvent ev) {
     if (ev.isCancelled()) {

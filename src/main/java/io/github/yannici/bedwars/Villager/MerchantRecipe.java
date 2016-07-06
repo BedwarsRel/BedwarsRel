@@ -21,6 +21,7 @@ public class MerchantRecipe {
       this.instance = this.merchantRecipe.getDeclaredConstructor(isClass, isClass, isClass)
           .newInstance(item1, item2, reward);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
   }
@@ -43,6 +44,7 @@ public class MerchantRecipe {
       m.setAccessible(true);
       return m.invoke(this.merchantRecipe);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     return null;
@@ -54,6 +56,7 @@ public class MerchantRecipe {
       m.setAccessible(true);
       return m.invoke(this.merchantRecipe);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     return null;
@@ -65,6 +68,7 @@ public class MerchantRecipe {
       m.setAccessible(true);
       return m.invoke(this.merchantRecipe);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     return null;

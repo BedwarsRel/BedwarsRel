@@ -288,6 +288,7 @@ public class Game {
                       team.getChatColor() + "Team " + team.getDisplayName());
                 } catch (IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
+                  Main.getInstance().getBugsnag().notify(e);
                   e.printStackTrace();
                 }
               }
@@ -296,6 +297,7 @@ public class Game {
         }.runTaskTimer(Main.getInstance(), 0L, 20L);
         this.addRunningTask(task);
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
     }
@@ -314,6 +316,7 @@ public class Game {
     try {
       this.kickAllPlayers();
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     this.resetRegion();
@@ -764,23 +767,20 @@ public class Game {
       }
     } else {
       if (this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
-        if (!team.isDead(this) && !p.isDead()) {
-          if (Main.getInstance().statisticsEnabled()) {
-            if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)
-                && this.getPlayerDamager(p) != null) {
-              statistic.setDeaths(statistic.getDeaths() + 1);
-              statistic
-                  .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+        if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()) {
+          if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)
+              && this.getPlayerDamager(p) != null) {
+            statistic.setDeaths(statistic.getDeaths() + 1);
+            statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
 
-              PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
-                  .getStatistic(this.getPlayerDamager(p));
-              killerPlayer.setKills(killerPlayer.getKills() + 1);
-              killerPlayer
-                  .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
-            }
-            statistic.setLoses(statistic.getLoses() + 1);
-            statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
+            PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
+                .getStatistic(this.getPlayerDamager(p));
+            killerPlayer.setKills(killerPlayer.getKills() + 1);
+            killerPlayer
+                .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
           }
+          statistic.setLoses(statistic.getLoses() + 1);
+          statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
         }
       }
     }
@@ -840,7 +840,7 @@ public class Game {
     try {
       p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
     } catch (Exception e) {
-
+      Main.getInstance().getBugsnag().notify(e);
     }
 
     this.removeNewItemShop(p);
@@ -1004,6 +1004,7 @@ public class Game {
     try {
       this.config.save(gameConfig);
     } catch (IOException e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
   }
@@ -1034,10 +1035,8 @@ public class Game {
       return GameCheckCode.NO_LOBBY_SET;
     }
 
-    if (Main.getInstance().toMainLobby()) {
-      if (this.mainLobby == null) {
-        return GameCheckCode.NO_MAIN_LOBBY_SET;
-      }
+    if (Main.getInstance().toMainLobby() && this.mainLobby == null) {
+      return GameCheckCode.NO_MAIN_LOBBY_SET;
     }
 
     return GameCheckCode.OK;
@@ -1297,6 +1296,7 @@ public class Game {
       cfg.set("signs", locList);
       cfg.save(config);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.savesign")));
     }
@@ -1339,6 +1339,7 @@ public class Game {
       try {
         task.cancel();
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         // already cancelled
       }
     }
@@ -1355,6 +1356,7 @@ public class Game {
       try {
         protection.cancel();
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         // isn't running, ignore
       }
     }
@@ -1405,6 +1407,7 @@ public class Game {
     try {
       rpr.cancel();
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // isn't running, ignore
     }
 
@@ -1535,12 +1538,10 @@ public class Game {
   public void setLobby(Player sender) {
     Location lobby = sender.getLocation();
 
-    if (this.region != null) {
-      if (this.region.getWorld().equals(lobby.getWorld())) {
-        sender.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
-        return;
-      }
+    if (this.region != null && this.region.getWorld().equals(lobby.getWorld())) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
+      return;
     }
 
     this.lobby = lobby;
@@ -1656,6 +1657,7 @@ public class Game {
       }
 
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -1760,6 +1762,7 @@ public class Game {
       yml.save(config);
       this.config = yml;
     } catch (IOException e) {
+      Main.getInstance().getBugsnag().notify(e);
       Main.getInstance().getLogger().info(ChatWriter.pluginMessage(e.getMessage()));
     }
   }
@@ -1939,12 +1942,10 @@ public class Game {
     this.updateScoreboard();
 
 
-    if (this.isStartable()) {
-      if (this.getLobbyCountdown() == null) {
-        GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
-        lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-        this.setLobbyCountdown(lobbyCountdown);
-      }
+    if (this.isStartable() && this.getLobbyCountdown() == null) {
+      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
+      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+      this.setLobbyCountdown(lobbyCountdown);
     }
 
     player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined",

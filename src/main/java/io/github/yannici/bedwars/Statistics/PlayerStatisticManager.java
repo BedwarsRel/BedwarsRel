@@ -59,6 +59,7 @@ public class PlayerStatisticManager {
     try {
       Main.getInstance().getDatabaseManager().execute(sql);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 
@@ -125,6 +126,7 @@ public class PlayerStatisticManager {
 
       this.fileDatabase.save(this.databaseFile);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
           ChatColor.RED + "Couldn't store statistic data for player with uuid: " + keyValue));
     }
@@ -153,12 +155,14 @@ public class PlayerStatisticManager {
           statistic.setId(result.getLong(0));
         }
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         // couldn't check, try to store anyway
       } finally {
         if (result != null) {
           try {
             Main.getInstance().getDatabaseManager().clean(result.getStatement().getConnection());
           } catch (Exception ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             ex.printStackTrace();
           }
         }
@@ -329,6 +333,7 @@ public class PlayerStatisticManager {
         statistic.setValue(setField.name(), playerStatistic.getObject(setField.name()));
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
       return;
     } finally {
@@ -336,6 +341,7 @@ public class PlayerStatisticManager {
         Main.getInstance().getDatabaseManager()
             .clean(playerStatistic.getStatement().getConnection());
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
     }
@@ -420,6 +426,7 @@ public class PlayerStatisticManager {
 
       this.playerStatistic = map;
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 

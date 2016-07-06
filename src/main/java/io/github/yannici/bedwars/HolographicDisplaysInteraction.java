@@ -25,10 +25,6 @@ public class HolographicDisplaysInteraction {
   private List<Location> hologramLocations = null;
   private Map<Player, List<Hologram>> holograms = null;
 
-  public HolographicDisplaysInteraction() {
-    super();
-  }
-
   public void unloadHolograms() {
     if (Main.getInstance().isHologramsEnabled()) {
       Iterator<Hologram> iterator = HologramsAPI.getHolograms(Main.getInstance()).iterator();
@@ -159,6 +155,7 @@ public class HolographicDisplaysInteraction {
       config.set("locations", serializedLocations);
       config.save(file);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -220,6 +217,7 @@ public class HolographicDisplaysInteraction {
       valueColor = ChatColor.translateAlternateColorCodes('&',
           Main.getInstance().getStringConfig("holographic-stats.value-color", "&e"));
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // nothing to do
     }
 

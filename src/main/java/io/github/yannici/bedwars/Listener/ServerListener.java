@@ -16,8 +16,9 @@ public class ServerListener extends BaseListener {
     if (!Main.getInstance().isBungee()) {
       return;
     }
-
-    if (Main.getInstance().getGameManager().getGames().size() == 0) {
+    if (Main.getInstance().getGameManager() == null
+        || Main.getInstance().getGameManager().getGames() == null
+        || Main.getInstance().getGameManager().getGames().size() == 0) {
       return;
     }
 

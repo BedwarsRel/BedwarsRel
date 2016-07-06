@@ -23,8 +23,6 @@ public class Trap extends SpecialItem {
   private int maxDuration = 5;
   private boolean playSound = true;
   private Location location = null;
-
-  public Trap() {}
   
   @Override
   public Material getItemMaterial() {
@@ -90,6 +88,7 @@ public class Trap extends SpecialItem {
       this.location.getBlock().setType(Material.AIR);
       this.game.removeSpecialItem(this);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }

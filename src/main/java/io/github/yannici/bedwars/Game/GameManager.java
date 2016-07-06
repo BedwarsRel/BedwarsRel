@@ -107,6 +107,7 @@ public class GameManager {
     try {
       game.kickAllPlayers();
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     game.resetRegion();
@@ -297,6 +298,7 @@ public class GameManager {
           .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameloaded",
               ImmutableMap.of("game", game.getRegion().getName()))));
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameloaderror",
               ImmutableMap.of("game", configFile.getParentFile().getName()))));

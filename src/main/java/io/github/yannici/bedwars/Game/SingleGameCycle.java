@@ -57,12 +57,10 @@ public class SingleGameCycle extends GameCycle {
     this.getGame().resetRegion();
 
     // Restart lobby directly?
-    if (this.getGame().isStartable()) {
-      if (this.getGame().getLobbyCountdown() == null) {
-        GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this.getGame());
-        lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-        this.getGame().setLobbyCountdown(lobbyCountdown);
-      }
+    if (this.getGame().isStartable() && this.getGame().getLobbyCountdown() == null) {
+      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this.getGame());
+      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+      this.getGame().setLobbyCountdown(lobbyCountdown);
     }
 
     // set state and with that, the sign

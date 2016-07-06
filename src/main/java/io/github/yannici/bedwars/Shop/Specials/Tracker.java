@@ -22,10 +22,6 @@ public class Tracker extends SpecialItem {
   private Game game = null;
   private ItemStack stack = null;
 
-  public Tracker() {
-    super();
-  }
-
   @Override
   public Material getItemMaterial() {
     return Material.COMPASS;

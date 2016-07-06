@@ -23,7 +23,6 @@ public class ChunkListener implements Listener {
     }
 
     unload.setCancelled(true);
-    return;
   }
 
 }

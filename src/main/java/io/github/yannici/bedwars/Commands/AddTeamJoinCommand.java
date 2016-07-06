@@ -101,6 +101,7 @@ public class AddTeamJoinCommand extends BaseCommand {
 
           runnablePlayer.removeMetadata("bw-addteamjoin", Main.getInstance());
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           // just ignore
         }
       }
