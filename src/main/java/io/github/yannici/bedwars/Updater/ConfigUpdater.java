@@ -105,6 +105,7 @@ public class ConfigUpdater {
       Sound.valueOf(
           Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase());
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
         Main.getInstance().getConfig().set("bed-sound", "ENDERDRAGON_GROWL");
       } else {
@@ -279,6 +280,7 @@ public class ConfigUpdater {
           new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
       shopConfig.load(reader);
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       Main.getInstance().getServer().getConsoleSender().sendMessage(
           ChatWriter.pluginMessage(ChatColor.RED + "Couldn't load shop! Error in parsing shop!"));
       e.printStackTrace();
@@ -345,6 +347,7 @@ public class ConfigUpdater {
                 amount = Integer.parseInt(oldCfgSection.get("amount").toString());
               }
             } catch (Exception ex) {
+              Main.getInstance().getBugsnag().notify(ex);
               amount = 1;
             }
 
@@ -360,6 +363,7 @@ public class ConfigUpdater {
                   meta = Byte.parseByte(oldCfgSection.get("meta").toString());
                   hasMeta = true;
                 } catch (Exception ex) {
+                  Main.getInstance().getBugsnag().notify(ex);
                   hasMeta = false;
                 }
               } else {
@@ -906,11 +910,8 @@ public class ConfigUpdater {
               finalRewardStack.setItemMeta(im);
             }
 
-          } catch (
-
-          Exception ex)
-
-          {
+          } catch (Exception ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             ex.printStackTrace();
           }
 
@@ -947,16 +948,14 @@ public class ConfigUpdater {
                 amount = Integer.parseInt(oldCfgSection.get("amount").toString());
               }
             } catch (Exception ex) {
+              Main.getInstance().getBugsnag().notify(ex);
               amount = 1;
             }
 
             finalCostStack = new ItemStack(material, amount);
 
-          } catch (
-
-          Exception ex)
-
-          {
+          } catch (Exception ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             ex.printStackTrace();
           }
 
@@ -989,16 +988,14 @@ public class ConfigUpdater {
                   amount = Integer.parseInt(oldCfgSection.get("amount").toString());
                 }
               } catch (Exception ex) {
+                Main.getInstance().getBugsnag().notify(ex);
                 amount = 1;
               }
 
               finalCostStack = new ItemStack(material, amount);
 
-            } catch (
-
-            Exception ex)
-
-            {
+            } catch (Exception ex) {
+              Main.getInstance().getBugsnag().notify(ex);
               ex.printStackTrace();
             }
 
@@ -1039,6 +1036,7 @@ public class ConfigUpdater {
       try {
         file.createNewFile();
       } catch (IOException e) {
+        Main.getInstance().getBugsnag().notify(e);
         // couldn't create file, exit
         e.printStackTrace();
         return;
@@ -1065,6 +1063,7 @@ public class ConfigUpdater {
         stream.close();
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }

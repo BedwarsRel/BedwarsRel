@@ -288,6 +288,7 @@ public class Game {
                       team.getChatColor() + "Team " + team.getDisplayName());
                 } catch (IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
+                  Main.getInstance().getBugsnag().notify(e);
                   e.printStackTrace();
                 }
               }
@@ -296,6 +297,7 @@ public class Game {
         }.runTaskTimer(Main.getInstance(), 0L, 20L);
         this.addRunningTask(task);
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
     }
@@ -314,6 +316,7 @@ public class Game {
     try {
       this.kickAllPlayers();
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     this.resetRegion();
@@ -837,7 +840,7 @@ public class Game {
     try {
       p.setScoreboard(Main.getInstance().getScoreboardManager().getMainScoreboard());
     } catch (Exception e) {
-
+      Main.getInstance().getBugsnag().notify(e);
     }
 
     this.removeNewItemShop(p);
@@ -1001,6 +1004,7 @@ public class Game {
     try {
       this.config.save(gameConfig);
     } catch (IOException e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
   }
@@ -1292,6 +1296,7 @@ public class Game {
       cfg.set("signs", locList);
       cfg.save(config);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.savesign")));
     }
@@ -1334,6 +1339,7 @@ public class Game {
       try {
         task.cancel();
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         // already cancelled
       }
     }
@@ -1350,6 +1356,7 @@ public class Game {
       try {
         protection.cancel();
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         // isn't running, ignore
       }
     }
@@ -1400,6 +1407,7 @@ public class Game {
     try {
       rpr.cancel();
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // isn't running, ignore
     }
 
@@ -1649,6 +1657,7 @@ public class Game {
       }
 
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -1753,6 +1762,7 @@ public class Game {
       yml.save(config);
       this.config = yml;
     } catch (IOException e) {
+      Main.getInstance().getBugsnag().notify(e);
       Main.getInstance().getLogger().info(ChatWriter.pluginMessage(e.getMessage()));
     }
   }

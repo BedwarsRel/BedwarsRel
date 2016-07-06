@@ -68,6 +68,7 @@ public class DatabaseManager {
       this.dataSource.setMinPoolSize(minPoolSize);
       this.dataSource.setMaxPoolSize(maxPoolSize);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
           .pluginMessage(ChatColor.RED + "Couldn't create pooled datasource: " + ex.getMessage()));
     }
@@ -77,6 +78,7 @@ public class DatabaseManager {
     try {
       return this.dataSource.getConnection();
     } catch (SQLException e) {
+      Main.getInstance().getBugsnag().notify(e);
       Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
           .pluginMessage(ChatColor.RED + "Couldn't get a pooled connection: " + e.getMessage()));
     }
@@ -95,6 +97,7 @@ public class DatabaseManager {
         this.dataSource.setInitialPoolSize(0);
         DataSources.destroy(this.dataSource);
       } catch (SQLException e) {
+        Main.getInstance().getBugsnag().notify(e);
         // just shutdown
       }
     }
@@ -110,6 +113,7 @@ public class DatabaseManager {
         dbConnection.close();
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -124,6 +128,7 @@ public class DatabaseManager {
         statement.close();
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -138,6 +143,7 @@ public class DatabaseManager {
         result.close();
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -180,6 +186,7 @@ public class DatabaseManager {
 
       return result;
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
       this.clean(con);
     }
@@ -196,6 +203,7 @@ public class DatabaseManager {
 
       return size;
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       return 0;
     }
   }
@@ -210,6 +218,7 @@ public class DatabaseManager {
 
       statement.executeUpdate(sql);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     } finally {
       this.clean(con);

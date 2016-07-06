@@ -155,6 +155,7 @@ public class HolographicDisplaysInteraction {
       config.set("locations", serializedLocations);
       config.save(file);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -216,6 +217,7 @@ public class HolographicDisplaysInteraction {
       valueColor = ChatColor.translateAlternateColorCodes('&',
           Main.getInstance().getStringConfig("holographic-stats.value-color", "&e"));
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // nothing to do
     }
 

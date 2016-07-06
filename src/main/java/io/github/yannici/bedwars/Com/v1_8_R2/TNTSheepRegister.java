@@ -61,6 +61,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
       g_map.put("TNTSheep", Integer.valueOf(entityId));
 
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }
@@ -89,6 +90,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
           sourceField.set(((CraftTNTPrimed) primedTnt).getHandle(),
               ((CraftLivingEntity) owner).getHandle());
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
         }
 

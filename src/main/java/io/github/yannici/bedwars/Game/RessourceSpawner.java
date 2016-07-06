@@ -180,6 +180,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
           amount = Integer.parseInt(cfgSection.get("amount").toString());
         }
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         amount = 1;
       }
 
@@ -195,6 +196,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
             meta = Byte.parseByte(cfgSection.get("meta").toString());
             hasMeta = true;
           } catch (Exception ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             hasMeta = false;
           }
         } else {
@@ -312,9 +314,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
       return finalStack;
 
-    } catch (
-
-    Exception ex) {
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 

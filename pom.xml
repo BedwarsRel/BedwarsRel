@@ -100,12 +100,12 @@
 			<systemPath>${pom.basedir}/lib/spigot-1.9.4-R2-4af49dc-23da8b0.jar</systemPath>
 		</dependency>
 		<dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-10-0</artifactId>
-      <version>1.10</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/lib/spigot-1.10-R1-da278d1-b2f31b7.jar</systemPath>
-    </dependency>
+			<groupId>net.minecraft</groupId>
+			<artifactId>minecraft-server-1-10-0</artifactId>
+			<version>1.10</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/lib/spigot-1.10-R1-da278d1-b2f31b7.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
@@ -122,6 +122,11 @@
 			<groupId>com.mchange</groupId>
 			<artifactId>c3p0</artifactId>
 			<version>0.9.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bugsnag</groupId>
+			<artifactId>bugsnag</artifactId>
+			<version>LATEST</version>
 		</dependency>
 	</dependencies>
 

@@ -155,14 +155,8 @@ public class PlayerListener extends BaseListener {
 
     if (iee.getRightClicked() != null
         && !iee.getRightClicked().getType().equals(EntityType.VILLAGER)) {
-      List<EntityType> preventClickTypes = Arrays.asList(EntityType.ITEM_FRAME);
-
-      // armor stand in 1.8
-      try {
-        preventClickTypes.add(EntityType.valueOf("ARMOR_STAND"));
-      } catch (Exception ex) {
-        // nothing will happen, just not supported
-      }
+      List<EntityType> preventClickTypes =
+          Arrays.asList(EntityType.ITEM_FRAME, EntityType.ARMOR_STAND);
 
       if (preventClickTypes.contains(iee.getRightClicked().getType())) {
         iee.setCancelled(true);
@@ -308,6 +302,7 @@ public class PlayerListener extends BaseListener {
             clazz = Class.forName("io.github.yannici.bedwars.Com."
                 + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
           } catch (ClassNotFoundException ex) {
+            Main.getInstance().getBugsnag().notify(ex);
             clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.PerformRespawnRunnable");
           }
 
@@ -325,6 +320,7 @@ public class PlayerListener extends BaseListener {
         }
 
       } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
         e.printStackTrace();
       }
 
@@ -332,6 +328,7 @@ public class PlayerListener extends BaseListener {
         pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
         pde.setKeepInventory(false);
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         player.getInventory().clear();
       }
 
@@ -440,6 +437,7 @@ public class PlayerListener extends BaseListener {
         Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[] {});
         openTrade.invoke(villagerItemShop, new Object[] {});
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
     } else {
@@ -846,6 +844,7 @@ public class PlayerListener extends BaseListener {
         try {
           GameMode.valueOf("SPECTATOR");
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           for (Player p : g.getFreePlayers()) {
             if (!g.getRegion().isInRegion(p.getLocation())) {
               continue;

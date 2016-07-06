@@ -76,6 +76,7 @@ public abstract class StoringTable extends DatabaseObject {
       getter.setAccessible(true);
       return getter.invoke(this, new Object[] {});
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage("Couldn't fetch value of field: " + field));
     }
@@ -119,10 +120,12 @@ public abstract class StoringTable extends DatabaseObject {
         value = paramType.cast(value);
         setter.invoke(this, new Object[] {value});
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         Main.getInstance().getServer().getConsoleSender()
             .sendMessage(ChatWriter.pluginMessage("Couldn't cast value for field: " + field));
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage("Couldn't set value of field: " + field));
     }

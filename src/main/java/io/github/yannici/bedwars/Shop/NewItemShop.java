@@ -281,6 +281,7 @@ public class NewItemShop {
       try {
         colorable.invoke(meta, new Object[] {game.getPlayerTeam(player).getColor().getColor()});
       } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
         e.printStackTrace();
       }
     }

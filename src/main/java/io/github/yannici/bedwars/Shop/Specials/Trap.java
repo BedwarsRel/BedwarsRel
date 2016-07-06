@@ -88,6 +88,7 @@ public class Trap extends SpecialItem {
       this.location.getBlock().setType(Material.AIR);
       this.game.removeSpecialItem(this);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
   }

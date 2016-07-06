@@ -101,6 +101,7 @@ public final class Utils {
       particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),
           (float) loc.getY(), (float) loc.getZ());
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       try {
         Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.ParticleSpawner");
         Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
@@ -108,6 +109,7 @@ public final class Utils {
         particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),
             (float) loc.getY(), (float) loc.getZ());
       } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
         e.printStackTrace();
       }
     }
@@ -148,6 +150,7 @@ public final class Utils {
         return Material.getMaterial(cfg.toUpperCase());
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // just return default
     }
 
@@ -162,6 +165,7 @@ public final class Utils {
 
       return getHandle.invoke(player, new Object[] {});
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       return null;
     }
   }
@@ -171,6 +175,7 @@ public final class Utils {
       Integer.parseInt(numberString);
       return true;
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       return false;
     }
   }
@@ -184,6 +189,7 @@ public final class Utils {
         return method;
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // it's no error
     }
 
@@ -205,6 +211,7 @@ public final class Utils {
       Class.forName("net.md_5.bungee.BungeeCord");
       return true;
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
     }
 
     return false;
@@ -319,6 +326,7 @@ public final class Utils {
 
       return new Location(world, x, y, z, yaw, pitch);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 
@@ -355,6 +363,7 @@ public final class Utils {
 
       return new Location(world, x, y, z, yaw, pitch);
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
     }
 
@@ -394,11 +403,13 @@ public final class Utils {
       ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
       return (Class<?>) type.getActualTypeArguments()[0];
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       try {
         Method m = clazz.getMethod(method, new Class<?>[] {HashSet.class, int.class});
         ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
         return (Class<?>) type.getActualTypeArguments()[0];
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
     }
@@ -754,6 +765,7 @@ public final class Utils {
         return Material.getMaterial(material.toUpperCase());
       }
     } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
       // failed to parse
     }
 

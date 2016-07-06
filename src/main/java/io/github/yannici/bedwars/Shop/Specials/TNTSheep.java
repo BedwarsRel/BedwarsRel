@@ -123,6 +123,7 @@ public class TNTSheep extends SpecialItem {
 
           TNTSheep.this.game.addSpecialItem(that);
         } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
         }
       }

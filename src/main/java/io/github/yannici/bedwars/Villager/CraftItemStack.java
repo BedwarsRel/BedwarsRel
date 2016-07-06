@@ -29,6 +29,7 @@ public class CraftItemStack {
       m.setAccessible(true);
       return m.invoke(null, new Object[] {this.stack});
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     return null;
@@ -42,6 +43,7 @@ public class CraftItemStack {
       m.setAccessible(true);
       return (ItemStack) m.invoke(null, new Object[] {this.stack});
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
     return null;

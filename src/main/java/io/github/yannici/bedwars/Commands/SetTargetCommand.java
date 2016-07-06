@@ -90,10 +90,12 @@ public class SetTargetCommand extends BaseCommand implements ICommand {
         targetBlockMethod =
             player.getClass().getMethod("getTargetBlock", new Class<?>[] {Set.class, int.class});
       } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         try {
           targetBlockMethod = player.getClass().getMethod("getTargetBlock",
               new Class<?>[] {HashSet.class, int.class});
         } catch (Exception exc) {
+          Main.getInstance().getBugsnag().notify(exc);
           exc.printStackTrace();
         }
       }
@@ -105,6 +107,7 @@ public class SetTargetCommand extends BaseCommand implements ICommand {
       }
 
     } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
 

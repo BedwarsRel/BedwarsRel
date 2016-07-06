@@ -170,6 +170,7 @@ public abstract class GameCycle {
                     subTitleFadeOut);
               }
             } catch (Exception ex) {
+              Main.getInstance().getBugsnag().notify(ex);
               ex.printStackTrace();
             }
           }

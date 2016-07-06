@@ -78,6 +78,7 @@ public class ProtectionWall extends SpecialItem {
       try {
         throw new IllegalArgumentException("The width of a protection block has to be odd!");
       } catch (IllegalArgumentException ex) {
+        Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
       }
 
