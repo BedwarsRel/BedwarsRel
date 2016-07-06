@@ -3,7 +3,7 @@ description: Destroy other's beds with bedwars reloaded
 author: Yannici
 website: http://www.spigotmc.org/resources/bedwars-rel.6799/
 
-main: io.github.yannici.bedwars.Main
+main: io.github.bedwarsrel.BedwarsRel.Main
 version: 1.3.3
 
 awareness:
