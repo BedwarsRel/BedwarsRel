@@ -17,6 +17,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.yannici.bedwars.Main;
+import io.github.yannici.bedwars.SoundMachine;
 import io.github.yannici.bedwars.Utils;
 import io.github.yannici.bedwars.Events.BedwarsGameOverEvent;
 import io.github.yannici.bedwars.Events.BedwarsPlayerKilledEvent;
@@ -417,7 +418,10 @@ public abstract class GameCycle {
             ImmutableMap.of("killer",
                 Game.getPlayerWithTeamString(killer, killerTeam, ChatColor.GOLD, hearts), "player",
                 Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
-
+    if (deathTeam.isDead(this.getGame())) {
+      killer.playSound(player.getLocation(), SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"),
+          20.0F, 20.0F);
+    }
     this.sendTeamDeadMessage(deathTeam);
     this.checkGameOver();
   }
