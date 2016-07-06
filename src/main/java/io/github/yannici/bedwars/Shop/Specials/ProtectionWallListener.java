@@ -53,11 +53,8 @@ public class ProtectionWallListener implements Listener {
     wall.create(interact.getPlayer(), game);
   }
 
-  @EventHandler(priority = EventPriority.HIGHEST)
+  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
   public void onPlace(BlockPlaceEvent place) {
-    if (place.isCancelled()) {
-      return;
-    }
 
     ProtectionWall wall = new ProtectionWall();
     if (place.getBlock().getType() != wall.getItemMaterial()) {
