@@ -140,7 +140,7 @@ public abstract class GameCycle {
           if (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
               && (!title.equals("") || !subtitle.equals(""))) {
             try {
-              Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com."
+              Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
                   + Main.getInstance().getCurrentVersion() + ".Title");
 
               if (!title.equals("")) {

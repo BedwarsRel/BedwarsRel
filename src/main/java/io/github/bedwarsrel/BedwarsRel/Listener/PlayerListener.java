@@ -299,11 +299,11 @@ public class PlayerListener extends BaseListener {
         if (!Main.getInstance().isSpigot()) {
           Class<?> clazz = null;
           try {
-            clazz = Class.forName("io.github.yannici.bedwars.Com."
+            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
                 + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
           } catch (ClassNotFoundException ex) {
             Main.getInstance().getBugsnag().notify(ex);
-            clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.PerformRespawnRunnable");
+            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
           }
 
           BukkitRunnable respawnRunnable =
@@ -428,7 +428,7 @@ public class PlayerListener extends BaseListener {
           return;
         }
 
-        Class clazz = Class.forName("io.github.yannici.bedwars.Com."
+        Class clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
             + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
         Object villagerItemShop =
             clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)

@@ -93,7 +93,7 @@ public final class Utils {
 
   public static void createParticleInGame(Game game, String particle, Location loc) {
     try {
-      Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com."
+      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
           + Main.getInstance().getCurrentVersion() + ".ParticleSpawner");
 
       Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
@@ -103,7 +103,7 @@ public final class Utils {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       try {
-        Class<?> clazz = Class.forName("io.github.yannici.bedwars.Com.Fallback.ParticleSpawner");
+        Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.ParticleSpawner");
         Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
             float.class, float.class, float.class);
         particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),

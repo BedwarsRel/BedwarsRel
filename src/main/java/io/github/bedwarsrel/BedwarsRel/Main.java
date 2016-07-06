@@ -318,15 +318,15 @@ public class Main extends JavaPlugin {
 
   public Class<?> getVersionRelatedClass(String className) {
     try {
-      Class<?> clazz = Class
-          .forName("io.github.yannici.bedwars.Com." + this.getCurrentVersion() + "." + className);
+      Class<?> clazz = Class.forName(
+          "io.github.bedwarsrel.BedwarsRel.Com." + this.getCurrentVersion() + "." + className);
       return clazz;
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(
-              ChatColor.RED + "Couldn't find version related class io.github.yannici.bedwars.Com."
-                  + this.getCurrentVersion() + "." + className));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+              + "Couldn't find version related class io.github.bedwarsrel.BedwarsRel.Com."
+              + this.getCurrentVersion() + "." + className));
     }
 
     return null;
