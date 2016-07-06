@@ -795,14 +795,12 @@ public class Main extends JavaPlugin {
     try {
       this.timeTask.cancel();
     } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
       // Timer isn't running. Just ignore.
     }
 
     try {
       this.updateChecker.cancel();
     } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
       // Timer isn't running. Just ignore.
     }
   }
