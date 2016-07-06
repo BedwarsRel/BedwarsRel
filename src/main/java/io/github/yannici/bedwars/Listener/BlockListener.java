@@ -271,6 +271,9 @@ public class BlockListener extends BaseListener {
         e.setCancelled(true);
         breakedBlock.getDrops().clear();
         breakedBlock.setType(Material.AIR);
+      } else if (e.getBlock().getType() == Material.GLOWSTONE) {
+        breakedBlock.getDrops().clear();
+        breakedBlock.getDrops().add(new ItemStack(Material.GLOWSTONE));
       }
 
       g.getRegion().removePlacedBlock(breakedBlock);
