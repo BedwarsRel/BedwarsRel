@@ -105,7 +105,7 @@ public class Main extends JavaPlugin {
   private List<Material> breakableTypes = null;
   private YamlConfiguration shopConfig = null;
 
-  private HolographicDisplaysInteraction holographicInteraction = null;
+  private IHologramInteraction holographicInteraction = null;
 
   private boolean isSpigot = false;
 
@@ -186,7 +186,11 @@ public class Main extends JavaPlugin {
 
     // holograms
     if (this.isHologramsEnabled()) {
-      this.holographicInteraction = new HolographicDisplaysInteraction();
+      if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")) {
+        this.holographicInteraction = new HologramAPIInteraction();
+      } else if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        this.holographicInteraction = new HolographicDisplaysInteraction();
+      }
       this.holographicInteraction.loadHolograms();
     }
   }
@@ -867,10 +871,14 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isHologramsEnabled() {
-    return this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
+    if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+      return true;
+    }
+    return false;
   }
 
-  public HolographicDisplaysInteraction getHolographicInteractor() {
+  public IHologramInteraction getHolographicInteractor() {
     return this.holographicInteraction;
   }
 

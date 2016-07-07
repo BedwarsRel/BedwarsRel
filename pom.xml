@@ -54,6 +54,10 @@
 			<id>spigot-repo</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+			<id>inventive-repo</id>
+			<url>https://repo.inventivetalent.org/content/repositories/releases</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -63,6 +67,11 @@
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${pom.basedir}/lib/HolographicDisplaysAPI_v2.1.7.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.inventivetalent</groupId>
+			<artifactId>hologramapi</artifactId>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.minecraft</groupId>

@@ -36,28 +36,15 @@ public class PlayerStatistic extends StoringTable {
 
   private boolean once = false;
 
-  public PlayerStatistic() {
-    super();
-  }
-
   public PlayerStatistic(OfflinePlayer player) {
-    super();
-
     this.player = player;
   }
 
-  public List<String> createStatisticLines(boolean withPrefix, ChatColor nameColor,
-      ChatColor valueColor) {
-    return this.createStatisticLines(withPrefix, nameColor.toString(), valueColor.toString());
+  public PlayerStatistic() {
   }
 
-  public List<String> createStatisticLines(boolean withPrefix, String nameColor,
-      String valueColor) {
-    List<String> lines = new ArrayList<String>();
-
+  public HashMap<StatField, Method> getStatFieldsWithMethods() {
     HashMap<StatField, Method> values = new HashMap<StatField, Method>();
-    List<StatField> ordered = new ArrayList<StatField>();
-
     for (Method method : this.getClass().getMethods()) {
       if (!method.isAnnotationPresent(StatField.class)) {
         continue;
@@ -66,8 +53,16 @@ public class PlayerStatistic extends StoringTable {
       StatField stat = method.getAnnotation(StatField.class);
       if (stat != null) {
         values.put(stat, method);
-        ordered.add(stat);
       }
+    }
+    return values;
+  }
+
+  public List<StatField> getStatFields() {
+    List<StatField> ordered = new ArrayList<StatField>();
+
+    for (StatField field : getStatFieldsWithMethods().keySet()) {
+      ordered.add(field);
     }
 
     Comparator<StatField> statComparator = null;
@@ -80,8 +75,20 @@ public class PlayerStatistic extends StoringTable {
     };
 
     Collections.sort(ordered, statComparator);
+    return ordered;
+  }
 
-    for (StatField statField : ordered) {
+  public List<String> createStatisticLines(boolean withPrefix, ChatColor nameColor,
+      ChatColor valueColor) {
+    return this.createStatisticLines(withPrefix, nameColor.toString(), valueColor.toString());
+  }
+
+  public List<String> createStatisticLines(boolean withPrefix, String nameColor,
+      String valueColor) {
+    List<String> lines = new ArrayList<String>();
+
+    HashMap<StatField, Method> values = getStatFieldsWithMethods();
+    for (StatField statField : this.getStatFields()) {
       Method valueMethod = values.get(statField);
       try {
         Object value = valueMethod.invoke(this);
