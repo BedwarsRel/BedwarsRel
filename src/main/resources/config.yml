@@ -33,6 +33,13 @@ command-prefix: "bw"
 # disable it anyway, that won't be a disadvantage
 plugin-metrics: true
 
+# Send Error Data
+# type: boolean
+# If enabled, the plugin will automatically send error reports to "BugSnag".
+# This is really helpful for fixing issues with the plugin. You can
+# disable it anyway, that won't be a disadvantage
+send-error-data: true
+
 # Global send messages
 # type: boolean
 # Send messages (like game started messages)

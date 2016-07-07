@@ -122,22 +122,7 @@ public class Main extends JavaPlugin {
   public void onEnable() {
     Main.instance = this;
 
-    this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
-    this.bugsnag.setAppVersion(this.getDescription().getVersion());
-    this.bugsnag.addBeforeNotify(new BeforeNotify() {
-      @Override
-      public boolean run(com.bugsnag.Error error) {
-        SupportData supportData = new SupportData();
-        error.addToTab("user", "id", supportData.getIdentifier());
-        error.addToTab("Server", "Version", supportData.getServerVersion());
-        error.addToTab("Server", "Version Bukkit", supportData.getBukkitVersion());
-        error.addToTab("Server", "Server Mode", supportData.getServerMode());
-        error.addToTab("Server", "Server Address", supportData.getServerAddress());
-        error.addToTab("Server", "Port", supportData.getPort());
-        error.addToTab("Server", "Plugins", supportData.getPlugins());
-        return true;
-      }
-    });
+    this.registerBugsnag();
 
     // register classes
     this.registerConfigurationClasses();
@@ -157,6 +142,13 @@ public class Main extends JavaPlugin {
     configUpdater.addConfigs();
     this.saveConfiguration();
     this.loadConfigInUTF();
+
+    if (this.getBooleanConfig("send-error-data", true)) {
+      this.enableBugsnag();
+    } else {
+      this.disableBugsnag();
+    }
+
     configUpdater.updateShop();
     this.loadShop();
 
@@ -193,6 +185,35 @@ public class Main extends JavaPlugin {
       }
       this.holographicInteraction.loadHolograms();
     }
+  }
+
+  private void registerBugsnag() {
+    this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
+    this.bugsnag.setAppVersion(this.getDescription().getVersion());
+  }
+
+  private void enableBugsnag() {
+    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+      @Override
+      public boolean run(com.bugsnag.Error error) {
+        SupportData supportData = new SupportData();
+        error.addToTab("user", "id", supportData.getIdentifier());
+        error.addToTab("Server", "Version", supportData.getServerVersion());
+        error.addToTab("Server", "Version Bukkit", supportData.getBukkitVersion());
+        error.addToTab("Server", "Server Mode", supportData.getServerMode());
+        error.addToTab("Server", "Plugins", supportData.getPlugins());
+        return true;
+      }
+    });
+  }
+
+  private void disableBugsnag() {
+    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+      @Override
+      public boolean run(com.bugsnag.Error error) {
+        return false;
+      }
+    });
   }
 
   @Override

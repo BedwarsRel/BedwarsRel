@@ -262,6 +262,7 @@ public class ConfigUpdater {
 
     // <1.3.3>
     Main.getInstance().getConfig().addDefault("show-team-in-actionbar", false);
+    Main.getInstance().getConfig().addDefault("send-error-data", true);
     // </1.3.3>
   }
 
