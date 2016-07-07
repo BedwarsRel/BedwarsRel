@@ -1,6 +1,7 @@
 package io.github.bedwarsrel.BedwarsRel;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -101,6 +102,7 @@ public class HologramAPIInteraction implements IHologramInteraction {
   public void addHologramLocation(Location eyeLocation) {
     this.hologramLocations.add(eyeLocation);
     this.updateHologramDatabase();
+    this.createStatisticHologram(eyeLocation);
   }
 
   private void onHologramTouch(final Player player, final Hologram touchedHologram) {
@@ -157,8 +159,10 @@ public class HologramAPIInteraction implements IHologramInteraction {
     lines.add(ChatColor.translateAlternateColorCodes('&', Main.getInstance()
         .getStringConfig("holographic-stats.head-line", "Your &eBEDWARS&f stats")));
 
+
     for (StatField statField : statistic.getStatFields()) {
-      lines.add(Main._l("stats." + statField.name()) + ": " + "%%" + statField.name() + "%%");
+      lines.add(ChatColor.GRAY + Main._l("stats." + statField.name()) + ": " + ChatColor.YELLOW
+          + "%%" + statField.name() + "%%");
     }
 
     int currentLine = 0;
@@ -168,14 +172,18 @@ public class HologramAPIInteraction implements IHologramInteraction {
               holoLocation.getY() - (currentLine * 0.3), holoLocation.getZ()),
           lines.get(currentLine));
       holo.addViewHandler(new ViewHandler() {
-
         @Override
         public String onView(Hologram hologram, Player player, String string) {
           PlayerStatistic playerStatistic =
               Main.getInstance().getPlayerStatisticManager().getStatistic(player);
           for (StatField statField : statistic.getStatFields()) {
-            string = string.replace("%%" + statField.name() + "%%",
-                playerStatistic.getValue(statField.name()).toString());
+            String value = playerStatistic.getValue(statField.name()).toString();
+            if (statField.name().equals("kd")) {
+              value =
+                  (BigDecimal.valueOf(Double.valueOf(value)).setScale(2, BigDecimal.ROUND_HALF_UP))
+                      .toPlainString();
+            }
+            string = string.replace("%%" + statField.name() + "%%", value);
           }
           return string;
         }
