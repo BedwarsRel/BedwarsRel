@@ -20,7 +20,7 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 
-public class HolographicDisplaysInteraction {
+public class HolographicDisplaysInteraction implements IHologramInteraction {
 
   private List<Location> hologramLocations = null;
   private Map<Player, List<Hologram>> holograms = null;
@@ -177,7 +177,7 @@ public class HolographicDisplaysInteraction {
       @Override
       public void run() {
         // remove all player holograms on this location
-        for (Entry<Player, List<Hologram>> entry : Main.getInstance().getHolographicInteractor()
+        for (Entry<Player, List<Hologram>> entry : HolographicDisplaysInteraction.this
             .getHolograms().entrySet()) {
           Iterator<Hologram> iterator = entry.getValue().iterator();
           while (iterator.hasNext()) {
@@ -289,6 +289,11 @@ public class HolographicDisplaysInteraction {
 
   public void removeHologramPlayer(Player player) {
     this.holograms.remove(player);
+  }
+
+  @Override
+  public String getType() {
+    return "HolographicDisplays";
   }
 
 }

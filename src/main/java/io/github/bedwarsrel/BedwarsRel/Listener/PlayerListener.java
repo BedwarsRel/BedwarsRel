@@ -63,7 +63,8 @@ public class PlayerListener extends BaseListener {
     final Player player = je.getPlayer();
 
     if (Main.getInstance().isHologramsEnabled()
-        && Main.getInstance().getHolographicInteractor() != null) {
+        && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
+            .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
       Main.getInstance().getHolographicInteractor().updateHolograms(player, 60L);
     }
 
@@ -303,7 +304,8 @@ public class PlayerListener extends BaseListener {
                 + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
           } catch (ClassNotFoundException ex) {
             Main.getInstance().getBugsnag().notify(ex);
-            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
+            clazz = Class
+                .forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
           }
 
           BukkitRunnable respawnRunnable =
@@ -1015,7 +1017,8 @@ public class PlayerListener extends BaseListener {
 
     // Remove holographs
     if (Main.getInstance().isHologramsEnabled()
-        && Main.getInstance().getHolographicInteractor() != null) {
+        && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
+            .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
       Main.getInstance().getHolographicInteractor().unloadAllHolograms(player);
     }
 

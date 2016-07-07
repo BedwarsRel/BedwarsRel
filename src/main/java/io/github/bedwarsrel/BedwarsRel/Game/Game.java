@@ -819,7 +819,8 @@ public class Game {
       statistic.store();
 
       if (Main.getInstance().isHologramsEnabled()
-          && Main.getInstance().getHolographicInteractor() != null) {
+          && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
+              .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
         Main.getInstance().getHolographicInteractor().updateHolograms(p);
       }
 
@@ -1629,8 +1630,8 @@ public class Game {
 
   private void displayMapInfo(Player player) {
     try {
-      Class<?> clazz = Class.forName(
-          "io.github.bedwarsrel.BedwarsRel.Com." + Main.getInstance().getCurrentVersion() + ".Title");
+      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+          + Main.getInstance().getCurrentVersion() + ".Title");
       Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class,
           double.class, double.class);
       double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
