@@ -72,6 +72,7 @@
 			<groupId>org.inventivetalent</groupId>
 			<artifactId>hologramapi</artifactId>
 			<version>1.4.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.minecraft</groupId>
