@@ -178,11 +178,7 @@ public class Team implements ConfigurationSerializable {
   }
 
   public boolean isInTeam(Player p) {
-    if (this.getScoreboardTeam().hasEntry(p.getName())) {
-      return true;
-    }
-
-    return false;
+    return this.getScoreboardTeam().hasEntry(p.getName());
   }
 
   public void removeChest(Block chest) {

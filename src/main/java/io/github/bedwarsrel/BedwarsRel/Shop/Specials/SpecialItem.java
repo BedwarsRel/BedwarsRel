@@ -36,11 +36,7 @@ public abstract class SpecialItem {
       return true;
     }
 
-    if (game.isSpectator(player)) {
-      return true;
-    }
-
-    return false;
+    return (game.isSpectator(player));
   }
 
   public static void loadSpecials() {

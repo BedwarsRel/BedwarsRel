@@ -10,6 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+
 import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils;
@@ -77,12 +79,12 @@ public class PerformRespawnRunnable extends BukkitRunnable {
     try {
       Class<?> clazz = Main.getInstance().getMinecraftServerClass(packetName);
       if (clazz == null) {
-        throw new Exception("packet not found");
+        throw new NotFoundException("packet not found");
       }
 
       Constructor<?> constr = clazz.getDeclaredConstructor(constructorClasses);
       if (constr == null) {
-        throw new Exception("constructor not found");
+        throw new NotFoundException("constructor not found");
       }
 
       constr.setAccessible(true);

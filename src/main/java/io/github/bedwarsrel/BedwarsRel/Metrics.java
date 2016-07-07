@@ -399,7 +399,7 @@ public class Metrics {
     int coreCount = Runtime.getRuntime().availableProcessors();
 
     // normalize os arch .. amd64 -> x86_64
-    if (osarch.equals("amd64")) {
+    if ("amd64".equals(osarch)) {
       osarch = "x86_64";
     }
 
@@ -584,7 +584,7 @@ public class Metrics {
     boolean isValueNumeric = false;
 
     try {
-      if (value.equals("0") || !value.endsWith("0")) {
+      if ("0".equals(value) || !value.endsWith("0")) {
         Double.parseDouble(value);
         isValueNumeric = true;
       }

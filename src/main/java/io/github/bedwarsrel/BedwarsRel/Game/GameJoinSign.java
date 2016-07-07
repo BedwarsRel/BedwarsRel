@@ -95,14 +95,16 @@ public class GameJoinSign {
   }
 
   private String replacePlaceholder(String line) {
-    line = line.replace("$title$", Main._l("sign.firstline"));
-    line = line.replace("$gamename$", this.game.getName());
-    line = line.replace("$regionname$", this.game.getRegion().getName());
-    line = line.replace("$maxplayers$", this.getMaxPlayersString());
-    line = line.replace("$currentplayers$", this.getCurrentPlayersString());
-    line = line.replace("$status$", this.getStatus());
+    String finalLine = line;
+    
+    finalLine = finalLine.replace("$title$", Main._l("sign.firstline"));
+    finalLine = finalLine.replace("$gamename$", this.game.getName());
+    finalLine = finalLine.replace("$regionname$", this.game.getRegion().getName());
+    finalLine = finalLine.replace("$maxplayers$", this.getMaxPlayersString());
+    finalLine = finalLine.replace("$currentplayers$", this.getCurrentPlayersString());
+    finalLine = finalLine.replace("$status$", this.getStatus());
 
-    return line;
+    return finalLine;
   }
 
   public Sign getSign() {

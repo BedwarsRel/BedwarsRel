@@ -35,19 +35,7 @@ public class WarpPowderListener implements Listener {
       return;
     }
 
-    WarpPowder powder = null;
-    for (SpecialItem item : game.getSpecialItems()) {
-      if (!(item instanceof WarpPowder)) {
-        continue;
-      }
-
-      powder = (WarpPowder) item;
-      if (!powder.getPlayer().equals(player)) {
-        powder = null;
-        continue;
-      }
-      break;
-    }
+    WarpPowder powder = this.getActiveWarpPowder(game, player);
 
     if (ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
       if (ev.getItem().getItemMeta().getDisplayName() == null) {
@@ -82,6 +70,19 @@ public class WarpPowderListener implements Listener {
     warpPowder.setGame(game);
     warpPowder.runTask();
     ev.setCancelled(true);
+  }
+  
+  private WarpPowder getActiveWarpPowder(Game game, Player player) {
+    for (SpecialItem item : game.getSpecialItems()) {
+      if (item instanceof WarpPowder) {
+        WarpPowder powder = (WarpPowder) item;
+        if (powder.getPlayer().equals(player)) {
+          return powder;
+        }
+      }
+    }
+    
+    return null;
   }
 
   @EventHandler

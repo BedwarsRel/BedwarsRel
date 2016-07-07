@@ -273,11 +273,11 @@ public class Main extends JavaPlugin {
   public void dispatchRewardCommands(List<String> commands, Map<String, String> replacements) {
     for (String command : commands) {
       command = command.trim();
-      if (command.equals("")) {
+      if ("".equals(command)) {
         continue;
       }
 
-      if (command.equalsIgnoreCase("none")) {
+      if ("none".equalsIgnoreCase(command)) {
         break;
       }
 
@@ -348,13 +348,10 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isBreakableType(Material type) {
-    if ((Main.getInstance().getConfig().getBoolean("breakable-blocks.use-as-blacklist")
+    return ((Main.getInstance().getConfig().getBoolean("breakable-blocks.use-as-blacklist")
         && !this.breakableTypes.contains(type))
         || (!Main.getInstance().getConfig().getBoolean("breakable-blocks.use-as-blacklist")
-            && this.breakableTypes.contains(type))) {
-      return true;
-    }
-    return false;
+            && this.breakableTypes.contains(type)));
   }
 
   public boolean isMineshafterPresent() {
@@ -418,7 +415,7 @@ public class Main extends JavaPlugin {
 
   private void loadDatabase() {
     if (!this.getBooleanConfig("statistics.enabled", false)
-        || !this.getStringConfig("statistics.storage", "yaml").equals("database")) {
+        || !"database".equals(this.getStringConfig("statistics.storage", "yaml"))) {
       return;
     }
 
@@ -472,14 +469,9 @@ public class Main extends JavaPlugin {
   private boolean getIsSpigot() {
     try {
       Package spigotPackage = Package.getPackage("org.spigotmc");
-      if (spigotPackage == null) {
-        return false;
-      }
-
-      return true;
+      return (spigotPackage != null);
     } catch (Exception e) {
       Main.getInstance().getBugsnag().notify(e);
-      // nope
     }
 
     return false;
@@ -777,7 +769,7 @@ public class Main extends JavaPlugin {
   }
 
   public static String _l(String localeKey, String singularValue, Map<String, String> params) {
-    if (params.get(singularValue).equals("1")) {
+    if ("1".equals(params.get(singularValue))) {
       return (String) Main.getInstance().getLocalization().get(localeKey + "-one", params);
     }
     return (String) Main.getInstance().getLocalization().get(localeKey, params);

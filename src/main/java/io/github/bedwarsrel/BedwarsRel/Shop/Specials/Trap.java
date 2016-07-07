@@ -17,12 +17,16 @@ import io.github.bedwarsrel.BedwarsRel.Game.Team;
 
 public class Trap extends SpecialItem {
 
-  List<PotionEffect> effects = new ArrayList<PotionEffect>();
+  private List<PotionEffect> effects = null;
   private Game game = null;
   private Team team = null;
   private int maxDuration = 5;
   private boolean playSound = true;
   private Location location = null;
+  
+  public Trap() {
+    this.effects = new ArrayList<PotionEffect>();
+  }
   
   @Override
   public Material getItemMaterial() {

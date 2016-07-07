@@ -32,7 +32,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
       return false;
     }
 
-    String command = args[0].toString();
+    String command = args[0];
     ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(args));
     arguments.remove(0);
 

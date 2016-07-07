@@ -71,12 +71,10 @@ public class TrapListener implements Listener {
         continue;
       }
 
-      if (trap.getPlacedTeam().equals(team)) {
+      if (!trap.getPlacedTeam().equals(team)) {
+        trap.activate(player);
         return;
       }
-
-      trap.activate(player);
-      return;
     }
   }
 

@@ -713,6 +713,8 @@ public class ConfigUpdater {
                     potionMetaDuration = 3 * 60;
                     potionMetaAmplifier = 1;
                     break;
+                  default:
+                    break;
                 }
               }
             }

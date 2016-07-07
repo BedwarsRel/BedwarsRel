@@ -1014,11 +1014,7 @@ public class Game {
       return GameCheckCode.LOC_NOT_SET_ERROR;
     }
 
-    if (this.teams == null) {
-      return GameCheckCode.TEAM_SIZE_LOW_ERROR;
-    }
-
-    if (this.teams.size() <= 1) {
+    if (this.teams == null || this.teams.size() <= 1) {
       return GameCheckCode.TEAM_SIZE_LOW_ERROR;
     }
 
@@ -1148,13 +1144,15 @@ public class Game {
     return ChatColor.translateAlternateColorCodes('&', format);
   }
 
-  private String formatLobbyScoreboardString(String str) {
-    str = str.replace("$regionname$", this.region.getName());
-    str = str.replace("$gamename$", this.name);
-    str = str.replace("$players$", String.valueOf(this.getPlayerAmount()));
-    str = str.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
+  private String formatLobbyScoreboardString(String str) {	
+	String finalStr = str;
+	
+	finalStr = finalStr.replace("$regionname$", this.region.getName());
+	finalStr = finalStr.replace("$gamename$", this.name);
+	finalStr = finalStr.replace("$players$", String.valueOf(this.getPlayerAmount()));
+	finalStr = finalStr.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
 
-    return ChatColor.translateAlternateColorCodes('&', str);
+    return ChatColor.translateAlternateColorCodes('&', finalStr);
   }
 
   private void updateLobbyScoreboard() {
@@ -1528,11 +1526,13 @@ public class Game {
 
   public void setMinPlayers(int players) {
     int max = this.getMaxPlayers();
+    int minPlayers = players;
+    
     if (max < players && max > 0) {
-      players = max;
+      minPlayers = max;
     }
 
-    this.minPlayers = players;
+    this.minPlayers = minPlayers;
   }
 
   public void setLobby(Player sender) {
