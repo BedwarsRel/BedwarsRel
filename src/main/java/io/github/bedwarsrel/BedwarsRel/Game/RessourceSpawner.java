@@ -73,7 +73,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
         Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
     this.location = location;
     this.itemstack = RessourceSpawner
-        .createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));;
+        .createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
     this.spread =
         Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
   }

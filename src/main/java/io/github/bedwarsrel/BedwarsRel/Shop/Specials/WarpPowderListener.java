@@ -113,11 +113,11 @@ public class WarpPowderListener implements Listener {
       }
 
       powder = (WarpPowder) item;
-      if (!powder.getPlayer().equals(player)) {
-        powder = null;
-        continue;
+      if (powder.getPlayer().equals(player)) {
+        break;
       }
-      break;
+      
+      powder = null;
     }
 
     if (powder != null) {

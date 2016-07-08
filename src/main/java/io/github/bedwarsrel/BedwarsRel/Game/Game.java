@@ -1889,10 +1889,7 @@ public class Game {
   }
 
   public boolean isStartable() {
-    if (this.hasEnoughPlayers() && this.hasEnoughTeams()) {
-      return true;
-    }
-    return false;
+    return (this.hasEnoughPlayers() && this.hasEnoughTeams());
   }
 
   public boolean hasEnoughTeams() {
@@ -1902,11 +1899,9 @@ public class Game {
         teamsWithPlayers++;
       }
     }
-    if (teamsWithPlayers > 1 || (teamsWithPlayers == 1 && this.getFreePlayers().size() >= 1)
-        || (teamsWithPlayers == 0 && this.getFreePlayers().size() >= 2)) {
-      return true;
-    }
-    return false;
+    
+    return (teamsWithPlayers > 1 || (teamsWithPlayers == 1 && this.getFreePlayers().size() >= 1)
+        || (teamsWithPlayers == 0 && this.getFreePlayers().size() >= 2));
   }
 
   public boolean hasEnoughPlayers() {

@@ -515,7 +515,7 @@ public class Metrics {
       throw new IOException(response);
     } else {
       // Is this the first update this hour?
-      if (response.equals("1") || response.contains("This is your first update this hour")) {
+      if ("1".equals(response) || response.contains("This is your first update this hour")) {
         synchronized (graphs) {
           final Iterator<Graph> iter = graphs.iterator();
 

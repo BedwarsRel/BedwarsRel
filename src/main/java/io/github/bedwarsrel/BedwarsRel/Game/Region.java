@@ -117,12 +117,8 @@ public class Region {
   }
 
   public boolean chunkIsInRegion(double x, double z) {
-    if (x >= this.minCorner.getX() && x <= this.maxCorner.getX() && z >= this.minCorner.getZ()
-        && z <= this.maxCorner.getZ()) {
-      return true;
-    }
-
-    return false;
+    return (x >= this.minCorner.getX() && x <= this.maxCorner.getX() && z >= this.minCorner.getZ()
+        && z <= this.maxCorner.getZ());
   }
 
   public void addRemovingEntity(Entity removing) {
