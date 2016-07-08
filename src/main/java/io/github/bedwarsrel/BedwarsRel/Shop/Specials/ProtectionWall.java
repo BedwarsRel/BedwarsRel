@@ -137,7 +137,12 @@ public class ProtectionWall extends SpecialItem {
             wallBlock.add(w * (-1), h, w * (-1));
             break;
           default:
-            continue;
+            wallBlock = null;
+            break;
+        }
+        
+        if(wallBlock == null) {
+          continue;
         }
 
         Block block = wallBlock.getBlock();
@@ -198,16 +203,12 @@ public class ProtectionWall extends SpecialItem {
 
   private ProtectionWall getLivingWall() {
     for (SpecialItem item : game.getSpecialItems()) {
-      if (!(item instanceof ProtectionWall)) {
-        continue;
+      if (item instanceof ProtectionWall) {
+        ProtectionWall wall = (ProtectionWall) item;
+        if (wall.getOwner().equals(this.getOwner())) {
+          return wall;
+        }
       }
-
-      ProtectionWall wall = (ProtectionWall) item;
-      if (!wall.getOwner().equals(this.getOwner())) {
-        continue;
-      }
-
-      return wall;
     }
 
     return null;

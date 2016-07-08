@@ -63,7 +63,6 @@ public class Tracker extends SpecialItem {
             }
           }
           player.setCompassTarget(game.getPlayerTeam(player).getSpawnLocation());
-          continue;
         }
       }
     }.runTaskTimer(Main.getInstance(), 20L, 20L);

@@ -24,12 +24,10 @@ public class WeatherListener extends BaseListener {
     }
 
     for (Game game : games) {
-      if (game.getState() == GameState.STOPPED) {
-        continue;
+      if (game.getState() != GameState.STOPPED) {
+        we.setCancelled(true);
+        break;
       }
-
-      we.setCancelled(true);
-      return;
     }
   }
 

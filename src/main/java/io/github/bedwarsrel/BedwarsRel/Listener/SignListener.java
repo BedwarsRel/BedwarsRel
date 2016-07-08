@@ -13,7 +13,7 @@ public class SignListener extends BaseListener {
   @EventHandler
   public void onSignChange(SignChangeEvent sce) {
     String firstLine = sce.getLine(0).trim();
-    if (!firstLine.equals("[bw]")) {
+    if (!"[bw]".equals(firstLine)) {
       return;
     }
 

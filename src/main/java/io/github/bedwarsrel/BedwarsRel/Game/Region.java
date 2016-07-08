@@ -112,21 +112,13 @@ public class Region {
   }
 
   public boolean chunkIsInRegion(Chunk chunk) {
-    if (chunk.getX() >= this.minCorner.getX() && chunk.getX() <= this.maxCorner.getX()
-        && chunk.getZ() >= this.minCorner.getZ() && chunk.getZ() <= this.maxCorner.getZ()) {
-      return true;
-    }
-
-    return false;
+    return (chunk.getX() >= this.minCorner.getX() && chunk.getX() <= this.maxCorner.getX()
+        && chunk.getZ() >= this.minCorner.getZ() && chunk.getZ() <= this.maxCorner.getZ());
   }
 
   public boolean chunkIsInRegion(double x, double z) {
-    if (x >= this.minCorner.getX() && x <= this.maxCorner.getX() && z >= this.minCorner.getZ()
-        && z <= this.maxCorner.getZ()) {
-      return true;
-    }
-
-    return false;
+    return (x >= this.minCorner.getX() && x <= this.maxCorner.getX() && z >= this.minCorner.getZ()
+        && z <= this.maxCorner.getZ());
   }
 
   public void addRemovingEntity(Entity removing) {

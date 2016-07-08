@@ -399,7 +399,7 @@ public class Metrics {
     int coreCount = Runtime.getRuntime().availableProcessors();
 
     // normalize os arch .. amd64 -> x86_64
-    if (osarch.equals("amd64")) {
+    if ("amd64".equals(osarch)) {
       osarch = "x86_64";
     }
 
@@ -515,7 +515,7 @@ public class Metrics {
       throw new IOException(response);
     } else {
       // Is this the first update this hour?
-      if (response.equals("1") || response.contains("This is your first update this hour")) {
+      if ("1".equals(response) || response.contains("This is your first update this hour")) {
         synchronized (graphs) {
           final Iterator<Graph> iter = graphs.iterator();
 
@@ -584,7 +584,7 @@ public class Metrics {
     boolean isValueNumeric = false;
 
     try {
-      if (value.equals("0") || !value.endsWith("0")) {
+      if ("0".equals(value) || !value.endsWith("0")) {
         Double.parseDouble(value);
         isValueNumeric = true;
       }

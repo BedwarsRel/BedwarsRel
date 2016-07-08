@@ -77,38 +77,12 @@ public class SetTargetCommand extends BaseCommand implements ICommand {
       return false;
     }
 
-    HashSet<Material> transparent = new HashSet<Material>();
-    transparent.add(Material.AIR);
-
     Class<?> hashsetType = Utils.getGenericTypeOfParameter(player.getClass(), "getTargetBlock", 0);
-    Method targetBlockMethod = null;
+    Method targetBlockMethod = this.getTargetBlockMethod(player);
     Block targetBlock = null;
-
-    // 1.7 compatible
-    try {
-      try {
-        targetBlockMethod =
-            player.getClass().getMethod("getTargetBlock", new Class<?>[] {Set.class, int.class});
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        try {
-          targetBlockMethod = player.getClass().getMethod("getTargetBlock",
-              new Class<?>[] {HashSet.class, int.class});
-        } catch (Exception exc) {
-          Main.getInstance().getBugsnag().notify(exc);
-          exc.printStackTrace();
-        }
-      }
-
-      if (hashsetType.equals(Byte.class)) {
-        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[] {null, 15});
-      } else {
-        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[] {transparent, 15});
-      }
-
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      e.printStackTrace();
+    
+    if(targetBlockMethod != null) {
+    	targetBlock = this.getTargetBlock(targetBlockMethod, hashsetType, player);
     }
 
     Block standingBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
@@ -150,6 +124,45 @@ public class SetTargetCommand extends BaseCommand implements ICommand {
     player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.bedset",
         ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
     return true;
+  }
+  
+  private Block getTargetBlock(Method targetBlockMethod, Class<?> hashsetType, Player player) {
+	  Block targetBlock = null;
+	  HashSet<Material> transparent = new HashSet<Material>();
+	  transparent.add(Material.AIR);
+	  
+	  try {
+	      if (hashsetType.equals(Byte.class)) {
+	        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[] {null, 15});
+	      } else {
+	        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[] {transparent, 15});
+	      }
+
+	    } catch (Exception e) {
+	      Main.getInstance().getBugsnag().notify(e);
+	      e.printStackTrace();
+	    }
+	  
+	 return targetBlock;
+  }
+  
+  private Method getTargetBlockMethod(Player player) {
+	  Method targetBlockMethod = null;
+	  try {
+        targetBlockMethod =
+            player.getClass().getMethod("getTargetBlock", new Class<?>[] {Set.class, int.class});
+      } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
+        try {
+          targetBlockMethod = player.getClass().getMethod("getTargetBlock",
+              new Class<?>[] {HashSet.class, int.class});
+        } catch (Exception exc) {
+          Main.getInstance().getBugsnag().notify(exc);
+          exc.printStackTrace();
+        }
+      }
+	  
+	  return targetBlockMethod;
   }
 
   @Override

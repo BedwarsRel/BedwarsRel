@@ -85,6 +85,8 @@ public abstract class StoringTable extends DatabaseObject {
   }
 
   public void setValue(String field, Object value) {
+    Object valueToSet = null;
+    
     try {
       Method setter = this.fields.get(field).getSetter();
 
@@ -117,8 +119,8 @@ public abstract class StoringTable extends DatabaseObject {
           return;
         }
 
-        value = paramType.cast(value);
-        setter.invoke(this, new Object[] {value});
+        valueToSet = paramType.cast(value);
+        setter.invoke(this, new Object[] {valueToSet});
       } catch (Exception ex) {
         Main.getInstance().getBugsnag().notify(ex);
         Main.getInstance().getServer().getConsoleSender()

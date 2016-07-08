@@ -196,13 +196,11 @@ public final class Utils {
   }
 
   public static boolean isColorable(ItemStack itemstack) {
-    if (itemstack.getType().equals(Material.STAINED_CLAY)
-        || itemstack.getType().equals(Material.WOOL) || itemstack.getType().equals(Material.CARPET)
+    return (itemstack.getType().equals(Material.STAINED_CLAY)
+        || itemstack.getType().equals(Material.WOOL) 
+        || itemstack.getType().equals(Material.CARPET)
         || itemstack.getType().equals(Material.STAINED_GLASS)
-        || itemstack.getType().equals(Material.STAINED_GLASS_PANE)) {
-      return true;
-    }
-    return false;
+        || itemstack.getType().equals(Material.STAINED_GLASS_PANE));
   }
 
   public static boolean checkBungeePlugin() {

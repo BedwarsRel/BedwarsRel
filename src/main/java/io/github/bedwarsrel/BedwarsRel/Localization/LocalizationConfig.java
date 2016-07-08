@@ -39,15 +39,16 @@ public class LocalizationConfig extends YamlConfiguration {
   public void loadLocale(String locKey, boolean isFallback) {
     File locFile =
         new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + locKey + ".yml");
+    String localeKey = locKey;
     if (!locFile.exists()) {
 
       File folder = new File(Main.getInstance().getDataFolder().getPath() + "/locale/");
       File[] listOfFiles = folder.listFiles();
       for (int i = 0; i < listOfFiles.length; i++) {
-        if (listOfFiles[i].isFile() && listOfFiles[i].getName().startsWith(locKey)
+        if (listOfFiles[i].isFile() && listOfFiles[i].getName().startsWith(localeKey)
             && listOfFiles[i].getName().endsWith(".yml")) {
           locFile = listOfFiles[i];
-          locKey = listOfFiles[i].getName().substring(0, listOfFiles[i].getName().length() - 4);
+          localeKey = listOfFiles[i].getName().substring(0, listOfFiles[i].getName().length() - 4);
           break;
         }
       }

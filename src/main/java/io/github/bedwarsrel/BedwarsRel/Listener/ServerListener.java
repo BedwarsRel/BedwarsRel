@@ -47,18 +47,23 @@ public class ServerListener extends BaseListener {
         slpe.setMotd(replacePlaceholder(game, ChatColor.translateAlternateColorCodes('&',
             Main.getInstance().getConfig().getString("bungeecord.motds.running"))));
         break;
+      default:
+        slpe.setMotd(ChatColor.RED + "INVALID GAME STATE!");
+        break;
     }
   }
 
   private String replacePlaceholder(Game game, String line) {
-    line = line.replace("$title$", Main._l("sign.firstline"));
-    line = line.replace("$gamename$", game.getName());
-    line = line.replace("$regionname$", game.getRegion().getName());
-    line = line.replace("$maxplayers$", getMaxPlayersString(game));
-    line = line.replace("$currentplayers$", getCurrentPlayersString(game));
-    line = line.replace("$status$", getStatus(game));
+    String finalLine = line;
+    
+    finalLine = finalLine.replace("$title$", Main._l("sign.firstline"));
+    finalLine = finalLine.replace("$gamename$", game.getName());
+    finalLine = finalLine.replace("$regionname$", game.getRegion().getName());
+    finalLine = finalLine.replace("$maxplayers$", getMaxPlayersString(game));
+    finalLine = finalLine.replace("$currentplayers$", getCurrentPlayersString(game));
+    finalLine = finalLine.replace("$status$", getStatus(game));
 
-    return line;
+    return finalLine;
   }
 
   private String getMaxPlayersString(Game game) {

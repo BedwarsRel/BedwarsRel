@@ -63,15 +63,15 @@ public class GameTimeCommand extends BaseCommand implements ICommand {
       return false;
     }
 
-    if (!Utils.isNumber(gametime) && !gametime.equals("day") && !gametime.equals("night")) {
+    if (!Utils.isNumber(gametime) && !"day".equals(gametime) && !"night".equals(gametime)) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.timeincorrect")));
       return true;
     }
 
     int time = 1000;
-    if (gametime.equals("day")) {
+    if ("day".equals(gametime)) {
       time = 6000;
-    } else if (gametime.equals("night")) {
+    } else if ("night".equals(gametime)) {
       time = 18000;
     } else {
       time = Integer.valueOf(gametime);

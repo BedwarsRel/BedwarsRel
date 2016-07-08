@@ -94,16 +94,17 @@ public abstract class GameCycle {
 
   private String winTitleReplace(String str, Team winner) {
     int playTime = this.getGame().getLength() - this.getGame().getTimeLeft();
+    String finalStr = str;
     String formattedTime = Utils.getFormattedTime(playTime);
 
-    str = str.replace("$time$", formattedTime);
+    finalStr = finalStr.replace("$time$", formattedTime);
 
     if (winner == null) {
-      return str;
+      return finalStr;
     }
 
-    str = str.replace("$team$", winner.getChatColor() + winner.getDisplayName());
-    return str;
+    finalStr = finalStr.replace("$team$", winner.getChatColor() + winner.getDisplayName());
+    return finalStr;
   }
 
   @SuppressWarnings("unchecked")
@@ -134,16 +135,16 @@ public abstract class GameCycle {
     if (Main.getInstance().statisticsEnabled()
         || Main.getInstance().getBooleanConfig("rewards.enabled", false)
         || (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
-            && (!title.equals("") || !subtitle.equals("")))) {
+            && (!"".equals(title) || !"".equals(subtitle)))) {
       if (winner != null) {
         for (Player player : winner.getPlayers()) {
           if (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
-              && (!title.equals("") || !subtitle.equals(""))) {
+              && (!"".equals(title) || !"".equals(subtitle))) {
             try {
               Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
                   + Main.getInstance().getCurrentVersion() + ".Title");
 
-              if (!title.equals("")) {
+              if (!"".equals(title)) {
                 double titleFadeIn =
                     Main.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
                 double titleStay =
@@ -156,7 +157,7 @@ public abstract class GameCycle {
                 showTitle.invoke(null, player, title, titleFadeIn, titleStay, titleFadeOut);
               }
 
-              if (!subtitle.equals("")) {
+              if (!"".equals(subtitle)) {
                 double subTitleFadeIn =
                     Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
                 double subTitleStay =
@@ -235,12 +236,12 @@ public abstract class GameCycle {
 
     Team winner = this.getGame().isOver();
     if (winner != null) {
-      if (this.isEndGameRunning() == false) {
+      if (!this.isEndGameRunning()) {
         this.runGameOver(winner);
       }
     } else {
       if ((this.getGame().getTeamPlayers().size() == 0 || this.getGame().isOverSet())
-          && this.isEndGameRunning() == false) {
+          && !this.isEndGameRunning()) {
         this.runGameOver(null);
       }
     }

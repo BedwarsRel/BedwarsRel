@@ -1,27 +1,19 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.ItemStackParser;
 
 @SerializableAs("RessourceSpawner")
 public class RessourceSpawner implements Runnable, ConfigurationSerializable {
@@ -81,7 +73,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
         Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
     this.location = location;
     this.itemstack = RessourceSpawner
-        .createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));;
+        .createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
     this.spread =
         Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
   }
@@ -144,182 +136,9 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     return this.location;
   }
 
-  @SuppressWarnings({"unchecked", "deprecation"})
   public static ItemStack createSpawnerStackByConfig(Object section) {
-    LinkedHashMap<String, Object> linkedMap = new LinkedHashMap<String, Object>();
-
-    if (!(section instanceof LinkedHashMap)) {
-      ConfigurationSection newSection = (ConfigurationSection) section;
-      for (String key : newSection.getKeys(false)) {
-        linkedMap.put(key, newSection.get(key));
-      }
-    } else {
-      linkedMap = (LinkedHashMap<String, Object>) section;
-    }
-
-    try {
-      LinkedHashMap<String, Object> cfgSection = linkedMap;
-
-      String materialString = cfgSection.get("item").toString();
-      Material material = null;
-      boolean hasMeta = false;
-      boolean hasPotionMeta = false;
-      byte meta = 0;
-      ItemStack finalStack = null;
-      int amount = 1;
-      short potionMeta = 0;
-
-      if (Utils.isNumber(materialString)) {
-        material = Material.getMaterial(Integer.parseInt(materialString));
-      } else {
-        material = Material.getMaterial(materialString);
-      }
-
-      try {
-        if (cfgSection.containsKey("amount")) {
-          amount = Integer.parseInt(cfgSection.get("amount").toString());
-        }
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        amount = 1;
-      }
-
-      if (cfgSection.containsKey("meta")) {
-        if (!material.equals(Material.POTION)
-            && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-                && (material.equals(Material.valueOf("TIPPED_ARROW"))
-                    || material.equals(Material.valueOf("LINGERING_POTION"))
-                    || material.equals(Material.valueOf("SPLASH_POTION"))))) {
-
-          try {
-            meta = Byte.parseByte(cfgSection.get("meta").toString());
-            hasMeta = true;
-          } catch (Exception ex) {
-            Main.getInstance().getBugsnag().notify(ex);
-            hasMeta = false;
-          }
-        } else {
-          hasPotionMeta = true;
-          potionMeta = Short.parseShort(cfgSection.get("meta").toString());
-        }
-      }
-
-      if (hasMeta) {
-        finalStack = new ItemStack(material, amount, meta);
-      } else if (hasPotionMeta) {
-        finalStack = new ItemStack(material, amount, potionMeta);
-      } else {
-        finalStack = new ItemStack(material, amount);
-      }
-
-      if (cfgSection.containsKey("lore")) {
-        List<String> lores = new ArrayList<String>();
-        ItemMeta im = finalStack.getItemMeta();
-
-        for (Object lore : (List<String>) cfgSection.get("lore")) {
-          lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
-        }
-
-        im.setLore(lores);
-        finalStack.setItemMeta(im);
-      }
-
-      if (!hasPotionMeta
-          && (material.equals(Material.POTION)
-              || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-                  && (material.equals(Material.valueOf("TIPPED_ARROW"))
-                      || material.equals(Material.valueOf("LINGERING_POTION"))
-                      || material.equals(Material.valueOf("SPLASH_POTION")))))
-          && (cfgSection.containsKey("effects"))) {
-        PotionMeta customPotionMeta = (PotionMeta) finalStack.getItemMeta();
-        for (Object potionEffect : (List<Object>) cfgSection.get("effects")) {
-          LinkedHashMap<String, Object> potionEffectSection =
-              (LinkedHashMap<String, Object>) potionEffect;
-          if (!potionEffectSection.containsKey("type")) {
-            continue;
-          }
-
-          PotionEffectType potionEffectType = null;
-          int duration = 1;
-          int amplifier = 0;
-
-          potionEffectType =
-              PotionEffectType.getByName(potionEffectSection.get("type").toString().toUpperCase());
-
-          if (potionEffectSection.containsKey("duration")) {
-            duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
-          }
-
-          if (potionEffectSection.containsKey("amplifier")) {
-            amplifier = Integer.parseInt(potionEffectSection.get("amplifier").toString()) - 1;
-          }
-
-          if (potionEffectType == null) {
-            continue;
-          }
-
-          customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier),
-              true);
-        }
-
-        finalStack.setItemMeta(customPotionMeta);
-      }
-
-      if (cfgSection.containsKey("enchants")) {
-        Object cfgEnchants = cfgSection.get("enchants");
-
-        if (cfgEnchants instanceof LinkedHashMap) {
-          LinkedHashMap<Object, Object> enchantSection =
-              (LinkedHashMap<Object, Object>) cfgEnchants;
-          for (Object sKey : enchantSection.keySet()) {
-            String key = sKey.toString();
-
-            if (!finalStack.getType().equals(Material.POTION)
-                && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                    || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-                    && (finalStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
-                        || finalStack.getType().equals(Material.valueOf("LINGERING_POTION"))
-                        || finalStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
-              Enchantment en = null;
-              int level = 0;
-
-              if (Utils.isNumber(key)) {
-                en = Enchantment.getById(Integer.parseInt(key));
-                level = Integer.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
-              } else {
-                en = Enchantment.getByName(key.toUpperCase());
-                level = Integer.parseInt(enchantSection.get(key).toString()) - 1;
-              }
-
-              if (en == null) {
-                continue;
-              }
-
-              finalStack.addUnsafeEnchantment(en, level);
-            }
-          }
-        }
-      }
-
-      if (cfgSection.containsKey("name")) {
-        String name =
-            ChatColor.translateAlternateColorCodes('&', cfgSection.get("name").toString());
-        ItemMeta im = finalStack.getItemMeta();
-
-        im.setDisplayName(name);
-        finalStack.setItemMeta(im);
-      }
-
-      return finalStack;
-
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-
-    return null;
+    ItemStackParser parser = new ItemStackParser(section);
+    return parser.parse();
   }
 
 }

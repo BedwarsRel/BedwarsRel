@@ -62,13 +62,13 @@ public class SetGameBlockCommand extends BaseCommand implements ICommand {
     }
 
     Material targetMaterial = Utils.parseMaterial(material);
-    if (targetMaterial == null && !material.equals("DEFAULT")) {
+    if (targetMaterial == null && !"DEFAULT".equals(material)) {
       sender
           .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.novalidmaterial")));
       return true;
     }
 
-    if (material.equalsIgnoreCase("DEFAULT")) {
+    if ("DEFAULT".equalsIgnoreCase(material)) {
       game.setTargetMaterial(null);
     } else {
       game.setTargetMaterial(targetMaterial);

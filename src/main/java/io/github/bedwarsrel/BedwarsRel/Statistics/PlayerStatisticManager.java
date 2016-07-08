@@ -148,10 +148,8 @@ public class PlayerStatisticManager {
             + "` WHERE `uuid` = '" + uuid + "'";
 
         result = Main.getInstance().getDatabaseManager().query(sql);
-        int num = Main.getInstance().getDatabaseManager().getRowCount(result);
 
-        if (num > 0) {
-          result.first();
+        if (result.first()) {
           statistic.setId(result.getLong(0));
         }
       } catch (Exception ex) {
@@ -306,13 +304,12 @@ public class PlayerStatisticManager {
               + statistic.getValue(statistic.getKeyField()) + "'");
 
       // get size
-      if (Main.getInstance().getDatabaseManager().getRowCount(playerStatistic) == 0) {
+      if (!playerStatistic.first()) {
         statistic.setDefault();
         this.playerStatistic.put(statistic.getPlayer(), statistic);
         return;
       }
-
-      playerStatistic.first();
+      
       for (DBField field : statistic.getFields().values()) {
         if (field.getSetter() == null) {
           continue;

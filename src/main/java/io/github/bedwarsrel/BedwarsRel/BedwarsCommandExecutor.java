@@ -24,7 +24,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
 
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-    if (!cmd.getName().equalsIgnoreCase("bw")) {
+    if (!cmd.getName().equalsIgnoreCase(Main.getInstance().getStringConfig("command-prefix", "bw"))) {
       return false;
     }
 
@@ -32,7 +32,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
       return false;
     }
 
-    String command = args[0].toString();
+    String command = args[0];
     ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(args));
     arguments.remove(0);
 

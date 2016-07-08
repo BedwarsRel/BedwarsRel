@@ -28,6 +28,7 @@ public class RescuePlatformListener implements Listener {
   public void onInteract(PlayerInteractEvent ev) {
     Player player = ev.getPlayer();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+    int waitleft = -1;
 
     if (game == null) {
       return;
@@ -48,21 +49,17 @@ public class RescuePlatformListener implements Listener {
     }
 
     for (SpecialItem item : game.getSpecialItems()) {
-      if (!(item instanceof RescuePlatform)) {
-        continue;
+      if (item instanceof RescuePlatform) {
+        RescuePlatform rescuePlatform = (RescuePlatform) item;
+        if (rescuePlatform.getPlayer().equals(player)) {
+          waitleft =
+              Main.getInstance().getConfig().getInt("specials.rescue-platform.using-wait-time", 20)
+                  - rescuePlatform.getLivingTime();
+          player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left",
+              ImmutableMap.of("time", String.valueOf(waitleft)))));
+          return;
+        }
       }
-
-      RescuePlatform rescuePlatform = (RescuePlatform) item;
-      if (!rescuePlatform.getPlayer().equals(player)) {
-        continue;
-      }
-
-      int waitleft =
-          Main.getInstance().getConfig().getInt("specials.rescue-platform.using-wait-time", 20)
-              - rescuePlatform.getLivingTime();
-      player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left",
-          ImmutableMap.of("time", String.valueOf(waitleft)))));
-      return;
     }
 
     boolean canBreak =
