@@ -79,6 +79,7 @@ public class ProtectionWallListener implements Listener {
 
     place.setBuild(false);
     place.setCancelled(true);
+    return;
   }
 
 }
