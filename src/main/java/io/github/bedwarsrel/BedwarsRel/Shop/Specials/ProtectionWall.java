@@ -91,15 +91,19 @@ public class ProtectionWall extends SpecialItem {
       return;
     }
 
-    if (waitTime > 0) {
-      ProtectionWall livingWall = this.getLivingWall();
-      if (livingWall != null) {
-        int waitLeft = waitTime - livingWall.getLivingTime();
-        player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.protection-wall.left",
-            ImmutableMap.of("time", String.valueOf(waitLeft)))));
-        return;
+    if (waitTime > 0){
+        ArrayList<ProtectionWall> livingWalls = this.getLivingWalls();
+        if(!livingWalls.isEmpty()){
+  	      for (ProtectionWall livingWall : livingWalls){
+            int waitLeft = waitTime - livingWall.getLivingTime();
+            if (waitLeft > 0) {
+              player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.protection-wall.left",
+                  ImmutableMap.of("time", String.valueOf(waitLeft)))));
+              return; 
+            }
+          }
+        }
       }
-    }
 
     Location wallLocation = Utils.getDirectionLocation(player.getLocation(), distance);
     ItemStack usedStack = player.getInventory().getItemInHand();
@@ -181,15 +185,7 @@ public class ProtectionWall extends SpecialItem {
           }
         }
 
-        if (ProtectionWall.this.livingTime >= waitTime && waitTime > 0) {
-          ProtectionWall.this.game.removeRunningTask(this);
-          ProtectionWall.this.game.removeSpecialItem(ProtectionWall.this);
-          ProtectionWall.this.task = null;
-          this.cancel();
-          return;
-        }
-
-        if (breakTime > 0 && waitTime <= 0 && ProtectionWall.this.livingTime >= breakTime) {
+        if (ProtectionWall.this.livingTime >= waitTime && ProtectionWall.this.livingTime >= breakTime) {
           ProtectionWall.this.game.removeRunningTask(this);
           ProtectionWall.this.game.removeSpecialItem(ProtectionWall.this);
           ProtectionWall.this.task = null;
@@ -201,17 +197,17 @@ public class ProtectionWall extends SpecialItem {
     this.game.addRunningTask(this.task);
   }
 
-  private ProtectionWall getLivingWall() {
+  private ArrayList<ProtectionWall> getLivingWalls() {
+	ArrayList<ProtectionWall> livingWalls = new ArrayList<ProtectionWall>();
     for (SpecialItem item : game.getSpecialItems()) {
       if (item instanceof ProtectionWall) {
         ProtectionWall wall = (ProtectionWall) item;
         if (wall.getOwner().equals(this.getOwner())) {
-          return wall;
+          livingWalls.add(wall);
         }
       }
     }
-
-    return null;
+    return livingWalls;
   }
 
 }
