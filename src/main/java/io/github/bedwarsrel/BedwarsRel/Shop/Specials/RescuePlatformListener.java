@@ -25,8 +25,7 @@ public class RescuePlatformListener implements Listener {
       return;
     }
 
-    if (ev.getAction().equals(Action.LEFT_CLICK_AIR)
-        || ev.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+    if (ev.getAction().equals(Action.LEFT_CLICK_AIR) || ev.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
       return;
     }
 
@@ -34,7 +33,7 @@ public class RescuePlatformListener implements Listener {
     if (!ev.getMaterial().equals(platform.getItemMaterial())) {
       return;
     }
-    
+
     platform.create(player, game);
   }
 

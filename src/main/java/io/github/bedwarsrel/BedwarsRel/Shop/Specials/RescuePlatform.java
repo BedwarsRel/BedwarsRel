@@ -57,9 +57,9 @@ public class RescuePlatform extends SpecialItem {
   public void addPlatformBlock(Block block) {
     this.platformBlocks.add(block);
   }
-  
+
   @SuppressWarnings("deprecation")
-public void create(Player player, Game game) {
+  public void create(Player player, Game game) {
     this.game = game;
     this.owner = player;
 
@@ -67,62 +67,60 @@ public void create(Player player, Game game) {
     int waitTime = Main.getInstance().getIntConfig("specials.rescue-platform.using-wait-time", 20);
     boolean canBreak = Main.getInstance().getBooleanConfig("specials.rescue-platform.can-break", false);
     Material configMaterial = Utils.getMaterialByConfig("specials.rescue-platform.block", Material.STAINED_GLASS);
-  
-    if (waitTime > 0){
+
+    if (waitTime > 0) {
       ArrayList<RescuePlatform> livingPlatforms = this.getLivingPlatforms();
-      if(!livingPlatforms.isEmpty()){
-	    for (RescuePlatform livingPlatform : livingPlatforms){
+      if (!livingPlatforms.isEmpty()) {
+        for (RescuePlatform livingPlatform : livingPlatforms) {
           int waitLeft = waitTime - livingPlatform.getLivingTime();
           if (waitLeft > 0) {
-            player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left",
-                ImmutableMap.of("time", String.valueOf(waitLeft)))));
-	        return; 
+            player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left", ImmutableMap.of("time", String.valueOf(waitLeft)))));
+            return;
           }
         }
       }
     }
 
-	    if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-	      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notinair")));
-	      return;
-	    }
+    if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notinair")));
+      return;
+    }
 
-	    Location mid = player.getLocation().clone();
-	    mid.setY(mid.getY() - 1.0D);
+    Location mid = player.getLocation().clone();
+    mid.setY(mid.getY() - 1.0D);
 
-	    Team team = game.getPlayerTeam(player);
-	    ItemStack usedStack = player.getInventory().getItemInHand();
-	    usedStack.setAmount(usedStack.getAmount() - 1);
-	    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
-	    player.updateInventory();
-	    for (BlockFace face : BlockFace.values()) {
-	      if (face.equals(BlockFace.DOWN) || face.equals(BlockFace.UP)) {
-	        continue;
-	      }
+    Team team = game.getPlayerTeam(player);
+    ItemStack usedStack = player.getInventory().getItemInHand();
+    usedStack.setAmount(usedStack.getAmount() - 1);
+    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+    player.updateInventory();
+    for (BlockFace face : BlockFace.values()) {
+      if (face.equals(BlockFace.DOWN) || face.equals(BlockFace.UP)) {
+        continue;
+      }
 
-	      Block placed = mid.getBlock().getRelative(face);
-	      if (placed.getType() != Material.AIR) {
-	        continue;
-	      }
+      Block placed = mid.getBlock().getRelative(face);
+      if (placed.getType() != Material.AIR) {
+        continue;
+      }
 
-	      placed.setType(configMaterial);
-	      if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL)
-	          || configMaterial.equals(Material.STAINED_CLAY)) {
-	        placed.setData(team.getColor().getDyeColor().getData());
-	      }
+      placed.setType(configMaterial);
+      if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL) || configMaterial.equals(Material.STAINED_CLAY)) {
+        placed.setData(team.getColor().getDyeColor().getData());
+      }
 
-	      if (!canBreak) {
-	        game.getRegion().addPlacedUnbreakableBlock(placed, null);
-	      } else {
-	        game.getRegion().addPlacedBlock(placed, null);
-	      }
+      if (!canBreak) {
+        game.getRegion().addPlacedUnbreakableBlock(placed, null);
+      } else {
+        game.getRegion().addPlacedBlock(placed, null);
+      }
 
-	      this.addPlatformBlock(placed);
-	    }
-	    if (breakTime > 0 || waitTime > 0) {
-	        this.runTask(breakTime, waitTime);
-	        game.addSpecialItem(this);
-	    }
+      this.addPlatformBlock(placed);
+    }
+    if (breakTime > 0 || waitTime > 0) {
+      this.runTask(breakTime, waitTime);
+      game.addSpecialItem(this);
+    }
   }
 
   public void runTask(final int breakTime, final int waitTime) {
@@ -131,7 +129,7 @@ public void create(Player player, Game game) {
       @Override
       public void run() {
         RescuePlatform.this.livingTime++;
-        
+
         if (breakTime > 0 && RescuePlatform.this.livingTime == breakTime) {
           for (Block block : RescuePlatform.this.platformBlocks) {
             block.getChunk().load(true);
@@ -151,7 +149,7 @@ public void create(Player player, Game game) {
     }.runTaskTimer(Main.getInstance(), 20L, 20L);
     this.game.addRunningTask(this.task);
   }
-  
+
   private ArrayList<RescuePlatform> getLivingPlatforms() {
     ArrayList<RescuePlatform> livingPlatforms = new ArrayList<RescuePlatform>();
     for (SpecialItem item : game.getSpecialItems()) {
@@ -159,9 +157,9 @@ public void create(Player player, Game game) {
         RescuePlatform rescuePlatform = (RescuePlatform) item;
         if (rescuePlatform.getOwner().equals(this.getOwner())) {
           livingPlatforms.add(rescuePlatform);
-	    }
+        }
       }
-	}
+    }
     return livingPlatforms;
   }
 

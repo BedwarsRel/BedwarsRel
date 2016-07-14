@@ -198,7 +198,7 @@ public class ProtectionWall extends SpecialItem {
   }
 
   private ArrayList<ProtectionWall> getLivingWalls() {
-	ArrayList<ProtectionWall> livingWalls = new ArrayList<ProtectionWall>();
+    ArrayList<ProtectionWall> livingWalls = new ArrayList<ProtectionWall>();
     for (SpecialItem item : game.getSpecialItems()) {
       if (item instanceof ProtectionWall) {
         ProtectionWall wall = (ProtectionWall) item;
