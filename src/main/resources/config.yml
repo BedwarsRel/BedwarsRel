@@ -192,8 +192,7 @@ breakable-blocks:
   # type: list<int> or list<string>
   # Defines the block types which are allowed to break
   list:
-    - 6
-    - 31
+    - 'none'
 
 # Join team with entity config
 jointeam-entity:
