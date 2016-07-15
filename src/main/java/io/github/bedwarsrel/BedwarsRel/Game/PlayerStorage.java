@@ -159,8 +159,10 @@ public class PlayerStorage {
     leaveGame.setItemMeta(im);
     this.player.getInventory().setItem(8, leaveGame);
 
-    if (this.player.hasPermission("bw.setup") || this.player.isOp()
-        || this.player.hasPermission("bw.vip.forcestart")) {
+    if ((this.player.hasPermission("bw.setup") || this.player.isOp()
+        || this.player.hasPermission("bw.vip.forcestart"))
+        || (game.getGameLobbyCountdown() != null && (this.player.hasPermission("bw.setup")
+            || this.player.isOp() || this.player.hasPermission("bw.vip.forcestart")))) {
       this.addGameStartItem();
     }
 
@@ -186,7 +188,7 @@ public class PlayerStorage {
   public void addReduceCountdownItem() {
     ItemStack reduceCountdownItem = new ItemStack(Material.EMERALD, 1);
     ItemMeta im = reduceCountdownItem.getItemMeta();
-    im.setDisplayName(Main._l("lobby.reduce_countdown_item"));
+    im.setDisplayName(Main._l("lobby.reduce_countdown"));
     reduceCountdownItem.setItemMeta(im);
     this.player.getInventory().addItem(reduceCountdownItem);
   }

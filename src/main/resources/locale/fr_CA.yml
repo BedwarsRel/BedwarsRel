@@ -157,6 +157,7 @@ lobby:
     not_enough_teams: More teams are needed to start the game!
   chooseteam: Choisir une équipe
   startgame: Démarrer la partie
+  reduce_countdown: Reduce countdown
   gamefull: La partie est complète !
   gamefullpremium: La partie est déjà pleine de joueurs VIP !
   teamjoined: "Vous avez rejoins l'équipe $team$ avec succès"
@@ -165,6 +166,7 @@ lobby:
   kickedbyvip: Vous avez été éjecté de la partie par un VIP qui a rejoint la partie complète !
   moreplayersneeded: $count$ joueurs sont nécessaires.
   moreplayersneeded-one: $count$ joueur est nécessaire.
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&6[Bedwars]'
   players: Joueurs
