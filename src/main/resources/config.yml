@@ -933,3 +933,9 @@ player-settings:
   # Only one full stack when doing a shift click to buy items.
   # Player can change that in shop, this is just a default
   one-stack-on-shift: false
+  
+  # Shop: Default shop on game start
+  # type: boolean
+  # Set the default shop on game start.
+  # Player can change that in shop, this is just a default
+  old-shop-as-default: false

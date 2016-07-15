@@ -105,7 +105,6 @@ public class Game {
 
   // Itemshops
   private HashMap<Player, NewItemShop> newItemShops = null;
-  private List<Player> useOldItemShop = null;
 
   private YamlConfiguration config = null;
 
@@ -134,7 +133,6 @@ public class Game {
     this.timeLeft = Main.getInstance().getMaxLength();
     this.isOver = false;
     this.newItemShops = new HashMap<Player, NewItemShop>();
-    this.useOldItemShop = new ArrayList<Player>();
     this.respawnProtections = new HashMap<Player, RespawnProtectionRunnable>();
     this.playerDamages = new HashMap<Player, Player>();
     this.specialItems = new ArrayList<SpecialItem>();
@@ -845,7 +843,6 @@ public class Game {
     }
 
     this.removeNewItemShop(p);
-    this.notUseOldShop(p);
 
     if (!Main.getInstance().isBungee() && p.isOnline()) {
       if (kicked) {
@@ -1439,18 +1436,6 @@ public class Game {
 
   public void setGameLobbyCountdown(GameLobbyCountdown countdown) {
     this.gameLobbyCountdown = countdown;
-  }
-
-  public boolean isUsingOldShop(Player player) {
-    return (this.useOldItemShop.contains(player));
-  }
-
-  public void notUseOldShop(Player player) {
-    this.useOldItemShop.remove(player);
-  }
-
-  public void useOldShop(Player player) {
-    this.useOldItemShop.add(player);
   }
 
   public boolean isOverSet() {
