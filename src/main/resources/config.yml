@@ -183,14 +183,14 @@ place-in-liquid: true
 
 # Breakable blocks
 breakable-blocks:
-  # Use ad blacklist
-  # type boolean
-  # If true, it's possible to place all blocks except the blocks at the list below
-  # If false, it's only possible to place the blocks at the list below
+  # Use as blacklist
+  # type: boolean
+  # If true, it's possible to break all blocks except the blocks on the list below
+  # If false, it's only possible to break the blocks on the list below
   use-as-blacklist: false
 
   # type: list<int> or list<string>
-  # Defines the block types which are allowed to break
+  # Defines the block types which are allowed to be broken
   list:
     - 'none'
 
