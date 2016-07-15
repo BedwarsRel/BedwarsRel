@@ -23,11 +23,11 @@ public class Trap extends SpecialItem {
   private int maxDuration = 5;
   private boolean playSound = true;
   private Location location = null;
-  
+
   public Trap() {
     this.effects = new ArrayList<PotionEffect>();
   }
-  
+
   @Override
   public Material getItemMaterial() {
     return Material.TRIPWIRE;
@@ -40,20 +40,21 @@ public class Trap extends SpecialItem {
 
   public void activate(final Player player) {
     try {
-      ConfigurationSection section = Main.getInstance().getConfig().getConfigurationSection("specials.trap");
-      
+      ConfigurationSection section =
+          Main.getInstance().getConfig().getConfigurationSection("specials.trap");
+
       if (section.contains("play-sound")) {
         this.playSound = section.getBoolean("play-sound");
       }
-      
+
       for (Object effect : section.getList("effects")) {
         effects.add((PotionEffect) effect);
-        
+
         if (((PotionEffect) effect).getDuration() / 20 > this.maxDuration) {
           this.maxDuration = ((PotionEffect) effect).getDuration() / 20;
-          }
+        }
       }
-      
+
       this.game.addRunningTask(new BukkitRunnable() {
 
         private int counter = 0;
@@ -79,13 +80,14 @@ public class Trap extends SpecialItem {
         }
       }
 
-      player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"), 2.0F, 1.0F);
+      player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"),
+          Float.valueOf("1.0"), Float.valueOf("1.0"));
 
       this.game.broadcast(Main._l("ingame.specials.trap.trapped"),
           new ArrayList<Player>(this.team.getPlayers()));
       if (this.playSound) {
-        this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"), 4.0F,
-            1.0F, this.team.getPlayers());
+        this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"),
+            Float.valueOf("1.0"), Float.valueOf("1.0"), this.team.getPlayers());
       }
 
       this.game.getRegion().removePlacedUnbreakableBlock(this.location.getBlock());
