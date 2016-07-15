@@ -24,14 +24,14 @@ public class ItemStackParser {
   private Material material = null;
   private int amount = 1;
   private LinkedHashMap<String, Object> linkedSection = null;
-  
+
   @Getter
   private ItemStack finalStack = null;
-  
+
   public ItemStackParser(Object section) {
     this.configSection = section;
   }
-  
+
   @SuppressWarnings("unchecked")
   private LinkedHashMap<String, Object> getLinkedMap() {
     LinkedHashMap<String, Object> linkedMap = new LinkedHashMap<String, Object>();
@@ -44,7 +44,7 @@ public class ItemStackParser {
     } else {
       linkedMap = (LinkedHashMap<String, Object>) this.configSection;
     }
-    
+
     return linkedMap;
   }
 
@@ -81,7 +81,7 @@ public class ItemStackParser {
       }
 
       return this.finalStack;
-
+      
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
@@ -89,14 +89,11 @@ public class ItemStackParser {
 
     return null;
   }
-  
+
   private boolean isPotion() {
-    return (this.material.equals(Material.POTION)
-            || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-                && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
-                    || this.material.equals(Material.valueOf("LINGERING_POTION"))
-                    || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+    return (this.material.equals(Material.POTION) || ((Main.getInstance().getCurrentVersion().startsWith("v1_9") || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+        && (this.material.equals(Material.valueOf("TIPPED_ARROW")) || this.material.equals(Material.valueOf("LINGERING_POTION"))
+            || this.material.equals(Material.valueOf("SPLASH_POTION")))));
   }
 
   private int getStackAmount() {
@@ -128,26 +125,23 @@ public class ItemStackParser {
   }
 
   private boolean isMetarizable() {
-    return (!this.material.equals(Material.POTION)
-        && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-            && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
-                || this.material.equals(Material.valueOf("LINGERING_POTION"))
-                || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+    return (!this.material.equals(Material.POTION) && !((Main.getInstance().getCurrentVersion().startsWith("v1_9") || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+        && (this.material.equals(Material.valueOf("TIPPED_ARROW")) || this.material.equals(Material.valueOf("LINGERING_POTION"))
+            || this.material.equals(Material.valueOf("SPLASH_POTION")))));
   }
-  
+
   private boolean hasMeta() {
     return this.linkedSection.containsKey("meta");
   }
-  
+
   private short getPotionMeta() {
     return Short.parseShort(this.linkedSection.get("meta").toString());
   }
-  
+
   private byte getMeta() {
     return Byte.parseByte(this.linkedSection.get("meta").toString());
   }
-  
+
   @SuppressWarnings("unchecked")
   private void parseLore() {
     List<String> lores = new ArrayList<String>();
@@ -160,14 +154,13 @@ public class ItemStackParser {
     im.setLore(lores);
     this.finalStack.setItemMeta(im);
   }
-  
+
   @SuppressWarnings("unchecked")
   private void parsePotionEffects() {
     PotionMeta customPotionMeta = (PotionMeta) this.finalStack.getItemMeta();
     for (Object potionEffect : (List<Object>) this.linkedSection.get("effects")) {
-      LinkedHashMap<String, Object> potionEffectSection =
-          (LinkedHashMap<String, Object>) potionEffect;
-      
+      LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
+
       if (!potionEffectSection.containsKey("type")) {
         continue;
       }
@@ -176,8 +169,7 @@ public class ItemStackParser {
       int duration = 1;
       int amplifier = 0;
 
-      potionEffectType =
-          PotionEffectType.getByName(potionEffectSection.get("type").toString().toUpperCase());
+      potionEffectType = PotionEffectType.getByName(potionEffectSection.get("type").toString().toUpperCase());
 
       if (potionEffectSection.containsKey("duration")) {
         duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
@@ -191,48 +183,41 @@ public class ItemStackParser {
         continue;
       }
 
-      customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier),
-          true);
+      customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier), true);
     }
 
     this.finalStack.setItemMeta(customPotionMeta);
   }
   
-  @SuppressWarnings({"deprecation", "unchecked"})
+  @SuppressWarnings("deprecation")
   private void parseEnchants() {
-    Object cfgEnchants = this.linkedSection.get("enchants");
+    if (this.isMetarizable()) {
+      Enchantment en = null;
+      int level = 0;
 
-    if (cfgEnchants instanceof LinkedHashMap) {
-      LinkedHashMap<Object, Object> enchantSection =
-          (LinkedHashMap<Object, Object>) cfgEnchants;
-      for (Object sKey : enchantSection.keySet()) {
-        String key = sKey.toString();
+      ConfigurationSection newSection = (ConfigurationSection) (this.configSection);
+      ConfigurationSection enchantSection = (ConfigurationSection) newSection.get("enchants");
 
-        if (this.isMetarizable()) {
-          Enchantment en = null;
-          int level = 0;
-
-          if (Utils.isNumber(key)) {
-            en = Enchantment.getById(Integer.parseInt(key));
-            level = Integer.parseInt(enchantSection.get(Integer.parseInt(key)).toString());
-          } else {
-            en = Enchantment.getByName(key.toUpperCase());
-            level = Integer.parseInt(enchantSection.get(key).toString()) - 1;
-          }
-
-          if (en == null) {
-            continue;
-          }
-
-          this.finalStack.addUnsafeEnchantment(en, level);
+      for (String key : enchantSection.getKeys(false)) {
+        if (Utils.isNumber(key)) {
+          en = Enchantment.getById(Integer.parseInt(key));
+          level = Integer.parseInt(enchantSection.get(key).toString());
+        } else {
+          en = Enchantment.getByName(key.toUpperCase());
+          level = Integer.parseInt(enchantSection.get(key).toString());
         }
+
+        if (en == null) {
+          continue;
+        }
+
+        this.finalStack.addUnsafeEnchantment(en, level);
       }
     }
   }
-  
+
   private void parseCustomName() {
-    String name =
-        ChatColor.translateAlternateColorCodes('&', this.linkedSection.get("name").toString());
+    String name = ChatColor.translateAlternateColorCodes('&', this.linkedSection.get("name").toString());
     ItemMeta im = this.finalStack.getItemMeta();
 
     im.setDisplayName(name);
