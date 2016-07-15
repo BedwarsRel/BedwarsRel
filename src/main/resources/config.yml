@@ -400,10 +400,13 @@ gameoverdelay: 10
 show-team-in-actionbar: false
 
 # Chat to all prefix
-# type: char
+# type: list
 # The prefix character which indicates to chat
 # to all ingame players (not only team)
-chat-to-all-prefix: "@"
+chat-to-all-prefix:
+- '@'
+- '@a'
+- '@all'
 
 # Seperate game chat
 # type: boolean
