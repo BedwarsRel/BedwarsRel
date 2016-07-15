@@ -263,6 +263,7 @@ public class ConfigUpdater {
     // <1.3.3>
     Main.getInstance().getConfig().addDefault("show-team-in-actionbar", false);
     Main.getInstance().getConfig().addDefault("send-error-data", true);
+    Main.getInstance().getConfig().addDefault("player-settings.old-shop-as-default", false);
     // </1.3.3>
   }
 

@@ -180,7 +180,7 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    if (game.isUsingOldShop(player)) {
+    if (game.getPlayerSettings(player).useOldShop()) {
       MerchantCategory.openCategorySelection(player, game);
     } else {
       NewItemShop itemShop = game.getNewItemShop(player);
@@ -413,10 +413,10 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    if (game.isUsingOldShop(player)) {
+    if (game.getPlayerSettings(player).useOldShop()) {
       try {
         if (clickedStack.getType() == Material.SNOW_BALL) {
-          game.notUseOldShop(player);
+          game.getPlayerSettings(player).setUseOldShop(false);
 
           // open new shop
           NewItemShop itemShop = game.openNewItemShop(player);

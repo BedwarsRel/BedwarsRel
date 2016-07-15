@@ -10,11 +10,12 @@ public class PlayerSettings {
   private boolean oneStackPerShift = false;
   private Object hologram = null;
   private boolean isTeleporting = false;
+  private boolean useOldShop = false;
 
   public PlayerSettings(Player player) {
     this.player = player;
-    this.oneStackPerShift =
-        Main.getInstance().getBooleanConfig("player-settings.one-stack-on-shift", false);
+    this.oneStackPerShift = Main.getInstance().getBooleanConfig("player-settings.one-stack-on-shift", false);
+    this.useOldShop = Main.getInstance().getBooleanConfig("player-settings.old-shop-as-default", false);
   }
 
   public Player getPlayer() {
@@ -43,6 +44,14 @@ public class PlayerSettings {
 
   public void setTeleporting(boolean isTeleporting) {
     this.isTeleporting = isTeleporting;
+  }
+
+  public boolean useOldShop() {
+    return this.useOldShop;
+  }
+
+  public void setUseOldShop(boolean value) {
+    this.useOldShop = value;
   }
 
 }

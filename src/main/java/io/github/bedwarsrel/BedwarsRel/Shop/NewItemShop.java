@@ -172,7 +172,7 @@ public class NewItemShop {
   }
 
   private void changeToOldShop(Game game, Player player) {
-    game.useOldShop(player);
+    game.getPlayerSettings(player).setUseOldShop(true);
 
     player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F,
         1.0F);
