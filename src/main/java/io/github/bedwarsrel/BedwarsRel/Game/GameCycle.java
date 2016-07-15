@@ -340,7 +340,7 @@ public abstract class GameCycle {
       }
 
       RescuePlatform rescue = (RescuePlatform) item;
-      if (rescue.getPlayer().equals(player)) {
+      if (rescue.getOwner().equals(player)) {
         itemIterator.remove();
       }
     }
