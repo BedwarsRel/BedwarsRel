@@ -174,8 +174,8 @@ public class NewItemShop {
   private void changeToOldShop(Game game, Player player) {
     game.useOldShop(player);
 
-    player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F,
-        1.0F);
+    player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
+        Float.valueOf("1.0"), Float.valueOf("1.0"));
 
     // open old shop
     MerchantCategory.openCategorySelection(player, game);
@@ -196,14 +196,14 @@ public class NewItemShop {
 
       if (ice.getCurrentItem().getType() == Material.BUCKET) {
         game.getPlayerSettings(player).setOneStackPerShift(false);
-        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F,
-            1.0F);
+        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
+            Float.valueOf("1.0"), Float.valueOf("1.0"));
         this.openCategoryInventory(player);
         return;
       } else if (ice.getCurrentItem().getType() == Material.LAVA_BUCKET) {
         game.getPlayerSettings(player).setOneStackPerShift(true);
-        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F,
-            1.0F);
+        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
+            Float.valueOf("1.0"), Float.valueOf("1.0"));
         this.openCategoryInventory(player);
         return;
       }
@@ -240,8 +240,8 @@ public class NewItemShop {
     int sizeItems = offers.size();
     int invSize = this.getBuyInventorySize(sizeCategories, sizeItems);
 
-    player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 10.0F,
-        1.0F);
+    player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
+        Float.valueOf("1.0"), Float.valueOf("1.0"));
 
     this.currentCategory = category;
     Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l("ingame.shop.name"));
@@ -350,7 +350,7 @@ public class NewItemShop {
       }
 
       player.playSound(player.getLocation(), SoundMachine.get("ITEM_PICKUP", "ENTITY_ITEM_PICKUP"),
-          10.0F, 1.0F);
+          Float.valueOf("1.0"), Float.valueOf("1.0"));
 
       // enough ressources?
       if (!this.hasEnoughRessource(player, trade)) {

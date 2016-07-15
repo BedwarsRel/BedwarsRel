@@ -157,6 +157,7 @@ lobby:
     not_enough_teams: More teams are needed to start the game!
   chooseteam: Vyber si tim
   startgame: Spustit hru
+  reduce_countdown: Reduce countdown
   gamefull: Hra je plna!
   gamefullpremium: VIP sloty su uz zaplnene!
   teamjoined: Uspesne si sa pripojil do timu $team$
@@ -165,6 +166,7 @@ lobby:
   kickedbyvip: Bol si vyhodeny z hry, pretoze se pripojil VIP hrac.
   moreplayersneeded: $count$ more players needed.
   moreplayersneeded-one: $count$ more player needed.
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&8[&4&lBed&f&lWars&8]'
   players: Hraci

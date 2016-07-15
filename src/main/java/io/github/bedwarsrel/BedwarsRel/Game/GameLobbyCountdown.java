@@ -86,7 +86,12 @@ public class GameLobbyCountdown extends BukkitRunnable {
               players);
 
       for (Player p : players) {
-        if (p.isOp() || p.hasPermission("bw.setup") || p.hasPermission("bw.vip.reducecountdown")) {
+        if (!p.getInventory().contains(Material.DIAMOND) && p.hasPermission("bw.vip.forcestart")) {
+          this.game.getPlayerStorage(p).addGameStartItem();
+        }
+
+        if (!p.getInventory().contains(Material.EMERALD) && (p.isOp() || p.hasPermission("bw.setup")
+            || p.hasPermission("bw.vip.reducecountdown"))) {
           this.game.getPlayerStorage(p).addReduceCountdownItem();
         }
       }
@@ -142,8 +147,8 @@ public class GameLobbyCountdown extends BukkitRunnable {
       }
 
       for (Player player : players) {
-        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"), 20.0F,
-            20.0F);
+        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
+            Float.valueOf("1.0"), Float.valueOf("1.0"));
 
         if (titleClass == null) {
           continue;
@@ -163,7 +168,8 @@ public class GameLobbyCountdown extends BukkitRunnable {
       this.cancel();
       for (Player player : players) {
         player.playSound(player.getLocation(),
-            SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"), 20.0F, 20.0F);
+            SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"), Float.valueOf("1.0"),
+            Float.valueOf("1.0"));
         player.setLevel(0);
         player.setExp(0.0F);
       }

@@ -185,7 +185,6 @@ public class ConfigUpdater {
     // </1.2.6>
 
     // <1.2.7>
-    Main.getInstance().getConfig().addDefault("overwrite-display-names", true);
     Main.getInstance().getConfig().addDefault("holographic-stats.show-prefix", false);
     Main.getInstance().getConfig().addDefault("holographic-stats.name-color", "&7");
     Main.getInstance().getConfig().addDefault("holographic-stats.value-color", "&e");

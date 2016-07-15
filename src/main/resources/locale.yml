@@ -157,6 +157,7 @@ lobby:
         not_enough_teams: "More teams are needed to start the game!"
     chooseteam: "Choose a team"
     startgame: "Start game"
+    reduce_countdown: "Reduce countdown"
     gamefull: "Game is full!"
     gamefullpremium: "The game is full of premium players already!"
     teamjoined: "You successfully joined the team $team$"

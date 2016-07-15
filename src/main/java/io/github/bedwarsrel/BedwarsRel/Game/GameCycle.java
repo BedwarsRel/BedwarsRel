@@ -417,7 +417,7 @@ public abstract class GameCycle {
                 Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
     if (deathTeam.isDead(this.getGame())) {
       killer.playSound(player.getLocation(), SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"),
-          20.0F, 20.0F);
+          Float.valueOf("1.0"), Float.valueOf("1.0"));
     }
     this.sendTeamDeadMessage(deathTeam);
     this.checkGameOver();
