@@ -157,6 +157,7 @@ lobby:
     not_enough_teams: More teams are needed to start the game!
   chooseteam: 选择一个队伍
   startgame: 开始游戏
+  reduce_countdown: Reduce countdown
   gamefull: 游戏已满!
   gamefullpremium: 此游戏玩家已满!
   teamjoined: 你成功加入了 $team$队
@@ -165,6 +166,7 @@ lobby:
   kickedbyvip: 你被vip玩家从这个游戏房间踢出!
   moreplayersneeded: 需要$count$ 个玩家.
   moreplayersneeded-one: 需要$count$个玩家.
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&6[护床战争]'
   players: 玩家

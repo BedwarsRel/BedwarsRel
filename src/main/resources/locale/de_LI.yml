@@ -45,7 +45,7 @@ errors:
   notingameforkick: Du musst in einem Spiel sein, um kicken zu können!
   playernotingame: Angegebener Spieler ist nicht in diesem Spiel!
   mustbeinlobbyworld: Du musst in der Lobby-Welt des Spiels sein!
-  addteamjoincancel: The adding of team join was cancelled!
+  addteamjoincancel: Das Hinzufügen von einem Team-Beitritt wurde abgebrochen!
   entitynotcompatible: Diese Kreature wird für die Team-Auswahl nicht unterstützt!
 success:
   gameadded: "Neues Spiel '$game$' erfolgreich hinzugefügt!"
@@ -66,7 +66,7 @@ success:
   spawnercleared: Alle Ressourcen-Spawner wurden erfolgreich entfernt!
   gamerun: Du hast das Spiel gestartet, Spieler können nun beitreten!
   timeset: Spiel-Zeit wurde erfolgreich gesetzt!
-  regionnameset: Region name was set successfully!
+  regionnameset: Name der Region wurde erfolgreich festgelegt!
   minplayersset: Die Mindestanzahl der Spieler wurde erfolgreich gesetzt!
   mainlobbyset: Mainlobby wurde erfolgreich gesetzt!
   gametimeset: Die Spiel-Zeit wurde erfolgreich gesetzt!
@@ -151,12 +151,13 @@ lobby:
   countdowncancel: Mehr Spieler benötigt. Countdown wurde abgebrochen!
   cancelcountdown:
     not_enough_players: Mehr Spieler benötigt. Countdown wurde abgebrochen!
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_teams: Mehr Teams benötigt. Countdown wurde abgebrochen!
   cancelstart:
     not_enough_players: Es werden mehr Spieler benötigt, um das Spiel zu starten!
-    not_enough_teams: More teams are needed to start the game!
+    not_enough_teams: Es werden mehr Teams benötigt, um das Spiel zu starten!
   chooseteam: Wähle ein Team
   startgame: Spiel starten
+  reduce_countdown: Countdown reduzieren
   gamefull: Das Spiel ist voll!
   gamefullpremium: Das Spiel ist voll von Premium-Spielern!
   teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
@@ -165,6 +166,7 @@ lobby:
   kickedbyvip: Du wurdest von einem VIP-Spieler rausgeworfen, der dem vollen Spiel beigetreten ist.
   moreplayersneeded: Es werden noch $count$ weitere Spieler benötigt.
   moreplayersneeded-one: Es wird noch $count$ weiterer Spieler benötigt.
+  moreteamsneeded: Es werden mindestens zwei Teams benötigt!
 sign:
   firstline: '&6[Bedwars]'
   players: Spieler
@@ -174,7 +176,7 @@ sign:
     running: '&9Gestartet!'
     full: Voll!
 stats:
-  header: Bedwars Stats
+  header: Bedwars-Statistik
   kd: K/D
   statsnotfound: Statistik von $player$ nicht gefunden!
   name: Name

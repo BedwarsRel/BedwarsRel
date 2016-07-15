@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>org.inventivetalent</groupId>
 			<artifactId>hologramapi</artifactId>
-			<version>1.4.0</version>
+			<version>1.6.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

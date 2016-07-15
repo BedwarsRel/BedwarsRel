@@ -157,6 +157,7 @@ lobby:
     not_enough_teams: More teams are needed to start the game!
   chooseteam: 'Выберите команду:'
   startgame: Запустить игру
+  reduce_countdown: Reduce countdown
   gamefull: Игра заполнена
   gamefullpremium: The game is full of premium players already!
   teamjoined: Вы вступили в команду $team$
@@ -165,6 +166,7 @@ lobby:
   kickedbyvip: Вы были кикнуты из-за вип игрока, который присоеденился в заполненую игру
   moreplayersneeded: $count$ more players needed.
   moreplayersneeded-one: $count$ more player needed.
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&e[&bBedWars&e]'
   players: Игроков

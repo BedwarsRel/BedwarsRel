@@ -157,6 +157,7 @@ lobby:
     not_enough_teams: More teams are needed to start the game!
   chooseteam: Kies een team
   startgame: Start spel
+  reduce_countdown: Reduce countdown
   gamefull: Spel is vol!
   gamefullpremium: Het spel is voll met premium spelers!
   teamjoined: 'Je hebt met succes het $team$ team gejoined '
@@ -165,6 +166,7 @@ lobby:
   kickedbyvip: Je bent gekit door een een VIP speler die het spel joint wanneer het spel vol is!
   moreplayersneeded: $count$ meer spelers nodig.
   moreplayersneeded-one: $count$ speler meer nodig.
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&6[Bedwars]'
   players: Spelers
