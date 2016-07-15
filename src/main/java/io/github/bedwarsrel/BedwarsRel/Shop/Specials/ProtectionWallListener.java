@@ -4,7 +4,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
@@ -47,38 +46,6 @@ public class ProtectionWallListener implements Listener {
     }
 
     wall.create(interact.getPlayer(), game);
+    interact.setCancelled(true);
   }
-
-  @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-  public void onPlace(BlockPlaceEvent place) {
-
-    ProtectionWall wall = new ProtectionWall();
-    if (place.getBlock().getType() != wall.getItemMaterial()) {
-      return;
-    }
-
-    if (place.getItemInHand().getItemMeta() == null
-        || place.getItemInHand().getItemMeta().getDisplayName() == null) {
-      return;
-    }
-
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(place.getPlayer());
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (game.isSpectator(place.getPlayer())) {
-      place.setBuild(false);
-      place.setCancelled(true);
-      return;
-    }
-
-    place.setBuild(false);
-    place.setCancelled(true);
-  }
-
 }
