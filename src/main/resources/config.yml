@@ -182,10 +182,17 @@ player-drops: false
 place-in-liquid: true
 
 # Breakable blocks
-# type: list<int> or list<string>
-# Defines the block types which are allowed to break
 breakable-blocks:
-  - none
+  # Use as blacklist
+  # type: boolean
+  # If true, it's possible to break all blocks except the blocks on the list below
+  # If false, it's only possible to break the blocks on the list below
+  use-as-blacklist: false
+
+  # type: list<int> or list<string>
+  # Defines the block types which are allowed to be broken
+  list:
+    - 'none'
 
 # Join team with entity config
 jointeam-entity:
@@ -392,10 +399,13 @@ gameoverdelay: 10
 show-team-in-actionbar: false
 
 # Chat to all prefix
-# type: char
+# type: list
 # The prefix character which indicates to chat
 # to all ingame players (not only team)
-chat-to-all-prefix: "@"
+chat-to-all-prefix:
+- '@'
+- '@a'
+- '@all'
 
 # Seperate game chat
 # type: boolean
