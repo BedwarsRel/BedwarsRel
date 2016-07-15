@@ -182,10 +182,18 @@ player-drops: false
 place-in-liquid: true
 
 # Breakable blocks
-# type: list<int> or list<string>
-# Defines the block types which are allowed to break
 breakable-blocks:
-  - none
+  # Use ad blacklist
+  # type boolean
+  # If true, it's possible to place all blocks except the blocks at the list below
+  # If false, it's only possible to place the blocks at the list below
+  use-as-blacklist: false
+
+  # type: list<int> or list<string>
+  # Defines the block types which are allowed to break
+  list:
+    - 6
+    - 31
 
 # Join team with entity config
 jointeam-entity:
