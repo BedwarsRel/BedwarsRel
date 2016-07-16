@@ -659,7 +659,7 @@ public class PlayerListener extends BaseListener {
     }
 
     String message = pcpe.getMessage();
-    if (!message.startsWith("/" + Main.getInstance().getStringConfig("command-prefix", "bw"))) {
+    if (!message.startsWith("/bw")) {
 
       for (String allowed : Main.getInstance().getAllowedCommands()) {
         if (!allowed.startsWith("/")) {
