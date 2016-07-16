@@ -19,12 +19,6 @@
 
 chat-prefix: "&7[&bBedWars&7]&f"
 
-# Command prefix
-# type: string
-# The overall command prefix for every bedwars command!
-# Change this only if it is needed to and you know what your are doing
-command-prefix: "bw"
-
 # Enabled Metrics
 # type: boolean
 # Plugin Metrics sending anonymous data about your server

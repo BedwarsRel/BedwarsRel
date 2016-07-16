@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,13 +16,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
-import org.bukkit.plugin.SimplePluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -702,7 +697,7 @@ public class Main extends JavaPlugin {
   }
 
   private void registerCommands() {
-    final BedwarsCommandExecutor executor = new BedwarsCommandExecutor(this);
+    BedwarsCommandExecutor executor = new BedwarsCommandExecutor(this);
     
     this.commands.add(new HelpCommand(this));
     this.commands.add(new SetSpawnerCommand(this));
@@ -735,33 +730,9 @@ public class Main extends JavaPlugin {
     this.commands.add(new AddTeamJoinCommand(this));
     this.commands.add(new AddHoloCommand(this));
     this.commands.add(new RemoveHoloCommand(this));
-    
-    Command command = new Command(this.getStringConfig("command-prefix", "bw")) {
-      
-      @Override
-      public boolean execute(CommandSender sender, String cmd, String[] args) {
-        return executor.onCommand(sender, this, cmd, args);
-      }
-    };
 
-    this.registerCommand(command);
+    this.getCommand("bw").setExecutor(executor);
   }
-
-  private void registerCommand(Command command) {
-    try {
-      Field cMap = SimplePluginManager.class.getDeclaredField("commandMap");
-      cMap.setAccessible(true);
-      CommandMap map = (CommandMap) cMap.get(this.getServer().getPluginManager());
-      map.register(command.getName(), command);
-
-    } catch (NoSuchFieldException e) { // Should never be called
-      e.printStackTrace();
-    } catch (IllegalAccessException e) { // Set accessable to true, so unless something crazy
-                                         // happened, should never be called
-      e.printStackTrace();
-    }
-  }
-
 
   public ArrayList<BaseCommand> getCommands() {
     return this.commands;
