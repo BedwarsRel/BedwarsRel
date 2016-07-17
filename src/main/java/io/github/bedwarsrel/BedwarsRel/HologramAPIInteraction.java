@@ -15,8 +15,6 @@ import org.bukkit.entity.Player;
 
 import de.inventivegames.hologram.Hologram;
 import de.inventivegames.hologram.HologramAPI;
-import de.inventivegames.hologram.touch.TouchAction;
-import de.inventivegames.hologram.touch.TouchHandler;
 import de.inventivegames.hologram.view.ViewHandler;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import io.github.bedwarsrel.BedwarsRel.Statistics.StatField;
@@ -105,7 +103,13 @@ public class HologramAPIInteraction implements IHologramInteraction {
     this.createStatisticHologram(eyeLocation);
   }
 
-  private void onHologramTouch(final Player player, final Hologram touchedHologram) {
+
+  @Override
+  public void onHologramTouch(Player player, Location holoLocation) {
+    onHologramTouch(player, this.hologramSets.get(holoLocation).get(0));
+  }
+
+  public void onHologramTouch(final Player player, final Hologram touchedHologram) {
     if (!player.hasMetadata("bw-remove-holo")
         || (!player.isOp() && !player.hasPermission("bw.setup"))) {
       return;
@@ -188,15 +192,14 @@ public class HologramAPIInteraction implements IHologramInteraction {
           return string;
         }
       });
-      holo.setTouchable(true);
-      holo.addTouchHandler(new TouchHandler() {
-
-        @Override
-        public void onTouch(Hologram hologram, Player player, TouchAction action) {
-          HologramAPIInteraction.this.onHologramTouch(player, hologram);
-        }
-
-      });
+      /*
+       * holo.setTouchable(true); holo.addTouchHandler(new TouchHandler() {
+       * 
+       * @Override public void onTouch(Hologram hologram, Player player, TouchAction action) {
+       * HologramAPIInteraction.this.onHologramTouch(player, hologram); }
+       * 
+       * });
+       */
       holo.spawn();
       holograms.add(holo);
       currentLine++;

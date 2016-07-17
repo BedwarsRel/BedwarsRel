@@ -19,10 +19,12 @@ import com.gmail.filoghost.holographicdisplays.api.handler.TouchHandler;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import lombok.Getter;
 
 public class HolographicDisplaysInteraction implements IHologramInteraction {
 
-  private List<Location> hologramLocations = null;
+  @Getter
+  private ArrayList<Location> hologramLocations = null;
   private Map<Player, List<Hologram>> holograms = null;
 
   public void unloadHolograms() {
@@ -32,10 +34,6 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
         iterator.next().delete();
       }
     }
-  }
-
-  public List<Location> getHologramLocations() {
-    return this.hologramLocations;
   }
 
   @SuppressWarnings("unchecked")
@@ -165,7 +163,7 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
     this.updateHologramDatabase();
   }
 
-  private void onHologramTouch(final Player player, final Hologram holo) {
+  public void onHologramTouch(final Player player, final Hologram holo) {
     if (!player.hasMetadata("bw-remove-holo")
         || (!player.isOp() && !player.hasPermission("bw.setup"))) {
       return;
@@ -295,5 +293,8 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
   public String getType() {
     return "HolographicDisplays";
   }
+
+  @Override
+  public void onHologramTouch(Player player, Location holoLocation) {}
 
 }

@@ -3,6 +3,7 @@ package io.github.bedwarsrel.BedwarsRel.Commands;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -44,19 +45,35 @@ public class RemoveHoloCommand extends BaseCommand implements ICommand {
 
     final Player player = (Player) sender;
     player.setMetadata("bw-remove-holo", new FixedMetadataValue(Main.getInstance(), true));
-    player.sendMessage(
-        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("commands.removeholo.explain")));
+    if (Main.getInstance().getHolographicInteractor().getType()
+        .equalsIgnoreCase("HolographicDisplays")) {
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("commands.removeholo.explain")));
 
-    Main.getInstance().getServer().getScheduler().runTaskLater(Main.getInstance(), new Runnable() {
+    } else if (Main.getInstance().getHolographicInteractor().getType()
+        .equalsIgnoreCase("HologramAPI")) {
 
-      @Override
-      public void run() {
-        if (player.hasMetadata("bw-remove-holo")) {
-          player.removeMetadata("bw-remove-holo", Main.getInstance());
+      for (Location location : Main.getInstance().getHolographicInteractor()
+          .getHologramLocations()) {
+        if (player.getEyeLocation().getBlockX() == location.getBlockX()
+            && player.getEyeLocation().getBlockY() == location.getBlockY()
+            && player.getEyeLocation().getBlockZ() == location.getBlockZ()) {
+          Main.getInstance().getHolographicInteractor().onHologramTouch(player, location);
         }
       }
+      Main.getInstance().getServer().getScheduler().runTaskLater(Main.getInstance(),
+          new Runnable() {
 
-    }, 10L * 20L);
+            @Override
+            public void run() {
+              if (player.hasMetadata("bw-remove-holo")) {
+                player.removeMetadata("bw-remove-holo", Main.getInstance());
+              }
+            }
+
+          }, 10L * 20L);
+
+    }
     return true;
   }
 
