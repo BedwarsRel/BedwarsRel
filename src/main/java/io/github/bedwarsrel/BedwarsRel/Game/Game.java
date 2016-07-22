@@ -766,16 +766,16 @@ public class Game {
     } else {
       if (this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
         if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()) {
-          if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)
-              && this.getPlayerDamager(p) != null) {
+          if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)) {
             statistic.setDeaths(statistic.getDeaths() + 1);
             statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
-
-            PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
-                .getStatistic(this.getPlayerDamager(p));
-            killerPlayer.setKills(killerPlayer.getKills() + 1);
-            killerPlayer
-                .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+            if (this.getPlayerDamager(p) != null) {
+              PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
+                  .getStatistic(this.getPlayerDamager(p));
+              killerPlayer.setKills(killerPlayer.getKills() + 1);
+              killerPlayer
+                  .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+            }
           }
           statistic.setLoses(statistic.getLoses() + 1);
           statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
@@ -1142,13 +1142,13 @@ public class Game {
     return ChatColor.translateAlternateColorCodes('&', format);
   }
 
-  private String formatLobbyScoreboardString(String str) {	
-	String finalStr = str;
-	
-	finalStr = finalStr.replace("$regionname$", this.region.getName());
-	finalStr = finalStr.replace("$gamename$", this.name);
-	finalStr = finalStr.replace("$players$", String.valueOf(this.getPlayerAmount()));
-	finalStr = finalStr.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
+  private String formatLobbyScoreboardString(String str) {
+    String finalStr = str;
+
+    finalStr = finalStr.replace("$regionname$", this.region.getName());
+    finalStr = finalStr.replace("$gamename$", this.name);
+    finalStr = finalStr.replace("$players$", String.valueOf(this.getPlayerAmount()));
+    finalStr = finalStr.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
 
     return ChatColor.translateAlternateColorCodes('&', finalStr);
   }
@@ -1513,7 +1513,7 @@ public class Game {
   public void setMinPlayers(int players) {
     int max = this.getMaxPlayers();
     int minPlayers = players;
-    
+
     if (max < players && max > 0) {
       minPlayers = max;
     }
@@ -1885,7 +1885,7 @@ public class Game {
         teamsWithPlayers++;
       }
     }
-    
+
     return (teamsWithPlayers > 1 || (teamsWithPlayers == 1 && this.getFreePlayers().size() >= 1)
         || (teamsWithPlayers == 0 && this.getFreePlayers().size() >= 2));
   }
