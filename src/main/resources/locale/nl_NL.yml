@@ -100,8 +100,8 @@ ingame:
   gamestarting: Spel is aan het starten ...
   gamestarted: "Spel '$game$' is juist gestart!"
   backtolobby: Terug naar lobby in $sec$ seconden!
-  spectator: Spectator
-  spectate: '&aSpectate'
+  spectator: Toeschouwer
+  spectate: '&aToeschouwen'
   teamchest: Team kist
   noturteamchest: Deze kist is geen kist van jouw team!
   protectionleft: 'Beveiligd voor &c$length$&f second(en)!'
@@ -114,7 +114,7 @@ ingame:
     win-title: '&6Gefeliciteerd!'
     win-subtitle: '$team$&6 gewonnen in &e$time$'
   shop:
-    name: Itemshop
+    name: Itemwinkel
     newshop: Gebruik nieuwe shop
     oldshop: Gebruik oude shop
     fullstackpershift: Vermenigvuldigende staks met shift klik
@@ -180,7 +180,7 @@ stats:
   kd: K/D
   statsnotfound: statistieken van $player$ niet gevonden!
   name: Naam
-  kills: Kills
+  kills: Doden
   deaths: Gedood
   wins: Overwinningen
   loses: Verloren
