@@ -609,9 +609,9 @@ bungeecord:
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
 ### Check the plugin description for possible languages!
-### Currently available languages: de (german), en (english), cz (czech)
-### The fallback language is en (english).
-locale: en
+### Currently available languages: https://github.com/BedwarsRel/BedwarsRel/tree/master/src/main/resources/locale
+### The fallback language is en_US (english).
+locale: en_US
 
 # Ressources config
 ressource:
