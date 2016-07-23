@@ -1,7 +1,6 @@
-[![CircleCI](https://circleci.com/gh/BedwarsRel/BedwarsRel.svg?style=svg)](https://circleci.com/gh/BedwarsRel/BedwarsRel)
+[![CircleCI](https://circleci.com/gh/BedwarsRel/BedwarsRel.svg?style=shield)](https://circleci.com/gh/BedwarsRel/BedwarsRel)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/df02ec6676b8457aa7fcb4be1ba44729)](https://www.codacy.com/app/BedwarsRel/BedwarsRel)
-[![Gitter](https://badges.gitter.im/BedwarsRel/BedwarsRel.svg)](https://gitter.im/BedwarsRel/BedwarsRel?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
+[![Gitter](https://badges.gitter.im/BedwarsRel/BedwarsRel.svg)](https://gitter.im/BedwarsRel/BedwarsRel)
 
 # BedwarsRel - Minecraft Bedwars Plugin
 ![](https://github.com/Yannici/bedwars-reloaded/blob/master/logo.png)
