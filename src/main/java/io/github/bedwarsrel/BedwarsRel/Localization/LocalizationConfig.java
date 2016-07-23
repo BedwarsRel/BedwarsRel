@@ -3,7 +3,9 @@ package io.github.bedwarsrel.BedwarsRel.Localization;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,7 +17,6 @@ import org.bukkit.entity.Player;
 
 import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
 
 public class LocalizationConfig extends YamlConfiguration {
 
@@ -39,32 +40,33 @@ public class LocalizationConfig extends YamlConfiguration {
   public void loadLocale(String locKey, boolean isFallback) {
     File locFile =
         new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + locKey + ".yml");
-    String localeKey = locKey;
-    if (!locFile.exists()) {
-
-      File folder = new File(Main.getInstance().getDataFolder().getPath() + "/locale/");
-      File[] listOfFiles = folder.listFiles();
-      for (int i = 0; i < listOfFiles.length; i++) {
-        if (listOfFiles[i].isFile() && listOfFiles[i].getName().startsWith(localeKey)
-            && listOfFiles[i].getName().endsWith(".yml")) {
-          locFile = listOfFiles[i];
-          localeKey = listOfFiles[i].getName().substring(0, listOfFiles[i].getName().length() - 4);
-          break;
-        }
+    BufferedReader reader = null;
+    InputStream inputStream = null;
+    if (locFile.exists()) {
+      try {
+        inputStream = new FileInputStream(locFile);
+      } catch (FileNotFoundException e) {
+        // NO ERROR
       }
-      if (!locFile.exists()) {
-        locFile = new File(Main.getInstance().getDataFolder().getPath() + "/locale/"
-            + Main.getInstance().getFallbackLocale() + ".yml");
+      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
+          .pluginMessage(ChatColor.GOLD + "Using your custom locale \"" + locKey + "\"."));
+    } else {
+      if (inputStream == null) {
+        inputStream = Main.getInstance().getResource("locale/" + locKey + ".yml");
+      }
+      if (inputStream == null) {
+        Main.getInstance().getServer().getConsoleSender()
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.GOLD + "The locale \"" + locKey
+                + "\" defined in your config is not available. Using fallback locale: "
+                + Main.getInstance().getFallbackLocale()));
+        inputStream = Main.getInstance()
+            .getResource("locale/" + Main.getInstance().getFallbackLocale() + ".yml");
       }
     }
-
-    BufferedReader reader = null;
     try {
-      reader = new BufferedReader(new InputStreamReader(new FileInputStream(locFile), "UTF-8"));
+      reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
       this.load(reader);
     } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      // no localization file, no translation :D
       Main.getInstance().getServer().getConsoleSender().sendMessage(
           ChatWriter.pluginMessage(ChatColor.RED + "Failed to load localization language!"));
       return;
@@ -73,7 +75,6 @@ public class LocalizationConfig extends YamlConfiguration {
         try {
           reader.close();
         } catch (IOException e) {
-          Main.getInstance().getBugsnag().notify(e);
           e.printStackTrace();
         }
       }
@@ -92,7 +93,7 @@ public class LocalizationConfig extends YamlConfiguration {
   @Override
   public String getString(String path) {
     if (super.get(path) == null) {
-        return "LOCALE_NOT_FOUND";
+      return "LOCALE_NOT_FOUND";
     }
 
     return ChatColor.translateAlternateColorCodes('&', super.getString(path));
@@ -107,18 +108,4 @@ public class LocalizationConfig extends YamlConfiguration {
     return ChatColor.translateAlternateColorCodes('&', str);
   }
 
-  public void saveLocales(boolean overwrite) {
-    try {
-      for (String filename : Utils.getResourceListing(getClass(), "locale/")) {
-
-        File file = new File(Main.getInstance().getDataFolder() + "/locale", filename);
-        if (!file.exists() || overwrite) {
-          Main.getInstance().saveResource("locale/" + filename, overwrite);
-        }
-      }
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      e.printStackTrace();
-    }
-  }
 }

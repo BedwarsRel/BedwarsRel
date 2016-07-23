@@ -427,8 +427,6 @@ public class Main extends JavaPlugin {
 
   private LocalizationConfig loadLocalization() {
     LocalizationConfig config = new LocalizationConfig();
-    config.saveLocales(false);
-
     config.loadLocale(this.getConfig().getString("locale"), false);
     return config;
   }
@@ -824,7 +822,6 @@ public class Main extends JavaPlugin {
   }
 
   public void reloadLocalization() {
-    this.localization.saveLocales(false);
     this.localization.loadLocale(this.getConfig().getString("locale"), false);
   }
 
