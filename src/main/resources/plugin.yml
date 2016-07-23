@@ -1,10 +1,12 @@
-name: BedwarsRel
-description: Destroy other's beds with bedwars reloaded
-author: Yannici
-website: http://www.spigotmc.org/resources/bedwars-rel.6799/
+name: "BedwarsRel"
+description: |
+  §aBedwars Reloaded - The Minecraft Bedwars Plugin!
+  §7Bedwars is a Minecraft minigame where teams (max. 15) try to destroy the other teams' beds. But there is more: On the whole map there are ressource spawners spawning items. Some items are more worth than others and with these you can buy different things in the so called "Villager Shop". You will find powerful weapons or potions or simple blocks to get to the other bases. Get to the others bases? Yes, every team starts on an island and you have to get to the others with blocks which you can buy in the "Villager Shop". When you meet a enemy you have to try to kill him so he'll lose all the equipment which he had in his inventory. As soon as a team's bed is destroyed they cannot respawn again and last team standing wins.
+author: "The BedwarsRel-Team | www.github.com/orgs/BedwarsRel/people"
+website: "www.github.com/BedwarsRel"
 
 main: io.github.bedwarsrel.BedwarsRel.Main
-version: 1.3.3
+version: ${project.version}
 
 awareness:
     - !@UTF8
