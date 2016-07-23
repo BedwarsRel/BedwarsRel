@@ -177,7 +177,7 @@ public class HologramAPIInteraction implements IHologramInteraction {
           lines.get(currentLine));
       holo.addViewHandler(new ViewHandler() {
         @Override
-        public String onView(Hologram hologram, Player player, String string) {
+        public String onView(Hologram hologram, Player player, String line) {
           PlayerStatistic playerStatistic =
               Main.getInstance().getPlayerStatisticManager().getStatistic(player);
           for (StatField statField : statistic.getStatFields()) {
@@ -187,9 +187,9 @@ public class HologramAPIInteraction implements IHologramInteraction {
                   (BigDecimal.valueOf(Double.valueOf(value)).setScale(2, BigDecimal.ROUND_HALF_UP))
                       .toPlainString();
             }
-            string = string.replace("%%" + statField.name() + "%%", value);
+            line = line.replace("%%" + statField.name() + "%%", value);
           }
-          return string;
+          return line;
         }
       });
       /*
@@ -213,15 +213,23 @@ public class HologramAPIInteraction implements IHologramInteraction {
   }
 
   @Override
-  public void updateHolograms(Player p) {}
+  public void updateHolograms(Player p) {
+    // NOT NEEDED HERE
+  }
 
   @Override
-  public void updateHolograms(Player player, long l) {}
+  public void updateHolograms(Player player, long l) {
+    // NOT NEEDED HERE
+  }
 
   @Override
-  public void unloadAllHolograms(Player player) {}
+  public void unloadAllHolograms(Player player) {
+    // NOT NEEDED HERE
+  }
 
   @Override
-  public void updateHolograms() {}
+  public void updateHolograms() {
+    // NOT NEEDED HERE
+  }
 
 }

@@ -936,12 +936,11 @@ public class PlayerListener extends BaseListener {
           break;
         case EMERALD:
           pie.setCancelled(true);
-          if (player.isOp() || player.hasPermission("bw.setup")
-              || player.hasPermission("bw.vip.reducecountdown")) {
-            if (g.getGameLobbyCountdown().getCounter() > g.getGameLobbyCountdown()
-                .getLobbytimeWhenFull())
-              g.getGameLobbyCountdown()
-                  .setCounter(g.getGameLobbyCountdown().getLobbytimeWhenFull());
+          if ((player.isOp() || player.hasPermission("bw.setup")
+              || player.hasPermission("bw.vip.reducecountdown"))
+              && g.getGameLobbyCountdown().getCounter() > g.getGameLobbyCountdown()
+                  .getLobbytimeWhenFull()) {
+            g.getGameLobbyCountdown().setCounter(g.getGameLobbyCountdown().getLobbytimeWhenFull());
           }
           break;
         case SLIME_BALL:

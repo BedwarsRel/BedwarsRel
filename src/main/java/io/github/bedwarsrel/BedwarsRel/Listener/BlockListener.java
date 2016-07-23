@@ -368,16 +368,14 @@ public class BlockListener extends BaseListener {
         return;
       }
 
-      if (replacedBlock != null) {
-        if (!Main.getInstance().getBooleanConfig("place-in-liquid", true)
-            && (replacedBlock.getType().equals(Material.WATER)
-                || replacedBlock.getType().equals(Material.STATIONARY_WATER)
-                || replacedBlock.getType().equals(Material.LAVA)
-                || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
-          bpe.setCancelled(true);
-          bpe.setBuild(false);
-          return;
-        }
+      if (replacedBlock != null && !Main.getInstance().getBooleanConfig("place-in-liquid", true)
+          && (replacedBlock.getType().equals(Material.WATER)
+              || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+              || replacedBlock.getType().equals(Material.LAVA)
+              || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
+        bpe.setCancelled(true);
+        bpe.setBuild(false);
+        return;
       }
 
       if (placeBlock.getType() == Material.ENDER_CHEST) {

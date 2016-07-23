@@ -765,17 +765,16 @@ public class Game {
       }
     } else {
       if (this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
-        if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()) {
-          if (Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)) {
-            statistic.setDeaths(statistic.getDeaths() + 1);
-            statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
-            if (this.getPlayerDamager(p) != null) {
-              PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
-                  .getStatistic(this.getPlayerDamager(p));
-              killerPlayer.setKills(killerPlayer.getKills() + 1);
-              killerPlayer
-                  .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
-            }
+        if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()
+            && Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)) {
+          statistic.setDeaths(statistic.getDeaths() + 1);
+          statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+          if (this.getPlayerDamager(p) != null) {
+            PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
+                .getStatistic(this.getPlayerDamager(p));
+            killerPlayer.setKills(killerPlayer.getKills() + 1);
+            killerPlayer
+                .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
           }
           statistic.setLoses(statistic.getLoses() + 1);
           statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
@@ -1891,10 +1890,7 @@ public class Game {
   }
 
   public boolean hasEnoughPlayers() {
-    if (this.getPlayers().size() >= this.getMinPlayers()) {
-      return true;
-    }
-    return false;
+    return this.getPlayers().size() >= this.getMinPlayers();
   }
 
   public void playerJoinTeam(Player player, Team team) {

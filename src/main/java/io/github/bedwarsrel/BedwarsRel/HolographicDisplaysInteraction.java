@@ -295,6 +295,8 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
   }
 
   @Override
-  public void onHologramTouch(Player player, Location holoLocation) {}
+  public void onHologramTouch(Player player, Location holoLocation) {
+    // NOT NEEDED HERE
+  }
 
 }

@@ -696,7 +696,7 @@ public class Main extends JavaPlugin {
 
   private void registerCommands() {
     BedwarsCommandExecutor executor = new BedwarsCommandExecutor(this);
-    
+
     this.commands.add(new HelpCommand(this));
     this.commands.add(new SetSpawnerCommand(this));
     this.commands.add(new AddGameCommand(this));
@@ -882,11 +882,8 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isHologramsEnabled() {
-    if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
-        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
-      return true;
-    }
-    return false;
+    return this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
   }
 
   public IHologramInteraction getHolographicInteractor() {
