@@ -2,13 +2,16 @@ package io.github.bedwarsrel.BedwarsRel.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
@@ -67,7 +70,7 @@ public class Team implements ConfigurationSerializable {
   }
 
   public boolean addPlayer(Player player) {
-    if (this.getScoreboardTeam().getEntries().size() >= this.getMaxPlayers()) {
+    if (this.getScoreboardTeamEntries(this.getScoreboardTeam()).size() >= this.getMaxPlayers()) {
       return false;
     }
 
@@ -153,7 +156,7 @@ public class Team implements ConfigurationSerializable {
 
   public List<Player> getPlayers() {
     List<Player> players = new ArrayList<>();
-    for (String playerName : this.getScoreboardTeam().getEntries()) {
+    for (String playerName : this.getScoreboardTeamEntries(this.getScoreboardTeam())) {
       Player player = Main.getInstance().getServer().getPlayer(playerName);
       if (player != null && Main.getInstance().getGameManager().getGameOfPlayer(player) != null
           && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
@@ -228,6 +231,19 @@ public class Team implements ConfigurationSerializable {
     } else {
       this.setTargetFeetBlock(null);
     }
+  }
+
+  public Set<String> getScoreboardTeamEntries(org.bukkit.scoreboard.Team scoreboardTeam) {
+    if (Main.getInstance().isSpigot()) {
+      return scoreboardTeam.getEntries();
+    }
+
+    Set<String> set = new HashSet<String>();
+    for (OfflinePlayer offlinePlayer : scoreboardTeam.getPlayers()) {
+      set.add(offlinePlayer.getName());
+    }
+    return set;
+
   }
 
 }
