@@ -2,10 +2,8 @@ package io.github.bedwarsrel.BedwarsRel.Game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -70,7 +68,7 @@ public class Team implements ConfigurationSerializable {
   }
 
   public boolean addPlayer(Player player) {
-    if (this.getScoreboardTeamEntries(this.getScoreboardTeam()).size() >= this.getMaxPlayers()) {
+    if (this.getScoreboardTeam().getPlayers().size() >= this.getMaxPlayers()) {
       return false;
     }
 
@@ -84,7 +82,7 @@ public class Team implements ConfigurationSerializable {
           + this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
     }
 
-    this.getScoreboardTeam().addEntry(player.getName());
+    this.getScoreboardTeam().addPlayer(player);
     this.equipPlayerWithLeather(player);
 
     return true;
@@ -156,8 +154,8 @@ public class Team implements ConfigurationSerializable {
 
   public List<Player> getPlayers() {
     List<Player> players = new ArrayList<>();
-    for (String playerName : this.getScoreboardTeamEntries(this.getScoreboardTeam())) {
-      Player player = Main.getInstance().getServer().getPlayer(playerName);
+    for (OfflinePlayer offlinePlayer : this.getScoreboardTeam().getPlayers()) {
+      Player player = Main.getInstance().getServer().getPlayer(offlinePlayer.getName());
       if (player != null && Main.getInstance().getGameManager().getGameOfPlayer(player) != null
           && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
         players.add(player);
@@ -181,7 +179,7 @@ public class Team implements ConfigurationSerializable {
   }
 
   public boolean isInTeam(Player p) {
-    return this.getScoreboardTeam().hasEntry(p.getName());
+    return this.getScoreboardTeam().hasPlayer(p);
   }
 
   public void removeChest(Block chest) {
@@ -192,8 +190,8 @@ public class Team implements ConfigurationSerializable {
   }
 
   public void removePlayer(Player player) {
-    if (this.getScoreboardTeam().hasEntry(player.getName())) {
-      this.getScoreboardTeam().removeEntry(player.getName());
+    if (this.getScoreboardTeam().hasPlayer(player)) {
+      this.getScoreboardTeam().removePlayer(player);
     }
 
     if (Main.getInstance().getBooleanConfig("overwrite-names", false) && player.isOnline()) {
@@ -231,19 +229,6 @@ public class Team implements ConfigurationSerializable {
     } else {
       this.setTargetFeetBlock(null);
     }
-  }
-
-  public Set<String> getScoreboardTeamEntries(org.bukkit.scoreboard.Team scoreboardTeam) {
-    if (Main.getInstance().isSpigot()) {
-      return scoreboardTeam.getEntries();
-    }
-
-    Set<String> set = new HashSet<String>();
-    for (OfflinePlayer offlinePlayer : scoreboardTeam.getPlayers()) {
-      set.add(offlinePlayer.getName());
-    }
-    return set;
-
   }
 
 }
