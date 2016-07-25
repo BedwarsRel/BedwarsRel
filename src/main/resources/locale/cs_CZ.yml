@@ -144,17 +144,17 @@ ingame:
     tntsheep:
       no-target-found: Nebyl nalezen zadny cil!
     tracker:
-      no-target-found: No target player was found!
-      target-found: $player$ is $blocks$ block(s) away from you.
+      no-target-found: Nebyl nalezen zadny cil!
+      target-found: $player$ je $blocks$ bloku od tebe.
 lobby:
   countdown: Hra zacne za $sec$ sekund!
   countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
   cancelcountdown:
     not_enough_players: Je potreba vice hracu! Odpocet byl zastaven.
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_teams: Je potreba vice tymu. Odpovitavani bylo zastaveno!
   cancelstart:
     not_enough_players: Pro start hry je potreba vice hracu!
-    not_enough_teams: More teams are needed to start the game!
+    not_enough_teams: Je potreba vice tymu pro start hry!
   chooseteam: Vyber si tym
   startgame: Spustit hru
   reduce_countdown: Reduce countdown
@@ -166,7 +166,7 @@ lobby:
   kickedbyvip: Bylo uvolneno misto pro VIP hrace, byl(a) jsi vyhozen.
   moreplayersneeded: Je potreba $count$ hracu navic.
   moreplayersneeded-one: Je potreba $count$ hrac navic.
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+  moreteamsneeded: Jsou potreba minimalne dva hraci ve dvou ruznych tymech pro start hry!
 sign:
   firstline: '&6[Bedwars]'
   players: Hraci
