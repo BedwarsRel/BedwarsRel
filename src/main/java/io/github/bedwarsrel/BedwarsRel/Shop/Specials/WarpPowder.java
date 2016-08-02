@@ -69,13 +69,14 @@ public class WarpPowder extends SpecialItem {
     }
 
     this.setStackAmount(this.getStack().getAmount() - 1);
-    
-    if(player.getInventory().first(this.getCancelItemStack()) != -1){
-      this.player.getInventory().setItem(player.getInventory().first(this.getCancelItemStack()), this.stack);
+
+    if (player.getInventory().first(this.getCancelItemStack()) != -1) {
+      this.player.getInventory().setItem(player.getInventory().first(this.getCancelItemStack()),
+          this.stack);
     } else {
       this.player.getInventory().setItemInOffHand(this.stack);
     }
-    
+
     this.player.updateInventory();
   }
 
@@ -93,16 +94,14 @@ public class WarpPowder extends SpecialItem {
     final int circles = 15;
     final double height = 2.0;
 
-    ItemStack usedStack = this.player.getInventory().getItemInHand();
+    this.stack = this.player.getInventory().getItemInHand();
 
-    if (usedStack.getType() != this.getItemMaterial()
+    if (this.stack.getType() != this.getItemMaterial()
         && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
             || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
-      usedStack = player.getInventory().getItemInOffHand();
-      this.stack = usedStack.clone();
+      this.stack = player.getInventory().getItemInOffHand();
       this.player.getInventory().setItemInOffHand(this.getCancelItemStack());
     } else {
-      this.stack = usedStack.clone();
       this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(),
           this.getCancelItemStack());
     }
