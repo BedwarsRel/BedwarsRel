@@ -151,7 +151,7 @@ lobby:
   countdowncancel: More players needed. Countdown was cancelled!
   cancelcountdown:
     not_enough_players: More players needed. Countdown cancelled!
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_teams: Squadre più necessari. Conto alla rovescia annullato!
   cancelstart:
     not_enough_players: More players are needed to start the game!
     not_enough_teams: More teams are needed to start the game!
