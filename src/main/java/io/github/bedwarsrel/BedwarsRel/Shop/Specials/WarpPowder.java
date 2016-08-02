@@ -69,8 +69,8 @@ public class WarpPowder extends SpecialItem {
     }
 
     this.setStackAmount(this.getStack().getAmount() - 1);
-    int slot = (player.getInventory().first(this.getCancelItemStack()));
-    if(slot != -1){
+    
+    if(player.getInventory().first(this.getCancelItemStack()) != -1){
       this.player.getInventory().setItem(player.getInventory().first(this.getCancelItemStack()), this.stack);
     } else {
       this.player.getInventory().setItemInOffHand(this.stack);
