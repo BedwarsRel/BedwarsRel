@@ -60,6 +60,7 @@ public class ProtectionWall extends SpecialItem {
     return this.livingTime;
   }
 
+  @SuppressWarnings("deprecation")
   public void create(Player player, Game game) {
     this.owner = player;
     this.game = game;
@@ -106,9 +107,20 @@ public class ProtectionWall extends SpecialItem {
       }
 
     Location wallLocation = Utils.getDirectionLocation(player.getLocation(), distance);
+    
     ItemStack usedStack = player.getInventory().getItemInHand();
-    usedStack.setAmount(usedStack.getAmount() - 1);
-    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+
+    if (usedStack.getType() != this.getItemMaterial()
+        && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
+      usedStack = player.getInventory().getItemInOffHand();
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItemInOffHand(usedStack);
+    } else {
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+    }
+
     player.updateInventory();
 
     BlockFace face = Utils.getCardinalDirection(player.getLocation());
