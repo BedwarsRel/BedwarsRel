@@ -90,10 +90,19 @@ public class RescuePlatform extends SpecialItem {
     mid.setY(mid.getY() - 1.0D);
 
     Team team = game.getPlayerTeam(player);
-    ItemStack usedStack = player.getInventory().getItemInHand();
-    usedStack.setAmount(usedStack.getAmount() - 1);
-    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
-    player.updateInventory();
+
+    if (player.getInventory().getItemInHand().getType() == this.getItemMaterial()) {
+      ItemStack usedStack = player.getInventory().getItemInHand();
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+      player.updateInventory();
+    }else {
+//      ItemStack usedStack = player.getInventory().getItem(-1);
+//      usedStack.setAmount(usedStack.getAmount() - 1);
+//      player.getInventory().setItem(-1, usedStack);
+//      player.updateInventory();
+    }
+
     for (BlockFace face : BlockFace.values()) {
       if (face.equals(BlockFace.DOWN) || face.equals(BlockFace.UP)) {
         continue;
