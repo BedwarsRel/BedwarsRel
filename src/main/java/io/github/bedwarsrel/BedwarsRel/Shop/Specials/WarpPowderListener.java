@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -67,7 +68,7 @@ public class WarpPowderListener implements Listener {
     warpPowder.runTask();
     ev.setCancelled(true);
   }
-  
+
   private WarpPowder getActiveWarpPowder(Game game, Player player) {
     for (SpecialItem item : game.getSpecialItems()) {
       if (item instanceof WarpPowder) {
@@ -77,7 +78,7 @@ public class WarpPowderListener implements Listener {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -112,7 +113,7 @@ public class WarpPowderListener implements Listener {
       if (powder.getPlayer().equals(player)) {
         break;
       }
-      
+
       powder = null;
     }
 
@@ -167,6 +168,21 @@ public class WarpPowderListener implements Listener {
       powder.cancelTeleport(true, true);
       return;
     }
+  }
+
+  @EventHandler
+  public void onDrop(PlayerDropItemEvent event) {
+    Player p = event.getPlayer();
+    Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
+    if (g == null) {
+      return;
+    }
+
+    if (g.getState() == GameState.RUNNING && event.getItemDrop().getItemStack().getItemMeta()
+        .getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+      event.setCancelled(true);
+    }
+
   }
 
 }
