@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
@@ -112,14 +113,34 @@ public class MerchantCategory {
           continue;
         }
 
-        ItemStack item1 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(0)));
+        ItemStack item1 = null;
+
+        try {
+          item1 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(0)));
+        } catch (Exception e) {
+          // CATCH EXCEPTION
+        }
+
         ItemStack item2 = null;
         if (offerSection.get("price").size() == 2) {
-          item2 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(1)));
+          try {
+            item2 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(1)));
+          } catch (Exception e) {
+            // CATCH EXCEPTION
+          }
         }
-        ItemStack reward = ItemStack.deserialize(offerSection.get("reward").get(0));
+        ItemStack reward = null;
+
+        try {
+          reward = ItemStack.deserialize(offerSection.get("reward").get(0));
+        } catch (Exception e) {
+          // CATCH EXCEPTION
+        }
 
         if (item1 == null || reward == null) {
+          Main.getInstance().getServer().getConsoleSender().sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + "Couldn't parse item in category \""
+                  + section.getString(cat + ".name") + "\": " + offerSection.toString()));
           continue;
         }
 
