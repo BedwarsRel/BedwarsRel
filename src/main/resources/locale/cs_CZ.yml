@@ -144,8 +144,8 @@ ingame:
     tntsheep:
       no-target-found: Nebyl nalezen zadny cil!
     tracker:
-      no-target-found: No target player was found!
-      target-found: $player$ is $blocks$ block(s) away from you.
+      no-target-found: Nebyl nalezen zadny cil!
+      target-found: $player$ je $blocks$ bloku od tebe.
 lobby:
   countdown: Hra zacne za $sec$ sekund!
   countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
