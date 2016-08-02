@@ -65,8 +65,10 @@ public class RescuePlatform extends SpecialItem {
 
     int breakTime = Main.getInstance().getIntConfig("specials.rescue-platform.break-time", 10);
     int waitTime = Main.getInstance().getIntConfig("specials.rescue-platform.using-wait-time", 20);
-    boolean canBreak = Main.getInstance().getBooleanConfig("specials.rescue-platform.can-break", false);
-    Material configMaterial = Utils.getMaterialByConfig("specials.rescue-platform.block", Material.STAINED_GLASS);
+    boolean canBreak =
+        Main.getInstance().getBooleanConfig("specials.rescue-platform.can-break", false);
+    Material configMaterial =
+        Utils.getMaterialByConfig("specials.rescue-platform.block", Material.STAINED_GLASS);
 
     if (waitTime > 0) {
       ArrayList<RescuePlatform> livingPlatforms = this.getLivingPlatforms();
@@ -74,7 +76,9 @@ public class RescuePlatform extends SpecialItem {
         for (RescuePlatform livingPlatform : livingPlatforms) {
           int waitLeft = waitTime - livingPlatform.getLivingTime();
           if (waitLeft > 0) {
-            player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left", ImmutableMap.of("time", String.valueOf(waitLeft)))));
+            player.sendMessage(
+                ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left",
+                    ImmutableMap.of("time", String.valueOf(waitLeft)))));
             return;
           }
         }
@@ -91,17 +95,18 @@ public class RescuePlatform extends SpecialItem {
 
     Team team = game.getPlayerTeam(player);
 
-    if (player.getInventory().getItemInHand().getType() == this.getItemMaterial()) {
-      ItemStack usedStack = player.getInventory().getItemInHand();
-      usedStack.setAmount(usedStack.getAmount() - 1);
-      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
-      player.updateInventory();
-    }else {
-//      ItemStack usedStack = player.getInventory().getItem(-1);
-//      usedStack.setAmount(usedStack.getAmount() - 1);
-//      player.getInventory().setItem(-1, usedStack);
-//      player.updateInventory();
+    ItemStack usedStack = player.getInventory().getItemInHand();
+
+    if (usedStack.getType() != this.getItemMaterial()
+        && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
+      usedStack = player.getInventory().getItemInOffHand();
     }
+
+    usedStack.setAmount(usedStack.getAmount() - 1);
+    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+    player.updateInventory();
+
 
     for (BlockFace face : BlockFace.values()) {
       if (face.equals(BlockFace.DOWN) || face.equals(BlockFace.UP)) {
@@ -114,7 +119,8 @@ public class RescuePlatform extends SpecialItem {
       }
 
       placed.setType(configMaterial);
-      if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL) || configMaterial.equals(Material.STAINED_CLAY)) {
+      if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL)
+          || configMaterial.equals(Material.STAINED_CLAY)) {
         placed.setData(team.getColor().getDyeColor().getData());
       }
 
@@ -147,7 +153,8 @@ public class RescuePlatform extends SpecialItem {
           }
         }
 
-        if (RescuePlatform.this.livingTime >= waitTime && RescuePlatform.this.livingTime >= breakTime) {
+        if (RescuePlatform.this.livingTime >= waitTime
+            && RescuePlatform.this.livingTime >= breakTime) {
           RescuePlatform.this.game.removeRunningTask(this);
           RescuePlatform.this.game.removeSpecialItem(RescuePlatform.this);
           RescuePlatform.this.task = null;
