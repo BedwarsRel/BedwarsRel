@@ -68,7 +68,13 @@ public class WarpPowder extends SpecialItem {
           .sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.cancelled")));
     }
 
-    this.player.getInventory().removeItem(this.getCancelItemStack());
+    int slot = (player.getInventory().first(this.getCancelItemStack()));
+    if(slot != -1){
+      this.player.getInventory().setItem(player.getInventory().first(this.getCancelItemStack()), this.stack);
+    } else {
+      this.player.getInventory().setItemInOffHand(this.stack);
+    }
+    
     this.player.updateInventory();
   }
 
@@ -87,20 +93,20 @@ public class WarpPowder extends SpecialItem {
     final double height = 2.0;
 
     ItemStack usedStack = this.player.getInventory().getItemInHand();
-    this.stack = usedStack.clone();
-    this.stack.setAmount(1);
 
     if (usedStack.getType() != this.getItemMaterial()
         && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
             || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
       usedStack = player.getInventory().getItemInOffHand();
       usedStack.setAmount(usedStack.getAmount() - 1);
-      this.player.getInventory().setItemInOffHand(usedStack);
+      this.stack = usedStack.clone();
+      this.player.getInventory().setItemInOffHand(this.getCancelItemStack());
     } else {
       usedStack.setAmount(usedStack.getAmount() - 1);
-      this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(), usedStack);
+      this.stack = usedStack.clone();
+      this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(),
+          this.getCancelItemStack());
     }
-    this.player.getInventory().addItem(this.getCancelItemStack());
 
     this.player.updateInventory();
 
@@ -185,5 +191,9 @@ public class WarpPowder extends SpecialItem {
 
   public ItemStack getStack() {
     return this.stack;
+  }
+
+  public void setStackAmount(int amount) {
+    this.stack.setAmount(amount);
   }
 }

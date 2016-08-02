@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-
 import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
@@ -45,7 +44,8 @@ public class WarpPowderListener implements Listener {
       }
 
       if (powder != null) {
-        player.getInventory().addItem(powder.getStack());
+        powder.setStackAmount(powder.getStack().getAmount() + 1);
+
         player.updateInventory();
         powder.cancelTeleport(true, true);
         ev.setCancelled(true);
@@ -118,7 +118,7 @@ public class WarpPowderListener implements Listener {
     }
 
     if (powder != null) {
-      player.getInventory().addItem(powder.getStack());
+      powder.setStackAmount(powder.getStack().getAmount() + 1);
       player.updateInventory();
       powder.cancelTeleport(true, true);
       return;
