@@ -38,10 +38,6 @@ public class WarpPowderListener implements Listener {
     WarpPowder powder = this.getActiveWarpPowder(game, player);
 
     if (ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
-      if (ev.getItem().getItemMeta().getDisplayName() == null) {
-        return;
-      }
-
       if (!ev.getItem().getItemMeta().getDisplayName()
           .equals(Main._l("ingame.specials.warp-powder.cancel"))) {
         return;
