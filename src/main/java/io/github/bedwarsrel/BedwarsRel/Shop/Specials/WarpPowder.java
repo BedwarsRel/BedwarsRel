@@ -81,6 +81,7 @@ public class WarpPowder extends SpecialItem {
     return glowstone;
   }
 
+  @SuppressWarnings("deprecation")
   public void runTask() {
     final int circles = 15;
     final double height = 2.0;
@@ -89,9 +90,18 @@ public class WarpPowder extends SpecialItem {
     this.stack = usedStack.clone();
     this.stack.setAmount(1);
 
-    usedStack.setAmount(usedStack.getAmount() - 1);
-    this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(), usedStack);
+    if (usedStack.getType() != this.getItemMaterial()
+        && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
+      usedStack = player.getInventory().getItemInOffHand();
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      this.player.getInventory().setItemInOffHand(usedStack);
+    } else {
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(), usedStack);
+    }
     this.player.getInventory().addItem(this.getCancelItemStack());
+
     this.player.updateInventory();
 
     this.teleportingTime =
