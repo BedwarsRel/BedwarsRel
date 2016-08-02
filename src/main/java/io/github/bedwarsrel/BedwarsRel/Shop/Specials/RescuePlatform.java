@@ -101,10 +101,13 @@ public class RescuePlatform extends SpecialItem {
         && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
             || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
       usedStack = player.getInventory().getItemInOffHand();
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItemInOffHand(usedStack);
+    } else {
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
     }
 
-    usedStack.setAmount(usedStack.getAmount() - 1);
-    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
     player.updateInventory();
 
 
