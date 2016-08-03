@@ -37,6 +37,7 @@ public class TNTSheepListener implements Listener {
     }
   }
 
+  @SuppressWarnings("deprecation")
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onInteract(PlayerInteractEvent event) {
     if (event.getAction().equals(Action.LEFT_CLICK_AIR)
@@ -123,7 +124,7 @@ public class TNTSheepListener implements Listener {
 
     creature.setPlayer(player);
     creature.setGame(game);
-    creature.run(startLocation);
+    creature.run(startLocation, inHand);
     event.setCancelled(true);
   }
 

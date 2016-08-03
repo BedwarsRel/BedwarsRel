@@ -59,8 +59,8 @@ public class TNTSheep extends SpecialItem {
     return this.sheep;
   }
 
-  public void run(Location startLocation) {
-    ItemStack usedStack = this.player.getItemInHand().clone();
+  public void run(Location startLocation, ItemStack inHand) {
+    ItemStack usedStack = inHand.clone();
     usedStack.setAmount(1);
     this.player.getInventory().removeItem(usedStack);
 
