@@ -94,20 +94,24 @@ public class RescuePlatform extends SpecialItem {
     mid.setY(mid.getY() - 1.0D);
 
     Team team = game.getPlayerTeam(player);
-
-    ItemStack usedStack = player.getInventory().getItemInHand();
-
-    if (usedStack.getType() != this.getItemMaterial()
-        && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
-      usedStack = player.getInventory().getItemInOffHand();
-      usedStack.setAmount(usedStack.getAmount() - 1);
-      player.getInventory().setItemInOffHand(usedStack);
-    } else {
+    
+    ItemStack usedStack = null;
+    
+    if(Main.getInstance().getCurrentVersion().startsWith("v1_8")){
+      usedStack = player.getInventory().getItemInHand();
       usedStack.setAmount(usedStack.getAmount() - 1);
       player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+    } else {
+      if(player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()){
+        usedStack = player.getInventory().getItemInOffHand();
+        usedStack.setAmount(usedStack.getAmount() - 1);
+        player.getInventory().setItemInOffHand(usedStack);
+      } else if(player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()){
+        usedStack = player.getInventory().getItemInMainHand();
+        usedStack.setAmount(usedStack.getAmount() - 1);
+        player.getInventory().setItemInMainHand(usedStack);
+      }
     }
-
     player.updateInventory();
 
 

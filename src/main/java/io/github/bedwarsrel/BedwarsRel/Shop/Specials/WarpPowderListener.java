@@ -5,6 +5,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,6 +19,11 @@ public class WarpPowderListener implements Listener {
 
   @EventHandler
   public void onInteract(PlayerInteractEvent ev) {
+    if (ev.getAction().equals(Action.LEFT_CLICK_AIR)
+        || ev.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+      return;
+    }
+
     Player player = ev.getPlayer();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
@@ -38,8 +44,8 @@ public class WarpPowderListener implements Listener {
     WarpPowder powder = this.getActiveWarpPowder(game, player);
 
     if (ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
-      if (!ev.getItem().getItemMeta().getDisplayName()
-          .equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+      if (ev.getItem().getItemMeta().getDisplayName() != null && !ev.getItem().getItemMeta()
+          .getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
         return;
       }
 
@@ -178,8 +184,10 @@ public class WarpPowderListener implements Listener {
       return;
     }
 
-    if (g.getState() == GameState.RUNNING && event.getItemDrop().getItemStack().getItemMeta()
-        .getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+    if (g.getState() == GameState.RUNNING
+        && event.getItemDrop().getItemStack().getItemMeta().getDisplayName() != null
+        && event.getItemDrop().getItemStack().getItemMeta().getDisplayName()
+            .equals(Main._l("ingame.specials.warp-powder.cancel"))) {
       event.setCancelled(true);
     }
 

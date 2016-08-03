@@ -94,18 +94,19 @@ public class WarpPowder extends SpecialItem {
     final int circles = 15;
     final double height = 2.0;
 
-    this.stack = this.player.getInventory().getItemInHand();
-
-    if (this.stack.getType() != this.getItemMaterial()
-        && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
-      this.stack = player.getInventory().getItemInOffHand();
-      this.player.getInventory().setItemInOffHand(this.getCancelItemStack());
-    } else {
-      this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(),
+    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+      this.stack = player.getInventory().getItemInHand();
+      this.player.getInventory().setItem(player.getInventory().getHeldItemSlot(),
           this.getCancelItemStack());
+    } else {
+      if (player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()) {
+        this.stack = player.getInventory().getItemInOffHand();
+        this.player.getInventory().setItemInOffHand(this.getCancelItemStack());
+      } else if (player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()) {
+        this.stack = player.getInventory().getItemInMainHand();
+        this.player.getInventory().setItemInMainHand(this.getCancelItemStack());
+      }
     }
-
     this.player.updateInventory();
 
     this.teleportingTime =
