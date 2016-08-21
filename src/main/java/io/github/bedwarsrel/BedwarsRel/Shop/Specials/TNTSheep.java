@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.SpawnEgg;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.ChatWriter;
@@ -59,10 +60,30 @@ public class TNTSheep extends SpecialItem {
     return this.sheep;
   }
 
-  public void run(Location startLocation, ItemStack inHand) {
-    ItemStack usedStack = inHand.clone();
-    usedStack.setAmount(1);
-    this.player.getInventory().removeItem(usedStack);
+  @SuppressWarnings("deprecation")
+  public void run(Location startLocation) {
+    
+    ItemStack usedStack = null;
+    
+    if(Main.getInstance().getCurrentVersion().startsWith("v1_8")){
+      usedStack = player.getInventory().getItemInHand();
+      if (((SpawnEgg) usedStack.getData()).getSpawnedType() != EntityType.SHEEP) {
+        return;
+      }
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+    } else {
+      if(player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()){
+        usedStack = player.getInventory().getItemInOffHand();
+        usedStack.setAmount(usedStack.getAmount() - 1);
+        player.getInventory().setItemInOffHand(usedStack);
+      } else if(player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()){
+        usedStack = player.getInventory().getItemInMainHand();
+        usedStack.setAmount(usedStack.getAmount() - 1);
+        player.getInventory().setItemInMainHand(usedStack);
+      }
+    }
+    player.updateInventory();
 
     final Team playerTeam = this.game.getPlayerTeam(this.player);
     Player targetPlayer = this.findTargetPlayer(this.player);

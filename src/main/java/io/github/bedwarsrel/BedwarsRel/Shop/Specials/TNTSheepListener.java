@@ -3,7 +3,6 @@ package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
@@ -14,8 +13,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.SpawnEgg;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils;
@@ -37,7 +34,6 @@ public class TNTSheepListener implements Listener {
     }
   }
 
-  @SuppressWarnings("deprecation")
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onInteract(PlayerInteractEvent event) {
     if (event.getAction().equals(Action.LEFT_CLICK_AIR)
@@ -61,51 +57,9 @@ public class TNTSheepListener implements Listener {
       return;
     }
 
-    ItemStack inHand = null;
     TNTSheep creature = new TNTSheep();
 
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
-      if (event.getPlayer().getInventory().getItemInHand() == null && event.getPlayer()
-          .getInventory().getItemInHand().getType() != creature.getItemMaterial()) {
-        return;
-      }
-      inHand = player.getItemInHand();
-    } else {
-      if (event.getHand() == org.bukkit.inventory.EquipmentSlot.OFF_HAND) {
-        if (event.getPlayer().getInventory().getItemInOffHand() == null || event.getPlayer()
-            .getInventory().getItemInOffHand().getType() != creature.getItemMaterial()) {
-          if (event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer()
-              .getInventory().getItemInMainHand().getType() == creature.getItemMaterial()) {
-            event.setCancelled(true);
-          }
-          return;
-        } else if (event.getPlayer().getInventory().getItemInOffHand() != null && event.getPlayer()
-            .getInventory().getItemInOffHand().getType() == creature.getItemMaterial()) {
-          inHand = player.getInventory().getItemInOffHand();
-        }
-      } else if (event.getHand() == org.bukkit.inventory.EquipmentSlot.HAND) {
-        if (event.getPlayer().getInventory().getItemInMainHand() == null || event.getPlayer()
-            .getInventory().getItemInMainHand().getType() != creature.getItemMaterial()) {
-          if (event.getPlayer().getInventory().getItemInOffHand() != null && event.getPlayer()
-              .getInventory().getItemInOffHand().getType() == creature.getItemMaterial()) {
-            event.setCancelled(true);
-          }
-          return;
-        } else if (event.getPlayer().getInventory().getItemInMainHand() != null && event.getPlayer()
-            .getInventory().getItemInMainHand().getType() == creature.getItemMaterial()) {
-          inHand = player.getInventory().getItemInMainHand();
-        }
-      }
-
-    }
-
-    if (!(inHand.getData() instanceof SpawnEgg)) {
-      return;
-    }
-
-    if (!(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-        && ((SpawnEgg) inHand.getData()).getSpawnedType() != EntityType.SHEEP) {
+    if (!event.getMaterial().equals(creature.getItemMaterial())) {
       return;
     }
 
@@ -124,7 +78,7 @@ public class TNTSheepListener implements Listener {
 
     creature.setPlayer(player);
     creature.setGame(game);
-    creature.run(startLocation, inHand);
+    creature.run(startLocation);
     event.setCancelled(true);
   }
 
