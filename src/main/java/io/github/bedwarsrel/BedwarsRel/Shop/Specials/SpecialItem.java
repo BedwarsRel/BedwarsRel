@@ -4,11 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 
 public abstract class SpecialItem {
 
@@ -18,26 +15,6 @@ public abstract class SpecialItem {
   public abstract Material getItemMaterial();
 
   public abstract Material getActivatedMaterial();
-
-  public boolean returnPlayerEvent(Player player) {
-    if (!player.getItemInHand().getType().equals(this.getItemMaterial())
-        && (!player.getItemInHand().getType().equals(this.getActivatedMaterial())
-            && this.getActivatedMaterial() != null)) {
-      return true;
-    }
-
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return true;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return true;
-    }
-
-    return (game.isSpectator(player));
-  }
 
   public static void loadSpecials() {
     SpecialItem.availableSpecials.add(RescuePlatform.class);
