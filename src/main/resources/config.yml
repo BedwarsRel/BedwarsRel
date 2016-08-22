@@ -19,12 +19,6 @@
 
 chat-prefix: "&7[&bBedWars&7]&f"
 
-# Command prefix
-# type: string
-# The overall command prefix for every bedwars command!
-# Change this only if it is needed to and you know what your are doing
-command-prefix: "bw"
-
 # Enabled Metrics
 # type: boolean
 # Plugin Metrics sending anonymous data about your server
@@ -32,6 +26,13 @@ command-prefix: "bw"
 # helpful for me (Yannici, the developer of this plugin). You can
 # disable it anyway, that won't be a disadvantage
 plugin-metrics: true
+
+# Send Error Data
+# type: boolean
+# If enabled, the plugin will automatically send error reports to "BugSnag".
+# This is really helpful for fixing issues with the plugin. You can
+# disable it anyway, that won't be a disadvantage
+send-error-data: true
 
 # Global send messages
 # type: boolean
@@ -175,10 +176,17 @@ player-drops: false
 place-in-liquid: true
 
 # Breakable blocks
-# type: list<int> or list<string>
-# Defines the block types which are allowed to break
 breakable-blocks:
-  - none
+  # Use as blacklist
+  # type: boolean
+  # If true, it's possible to break all blocks except the blocks on the list below
+  # If false, it's only possible to break the blocks on the list below
+  use-as-blacklist: false
+
+  # type: list<int> or list<string>
+  # Defines the block types which are allowed to be broken
+  list:
+    - 'none'
 
 # Join team with entity config
 jointeam-entity:
@@ -361,15 +369,6 @@ explodes:
   # on false, exploded blocks won't drop anything
   drop-blocking: false
 
-# Countdown start rule
-# Type: int
-# Countdown start options:
-# 0 = If all teams got min. 1 player, the game start countdown starts
-# 1 = If min. X (addgame parameter) players joined the game, game countdown starts
-# 2 = If min. X (addgame parameter) players joined the game and more than 1 team got players 
-#   (or players without team are enough to fill teams without players), game countdown starts
-lobbycountdown-rule: 2
-
 # Friendly Fire
 # Type: boolean (true or false)
 # Sets if friendlyfire is enabled (damage team mates)
@@ -387,11 +386,20 @@ friendlybreak: true
 # will be teleported after a game ends.
 gameoverdelay: 10
 
+# Show team in ActionBar
+# Type: boolean
+# Sets if the name of a player's team should be displayed
+# in the ActionBar
+show-team-in-actionbar: false
+
 # Chat to all prefix
-# type: char
+# type: list
 # The prefix character which indicates to chat
 # to all ingame players (not only team)
-chat-to-all-prefix: "@"
+chat-to-all-prefix:
+- '@'
+- '@a'
+- '@all'
 
 # Seperate game chat
 # type: boolean
@@ -601,9 +609,9 @@ bungeecord:
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
 ### Check the plugin description for possible languages!
-### Currently available languages: de (german), en (english), cz (czech)
-### The fallback language is en (english).
-locale: en
+### Currently available languages: https://github.com/BedwarsRel/BedwarsRel/tree/master/src/main/resources/locale
+### The fallback language is en_US (english).
+locale: en_US
 
 # Ressources config
 ressource:
@@ -929,3 +937,9 @@ player-settings:
   # Only one full stack when doing a shift click to buy items.
   # Player can change that in shop, this is just a default
   one-stack-on-shift: false
+  
+  # Shop: Default shop on game start
+  # type: boolean
+  # Set the default shop on game start.
+  # Player can change that in shop, this is just a default
+  old-shop-as-default: false
