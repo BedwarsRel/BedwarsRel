@@ -40,7 +40,7 @@ public class TNTSheepListener implements Listener {
         || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
       return;
     }
-    
+
     if (event.getPlayer() == null) {
       return;
     }
