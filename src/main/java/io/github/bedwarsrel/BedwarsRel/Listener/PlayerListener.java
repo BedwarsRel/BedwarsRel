@@ -555,7 +555,7 @@ public class PlayerListener extends BaseListener {
     List<String> toAllPrefixList = (List<String>) Main.getInstance().getConfig()
         .getList("chat-to-all-prefix", Arrays.asList("@"));
 
-    String toAllPrefix = "";
+    String toAllPrefix = null;
 
     for (String oneToAllPrefix : toAllPrefixList) {
       if (message.trim().startsWith(oneToAllPrefix)) {
@@ -563,7 +563,7 @@ public class PlayerListener extends BaseListener {
       }
     }
 
-    if (!"".equals(toAllPrefix) || isSpectator || (game.getCycle().isEndGameRunning()
+    if (!(toAllPrefix == null) || isSpectator || (game.getCycle().isEndGameRunning()
         && Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
       boolean seperateSpectatorChat =
           Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
