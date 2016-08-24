@@ -14,6 +14,11 @@ public class RescuePlatformListener implements Listener {
 
   @EventHandler
   public void onInteract(PlayerInteractEvent ev) {
+    if (ev.getAction().equals(Action.LEFT_CLICK_AIR)
+        || ev.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+      return;
+    }
+
     Player player = ev.getPlayer();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
@@ -22,10 +27,6 @@ public class RescuePlatformListener implements Listener {
     }
 
     if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (ev.getAction().equals(Action.LEFT_CLICK_AIR) || ev.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
       return;
     }
 

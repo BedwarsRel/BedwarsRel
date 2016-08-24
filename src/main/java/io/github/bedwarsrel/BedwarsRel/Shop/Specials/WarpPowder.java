@@ -68,7 +68,15 @@ public class WarpPowder extends SpecialItem {
           .sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.cancelled")));
     }
 
-    this.player.getInventory().removeItem(this.getCancelItemStack());
+    this.setStackAmount(this.getStack().getAmount() - 1);
+
+    if (player.getInventory().first(this.getCancelItemStack()) != -1) {
+      this.player.getInventory().setItem(player.getInventory().first(this.getCancelItemStack()),
+          this.stack);
+    } else {
+      this.player.getInventory().setItemInOffHand(this.stack);
+    }
+
     this.player.updateInventory();
   }
 
@@ -81,17 +89,24 @@ public class WarpPowder extends SpecialItem {
     return glowstone;
   }
 
+  @SuppressWarnings("deprecation")
   public void runTask() {
     final int circles = 15;
     final double height = 2.0;
 
-    ItemStack usedStack = this.player.getInventory().getItemInHand();
-    this.stack = usedStack.clone();
-    this.stack.setAmount(1);
-
-    usedStack.setAmount(usedStack.getAmount() - 1);
-    this.player.getInventory().setItem(this.player.getInventory().getHeldItemSlot(), usedStack);
-    this.player.getInventory().addItem(this.getCancelItemStack());
+    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+      this.stack = player.getInventory().getItemInHand();
+      this.player.getInventory().setItem(player.getInventory().getHeldItemSlot(),
+          this.getCancelItemStack());
+    } else {
+      if (player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()) {
+        this.stack = player.getInventory().getItemInOffHand();
+        this.player.getInventory().setItemInOffHand(this.getCancelItemStack());
+      } else if (player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()) {
+        this.stack = player.getInventory().getItemInMainHand();
+        this.player.getInventory().setItemInMainHand(this.getCancelItemStack());
+      }
+    }
     this.player.updateInventory();
 
     this.teleportingTime =
@@ -175,5 +190,9 @@ public class WarpPowder extends SpecialItem {
 
   public ItemStack getStack() {
     return this.stack;
+  }
+
+  public void setStackAmount(int amount) {
+    this.stack.setAmount(amount);
   }
 }

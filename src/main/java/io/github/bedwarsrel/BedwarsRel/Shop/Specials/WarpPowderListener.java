@@ -5,10 +5,11 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-
 import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
@@ -18,6 +19,11 @@ public class WarpPowderListener implements Listener {
 
   @EventHandler
   public void onInteract(PlayerInteractEvent ev) {
+    if (ev.getAction().equals(Action.LEFT_CLICK_AIR)
+        || ev.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+      return;
+    }
+
     Player player = ev.getPlayer();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
@@ -38,17 +44,14 @@ public class WarpPowderListener implements Listener {
     WarpPowder powder = this.getActiveWarpPowder(game, player);
 
     if (ev.getMaterial().equals(warpPowder.getActivatedMaterial())) {
-      if (ev.getItem().getItemMeta().getDisplayName() == null) {
-        return;
-      }
-
-      if (!ev.getItem().getItemMeta().getDisplayName()
-          .equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+      if (ev.getItem().getItemMeta().getDisplayName() != null && !ev.getItem().getItemMeta()
+          .getDisplayName().equals(Main._l("ingame.specials.warp-powder.cancel"))) {
         return;
       }
 
       if (powder != null) {
-        player.getInventory().addItem(powder.getStack());
+        powder.setStackAmount(powder.getStack().getAmount() + 1);
+
         player.updateInventory();
         powder.cancelTeleport(true, true);
         ev.setCancelled(true);
@@ -71,7 +74,7 @@ public class WarpPowderListener implements Listener {
     warpPowder.runTask();
     ev.setCancelled(true);
   }
-  
+
   private WarpPowder getActiveWarpPowder(Game game, Player player) {
     for (SpecialItem item : game.getSpecialItems()) {
       if (item instanceof WarpPowder) {
@@ -81,7 +84,7 @@ public class WarpPowderListener implements Listener {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -116,12 +119,12 @@ public class WarpPowderListener implements Listener {
       if (powder.getPlayer().equals(player)) {
         break;
       }
-      
+
       powder = null;
     }
 
     if (powder != null) {
-      player.getInventory().addItem(powder.getStack());
+      powder.setStackAmount(powder.getStack().getAmount() + 1);
       player.updateInventory();
       powder.cancelTeleport(true, true);
       return;
@@ -171,6 +174,23 @@ public class WarpPowderListener implements Listener {
       powder.cancelTeleport(true, true);
       return;
     }
+  }
+
+  @EventHandler
+  public void onDrop(PlayerDropItemEvent event) {
+    Player p = event.getPlayer();
+    Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
+    if (g == null) {
+      return;
+    }
+
+    if (g.getState() == GameState.RUNNING
+        && event.getItemDrop().getItemStack().getItemMeta().getDisplayName() != null
+        && event.getItemDrop().getItemStack().getItemMeta().getDisplayName()
+            .equals(Main._l("ingame.specials.warp-powder.cancel"))) {
+      event.setCancelled(true);
+    }
+
   }
 
 }

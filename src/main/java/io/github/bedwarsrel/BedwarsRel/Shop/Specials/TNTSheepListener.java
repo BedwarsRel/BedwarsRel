@@ -3,18 +3,16 @@ package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.SpawnEgg;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils;
@@ -38,6 +36,11 @@ public class TNTSheepListener implements Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onInteract(PlayerInteractEvent event) {
+    if (event.getAction().equals(Action.LEFT_CLICK_AIR)
+        || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+      return;
+    }
+
     if (event.getPlayer() == null) {
       return;
     }
@@ -54,23 +57,9 @@ public class TNTSheepListener implements Listener {
       return;
     }
 
-    if (event.getPlayer().getItemInHand() == null) {
-      return;
-    }
-
     TNTSheep creature = new TNTSheep();
-    ItemStack inHand = player.getItemInHand();
-    if (inHand.getType() != creature.getItemMaterial()) {
-      return;
-    }
 
-    if (!(inHand.getData() instanceof SpawnEgg)) {
-      return;
-    }
-
-    if (!(Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-        && ((SpawnEgg) inHand.getData()).getSpawnedType() != EntityType.SHEEP) {
+    if (!event.getMaterial().equals(creature.getItemMaterial())) {
       return;
     }
 

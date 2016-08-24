@@ -60,6 +60,7 @@ public class ProtectionWall extends SpecialItem {
     return this.livingTime;
   }
 
+  @SuppressWarnings("deprecation")
   public void create(Player player, Game game) {
     this.owner = player;
     this.game = game;
@@ -91,24 +92,40 @@ public class ProtectionWall extends SpecialItem {
       return;
     }
 
-    if (waitTime > 0){
-        ArrayList<ProtectionWall> livingWalls = this.getLivingWalls();
-        if(!livingWalls.isEmpty()){
-  	      for (ProtectionWall livingWall : livingWalls){
-            int waitLeft = waitTime - livingWall.getLivingTime();
-            if (waitLeft > 0) {
-              player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.protection-wall.left",
-                  ImmutableMap.of("time", String.valueOf(waitLeft)))));
-              return; 
-            }
+    if (waitTime > 0) {
+      ArrayList<ProtectionWall> livingWalls = this.getLivingWalls();
+      if (!livingWalls.isEmpty()) {
+        for (ProtectionWall livingWall : livingWalls) {
+          int waitLeft = waitTime - livingWall.getLivingTime();
+          if (waitLeft > 0) {
+            player.sendMessage(
+                ChatWriter.pluginMessage(Main._l("ingame.specials.protection-wall.left",
+                    ImmutableMap.of("time", String.valueOf(waitLeft)))));
+            return;
           }
         }
       }
+    }
 
     Location wallLocation = Utils.getDirectionLocation(player.getLocation(), distance);
-    ItemStack usedStack = player.getInventory().getItemInHand();
-    usedStack.setAmount(usedStack.getAmount() - 1);
-    player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+
+    ItemStack usedStack = null;
+
+    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+      usedStack = player.getInventory().getItemInHand();
+      usedStack.setAmount(usedStack.getAmount() - 1);
+      player.getInventory().setItem(player.getInventory().getHeldItemSlot(), usedStack);
+    } else {
+      if (player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()) {
+        usedStack = player.getInventory().getItemInOffHand();
+        usedStack.setAmount(usedStack.getAmount() - 1);
+        player.getInventory().setItemInOffHand(usedStack);
+      } else if (player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()) {
+        usedStack = player.getInventory().getItemInMainHand();
+        usedStack.setAmount(usedStack.getAmount() - 1);
+        player.getInventory().setItemInMainHand(usedStack);
+      }
+    }
     player.updateInventory();
 
     BlockFace face = Utils.getCardinalDirection(player.getLocation());
@@ -144,8 +161,8 @@ public class ProtectionWall extends SpecialItem {
             wallBlock = null;
             break;
         }
-        
-        if(wallBlock == null) {
+
+        if (wallBlock == null) {
           continue;
         }
 
@@ -185,7 +202,8 @@ public class ProtectionWall extends SpecialItem {
           }
         }
 
-        if (ProtectionWall.this.livingTime >= waitTime && ProtectionWall.this.livingTime >= breakTime) {
+        if (ProtectionWall.this.livingTime >= waitTime
+            && ProtectionWall.this.livingTime >= breakTime) {
           ProtectionWall.this.game.removeRunningTask(this);
           ProtectionWall.this.game.removeSpecialItem(ProtectionWall.this);
           ProtectionWall.this.task = null;

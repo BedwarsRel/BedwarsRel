@@ -145,13 +145,31 @@ public class PlayerListener extends BaseListener {
    * GAME
    */
 
+  @SuppressWarnings("deprecation")
   private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game, Player player) {
 
-    if (iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)
-        || iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)
-        || iee.getPlayer().getItemInHand().getType().equals(Material.DRAGON_EGG)) {
-      iee.setCancelled(true);
-      return;
+    if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+      if (iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGG)
+          || iee.getPlayer().getItemInHand().getType().equals(Material.MONSTER_EGGS)
+          || iee.getPlayer().getItemInHand().getType().equals(Material.DRAGON_EGG)) {
+        iee.setCancelled(true);
+        return;
+      }
+    } else {
+      if (iee.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.MONSTER_EGG)
+          || iee.getPlayer().getInventory().getItemInMainHand().getType()
+              .equals(Material.MONSTER_EGGS)
+          || iee.getPlayer().getInventory().getItemInMainHand().getType()
+              .equals(Material.DRAGON_EGG)
+          || iee.getPlayer().getInventory().getItemInOffHand().getType()
+              .equals(Material.MONSTER_EGG)
+          || iee.getPlayer().getInventory().getItemInOffHand().getType()
+              .equals(Material.MONSTER_EGGS)
+          || iee.getPlayer().getInventory().getItemInOffHand().getType()
+              .equals(Material.DRAGON_EGG)) {
+        iee.setCancelled(true);
+        return;
+      }
     }
 
     if (iee.getRightClicked() != null
