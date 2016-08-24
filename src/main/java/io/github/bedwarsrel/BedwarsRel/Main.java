@@ -190,6 +190,7 @@ public class Main extends JavaPlugin {
   private void registerBugsnag() {
     this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
     this.bugsnag.setAppVersion(this.getDescription().getVersion());
+    this.bugsnag.setProjectPackages("io.github.bedwarsrel");
   }
 
   private void enableBugsnag() {
