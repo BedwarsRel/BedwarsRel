@@ -581,7 +581,7 @@ public class PlayerListener extends BaseListener {
       }
     }
 
-    if (!(toAllPrefix == null) || isSpectator || (game.getCycle().isEndGameRunning()
+    if (toAllPrefix != null || isSpectator || (game.getCycle().isEndGameRunning()
         && Main.getInstance().getBooleanConfig("global-chat-after-end", true))) {
       boolean seperateSpectatorChat =
           Main.getInstance().getBooleanConfig("seperate-spectator-chat", false);
