@@ -883,10 +883,10 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isHologramsEnabled() {
-    return this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
-        && this.getServer().getPluginManager().isPluginEnabled("PacketListenerApi")
-        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
-            && this.getServer().getPluginManager().isPluginEnabled("ProtocolLib");
+    return (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+        && this.getServer().getPluginManager().isPluginEnabled("PacketListenerApi"))
+        || (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
+            && this.getServer().getPluginManager().isPluginEnabled("ProtocolLib"));
   }
 
   public String getMissingHoloDependency() {
