@@ -67,7 +67,6 @@ public class PlayerStorage {
     this.player.setSneaking(false);
     this.player.setSprinting(false);
     this.player.setFoodLevel(20);
-    this.player.setSaturation(20);
     this.player.setExhaustion(0);
     this.player.setMaxHealth(20.0D);
     this.player.setHealth(20.0D);
