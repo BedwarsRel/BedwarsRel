@@ -310,6 +310,7 @@ public class PlayerListener extends BaseListener {
       pde.setDroppedExp(0);
       pde.setDeathMessage(null);
 
+
       if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
         pde.getDrops().clear();
       }
@@ -344,12 +345,21 @@ public class PlayerListener extends BaseListener {
         e.printStackTrace();
       }
 
-      try {
-        pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
-        pde.setKeepInventory(false);
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        player.getInventory().clear();
+      if (Main.getInstance().getBooleanConfig("keep-inventory-on-death", false)) {
+        try {
+          pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
+          pde.setKeepInventory(true);
+        } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
+        }
+      } else {
+        try {
+          pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
+          pde.setKeepInventory(false);
+        } catch (Exception ex) {
+          Main.getInstance().getBugsnag().notify(ex);
+          player.getInventory().clear();
+        }
       }
 
       Player killer = player.getKiller();

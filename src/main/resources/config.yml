@@ -169,6 +169,11 @@ bed-sound: ENDERDRAGON_GROWL
 # If true, player will drop his items
 player-drops: false
 
+# KeepInventory
+# type: boolean
+# If true, player will keep his inventory on death
+keep-inventory-on-death: false
+
 # Place in liquid
 # type: boolean
 # If true, it's possible to set blocks in liquid (like water, lava ...)
