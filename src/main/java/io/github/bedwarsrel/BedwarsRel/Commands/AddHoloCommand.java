@@ -2,9 +2,13 @@ package io.github.bedwarsrel.BedwarsRel.Commands;
 
 import java.util.ArrayList;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.google.common.collect.ImmutableMap;
+
+import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 
 public class AddHoloCommand extends BaseCommand implements ICommand {
@@ -39,8 +43,11 @@ public class AddHoloCommand extends BaseCommand implements ICommand {
       return false;
     }
 
-    if (!Main.getInstance().isHologramsEnabled()
-        && Main.getInstance().getHolographicInteractor() != null) {
+    if (!Main.getInstance().isHologramsEnabled()) {
+      String missingholodependency = Main.getInstance().getMissingHoloDependency();
+
+      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+          + Main._l("errors.holodependencynotfound", ImmutableMap.of("dependency", missingholodependency))));
       return true;
     }
 

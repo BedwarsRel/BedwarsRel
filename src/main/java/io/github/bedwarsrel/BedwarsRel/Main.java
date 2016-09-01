@@ -883,8 +883,31 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isHologramsEnabled() {
-    return this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
-        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
+    return (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+        && this.getServer().getPluginManager().isPluginEnabled("PacketListenerApi"))
+        || (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
+            && this.getServer().getPluginManager().isPluginEnabled("ProtocolLib"));
+  }
+
+  public String getMissingHoloDependency() {
+    if (!Main.getInstance().isHologramsEnabled()) {
+      String missingHoloDependency = null;
+      if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+          || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")) {
+          missingHoloDependency = "PacketListenerApi";
+          return missingHoloDependency;
+        }
+        if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+          missingHoloDependency = "ProtocolLib";
+          return missingHoloDependency;
+        }
+      } else {
+        missingHoloDependency = "HolographicDisplays and ProtocolLib";
+        return missingHoloDependency;
+      }
+    }
+    return null;
   }
 
   public IHologramInteraction getHolographicInteractor() {
