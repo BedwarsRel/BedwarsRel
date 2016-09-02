@@ -4,6 +4,7 @@ default:
   currently: Aktuell
 errors:
   argumentslength: Die Anzahl der Argumente entspricht nicht der Vorgabe!
+  holodependencynotfound: Es fehlt $dependency$ für die Hologram-Statistik
   packagenotfound: Konnte Package $package$ nicht laden!
   classnotfound: Konnte $package$ Klasse $class$ nicht laden!
   gameexists: Ein Spiel mit diesem Namen existiert bereits!

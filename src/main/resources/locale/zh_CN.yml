@@ -4,6 +4,7 @@ default:
   currently: 目前
 errors:
   argumentslength: 参数不正确!
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: 无法获得$package$ 包!
   classnotfound: 无法获得包 $package$ 的类$class$!
   gameexists: 游戏名字已经存在!
