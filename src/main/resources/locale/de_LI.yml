@@ -9,6 +9,7 @@ errors:
   classnotfound: Konnte $package$ Klasse $class$ nicht laden!
   gameexists: Ein Spiel mit diesem Namen existiert bereits!
   gamenotfound: "Das Spiel '$game$' konnte nicht gefunden werden!"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: Spiel nicht gefunden!
   playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
   teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaubt!
