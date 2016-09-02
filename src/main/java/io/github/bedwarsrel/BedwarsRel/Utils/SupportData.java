@@ -14,11 +14,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class SupportData {
   private String pluginVersion;
   private String serverVersion;

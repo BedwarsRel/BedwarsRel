@@ -44,9 +44,8 @@ public class HastebinUtility {
     Matcher matcher = PATTERN.matcher(response.toString());
     if (matcher.matches()) {
       return "http://hastebin.com/" + matcher.group(1);
-    } else {
-      throw new RuntimeException("Couldn't read response!");
-    }
+    } 
+    return "Error while communicating with hastebin!";
   }
 
   public static String upload(final File file) throws IOException {
