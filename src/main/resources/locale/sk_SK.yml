@@ -9,6 +9,7 @@ errors:
   classnotfound: Nejde nacitat $package$ class $class$!
   gameexists: Hra s tymto menom uz existuje!
   gamenotfound: "Hra '$game$' nebola najdena!"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: Hra nenajdena!
   playeramount: Pocet hracov nesmie byt mensi ako 1 a vyssi ako 24!
   teamcolornotallowed: Tato farba nie je pre timy povolena.
