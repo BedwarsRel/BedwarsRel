@@ -9,6 +9,7 @@ errors:
   classnotfound: Kon pakket $package$ van klasse $class$ niet ophalen!
   gameexists: Een spel met deze naam bestaat al!
   gamenotfound: "Het spel '$game$' werdt niet gevonden!"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: Spel niet gevonden!
   playeramount: Het max van spelers kan niet lager dan 1 of hoger dan 24 zijn!
   teamcolornotallowed: Het gegeven team kleur is geen toegelaten kleur
