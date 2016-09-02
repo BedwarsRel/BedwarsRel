@@ -15,7 +15,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
 
 public class ItemStackParser {

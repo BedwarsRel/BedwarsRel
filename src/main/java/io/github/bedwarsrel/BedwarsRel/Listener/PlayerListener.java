@@ -45,7 +45,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
@@ -53,6 +52,7 @@ import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 
 public class PlayerListener extends BaseListener {

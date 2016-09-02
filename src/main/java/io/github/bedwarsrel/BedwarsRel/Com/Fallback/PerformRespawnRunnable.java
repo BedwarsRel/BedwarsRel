@@ -12,9 +12,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class PerformRespawnRunnable extends BukkitRunnable {
 

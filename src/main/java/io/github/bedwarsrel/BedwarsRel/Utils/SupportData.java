@@ -1,4 +1,4 @@
-package io.github.bedwarsrel.BedwarsRel;
+package io.github.bedwarsrel.BedwarsRel.Utils;
 
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import org.bukkit.plugin.Plugin;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

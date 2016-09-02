@@ -17,13 +17,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.SoundMachine;
-import io.github.bedwarsrel.BedwarsRel.Utils;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameOverEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerKilledEvent;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.RescuePlatform;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public abstract class GameCycle {
 

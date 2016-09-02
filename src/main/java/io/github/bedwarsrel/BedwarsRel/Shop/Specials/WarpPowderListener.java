@@ -10,10 +10,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
+
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class WarpPowderListener implements Listener {
 

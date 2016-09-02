@@ -16,10 +16,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class MerchantCategory {
 

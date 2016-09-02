@@ -41,9 +41,7 @@ import org.bukkit.util.Vector;
 
 import com.google.common.collect.ImmutableMap;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
@@ -52,6 +50,8 @@ import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategoryComparator;
 import lombok.Data;
