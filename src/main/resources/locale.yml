@@ -48,6 +48,7 @@ errors:
     mustbeinlobbyworld: "You must be in the lobby world of the game"
     addteamjoincancel: "The adding of team join was cancelled!"
     entitynotcompatible: "This entity is not compatible with team join!"
+    opencommandshop: "The option use-build-in-shop needs to be true"
 success:
     gameadded: "New game '$game$' successfully added!"
     teamadded: "Team '$team$' successfully added!"
@@ -205,6 +206,9 @@ commands:
     leave:
         name: "Leave Game"
         desc: "Leave the current game"
+    shop:
+        name: "Shop"
+        desc: "Opens the villager shop"
     save:
         name: "Save Game"
         desc: "Saves a game (and map) to config file(s)"
