@@ -4,6 +4,7 @@ default:
   currently: Currently
 errors:
   argumentslength: Number of arguments does not match the correct amount!
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: A game with this name already exists!
