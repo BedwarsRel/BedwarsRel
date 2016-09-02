@@ -8,6 +8,7 @@ errors:
     classnotfound: "Couldn't fetch $package$ class $class$!"
     gameexists: "A game with this name already exists!"
     gamenotfound: "The game '$game$' could not be found!"
+    nofreegames: "No games are waiting for player"
     gamenotfoundsimple: "Game not found!"
     playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
     teamcolornotallowed: "The given Team color isn't a allowed color"

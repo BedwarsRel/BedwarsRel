@@ -63,14 +63,25 @@ public class JoinGameCommand extends BaseCommand {
     }
 
     if (game == null) {
-      if (!args.get(0).equalsIgnoreCase("random")){
+      if (!args.get(0).equalsIgnoreCase("random")) {
         sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
             + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-        return false;
+        return true;
       }
-      ArrayList<Game> games = this.getPlugin().getGameManager().getGames();
+      
+      ArrayList<Game> games = new ArrayList<>();
+      for (Game g : this.getPlugin().getGameManager().getGames()) {
+        if (g.getState() == GameState.WAITING) {
+          games.add(g);
+        }
+      }
+      if (games.size() == 0) {
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.nofreegames")));
+        return true;
+      }
       game = games.get(Utils.randInt(0, games.size() - 1));
     }
+
 
     if (game.playerJoins(player)) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.joined")));
