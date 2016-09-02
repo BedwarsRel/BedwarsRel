@@ -9,6 +9,7 @@ errors:
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: Zaidimas tokiu pavadinimu jau egzistuoja!
   gamenotfound: "Zaidimas '$game$' nerastas!"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: Zaidimas nerastas!
   playeramount: Maksimalus zaideju skaicius negali buti mazesnis negu 1 arba didesnis negu 24!
   teamcolornotallowed: Nurodyta komandos spalva yra neleidziama
