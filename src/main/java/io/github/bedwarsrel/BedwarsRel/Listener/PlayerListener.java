@@ -184,12 +184,16 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    iee.setCancelled(true);
-
     if (game.isSpectator(player)) {
       return;
     }
 
+    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)){
+      return;
+    }
+
+    iee.setCancelled(true);
+    
     BedwarsOpenShopEvent openShopEvent =
         new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(), iee.getRightClicked());
     Main.getInstance().getServer().getPluginManager().callEvent(openShopEvent);

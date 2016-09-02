@@ -263,6 +263,10 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("send-error-data", true);
     Main.getInstance().getConfig().addDefault("player-settings.old-shop-as-default", false);
     // </1.3.3>
+    
+    // <1.3.4>
+    Main.getInstance().getConfig().addDefault("use-build-in-shop", true);
+    // </1.3.4>
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
