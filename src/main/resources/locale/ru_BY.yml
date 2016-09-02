@@ -9,6 +9,7 @@ errors:
   classnotfound: Не удалось получить пакет $package$ для класса $class$
   gameexists: Игра с таким именем уже существует
   gamenotfound: "Игра '$game$' не найдена"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: Игра не найдена
   playeramount: Максимальное к-во игроков не может быть ниже 1 и выше 24
   teamcolornotallowed: Данный командный цвет не допускается
