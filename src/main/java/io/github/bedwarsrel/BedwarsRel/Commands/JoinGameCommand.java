@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 
@@ -62,9 +63,13 @@ public class JoinGameCommand extends BaseCommand {
     }
 
     if (game == null) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
-      return false;
+      if (!args.get(0).equalsIgnoreCase("random")){
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+            + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+        return false;
+      }
+      ArrayList<Game> games = this.getPlugin().getGameManager().getGames();
+      game = games.get(Utils.randInt(0, games.size() - 1));
     }
 
     if (game.playerJoins(player)) {
