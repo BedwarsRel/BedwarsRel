@@ -9,6 +9,7 @@ errors:
   classnotfound: 无法获得包 $package$ 的类$class$!
   gameexists: 游戏名字已经存在!
   gamenotfound: "游戏 '$game$' 不存在!"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: 游戏不存在!
   playeramount: 玩家最少需要1名最大不超过24名!
   teamcolornotallowed: 给队伍的颜色不准确
