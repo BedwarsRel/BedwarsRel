@@ -265,7 +265,7 @@ public class ConfigUpdater {
     // </1.3.3>
     
     // <1.3.4>
-    Main.getInstance().getConfig().addDefault("use-build-in-shop", true);
+    Main.getInstance().getConfig().addDefault("use-internal-shop", true);
     // </1.3.4>
   }
 

@@ -48,7 +48,7 @@ errors:
     mustbeinlobbyworld: "You must be in the lobby world of the game"
     addteamjoincancel: "The adding of team join was cancelled!"
     entitynotcompatible: "This entity is not compatible with team join!"
-    opencommandshop: "The option use-build-in-shop needs to be true"
+    opencommandshop: "The option use-internal-shop needs to be true"
 success:
     gameadded: "New game '$game$' successfully added!"
     teamadded: "Team '$team$' successfully added!"

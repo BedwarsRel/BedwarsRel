@@ -388,8 +388,8 @@ gameoverdelay: 10
 
 # Use the Bedwars shopvillager
 # Type: boolean
-# Decide if you want to use the implementet bedwars shop
-use-build-in-shop: true
+# Decide if you want to use the internal bedwars shop
+use-internal-shop: true
 
 # Show team in ActionBar
 # Type: boolean
