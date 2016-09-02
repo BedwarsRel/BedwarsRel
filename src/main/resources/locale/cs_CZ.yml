@@ -9,6 +9,7 @@ errors:
   classnotfound: Nelze nacist balicek $package$ ve tride $class$!
   gameexists: Hra se stejnym jmenem jiz byla vytvorena!
   gamenotfound: "Hra '$game$' neexistuje!"
+  nofreegames: No games are waiting for player
   gamenotfoundsimple: Hra neexistuje!
   playeramount: Pocet hracu musi byt v rozsahu 1 az 24!
   teamcolornotallowed: Tato barva neni pro tymy povolena.
