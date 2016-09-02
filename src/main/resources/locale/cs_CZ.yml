@@ -152,13 +152,13 @@ lobby:
   countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
   cancelcountdown:
     not_enough_players: Je potreba vice hracu! Odpocet byl zastaven.
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_teams: Je potreba vice tymu. Odpocitavani bylo zastaveno!
   cancelstart:
     not_enough_players: Pro start hry je potreba vice hracu!
-    not_enough_teams: More teams are needed to start the game!
+    not_enough_teams: Je potreba vice tymu pro start hry!
   chooseteam: Vyber si tym
   startgame: Spustit hru
-  reduce_countdown: Reduce countdown
+  reduce_countdown: Snížit odpočítávání
   gamefull: Hra je plna!
   gamefullpremium: Tato hra je jiz plna VIP hracu!
   teamjoined: Uspesne jsi se pripojil do tymu $team$
@@ -167,7 +167,7 @@ lobby:
   kickedbyvip: Bylo uvolneno misto pro VIP hrace, byl(a) jsi vyhozen.
   moreplayersneeded: Je potreba $count$ hracu navic.
   moreplayersneeded-one: Je potreba $count$ hrac navic.
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+  moreteamsneeded: Jsou potreba minimalne dva hraci ve dvou ruznych tymech pro start hry!
 sign:
   firstline: '&6[Bedwars]'
   players: Hraci
