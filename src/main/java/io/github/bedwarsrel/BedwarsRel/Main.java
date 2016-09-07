@@ -40,7 +40,6 @@ import io.github.bedwarsrel.BedwarsRel.Commands.JoinGameCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.KickCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.LeaveGameCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.ListGamesCommand;
-import io.github.bedwarsrel.BedwarsRel.Commands.OpenShopCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.RegionNameCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.ReloadCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.RemoveGameCommand;
@@ -730,7 +729,6 @@ public class Main extends JavaPlugin {
     this.commands.add(new AddTeamJoinCommand(this));
     this.commands.add(new AddHoloCommand(this));
     this.commands.add(new RemoveHoloCommand(this));
-    this.commands.add(new OpenShopCommand(this));
 
     this.getCommand("bw").setExecutor(executor);
   }

@@ -131,10 +131,6 @@ commands:
         description: Removes a hologram statistic location
         usage: /<command>
         permission: bw.setup
-    bw shop:
-        description: Opens the shop
-        usage: /<command>
-        permission: bw.vip.commandshop
 permissions:
     bw.base:
         description: Allows you to show to play games
@@ -153,7 +149,6 @@ permissions:
             bw.vip.forcestart: true
             bw.vip.reducecountdown: true
             bw.vip.skipbalance: true
-            bw.vip.commandshop: true
     bw.cmd:
         description: Allows to execute non-bedwars commands ingame
         default: op
