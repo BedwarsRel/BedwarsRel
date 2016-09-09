@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Updater.ConfigUpdater;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class ReloadCommand extends BaseCommand {
 

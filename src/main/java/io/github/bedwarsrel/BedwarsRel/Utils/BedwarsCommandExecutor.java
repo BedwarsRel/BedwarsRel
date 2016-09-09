@@ -1,4 +1,4 @@
-package io.github.bedwarsrel.BedwarsRel;
+package io.github.bedwarsrel.BedwarsRel.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsCommandExecutedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsExecuteCommandEvent;

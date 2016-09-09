@@ -34,6 +34,7 @@ import io.github.bedwarsrel.BedwarsRel.Commands.AddTeamCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.AddTeamJoinCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.ClearSpawnerCommand;
+import io.github.bedwarsrel.BedwarsRel.Commands.DebugPasteCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.GameTimeCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.HelpCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.JoinGameCommand;
@@ -85,6 +86,11 @@ import io.github.bedwarsrel.BedwarsRel.Updater.DatabaseUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
+import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Metrics;
+import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
 
 public class Main extends JavaPlugin {
@@ -729,6 +735,7 @@ public class Main extends JavaPlugin {
     this.commands.add(new AddTeamJoinCommand(this));
     this.commands.add(new AddHoloCommand(this));
     this.commands.add(new RemoveHoloCommand(this));
+    this.commands.add(new DebugPasteCommand(this));
 
     this.getCommand("bw").setExecutor(executor);
   }

@@ -1,4 +1,4 @@
-package io.github.bedwarsrel.BedwarsRel;
+package io.github.bedwarsrel.BedwarsRel.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +33,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 
