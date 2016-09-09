@@ -4,6 +4,7 @@ default:
   currently: Actuellement
 errors:
   argumentslength: "Le nombre d'arguments ne correspond pas au nombre nécessaire !"
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: Impossible de récupérer le package $package$ !
   classnotfound: Impossible de récupérer la classe $class$ du package $package$ !
   gameexists: Une partie de ce nom existe déjà !

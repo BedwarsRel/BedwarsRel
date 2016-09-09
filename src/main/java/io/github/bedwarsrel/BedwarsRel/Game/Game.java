@@ -1771,7 +1771,8 @@ public class Game {
     for (RessourceSpawner rs : this.getRessourceSpawner()) {
       rs.setGame(this);
       this.runningTasks.add(Main.getInstance().getServer().getScheduler().runTaskTimer(
-          Main.getInstance(), rs, 20L, Math.round((((double) rs.getInterval()) / 1000.0) * 20.0)));
+          Main.getInstance(), rs, Math.round((((double) rs.getInterval()) / 1000.0) * 20.0),
+          Math.round((((double) rs.getInterval()) / 1000.0) * 20.0)));
     }
   }
 

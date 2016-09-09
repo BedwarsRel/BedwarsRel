@@ -103,16 +103,6 @@ public final class Utils {
           (float) loc.getY(), (float) loc.getZ());
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
-      try {
-        Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.ParticleSpawner");
-        Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
-            float.class, float.class, float.class);
-        particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),
-            (float) loc.getY(), (float) loc.getZ());
-      } catch (Exception e) {
-        Main.getInstance().getBugsnag().notify(e);
-        e.printStackTrace();
-      }
     }
   }
 
