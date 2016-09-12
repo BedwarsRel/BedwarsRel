@@ -69,12 +69,6 @@ public class PlayerPacketSender {
     }
   }
 
-  /**
-   * Send a Title
-   *
-   * @param player {@link Player} to send the Title to
-   * @param json JSON-String
-   */
   public static void sendTitle(Player player, String json) {
     try {
       Object serialized = serialize(json);

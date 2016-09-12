@@ -1602,7 +1602,6 @@ public class Game {
     double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
     double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
 
-
     PlayerPacketSender.sendTitle(player, PlayerPacketSender.toJson(this.getRegion().getName()), titleFadeIn, titleStay,
         titleFadeOut);
 
