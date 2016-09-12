@@ -21,17 +21,20 @@ public class PlayerPacketSender {
   static Class<?> ChatSerializer =
       nmsClassResolver.resolveSilent("ChatSerializer", "IChatBaseComponent$ChatSerializer");
   static Class<?> nmsPacketPlayOutChat = nmsClassResolver.resolveSilent("PacketPlayOutChat");
-  static Class<?> PacketPlayInClientCommand = classResolver.resolveSilent(
-      "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayInClientCommand");
+
   static Class<?> PacketPlayOutTitle = classResolver
       .resolveSilent("net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutTitle");
   static Class<?> EnumTitleAction = classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutTitle$EnumTitleAction",
       "net.minecraft.server." + Minecraft.getVersion() + "EnumTitleAction");
+
+  static Class<?> PacketPlayInClientCommand = classResolver.resolveSilent(
+      "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayInClientCommand");
   static Class<?> EnumClientCommand = classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion()
           + "PacketPlayInClientCommand$EnumClientCommand",
       "net.minecraft.server." + Minecraft.getVersion() + "EnumClientCommand");
+
   static Class<?> PlayerConnection = nmsClassResolver.resolveSilent("PlayerConnection");
   static Class<?> EntityPlayer = nmsClassResolver.resolveSilent("EntityPlayer");
   static Class<?> NetworkManager = nmsClassResolver.resolveSilent("NetworkManager");
@@ -112,7 +115,8 @@ public class PlayerPacketSender {
     try {
       Object packetTitle =
           PacketTitleConstructorResolver.resolve(new Class[] {int.class, int.class, int.class})
-              .newInstance(fadeIn, stay, fadeOut);
+              .newInstance((int) Math.round(fadeIn * 20), (int) Math.round(stay * 20),
+                  (int) Math.round(fadeOut * 20));
       sendPacket(player, packetTitle);
     } catch (Exception e) {
       e.printStackTrace();
@@ -145,11 +149,18 @@ public class PlayerPacketSender {
     try {
       Object packetRespawn =
           PacketClientCommandConstructorResolver.resolve(new Class[] {EnumClientCommand})
-              .newInstance(EnumClientCommand.getEnumConstants()[0], null);
-      sendPacket(player, packetRespawn);
+              .newInstance(EnumClientCommand.getEnumConstants()[0]);
+      a(player, packetRespawn);
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  static void a(Player receiver, Object packet) throws ReflectiveOperationException {
+    Object handle = Minecraft.getHandle(receiver);
+    Object connection = EntityPlayerFieldResolver.resolve("playerConnection").get(handle);
+    PlayerConnectionMethodResolver.resolve(new ResolverQuery("a", packet.getClass()))
+        .invoke(connection, packet);
   }
 
   static void sendPacket(Player receiver, Object packet) throws ReflectiveOperationException {

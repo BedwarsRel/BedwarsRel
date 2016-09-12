@@ -127,8 +127,7 @@ public abstract class GameCycle {
       madeRecord = this.storeRecords(storeHolders, winner);
     }
 
-    int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
-                                                                        // delay
+    int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); 
     String title = this.winTitleReplace(Main._l("ingame.title.win-title"), winner);
     String subtitle = this.winTitleReplace(Main._l("ingame.title.win-subtitle"), winner);
 
