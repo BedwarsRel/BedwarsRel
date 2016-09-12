@@ -2,8 +2,6 @@ package io.github.bedwarsrel.BedwarsRel.Game;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,6 +45,7 @@ import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
+import io.github.bedwarsrel.BedwarsRel.Reflection.PlayerPacketSender;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
@@ -269,35 +268,21 @@ public class Game {
 
   private void startActionBarRunnable() {
     if (Main.getInstance().getBooleanConfig("show-team-in-actionbar", false)) {
-      try {
-        Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-            + Main.getInstance().getCurrentVersion() + ".ActionBar");
-        final Method sendActionBar =
-            clazz.getDeclaredMethod("sendActionBar", Player.class, String.class);
 
-        BukkitTask task = new BukkitRunnable() {
+      BukkitTask task = new BukkitRunnable() {
 
-          @Override
-          public void run() {
-            for (Team team : Game.this.getTeams().values()) {
-              for (Player player : team.getPlayers()) {
-                try {
-                  sendActionBar.invoke(null, player,
-                      team.getChatColor() + "Team " + team.getDisplayName());
-                } catch (IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
-                  Main.getInstance().getBugsnag().notify(e);
-                  e.printStackTrace();
-                }
-              }
+        @Override
+        public void run() {
+          for (Team team : Game.this.getTeams().values()) {
+            for (Player player : team.getPlayers()) {
+              PlayerPacketSender.sendRawMessage(player,
+                  PlayerPacketSender.toJson(team.getChatColor() + "Team " + team.getDisplayName()), 2);
             }
           }
-        }.runTaskTimer(Main.getInstance(), 0L, 20L);
-        this.addRunningTask(task);
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        ex.printStackTrace();
-      }
+        }
+      }.runTaskTimer(Main.getInstance(), 0L, 20L);
+
+      this.addRunningTask(task);
     }
   }
 
@@ -1613,38 +1598,27 @@ public class Game {
   }
 
   private void displayMapInfo(Player player) {
-    try {
-      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-          + Main.getInstance().getCurrentVersion() + ".Title");
-      Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class,
-          double.class, double.class);
-      double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
-      double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
-      double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
+    double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
+    double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
+    double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
 
-      showTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay,
-          titleFadeOut);
 
-      if (this.builder != null) {
-        Method showSubTitle = clazz.getMethod("showSubTitle", Player.class, String.class,
-            double.class, double.class, double.class);
-        double subtitleFadeIn =
-            Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
-        double subtitleStay = Main.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
-        double subtitleFadeOut =
-            Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
+    PlayerPacketSender.sendTitle(player, PlayerPacketSender.toJson(this.getRegion().getName()), titleFadeIn, titleStay,
+        titleFadeOut);
 
-        showSubTitle.invoke(null, player,
-            Main._l("ingame.title.map-builder",
-                ImmutableMap.of("builder",
-                    ChatColor.translateAlternateColorCodes('&', this.builder))),
-            subtitleFadeIn, subtitleStay, subtitleFadeOut);
-      }
-
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
+    if (this.builder != null) {
+      double subtitleFadeIn =
+          Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
+      double subtitleStay = Main.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
+      double subtitleFadeOut =
+          Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
+      PlayerPacketSender.sendSubTitle(player,
+          PlayerPacketSender.toJson(Main._l("ingame.title.map-builder",
+              ImmutableMap.of("builder",
+                  ChatColor.translateAlternateColorCodes('&', this.builder)))),
+          subtitleFadeIn, subtitleStay, subtitleFadeOut);
     }
+
   }
 
   private void displayRecord() {
