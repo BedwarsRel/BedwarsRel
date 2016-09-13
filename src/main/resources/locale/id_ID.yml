@@ -9,7 +9,7 @@ errors:
   classnotfound: Tidak dapat mengambil $package$ kelas $class$!
   gameexists: Permainan dengan nama ini sudah ada!
   gamenotfound: "Permainan '$game$' tidak dapat ditemukan!"
-  nofreegames: No games are waiting for player
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Permainan tidak ditemukan!
   playeramount: Pemain maksimal tidak dapat kurang dari 1 atau lebih dari 24!
   teamcolornotallowed: Warna tim yang ditentukan tidak diijinan
@@ -272,6 +272,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
     desc: Kicks a player from the current game!
