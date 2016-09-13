@@ -9,6 +9,7 @@ errors:
   classnotfound: No se ha encontrado la clase $class$ del paquete $package$!
   gameexists: Ya existe un mapa con este nombre!
   gamenotfound: "El mapa '$game$' no se pudo encontrar!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: No se pudo encontrar el mapa!
   playeramount: El número máximo de jugadores no puede ser menor de 1 o mayor de 24!
   teamcolornotallowed: El color introducido no es un color permitido
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
     desc: Kicks a player from the current game!

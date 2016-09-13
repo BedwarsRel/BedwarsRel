@@ -51,10 +51,9 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
         new Runnable() {
           @Override
           public void run() {
-            SupportData supportData = new SupportData();
             try {
-              String configYML = HastebinUtility.upload(supportData.getConfigFile());
-              String shopYML = HastebinUtility.upload(supportData.getShopConfigFile());
+              String configYML = HastebinUtility.upload(SupportData.getConfigFile());
+              String shopYML = HastebinUtility.upload(SupportData.getShopConfigFile());
               String latestLOG;
               try {
                 latestLOG = HastebinUtility
@@ -73,16 +72,16 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("  latest_log: ").append("\'" + latestLOG + "\'").append('\n');
               b.append("\n# General Information\n");
               b.append("version:\n");
-              b.append("  plugin: ").append("\'" + supportData.getPluginVersion() + "\'")
+              b.append("  plugin: ").append("\'" + SupportData.getPluginVersion() + "\'")
                   .append('\n');
-              b.append("  server: ").append("\'" + supportData.getServerVersion() + "\'")
+              b.append("  server: ").append("\'" + SupportData.getServerVersion() + "\'")
                   .append('\n');
-              b.append("  bukkit: ").append("\'" + supportData.getBukkitVersion() + "\'")
+              b.append("  bukkit: ").append("\'" + SupportData.getBukkitVersion() + "\'")
                   .append('\n');
               b.append("online_mode: ").append(Main.getInstance().getServer().getOnlineMode())
                   .append('\n');
               b.append("plugins:");
-              for (String plugin : supportData.getPlugins()) {
+              for (String plugin : SupportData.getPlugins()) {
                 b.append("\n  ").append("\'" + plugin + "\'");
               }
               b.append("\n\n# JVM\n");

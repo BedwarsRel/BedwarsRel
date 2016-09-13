@@ -9,6 +9,7 @@ errors:
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: Zaidimas tokiu pavadinimu jau egzistuoja!
   gamenotfound: "Zaidimas '$game$' nerastas!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Zaidimas nerastas!
   playeramount: Maksimalus zaideju skaicius negali buti mazesnis negu 1 arba didesnis negu 24!
   teamcolornotallowed: Nurodyta komandos spalva yra neleidziama
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
     desc: Kicks a player from the current game!

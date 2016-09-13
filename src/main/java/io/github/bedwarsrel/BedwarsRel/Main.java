@@ -203,12 +203,11 @@ public class Main extends JavaPlugin {
     this.bugsnag.addBeforeNotify(new BeforeNotify() {
       @Override
       public boolean run(com.bugsnag.Error error) {
-        SupportData supportData = new SupportData();
-        error.addToTab("user", "id", supportData.getIdentifier());
-        error.addToTab("Server", "Version", supportData.getServerVersion());
-        error.addToTab("Server", "Version Bukkit", supportData.getBukkitVersion());
-        error.addToTab("Server", "Server Mode", supportData.getServerMode());
-        error.addToTab("Server", "Plugins", supportData.getPlugins());
+        error.addToTab("user", "id", SupportData.getIdentifier());
+        error.addToTab("Server", "Version", SupportData.getServerVersion());
+        error.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
+        error.addToTab("Server", "Server Mode", SupportData.getServerMode());
+        error.addToTab("Server", "Plugins", SupportData.getPlugins());
         return true;
       }
     });

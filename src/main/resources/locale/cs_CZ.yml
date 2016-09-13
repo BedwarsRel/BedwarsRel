@@ -9,6 +9,7 @@ errors:
   classnotfound: Nelze nacist balicek $package$ ve tride $class$!
   gameexists: Hra se stejnym jmenem jiz byla vytvorena!
   gamenotfound: "Hra '$game$' neexistuje!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Hra neexistuje!
   playeramount: Pocet hracu musi byt v rozsahu 1 az 24!
   teamcolornotallowed: Tato barva neni pro tymy povolena.
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: setautobalance
     desc: "Pokud je parametr 'global-autobalance' nastaven na 'false', tak lze pomoci tohoto prikazu nastavit automaticke balancovani hracu pro tuto hru!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: kick
     desc: Vyhodi zadaneho hrace ze hry

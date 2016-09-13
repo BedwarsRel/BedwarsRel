@@ -272,6 +272,9 @@ commands:
     setautobalance:
         name: "Set autobalance"
         desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    setminplayers:
+        name: "Set minimum players"
+        desc: "Sets the amount of players needed to start the game"
     kick:
         name: "Kick player"
         desc: "Kicks a player from the current game!"

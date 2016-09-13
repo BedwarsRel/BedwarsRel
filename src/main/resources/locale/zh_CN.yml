@@ -9,6 +9,7 @@ errors:
   classnotfound: 无法获得包 $package$ 的类$class$!
   gameexists: 游戏名字已经存在!
   gamenotfound: "游戏 '$game$' 不存在!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: 游戏不存在!
   playeramount: 玩家最少需要1名最大不超过24名!
   teamcolornotallowed: 给队伍的颜色不准确
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: 设置自动排行
     desc: "如果'global-autobalance'设置为'false', 使用这个指令将会设置为'true'!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: 踢出玩家
     desc: 将指定玩家从当前游戏踢出!

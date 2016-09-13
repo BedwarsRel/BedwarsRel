@@ -14,28 +14,30 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import lombok.Data;
 
-@Data
 public class SupportData {
-  private String pluginVersion;
-  private String serverVersion;
-  private String bukkitVersion;
-  private String serverMode;
-  private String identifier;
-  private ArrayList<String> plugins;
-  private ArrayList<String> javaInformation;
 
-  public SupportData() {
-    this.pluginVersion = Main.getInstance().getDescription().getVersion();
-    this.serverVersion = Main.getInstance().getServer().getVersion();
-    this.bukkitVersion = Main.getInstance().getServer().getBukkitVersion();
+  public static String getPluginVersion() {
+    return Main.getInstance().getDescription().getVersion();
+  }
+
+  public static String getServerVersion() {
+    return Main.getInstance().getServer().getVersion();
+  }
+
+  public static String getBukkitVersion() {
+    return Main.getInstance().getServer().getBukkitVersion();
+  }
+
+  public static String getServerMode() {
     if (Main.getInstance().isBungee()) {
-      this.serverMode = "BungeeCord";
-    } else {
-      this.serverMode = "Single Instance";
+      return "BungeeCord";
     }
+    return "Single Instance";
+  }
 
+  public static String getIdentifier() {
+    String identifier = "";
     try {
       for (NetworkInterface ni : Collections.list(NetworkInterface.getNetworkInterfaces())) {
         byte[] adr = ni.getHardwareAddress();
@@ -43,36 +45,41 @@ public class SupportData {
           continue;
         String mac = String.format("%02X:%02X:%02X:%02X:%02X:%02X", adr[0], adr[1], adr[2], adr[3],
             adr[4], adr[5]);
-        this.identifier = mac;
+        identifier = mac;
       }
     } catch (SocketException e) {
       e.printStackTrace();
     }
-
-    this.plugins = new ArrayList<String>();
-
-    Plugin[] plugins = Main.getInstance().getServer().getPluginManager().getPlugins();
-    for (Plugin plugin : plugins) {
-      this.plugins.add(plugin.getName() + " (" + plugin.getDescription().getVersion() + ")");
-    }
-
-    this.javaInformation = new ArrayList<String>();
-    Runtime runtime = Runtime.getRuntime();
-
-    this.javaInformation.add("memory.free: " + runtime.freeMemory());
-    this.javaInformation.add("memory.max: " + runtime.maxMemory());
-    this.javaInformation
-        .add("java.specification.version: " + System.getProperty("java.specification.version"));
-    this.javaInformation.add("java.vendor: " + System.getProperty("java.vendor"));
-    this.javaInformation.add("java.version: " + System.getProperty("java.version"));
-    this.javaInformation.add("os.arch: " + System.getProperty("os.arch"));
-    this.javaInformation.add("os.name: " + System.getProperty("os.name"));
-    this.javaInformation.add("os.version:  " + System.getProperty("os.version"));
-    this.javaInformation.add("os.name: " + System.getProperty("os.name"));
-    this.javaInformation.add("os.name: " + System.getProperty("os.name"));
+    return identifier;
   }
 
-  public File getConfigFile() {
+  public static ArrayList<String> getPlugins() {
+    ArrayList<String> pluginList = new ArrayList<String>();
+    Plugin[] plugins = Main.getInstance().getServer().getPluginManager().getPlugins();
+    for (Plugin plugin : plugins) {
+      pluginList.add(plugin.getName() + " (" + plugin.getDescription().getVersion() + ")");
+    }
+    return pluginList;
+  }
+
+  public static ArrayList<String> getJavaInformation() {
+    ArrayList<String> javaInformation = new ArrayList<String>();
+    Runtime runtime = Runtime.getRuntime();
+    javaInformation.add("memory.free: " + runtime.freeMemory());
+    javaInformation.add("memory.max: " + runtime.maxMemory());
+    javaInformation
+        .add("java.specification.version: " + System.getProperty("java.specification.version"));
+    javaInformation.add("java.vendor: " + System.getProperty("java.vendor"));
+    javaInformation.add("java.version: " + System.getProperty("java.version"));
+    javaInformation.add("os.arch: " + System.getProperty("os.arch"));
+    javaInformation.add("os.name: " + System.getProperty("os.name"));
+    javaInformation.add("os.version:  " + System.getProperty("os.version"));
+    javaInformation.add("os.name: " + System.getProperty("os.name"));
+    javaInformation.add("os.name: " + System.getProperty("os.name"));
+    return javaInformation;
+  }
+  
+  public static File getConfigFile() {
     File configFile = new File(Main.getInstance().getDataFolder(), "config.yml");
     File tmp = null;
 
@@ -94,11 +101,11 @@ public class SupportData {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    
+
     return tmp;
   }
 
-  public File getShopConfigFile() {
+  public static File getShopConfigFile() {
     return new File(Main.getInstance().getDataFolder(), "shop.yml");
   }
 }
