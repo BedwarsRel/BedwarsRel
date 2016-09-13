@@ -9,6 +9,7 @@ errors:
   classnotfound: Nejde nacitat $package$ class $class$!
   gameexists: Hra s tymto menom uz existuje!
   gamenotfound: "Hra '$game$' nebola najdena!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Hra nenajdena!
   playeramount: Pocet hracov nesmie byt mensi ako 1 a vyssi ako 24!
   teamcolornotallowed: Tato farba nie je pre timy povolena.
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: Nastavit automaticke vyvazovanie
     desc: "Pokial je 'global-autobalance' nastavene na 'false', tak mozes pomocou tohto prikazu nastavit automaticke vyvazovanie pre tuto hru!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Vyhodit hraca
     desc: Vyhodi hraca z aktualnej hry!

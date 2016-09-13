@@ -9,6 +9,7 @@ errors:
   classnotfound: Kon pakket $package$ van klasse $class$ niet ophalen!
   gameexists: Een spel met deze naam bestaat al!
   gamenotfound: "Het spel '$game$' werdt niet gevonden!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Spel niet gevonden!
   playeramount: Het max van spelers kan niet lager dan 1 of hoger dan 24 zijn!
   teamcolornotallowed: Het gegeven team kleur is geen toegelaten kleur
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: Zetten van autobalance
     desc: "Als 'globale-autobalance' gezet is op vals, met dit commando kan je team-autobalance per spel op aan of uit zetten"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick speler
     desc: Kick een speler van het spel dat nu gespeeld wordt!

@@ -1,15 +1,16 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: $max$ sayfadan $current$ ci
+  currently: Şuanda
 errors:
   argumentslength: Number of arguments does not match the correct amount!
   holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
-  gameexists: A game with this name already exists!
-  gamenotfound: "The game '$game$' could not be found!"
-  gamenotfoundsimple: Game not found!
+  gameexists: Bu isimde bir oyun zaten var!
+  gamenotfound: "Oyun '$game$' bulunamadı!"
+  nofreegames: There are no free games available.
+  gamenotfoundsimple: Oyun bulunamadı!
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: Team name must have between 2 and 20 characters!
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
     desc: Kicks a player from the current game!

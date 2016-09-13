@@ -9,6 +9,7 @@ errors:
   classnotfound: Impossible de récupérer la classe $class$ du package $package$ !
   gameexists: Une partie de ce nom existe déjà !
   gamenotfound: "La partie '$game$' est introuvable !"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Partie introuvale !
   playeramount: ' Le nombre de joueurs ne peut pas être inférieur à 1 ou supérieur à 24 !'
   teamcolornotallowed: "La couleur d'équipe attribué n'est pas autorisée"
@@ -271,6 +272,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Exclure des joueurs
     desc: "Exclure un ou des joueurs d'une partie!"
