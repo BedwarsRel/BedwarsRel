@@ -67,6 +67,7 @@ public class Team implements ConfigurationSerializable {
     this.getChests().add(chestBlock);
   }
 
+  @SuppressWarnings("deprecation")
   public boolean addPlayer(Player player) {
     if (Main.getInstance().isSpigot()) {
       if (this.getScoreboardTeam().getEntries().size() >= this.getMaxPlayers()) {
@@ -161,6 +162,7 @@ public class Team implements ConfigurationSerializable {
     return this.getTargetHeadBlock().getBlock();
   }
 
+  @SuppressWarnings("deprecation")
   public List<Player> getPlayers() {
     List<Player> players = new ArrayList<>();
     if (Main.getInstance().isSpigot()) {
@@ -197,6 +199,7 @@ public class Team implements ConfigurationSerializable {
         && this.getTargetFeetBlock().getBlock().getType() != targetMaterial);
   }
 
+  @SuppressWarnings("deprecation")
   public boolean isInTeam(Player p) {
     if (Main.getInstance().isSpigot()) {
       return this.getScoreboardTeam().hasEntry(p.getName());
@@ -212,6 +215,7 @@ public class Team implements ConfigurationSerializable {
     }
   }
 
+  @SuppressWarnings("deprecation")
   public void removePlayer(Player player) {
     if (Main.getInstance().isSpigot()) {
       if (this.getScoreboardTeam().hasEntry(player.getName())) {
