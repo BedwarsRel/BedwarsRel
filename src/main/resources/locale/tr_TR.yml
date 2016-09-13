@@ -9,10 +9,7 @@ errors:
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: Bu isimde bir oyun zaten var!
   gamenotfound: "Oyun '$game$' bulunamadı!"
-<<<<<<< HEAD
   nofreegames: There are no free games available.
-=======
->>>>>>> 1.3.4-dev
   gamenotfoundsimple: Oyun bulunamadı!
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
