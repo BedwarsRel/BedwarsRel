@@ -25,13 +25,13 @@ public class ReflectionHelper {
       new MethodResolver(PlayerConnection);
   public static MethodResolver NetworkManagerMethodResolver = new MethodResolver(NetworkManager);
 
-  static void sendPacket(Player receiver, Object packet) throws ReflectiveOperationException {
+  public static void sendPacket(Player receiver, Object packet) throws ReflectiveOperationException {
     Object handle = Minecraft.getHandle(receiver);
     Object connection = EntityPlayerFieldResolver.resolve("playerConnection").get(handle);
     PlayerConnectionMethodResolver.resolve("sendPacket").invoke(connection, packet);
   }
 
-  static void a(Player receiver, Object packet) throws ReflectiveOperationException {
+  public static void a(Player receiver, Object packet) throws ReflectiveOperationException {
     Object handle = Minecraft.getHandle(receiver);
     Object connection = EntityPlayerFieldResolver.resolve("playerConnection").get(handle);
     PlayerConnectionMethodResolver.resolve(new ResolverQuery("a", packet.getClass()))

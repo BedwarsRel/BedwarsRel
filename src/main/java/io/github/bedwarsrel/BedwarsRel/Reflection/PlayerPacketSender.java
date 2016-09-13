@@ -10,29 +10,29 @@ public class PlayerPacketSender {
 
   protected static Object EMPTY_COMPONENT;
 
-  static Class<?> IChatBaseComponent =
+  private static Class<?> IChatBaseComponent =
       ReflectionHelper.nmsClassResolver.resolveSilent("IChatBaseComponent");
-  static Class<?> ChatSerializer = ReflectionHelper.nmsClassResolver.resolveSilent("ChatSerializer",
+  private static Class<?> ChatSerializer = ReflectionHelper.nmsClassResolver.resolveSilent("ChatSerializer",
       "IChatBaseComponent$ChatSerializer");
-  static Class<?> nmsPacketPlayOutChat =
+  private static Class<?> nmsPacketPlayOutChat =
       ReflectionHelper.nmsClassResolver.resolveSilent("PacketPlayOutChat");
 
-  static Class<?> PacketPlayOutTitle = ReflectionHelper.classResolver
+  private static Class<?> PacketPlayOutTitle = ReflectionHelper.classResolver
       .resolveSilent("net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutTitle");
-  static Class<?> EnumTitleAction = ReflectionHelper.classResolver.resolveSilent(
+  private static Class<?> EnumTitleAction = ReflectionHelper.classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutTitle$EnumTitleAction",
       "net.minecraft.server." + Minecraft.getVersion() + "EnumTitleAction");
-  static ConstructorResolver PacketTitleConstructorResolver =
+  private static ConstructorResolver PacketTitleConstructorResolver =
       new ConstructorResolver(PacketPlayOutTitle);
-  static MethodResolver ChatSerializerMethodResolver = new MethodResolver(ChatSerializer);
+  private static MethodResolver ChatSerializerMethodResolver = new MethodResolver(ChatSerializer);
 
-  static Class<?> PacketPlayInClientCommand = ReflectionHelper.classResolver.resolveSilent(
+  private static Class<?> PacketPlayInClientCommand = ReflectionHelper.classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayInClientCommand");
-  static Class<?> EnumClientCommand = ReflectionHelper.classResolver.resolveSilent(
+  private static Class<?> EnumClientCommand = ReflectionHelper.classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion()
           + "PacketPlayInClientCommand$EnumClientCommand",
       "net.minecraft.server." + Minecraft.getVersion() + "EnumClientCommand");
-  static ConstructorResolver PacketClientCommandConstructorResolver =
+  private static ConstructorResolver PacketClientCommandConstructorResolver =
       new ConstructorResolver(PacketPlayInClientCommand);
 
 

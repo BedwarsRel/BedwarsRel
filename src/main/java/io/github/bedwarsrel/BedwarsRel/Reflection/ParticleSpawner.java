@@ -8,12 +8,12 @@ import org.inventivetalent.reflection.resolver.ConstructorResolver;
 
 public class ParticleSpawner {
 
-  static Class<?> PacketPlayOutWorldParticles = ReflectionHelper.classResolver.resolveSilent(
+  private static Class<?> PacketPlayOutWorldParticles = ReflectionHelper.classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutWorldParticles");
-  static Class<?> EnumParticle = ReflectionHelper.classResolver.resolveSilent(
+  private static Class<?> EnumParticle = ReflectionHelper.classResolver.resolveSilent(
       "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutWorldParticles$EnumParticle",
       "net.minecraft.server." + Minecraft.getVersion() + "EnumParticle");
-  static ConstructorResolver PacketPlayOutWorldParticlesConstructorResolver =
+  private static ConstructorResolver PacketPlayOutWorldParticlesConstructorResolver =
       new ConstructorResolver(PacketPlayOutWorldParticles);
 
 
