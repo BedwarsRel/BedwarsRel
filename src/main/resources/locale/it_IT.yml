@@ -4,6 +4,7 @@ default:
   currently: Currently
 errors:
   argumentslength: Number of arguments does not match the correct amount!
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: A game with this name already exists!
@@ -151,7 +152,7 @@ lobby:
   countdowncancel: More players needed. Countdown was cancelled!
   cancelcountdown:
     not_enough_players: More players needed. Countdown cancelled!
-    not_enough_teams: Squadre più necessari. Conto alla rovescia annullato!
+    not_enough_teams: More teams needed. Countdown cancelled!
   cancelstart:
     not_enough_players: More players are needed to start the game!
     not_enough_teams: More teams are needed to start the game!

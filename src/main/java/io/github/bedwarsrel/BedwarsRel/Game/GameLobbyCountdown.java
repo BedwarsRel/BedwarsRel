@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.SoundMachine;
+import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
 import lombok.Getter;
 import lombok.Setter;
 

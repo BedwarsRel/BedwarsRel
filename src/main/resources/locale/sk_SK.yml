@@ -4,6 +4,7 @@ default:
   currently: Aktualna
 errors:
   argumentslength: Pocet argumentov prikazu neodpoveda spravnemu mnozstvu!
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: Nejde nacitat $package$ package!
   classnotfound: Nejde nacitat $package$ class $class$!
   gameexists: Hra s tymto menom uz existuje!

@@ -26,9 +26,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class ConfigUpdater {
 
@@ -266,6 +266,7 @@ public class ConfigUpdater {
 
     // <1.3.4>
     Main.getInstance().getConfig().addDefault("keep-inventory-on-death", false);
+    Main.getInstance().getConfig().addDefault("use-internal-shop", true);
     // </1.3.4>
   }
 

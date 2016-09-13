@@ -12,11 +12,11 @@ import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.UUIDFetcher;
 import io.github.bedwarsrel.BedwarsRel.Database.DBGetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBSetField;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.UUIDFetcher;
 
 public class PlayerStatistic extends StoringTable {
 

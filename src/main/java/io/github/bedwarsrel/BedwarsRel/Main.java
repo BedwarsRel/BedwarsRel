@@ -34,6 +34,7 @@ import io.github.bedwarsrel.BedwarsRel.Commands.AddTeamCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.AddTeamJoinCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.ClearSpawnerCommand;
+import io.github.bedwarsrel.BedwarsRel.Commands.DebugPasteCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.GameTimeCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.HelpCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.JoinGameCommand;
@@ -85,6 +86,11 @@ import io.github.bedwarsrel.BedwarsRel.Updater.DatabaseUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
+import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Metrics;
+import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
 
 public class Main extends JavaPlugin {
@@ -197,12 +203,11 @@ public class Main extends JavaPlugin {
     this.bugsnag.addBeforeNotify(new BeforeNotify() {
       @Override
       public boolean run(com.bugsnag.Error error) {
-        SupportData supportData = new SupportData();
-        error.addToTab("user", "id", supportData.getIdentifier());
-        error.addToTab("Server", "Version", supportData.getServerVersion());
-        error.addToTab("Server", "Version Bukkit", supportData.getBukkitVersion());
-        error.addToTab("Server", "Server Mode", supportData.getServerMode());
-        error.addToTab("Server", "Plugins", supportData.getPlugins());
+        error.addToTab("user", "id", SupportData.getIdentifier());
+        error.addToTab("Server", "Version", SupportData.getServerVersion());
+        error.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
+        error.addToTab("Server", "Server Mode", SupportData.getServerMode());
+        error.addToTab("Server", "Plugins", SupportData.getPlugins());
         return true;
       }
     });
@@ -729,6 +734,7 @@ public class Main extends JavaPlugin {
     this.commands.add(new AddTeamJoinCommand(this));
     this.commands.add(new AddHoloCommand(this));
     this.commands.add(new RemoveHoloCommand(this));
+    this.commands.add(new DebugPasteCommand(this));
 
     this.getCommand("bw").setExecutor(executor);
   }
@@ -883,8 +889,31 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isHologramsEnabled() {
-    return this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
-        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
+    return (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+        && this.getServer().getPluginManager().isPluginEnabled("PacketListenerApi"))
+        || (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
+            && this.getServer().getPluginManager().isPluginEnabled("ProtocolLib"));
+  }
+
+  public String getMissingHoloDependency() {
+    if (!Main.getInstance().isHologramsEnabled()) {
+      String missingHoloDependency = null;
+      if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+          || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")) {
+          missingHoloDependency = "PacketListenerApi";
+          return missingHoloDependency;
+        }
+        if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+          missingHoloDependency = "ProtocolLib";
+          return missingHoloDependency;
+        }
+      } else {
+        missingHoloDependency = "HolographicDisplays and ProtocolLib";
+        return missingHoloDependency;
+      }
+    }
+    return null;
   }
 
   public IHologramInteraction getHolographicInteractor() {
