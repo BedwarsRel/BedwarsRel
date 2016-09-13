@@ -9,7 +9,7 @@ errors:
   classnotfound: Konnte $package$ Klasse $class$ nicht laden!
   gameexists: Ein Spiel mit diesem Namen existiert bereits!
   gamenotfound: "Das Spiel '$game$' konnte nicht gefunden werden!"
-  nofreegames: No games are waiting for player
+  nofreegames: Es wurde kein verfügbares Spiel gefunden.
   gamenotfoundsimple: Spiel nicht gefunden!
   playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
   teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaubt!
@@ -272,6 +272,9 @@ commands:
   setautobalance:
     name: Autobalance setzen
     desc: "Wenn 'global-autobalance' auf 'false' gestellt, kann man hiermit das Autobalancing pro Spiel setzen"
+  setminplayers:
+    name: Mindestspielerzahl setzen
+    desc: Setzt die Anzahl der zum Start des Spiels benötigten Spieler
   kick:
     name: Spieler kicken
     desc: Kickt einen Spieler aus dem aktuellen Spiel
