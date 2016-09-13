@@ -208,7 +208,12 @@ public class Main extends JavaPlugin {
         error.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
         error.addToTab("Server", "Server Mode", SupportData.getServerMode());
         error.addToTab("Server", "Plugins", SupportData.getPlugins());
-        return true;
+        for (StackTraceElement stackTraceElement : error.getStackTrace()) {
+          if (stackTraceElement.toString().contains("io.github.bedwarsrel.BedwarsRel")) {
+            return true;
+          }
+        }
+        return false;
       }
     });
   }
