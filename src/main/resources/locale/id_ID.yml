@@ -9,7 +9,10 @@ errors:
   classnotfound: Tidak dapat mengambil $package$ kelas $class$!
   gameexists: Permainan dengan nama ini sudah ada!
   gamenotfound: "Permainan '$game$' tidak dapat ditemukan!"
+<<<<<<< HEAD
   nofreegames: There are no free games available.
+=======
+>>>>>>> 1.3.4-dev
   gamenotfoundsimple: Permainan tidak ditemukan!
   playeramount: Pemain maksimal tidak dapat kurang dari 1 atau lebih dari 24!
   teamcolornotallowed: Warna tim yang ditentukan tidak diijinan

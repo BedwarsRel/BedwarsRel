@@ -1,6 +1,8 @@
-package io.github.bedwarsrel.BedwarsRel;
+package io.github.bedwarsrel.BedwarsRel.Utils;
 
 import org.bukkit.Sound;
+
+import io.github.bedwarsrel.BedwarsRel.Main;
 
 public class SoundMachine {
 

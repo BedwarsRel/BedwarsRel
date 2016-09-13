@@ -26,9 +26,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class ConfigUpdater {
 
@@ -263,6 +263,11 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("send-error-data", true);
     Main.getInstance().getConfig().addDefault("player-settings.old-shop-as-default", false);
     // </1.3.3>
+
+    // <1.3.4>
+    Main.getInstance().getConfig().addDefault("keep-inventory-on-death", false);
+    Main.getInstance().getConfig().addDefault("use-internal-shop", true);
+    // </1.3.4>
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
@@ -732,9 +737,8 @@ public class ConfigUpdater {
                       new io.github.bedwarsrel.BedwarsRel.Com.v1_9_R2.SpawnEgg1_9(EntityType.SHEEP)
                           .toItemStack(amount);
                 } else if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_10_R1")) {
-                  finalRewardStack =
-                      new io.github.bedwarsrel.BedwarsRel.Com.v1_10_R1.SpawnEgg1_10(EntityType.SHEEP)
-                          .toItemStack(amount);
+                  finalRewardStack = new io.github.bedwarsrel.BedwarsRel.Com.v1_10_R1.SpawnEgg1_10(
+                      EntityType.SHEEP).toItemStack(amount);
                 }
               } else {
                 finalRewardStack = new ItemStack(material, amount, meta);

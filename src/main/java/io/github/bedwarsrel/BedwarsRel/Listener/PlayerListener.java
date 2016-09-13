@@ -45,7 +45,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
@@ -53,6 +52,7 @@ import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 
 public class PlayerListener extends BaseListener {
@@ -184,12 +184,16 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    iee.setCancelled(true);
-
     if (game.isSpectator(player)) {
       return;
     }
 
+    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)){
+      return;
+    }
+
+    iee.setCancelled(true);
+    
     BedwarsOpenShopEvent openShopEvent =
         new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(), iee.getRightClicked());
     Main.getInstance().getServer().getPluginManager().callEvent(openShopEvent);
@@ -310,6 +314,7 @@ public class PlayerListener extends BaseListener {
       pde.setDroppedExp(0);
       pde.setDeathMessage(null);
 
+
       if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
         pde.getDrops().clear();
       }
@@ -344,13 +349,7 @@ public class PlayerListener extends BaseListener {
         e.printStackTrace();
       }
 
-      try {
-        pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
-        pde.setKeepInventory(false);
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        player.getInventory().clear();
-      }
+      pde.setKeepInventory(Main.getInstance().getBooleanConfig("keep-inventory-on-death", false));
 
       Player killer = player.getKiller();
       if (killer == null) {

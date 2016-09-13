@@ -3,7 +3,7 @@ package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 import org.bukkit.Material;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class MagnetShoe extends SpecialItem {
 

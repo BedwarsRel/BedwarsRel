@@ -4,12 +4,12 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Database.DBField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBGetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBSetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DatabaseObject;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public abstract class StoringTable extends DatabaseObject {
 
