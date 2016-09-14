@@ -191,17 +191,11 @@ public class Main extends JavaPlugin {
       }
       this.holographicInteraction.loadHolograms();
     }
-
-    Main.getInstance().getServer().getConsoleSender().sendMessage(SupportData.getPluginVersion());
-    Main.getInstance().getServer().getConsoleSender()
-        .sendMessage(SupportData.getPluginVersionBuild());
-    Main.getInstance().getServer().getConsoleSender()
-        .sendMessage(SupportData.getPluginVersionType());
   }
 
   private void registerBugsnag() {
     this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
-    this.bugsnag.setAppVersion(this.getDescription().getVersion());
+    this.bugsnag.setAppVersion(SupportData.getPluginVersion());
     this.bugsnag.setProjectPackages("io.github.bedwarsrel");
     this.bugsnag.setReleaseStage(SupportData.getPluginVersionType());
   }
@@ -211,8 +205,10 @@ public class Main extends JavaPlugin {
       @Override
       public boolean run(com.bugsnag.Error error) {
         error.addToTab("user", "id", SupportData.getIdentifier());
-        error.addToTab("Server", "Version Build", Main.getInstance().getDescription().getVersion()
-            + " " + SupportData.getPluginVersionBuild());
+        if (!SupportData.getPluginVersionBuild().equalsIgnoreCase("unknown")) {
+          error.addToTab("Server", "Version Build", Main.getInstance().getDescription().getVersion()
+              + " " + SupportData.getPluginVersionBuild());
+        }
         error.addToTab("Server", "Version", SupportData.getServerVersion());
         error.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
         error.addToTab("Server", "Server Mode", SupportData.getServerMode());
