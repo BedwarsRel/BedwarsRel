@@ -17,7 +17,7 @@
 				</property>
 			</activation>
 			<properties>
-				<versionstring>${project.version}-${env.CIRCLE_SHA1}-SNAPSHOT</versionstring>
+				<versionstring>${project.version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
 				<filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
 			</properties>
 		</profile>
@@ -40,8 +40,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-        <versionstring>${project.version}-SNAPSHOT</versionstring>
-        <filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
+				<versionstring>${project.version}-SNAPSHOT</versionstring>
+				<filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
 			</properties>
 		</profile>
 	</profiles>
