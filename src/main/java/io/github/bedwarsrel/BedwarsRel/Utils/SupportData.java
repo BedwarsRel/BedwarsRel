@@ -18,7 +18,28 @@ import io.github.bedwarsrel.BedwarsRel.Main;
 public class SupportData {
 
   public static String getPluginVersion() {
+    if (getPluginVersionArray().length > 1) {
+      return getPluginVersionArray()[0];
+    }
     return Main.getInstance().getDescription().getVersion();
+  }
+
+  public static String getPluginVersionType() {
+    if (Main.getInstance().getDescription().getVersion().contains("SNAPSHOT")) {
+      return "SNAPSHOT";
+    }
+    return "RELEASE";
+  }
+
+  public static String getPluginVersionBuild() {
+    if (getPluginVersionArray().length == 3) {
+      return getPluginVersionArray()[1];
+    }
+    return "unknown";
+  }
+
+  private static String[] getPluginVersionArray() {
+    return Main.getInstance().getDescription().getVersion().split("-");
   }
 
   public static String getServerVersion() {
@@ -78,7 +99,7 @@ public class SupportData {
     javaInformation.add("os.name: " + System.getProperty("os.name"));
     return javaInformation;
   }
-  
+
   public static File getConfigFile() {
     File configFile = new File(Main.getInstance().getDataFolder(), "config.yml");
     File tmp = null;

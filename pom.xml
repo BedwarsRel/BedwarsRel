@@ -17,7 +17,8 @@
 				</property>
 			</activation>
 			<properties>
-				<buildversion>${project.version}-${ENV.CIRCLE_SHA1}-SNAPSHOT</buildversion>
+				<versionstring>${project.version}-${env.CIRCLE_SHA1}-SNAPSHOT</versionstring>
+				<filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
 			</properties>
 		</profile>
 		<profile>
@@ -29,18 +30,18 @@
 				</property>
 			</activation>
 			<properties>
-				<buildversion>${project.version}</buildversion>
+				<versionstring>${project.version}</versionstring>
+				<filename>${project.artifactId}-${project.version}</filename>
 			</properties>
 		</profile>
 		<profile>
 			<id>default</id>
 			<activation>
-				<property>
-					<name>!env.CIRCLECI</name>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<buildversion>${project.version}-SNAPSHOT</buildversion>
+        <versionstring>${project.version}-SNAPSHOT</versionstring>
+        <filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
 			</properties>
 		</profile>
 	</profiles>
@@ -58,7 +59,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
-					<finalName>${project.artifactId}-${buildversion}</finalName>
+					<finalName>${filename}</finalName>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -112,6 +113,10 @@
 			<id>inventive-repo</id>
 			<url>https://repo.inventivetalent.org/content/repositories/releases</url>
 		</repository>
+		<repository>
+			<id>Plugin Metrics</id>
+			<url>http://repo.mcstats.org/content/repositories/public</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -120,6 +125,12 @@
 			<artifactId>spigot-api</artifactId>
 			<version>1.10-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mcstats.bukkit</groupId>
+			<artifactId>metrics</artifactId>
+			<version>R8-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.gmail.filoghost.holographicdisplays</groupId>
