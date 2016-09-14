@@ -2,7 +2,7 @@ general:
   branches:
     ignore:
       - gh-pages
-      - /l10n\/.*/
+      - /l10n\/*/
 test:
   post:
     - mv target/BedwarsRel-*.jar $CIRCLE_ARTIFACTS/
