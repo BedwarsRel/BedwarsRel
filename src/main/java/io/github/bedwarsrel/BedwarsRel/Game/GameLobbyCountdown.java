@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Reflection.PlayerPacketSender;
 import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,14 +48,10 @@ public class GameLobbyCountdown extends BukkitRunnable {
     if (this.counter > this.lobbytimeWhenFull
         && this.game.getPlayerAmount() == this.game.getMaxPlayers()) {
       this.counter = this.lobbytimeWhenFull;
-      this.game
-          .broadcast(
-              ChatColor.YELLOW
-                  + Main
-                      ._l("lobby.countdown",
-                          ImmutableMap.of("sec",
-                              ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-              players);
+      this.game.broadcast(
+          ChatColor.YELLOW + Main._l("lobby.countdown",
+              ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
+          players);
     }
 
     if (this.counter == this.lobbytimeWhenFull) {
@@ -76,14 +73,10 @@ public class GameLobbyCountdown extends BukkitRunnable {
     }
 
     if (this.counter == this.lobbytime) {
-      this.game
-          .broadcast(
-              ChatColor.YELLOW
-                  + Main
-                      ._l("lobby.countdown",
-                          ImmutableMap.of("sec",
-                              ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-              players);
+      this.game.broadcast(
+          ChatColor.YELLOW + Main._l("lobby.countdown",
+              ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
+          players);
 
       for (Player p : players) {
         if (!p.getInventory().contains(Material.DIAMOND) && p.hasPermission("bw.vip.forcestart")) {
@@ -120,45 +113,20 @@ public class GameLobbyCountdown extends BukkitRunnable {
     }
 
     if (this.counter <= 10 && this.counter > 0) {
-      this.game
-          .broadcast(
-              ChatColor.YELLOW
-                  + Main
-                      ._l("lobby.countdown",
-                          ImmutableMap.of("sec",
-                              ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-              players);
+      this.game.broadcast(
+          ChatColor.YELLOW + Main._l("lobby.countdown",
+              ImmutableMap.of("sec", ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
+          players);
 
-      Class<?> titleClass = null;
-      Method showTitle = null;
       String title = ChatColor.translateAlternateColorCodes('&',
           Main.getInstance().getStringConfig("titles.countdown.format", "&3{countdown}"));
       title = title.replace("{countdown}", String.valueOf(this.counter));
 
       if (Main.getInstance().getBooleanConfig("titles.countdown.enabled", true)) {
-        try {
-          titleClass = Main.getInstance().getVersionRelatedClass("Title");
-          showTitle = titleClass.getMethod("showTitle", Player.class, String.class, double.class,
-              double.class, double.class);
-        } catch (Exception ex) {
-          Main.getInstance().getBugsnag().notify(ex);
-          ex.printStackTrace();
-        }
-      }
-
-      for (Player player : players) {
-        player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
-            Float.valueOf("1.0"), Float.valueOf("1.0"));
-
-        if (titleClass == null) {
-          continue;
-        }
-
-        try {
-          showTitle.invoke(null, player, title, 0.2, 0.6, 0.2);
-        } catch (Exception ex) {
-          Main.getInstance().getBugsnag().notify(ex);
-          ex.printStackTrace();
+        for (Player player : players) {
+          player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
+              Float.valueOf("1.0"), Float.valueOf("1.0"));
+          PlayerPacketSender.sendTitle(player, title, 0.2, 0.6, 0.2);
         }
       }
     }
