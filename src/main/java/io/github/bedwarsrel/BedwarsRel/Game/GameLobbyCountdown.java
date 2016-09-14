@@ -126,7 +126,7 @@ public class GameLobbyCountdown extends BukkitRunnable {
         for (Player player : players) {
           player.playSound(player.getLocation(), SoundMachine.get("CLICK", "UI_BUTTON_CLICK"),
               Float.valueOf("1.0"), Float.valueOf("1.0"));
-          PlayerPacketSender.sendTitle(player, title, 0.2, 0.6, 0.2);
+          PlayerPacketSender.sendTitle(player, PlayerPacketSender.toJson(title), 0.2, 0.6, 0.2);
         }
       }
     }
