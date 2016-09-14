@@ -72,8 +72,14 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("  latest_log: ").append("\'" + latestLOG + "\'").append('\n');
               b.append("\n# General Information\n");
               b.append("version:\n");
-              b.append("  plugin: ").append("\'" + SupportData.getPluginVersion() + "\'")
-                  .append('\n');
+              b.append("  plugin: ")
+                  .append("\'" + Main.getInstance().getDescription().getVersion() + "\'");
+              if (SupportData.getPluginVersionArray().length == 3
+                  && !SupportData.getPluginVersionArray()[1].equals("unknown")) {
+                b.append("(https://github.com/BedwarsRel/BedwarsRel/tree/"
+                    + SupportData.getPluginVersionArray()[1] + ")");
+              }
+              b.append('\n');
               b.append("  server: ").append("\'" + SupportData.getServerVersion() + "\'")
                   .append('\n');
               b.append("  bukkit: ").append("\'" + SupportData.getBukkitVersion() + "\'")
@@ -87,8 +93,8 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("\n\n# JVM\n");
               Runtime runtime = Runtime.getRuntime();
               b.append("memory:\n");
-              b.append("  free: ").append(runtime.freeMemory()).append('\n');
-              b.append("  max: ").append(runtime.maxMemory()).append('\n');
+              b.append("  free: ").append(runtime.freeMemory() / 1000000).append(" MB\n");
+              b.append("  max: ").append(runtime.maxMemory() / 1000000).append(" MB\n");
               b.append("java:\n");
               b.append("  specification:\n    version: '")
                   .append(System.getProperty("java.specification.version")).append("'\n");
