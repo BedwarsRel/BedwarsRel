@@ -38,7 +38,7 @@ public class SupportData {
     return "unknown";
   }
 
-  private static String[] getPluginVersionArray() {
+  public static String[] getPluginVersionArray() {
     return Main.getInstance().getDescription().getVersion().split("-");
   }
 
