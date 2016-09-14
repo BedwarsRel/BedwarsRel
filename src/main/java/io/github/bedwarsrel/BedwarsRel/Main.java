@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.mcstats.Metrics;
 
 import com.bugsnag.BeforeNotify;
 import com.bugsnag.Client;
@@ -88,7 +89,6 @@ import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
 import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Metrics;
 import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
@@ -195,8 +195,9 @@ public class Main extends JavaPlugin {
 
   private void registerBugsnag() {
     this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
-    this.bugsnag.setAppVersion(this.getDescription().getVersion());
+    this.bugsnag.setAppVersion(SupportData.getPluginVersion());
     this.bugsnag.setProjectPackages("io.github.bedwarsrel");
+    this.bugsnag.setReleaseStage(SupportData.getPluginVersionType());
   }
 
   private void enableBugsnag() {
@@ -204,6 +205,10 @@ public class Main extends JavaPlugin {
       @Override
       public boolean run(com.bugsnag.Error error) {
         error.addToTab("user", "id", SupportData.getIdentifier());
+        if (!SupportData.getPluginVersionBuild().equalsIgnoreCase("unknown")) {
+          error.addToTab("Server", "Version Build", Main.getInstance().getDescription().getVersion()
+              + " " + SupportData.getPluginVersionBuild());
+        }
         error.addToTab("Server", "Version", SupportData.getServerVersion());
         error.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
         error.addToTab("Server", "Server Mode", SupportData.getServerMode());

@@ -6,7 +6,7 @@ author: "The BedwarsRel-Team | www.github.com/orgs/BedwarsRel/people"
 website: "www.github.com/BedwarsRel"
 
 main: io.github.bedwarsrel.BedwarsRel.Main
-version: ${project.version}
+version: ${versionstring}
 
 awareness:
     - !@UTF8
