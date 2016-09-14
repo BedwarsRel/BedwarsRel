@@ -34,7 +34,9 @@
 		<profile>
 			<id>default</id>
 			<activation>
-				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>!CIRCLECI</name>
+				</property>
 			</activation>
 			<properties>
 				<buildversion>${project.version}-SNAPSHOT</buildversion>
