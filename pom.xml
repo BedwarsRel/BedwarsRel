@@ -12,18 +12,19 @@
 			<id>circleci-dev</id>
 			<activation>
 				<property>
-					<name>CIRCLECI</name>
+					<name>ENV.CIRCLECI</name>
+					<value>true</value>
 				</property>
 			</activation>
 			<properties>
-				<buildversion>${project.version}-${CIRCLE_SHA1}-SNAPSHOT</buildversion>
+				<buildversion>${project.version}-${ENV.CIRCLE_SHA1}-SNAPSHOT</buildversion>
 			</properties>
 		</profile>
 		<profile>
 			<id>circleci-release</id>
 			<activation>
 				<property>
-					<name>CIRCLE_BRANCH</name>
+					<name>ENV.CIRCLE_BRANCH</name>
 					<value>master</value>
 				</property>
 			</activation>
@@ -35,7 +36,7 @@
 			<id>default</id>
 			<activation>
 				<property>
-					<name>!CIRCLECI</name>
+					<name>!ENV.CIRCLECI</name>
 				</property>
 			</activation>
 			<properties>
