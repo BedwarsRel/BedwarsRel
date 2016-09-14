@@ -26,7 +26,7 @@
 			<activation>
 				<property>
 					<name>env.CIRCLE_BRANCH</name>
-					<value>change-build</value>
+					<value>master</value>
 				</property>
 			</activation>
 			<properties>

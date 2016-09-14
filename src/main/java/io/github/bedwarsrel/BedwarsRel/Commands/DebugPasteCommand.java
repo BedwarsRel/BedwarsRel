@@ -93,8 +93,8 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("\n\n# JVM\n");
               Runtime runtime = Runtime.getRuntime();
               b.append("memory:\n");
-              b.append("  free: ").append(runtime.freeMemory()).append('\n');
-              b.append("  max: ").append(runtime.maxMemory()).append('\n');
+              b.append("  free: ").append(runtime.freeMemory() / 1000000).append(" MB\n");
+              b.append("  max: ").append(runtime.maxMemory() / 1000000).append(" MB\n");
               b.append("java:\n");
               b.append("  specification:\n    version: '")
                   .append(System.getProperty("java.specification.version")).append("'\n");
