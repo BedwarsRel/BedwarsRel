@@ -114,26 +114,30 @@ public class PlayerStorage {
   }
 
   public void restore() {
-    this.player.getInventory().setContents(this.inventory);
-    this.player.getInventory().setArmorContents(this.armor);
+    if (!Main.getInstance().getBooleanConfig("save-inventory", true)) {
+      this.player.getInventory().setContents(this.inventory);
+      this.player.getInventory().setArmorContents(this.armor);
+
+      this.player.addPotionEffects(this.effects);
+      this.player.setLevel(this.level);
+      this.player.setExp(this.xp);
+      this.player.setFoodLevel(this.foodLevel);
+
+      for (PotionEffect e : this.player.getActivePotionEffects()) {
+        this.player.removePotionEffect(e.getType());
+      }
+
+      this.player.addPotionEffects(this.effects);
+    }
+
+    this.player.setPlayerListName(this.listName);
+    this.player.setDisplayName(this.displayName);
+
     this.player.setGameMode(this.mode);
 
     if (this.mode == GameMode.CREATIVE) {
       this.player.setAllowFlight(true);
     }
-
-    this.player.addPotionEffects(this.effects);
-    this.player.setLevel(this.level);
-    this.player.setExp(this.xp);
-    this.player.setPlayerListName(this.listName);
-    this.player.setDisplayName(this.displayName);
-    this.player.setFoodLevel(this.foodLevel);
-
-    for (PotionEffect e : this.player.getActivePotionEffects()) {
-      this.player.removePotionEffect(e.getType());
-    }
-
-    this.player.addPotionEffects(this.effects);
     this.player.updateInventory();
   }
 
