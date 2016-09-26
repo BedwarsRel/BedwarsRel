@@ -114,7 +114,7 @@ public class PlayerStorage {
   }
 
   public void restore() {
-    if (!Main.getInstance().getBooleanConfig("save-inventory", true)) {
+    if (Main.getInstance().getBooleanConfig("save-inventory", true)) {
       this.player.getInventory().setContents(this.inventory);
       this.player.getInventory().setArmorContents(this.armor);
 
