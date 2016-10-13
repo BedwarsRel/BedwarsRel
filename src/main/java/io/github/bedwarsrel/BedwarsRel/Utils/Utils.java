@@ -28,7 +28,6 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
@@ -130,19 +129,6 @@ public final class Utils {
     }
 
     return defaultMaterial;
-  }
-
-  public static Object getCraftPlayer(Player player) {
-    try {
-      Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
-      Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[] {});
-      getHandle.setAccessible(true);
-
-      return getHandle.invoke(player, new Object[] {});
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      return null;
-    }
   }
 
   public static boolean isNumber(String numberString) {

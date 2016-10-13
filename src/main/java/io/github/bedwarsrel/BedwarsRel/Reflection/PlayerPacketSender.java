@@ -1,7 +1,6 @@
 package io.github.bedwarsrel.BedwarsRel.Reflection;
 
 import org.bukkit.entity.Player;
-import org.inventivetalent.reflection.minecraft.Minecraft;
 import org.inventivetalent.reflection.resolver.ConstructorResolver;
 import org.inventivetalent.reflection.resolver.MethodResolver;
 import org.inventivetalent.reflection.resolver.ResolverQuery;
@@ -12,26 +11,23 @@ public class PlayerPacketSender {
 
   private static Class<?> IChatBaseComponent =
       ReflectionHelper.nmsClassResolver.resolveSilent("IChatBaseComponent");
-  private static Class<?> ChatSerializer = ReflectionHelper.nmsClassResolver.resolveSilent("ChatSerializer",
-      "IChatBaseComponent$ChatSerializer");
+  private static Class<?> ChatSerializer = ReflectionHelper.nmsClassResolver
+      .resolveSilent("ChatSerializer", "IChatBaseComponent$ChatSerializer");
   private static Class<?> nmsPacketPlayOutChat =
       ReflectionHelper.nmsClassResolver.resolveSilent("PacketPlayOutChat");
 
-  private static Class<?> PacketPlayOutTitle = ReflectionHelper.classResolver
-      .resolveSilent("net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutTitle");
-  private static Class<?> EnumTitleAction = ReflectionHelper.classResolver.resolveSilent(
-      "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayOutTitle$EnumTitleAction",
-      "net.minecraft.server." + Minecraft.getVersion() + "EnumTitleAction");
+  private static Class<?> PacketPlayOutTitle = ReflectionHelper.nmsClassResolver
+      .resolveSilent("PacketPlayOutTitle");
+  private static Class<?> EnumTitleAction = ReflectionHelper.nmsClassResolver
+      .resolveSilent("PacketPlayOutTitle$EnumTitleAction", "EnumTitleAction");
   private static ConstructorResolver PacketTitleConstructorResolver =
       new ConstructorResolver(PacketPlayOutTitle);
   private static MethodResolver ChatSerializerMethodResolver = new MethodResolver(ChatSerializer);
 
-  private static Class<?> PacketPlayInClientCommand = ReflectionHelper.classResolver.resolveSilent(
-      "net.minecraft.server." + Minecraft.getVersion() + "PacketPlayInClientCommand");
-  private static Class<?> EnumClientCommand = ReflectionHelper.classResolver.resolveSilent(
-      "net.minecraft.server." + Minecraft.getVersion()
-          + "PacketPlayInClientCommand$EnumClientCommand",
-      "net.minecraft.server." + Minecraft.getVersion() + "EnumClientCommand");
+  private static Class<?> PacketPlayInClientCommand =
+      ReflectionHelper.nmsClassResolver.resolveSilent("PacketPlayInClientCommand");
+  private static Class<?> EnumClientCommand = ReflectionHelper.nmsClassResolver
+      .resolveSilent("PacketPlayInClientCommand$EnumClientCommand", "EnumClientCommand");
   private static ConstructorResolver PacketClientCommandConstructorResolver =
       new ConstructorResolver(PacketPlayInClientCommand);
 

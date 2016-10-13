@@ -7,11 +7,13 @@ import org.inventivetalent.reflection.resolver.FieldResolver;
 import org.inventivetalent.reflection.resolver.MethodResolver;
 import org.inventivetalent.reflection.resolver.ResolverQuery;
 import org.inventivetalent.reflection.resolver.minecraft.NMSClassResolver;
+import org.inventivetalent.reflection.resolver.minecraft.OBCClassResolver;
 
 public class ReflectionHelper {
 
   public static ClassResolver classResolver = new ClassResolver();
   public static NMSClassResolver nmsClassResolver = new NMSClassResolver();
+  public static OBCClassResolver obcClassResolver = new OBCClassResolver();
   public static Class<?> PlayerConnection = nmsClassResolver.resolveSilent("PlayerConnection");
   public static Class<?> EntityPlayer = nmsClassResolver.resolveSilent("EntityPlayer");
   public static Class<?> NetworkManager = nmsClassResolver.resolveSilent("NetworkManager");
