@@ -4,11 +4,11 @@ default:
   currently: Сейчас
 errors:
   argumentslength: Количество аргументов не соответствует правильному количество
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
   packagenotfound: Не удалось получить $package$ пакет
   classnotfound: Не удалось получить пакет $package$ для класса $class$
   gameexists: Игра с таким именем уже существует
-  gamenotfound: "Игра '$game$' не найдена"
+  gamenotfound: Игра '$game$' не найдена
   nofreegames: There are no free games available.
   gamenotfoundsimple: Игра не найдена
   playeramount: Максимальное к-во игроков не может быть ниже 1 и выше 24
@@ -17,7 +17,7 @@ errors:
   teamnotfound: Команда не найдена
   notingame: В настоящее время вы вне игры
   bedtargeting: Вы должны стоять на блоке который вы указали в конфиге вместо кровати
-  regionargument: "Допустимые аргументы: 'loc1' или 'loc2'"
+  regionargument: 'Допустимые аргументы: ''loc1'' или ''loc2'''
   spawnerargument: The resource parameter has to be a valid configured resource!
   blockdownnotfound: Вы должны стоять на блоке
   gamenotrunning: Игра не запущена
@@ -27,31 +27,31 @@ errors:
   cantjoingame: Вы не можете присоеденится к запущеной игре
   lobbyongameworld: Лобби не может быть в игровом мире
   gamenotloaded: Не удалось запустить игру
-  gameloaderror: "Загружаемая игра '$game$' выдает ошибку"
+  gameloaderror: Загружаемая игра '$game$' выдает ошибку
   regionnotfound: Файл с регионами не существует
   savesign: Не удалось создать новый файл конфигурации
   nogames: Игры не найдены
   notenoughress: У вас не хватает ресурсов чтобы купить этот предмет
   teamnameinuse: Название команды уже используется
   minplayersmustnumber: Минимальное количество игроков должно быть не ниже 2
-  toolongregionname: 'Максимальная длина имени региона - 15 символов'
+  toolongregionname: Максимальная длина имени региона - 15 символов
   notwhilegamerunning: Вы не можеет сделать это во время игры
   notwhileingame: Вы не можеет сделать это во время игры
-  timeincorrect: "Время должно быть числом (0 ... 23000), 'днём' или 'ночью'"
+  timeincorrect: Время должно быть числом (0 ... 23000), 'днём' или 'ночью'
   minplayersnumeric: Минимальное количество игроков должно быть не ниже 2
   notinair: Вы не в воздухе
   teamfull: В этой команде уже нет свободного места
-  novalidmaterial: "Given block type (material) isn't correct!"
-  wrongvalueonoff: 'Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!'
-  playernotfound: "Given player was not found or isn't online!"
+  novalidmaterial: Given block type (material) isn't correct!
+  wrongvalueonoff: Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!
+  playernotfound: Given player was not found or isn't online!
   notingameforkick: You must be in a game to kick a player!
   playernotingame: Given player is not in this game!
   mustbeinlobbyworld: You must be in the lobby world of the game!
   addteamjoincancel: The adding of team join was cancelled!
   entitynotcompatible: This entity is not compatible with team join!
 success:
-  gameadded: "Новая игра '$game$' успешно создана"
-  teamadded: "Команда '$team$' успешно добавлена"
+  gameadded: Новая игра '$game$' успешно создана
+  teamadded: Команда '$team$' успешно добавлена
   joined: Вы присоединились к игре
   left: Вы отсоединились от игры
   saved: Игра успешно сохранена
@@ -61,7 +61,7 @@ success:
   spawnerset: Спавнер ресурса $name$ успешно добавлен
   stopped: Игра успешно остановлена
   lobbyset: Лобби успешно добавлено
-  gameloaded: "Игра '$game$' успешно загружена"
+  gameloaded: Игра '$game$' успешно загружена
   reloadconfig: Перезагрузка прошла успешно
   teamremoved: Команда успешно удалена
   gameremoved: Игра успешно удалена
@@ -75,7 +75,7 @@ success:
   materialset: The respawn block type (material) was set succesfully!
   builderset: The builder for the map was set successfully and will display in title!
   autobalanceseton: Autobalance was successfully turned on!
-  autobalancesetoff: 'Autobalance was successfully turned &coff&a!'
+  autobalancesetoff: Autobalance was successfully turned &coff&a!
   selectteamjoinentity: Now do a right click on the entity you want to use as team join!
   teamjoinadded: Entity was successfully marked as team selection for team $team$
   holoremoved: Hologram-Statistic successfully removed!
@@ -86,7 +86,7 @@ gamecheck:
   NO_LOBBY_SET: Вы не установили лобби
   TEAMS_WITHOUT_SPAWNS: Обнаружена(ы) команда(ы) без точки возрождения
   NO_ITEMSHOP_CATEGORIES: Данная категория не найдена
-  NO_MAIN_LOBBY_SET: "Вы не установили точку главного лобби, хотя включили 'tomainlobby'"
+  NO_MAIN_LOBBY_SET: Вы не установили точку главного лобби, хотя включили 'tomainlobby'
   TEAM_NO_WRONG_BED: Обнаружена(ы) команда(ы) без кровати
   TEAM_NO_WRONG_TARGET: Одна или больше команд не имеет кровати
 ingame:
@@ -107,9 +107,9 @@ ingame:
   teamchest: 'Сундук команды: $team$'
   noturteamchest: Этот сундук для вашей команды
   protectionleft: '&cНеуязвимость &fзаканчивается через &c$length$'
-  protectionend: 'Теперь вы снова &cуязвимы'
+  protectionend: Теперь вы снова &cуязвимы
   team-dead: Команда $team$ полностью уничтожена
-  no-friendlybreak: "&cCan't break block under team-member!"
+  no-friendlybreak: '&cCan''t break block under team-member!'
   teamchestdestroy: '&cOne of your teamchest(s) has been destroyed!'
   title:
     map-builder: Built by $builder$
@@ -123,31 +123,31 @@ ingame:
     onestackpershift: Купить один стак при ЛКМ+Shift
   player:
     left: Игрок $player$ покинул игру
-    died: $player$ умер
-    killed: $killer$ убил $player$
-    kicked: $player$ was kicked!
+    died: '$player$ умер'
+    killed: '$killer$ убил $player$'
+    kicked: '$player$ was kicked!'
     waskicked: You were kicked from the game!
   blocks:
     ownbeddestroy: Вы не можете разрушить кровать своей команды
-    beddestroyed: $player$ разрушил кровать команды $team$
+    beddestroyed: '$player$ разрушил кровать команды $team$'
   specials:
     rescue-platform:
-      left: 'Платформа исчезнет через &c$time$&f'
+      left: Платформа исчезнет через &c$time$&f
     trap:
       trapped: '&eКто-то попался в ловушку вашей команды'
     protection-wall:
-      left: 'Новую стену можно построить через &c$time$'
+      left: Новую стену можно построить через &c$time$
       not-usable-here: Вы не можете построить стену здесь
     warp-powder:
       cancelled: '&cТелепортация отменена'
-      start: 'Вы будете телепортированы через &c$time$&f second(s). Не двигайтесь с места'
+      start: Вы будете телепортированы через &c$time$&f second(s). Не двигайтесь с места
       cancel: '&4Отменить телепортацию'
       multiuse: '&cYou started a teleportation already!'
     tntsheep:
       no-target-found: No target player was found!
     tracker:
       no-target-found: No target player was found!
-      target-found: $player$ is $blocks$ block(s) away from you.
+      target-found: '$player$ is $blocks$ block(s) away from you.'
 lobby:
   countdown: Игра начнётся через $sec$
   countdowncancel: Нужно больше игроков. Отчёт времени отменён
@@ -166,8 +166,8 @@ lobby:
   leavegame: Покинуть игру
   playerjoin: Игрок $player$ присоеденился к игре
   kickedbyvip: Вы были кикнуты из-за вип игрока, который присоеденился в заполненую игру
-  moreplayersneeded: $count$ more players needed.
-  moreplayersneeded-one: $count$ more player needed.
+  moreplayersneeded: '$count$ more players needed.'
+  moreplayersneeded-one: '$count$ more player needed.'
   moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&e[&bBedWars&e]'
@@ -268,10 +268,10 @@ commands:
     desc: Sets the builder of the map which will be display in the title when game starts.
   setgameblock:
     name: Set game block
-    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
   setautobalance:
     name: Set autobalance
-    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
   setminplayers:
     name: Set minimum players
     desc: Sets the amount of players needed to start the game
