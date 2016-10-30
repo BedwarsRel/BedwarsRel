@@ -23,6 +23,11 @@ public class ProtectionWallListener implements Listener {
       return;
     }
 
+    ProtectionWall wall = new ProtectionWall();
+    if (interact.getMaterial() != wall.getItemMaterial()) {
+      return;
+    }
+
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(interact.getPlayer());
     if (game == null) {
       return;
@@ -33,11 +38,6 @@ public class ProtectionWallListener implements Listener {
     }
 
     if (game.isSpectator(interact.getPlayer())) {
-      return;
-    }
-
-    ProtectionWall wall = new ProtectionWall();
-    if (interact.getMaterial() != wall.getItemMaterial()) {
       return;
     }
 
