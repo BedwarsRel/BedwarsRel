@@ -51,7 +51,7 @@ public class ArrowBlocker extends SpecialItem {
     this.game = game;
     this.owner = player;
 
-    int breakTime = Main.getInstance().getIntConfig("specials.arrow-blocker.break-time", 10);
+    int breakTime = Main.getInstance().getIntConfig("specials.arrow-blocker.protection-time", 10);
     int waitTime = Main.getInstance().getIntConfig("specials.arrow-blocker.using-wait-time", 30);
 
     if (waitTime > 0) {

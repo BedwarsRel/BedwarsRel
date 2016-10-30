@@ -268,7 +268,7 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("keep-inventory-on-death", false);
     Main.getInstance().getConfig().addDefault("use-internal-shop", true);
     Main.getInstance().getConfig().addDefault("save-inventory", true);
-    Main.getInstance().getConfig().addDefault("specials.arrow-blocker.break-time", 10);
+    Main.getInstance().getConfig().addDefault("specials.arrow-blocker.protection-time", 10);
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.using-wait-time", 30);
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.item", "barrier");
     // </1.3.4>
