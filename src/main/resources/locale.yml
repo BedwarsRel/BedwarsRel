@@ -133,6 +133,8 @@ ingame:
     specials:
         rescue-platform:
             left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
+        arrow-blocker:
+            left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
         trap:
             trapped: "&eSomeone went into a &ctrap&e of your team!"
         protection-wall:
