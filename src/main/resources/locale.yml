@@ -134,7 +134,7 @@ ingame:
         rescue-platform:
             left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
         arrow-blocker:
-            start: "You're save from arrows for &c$time$&f second(s)."
+            start: "You are protected from being hit by arrows for &c$time$&f second(s)."
             left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
         trap:
             trapped: "&eSomeone went into a &ctrap&e of your team!"
