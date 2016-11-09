@@ -106,6 +106,7 @@ public class ArrowBlocker extends SpecialItem {
         isActive = true;
 
         if (protectionTime > 0 && ArrowBlocker.this.livingTime == protectionTime) {
+          player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.arrow-blocker.end")));
           isActive = false;
         }
 
