@@ -4,12 +4,12 @@ default:
   currently: Aktualni
 errors:
   argumentslength: Argumenty prikazu neodpovidaji spravnemu mnozstvi!
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  holodependencynotfound: Potrebny plugin $dependency$ nenalezen. Bez nej nelze spustit Hologram-statistiky
   packagenotfound: Nelze nacist balicek $package$!
   classnotfound: Nelze nacist balicek $package$ ve tride $class$!
   gameexists: Hra se stejnym jmenem jiz byla vytvorena!
   gamenotfound: "Hra '$game$' neexistuje!"
-  nofreegames: There are no free games available.
+  nofreegames: Aktualne nejsou volne zadne hry.
   gamenotfoundsimple: Hra neexistuje!
   playeramount: Pocet hracu musi byt v rozsahu 1 az 24!
   teamcolornotallowed: Tato barva neni pro tymy povolena.
@@ -273,8 +273,8 @@ commands:
     name: setautobalance
     desc: "Pokud je parametr 'global-autobalance' nastaven na 'false', tak lze pomoci tohoto prikazu nastavit automaticke balancovani hracu pro tuto hru!"
   setminplayers:
-    name: Set minimum players
-    desc: Sets the amount of players needed to start the game
+    name: Nastavit minimum hracu
+    desc: Nastavit minimalni pocet hracu pro start hry
   kick:
     name: kick
     desc: Vyhodi zadaneho hrace ze hry
