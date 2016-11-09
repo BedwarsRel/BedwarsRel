@@ -196,7 +196,7 @@
 		<dependency>
 			<groupId>com.bugsnag</groupId>
 			<artifactId>bugsnag</artifactId>
-			<version>LATEST</version>
+			<version>3.0.0</version>
 		</dependency>
 	</dependencies>
 

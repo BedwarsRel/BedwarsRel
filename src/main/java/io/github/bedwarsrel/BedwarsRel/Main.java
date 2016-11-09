@@ -25,8 +25,9 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
 import org.mcstats.Metrics;
 
-import com.bugsnag.BeforeNotify;
-import com.bugsnag.Client;
+import com.bugsnag.Bugsnag;
+import com.bugsnag.Report;
+import com.bugsnag.callbacks.Callback;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Commands.AddGameCommand;
@@ -122,7 +123,7 @@ public class Main extends JavaPlugin {
   private ScoreboardManager scoreboardManager = null;
   private GameManager gameManager = null;
   @Getter
-  private Client bugsnag;
+  private Bugsnag bugsnag;
 
   @Override
   public void onEnable() {
@@ -194,40 +195,46 @@ public class Main extends JavaPlugin {
   }
 
   private void registerBugsnag() {
-    this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
+    this.bugsnag = new Bugsnag("c23593c1e2f40fc0da36564af1bd00c6");
     this.bugsnag.setAppVersion(SupportData.getPluginVersion());
     this.bugsnag.setProjectPackages("io.github.bedwarsrel");
     this.bugsnag.setReleaseStage(SupportData.getPluginVersionType());
   }
 
   private void enableBugsnag() {
-    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+    this.bugsnag.addCallback(new Callback() {
       @Override
-      public boolean run(com.bugsnag.Error error) {
-        error.addToTab("user", "id", SupportData.getIdentifier());
-        if (!SupportData.getPluginVersionBuild().equalsIgnoreCase("unknown")) {
-          error.addToTab("Server", "Version Build", Main.getInstance().getDescription().getVersion()
-              + " " + SupportData.getPluginVersionBuild());
-        }
-        error.addToTab("Server", "Version", SupportData.getServerVersion());
-        error.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
-        error.addToTab("Server", "Server Mode", SupportData.getServerMode());
-        error.addToTab("Server", "Plugins", SupportData.getPlugins());
-        for (StackTraceElement stackTraceElement : error.getStackTrace()) {
+      public void beforeNotify(Report report) {
+        Boolean shouldBeSent = false;
+        for (StackTraceElement stackTraceElement : report.getException().getStackTrace()) {
           if (stackTraceElement.toString().contains("io.github.bedwarsrel.BedwarsRel")) {
-            return true;
+            shouldBeSent = true;
+            break;
           }
         }
-        return false;
+        if (!shouldBeSent) {
+          report.cancel();
+        }
+
+        report.setUserId(SupportData.getIdentifier());
+        if (!SupportData.getPluginVersionBuild().equalsIgnoreCase("unknown")) {
+          report.addToTab("Server", "Version Build",
+              Main.getInstance().getDescription().getVersion() + " "
+                  + SupportData.getPluginVersionBuild());
+        }
+        report.addToTab("Server", "Version", SupportData.getServerVersion());
+        report.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
+        report.addToTab("Server", "Server Mode", SupportData.getServerMode());
+        report.addToTab("Server", "Plugins", SupportData.getPlugins());
       }
     });
   }
 
   private void disableBugsnag() {
-    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+    this.bugsnag.addCallback(new Callback() {
       @Override
-      public boolean run(com.bugsnag.Error error) {
-        return false;
+      public void beforeNotify(Report report) {
+        report.cancel();
       }
     });
   }
