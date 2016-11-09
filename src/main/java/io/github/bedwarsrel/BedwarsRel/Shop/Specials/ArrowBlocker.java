@@ -31,7 +31,7 @@ public class ArrowBlocker extends SpecialItem {
 
   @Override
   public Material getItemMaterial() {
-    return Utils.getMaterialByConfig("specials.Arrow-Blocker.item", Material.BARRIER);
+    return Utils.getMaterialByConfig("specials.Arrow-Blocker.item", Material.EYE_OF_ENDER);
   }
 
   public int getLivingTime() {
@@ -51,7 +51,7 @@ public class ArrowBlocker extends SpecialItem {
     this.game = game;
     this.owner = player;
 
-    int breakTime = Main.getInstance().getIntConfig("specials.arrow-blocker.protection-time", 10);
+    int protectionTime = Main.getInstance().getIntConfig("specials.arrow-blocker.protection-time", 10);
     int waitTime = Main.getInstance().getIntConfig("specials.arrow-blocker.using-wait-time", 30);
 
     if (waitTime > 0) {
@@ -89,15 +89,15 @@ public class ArrowBlocker extends SpecialItem {
     player.updateInventory();
     
     player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.arrow-blocker.start",
-        ImmutableMap.of("time", String.valueOf(breakTime)))));
+        ImmutableMap.of("time", String.valueOf(protectionTime)))));
     
-    if (breakTime > 0 || waitTime > 0) {
-      this.runTask(breakTime, waitTime);
+    if (protectionTime > 0 || waitTime > 0) {
+      this.runTask(protectionTime, waitTime, player);
       game.addSpecialItem(this);
     }
   }
   
-  public void runTask(final int breakTime, final int waitTime) {
+  public void runTask(final int protectionTime, final int waitTime, final Player player) {
     this.task = new BukkitRunnable() {
 
       @Override
@@ -105,12 +105,12 @@ public class ArrowBlocker extends SpecialItem {
         ArrowBlocker.this.livingTime++;
         isActive = true;
 
-        if (breakTime > 0 && ArrowBlocker.this.livingTime == breakTime) {
+        if (protectionTime > 0 && ArrowBlocker.this.livingTime == protectionTime) {
           isActive = false;
         }
 
         if (ArrowBlocker.this.livingTime >= waitTime
-            && ArrowBlocker.this.livingTime >= breakTime) {
+            && ArrowBlocker.this.livingTime >= protectionTime) {
           ArrowBlocker.this.game.removeRunningTask(this);
           ArrowBlocker.this.game.removeSpecialItem(ArrowBlocker.this);
           ArrowBlocker.this.task = null;
