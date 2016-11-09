@@ -396,6 +396,11 @@ gameoverdelay: 10
 # Decide if you want to use the internal bedwars shop
 use-internal-shop: true
 
+# Restore inventory after game ends
+# type boolean
+# If true the inventory gets restore after the game ends
+save-inventory: true
+
 # Show team in ActionBar
 # Type: boolean
 # Sets if the name of a player's team should be displayed
