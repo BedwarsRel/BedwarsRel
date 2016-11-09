@@ -267,6 +267,7 @@ public class ConfigUpdater {
     // <1.3.4>
     Main.getInstance().getConfig().addDefault("keep-inventory-on-death", false);
     Main.getInstance().getConfig().addDefault("use-internal-shop", true);
+    Main.getInstance().getConfig().addDefault("save-inventory", true);
     // </1.3.4>
   }
 
