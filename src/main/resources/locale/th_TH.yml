@@ -97,102 +97,102 @@ ingame:
   newrecord: '&aTeam $team$&a set a new record: &6$record$'
   record-nobeddestroy: '&cRecord won''t be saved, because no bed was destroyed!'
   teamwon: ยินดีด้วย! ทีม $team$ ได้รับชัยชนะ!
-  draw: The game ends with a draw!
-  serverrestart: Server restart in $sec$ second(s)!
-  gamestarting: Game starting ...
-  gamestarted: Game '$game$' has just started!
-  backtolobby: Back to lobby in $sec$ second(s)!
-  spectator: Spectator
-  spectate: '&aSpectate'
-  teamchest: Team chest
-  noturteamchest: This chest isn't a chest of your team!
+  draw: เกมได้จบลงแล้ว! ทุกคนเสมอ!
+  serverrestart: เซิฟเวอร์จะเริ่มใหม่ภายในเวลา $sec$ วินาที!
+  gamestarting: เกมกำลังเริ่ม ...
+  gamestarted: เกม '$game$' ได้เริ่มขึ้นแล้ว!
+  backtolobby: กลับไปล็อบบี้ใน $sec$ วินาที!
+  spectator: ผู้ชม
+  spectate: '&aผู้ชม'
+  teamchest: กล่องของทีม
+  noturteamchest: กล่องนี้ไม่ใช่กล่องของทีมคุณนะ!
   protectionleft: Invulnerable for &c$length$&f second(s)!
   protectionend: You're now &cvulnerable&f again!
-  team-dead: Team $team$ was destroyed!
-  no-friendlybreak: '&cCan''t break block under team-member!'
-  teamchestdestroy: '&cOne of your teamchest(s) has been destroyed!'
+  team-dead: ทีม $team$ ได้ถูกทำลายแล้ว!
+  no-friendlybreak: '&cคุณไม่สามารถทำลายบล็อคใต้สมาชิกทีมของคุณ!'
+  teamchestdestroy: '&cหนึ่งในกล่องทีมของคุณได้ถูกทำลายแล้ว!'
   title:
-    map-builder: Built by $builder$
-    win-title: '&6Congratulations!'
-    win-subtitle: '$team$&6 won in &e$time$'
+    map-builder: สร้างโดย $builder$
+    win-title: '&6ยินดีด้วย!'
+    win-subtitle: '$team$&6 ได้รับชัยชนะภายในเวลา &e$time$'
   shop:
     name: Itemshop
-    newshop: Use new shop
-    oldshop: Use old shop
-    fullstackpershift: Multiply stacks per shift click
-    onestackpershift: One stack per shift click
+    newshop: ใช้ร้านค้ารูปแบบใหม่
+    oldshop: ใช้ร้านค้ารูปแบบเก่า
+    fullstackpershift: หลายแพ็คต่อกดshiftและคลิ๊กซ้าย
+    onestackpershift: 1แพ็คต่อกดshiftและคลิ๊กซ้าย
   player:
-    left: Player $player$ has left the game!
-    died: '$player$ died!'
-    killed: '$killer$ killed $player$!'
-    kicked: '$player$ was kicked!'
-    waskicked: You were kicked from the game!
+    left: ผู้เล่น $player$ ผู้นี้ได้ออกจากเกมไปแล้ว!
+    died: '$player$ ตาย!'
+    killed: '$killer$ ฆ่า $player$!'
+    kicked: '$player$ โดนเตะออก!'
+    waskicked: คุณได้ถูกเตะออกแล้ว!
   blocks:
-    ownbeddestroy: You can't destroy your own bed!
-    beddestroyed: '$player$ destroyed bed of team $team$!'
+    ownbeddestroy: คุณไม่สามารถทุบเตียงทีมคุณเองนะ!
+    beddestroyed: '$player$ ได้ทำลายเตียงของทีม $team$!'
   specials:
     rescue-platform:
-      left: There are &c$time$&f second(s) left until you can use the next rescue platform!
+      left: มีเวลา &c$time$&f วินาทีที่เหลือคุณถึงสามารถใช้แท่งช่วยชีวิตอีกได้!
     trap:
-      trapped: '&eSomeone went into a &ctrap&e of your team!'
+      trapped: '&eบางคนได้ถูก &ctrap&e ของทีมของคุณ!'
     protection-wall:
-      left: There are &c$time$&f second(s) left until you can use the next protection wall!
-      not-usable-here: You cannot use the protection wall here!
+      left: มีเวลา &c$time$&f second(s) วินาทีที่เหลือคุณถึงสามารถใช้กำแพงป้องกันได้!
+      not-usable-here: คุณไม่สามารถใช้กำแพงป้องกันได้!
     warp-powder:
-      cancelled: '&cYour teleport was cancelled!'
-      start: You will be teleported in &c$time$&f second(s). Don't move!
-      cancel: '&4Cancel teleport'
-      multiuse: '&cYou started a teleportation already!'
+      cancelled: '&cการเทเลพอร์ตของคุณได้ถูกยกเลิกแล้ว!'
+      start: คุณจะถูกเทเลพอร์ตภายในเวลา &c$time$&f วินาที อย่าขยับ!
+      cancel: '&4ยกเลิกเทเลพอร์ต'
+      multiuse: '&cคุณเพิ่งจะเทเลพอร์ตไปเอง!'
     tntsheep:
-      no-target-found: No target player was found!
+      no-target-found: ไม่เจอผู้เล่นที่เป็นเป้าหมายเลย!
     tracker:
-      no-target-found: No target player was found!
-      target-found: '$player$ is $blocks$ block(s) away from you.'
+      no-target-found: ไม่เจอผู้เล่นที่เป็นเป้าหมายเลย!
+      target-found: '$player$ อยู่ห่าง $blocks$ บล็อคจากคุณ.'
 lobby:
-  countdown: Game will start in $sec$ second(s)!
-  countdowncancel: More players needed. Countdown was cancelled!
+  countdown: เกมจะเริ่มใน $sec$ วินาที!
+  countdowncancel: ต้องการผู้เล่นอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!
   cancelcountdown:
-    not_enough_players: More players needed. Countdown cancelled!
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_players: เกมนี้ต้องการผู้เล่นอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!
+    not_enough_teams: เกมนี้ต้องการทีมอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!
   cancelstart:
-    not_enough_players: More players are needed to start the game!
-    not_enough_teams: More teams are needed to start the game!
-  chooseteam: Choose a team
-  startgame: Start game
-  reduce_countdown: Reduce countdown
-  gamefull: Game is full!
-  gamefullpremium: The game is full of premium players already!
-  teamjoined: You successfully joined the team $team$
-  leavegame: Leave game
-  playerjoin: Player $player$ joined the game!
-  kickedbyvip: You were kicked by a vip player which has joined the full game!
-  moreplayersneeded: '$count$ more players needed.'
-  moreplayersneeded-one: '$count$ more player needed.'
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+    not_enough_players: จำนวนผู้เล่นไม่เพียงพอต่อการเริ่มเกม!
+    not_enough_teams: จำนวนทีมไม่เพียงพอต่อการเริ่มเกม!
+  chooseteam: เลือกทีม
+  startgame: เริ่มเกม
+  reduce_countdown: ลดเวลาในล็อบบี้
+  gamefull: เกมนี้คนเต็ม!
+  gamefullpremium: เกมนี้พึ่งเต็มไปด้วยผู้เล่นพิเศษเอง!
+  teamjoined: คุณได้เข้าร่วมทีม $team$
+  leavegame: ออกเกม
+  playerjoin: ผู้เล่น $player$ ได้เข้ามาในเกมแล้ว!
+  kickedbyvip: คุณถูกเตะโดยผู้เล่นพิเศษที่เข้ามาในห้องที่เต็ม!
+  moreplayersneeded: ขาดผู้เล่นอีก $count$ คน
+  moreplayersneeded-one: ขาดผู้เล่นอีก $count$ คน
+  moreteamsneeded: จำนวนทีมไม่พอในการเริ่มเกม!
 sign:
   firstline: '&6[Bedwars]'
-  players: Players
+  players: ผู้เล่น
   gamestate:
-    stopped: '&4Stopped!'
-    waiting: '&aWaiting ...'
-    running: '&9Running!'
-    full: Full!
+    stopped: '&4เกมหยุดแล้ว!'
+    waiting: '&aกำลังรอคนเข้า...'
+    running: '&9เกมกำลังเริ่ม!'
+    full: เต็ม!
 stats:
-  header: Bedwars Stats
+  header: สถานะ Bedwars
   kd: K/D
-  statsnotfound: Statistics of $player$ not found!
-  name: Name
-  kills: Kills
+  statsnotfound: สถานะของ $player$ ไม่พบ!
+  name: ขื่อ
+  kills: ฆ่า
   deaths: Deaths
-  wins: Wins
-  loses: Loses
-  score: Scores
-  destroyedBeds: Destroyed Beds
-  games: Games
+  wins: ชนะ
+  loses: แพ้
+  score: คะแนน
+  destroyedBeds: ทำลายเตียง
+  games: เกม
 ressources:
-  gold: '&6Gold'
-  iron: '&7Iron'
-  bronze: '&4Bronze'
+  gold: '&6ทอง'
+  iron: '&7เหล้ก'
+  bronze: '&4ทองแดง'
 commands:
   addgame:
     name: Add Game
