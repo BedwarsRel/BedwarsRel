@@ -133,6 +133,10 @@ ingame:
   specials:
     rescue-platform:
       left: Il reste &c$time$&f seconde(s) avant que vous puissiez utiliser la prochaine plateforme de secours !
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&eQuelqu''un est allé dans un &cpiège&e de votre équipe !'
     protection-wall:
