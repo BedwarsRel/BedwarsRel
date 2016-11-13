@@ -266,6 +266,8 @@ public class BlockListener extends BaseListener {
       for (ItemStack drop : breakedBlock.getDrops()) {
         if (!drop.getType().equals(breakedBlock.getType())) {
           breakedBlock.getDrops().remove(drop);
+          breakedBlock.setType(Material.AIR);
+          break;
         }
       }
 
