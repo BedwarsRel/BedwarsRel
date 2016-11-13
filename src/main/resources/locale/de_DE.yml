@@ -8,7 +8,7 @@ errors:
   packagenotfound: Konnte Package $package$ nicht laden!
   classnotfound: Konnte $package$ Klasse $class$ nicht laden!
   gameexists: Ein Spiel mit diesem Namen existiert bereits!
-  gamenotfound: "Das Spiel '$game$' konnte nicht gefunden werden!"
+  gamenotfound: Das Spiel '$game$' konnte nicht gefunden werden!
   nofreegames: Es wurde kein verfügbares Spiel gefunden.
   gamenotfoundsimple: Spiel nicht gefunden!
   playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
@@ -16,8 +16,8 @@ errors:
   teamnamelength: Der Teamname muss zwischen 2 und 20 Zeichen haben!
   teamnotfound: Team nicht gefunden!
   notingame: Du bist zurzeit in keinem Spiel!
-  bedtargeting: "Du musst ein Respawn-Block des konfigurierten 'game-block' anvisieren oder auf einem stehen!"
-  regionargument: "Dein Location-Parameter muss 'loc1' oder 'loc2' entsprechen!"
+  bedtargeting: Du musst ein Respawn-Block des konfigurierten 'game-block' anvisieren oder auf einem stehen!
+  regionargument: Dein Location-Parameter muss 'loc1' oder 'loc2' entsprechen!
   spawnerargument: Dein Ressourcen-Parameter ist ungültig oder verweist auf keine konfigurierte Ressource!
   blockdownnotfound: Der Block unter dir konnte nicht gefunden werden!
   gamenotrunning: Spiel läuft nicht!
@@ -27,7 +27,7 @@ errors:
   cantjoingame: Du kannst keinem laufenden oder beendetem Spiel beitreten!
   lobbyongameworld: Die Lobby darf nicht auf der Welt des Spiels sein!
   gamenotloaded: Spiel konnte nicht geladen/gestartet werden!
-  gameloaderror: "Das Laden des Spiels '$game$' hat einen Fehler verursacht!"
+  gameloaderror: Das Laden des Spiels '$game$' hat einen Fehler verursacht!
   regionnotfound: Region-Datei existiert nicht!
   savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
   nogames: Keine Spiele gefunden!
@@ -37,7 +37,7 @@ errors:
   toolongregionname: Region-Name darf nur maximal 15 Zeichen haben!
   notwhilegamerunning: Das kannst du nicht tun während das Spiel läuft!
   notwhileingame: Das kannst du nicht tun während du in einem Spiel bist!
-  timeincorrect: "Die Zeit muss eine Zahl sein (0 ... 23000), 'day' oder 'night'"
+  timeincorrect: Die Zeit muss eine Zahl sein (0 ... 23000), 'day' oder 'night'
   minplayersnumeric: Die Mindestanzahl der Spieler muss numerisch sein!
   notinair: Du bist nicht in der Luft!
   teamfull: Das Team ist voll, bitte öffne die Teamauswahl erneut!
@@ -50,7 +50,7 @@ errors:
   addteamjoincancel: Das Hinzufügen von einem Team-Beitritt wurde abgebrochen!
   entitynotcompatible: Diese Kreature wird für die Team-Auswahl nicht unterstützt!
 success:
-  gameadded: "Neues Spiel '$game$' erfolgreich hinzugefügt!"
+  gameadded: Neues Spiel '$game$' erfolgreich hinzugefügt!
   teamadded: Team $team$ erfolgreich hinzugefügt!
   joined: Du bist dem Spiel beigetreten!
   left: Du hast das Spiel erfolgreich verlassen!
@@ -61,7 +61,7 @@ success:
   spawnerset: Ressourcen-Spawner $name$ wurde erfolgreich gesetzt!
   stopped: Spiel wurde erfolgreich gestoppt!
   lobbyset: Lobby wurde erfolgreich gesetzt!
-  gameloaded: "Spiel '$game$' wurde erfolgreich geladen!"
+  gameloaded: Spiel '$game$' wurde erfolgreich geladen!
   reloadconfig: Neu laden erfolgreich!
   teamremoved: Team wurde erfolgreich entfernt!
   gameremoved: Spiel wurde erfolgreich entfernt!
@@ -75,7 +75,7 @@ success:
   materialset: Der Respawn-Block Typ wurde erfolgreich für dieses Spiel gesetzt!
   builderset: Der Builder der Map wurde erfolgreich gesetzt!
   autobalanceseton: Autobalance wurde erfolgreich eingeschaltet!
-  autobalancesetoff: 'Autobalance wurde erfolgreich &causgeschaltet&a!'
+  autobalancesetoff: Autobalance wurde erfolgreich &causgeschaltet&a!
   selectteamjoinentity: Mache nun einen Rechtsklick auf die Kreatur, die als Teambeitritt dienen soll!
   teamjoinadded: Kreatur wurde erfolgreich für die Team-Auswahl für das Team $team$ markiert!
   holoremoved: Hologram-Statistik erfolgreich entfernt!
@@ -86,7 +86,7 @@ gamecheck:
   NO_LOBBY_SET: Es wurde keine Lobby gesetzt!
   TEAMS_WITHOUT_SPAWNS: Ein oder mehrere Teams haben keinen Spawn-Punkt!
   NO_ITEMSHOP_CATEGORIES: Shop hat keine Kategorien/Angebote gefunden!
-  NO_MAIN_LOBBY_SET: "Du hast keine Main-Lobby gesetzt, obwohl 'tomainlobby' auf true gesetzt wurde!"
+  NO_MAIN_LOBBY_SET: Du hast keine Main-Lobby gesetzt, obwohl 'tomainlobby' auf true gesetzt wurde!
   TEAM_NO_WRONG_BED: Ein oder mehrere Teams haben kein Bett gesetzt bekommen!
   TEAM_NO_WRONG_TARGET: Ein oder mehrere Teams haben kein Respawn-Block gesetzt bekommen!
 ingame:
@@ -100,14 +100,14 @@ ingame:
   draw: Das Spiel endet mit einem Unentschieden!
   serverrestart: Server-Neustart in $sec$ Sekunde(n)!
   gamestarting: Spiel startet ...
-  gamestarted: "Das Spiel '$game$' hat begonnen!"
+  gamestarted: Das Spiel '$game$' hat begonnen!
   backtolobby: Zurück zur Lobby in $sec$ Sekunde(n)
   spectator: Zuschauer
   spectate: '&aZuschauen'
   teamchest: Teamkiste
   noturteamchest: Diese Kiste gehört nicht deinem Team!
-  protectionleft: 'Unverwundbar für &c$length$&f Sekunde(n)!'
-  protectionend: 'Du bist wieder &cverwundbar&f!'
+  protectionleft: Unverwundbar für &c$length$&f Sekunde(n)!
+  protectionend: Du bist wieder &cverwundbar&f!
   team-dead: Das Team $team$ wurde vernichtet!
   no-friendlybreak: '&cBlock unter deinem Team-Mitglied kann nicht zerstört werden!'
   teamchestdestroy: '&cEine eurer Teamkiste(n) wurde zerstört!'
@@ -123,31 +123,35 @@ ingame:
     onestackpershift: Ein Stack bei Shift-Klick
   player:
     left: Spieler $player$ hat das Spiel verlassen!
-    died: $player$ ist gestorben!
-    killed: $player$ wurde von $killer$ getötet!
-    kicked: $player$ wurde aus dem Spiel gekickt!
+    died: '$player$ ist gestorben!'
+    killed: '$player$ wurde von $killer$ getötet!'
+    kicked: '$player$ wurde aus dem Spiel gekickt!'
     waskicked: Du wurdest aus dem Spiel gekickt!
   blocks:
     ownbeddestroy: Du kannst dein eigenes Bett nicht zerstören!
     beddestroyed: Das Bett von Team $team$ wurde von $player$ zerstört!
   specials:
     rescue-platform:
-      left: 'Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!'
+      left: Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Rettungsplattform zu aktivieren!
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&eJemand ist in eine &cTrap&e von eurem Team gelaufen!'
     protection-wall:
-      left: 'Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Schutzmauer zu aktivieren!'
+      left: Du musst noch &c$time$&f Sekunde(n) warten, um die nächste Schutzmauer zu aktivieren!
       not-usable-here: Du kannst die Schutzmauer hier nicht verwenden!
     warp-powder:
       cancelled: '&cDeine Teleportation wurde abgebrochen.'
-      start: 'Du wirst in &c$time$&f Sekunde(n) teleportiert. Bewege dich nicht.'
+      start: Du wirst in &c$time$&f Sekunde(n) teleportiert. Bewege dich nicht.
       cancel: '&4Teleportation abbrechen'
       multiuse: '&cDu hast bereits eine Teleportation gestartet!'
     tntsheep:
       no-target-found: Es wurde kein Zielspieler gefunden!
     tracker:
       no-target-found: Es wurde kein Zielspieler gefunden!
-      target-found: $player$ ist $blocks$ Blöcke von dir entfernt.
+      target-found: '$player$ ist $blocks$ Blöcke von dir entfernt.'
 lobby:
   countdown: Das Spiel startet in $sec$ Sekunde(n)!
   countdowncancel: Mehr Spieler benötigt. Countdown wurde abgebrochen!
@@ -164,7 +168,7 @@ lobby:
   gamefullpremium: Das Spiel ist voll von Premium-Spielern!
   teamjoined: Du bist erfolgreich dem Team $team$ beigetreten!
   leavegame: Spiel verlassen
-  playerjoin: $player$ ist dem Spiel beigetreten!
+  playerjoin: '$player$ ist dem Spiel beigetreten!'
   kickedbyvip: Du wurdest von einem VIP-Spieler rausgeworfen, der dem vollen Spiel beigetreten ist.
   moreplayersneeded: Es werden noch $count$ weitere Spieler benötigt.
   moreplayersneeded-one: Es wird noch $count$ weiterer Spieler benötigt.
@@ -268,10 +272,10 @@ commands:
     desc: Setzt den Bauer der Map eines bestimmten Spiels, der im Title beim Start des Spiels angezeigt wird.
   setgameblock:
     name: Spiel-lock setzen
-    desc: "Setzt den Respawn Block-Typ. Dies überschreibt die 'game-block' config für dieses eine Spiel. Schreibe 'DEFAULT' als Typ, um den Typ aus der Config zu verwenden"
+    desc: Setzt den Respawn Block-Typ. Dies überschreibt die 'game-block' config für dieses eine Spiel. Schreibe 'DEFAULT' als Typ, um den Typ aus der Config zu verwenden
   setautobalance:
     name: Autobalance setzen
-    desc: "Wenn 'global-autobalance' auf 'false' gestellt, kann man hiermit das Autobalancing pro Spiel setzen"
+    desc: Wenn 'global-autobalance' auf 'false' gestellt, kann man hiermit das Autobalancing pro Spiel setzen
   setminplayers:
     name: Mindestspielerzahl setzen
     desc: Setzt die Anzahl der zum Start des Spiels benötigten Spieler
