@@ -31,7 +31,7 @@ public class ArrowBlocker extends SpecialItem {
 
   @Override
   public Material getItemMaterial() {
-    return Utils.getMaterialByConfig("specials.Arrow-Blocker.item", Material.EYE_OF_ENDER);
+    return Utils.getMaterialByConfig("specials.arrow-blocker.item", Material.EYE_OF_ENDER);
   }
 
   public int getLivingTime() {
@@ -120,7 +120,7 @@ public class ArrowBlocker extends SpecialItem {
           return;
         }
       }
-    }.runTaskTimer(Main.getInstance(), 20L, 20L);
+    }.runTaskTimer(Main.getInstance(), 0, 20L);
     this.game.addRunningTask(this.task);
   }
 
