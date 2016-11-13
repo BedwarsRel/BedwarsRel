@@ -263,13 +263,12 @@ public class BlockListener extends BaseListener {
         breakedBlock.getWorld().dropItemNaturally(breakedBlock.getLocation(), enderChest);
       }
 
-      if (e.getBlock().getType() == Material.WEB) {
-        e.setCancelled(true);
-        breakedBlock.getDrops().clear();
-        breakedBlock.setType(Material.AIR);
-      } else if (e.getBlock().getType() == Material.GLOWSTONE) {
-        breakedBlock.getDrops().clear();
-        breakedBlock.getDrops().add(new ItemStack(Material.GLOWSTONE));
+      for (ItemStack drop : breakedBlock.getDrops()) {
+        if (!drop.getType().equals(breakedBlock.getType())) {
+          breakedBlock.getDrops().remove(drop);
+          breakedBlock.setType(Material.AIR);
+          break;
+        }
       }
 
       g.getRegion().removePlacedBlock(breakedBlock);
@@ -369,6 +368,16 @@ public class BlockListener extends BaseListener {
       }
 
       if (replacedBlock != null && !Main.getInstance().getBooleanConfig("place-in-liquid", true)
+          && (replacedBlock.getType().equals(Material.WATER)
+              || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+              || replacedBlock.getType().equals(Material.LAVA)
+              || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
+        bpe.setCancelled(true);
+        bpe.setBuild(false);
+        return;
+      }
+
+      if (replacedBlock != null && placeBlock.getType().equals(Material.WEB)
           && (replacedBlock.getType().equals(Material.WATER)
               || replacedBlock.getType().equals(Material.STATIONARY_WATER)
               || replacedBlock.getType().equals(Material.LAVA)

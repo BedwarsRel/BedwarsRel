@@ -133,6 +133,10 @@ ingame:
   specials:
     rescue-platform:
       left: 需要&c$time$秒&f 你才能使用下一个救援平台!
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&e有人进入了你队伍的&4陷阱'
     protection-wall:
