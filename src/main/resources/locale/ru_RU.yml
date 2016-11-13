@@ -133,6 +133,10 @@ ingame:
   specials:
     rescue-platform:
       left: Платформа исчезнет через &c$time$&f
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&eКто-то попался в ловушку вашей команды'
     protection-wall:
