@@ -92,6 +92,7 @@ public class ArrowBlocker extends SpecialItem {
         ImmutableMap.of("time", String.valueOf(protectionTime)))));
     
     if (protectionTime > 0 || waitTime > 0) {
+      isActive = true;
       this.runTask(protectionTime, waitTime, player);
       game.addSpecialItem(this);
     }
@@ -103,7 +104,6 @@ public class ArrowBlocker extends SpecialItem {
       @Override
       public void run() {
         ArrowBlocker.this.livingTime++;
-        isActive = true;
 
         if (protectionTime > 0 && ArrowBlocker.this.livingTime == protectionTime) {
           player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.arrow-blocker.end")));
