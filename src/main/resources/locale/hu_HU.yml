@@ -144,7 +144,7 @@ ingame:
       not-usable-here: You cannot use the protection wall here!
     warp-powder:
       cancelled: '&cYour teleport was cancelled!'
-      start: You will be teleported in &c$time$&f second(s). Don't move!
+      start: A teleportálás &c$time$&f másodperc múlva megkezdődik. Ne mozogj!
       cancel: '&4Cancel teleport'
       multiuse: '&cYou started a teleportation already!'
     tntsheep:
