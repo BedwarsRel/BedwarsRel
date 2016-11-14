@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
@@ -40,12 +39,10 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
   }
 
   @Override
-  public boolean execute(CommandSender sender, ArrayList<String> args) {
+  public boolean execute(final CommandSender sender, ArrayList<String> args) {
     if (!super.hasPermission(sender) && !sender.isOp()) {
       return false;
     }
-
-    final Player player = (Player) sender;
 
     Main.getInstance().getServer().getScheduler().runTaskAsynchronously(Main.getInstance(),
         new Runnable() {
@@ -59,7 +56,7 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
                 latestLOG = HastebinUtility
                     .upload(new File(Main.getInstance().getDataFolder(), "../../logs/latest.log"));
               } catch (IOException ignored) {
-                player.sendMessage(
+                sender.sendMessage(
                     ChatWriter.pluginMessage("&clatest.log is too big to be pasted, will ignore"));
                 latestLOG = "too big :(";
               }
@@ -108,7 +105,7 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("\n# https://github.com/BedwarsRel/BedwarsRel/issues");
 
               String link = HastebinUtility.upload(b.toString());
-              player.sendMessage(ChatWriter
+              sender.sendMessage(ChatWriter
                   .pluginMessage(ChatColor.GREEN + "Success! Support data pasted on " + link));
             } catch (IOException e) {
               e.printStackTrace();
