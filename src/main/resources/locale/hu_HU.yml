@@ -10,17 +10,17 @@ errors:
   gameexists: A game with this name already exists!
   gamenotfound: The game '$game$' could not be found!
   nofreegames: There are no free games available.
-  gamenotfoundsimple: Game not found!
+  gamenotfoundsimple: A játék nem található!
   playeramount: The maxium of players can't be lower than 1 or higher than 24!
   teamcolornotallowed: The given Team color isn't a allowed color
   teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
+  teamnotfound: A csapat nem található!
   notingame: You are currently not in a game!
   bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
   regionargument: Your location argument has to be 'loc1' or 'loc2'!
   spawnerargument: The resource parameter has to be a valid configured resource!
   blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Game isn't running!
+  gamenotrunning: A játék nem fut!
   bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
   cantstartagain: Game is running! You can't start a running game again!
   startoutofwaiting: Game have to be started out of the waiting mode!
@@ -97,7 +97,7 @@ ingame:
   newrecord: '&aTeam $team$&a set a new record: &6$record$'
   record-nobeddestroy: '&cRecord won''t be saved, because no bed was destroyed!'
   teamwon: Gratulálunk! A(z) $team$ csapat nyert!
-  draw: The game ends with a draw!
+  draw: A játék döntetlennel véget ért!
   serverrestart: A szerver újraindul $sec$ másodperc múlva!
   gamestarting: A játék indítása ...
   gamestarted: Game '$game$' has just started!
@@ -107,7 +107,7 @@ ingame:
   teamchest: Csapatláda
   noturteamchest: This chest isn't a chest of your team!
   protectionleft: Sebezhetetlen vagy &c$length$&f másodpercig!
-  protectionend: You're now &cvulnerable&f again!
+  protectionend: Most már újra &csebezhető&f vagy!
   team-dead: A(z) $team$ csapat kiesett a játékból!
   no-friendlybreak: '&cCan''t break block under team-member!'
   teamchestdestroy: '&cOne of your teamchest(s) has been destroyed!'
@@ -119,10 +119,10 @@ ingame:
     name: Bolt
     newshop: Új bolt használata
     oldshop: Régi bolt használata
-    fullstackpershift: Multiply stacks per shift click
+    fullstackpershift: Több stack per Shift + klikk
     onestackpershift: Egy stack per Shift + klikk
   player:
-    left: '$player$ csatlakozott a játékhoz!'
+    left: '$player$ elhagyta a játékot!'
     died: '$player$ meghalt!'
     killed: '$killer$ megölte $player$-t!'
     kicked: '$player$ kirúgva a játékból!'
