@@ -4,7 +4,7 @@ default:
   currently: Saat ini
 errors:
   argumentslength: Jumlah argumen tidak cocok dengan jumlah yang benar!
-  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
+  holodependencynotfound: Tidak dapat menemukan $dependency$ untuk Hologram-Statistik
   packagenotfound: Tidak dapat mengambil paket $package$!
   classnotfound: Tidak dapat mengambil $package$ kelas $class$!
   gameexists: Permainan dengan nama ini sudah ada!
@@ -25,44 +25,44 @@ errors:
   cantstartagain: Permainan sedang berjalan! Anda tidak dapat memulai kembali permainan yang sedang berjalan!
   startoutofwaiting: Permainan harus dimulai dari mode menunggu!
   cantjoingame: Anda tidak dapat bergabung dengan permainan yang sedang berjalan atau permainan yang sudah dihentikan!
-  lobbyongameworld: Lobby can't be on the game world!
+  lobbyongameworld: Lobi tidak dapat berada pada dunia permainan!
   gamenotloaded: Tidak dapat memulai permainan!
   gameloaderror: Loading game '$game$' throws an error!
-  regionnotfound: Region file does not exists!
+  regionnotfound: File wilayah tidak dapat ditemukan!
   savesign: Couldn't create a new sign config file!
-  nogames: No games found!
-  notenoughress: You didn't have enough ressource to buy this item!
-  teamnameinuse: Team name is already in use!
-  minplayersmustnumber: Min players must be a number!
-  toolongregionname: Maximum length of region name are 15 characters!
+  nogames: Permainan tidak ditemukan!
+  notenoughress: Anda tidak memiliki sumber daya yang cukup untuk membeli barang ini!
+  teamnameinuse: Nama tim ini sudah digunakan!
+  minplayersmustnumber: Pemain min harus merupakan angka!
+  toolongregionname: Panjang maksimal dari nama wilayah adalah 15 karakter!
   notwhilegamerunning: Tidak dapat melakukan itu ketika permainan sedang berjalan!
   notwhileingame: Tidak dapat melakukan itu ketika anda berada di permainan yang sedang berjalan!
   timeincorrect: Waktu harus berupa angka (0... 23000), 'day' tau 'night'!
   minplayersnumeric: Parameter min-pemain harus berupa angka!
   notinair: Anda tidak di udara!
   teamfull: Tim penuh, silahkan membuka kembali menu pemilihan tim!
-  novalidmaterial: Given block type (material) isn't correct!
-  wrongvalueonoff: Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!
-  playernotfound: Given player was not found or isn't online!
-  notingameforkick: You must be in a game to kick a player!
-  playernotingame: Given player is not in this game!
-  mustbeinlobbyworld: You must be in the lobby world of the game
+  novalidmaterial: Jenis (material) blok yang diberikan tidak tepat!
+  wrongvalueonoff: Parameter salah! Gunakan true, on, 1 untuk menyalakan - Gunakan false, off, 0 untuk mematikan!
+  playernotfound: Pemain yang diberikan tidak ditemukan atau tidak online!
+  notingameforkick: Anda harus berada dalam permainan untuk mengeluarkan seorang pemain!
+  playernotingame: Pemain yang diberikan tidak berada dalam permainan ini!
+  mustbeinlobbyworld: Anda harus berada pada lobi dunia dari permainan
   addteamjoincancel: The adding of team join was cancelled!
   entitynotcompatible: This entity is not compatible with team join!
 success:
-  gameadded: New game '$game$' successfully added!
-  teamadded: Team '$team$' successfully added!
-  joined: You successfully joined the game!
-  left: You successfully left the game!
-  saved: Game was successfully saved!
-  bedset: You sucessfully set the respawn block of team $team$!
-  regionset: Game region location $location$ for Game $game$ was set successfully!
-  spawnset: Spawn location for Team $team$ was set successfully!
-  spawnerset: Ressource spawn location for $name$ was set successfully!
-  stopped: Game successfully stopped!
-  lobbyset: Lobby was set successfully!
-  gameloaded: Game '$game$' successfully loaded!
-  reloadconfig: Reload successful!
+  gameadded: Permainan baru $game$ berhasil ditambahkan!
+  teamadded: Tim $team$ berhasil ditambahkan!
+  joined: Anda berhasil bergabung dalam permainan!
+  left: Anda berhasil meninggalkan permainan!
+  saved: Permainan berhasil disimpan!
+  bedset: Anda berhasil menetapkan blok respawn tim $team$!
+  regionset: Lokasi wilayah permainan $location$ untuk permainan $game$ berhasil ditetapkan!
+  spawnset: Lokasi spawn untuk Tim $team$ berhasil ditetapkan!
+  spawnerset: Lokasi spawn sumber daya untuk $name$ berhasil ditetapkan!
+  stopped: Permainan berhasil dihentikan!
+  lobbyset: Lobi berhasil ditetapkan!
+  gameloaded: Permainan $game$ berhasil dimuat!
+  reloadconfig: Berhasil memuat ulang!
   teamremoved: Team was successfully removed!
   gameremoved: Game was successfully removed!
   spawnercleared: All ressource spawners has been removed!
