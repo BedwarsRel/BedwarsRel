@@ -200,88 +200,88 @@ ressources:
 commands:
   addgame:
     name: Add Game
-    desc: Adiciona um novo jogo
+    desc: Adds a new game
   addteam:
     name: Add Team
-    desc: Adiciona uma nova team num determinado mapa
+    desc: Adds a team to a specific game
   join:
     name: Join Game
-    desc: Entra num jogo de um mapa determinado
+    desc: Joins a specific game
   leave:
     name: Leave Game
-    desc: Sais do jogo corrente
+    desc: Leave the current game
   save:
     name: Save Game
-    desc: Guarda o jogo (e mapa) para os ficheiros da config
+    desc: Saves a game (and map) to config file(s)
   settarget:
     name: Set target
-    desc: Seta a localização do bloco de respawn
+    desc: Sets the location of a team's target block
   setbed:
     name: Set bed (synonym for settarget)
-    desc: Seta a localização da cama da team (Igual ao settarget)
+    desc: Sets the location of a team's bed block (Synonym for settarget)
   setlobby:
     name: Set lobby
-    desc: Seta a localização do lobby de um jogo
+    desc: Sets the location of the gamelobby
   setregion:
     name: Sets a region point
-    desc: Seta um ponto da regiao de um jogo
+    desc: Sets a region point for the game
   setspawn:
     name: Sets a team spawn
-    desc: Seta o spawn dado por uma team
+    desc: Sets the spawn of the given team
   setspawner:
     name: Set spawner
-    desc: Seta a localização do spawn de uma especifica ressource
+    desc: Sets a spawner location of a specific ressource
   start:
     name: Start game
-    desc: Começa o jogo
+    desc: Starts a game
   stop:
     name: Stop game
-    desc: Para um jogo
+    desc: Stops a game
   help:
     name: Show Help
-    desc: Da informaçao sobre o plugin e comandos
+    desc: Display information about the plugin and its commands
   reload:
     name: Reload
-    desc: Ira dar reload ao plugin
+    desc: Reloads the configurations and translations
   setmainlobby:
     name: Set main lobby
-    desc: Seta o mainlobby (é preciso que na config o mainlobby-enabled esteja true)
+    desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)
   list:
     name: List games
-    desc: Lista de jogos disponiveis
+    desc: Lists all available games
   regionname:
     name: Set region name
-    desc: Seta o nome do mapa na tabuleta (em vez do nome do mundo)
+    desc: Sets an individual region name (instead of world name)
   removeteam:
     name: Remove team
-    desc: Remove uma team de um jogo (somente funciona se o jogo estiver parado)
+    desc: Removes a team from the game (only in stopped mode)
   removegame:
     name: Remove game
-    desc: Remove um jogo e a sua configuracao
+    desc: Removes a game and every configuration
   clearspawner:
     name: Clear spawners
-    desc: Remove todos os spawners de um jogo. Precisa de ser guardado.
+    desc: Removes all spawners from the game. Saving needed.
   gametime:
     name: Set game time
-    desc: Seta o tempo de jogo de um determinado jogo
+    desc: Sets the game time which should be used in the game-world
   stats:
     name: Statistics
-    desc: Mostra as estatisticas
+    desc: Shows your statistics
   setbuilder:
     name: Sets builder of map
-    desc: Seta o builder de um mapa que sera mostrado em titulo quando o jogo comecar.
+    desc: Sets the builder of the map which will be display in the title when game starts.
   setgameblock:
     name: Set game block
-    desc: Seta o tipo de bloco de jogo desse jogo que deveria ser usado em vez do que esta configurado na config. Escreve 'DEFAULT' como tipo para usares o tipo de config outra vez
+    desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
   setautobalance:
     name: Set autobalance
-    desc: Se 'global-autobalance' esta setado 'false', com este comando tu podes setar team-autobalance por jogo em ativado ou desativado!
+    desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
   setminplayers:
     name: Set minimum players
     desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
-    desc: Kicka um jogador do seu jogo corrente!
+    desc: Kicks a player from the current game!
   addteamjoin:
     name: Add team selection
     desc: Mark a creature which can be used to join a specific team!
