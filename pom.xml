@@ -141,6 +141,11 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.inventivetalent</groupId>
+			<artifactId>reflectionhelper</artifactId>
+			<version>1.10.4</version>
+		</dependency>
+		<dependency>
 			<groupId>net.minecraft</groupId>
 			<artifactId>minecraft-server-1-8</artifactId>
 			<version>1.8</version>

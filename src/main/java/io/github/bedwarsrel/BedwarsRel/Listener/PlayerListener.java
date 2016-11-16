@@ -51,6 +51,7 @@ import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Reflection.PlayerPacketSender;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
@@ -188,12 +189,12 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)){
+    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)) {
       return;
     }
 
     iee.setCancelled(true);
-    
+
     BedwarsOpenShopEvent openShopEvent =
         new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(), iee.getRightClicked());
     Main.getInstance().getServer().getPluginManager().callEvent(openShopEvent);
@@ -305,7 +306,7 @@ public class PlayerListener extends BaseListener {
   public void onPlayerDie(PlayerDeathEvent pde) {
     final Player player = pde.getEntity();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
+    
     if (game == null) {
       return;
     }
@@ -319,35 +320,17 @@ public class PlayerListener extends BaseListener {
         pde.getDrops().clear();
       }
 
-      try {
-        if (!Main.getInstance().isSpigot()) {
-          Class<?> clazz = null;
-          try {
-            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-                + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
-          } catch (ClassNotFoundException ex) {
-            Main.getInstance().getBugsnag().notify(ex);
-            clazz = Class
-                .forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
+      new BukkitRunnable() {
+        
+        @Override
+        public void run() {
+          if (Main.getInstance().isSpigot()) {
+            player.spigot().respawn();
+          } else {
+            PlayerPacketSender.respawnPlayer(player);
           }
-
-          BukkitRunnable respawnRunnable =
-              (BukkitRunnable) clazz.getDeclaredConstructor(Player.class).newInstance(player);
-          respawnRunnable.runTaskLater(Main.getInstance(), 20L);
-        } else {
-          new BukkitRunnable() {
-
-            @Override
-            public void run() {
-              player.spigot().respawn();
-            }
-          }.runTaskLater(Main.getInstance(), 20L);
         }
-
-      } catch (Exception e) {
-        Main.getInstance().getBugsnag().notify(e);
-        e.printStackTrace();
-      }
+      }.runTaskLater(Main.getInstance(), 20L);
 
       pde.setKeepInventory(Main.getInstance().getBooleanConfig("keep-inventory-on-death", false));
 

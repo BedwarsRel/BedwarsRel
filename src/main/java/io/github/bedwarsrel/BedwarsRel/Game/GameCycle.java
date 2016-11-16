@@ -1,6 +1,5 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,6 +18,7 @@ import com.google.common.collect.ImmutableMap;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameOverEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerKilledEvent;
+import io.github.bedwarsrel.BedwarsRel.Reflection.PlayerPacketSender;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.RescuePlatform;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
@@ -127,8 +127,7 @@ public abstract class GameCycle {
       madeRecord = this.storeRecords(storeHolders, winner);
     }
 
-    int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
-                                                                        // delay
+    int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); 
     String title = this.winTitleReplace(Main._l("ingame.title.win-title"), winner);
     String subtitle = this.winTitleReplace(Main._l("ingame.title.win-subtitle"), winner);
 
@@ -140,39 +139,27 @@ public abstract class GameCycle {
         for (Player player : winner.getPlayers()) {
           if (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
               && (!"".equals(title) || !"".equals(subtitle))) {
-            try {
-              Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-                  + Main.getInstance().getCurrentVersion() + ".Title");
 
-              if (!"".equals(title)) {
-                double titleFadeIn =
-                    Main.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
-                double titleStay =
-                    Main.getInstance().getConfig().getDouble("titles.win.title-stay", 5.0);
-                double titleFadeOut =
-                    Main.getInstance().getConfig().getDouble("titles.win.title-fade-out", 2.0);
-                Method showTitle = clazz.getDeclaredMethod("showTitle", Player.class, String.class,
-                    double.class, double.class, double.class);
+            if (!"".equals(title)) {
+              double titleFadeIn =
+                  Main.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
+              double titleStay =
+                  Main.getInstance().getConfig().getDouble("titles.win.title-stay", 5.0);
+              double titleFadeOut =
+                  Main.getInstance().getConfig().getDouble("titles.win.title-fade-out", 2.0);
+              PlayerPacketSender.sendTitle(player, PlayerPacketSender.toJson(title), titleFadeIn, titleStay, titleFadeOut);
+            }
 
-                showTitle.invoke(null, player, title, titleFadeIn, titleStay, titleFadeOut);
-              }
+            if (!"".equals(subtitle)) {
+              double subtitleFadeIn =
+                  Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
+              double subtitleStay =
+                  Main.getInstance().getConfig().getDouble("titles.win.subtitle-stay", 5.0);
+              double subtitleFadeOut =
+                  Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-out", 2.0);
 
-              if (!"".equals(subtitle)) {
-                double subTitleFadeIn =
-                    Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
-                double subTitleStay =
-                    Main.getInstance().getConfig().getDouble("titles.win.subtitle-stay", 5.0);
-                double subTitleFadeOut =
-                    Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-out", 2.0);
-                Method showSubTitle = clazz.getDeclaredMethod("showSubTitle", Player.class,
-                    String.class, double.class, double.class, double.class);
-
-                showSubTitle.invoke(null, player, subtitle, subTitleFadeIn, subTitleStay,
-                    subTitleFadeOut);
-              }
-            } catch (Exception ex) {
-              Main.getInstance().getBugsnag().notify(ex);
-              ex.printStackTrace();
+              PlayerPacketSender.sendSubTitle(player, PlayerPacketSender.toJson(subtitle), subtitleFadeIn, subtitleStay,
+                  subtitleFadeOut);
             }
           }
 
