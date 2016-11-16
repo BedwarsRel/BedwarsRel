@@ -9,7 +9,7 @@ errors:
   classnotfound: Не удалось получить пакет $package$ для класса $class$
   gameexists: Игра с таким именем уже существует
   gamenotfound: Игра '$game$' не найдена
-  nofreegames: Нет доступных свободных игр.
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Игра не найдена
   playeramount: Максимальное к-во игроков не может быть ниже 1 и выше 24
   teamcolornotallowed: Данный командный цвет не допускается
@@ -88,207 +88,207 @@ gamecheck:
   NO_ITEMSHOP_CATEGORIES: Данная категория не найдена
   NO_MAIN_LOBBY_SET: Вы не установили точку главного лобби, хотя включили 'tomainlobby'
   TEAM_NO_WRONG_BED: Обнаружена(ы) команда(ы) без кровати
-  TEAM_NO_WRONG_TARGET: Одна или больше команд не имеет кровати
+  TEAM_NO_WRONG_TARGET: One or more teams have no respawn block set!
 ingame:
-  teams: Команде
-  all: Всем
-  record: '&aЖелаем &cВам &bприятной &eигры'
-  record-with-holders: '&aЖелаем &cВам &bприятной &eигры'
-  newrecord: '&aЖелаем &cВам &bприятной &eигры'
-  record-nobeddestroy: '&aЖелаем &cВам &bприятной &eигры'
-  teamwon: Поздравляем! Команда $team$ победила
-  draw: Ничья
-  serverrestart: Перезагрузка сервера через $sec$
-  gamestarting: Игра начинается
-  gamestarted: Игра началась
-  backtolobby: Вы телепортируетесь в лобби через $sec$
-  spectator: Зритель
-  spectate: '&aСледить'
-  teamchest: 'Сундук команды: $team$'
-  noturteamchest: Этот сундук для вашей команды
-  protectionleft: '&cНеуязвимость &fзаканчивается через &c$length$'
-  protectionend: Теперь вы снова &cуязвимы
-  team-dead: Команда $team$ полностью уничтожена
-  no-friendlybreak: '&cНе ломайте блок под членом команды!'
-  teamchestdestroy: '&cОдин из ваших сундуков команды был уничтожен!'
+  teams: Teams
+  all: All
+  record: '&e$record$&a is the record on this map!'
+  record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
+  newrecord: '&aTeam $team$&a set a new record: &6$record$'
+  record-nobeddestroy: '&cRecord won''t be saved, because no bed was destroyed!'
+  teamwon: Congratulations! Team $team$ won!
+  draw: The game ends with a draw!
+  serverrestart: Server restart in $sec$ second(s)!
+  gamestarting: Game starting ...
+  gamestarted: Game '$game$' has just started!
+  backtolobby: Back to lobby in $sec$ second(s)!
+  spectator: Spectator
+  spectate: '&aSpectate'
+  teamchest: Team chest
+  noturteamchest: This chest isn't a chest of your team!
+  protectionleft: Invulnerable for &c$length$&f second(s)!
+  protectionend: You're now &cvulnerable&f again!
+  team-dead: Team $team$ was destroyed!
+  no-friendlybreak: '&cCan''t break block under team-member!'
+  teamchestdestroy: '&cOne of your teamchest(s) has been destroyed!'
   title:
-    map-builder: Построил $builder$
-    win-title: '&6Поздравляем!'
-    win-subtitle: Команда $team$ &6выиграла за &e$time$
+    map-builder: Built by $builder$
+    win-title: '&6Congratulations!'
+    win-subtitle: '$team$&6 won in &e$time$'
   shop:
-    name: Магазин Ресурсов
-    newshop: Использовать новую механику покупки
-    oldshop: Использовать старую механику покупки
-    fullstackpershift: Купить много стаков при ЛКМ+Shift
-    onestackpershift: Купить один стак при ЛКМ+Shift
+    name: Itemshop
+    newshop: Use new shop
+    oldshop: Use old shop
+    fullstackpershift: Multiply stacks per shift click
+    onestackpershift: One stack per shift click
   player:
-    left: Игрок $player$ покинул игру
-    died: '$player$ умер'
-    killed: '$killer$ убил $player$'
-    kicked: '$player$ был выгнан!'
-    waskicked: Вы были выгнаны из игры!
+    left: Player $player$ has left the game!
+    died: '$player$ died!'
+    killed: '$killer$ killed $player$!'
+    kicked: '$player$ was kicked!'
+    waskicked: You were kicked from the game!
   blocks:
-    ownbeddestroy: Вы не можете разрушить кровать своей команды
-    beddestroyed: '$player$ разрушил кровать команды $team$'
+    ownbeddestroy: You can't destroy your own bed!
+    beddestroyed: '$player$ destroyed bed of team $team$!'
   specials:
     rescue-platform:
-      left: Платформа исчезнет через &c$time$&f
+      left: There are &c$time$&f second(s) left until you can use the next rescue platform!
     arrow-blocker:
       start: You are protected from being hit by arrows for &c$time$&f second(s).
       end: '&cYour arrow protection is over'
       left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
-      trapped: '&eКто-то попался в ловушку вашей команды'
+      trapped: '&eSomeone went into a &ctrap&e of your team!'
     protection-wall:
-      left: Новую стену можно построить через &c$time$
-      not-usable-here: Вы не можете построить стену здесь
+      left: There are &c$time$&f second(s) left until you can use the next protection wall!
+      not-usable-here: You cannot use the protection wall here!
     warp-powder:
-      cancelled: '&cТелепортация отменена'
-      start: Вы будете телепортированы через &c$time$&f second(s). Не двигайтесь с места
-      cancel: '&4Отменить телепортацию'
-      multiuse: '&cВы уже телепортировались!'
+      cancelled: '&cYour teleport was cancelled!'
+      start: You will be teleported in &c$time$&f second(s). Don't move!
+      cancel: '&4Cancel teleport'
+      multiuse: '&cYou started a teleportation already!'
     tntsheep:
-      no-target-found: Игрок не был найден!
+      no-target-found: No target player was found!
     tracker:
-      no-target-found: Игрок не был найден!
-      target-found: '$player$ имеет $blocks$ блок(ов) вдалеке от вас.'
+      no-target-found: No target player was found!
+      target-found: '$player$ is $blocks$ block(s) away from you.'
 lobby:
-  countdown: Игра начнётся через $sec$
-  countdowncancel: Нужно больше игроков. Отчёт времени отменён
+  countdown: Game will start in $sec$ second(s)!
+  countdowncancel: More players needed. Countdown was cancelled!
   cancelcountdown:
-    not_enough_players: Нужно больше игроков. Отчёт времени отменён
-    not_enough_teams: Необходимо больше команд. Обратный отсчёт отменён!
+    not_enough_players: More players needed. Countdown cancelled!
+    not_enough_teams: More teams needed. Countdown cancelled!
   cancelstart:
-    not_enough_players: Нужно больше игроков для начала игры
-    not_enough_teams: Чтобы начать игру, необходимы дополнительные группы!
-  chooseteam: 'Выберите команду:'
-  startgame: Запустить игру
-  reduce_countdown: Уменьшить обратный отсчёт
-  gamefull: Игра заполнена
-  gamefullpremium: Игра уже полна премиум-игроков!
-  teamjoined: Вы вступили в команду $team$
-  leavegame: Покинуть игру
-  playerjoin: Игрок $player$ присоеденился к игре
-  kickedbyvip: Вы были кикнуты из-за вип игрока, который присоеденился в заполненую игру
-  moreplayersneeded: Необходимо ещё $count$ игроков.
-  moreplayersneeded-one: Необходим ещё $count$ игрок.
-  moreteamsneeded: Необходимо как минимум два игрока в двух разных командах, чтобы начать игру!
+    not_enough_players: More players are needed to start the game!
+    not_enough_teams: More teams are needed to start the game!
+  chooseteam: Choose a team
+  startgame: Start game
+  reduce_countdown: Reduce countdown
+  gamefull: Game is full!
+  gamefullpremium: The game is full of premium players already!
+  teamjoined: You successfully joined the team $team$
+  leavegame: Leave game
+  playerjoin: Player $player$ joined the game!
+  kickedbyvip: You were kicked by a vip player which has joined the full game!
+  moreplayersneeded: '$count$ more players needed.'
+  moreplayersneeded-one: '$count$ more player needed.'
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
-  firstline: '&e[&bBedWars&e]'
-  players: Игроков
+  firstline: '&6[Bedwars]'
+  players: Players
   gamestate:
-    stopped: '&4Остановлена'
-    waiting: '&2Ожидание'
-    running: '&bЗапущена'
-    full: '&6Заполнена'
+    stopped: '&4Stopped!'
+    waiting: '&aWaiting ...'
+    running: '&9Running!'
+    full: Full!
 stats:
-  header: 'Статистика:'
-  kd: К/Д
-  statsnotfound: Статистика игрока $player$ не найдена
-  name: Имя
-  kills: Убийств
-  deaths: Смертей
-  wins: Побед
-  loses: Поражений
-  score: Результат
-  destroyedBeds: Разрушено кроватей
-  games: Сыграно игр
+  header: Bedwars Stats
+  kd: K/D
+  statsnotfound: Statistics of $player$ not found!
+  name: Name
+  kills: Kills
+  deaths: Deaths
+  wins: Wins
+  loses: Loses
+  score: Scores
+  destroyedBeds: Destroyed Beds
+  games: Games
 ressources:
-  gold: '&6Золото'
-  iron: '&7Железо'
-  bronze: '&4Бронза'
+  gold: '&6Gold'
+  iron: '&7Iron'
+  bronze: '&4Bronze'
 commands:
   addgame:
-    name: Добавить игру
-    desc: создать новую игру
+    name: Add Game
+    desc: Adds a new game
   addteam:
-    name: Добавить команду
-    desc: добавить команду в игру
+    name: Add Team
+    desc: Adds a team to a specific game
   join:
-    name: Зайти в игру
-    desc: присоеденится к игре
+    name: Join Game
+    desc: Joins a specific game
   leave:
-    name: Покинуть игру
-    desc: покинуть игру
+    name: Leave Game
+    desc: Leave the current game
   save:
-    name: Сохранить игру
-    desc: сохранить игру в config.yml
+    name: Save Game
+    desc: Saves a game (and map) to config file(s)
   settarget:
-    name: Установить цель
-    desc: установить кровать для команды
+    name: Set target
+    desc: Sets the location of a team's target block
   setbed:
-    name: Set bed
-    desc: установить кровать для команды
+    name: Set bed (synonym for settarget)
+    desc: Sets the location of a team's bed block (Synonym for settarget)
   setlobby:
-    name: Установить лобби
-    desc: установить локацию для лобби
+    name: Set lobby
+    desc: Sets the location of the gamelobby
   setregion:
-    name: Устанавливает точку региона
-    desc: установить метки для региона под игру
+    name: Sets a region point
+    desc: Sets a region point for the game
   setspawn:
-    name: Устанавливает спаун команды
-    desc: установить точку возрождения команды
+    name: Sets a team spawn
+    desc: Sets the spawn of the given team
   setspawner:
-    name: Установить спаунер
-    desc: установить спавнер ресурсов
+    name: Set spawner
+    desc: Sets a spawner location of a specific ressource
   start:
-    name: Начать игру
-    desc: начать игру
+    name: Start game
+    desc: Starts a game
   stop:
-    name: Остановить игру
-    desc: остановить игру
+    name: Stop game
+    desc: Stops a game
   help:
-    name: Показать справку
-    desc: посмотреть информацию о плагине
+    name: Show Help
+    desc: Display information about the plugin and its commands
   reload:
-    name: Перезагрузить
-    desc: перезагрузить конфиг
+    name: Reload
+    desc: Reloads the configurations and translations
   setmainlobby:
-    name: Установить главную лобби
-    desc: установить локацию для главного лобби
+    name: Set main lobby
+    desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)
   list:
-    name: Список игр
-    desc: список доступных игр
+    name: List games
+    desc: Lists all available games
   regionname:
-    name: Установить название региона
-    desc: задать имя для региона
+    name: Set region name
+    desc: Sets an individual region name (instead of world name)
   removeteam:
-    name: Удалить команду
-    desc: удалить команду из игры
+    name: Remove team
+    desc: Removes a team from the game (only in stopped mode)
   removegame:
-    name: Удалить игру
-    desc: удалить игру и её настройки
+    name: Remove game
+    desc: Removes a game and every configuration
   clearspawner:
-    name: Очистить спаунеры
-    desc: удалить все спавнеры предметов
+    name: Clear spawners
+    desc: Removes all spawners from the game. Saving needed.
   gametime:
-    name: Установка игрового времени
-    desc: установить тип игры
+    name: Set game time
+    desc: Sets the game time which should be used in the game-world
   stats:
-    name: Статистика
-    desc: показать вашу статистику
+    name: Statistics
+    desc: Shows your statistics
   setbuilder:
-    name: Устанавливает имя строителя карты
-    desc: Устанавливает строителя карты, которая будет отображаться в заголовке, когда игра начинается.
+    name: Sets builder of map
+    desc: Sets the builder of the map which will be display in the title when game starts.
   setgameblock:
-    name: Установить блок
-    desc: Устанавливает тип игры блока для этой игры, которую следует использовать вместо настройки "игровой блок". Запись "ПО УМОЛЧАНИЮ" как тип, чтобы снова использовать тип настроек
+    name: Set game block
+    desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
   setautobalance:
-    name: Набор автобаланса
-    desc: Если глобальный автобаланс имеет значение "false", с этой командой. вы можете установить автобаланс команды или отключить!
+    name: Set autobalance
+    desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
   setminplayers:
-    name: Установить минимальное число игроков
-    desc: Устанавливает количество игроков, необходимое для начала игры
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
-    name: Выгнать игрока
-    desc: Выгнать игрока из текущей игры!
+    name: Kick player
+    desc: Kicks a player from the current game!
   addteamjoin:
-    name: Добавить выбор команды
-    desc: Отмеченный моб, который может использоваться для конкретной команды!
+    name: Add team selection
+    desc: Mark a creature which can be used to join a specific team!
   addholo:
-    name: Добавить расположение голограммы
-    desc: Статистика голограммы будет добавлена в текущей позиции!
+    name: Add hologram location
+    desc: A hologram statistic will be added at the current position!
   removeholo:
-    name: Удалить расположение голограммы
-    desc: Когда была выполнена команда, игрок может нажать на правую кнопку мыши голограммы, которая должна быть удалена.
-    explain: Выполните левый клик в течение 10 секунд на голограмме, которую вы хотите удалить.
+    name: Remove hologram location
+    desc: When the command was executed, the player can right-click the hologram which should be removed.
+    explain: Perform a left click within 10 seconds on the hologram you want to remove.
