@@ -133,6 +133,10 @@ ingame:
   specials:
     rescue-platform:
       left: มีเวลา &c$time$&f วินาทีที่เหลือคุณถึงสามารถใช้แท่งช่วยชีวิตอีกได้!
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&eบางคนได้ถูก &ctrap&e ของทีมของคุณ!'
     protection-wall:

@@ -930,6 +930,24 @@ specials:
     # Its not recommended to use values above 1.0
     explosion-factor: 1.0
   
+  # arrow-blocker settings
+  arrow-blocker:
+    # Protection time
+    # type: int
+    # The time to protect the player from projectils
+    protection-time: 10
+    
+    # Protection time
+    # type: int
+    # Time to wait for the next useage
+    using-wait-time: 5
+    
+    # Interact item
+    # type: int or string
+    # The item id or string which indicates which item should be in the
+    # hand to execute the arrow-blocker on interaction
+    item: ender_eye
+  
 # Sign configuration
 # You can use following placeholder (colors with &):
 # $gamename$ - display game name

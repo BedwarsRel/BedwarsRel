@@ -4,11 +4,11 @@ default:
   currently: Dabar
 errors:
   argumentslength: Argumentu skaicius neatitinka teisingo kiekio!
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
-  packagenotfound: "Couldn't fetch $package$ package!"
-  classnotfound: "Couldn't fetch $package$ class $class$!"
+  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
+  packagenotfound: Couldn't fetch $package$ package!
+  classnotfound: Couldn't fetch $package$ class $class$!
   gameexists: Zaidimas tokiu pavadinimu jau egzistuoja!
-  gamenotfound: "Zaidimas '$game$' nerastas!"
+  gamenotfound: Zaidimas '$game$' nerastas!
   nofreegames: There are no free games available.
   gamenotfoundsimple: Zaidimas nerastas!
   playeramount: Maksimalus zaideju skaicius negali buti mazesnis negu 1 arba didesnis negu 24!
@@ -16,8 +16,8 @@ errors:
   teamnamelength: Komandos pavadinima turi sudaryti nuo 2 iki 20 simboliu!
   teamnotfound: Komanda nerasta!
   notingame: Jus dabar nesate zaidime!
-  bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
-  regionargument: "Vietos argumentas turi buti 'loc1' arba 'loc2'!"
+  bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
+  regionargument: Vietos argumentas turi buti 'loc1' arba 'loc2'!
   spawnerargument: Resurso parametras turi buti teisingas sukonfiguruotas resursas!
   blockdownnotfound: Blokas, ant kurio stovite, nerastas!
   gamenotrunning: Zaidimas dabar nevyksta!
@@ -27,9 +27,9 @@ errors:
   cantjoingame: Negalite prisijungti prie vykstancio arba sustabdyto zaidimo!
   lobbyongameworld: Lobby negali buti nustatytas zaidimo pasaulyje!
   gamenotloaded: Nepavyko pradeti zaidimo!
-  gameloaderror: "Paleidziant zaidima '$game$' ivyko klaida!"
+  gameloaderror: Paleidziant zaidima '$game$' ivyko klaida!
   regionnotfound: Regiono failas neegzistuoja!
-  savesign: "Couldn't create a new sign config file!"
+  savesign: Couldn't create a new sign config file!
   nogames: Nerasta jokiu zaidimu!
   notenoughress: Jus neturite pakankamai resursu, kad galetumete tai nusipirkti!
   teamnameinuse: Toks komandos pavadinimas jau naudojamas!
@@ -37,12 +37,12 @@ errors:
   toolongregionname: Maksimalus regiono pavadinimo ilgis turi buti iki 15 simboliu!
   notwhilegamerunning: Negalite atlikti sio veiksmo kai vyksta zaidimas!
   notwhileingame: Negalite atlikti sio veiksmo zaidimo metu!
-  timeincorrect: "Laikas turi buti skaicius (0 ... 23000), 'day' arba 'night'!"
+  timeincorrect: Laikas turi buti skaicius (0 ... 23000), 'day' arba 'night'!
   minplayersnumeric: Parametras min-players turi buti skaitinis!
   notinair: Jus nesate ore!
   teamfull: Pasirinkta komanda yra pilna, prasome pasirinkti kita komanda!
   novalidmaterial: Nurodytas bloko tipas (material) nera teisingas!
-  wrongvalueonoff: 'Klaidingas parametras! Naudokite true,on,1 jei norite ijungti - Naudokite false,off,0 jei norite isjungti!'
+  wrongvalueonoff: Klaidingas parametras! Naudokite true,on,1 jei norite ijungti - Naudokite false,off,0 jei norite isjungti!
   playernotfound: Nurodytas zaidejas nerastas arba nera prisijunges!
   notingameforkick: Jus turite buti zaidime, kad galetumete ismesti zaideja is zaidimo!
   playernotingame: Nurodytas zaidejas nera siame zaidime!
@@ -50,18 +50,18 @@ errors:
   addteamjoincancel: The adding of team join was cancelled!
   entitynotcompatible: This entity is not compatible with team join!
 success:
-  gameadded: "Naujas zaidimas '$game$' sekmingai sukurtas!"
-  teamadded: "Komanda '$team$' sekmingai prideta!"
+  gameadded: Naujas zaidimas '$game$' sekmingai sukurtas!
+  teamadded: Komanda '$team$' sekmingai prideta!
   joined: Prisijungete prie zaidimo!
   left: Atsijungete nuo zaidimo!
   saved: Zaidimas issaugotas!
   bedset: You sucessfully set the respawn block of team $team$!
   regionset: Regiono vieta $location$ zaidime $game$ nustatyta!
   spawnset: Atsiradimo vieta komandai $team$ nustatyta!
-  spawnerset: $name$ resursu atsiradimo vieta nustatyta!
+  spawnerset: '$name$ resursu atsiradimo vieta nustatyta!'
   stopped: Zaidimas sustabdytas!
   lobbyset: Lobby nustatytas!
-  gameloaded: "Zaidimas '$game$' sekmingai ikrautas!"
+  gameloaded: Zaidimas '$game$' sekmingai ikrautas!
   reloadconfig: Perkrovimas sekmingas!
   teamremoved: Komanda panaikinta!
   gameremoved: Zaidimas panaikintas!
@@ -75,7 +75,7 @@ success:
   materialset: The respawn block type (material) was set succesfully!
   builderset: Pasaulio statytojas nustatytas ir bus rodomas antrasteje!
   autobalanceseton: Autobalansas ijungtas!
-  autobalancesetoff: 'Autobalansas &cisjungtas&a!'
+  autobalancesetoff: Autobalansas &cisjungtas&a!
   selectteamjoinentity: Now do a right click on the entity you want to use as team join!
   teamjoinadded: Entity was successfully marked as team selection for team $team$
   holoremoved: Hologram-Statistic panaikintas!
@@ -86,7 +86,7 @@ gamecheck:
   NO_LOBBY_SET: Nenustatete lobby!
   TEAMS_WITHOUT_SPAWNS: Yra komandu, kurios neturi atsiradimo vietos!
   NO_ITEMSHOP_CATEGORIES: Nerasta jokiu itemshop kategoriju!
-  NO_MAIN_LOBBY_SET: "Nenustatete pagrindinio lobby, nors 'tomainlobby' yra nustatytas kaip true"
+  NO_MAIN_LOBBY_SET: Nenustatete pagrindinio lobby, nors 'tomainlobby' yra nustatytas kaip true
   TEAM_NO_WRONG_BED: Viena ar daugiau komandu neturi nustatytos lovos!
   TEAM_NO_WRONG_TARGET: One or more teams have no respawn block set!
 ingame:
@@ -100,16 +100,16 @@ ingame:
   draw: Zaidimas baigiasi lygiosiomis!
   serverrestart: Serveris bus perkrautas po $sec$ sek!
   gamestarting: Pradedamas zaidimas ...
-  gamestarted: "Zaidimas '$game$' ka tik prasidejo!"
+  gamestarted: Zaidimas '$game$' ka tik prasidejo!
   backtolobby: Griztama i lobby po $sec$ sek!
   spectator: Stebetojas
   spectate: '&aStebeti'
   teamchest: Komandos skrynia
   noturteamchest: Tai nera jusu komandos skrynia!
-  protectionleft: 'Invulnerable for &c$length$&f second(s)!'
-  protectionend: "You're now &cvulnerable&f again!"
+  protectionleft: Invulnerable for &c$length$&f second(s)!
+  protectionend: You're now &cvulnerable&f again!
   team-dead: Komanda $team$ buvo sunaikinta!
-  no-friendlybreak: "&cCan't break block under team-member!"
+  no-friendlybreak: '&cCan''t break block under team-member!'
   teamchestdestroy: '&cViena is jusu komandos skryniu buvo sunaikinta!'
   title:
     map-builder: Pastate $builder$
@@ -123,31 +123,35 @@ ingame:
     onestackpershift: One stack per shift click
   player:
     left: Zaidejas $player$ atsijunge nuo zaidimo!
-    died: $player$ mire!
-    killed: $killer$ nuzude zaideja $player$!
-    kicked: $player$ ismestas is zaidimo!
+    died: '$player$ mire!'
+    killed: '$killer$ nuzude zaideja $player$!'
+    kicked: '$player$ ismestas is zaidimo!'
     waskicked: Tu buvai ismestas/a is zaidimo!
   blocks:
     ownbeddestroy: Negalite sunaikinti savo lovos!
-    beddestroyed: $player$ sunaikino komandos $team$ lova!
+    beddestroyed: '$player$ sunaikino komandos $team$ lova!'
   specials:
     rescue-platform:
-      left: 'There are &c$time$&f second(s) left until you can use the next rescue platform!'
+      left: There are &c$time$&f second(s) left until you can use the next rescue platform!
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&eKazkas uzlipo ant jusu komandos &cspastu&e!'
     protection-wall:
-      left: 'There are &c$time$&f second(s) left until you can use the next protection wall!'
+      left: There are &c$time$&f second(s) left until you can use the next protection wall!
       not-usable-here: Negalite cia pastatyti apsaugos sienos!
     warp-powder:
       cancelled: '&cTeleportacija atsaukta!'
-      start: 'Busite nuteleportuoti po &c$time$&f sekundziu. Nejudekite!'
+      start: Busite nuteleportuoti po &c$time$&f sekundziu. Nejudekite!
       cancel: '&4Cancel teleport'
       multiuse: '&cTeleportacija jau prasidejo!'
     tntsheep:
       no-target-found: No target player was found!
     tracker:
       no-target-found: No target player was found!
-      target-found: $player$ is $blocks$ block(s) away from you.
+      target-found: '$player$ is $blocks$ block(s) away from you.'
 lobby:
   countdown: Game will start in $sec$ second(s)!
   countdowncancel: More players needed. Countdown was cancelled!
@@ -211,10 +215,10 @@ commands:
     desc: Issaugo zaidima (ir pasauli) i konfiguracijos failus
   settarget:
     name: Set target
-    desc: "Sets the location of a team's target block"
+    desc: Sets the location of a team's target block
   setbed:
     name: Set bed (synonym for settarget)
-    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+    desc: Sets the location of a team's bed block (Synonym for settarget)
   setlobby:
     name: Nustatyti lobby
     desc: Nustato zaidimo lobby vieta
@@ -268,10 +272,10 @@ commands:
     desc: Sets the builder of the map which will be display in the title when game starts.
   setgameblock:
     name: Set game block
-    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
   setautobalance:
     name: Set autobalance
-    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
   setminplayers:
     name: Set minimum players
     desc: Sets the amount of players needed to start the game
