@@ -364,7 +364,8 @@ public class ConfigUpdater {
             if (oldCfgSection.containsKey("meta")) {
               if (!material.equals(Material.POTION)
                   && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                       && (material.equals(Material.valueOf("TIPPED_ARROW"))
                           || material.equals(Material.valueOf("LINGERING_POTION"))
                           || material.equals(Material.valueOf("SPLASH_POTION"))))) {
@@ -732,14 +733,16 @@ public class ConfigUpdater {
             if (hasMeta) {
               if (material.equals(Material.MONSTER_EGG) && meta == 91
                   && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))) {
                 finalRewardStack = new SpawnEggReflected(EntityType.SHEEP).toItemStack(amount);
               } else {
                 finalRewardStack = new ItemStack(material, amount, meta);
               }
             } else if (hasPotionMeta) {
               if ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                   && potionIsSplash) {
                 finalRewardStack = new ItemStack(Material.valueOf("SPLASH_POTION"), amount);
               } else {
@@ -764,7 +767,8 @@ public class ConfigUpdater {
 
             if (material.equals(Material.POTION)
                 || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                    || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                    || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                    || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                     && (material.equals(Material.valueOf("TIPPED_ARROW"))
                         || material.equals(Material.valueOf("LINGERING_POTION"))
                         || material.equals(Material.valueOf("SPLASH_POTION"))))) {
@@ -827,7 +831,8 @@ public class ConfigUpdater {
 
                   if (!finalRewardStack.getType().equals(Material.POTION)
                       && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                          || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                          || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                          || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                           && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                               || finalRewardStack.getType()
                                   .equals(Material.valueOf("LINGERING_POTION"))
@@ -888,7 +893,8 @@ public class ConfigUpdater {
 
               if (finalRewardStack.getType().equals(Material.POTION) || ((Main.getInstance()
                   .getCurrentVersion().startsWith("v1_9")
-                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                   && (finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                       || finalRewardStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
                 PotionMeta finalRewardStackPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();

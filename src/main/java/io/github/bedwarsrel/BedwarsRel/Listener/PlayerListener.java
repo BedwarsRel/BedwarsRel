@@ -306,7 +306,7 @@ public class PlayerListener extends BaseListener {
   public void onPlayerDie(PlayerDeathEvent pde) {
     final Player player = pde.getEntity();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-    
+
     if (game == null) {
       return;
     }
@@ -321,7 +321,7 @@ public class PlayerListener extends BaseListener {
       }
 
       new BukkitRunnable() {
-        
+
         @Override
         public void run() {
           if (Main.getInstance().isSpigot()) {
@@ -978,7 +978,7 @@ public class PlayerListener extends BaseListener {
     }
 
     ice.setCancelled(true);
-    Team team = game.getTeamByDyeColor(DyeColor.getByData(clickedStack.getData().getData()));
+    Team team = game.getTeamByDyeColor(DyeColor.getByDyeData(clickedStack.getData().getData()));
     if (team == null) {
       return;
     }

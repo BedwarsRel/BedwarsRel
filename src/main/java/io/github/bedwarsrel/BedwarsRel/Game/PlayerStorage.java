@@ -219,8 +219,9 @@ public class PlayerStorage {
         continue;
       }
 
-      ItemStack is = new ItemStack(Material.WOOL, 1, team.getColor().getDyeColor().getData());
+      ItemStack is = new ItemStack(Material.WOOL, 1, team.getColor().getDyeColor().getDyeData());
       ItemMeta im = is.getItemMeta();
+      
       im.setDisplayName(team.getChatColor() + team.getName());
       ArrayList<String> teamplayers = new ArrayList<>();
 

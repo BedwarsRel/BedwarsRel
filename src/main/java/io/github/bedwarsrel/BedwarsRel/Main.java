@@ -127,8 +127,8 @@ public class Main extends JavaPlugin {
 
   @Override
   public void onEnable() {
-    Main.instance = this;  
-    
+    Main.instance = this;
+
     this.registerBugsnag();
 
     // register classes
@@ -604,7 +604,7 @@ public class Main extends JavaPlugin {
     }
   }
 
-  
+
 
   @SuppressWarnings("rawtypes")
   public Class getMinecraftServerClass(String classname) {
@@ -681,7 +681,8 @@ public class Main extends JavaPlugin {
     new BlockListener();
     new PlayerListener();
     if (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10")) {
+        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_11")) {
       new Player19Listener();
     }
     new HangingListener();
