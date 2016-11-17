@@ -604,7 +604,22 @@ public class Main extends JavaPlugin {
     }
   }
 
+  @SuppressWarnings("rawtypes")
+  public Class getCraftBukkitClass(String classname) {
+    try {
+      if (this.craftbukkit == null) {
+        this.craftbukkit = this.getCraftBukkit();
+      }
 
+      return Class.forName(this.craftbukkit.getName() + "." + classname);
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      this.getServer().getConsoleSender()
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound",
+              ImmutableMap.of("package", "craftbukkit", "class", classname))));
+      return null;
+    }
+  }
 
   @SuppressWarnings("rawtypes")
   public Class getMinecraftServerClass(String classname) {

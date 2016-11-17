@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -28,10 +29,12 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 
 public final class Utils {
@@ -89,6 +92,20 @@ public final class Utils {
     stand.setBoots(boots);
   }
 
+  public static void createParticleInGame(Game game, String particle, Location loc) {
+    try {
+      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+          + Main.getInstance().getCurrentVersion() + ".ParticleSpawner");
+
+      Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
+          float.class, float.class, float.class);
+      particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),
+          (float) loc.getY(), (float) loc.getZ());
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+    }
+  }
+
   public static Location getDirectionLocation(Location location, int blockOffset) {
     Location loc = location.clone();
     return loc.add(loc.getDirection().setY(0).normalize().multiply(blockOffset));
@@ -131,6 +148,19 @@ public final class Utils {
     return defaultMaterial;
   }
 
+  public static Object getCraftPlayer(Player player) {
+    try {
+      Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
+      Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[] {});
+      getHandle.setAccessible(true);
+
+      return getHandle.invoke(player, new Object[] {});
+    } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
+      return null;
+    }
+  }
+
   public static boolean isNumber(String numberString) {
     try {
       Integer.parseInt(numberString);
@@ -158,7 +188,8 @@ public final class Utils {
 
   public static boolean isColorable(ItemStack itemstack) {
     return (itemstack.getType().equals(Material.STAINED_CLAY)
-        || itemstack.getType().equals(Material.WOOL) || itemstack.getType().equals(Material.CARPET)
+        || itemstack.getType().equals(Material.WOOL) 
+        || itemstack.getType().equals(Material.CARPET)
         || itemstack.getType().equals(Material.STAINED_GLASS)
         || itemstack.getType().equals(Material.STAINED_GLASS_PANE));
   }

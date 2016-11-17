@@ -7,15 +7,35 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class LocalizationConfig extends YamlConfiguration {
+
+  @SuppressWarnings("unchecked")
+  public String getPlayerLocale(Player player) {
+    try {
+      Method getHandleMethod = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer")
+          .getMethod("getHandle", new Class[] {});
+      getHandleMethod.setAccessible(true);
+      Object nmsPlayer = getHandleMethod.invoke(player, new Object[] {});
+
+      Field localeField = nmsPlayer.getClass().getDeclaredField("locale");
+      localeField.setAccessible(true);
+      return localeField.get(nmsPlayer).toString().split("_")[0].toLowerCase();
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      return Main.getInstance().getFallbackLocale();
+    }
+  }
 
   public void loadLocale(String locKey, boolean isFallback) {
     File locFile =

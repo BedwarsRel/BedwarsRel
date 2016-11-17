@@ -2,8 +2,6 @@ package io.github.bedwarsrel.BedwarsRel.Villager;
 
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bedwarsrel.BedwarsRel.Reflection.CraftItemStack;
-
 public class VillagerTrade {
   private ItemStack item1;
   private ItemStack item2;
