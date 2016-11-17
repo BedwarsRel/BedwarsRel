@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
@@ -199,7 +200,6 @@ public class PlayerStorage {
     this.player.getInventory().addItem(reduceCountdownItem);
   }
 
-  @SuppressWarnings("deprecation")
   public void openTeamSelection(Game game) {
     BedwarsOpenTeamSelectionEvent openEvent = new BedwarsOpenTeamSelectionEvent(game, this.player);
     Main.getInstance().getServer().getPluginManager().callEvent(openEvent);
@@ -218,10 +218,10 @@ public class PlayerStorage {
       if (players.size() >= team.getMaxPlayers()) {
         continue;
       }
-
-      ItemStack is = new ItemStack(Material.WOOL, 1, team.getColor().getDyeColor().getDyeData());
+      Wool wool = new Wool(team.getColor().getDyeColor());
+      ItemStack is = wool.toItemStack(1);
       ItemMeta im = is.getItemMeta();
-      
+
       im.setDisplayName(team.getChatColor() + team.getName());
       ArrayList<String> teamplayers = new ArrayList<>();
 

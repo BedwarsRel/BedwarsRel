@@ -141,7 +141,7 @@ public class NewItemShop {
       ItemMeta im = is.getItemMeta();
 
       if (Utils.isColorable(is)) {
-        is.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getDyeData());
+        is.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
       }
       if (this.currentCategory != null && this.currentCategory.equals(category)) {
         im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
@@ -275,7 +275,7 @@ public class NewItemShop {
     ItemStack item1 = trade.getItem1();
     ItemStack item2 = trade.getItem2();
     if (Utils.isColorable(tradeStack)) {
-      tradeStack.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getDyeData());
+      tradeStack.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
     } else if (colorable != null) {
       colorable.setAccessible(true);
       try {

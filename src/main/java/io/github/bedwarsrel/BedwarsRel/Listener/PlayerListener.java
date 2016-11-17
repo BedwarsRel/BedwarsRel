@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,6 +42,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
@@ -188,12 +188,12 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)){
+    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)) {
       return;
     }
 
     iee.setCancelled(true);
-    
+
     BedwarsOpenShopEvent openShopEvent =
         new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(), iee.getRightClicked());
     Main.getInstance().getServer().getPluginManager().callEvent(openShopEvent);
@@ -974,7 +974,6 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  @SuppressWarnings("deprecation")
   private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
     Inventory inv = ice.getInventory();
     ItemStack clickedStack = ice.getCurrentItem();
@@ -995,7 +994,10 @@ public class PlayerListener extends BaseListener {
     }
 
     ice.setCancelled(true);
-    Team team = game.getTeamByDyeColor(DyeColor.getByDyeData(clickedStack.getData().getData()));
+    Wool wool = (Wool) clickedStack.getData();
+    Main.getInstance().getServer().getConsoleSender()
+        .sendMessage(wool.getColor().getColor().toString());
+    Team team = game.getTeamByDyeColor(wool.getColor());
     if (team == null) {
       return;
     }

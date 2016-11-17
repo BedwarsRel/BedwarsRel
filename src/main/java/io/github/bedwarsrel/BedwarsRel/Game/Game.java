@@ -1453,9 +1453,11 @@ public class Game {
     return this.shopCategories;
   }
 
-  public Team getTeamByDyeColor(DyeColor dyeColor) {
+  public Team getTeamByDyeColor(DyeColor color) {
     for (Team t : this.teams.values()) {
-      if (t.getColor().getDyeColor().equals(dyeColor)) {
+      Main.getInstance().getServer().getConsoleSender().sendMessage(
+          "Comparing " + t.getColor().getDyeColor().toString() + " with " + color.toString());
+      if (t.getColor().getDyeColor().equals(color)) {
         return t;
       }
     }
