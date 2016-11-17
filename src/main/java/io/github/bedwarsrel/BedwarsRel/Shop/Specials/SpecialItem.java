@@ -22,7 +22,7 @@ public abstract class SpecialItem {
     SpecialItem.availableSpecials.add(MagnetShoe.class);
     SpecialItem.availableSpecials.add(ProtectionWall.class);
     SpecialItem.availableSpecials.add(WarpPowder.class);
-    // SpecialItem.availableSpecials.add(TNTSheep.class);
+    SpecialItem.availableSpecials.add(TNTSheep.class);
     SpecialItem.availableSpecials.add(Tracker.class);
     SpecialItem.availableSpecials.add(ArrowBlocker.class);
     Main.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(),
@@ -35,8 +35,8 @@ public abstract class SpecialItem {
         Main.getInstance());
     Main.getInstance().getServer().getPluginManager().registerEvents(new WarpPowderListener(),
         Main.getInstance());
-    // Main.getInstance().getServer().getPluginManager().registerEvents(new TNTSheepListener(),
-    // Main.getInstance());
+    Main.getInstance().getServer().getPluginManager().registerEvents(new TNTSheepListener(),
+        Main.getInstance());
     Main.getInstance().getServer().getPluginManager().registerEvents(new TrackerListener(),
         Main.getInstance());
     Main.getInstance().getServer().getPluginManager().registerEvents(new ArrowBlockerListener(),

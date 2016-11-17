@@ -33,14 +33,13 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
   }
 
   public TNTSheep(Location location, Player target) {
-    super(((CraftWorld) location.getWorld()).getHandle());
 
+    super(((CraftWorld) location.getWorld()).getHandle());
     this.world = location.getWorld();
 
     this.locX = location.getX();
     this.locY = location.getY();
     this.locZ = location.getZ();
-
     try {
       Field b = this.goalSelector.getClass().getDeclaredField("b");
       b.setAccessible(true);
@@ -55,7 +54,6 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
       Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
     }
-
     this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, 1D, false)); // Add bedwars player
                                                                               // goal
     try {
