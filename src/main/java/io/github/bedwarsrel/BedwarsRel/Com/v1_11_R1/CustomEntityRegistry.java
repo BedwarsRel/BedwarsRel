@@ -11,6 +11,7 @@ import net.minecraft.server.v1_11_R1.Entity;
 import net.minecraft.server.v1_11_R1.EntityTypes;
 import net.minecraft.server.v1_11_R1.MinecraftKey;
 
+@SuppressWarnings("rawtypes")
 public class CustomEntityRegistry extends RegistryMaterials {
 
   private static CustomEntityRegistry instance = null;
@@ -66,6 +67,7 @@ public class CustomEntityRegistry extends RegistryMaterials {
     this.customEntityIds.put(entityClass, entityId);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Class<? extends Entity> get(Object key) {
     if (this.customEntities.containsKey(key)) {
@@ -75,6 +77,7 @@ public class CustomEntityRegistry extends RegistryMaterials {
     return (Class<? extends Entity>) wrapped.get(key);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public int a(Object key) { // TODO: Update name on version change (getId)
     if (this.customEntityIds.containsKey(key)) {
@@ -84,6 +87,7 @@ public class CustomEntityRegistry extends RegistryMaterials {
     return this.wrapped.a(key);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public MinecraftKey b(Object value) { // TODO: Update name on version change (getKey)
     if (this.customEntityClasses.containsKey(value)) {

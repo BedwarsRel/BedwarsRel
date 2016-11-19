@@ -1,7 +1,6 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_11_R1;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -39,6 +38,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
 
       @Override
       public void run() {
+        
         TNTPrimed primedTnt = (TNTPrimed) location.getWorld()
             .spawnEntity(location.add(0.0, 1.0, 0.0), EntityType.PRIMED_TNT);
         ((CraftSheep) sheep.getBukkitEntity()).setPassenger(primedTnt);
