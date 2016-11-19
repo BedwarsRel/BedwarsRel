@@ -13,8 +13,8 @@ import com.google.common.collect.ImmutableMap;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Reflection.ParticleSpawner;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class WarpPowder extends SpecialItem {
 
@@ -157,11 +157,13 @@ public class WarpPowder extends SpecialItem {
             double x = radius * Math.sin(Math.toRadians(alpha));
             double z = radius * Math.cos(Math.toRadians(alpha));
 
-            ParticleSpawner.spawnParticle(game.getPlayers(), this.particle, (float) (loc.getX() + x),
-                (float) (loc.getY() + y), (float) (loc.getZ() + z));
+            Location particleFrom =
+                new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y, loc.getZ() + z);
+            Utils.createParticleInGame(game, this.particle, particleFrom);
 
-            ParticleSpawner.spawnParticle(game.getPlayers(), this.particle, (float) (tLoc.getX() + x),
-                (float) (tLoc.getY() + y), (float) (tLoc.getZ() + z));
+            Location particleTo =
+                new Location(tLoc.getWorld(), tLoc.getX() + x, tLoc.getY() + y, tLoc.getZ() + z);
+            Utils.createParticleInGame(game, this.particle, particleTo);
           }
 
           this.through += 1.0;

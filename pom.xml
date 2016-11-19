@@ -118,7 +118,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>1.10-R0.1-SNAPSHOT</version>
+			<version>1.11-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -139,11 +139,6 @@
 			<artifactId>hologramapi</artifactId>
 			<version>1.6.0</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.inventivetalent</groupId>
-			<artifactId>reflectionhelper</artifactId>
-			<version>1.10.4</version>
 		</dependency>
 		<dependency>
 			<groupId>net.minecraft</groupId>
@@ -186,6 +181,13 @@
 			<version>1.10</version>
 			<scope>system</scope>
 			<systemPath>${pom.basedir}/lib/spigot-1.10-R1-da278d1-b2f31b7.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>net.minecraft</groupId>
+			<artifactId>minecraft-server-1-11-0</artifactId>
+			<version>1.11</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/lib/spigot-1.11-R1-d60de0a-c25ddf0.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>

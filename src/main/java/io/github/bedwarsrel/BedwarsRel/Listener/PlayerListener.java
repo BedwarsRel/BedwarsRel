@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,6 +42,7 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
@@ -51,7 +51,6 @@ import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Reflection.PlayerPacketSender;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
@@ -306,7 +305,7 @@ public class PlayerListener extends BaseListener {
   public void onPlayerDie(PlayerDeathEvent pde) {
     final Player player = pde.getEntity();
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-    
+
     if (game == null) {
       return;
     }
@@ -320,17 +319,35 @@ public class PlayerListener extends BaseListener {
         pde.getDrops().clear();
       }
 
-      new BukkitRunnable() {
-        
-        @Override
-        public void run() {
-          if (Main.getInstance().isSpigot()) {
-            player.spigot().respawn();
-          } else {
-            PlayerPacketSender.respawnPlayer(player);
+      try {
+        if (!Main.getInstance().isSpigot()) {
+          Class<?> clazz = null;
+          try {
+            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+                + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
+          } catch (ClassNotFoundException ex) {
+            Main.getInstance().getBugsnag().notify(ex);
+            clazz = Class
+                .forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
           }
+
+          BukkitRunnable respawnRunnable =
+              (BukkitRunnable) clazz.getDeclaredConstructor(Player.class).newInstance(player);
+          respawnRunnable.runTaskLater(Main.getInstance(), 20L);
+        } else {
+          new BukkitRunnable() {
+
+            @Override
+            public void run() {
+              player.spigot().respawn();
+            }
+          }.runTaskLater(Main.getInstance(), 20L);
         }
-      }.runTaskLater(Main.getInstance(), 20L);
+
+      } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
+        e.printStackTrace();
+      }
 
       pde.setKeepInventory(Main.getInstance().getBooleanConfig("keep-inventory-on-death", false));
 
@@ -957,7 +974,6 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  @SuppressWarnings("deprecation")
   private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
     Inventory inv = ice.getInventory();
     ItemStack clickedStack = ice.getCurrentItem();
@@ -978,7 +994,10 @@ public class PlayerListener extends BaseListener {
     }
 
     ice.setCancelled(true);
-    Team team = game.getTeamByDyeColor(DyeColor.getByData(clickedStack.getData().getData()));
+    Wool wool = (Wool) clickedStack.getData();
+    Main.getInstance().getServer().getConsoleSender()
+        .sendMessage(wool.getColor().getColor().toString());
+    Team team = game.getTeamByDyeColor(wool.getColor());
     if (team == null) {
       return;
     }

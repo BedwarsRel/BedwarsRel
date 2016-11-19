@@ -141,7 +141,7 @@ public class NewItemShop {
       ItemMeta im = is.getItemMeta();
 
       if (Utils.isColorable(is)) {
-        is.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+        is.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
       }
       if (this.currentCategory != null && this.currentCategory.equals(category)) {
         im.addEnchant(Enchantment.DAMAGE_ALL, 1, true);
@@ -275,7 +275,7 @@ public class NewItemShop {
     ItemStack item1 = trade.getItem1();
     ItemStack item2 = trade.getItem2();
     if (Utils.isColorable(tradeStack)) {
-      tradeStack.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+      tradeStack.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
     } else if (colorable != null) {
       colorable.setAccessible(true);
       try {
@@ -511,7 +511,8 @@ public class NewItemShop {
         return trade;
       } else if ((iStack.getType() == Material.POTION
           || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-              || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+              || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+              || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
               && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                   || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                   || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))

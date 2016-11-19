@@ -209,7 +209,7 @@ public class MerchantCategory {
       ItemMeta im = is.getItemMeta();
 
       if (Utils.isColorable(is)) {
-        is.setDurability(g.getPlayerTeam(p).getColor().getDyeColor().getData());
+        is.setDurability(g.getPlayerTeam(p).getColor().getDyeColor().getWoolData());
       }
 
       im.setDisplayName(cat.getName());

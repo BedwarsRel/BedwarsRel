@@ -81,7 +81,7 @@ public class ItemStackParser {
       }
 
       return this.finalStack;
-      
+
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
@@ -91,9 +91,13 @@ public class ItemStackParser {
   }
 
   private boolean isPotion() {
-    return (this.material.equals(Material.POTION) || ((Main.getInstance().getCurrentVersion().startsWith("v1_9") || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-        && (this.material.equals(Material.valueOf("TIPPED_ARROW")) || this.material.equals(Material.valueOf("LINGERING_POTION"))
-            || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+    return (this.material.equals(Material.POTION)
+        || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+            && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
+                || this.material.equals(Material.valueOf("LINGERING_POTION"))
+                || this.material.equals(Material.valueOf("SPLASH_POTION")))));
   }
 
   private int getStackAmount() {
@@ -125,9 +129,13 @@ public class ItemStackParser {
   }
 
   private boolean isMetarizable() {
-    return (!this.material.equals(Material.POTION) && !((Main.getInstance().getCurrentVersion().startsWith("v1_9") || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
-        && (this.material.equals(Material.valueOf("TIPPED_ARROW")) || this.material.equals(Material.valueOf("LINGERING_POTION"))
-            || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+    return (!this.material.equals(Material.POTION)
+        && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+            || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+            && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
+                || this.material.equals(Material.valueOf("LINGERING_POTION"))
+                || this.material.equals(Material.valueOf("SPLASH_POTION")))));
   }
 
   private boolean hasMeta() {
@@ -159,7 +167,8 @@ public class ItemStackParser {
   private void parsePotionEffects() {
     PotionMeta customPotionMeta = (PotionMeta) this.finalStack.getItemMeta();
     for (Object potionEffect : (List<Object>) this.linkedSection.get("effects")) {
-      LinkedHashMap<String, Object> potionEffectSection = (LinkedHashMap<String, Object>) potionEffect;
+      LinkedHashMap<String, Object> potionEffectSection =
+          (LinkedHashMap<String, Object>) potionEffect;
 
       if (!potionEffectSection.containsKey("type")) {
         continue;
@@ -169,7 +178,8 @@ public class ItemStackParser {
       int duration = 1;
       int amplifier = 0;
 
-      potionEffectType = PotionEffectType.getByName(potionEffectSection.get("type").toString().toUpperCase());
+      potionEffectType =
+          PotionEffectType.getByName(potionEffectSection.get("type").toString().toUpperCase());
 
       if (potionEffectSection.containsKey("duration")) {
         duration = Integer.parseInt(potionEffectSection.get("duration").toString()) * 20;
@@ -183,12 +193,13 @@ public class ItemStackParser {
         continue;
       }
 
-      customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier), true);
+      customPotionMeta.addCustomEffect(new PotionEffect(potionEffectType, duration, amplifier),
+          true);
     }
 
     this.finalStack.setItemMeta(customPotionMeta);
   }
-  
+
   @SuppressWarnings("deprecation")
   private void parseEnchants() {
     if (this.isMetarizable()) {
@@ -217,7 +228,8 @@ public class ItemStackParser {
   }
 
   private void parseCustomName() {
-    String name = ChatColor.translateAlternateColorCodes('&', this.linkedSection.get("name").toString());
+    String name =
+        ChatColor.translateAlternateColorCodes('&', this.linkedSection.get("name").toString());
     ItemMeta im = this.finalStack.getItemMeta();
 
     im.setDisplayName(name);

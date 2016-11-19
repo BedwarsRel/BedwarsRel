@@ -27,7 +27,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Reflection.SpawnEggReflected;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
@@ -364,7 +363,8 @@ public class ConfigUpdater {
             if (oldCfgSection.containsKey("meta")) {
               if (!material.equals(Material.POTION)
                   && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                       && (material.equals(Material.valueOf("TIPPED_ARROW"))
                           || material.equals(Material.valueOf("LINGERING_POTION"))
                           || material.equals(Material.valueOf("SPLASH_POTION"))))) {
@@ -732,14 +732,30 @@ public class ConfigUpdater {
             if (hasMeta) {
               if (material.equals(Material.MONSTER_EGG) && meta == 91
                   && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10"))) {
-                finalRewardStack = new SpawnEggReflected(EntityType.SHEEP).toItemStack(amount);
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))) {
+                if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R1")) {
+                  finalRewardStack =
+                      new io.github.bedwarsrel.BedwarsRel.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
+                          .toItemStack(amount);
+                } else if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R2")) {
+                  finalRewardStack =
+                      new io.github.bedwarsrel.BedwarsRel.Com.v1_9_R2.SpawnEgg1_9(EntityType.SHEEP)
+                          .toItemStack(amount);
+                } else if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_10_R1")) {
+                  finalRewardStack = new io.github.bedwarsrel.BedwarsRel.Com.v1_10_R1.SpawnEgg1_10(
+                      EntityType.SHEEP).toItemStack(amount);
+                } else if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_11_R1")) {
+                  finalRewardStack = new io.github.bedwarsrel.BedwarsRel.Com.v1_11_R1.SpawnEgg1_11(
+                      EntityType.SHEEP).toItemStack(amount);
+                }
               } else {
                 finalRewardStack = new ItemStack(material, amount, meta);
               }
             } else if (hasPotionMeta) {
               if ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                   && potionIsSplash) {
                 finalRewardStack = new ItemStack(Material.valueOf("SPLASH_POTION"), amount);
               } else {
@@ -764,7 +780,8 @@ public class ConfigUpdater {
 
             if (material.equals(Material.POTION)
                 || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                    || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                    || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                    || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                     && (material.equals(Material.valueOf("TIPPED_ARROW"))
                         || material.equals(Material.valueOf("LINGERING_POTION"))
                         || material.equals(Material.valueOf("SPLASH_POTION"))))) {
@@ -827,7 +844,8 @@ public class ConfigUpdater {
 
                   if (!finalRewardStack.getType().equals(Material.POTION)
                       && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                          || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                          || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                          || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                           && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                               || finalRewardStack.getType()
                                   .equals(Material.valueOf("LINGERING_POTION"))
@@ -888,7 +906,8 @@ public class ConfigUpdater {
 
               if (finalRewardStack.getType().equals(Material.POTION) || ((Main.getInstance()
                   .getCurrentVersion().startsWith("v1_9")
-                  || Main.getInstance().getCurrentVersion().startsWith("v1_10"))
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                   && (finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
                       || finalRewardStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
                 PotionMeta finalRewardStackPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();

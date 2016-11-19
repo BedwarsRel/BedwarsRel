@@ -128,7 +128,7 @@ public class RescuePlatform extends SpecialItem {
       placed.setType(configMaterial);
       if (configMaterial.equals(Material.STAINED_GLASS) || configMaterial.equals(Material.WOOL)
           || configMaterial.equals(Material.STAINED_CLAY)) {
-        placed.setData(team.getColor().getDyeColor().getData());
+        placed.setData(team.getColor().getDyeColor().getWoolData());
       }
 
       if (!canBreak) {

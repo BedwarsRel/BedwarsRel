@@ -18,7 +18,6 @@ import io.github.bedwarsrel.BedwarsRel.Events.BedwarsUseTNTSheepEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Reflection.SpawnEggReflected;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class TNTSheep extends SpecialItem {
@@ -76,16 +75,10 @@ public class TNTSheep extends SpecialItem {
     } else {
       if (player.getInventory().getItemInOffHand().getType() == this.getItemMaterial()) {
         usedStack = player.getInventory().getItemInOffHand();
-        if (SpawnEggReflected.fromItemStack(usedStack).getSpawnedType() != EntityType.SHEEP) {
-          return;
-        }
         usedStack.setAmount(usedStack.getAmount() - 1);
         player.getInventory().setItemInOffHand(usedStack);
       } else if (player.getInventory().getItemInMainHand().getType() == this.getItemMaterial()) {
         usedStack = player.getInventory().getItemInMainHand();
-        if (SpawnEggReflected.fromItemStack(usedStack).getSpawnedType() != EntityType.SHEEP) {
-          return;
-        }
         usedStack.setAmount(usedStack.getAmount() - 1);
         player.getInventory().setItemInMainHand(usedStack);
       }

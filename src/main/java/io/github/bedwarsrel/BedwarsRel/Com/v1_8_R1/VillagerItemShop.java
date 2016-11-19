@@ -76,7 +76,7 @@ public class VillagerItemShop {
             Method colorable = Utils.getColorableMethod(reward.getType());
 
             if (Utils.isColorable(reward)) {
-              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
             } else if (colorable != null) {
               ItemMeta meta = reward.getItemMeta();
               colorable.setAccessible(true);
