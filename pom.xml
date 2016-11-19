@@ -128,11 +128,6 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
-		</dependency>
-		<dependency>
 			<groupId>com.gmail.filoghost.holographicdisplays</groupId>
 			<artifactId>api</artifactId>
 			<version>1.0</version>
@@ -247,12 +242,10 @@
 						<goals>
 							<goal>shade</goal>
 						</goals>
-						<configuration>
-							<minimizeJar>true</minimizeJar>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
