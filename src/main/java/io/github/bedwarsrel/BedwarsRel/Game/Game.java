@@ -1455,8 +1455,6 @@ public class Game {
 
   public Team getTeamByDyeColor(DyeColor color) {
     for (Team t : this.teams.values()) {
-      Main.getInstance().getServer().getConsoleSender().sendMessage(
-          "Comparing " + t.getColor().getDyeColor().toString() + " with " + color.toString());
       if (t.getColor().getDyeColor().equals(color)) {
         return t;
       }

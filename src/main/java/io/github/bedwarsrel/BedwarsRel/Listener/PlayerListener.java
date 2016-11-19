@@ -995,8 +995,6 @@ public class PlayerListener extends BaseListener {
 
     ice.setCancelled(true);
     Wool wool = (Wool) clickedStack.getData();
-    Main.getInstance().getServer().getConsoleSender()
-        .sendMessage(wool.getColor().getColor().toString());
     Team team = game.getTeamByDyeColor(wool.getColor());
     if (team == null) {
       return;
