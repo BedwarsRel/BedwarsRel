@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftVillager;
@@ -19,7 +20,6 @@ import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import net.minecraft.server.v1_11_R1.EntityHuman;
 import net.minecraft.server.v1_11_R1.EntityVillager;
-import net.minecraft.server.v1_11_R1.StatisticList;
 
 public class VillagerItemShop {
 
@@ -78,7 +78,8 @@ public class VillagerItemShop {
             Method colorable = Utils.getColorableMethod(reward.getType());
 
             if (Utils.isColorable(reward)) {
-              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
+              reward
+                  .setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
             } else if (colorable != null) {
               ItemMeta meta = reward.getItemMeta();
               colorable.setAccessible(true);
@@ -97,8 +98,12 @@ public class VillagerItemShop {
 
             if (trade.getItem2() != null) {
               recipe.addIngredient(trade.getItem2());
+            } else {
+              recipe.addIngredient(new ItemStack(Material.AIR));
             }
 
+            recipe.setUses(0);
+            recipe.setExperienceReward(false);
             recipeList.add(recipe);
           }
 
@@ -107,7 +112,6 @@ public class VillagerItemShop {
           entityVillager.setTradingPlayer(entityHuman);
 
           ((CraftPlayer) player).getHandle().openTrade(entityVillager);
-          ((CraftPlayer) player).getHandle().b(StatisticList.F);
         } catch (Exception ex) {
           Main.getInstance().getBugsnag().notify(ex);
           ex.printStackTrace();
