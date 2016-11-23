@@ -134,9 +134,9 @@ ingame:
     rescue-platform:
       left: Платформа исчезнет через &c$time$&f
     arrow-blocker:
-      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      start: Вы защищены от удара стрелы на &c$time$&f сек.
       end: '&cYour arrow protection is over'
-      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
+      left: Осталось &c$time$&f секунд(ы), когда вы можете использовать следующую блокировку стрел!
     trap:
       trapped: '&eКто-то попался в ловушку вашей команды'
     protection-wall:
