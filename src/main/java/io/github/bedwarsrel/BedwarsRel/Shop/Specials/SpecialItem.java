@@ -25,6 +25,7 @@ public abstract class SpecialItem {
     SpecialItem.availableSpecials.add(TNTSheep.class);
     SpecialItem.availableSpecials.add(Tracker.class);
     SpecialItem.availableSpecials.add(ArrowBlocker.class);
+    SpecialItem.availableSpecials.add(AutoBridge.class);
     Main.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(),
         Main.getInstance());
     Main.getInstance().getServer().getPluginManager().registerEvents(new TrapListener(),
@@ -40,6 +41,8 @@ public abstract class SpecialItem {
     Main.getInstance().getServer().getPluginManager().registerEvents(new TrackerListener(),
         Main.getInstance());
     Main.getInstance().getServer().getPluginManager().registerEvents(new ArrowBlockerListener(),
+        Main.getInstance());
+    Main.getInstance().getServer().getPluginManager().registerEvents(new AutoBridgeListener(),
         Main.getInstance());
   }
 

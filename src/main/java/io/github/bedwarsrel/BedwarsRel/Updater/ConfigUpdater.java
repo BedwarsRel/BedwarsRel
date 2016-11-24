@@ -272,6 +272,15 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.using-wait-time", 30);
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.item", "ender_eye");
     // </1.3.4>
+
+    // <1.3.5>
+    Main.getInstance().getConfig().addDefault("specials.auto-bridge.item", "egg");
+    Main.getInstance().getConfig().addDefault("specials.auto-bridge.block", "sandstone");
+    Main.getInstance().getConfig().addDefault("specials.auto-bridge.using-wait-time", 120);
+    Main.getInstance().getConfig().addDefault("specials.auto-bridge.break-time", 20);
+    Main.getInstance().getConfig().addDefault("specials.auto-bridge.distance", 10);
+    Main.getInstance().getConfig().addDefault("specials.auto-bridge.can-break", true);
+    // </1.3.5>
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
