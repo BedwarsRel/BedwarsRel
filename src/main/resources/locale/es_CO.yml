@@ -1,59 +1,61 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: Página $current$ de $max$
+  currently: Actualmente
 errors:
-  argumentslength: Number of arguments does not match the correct amount!
-  packagenotfound: "Couldn't fetch $package$ package!"
-  classnotfound: "Couldn't fetch $package$ class $class$!"
-  gameexists: A game with this name already exists!
-  gamenotfound: "The game '$game$' could not be found!"
-  gamenotfoundsimple: Game not found!
-  playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
-  teamcolornotallowed: "The given Team color isn't a allowed color"
-  teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
-  bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
-  regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
-  spawnerargument: The resource parameter has to be a valid configured resource!
-  blockdownnotfound: "The block you're standing on was not found!"
-  gamenotrunning: "Game isn't running!"
-  bungeenoserver: "Bungeecord Servers wasn't set properly! Talk to the server administrator!"
-  cantstartagain: "Game is running! You can't start a running game again!"
-  startoutofwaiting: Game have to be started out of the waiting mode!
-  cantjoingame: "You can't join a running or stopped game!"
-  lobbyongameworld: "Lobby can't be on the game world!"
-  gamenotloaded: "Couldn't start up the game!"
-  gameloaderror: "Loading game '$game$' throws an error!"
-  regionnotfound: Region file does not exists!
-  savesign: "Couldn't create a new sign config file!"
-  nogames: No games found!
-  notenoughress: "You didn't have enough ressource to buy this item!"
-  teamnameinuse: Team name is already in use!
-  minplayersmustnumber: Min players must be a number!
-  toolongregionname: Maximum length of region name are 15 characters!
-  notwhilegamerunning: Cannot do that while game is running!
-  notwhileingame: "Cannot do that while you're in a running game!"
-  timeincorrect: "Time has to be a number (0 ... 23000), 'day' or 'night'!"
-  minplayersnumeric: The min-players parameter must be numeric!
-  notinair: "You're not in the air!"
-  teamfull: The team is full, please reopen the team selection menu!
-  novalidmaterial: "Given block type (material) isn't correct!"
-  wrongvalueonoff: 'Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!'
-  playernotfound: "Given player was not found or isn't online!"
-  notingameforkick: You must be in a game to kick a player!
-  playernotingame: Given player is not in this game!
-  mustbeinlobbyworld: You must be in the lobby world of the game
+  argumentslength: El número de argumentos no coincide con la cantidad correcta!
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  packagenotfound: No se ha encontrado el paquete $package$!
+  classnotfound: No se ha encontrado la clase $class$ del paquete $package$!
+  gameexists: Ya existe un mapa con este nombre!
+  gamenotfound: "El mapa '$game$' no se pudo encontrar!"
+  nofreegames: There are no free games available.
+  gamenotfoundsimple: No se pudo encontrar el mapa!
+  playeramount: El número máximo de jugadores no puede ser menor de 1 o mayor de 24!
+  teamcolornotallowed: El color introducido no es un color permitido
+  teamnamelength: El nombre de un equipo debe tener entre 2 y 20 caracteres!
+  teamnotfound: Equipo no encontrado!
+  notingame: No estás en ningún juego!
+  bedtargeting: "Tienes que apuntar a o estar sobre un bloque que esté configurado en la sección 'game-block'!"
+  regionargument: "El argumento de ubicación tiene que ser 'loc1' o 'loc2'!"
+  spawnerargument: El parámetro de recurso tiene que ser un recurso configurado correctamente!
+  blockdownnotfound: El bloque sobre el que estás no ha sido encontrado!
+  gamenotrunning: El juego no está en marcha!
+  bungeenoserver: Los servidores de BungeeCord no se han configurado correctamente. Reportarlo a un administrador!
+  cantstartagain: El juego ya ha empezado! No puedes volver a empezar el juego!
+  startoutofwaiting: El juego tiene que ser empezado mientras se encuentra en modo de espera!
+  cantjoingame: No puedes entrar a un juego que ya ha comenzado o que ya ha acabado!
+  lobbyongameworld: El lobby no puede estar en el mundo de juego!
+  gamenotloaded: No se pudo iniciar el juego!
+  gameloaderror: "Se ha encontrado un error al cargar '$game$'!"
+  regionnotfound: El archivo de región no existe!
+  savesign: No se ha podido crear un nuevo archivo de configuración para los carteles!
+  nogames: No se han encontrado juegos!
+  notenoughress: No tienes suficientes recursos para comprar este objeto!
+  teamnameinuse: El nombre ya está en uso!
+  minplayersmustnumber: Jugadores mínimos debe ser un número!
+  toolongregionname: El nombre de la región tiene un máximo de 15 caracteres!
+  notwhilegamerunning: No se puede ejecutar esa acción mientras el juego está en curso!
+  notwhileingame: No puedes ejecutar esa acción mientras que estás en un juego en curso!
+  timeincorrect: "El tiempo tiene que ser un número (0 ... 23000), 'day' o 'night'!"
+  minplayersnumeric: El parámetro de jugadores mínimos debe ser un número!
+  notinair: No estás en el aire!
+  teamfull: El equipo está lleno, por favor, vuelve a abrir el menú de selección de equipo!
+  novalidmaterial: El tipo de bloque(material) no es correcto!
+  wrongvalueonoff: 'Parámetro incorrecto! Use true,on,1 para activar - Usa false, off, 0 para desactivar!'
+  playernotfound: El jugador introducido no existe o no está conectado!
+  notingameforkick: Debes de estar en el juego para echar a un jugador!
+  playernotingame: El jugador introducido no está en este juego!
+  mustbeinlobbyworld: Tienes que está en el mundo de lobby del juego
   addteamjoincancel: The adding of team join was cancelled!
-  entitynotcompatible: This entity is not compatible with team join!
+  entitynotcompatible: Esta entidad no es compatible con la entrada de equipos!
 success:
-  gameadded: "New game '$game$' successfully added!"
-  teamadded: "Team '$team$' successfully added!"
-  joined: You successfully joined the game!
-  left: You successfully left the game!
-  saved: Game was successfully saved!
-  bedset: You sucessfully set the respawn block of team $team$!
+  gameadded: "Se ha añadido el juego '$game$' correctamente!"
+  teamadded: "El equipo '$team$' ha sido añadido correctamente!"
+  joined: Te has unido al juego!
+  left: Has salido del juego!
+  saved: El juego se ha guardado correctamente!
+  bedset: "Has establecido el bloque de respawn del equipo '$team$' correctamente!"
   regionset: Game region location $location$ for Game $game$ was set successfully!
   spawnset: Spawn location for Team $team$ was set successfully!
   spawnerset: Ressource spawn location for $name$ was set successfully!
@@ -270,6 +272,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
     desc: Kicks a player from the current game!

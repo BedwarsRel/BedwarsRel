@@ -4,18 +4,20 @@ default:
   currently: Aktualni
 errors:
   argumentslength: Argumenty prikazu neodpovidaji spravnemu mnozstvi!
+  holodependencynotfound: Potrebny plugin $dependency$ nenalezen. Bez nej nelze spustit Hologram-statistiky
   packagenotfound: Nelze nacist balicek $package$!
   classnotfound: Nelze nacist balicek $package$ ve tride $class$!
   gameexists: Hra se stejnym jmenem jiz byla vytvorena!
-  gamenotfound: "Hra '$game$' neexistuje!"
+  gamenotfound: Hra '$game$' neexistuje!
+  nofreegames: Aktualne nejsou volne zadne hry.
   gamenotfoundsimple: Hra neexistuje!
   playeramount: Pocet hracu musi byt v rozsahu 1 az 24!
   teamcolornotallowed: Tato barva neni pro tymy povolena.
-  teamnamelength: 'Nazev tymu musi byt v rozsahu 2 - 20!'
+  teamnamelength: Nazev tymu musi byt v rozsahu 2 - 20!
   teamnotfound: Tym nenalezen!
   notingame: Prikaz nebyl zadan ve hre!
-  bedtargeting: "Musis stat na bloku, ktery je v konfiguraci zapsany jako 'game-block'!"
-  regionargument: "Argumenty u regionu jsou pouze 'loc1' nebo 'loc2'!"
+  bedtargeting: Musis stat na bloku, ktery je v konfiguraci zapsany jako 'game-block'!
+  regionargument: Argumenty u regionu jsou pouze 'loc1' nebo 'loc2'!
   spawnerargument: Parametr spawneru musi byt dobre nakonfigurovan!
   blockdownnotfound: Nebyl nalezen block na kterem stojis!
   gamenotrunning: Hra neni spustena!
@@ -25,7 +27,7 @@ errors:
   cantjoingame: Nemuzes se pripojit do hry, ktera jiz bezi nebo je vypnuta!
   lobbyongameworld: Lobby nemuze byt na hernim svete!
   gamenotloaded: Hru nelze nacist!
-  gameloaderror: "Nelze nacist hru '$game$'!"
+  gameloaderror: Nelze nacist hru '$game$'!
   regionnotfound: Soubor mapy neexistuje!
   savesign: Nelze vytvorit novou konfiguraci pro cedulku!
   nogames: Aktualne nejsou nakonfigurovany zadne areny..
@@ -35,12 +37,12 @@ errors:
   toolongregionname: Maximalni delka muze byt 15 pismen dlouha!
   notwhilegamerunning: Nelze provest pokud hra bezi!
   notwhileingame: Nelze provest pokud jsi ve hre.
-  timeincorrect: 'Cas musi byt v rozmezi 0 - 23000, day nebo night!'
+  timeincorrect: Cas musi byt v rozmezi 0 - 23000, day nebo night!
   minplayersnumeric: Pocet minimalnich hracu musi byt cislo!
   notinair: Nejsi ve vzduchu!
   teamfull: Tym je plny, otevri si znovu vyberove menu!
   novalidmaterial: Blok (material) neni spravny!
-  wrongvalueonoff: 'Spatny parametr! Pouzij true nebo on nebo 1 pro zapnuti - Pouzij false nebo off nebo 0 pro vypnuti!'
+  wrongvalueonoff: Spatny parametr! Pouzij true nebo on nebo 1 pro zapnuti - Pouzij false nebo off nebo 0 pro vypnuti!
   playernotfound: Hrac nebyl nalezen!
   notingameforkick: Hrace lze vyhodit pouze ze hry!
   playernotingame: Zadany hrac se nenachazi ve hre!
@@ -48,8 +50,8 @@ errors:
   addteamjoincancel: Pridavani pripojeni do hry zruseno!
   entitynotcompatible: Tuto entitu nelze pouzit pro vyber tymu!
 success:
-  gameadded: "Nova hra '$game$' uspesne pridana!"
-  teamadded: "Tym '$team$' uspesne pridan!"
+  gameadded: Nova hra '$game$' uspesne pridana!
+  teamadded: Tym '$team$' uspesne pridan!
   joined: Pripojeni do hry bylo uspesne!
   left: Odpojeni ze hry bylo uspesne.
   saved: Hra byla uspesne ulozena!
@@ -59,7 +61,7 @@ success:
   spawnerset: Spawn surovin $name$ uspesne nastaven!
   stopped: Hra byla zastavena!
   lobbyset: Lobby pro hru bylo nastaveno!
-  gameloaded: "Hra '$game$' uspesne nactena!"
+  gameloaded: Hra '$game$' uspesne nactena!
   reloadconfig: Konfigurace a jazyky znovu nacteny!
   teamremoved: Tyym byl uspesne odstranen!
   gameremoved: Hra byla uspesne odstranena!
@@ -72,8 +74,8 @@ success:
   gametimeset: Cas hry uspesne nastaven!
   materialset: Respawn blok (material) byl uspesne nastaven!
   builderset: Stavitel teto mapy byl uspesne nastaven a bude se zobrazovat v title!
-  autobalanceseton: 'Automaticke vyvazovani bylo &lzapnuto&a!'
-  autobalancesetoff: 'Automaticke vyvazovani bylo &cvypnuto&a!'
+  autobalanceseton: Automaticke vyvazovani bylo &lzapnuto&a!
+  autobalancesetoff: Automaticke vyvazovani bylo &cvypnuto&a!
   selectteamjoinentity: Nyni klikni pravym na entitu, kterou chces pouzit!
   teamjoinadded: Entita byla uspesne ulozena pro tym $team$
   holoremoved: Hologram uspesne odstranen!
@@ -84,7 +86,7 @@ gamecheck:
   NO_LOBBY_SET: Nenastavil jsi lobby!
   TEAMS_WITHOUT_SPAWNS: Jsou zde tymy bez spawn lokace!
   NO_ITEMSHOP_CATEGORIES: Zadne kategorie obchodu nenalezeny!
-  NO_MAIN_LOBBY_SET: "Nenastavil jsi Main lobby (hlavni lobby) nebo jsi v nastaveni nepovolil 'tomainlobby' na true (povoleno)"
+  NO_MAIN_LOBBY_SET: Nenastavil jsi Main lobby (hlavni lobby) nebo jsi v nastaveni nepovolil 'tomainlobby' na true (povoleno)
   TEAM_NO_WRONG_BED: Jeden nebo vice tymu nemaji nastavenou postel!
   TEAM_NO_WRONG_TARGET: Jeden nebo vice tymu nemaji nastaveny respawn block!
 ingame:
@@ -98,14 +100,14 @@ ingame:
   draw: Hra skoncila remizou.
   serverrestart: Restart serveru za $sec$ sekund!
   gamestarting: Hra se zapina!
-  gamestarted: "Hra '$game$' zacala!"
+  gamestarted: Hra '$game$' zacala!
   backtolobby: Teleportace do lobby za $sec$ sekund!
   spectator: Sledujici
   spectate: '&aSledovat'
   teamchest: Tymova truhla
   noturteamchest: Tato truhla nepatri tvemu tymu!
-  protectionleft: 'Jsi nezranitelny na &c$length$&f sekund!'
-  protectionend: 'Nyni jsi opet &czranitelny&f!'
+  protectionleft: Jsi nezranitelny na &c$length$&f sekund!
+  protectionend: Nyni jsi opet &czranitelny&f!
   team-dead: Tym $team$ byl znicen!
   no-friendlybreak: '&cNemuzes znicit blok pod hracem sveho tymu!'
   teamchestdestroy: '&cTymova truhla byla znicena!'
@@ -121,43 +123,47 @@ ingame:
     onestackpershift: Jeden stack za shift click
   player:
     left: Hrac $player$ odesel ze hry.
-    died: $player$ zemrel!
-    killed: $killer$ zabil $player$!
-    kicked: $player$ byl vyhozen!
+    died: '$player$ zemrel!'
+    killed: '$killer$ zabil $player$!'
+    kicked: '$player$ byl vyhozen!'
     waskicked: Byl jsi vyhozen ze hry!
   blocks:
     ownbeddestroy: Nemuzes znicit svou postel!
-    beddestroyed: $player$ znicil postel tymu $team$!
+    beddestroyed: '$player$ znicil postel tymu $team$!'
   specials:
     rescue-platform:
       left: '&cMusis pockat &e$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!'
+    arrow-blocker:
+      start: You are protected from being hit by arrows for &c$time$&f second(s).
+      end: '&cYour arrow protection is over'
+      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
     trap:
       trapped: '&eNekdo vstoupil do &cpasti&e tveho tymu!'
     protection-wall:
-      left: 'Musis pockat &c$time$&f sekund pred pouzitim!'
+      left: Musis pockat &c$time$&f sekund pred pouzitim!
       not-usable-here: Tento predmet zde nemuzes pouzit!
     warp-powder:
       cancelled: '&cTeleportace zrusena!'
-      start: 'Budes teleportovan za &c$time$&f sekund!'
+      start: Budes teleportovan za &c$time$&f sekund!
       cancel: '&4Zrusit Teleport'
       multiuse: '&cTeleportace probiha! Nelze se teleportovat znova.'
     tntsheep:
       no-target-found: Nebyl nalezen zadny cil!
     tracker:
       no-target-found: Nebyl nalezen zadny cil!
-      target-found: $player$ je $blocks$ bloku od tebe.
+      target-found: '$player$ je $blocks$ bloku od tebe.'
 lobby:
   countdown: Hra zacne za $sec$ sekund!
   countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
   cancelcountdown:
     not_enough_players: Je potreba vice hracu! Odpocet byl zastaven.
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_teams: Je potreba vice tymu. Odpocitavani bylo zastaveno!
   cancelstart:
     not_enough_players: Pro start hry je potreba vice hracu!
-    not_enough_teams: More teams are needed to start the game!
+    not_enough_teams: Je potreba vice tymu pro start hry!
   chooseteam: Vyber si tym
   startgame: Spustit hru
-  reduce_countdown: Reduce countdown
+  reduce_countdown: Snížit odpočítávání
   gamefull: Hra je plna!
   gamefullpremium: Tato hra je jiz plna VIP hracu!
   teamjoined: Uspesne jsi se pripojil do tymu $team$
@@ -166,7 +172,7 @@ lobby:
   kickedbyvip: Bylo uvolneno misto pro VIP hrace, byl(a) jsi vyhozen.
   moreplayersneeded: Je potreba $count$ hracu navic.
   moreplayersneeded-one: Je potreba $count$ hrac navic.
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+  moreteamsneeded: Jsou potreba minimalne dva hraci ve dvou ruznych tymech pro start hry!
 sign:
   firstline: '&6[Bedwars]'
   players: Hraci
@@ -266,10 +272,13 @@ commands:
     desc: Nastavi autora mapy, ktery se bude zobrazovat v titulu.
   setgameblock:
     name: setgameblock
-    desc: "Nastavi block hry, ktery muze byt pouzit misto bude pouzit misto 'game-block' pro tuto arenu. Parametr 'DEFAULT' pouzije blok z konfiguracniho souboru."
+    desc: Nastavi block hry, ktery muze byt pouzit misto bude pouzit misto 'game-block' pro tuto arenu. Parametr 'DEFAULT' pouzije blok z konfiguracniho souboru.
   setautobalance:
     name: setautobalance
-    desc: "Pokud je parametr 'global-autobalance' nastaven na 'false', tak lze pomoci tohoto prikazu nastavit automaticke balancovani hracu pro tuto hru!"
+    desc: Pokud je parametr 'global-autobalance' nastaven na 'false', tak lze pomoci tohoto prikazu nastavit automaticke balancovani hracu pro tuto hru!
+  setminplayers:
+    name: Nastavit minimum hracu
+    desc: Nastavit minimalni pocet hracu pro start hry
   kick:
     name: kick
     desc: Vyhodi zadaneho hrace ze hry

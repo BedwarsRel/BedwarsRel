@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
@@ -67,6 +68,8 @@ public class PlayerStorage {
     this.player.setSneaking(false);
     this.player.setSprinting(false);
     this.player.setFoodLevel(20);
+    this.player.setSaturation(10);
+    this.player.setExhaustion(0);
     this.player.setMaxHealth(20.0D);
     this.player.setHealth(20.0D);
     this.player.setFireTicks(0);
@@ -112,26 +115,30 @@ public class PlayerStorage {
   }
 
   public void restore() {
-    this.player.getInventory().setContents(this.inventory);
-    this.player.getInventory().setArmorContents(this.armor);
+    if (Main.getInstance().getBooleanConfig("save-inventory", true)) {
+      this.player.getInventory().setContents(this.inventory);
+      this.player.getInventory().setArmorContents(this.armor);
+
+      this.player.addPotionEffects(this.effects);
+      this.player.setLevel(this.level);
+      this.player.setExp(this.xp);
+      this.player.setFoodLevel(this.foodLevel);
+
+      for (PotionEffect e : this.player.getActivePotionEffects()) {
+        this.player.removePotionEffect(e.getType());
+      }
+
+      this.player.addPotionEffects(this.effects);
+    }
+
+    this.player.setPlayerListName(this.listName);
+    this.player.setDisplayName(this.displayName);
+
     this.player.setGameMode(this.mode);
 
     if (this.mode == GameMode.CREATIVE) {
       this.player.setAllowFlight(true);
     }
-
-    this.player.addPotionEffects(this.effects);
-    this.player.setLevel(this.level);
-    this.player.setExp(this.xp);
-    this.player.setPlayerListName(this.listName);
-    this.player.setDisplayName(this.displayName);
-    this.player.setFoodLevel(this.foodLevel);
-
-    for (PotionEffect e : this.player.getActivePotionEffects()) {
-      this.player.removePotionEffect(e.getType());
-    }
-
-    this.player.addPotionEffects(this.effects);
     this.player.updateInventory();
   }
 
@@ -193,7 +200,6 @@ public class PlayerStorage {
     this.player.getInventory().addItem(reduceCountdownItem);
   }
 
-  @SuppressWarnings("deprecation")
   public void openTeamSelection(Game game) {
     BedwarsOpenTeamSelectionEvent openEvent = new BedwarsOpenTeamSelectionEvent(game, this.player);
     Main.getInstance().getServer().getPluginManager().callEvent(openEvent);
@@ -212,9 +218,10 @@ public class PlayerStorage {
       if (players.size() >= team.getMaxPlayers()) {
         continue;
       }
-
-      ItemStack is = new ItemStack(Material.WOOL, 1, team.getColor().getDyeColor().getData());
+      Wool wool = new Wool(team.getColor().getDyeColor());
+      ItemStack is = wool.toItemStack(1);
       ItemMeta im = is.getItemMeta();
+
       im.setDisplayName(team.getChatColor() + team.getName());
       ArrayList<String> teamplayers = new ArrayList<>();
 

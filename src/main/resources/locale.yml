@@ -3,10 +3,12 @@ default:
     currently: Currently
 errors:
     argumentslength: "Number of arguments does not match the correct amount!"
+    holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
     packagenotfound: "Couldn't fetch $package$ package!"
     classnotfound: "Couldn't fetch $package$ class $class$!"
     gameexists: "A game with this name already exists!"
     gamenotfound: "The game '$game$' could not be found!"
+    nofreegames: "There are no free games available."
     gamenotfoundsimple: "Game not found!"
     playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
     teamcolornotallowed: "The given Team color isn't a allowed color"
@@ -131,6 +133,10 @@ ingame:
     specials:
         rescue-platform:
             left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
+        arrow-blocker:
+            start: "You are protected from being hit by arrows for &c$time$&f second(s)."
+            end: "&cYour arrow protection is over"
+            left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
         trap:
             trapped: "&eSomeone went into a &ctrap&e of your team!"
         protection-wall:
@@ -270,6 +276,9 @@ commands:
     setautobalance:
         name: "Set autobalance"
         desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    setminplayers:
+        name: "Set minimum players"
+        desc: "Sets the amount of players needed to start the game"
     kick:
         name: "Kick player"
         desc: "Kicks a player from the current game!"

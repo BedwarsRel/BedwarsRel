@@ -18,6 +18,8 @@ import de.inventivegames.hologram.HologramAPI;
 import de.inventivegames.hologram.view.ViewHandler;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import io.github.bedwarsrel.BedwarsRel.Statistics.StatField;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
 
 public class HologramAPIInteraction implements IHologramInteraction {

@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.bukkit.ChatColor;
-import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -43,9 +42,9 @@ import org.bukkit.event.player.PlayerToggleFlightEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
@@ -53,6 +52,7 @@ import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 
 public class PlayerListener extends BaseListener {
@@ -184,11 +184,15 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    iee.setCancelled(true);
-
     if (game.isSpectator(player)) {
       return;
     }
+
+    if (!Main.getInstance().getBooleanConfig("use-build-in-shop", true)) {
+      return;
+    }
+
+    iee.setCancelled(true);
 
     BedwarsOpenShopEvent openShopEvent =
         new BedwarsOpenShopEvent(game, player, game.getItemShopCategories(), iee.getRightClicked());
@@ -310,6 +314,7 @@ public class PlayerListener extends BaseListener {
       pde.setDroppedExp(0);
       pde.setDeathMessage(null);
 
+
       if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
         pde.getDrops().clear();
       }
@@ -344,13 +349,7 @@ public class PlayerListener extends BaseListener {
         e.printStackTrace();
       }
 
-      try {
-        pde.getClass().getMethod("setKeepInventory", new Class<?>[] {boolean.class});
-        pde.setKeepInventory(false);
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        player.getInventory().clear();
-      }
+      pde.setKeepInventory(Main.getInstance().getBooleanConfig("keep-inventory-on-death", false));
 
       Player killer = player.getKiller();
       if (killer == null) {
@@ -975,7 +974,6 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  @SuppressWarnings("deprecation")
   private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
     Inventory inv = ice.getInventory();
     ItemStack clickedStack = ice.getCurrentItem();
@@ -996,7 +994,8 @@ public class PlayerListener extends BaseListener {
     }
 
     ice.setCancelled(true);
-    Team team = game.getTeamByDyeColor(DyeColor.getByData(clickedStack.getData().getData()));
+    Wool wool = (Wool) clickedStack.getData();
+    Team team = game.getTeamByDyeColor(wool.getColor());
     if (team == null) {
       return;
     }

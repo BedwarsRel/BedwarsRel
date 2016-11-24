@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Data;
 
 @Data
@@ -67,11 +67,17 @@ public class Team implements ConfigurationSerializable {
     this.getChests().add(chestBlock);
   }
 
+  @SuppressWarnings("deprecation")
   public boolean addPlayer(Player player) {
-    if (this.getScoreboardTeam().getPlayers().size() >= this.getMaxPlayers()) {
-      return false;
+    if (Main.getInstance().isSpigot()) {
+      if (this.getScoreboardTeam().getEntries().size() >= this.getMaxPlayers()) {
+        return false;
+      }
+    } else {
+      if (this.getScoreboardTeam().getPlayers().size() >= this.getMaxPlayers()) {
+        return false;
+      }
     }
-
     if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
       player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getName()));
       player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getName()));
@@ -82,7 +88,11 @@ public class Team implements ConfigurationSerializable {
           + this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
     }
 
-    this.getScoreboardTeam().addPlayer(player);
+    if (Main.getInstance().isSpigot()) {
+      this.getScoreboardTeam().addEntry(player.getName());
+    } else {
+      this.getScoreboardTeam().addPlayer(player);
+    }
     this.equipPlayerWithLeather(player);
 
     return true;
@@ -152,13 +162,24 @@ public class Team implements ConfigurationSerializable {
     return this.getTargetHeadBlock().getBlock();
   }
 
+  @SuppressWarnings("deprecation")
   public List<Player> getPlayers() {
     List<Player> players = new ArrayList<>();
-    for (OfflinePlayer offlinePlayer : this.getScoreboardTeam().getPlayers()) {
-      Player player = Main.getInstance().getServer().getPlayer(offlinePlayer.getName());
-      if (player != null && Main.getInstance().getGameManager().getGameOfPlayer(player) != null
-          && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
-        players.add(player);
+    if (Main.getInstance().isSpigot()) {
+      for (String aPlayer : this.getScoreboardTeam().getEntries()) {
+        Player player = Main.getInstance().getServer().getPlayer(aPlayer);
+        if (player != null && Main.getInstance().getGameManager().getGameOfPlayer(player) != null
+            && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
+          players.add(player);
+        }
+      }
+    } else {
+      for (OfflinePlayer offlinePlayer : this.getScoreboardTeam().getPlayers()) {
+        Player player = Main.getInstance().getServer().getPlayer(offlinePlayer.getName());
+        if (player != null && Main.getInstance().getGameManager().getGameOfPlayer(player) != null
+            && !Main.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
+          players.add(player);
+        }
       }
     }
 
@@ -178,8 +199,13 @@ public class Team implements ConfigurationSerializable {
         && this.getTargetFeetBlock().getBlock().getType() != targetMaterial);
   }
 
+  @SuppressWarnings("deprecation")
   public boolean isInTeam(Player p) {
-    return this.getScoreboardTeam().hasPlayer(p);
+    if (Main.getInstance().isSpigot()) {
+      return this.getScoreboardTeam().hasEntry(p.getName());
+    } else {
+      return this.getScoreboardTeam().hasPlayer(p);
+    }
   }
 
   public void removeChest(Block chest) {
@@ -189,9 +215,16 @@ public class Team implements ConfigurationSerializable {
     }
   }
 
+  @SuppressWarnings("deprecation")
   public void removePlayer(Player player) {
-    if (this.getScoreboardTeam().hasPlayer(player)) {
-      this.getScoreboardTeam().removePlayer(player);
+    if (Main.getInstance().isSpigot()) {
+      if (this.getScoreboardTeam().hasEntry(player.getName())) {
+        this.getScoreboardTeam().removeEntry(player.getName());
+      }
+    } else {
+      if (this.getScoreboardTeam().hasPlayer(player)) {
+        this.getScoreboardTeam().removePlayer(player);
+      }
     }
 
     if (Main.getInstance().getBooleanConfig("overwrite-names", false) && player.isOnline()) {

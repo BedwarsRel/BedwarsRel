@@ -23,9 +23,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.mcstats.Metrics;
 
-import com.bugsnag.BeforeNotify;
-import com.bugsnag.Client;
+import com.bugsnag.Bugsnag;
+import com.bugsnag.Report;
+import com.bugsnag.callbacks.Callback;
 import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Commands.AddGameCommand;
@@ -34,6 +36,7 @@ import io.github.bedwarsrel.BedwarsRel.Commands.AddTeamCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.AddTeamJoinCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.ClearSpawnerCommand;
+import io.github.bedwarsrel.BedwarsRel.Commands.DebugPasteCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.GameTimeCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.HelpCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.JoinGameCommand;
@@ -85,6 +88,10 @@ import io.github.bedwarsrel.BedwarsRel.Updater.DatabaseUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
+import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
 
 public class Main extends JavaPlugin {
@@ -116,7 +123,7 @@ public class Main extends JavaPlugin {
   private ScoreboardManager scoreboardManager = null;
   private GameManager gameManager = null;
   @Getter
-  private Client bugsnag;
+  private Bugsnag bugsnag;
 
   @Override
   public void onEnable() {
@@ -188,31 +195,46 @@ public class Main extends JavaPlugin {
   }
 
   private void registerBugsnag() {
-    this.bugsnag = new Client("c23593c1e2f40fc0da36564af1bd00c6");
-    this.bugsnag.setAppVersion(this.getDescription().getVersion());
+    this.bugsnag = new Bugsnag("c23593c1e2f40fc0da36564af1bd00c6");
+    this.bugsnag.setAppVersion(SupportData.getPluginVersion());
     this.bugsnag.setProjectPackages("io.github.bedwarsrel");
+    this.bugsnag.setReleaseStage(SupportData.getPluginVersionType());
   }
 
   private void enableBugsnag() {
-    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+    this.bugsnag.addCallback(new Callback() {
       @Override
-      public boolean run(com.bugsnag.Error error) {
-        SupportData supportData = new SupportData();
-        error.addToTab("user", "id", supportData.getIdentifier());
-        error.addToTab("Server", "Version", supportData.getServerVersion());
-        error.addToTab("Server", "Version Bukkit", supportData.getBukkitVersion());
-        error.addToTab("Server", "Server Mode", supportData.getServerMode());
-        error.addToTab("Server", "Plugins", supportData.getPlugins());
-        return true;
+      public void beforeNotify(Report report) {
+        Boolean shouldBeSent = false;
+        for (StackTraceElement stackTraceElement : report.getException().getStackTrace()) {
+          if (stackTraceElement.toString().contains("io.github.bedwarsrel.BedwarsRel")) {
+            shouldBeSent = true;
+            break;
+          }
+        }
+        if (!shouldBeSent) {
+          report.cancel();
+        }
+
+        report.setUserId(SupportData.getIdentifier());
+        if (!SupportData.getPluginVersionBuild().equalsIgnoreCase("unknown")) {
+          report.addToTab("Server", "Version Build",
+              Main.getInstance().getDescription().getVersion() + " "
+                  + SupportData.getPluginVersionBuild());
+        }
+        report.addToTab("Server", "Version", SupportData.getServerVersion());
+        report.addToTab("Server", "Version Bukkit", SupportData.getBukkitVersion());
+        report.addToTab("Server", "Server Mode", SupportData.getServerMode());
+        report.addToTab("Server", "Plugins", SupportData.getPlugins());
       }
     });
   }
 
   private void disableBugsnag() {
-    this.bugsnag.addBeforeNotify(new BeforeNotify() {
+    this.bugsnag.addCallback(new Callback() {
       @Override
-      public boolean run(com.bugsnag.Error error) {
-        return false;
+      public void beforeNotify(Report report) {
+        report.cancel();
       }
     });
   }
@@ -674,7 +696,8 @@ public class Main extends JavaPlugin {
     new BlockListener();
     new PlayerListener();
     if (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10")) {
+        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_11")) {
       new Player19Listener();
     }
     new HangingListener();
@@ -729,6 +752,7 @@ public class Main extends JavaPlugin {
     this.commands.add(new AddTeamJoinCommand(this));
     this.commands.add(new AddHoloCommand(this));
     this.commands.add(new RemoveHoloCommand(this));
+    this.commands.add(new DebugPasteCommand(this));
 
     this.getCommand("bw").setExecutor(executor);
   }
@@ -883,8 +907,31 @@ public class Main extends JavaPlugin {
   }
 
   public boolean isHologramsEnabled() {
-    return this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
-        || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays");
+    return (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+        && this.getServer().getPluginManager().isPluginEnabled("PacketListenerApi"))
+        || (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")
+            && this.getServer().getPluginManager().isPluginEnabled("ProtocolLib"));
+  }
+
+  public String getMissingHoloDependency() {
+    if (!Main.getInstance().isHologramsEnabled()) {
+      String missingHoloDependency = null;
+      if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")
+          || this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        if (this.getServer().getPluginManager().isPluginEnabled("HologramAPI")) {
+          missingHoloDependency = "PacketListenerApi";
+          return missingHoloDependency;
+        }
+        if (this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+          missingHoloDependency = "ProtocolLib";
+          return missingHoloDependency;
+        }
+      } else {
+        missingHoloDependency = "HolographicDisplays and ProtocolLib";
+        return missingHoloDependency;
+      }
+    }
+    return null;
   }
 
   public IHologramInteraction getHolographicInteractor() {

@@ -4,10 +4,12 @@ default:
   currently: Currentes
 errors:
   argumentslength: Número de argumentos não coincide com a quantidade correta!
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: Nao foi possivel obter $package$ package!
   classnotfound: Nao foi possivel obter $package$ class $class$!
   gameexists: Um jogo com este nome já existe!
   gamenotfound: "O jogo '$game$' não pôde ser encontrado!"
+  nofreegames: There are no free games available.
   gamenotfoundsimple: Jogo nao encontrado!
   playeramount: O maximo de jogadores não pode ser inferior a 1 ou superior a 24,!
   teamcolornotallowed: A determinada cor da equipe não é uma cor permitida
@@ -16,7 +18,7 @@ errors:
   notingame: Não está atualmente em um jogo!
   bedtargeting: "Você tem que direcionar ou ficar em um bloco do 'jogo-bloco' tipo configurado!"
   regionargument: |-
-    Seu argumento localização tem de ser" LOC1 'ou' LOC2 '! 
+    Seu argumento localização tem de ser" LOC1 'ou' LOC2 '!
   spawnerargument: The resource parameter has to be a valid configured resource!
   blockdownnotfound: O bloco que você está em pé não foi encontrado!
   gamenotrunning: O jogo não está a funcionar
@@ -271,6 +273,9 @@ commands:
   setautobalance:
     name: Set autobalance
     desc: "Se 'global-autobalance' esta setado 'false', com este comando tu podes setar team-autobalance por jogo em ativado ou desativado!"
+  setminplayers:
+    name: Set minimum players
+    desc: Sets the amount of players needed to start the game
   kick:
     name: Kick player
     desc: Kicka um jogador do seu jogo corrente!

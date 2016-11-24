@@ -14,13 +14,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import io.github.bedwarsrel.BedwarsRel.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Database.DBField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBGetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBSetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class PlayerStatisticManager {
 

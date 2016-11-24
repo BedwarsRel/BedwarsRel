@@ -11,8 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import net.minecraft.server.v1_8_R2.EntityHuman;
 import net.minecraft.server.v1_8_R2.EntityVillager;
@@ -80,7 +80,7 @@ public class VillagerItemShop {
             Method colorable = Utils.getColorableMethod(reward.getType());
 
             if (Utils.isColorable(reward)) {
-              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getData());
+              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
             } else if (colorable != null) {
               ItemMeta meta = reward.getItemMeta();
               colorable.setAccessible(true);

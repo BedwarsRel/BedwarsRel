@@ -169,6 +169,11 @@ bed-sound: ENDERDRAGON_GROWL
 # If true, player will drop his items
 player-drops: false
 
+# KeepInventory
+# type: boolean
+# If true, player will keep his inventory on death
+keep-inventory-on-death: false
+
 # Place in liquid
 # type: boolean
 # If true, it's possible to set blocks in liquid (like water, lava ...)
@@ -385,6 +390,16 @@ friendlybreak: true
 # How much time (in seconds) should be waited until all players
 # will be teleported after a game ends.
 gameoverdelay: 10
+
+# Use the Bedwars shopvillager
+# Type: boolean
+# Decide if you want to use the internal bedwars shop
+use-internal-shop: true
+
+# Restore inventory after game ends
+# type boolean
+# If true the inventory gets restore after the game ends
+save-inventory: true
 
 # Show team in ActionBar
 # Type: boolean
@@ -914,6 +929,24 @@ specials:
     # The factor for the explosive! 1.0 is default tnt-explosion.
     # Its not recommended to use values above 1.0
     explosion-factor: 1.0
+  
+  # arrow-blocker settings
+  arrow-blocker:
+    # Protection time
+    # type: int
+    # The time to protect the player from projectils
+    protection-time: 10
+    
+    # Protection time
+    # type: int
+    # Time to wait for the next useage
+    using-wait-time: 5
+    
+    # Interact item
+    # type: int or string
+    # The item id or string which indicates which item should be in the
+    # hand to execute the arrow-blocker on interaction
+    item: ender_eye
   
 # Sign configuration
 # You can use following placeholder (colors with &):
