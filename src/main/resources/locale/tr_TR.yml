@@ -1,16 +1,16 @@
 ---
 default:
-  pages: '$max$ sayfadan $current$ ci'
-  currently: Şuanda
+  pages: Page $current$ of $max$
+  currently: Currently
 errors:
   argumentslength: Number of arguments does not match the correct amount!
   holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
   packagenotfound: Couldn't fetch $package$ package!
   classnotfound: Couldn't fetch $package$ class $class$!
-  gameexists: Bu isimde bir oyun zaten var!
-  gamenotfound: Oyun '$game$' bulunamadı!
+  gameexists: A game with this name already exists!
+  gamenotfound: The game '$game$' could not be found!
   nofreegames: There are no free games available.
-  gamenotfoundsimple: Oyun bulunamadı!
+  gamenotfoundsimple: Game not found!
   playeramount: The maxium of players can't be lower than 1 or higher than 24!
   teamcolornotallowed: The given Team color isn't a allowed color
   teamnamelength: Team name must have between 2 and 20 characters!
