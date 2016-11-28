@@ -1,36 +1,36 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: Seite $current$ von $max$
+  currently: Aktuell
 errors:
-  argumentslength: Number of arguments does not match the correct amount!
-  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
-  packagenotfound: Couldn't fetch $package$ package!
-  classnotfound: Couldn't fetch $package$ class $class$!
-  gameexists: A game with this name already exists!
-  gamenotfound: The game '$game$' could not be found!
-  nofreegames: There are no free games available.
-  gamenotfoundsimple: Game not found!
-  playeramount: The maxium of players can't be lower than 1 or higher than 24!
-  teamcolornotallowed: The given Team color isn't a allowed color
-  teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
-  bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
-  regionargument: Your location argument has to be 'loc1' or 'loc2'!
-  spawnerargument: The resource parameter has to be a valid configured resource!
-  blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Game isn't running!
-  bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
-  cantstartagain: Game is running! You can't start a running game again!
-  startoutofwaiting: Game have to be started out of the waiting mode!
-  cantjoingame: You can't join a running or stopped game!
-  lobbyongameworld: Lobby can't be on the game world!
-  gamenotloaded: Couldn't start up the game!
-  gameloaderror: Loading game '$game$' throws an error!
-  regionnotfound: Region file does not exists!
-  savesign: Couldn't create a new sign config file!
-  nogames: No games found!
+  argumentslength: Die Anzahl der Argumente entspricht nicht der Vorgabe!
+  holodependencynotfound: Es fehlt $dependency$ für die Hologram-Statistik
+  packagenotfound: Konnte Package $package$ nicht laden!
+  classnotfound: Konnte $package$ Klasse $class$ nicht laden!
+  gameexists: Ein Spiel mit diesem Namen existiert bereits!
+  gamenotfound: Das Spiel '$game$' konnte nicht gefunden werden!
+  nofreegames: Es wurde kein verfügbares Spiel gefunden.
+  gamenotfoundsimple: Spiel nicht gefunden!
+  playeramount: Die maximale Anzahl kann nicht weniger als 1 und nicht größer als 24 sein!
+  teamcolornotallowed: Die angegebene Teamfarbe ist nicht erlaubt!
+  teamnamelength: Der Teamname muss zwischen 2 und 20 Zeichen haben!
+  teamnotfound: Team nicht gefunden!
+  notingame: Du bist zurzeit in keinem Spiel!
+  bedtargeting: Du musst ein Respawn-Block des konfigurierten 'game-block' anvisieren oder auf einem stehen!
+  regionargument: Dein Location-Parameter muss 'loc1' oder 'loc2' entsprechen!
+  spawnerargument: Dein Ressourcen-Parameter ist ungültig oder verweist auf keine konfigurierte Ressource!
+  blockdownnotfound: Der Block unter dir konnte nicht gefunden werden!
+  gamenotrunning: Spiel läuft nicht!
+  bungeenoserver: Der Bungeecord Server wurde nicht korrekt konfiguriert. Bitte benachrichtige den Serveradministrator!
+  cantstartagain: Spiel läuft! Du kannst kein laufendes Spiel starten!
+  startoutofwaiting: Ein Spiel muss aus dem Lobby-Status gestartet werden!
+  cantjoingame: Du kannst keinem laufenden oder beendetem Spiel beitreten!
+  lobbyongameworld: Die Lobby darf nicht auf der Welt des Spiels sein!
+  gamenotloaded: Spiel konnte nicht geladen/gestartet werden!
+  gameloaderror: Das Laden des Spiels '$game$' hat einen Fehler verursacht!
+  regionnotfound: Region-Datei existiert nicht!
+  savesign: Speichern der Schilder nicht möglich (Datei konnte nicht erstellt werden)!
+  nogames: Keine Spiele gefunden!
   notenoughress: You didn't have enough ressource to buy this item!
   teamnameinuse: Team name is already in use!
   minplayersmustnumber: Min players must be a number!
