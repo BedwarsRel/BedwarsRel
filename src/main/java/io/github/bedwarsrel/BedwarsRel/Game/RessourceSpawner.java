@@ -134,10 +134,9 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     for (ItemStack stack : inv.getContents()) {
       if (stack == null) {
         space += this.itemstack.getMaxStackSize();
-      } else if (stack.getType() == this.itemstack.getType()) {
-        if (stack.getDurability() == this.itemstack.getDurability()) {
-          space += this.itemstack.getMaxStackSize() - stack.getAmount();
-        }
+      } else if (stack.getType() == this.itemstack.getType()
+          && stack.getDurability() == this.itemstack.getDurability()) {
+        space += this.itemstack.getMaxStackSize() - stack.getAmount();
       }
     }
     return space >= this.itemstack.getAmount();
