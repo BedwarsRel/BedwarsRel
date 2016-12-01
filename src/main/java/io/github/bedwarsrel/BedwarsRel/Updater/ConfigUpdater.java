@@ -272,6 +272,10 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.using-wait-time", 30);
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.item", "ender_eye");
     // </1.3.4>
+    
+    // <1.3.5>
+    Main.getInstance().getConfig().addDefault("spawnRessourcesInChest", true);
+    // </1.3.5>
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})

@@ -115,16 +115,19 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
   public void run() {
     Location dropLocation = this.location;
     ItemStack item = this.itemstack.clone();
-    
-    BlockState blockState = dropLocation.getBlock().getState();
-    if (blockState instanceof Chest) {
-      Chest chest = (Chest) blockState;
-      if (canContainItem(chest.getInventory(), item)) {
-        chest.getInventory().addItem(item);
-      } else {
-        dropItem();
-      }
 
+    if (Main.getInstance().getBooleanConfig("spawnRessourcesInChest", true)) {
+
+      BlockState blockState = dropLocation.getBlock().getState();
+      if (blockState instanceof Chest) {
+        Chest chest = (Chest) blockState;
+        if (canContainItem(chest.getInventory(), item)) {
+          chest.getInventory().addItem(item);
+        } else {
+          dropItem();
+        }
+
+      }
     } else {
       dropItem();
     }
