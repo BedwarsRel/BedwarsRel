@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
@@ -117,19 +118,17 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     ItemStack item = this.itemstack.clone();
 
     if (Main.getInstance().getBooleanConfig("spawnRessourcesInChest", true)) {
-
       BlockState blockState = dropLocation.getBlock().getState();
       if (blockState instanceof Chest) {
         Chest chest = (Chest) blockState;
         if (canContainItem(chest.getInventory(), item)) {
           chest.getInventory().addItem(item);
         } else {
-          dropItem();
+          dropItem(chest.getBlock().getRelative(BlockFace.UP).getLocation());
         }
-
       }
     } else {
-      dropItem();
+      dropItem(dropLocation);
     }
   }
 
@@ -146,8 +145,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     return space >= this.itemstack.getAmount();
   }
 
-  public void dropItem() {
-    Location dropLocation = this.location.clone();
+  public void dropItem(Location dropLocation) {
     Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
     item.setPickupDelay(0);
 
