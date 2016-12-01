@@ -119,6 +119,12 @@ hearts-on-death: true
 # If true, player will die directly when get damage from void
 die-on-void: false
 
+# Ressourcespawner spawns ressourcen inside of chests if it's located on spawner position
+# type: boolean
+# If true the Ressourcespawner spawns items inside a chest if it's on spawnlocation
+# If the chest is full, the items will drop naturally
+spawnRessourcesInChest: true
+
 # Lobby Time
 # Type: int
 # The lobby time defines how long you have to
