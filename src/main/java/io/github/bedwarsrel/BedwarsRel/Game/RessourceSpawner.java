@@ -114,18 +114,19 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
   @Override
   public void run() {
     Location dropLocation = this.location;
-    BlockState bs = dropLocation.getBlock().getState();
-    if (bs instanceof Chest) {
-      Chest chest = (Chest) bs;
-
-      if (canContainItem(chest.getInventory(), this.itemstack)) {
-        chest.getInventory().addItem(this.itemstack);
+    ItemStack item = this.itemstack.clone();
+    
+    BlockState blockState = dropLocation.getBlock().getState();
+    if (blockState instanceof Chest) {
+      Chest chest = (Chest) blockState;
+      if (canContainItem(chest.getInventory(), item)) {
+        chest.getInventory().addItem(item);
       } else {
-        dropItem(dropLocation);
+        dropItem();
       }
 
     } else {
-      dropItem(dropLocation);
+      dropItem();
     }
   }
 
@@ -142,7 +143,8 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     return space >= this.itemstack.getAmount();
   }
 
-  public void dropItem(Location dropLocation) {
+  public void dropItem() {
+    Location dropLocation = this.location.clone();
     Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
     item.setPickupDelay(0);
 
