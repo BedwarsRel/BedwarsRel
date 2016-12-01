@@ -14,6 +14,7 @@ import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
@@ -126,10 +127,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
         } else {
           dropItem(chest.getBlock().getRelative(BlockFace.UP).getLocation());
         }
+        return;
       }
-    } else {
-      dropItem(dropLocation);
     }
+    dropItem(dropLocation);
   }
 
   public boolean canContainItem(Inventory inv, ItemStack item) {
