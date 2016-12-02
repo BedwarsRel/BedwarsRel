@@ -103,7 +103,7 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("  arch: \"").append(System.getProperty("os.arch")).append("\"\n");
               b.append("  name: \"").append(System.getProperty("os.name")).append("\"\n");
               b.append("  version: \"").append(System.getProperty("os.version")).append("\"\n\n");
-              b.append("# Date");
+              b.append("# Date\n");
               b.append("date: ").append(new Date())
                   .append('\n');
               b.append("\n# Please add a link to this file to your bug report!");
