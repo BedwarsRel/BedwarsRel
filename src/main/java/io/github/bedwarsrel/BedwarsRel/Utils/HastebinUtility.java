@@ -53,7 +53,7 @@ public class HastebinUtility {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
       int i = 0;
-      while ((line = reader.readLine()) != null && i++ < 1000) {
+      while ((line = reader.readLine()) != null && i++ < 2500) {
         content.append(line).append("\n");
       }
     }
