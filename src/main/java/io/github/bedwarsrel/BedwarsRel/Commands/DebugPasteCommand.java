@@ -64,28 +64,29 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append(
                   "# Welcome to this paste\n# It is meant to provide us with better information about your problem\n\n# We will start with some informational files\n");
               b.append("files:\n");
-              b.append("  config_yml: ").append("\'" + configYML + "\'").append('\n');
-              b.append("  shop_yml: ").append("\'" + shopYML + "\'").append('\n');
-              b.append("  latest_log: ").append("\'" + latestLOG + "\'").append('\n');
+              b.append("  config_yml: ").append("\"" + configYML + "\"").append('\n');
+              b.append("  shop_yml: ").append("\"" + shopYML + "\"").append('\n');
+              b.append("  latest_log: ").append("\"" + latestLOG + "\"").append('\n');
               b.append("\n# General Information\n");
               b.append("version:\n");
               b.append("  plugin: ")
-                  .append("\'" + Main.getInstance().getDescription().getVersion() + "\'");
+                  .append("\"" + Main.getInstance().getDescription().getVersion() + "\"");
               if (SupportData.getPluginVersionArray().length == 3
                   && !SupportData.getPluginVersionArray()[1].equals("unknown")) {
                 b.append("(https://github.com/BedwarsRel/BedwarsRel/tree/"
                     + SupportData.getPluginVersionArray()[1] + ")");
               }
               b.append('\n');
-              b.append("  server: ").append("\'" + SupportData.getServerVersion() + "\'")
+              b.append("  server: ").append("\"" + SupportData.getServerVersion() + "\"")
                   .append('\n');
-              b.append("  bukkit: ").append("\'" + SupportData.getBukkitVersion() + "\'")
+              b.append("  bukkit: ").append("\"" + SupportData.getBukkitVersion() + "\"")
                   .append('\n');
               b.append("online_mode: ").append(Main.getInstance().getServer().getOnlineMode())
                   .append('\n');
-              b.append("plugins(" + Main.getInstance().getServer().getPluginManager().getPlugins().length + "):");
+              b.append("plugins("
+                  + Main.getInstance().getServer().getPluginManager().getPlugins().length + "):");
               for (String plugin : SupportData.getPlugins()) {
-                b.append("\n  ").append("\'" + plugin + "\'");
+                b.append("\n  ").append("\"" + plugin + "\"");
               }
               b.append("\n\n# JVM\n");
               Runtime runtime = Runtime.getRuntime();
@@ -93,14 +94,14 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("  free: ").append(runtime.freeMemory() / 1000000).append(" MB\n");
               b.append("  max: ").append(runtime.maxMemory() / 1000000).append(" MB\n");
               b.append("java:\n");
-              b.append("  specification:\n    version: '")
-                  .append(System.getProperty("java.specification.version")).append("'\n");
-              b.append("  vendor: '").append(System.getProperty("java.vendor")).append("'\n");
-              b.append("  version: '").append(System.getProperty("java.version")).append("'\n");
+              b.append("  specification:\n    version: \"")
+                  .append(System.getProperty("java.specification.version")).append("\"\n");
+              b.append("  vendor: \"").append(System.getProperty("java.vendor")).append("\"\n");
+              b.append("  version: \"").append(System.getProperty("java.version")).append("\"\n");
               b.append("os:\n");
-              b.append("  arch: '").append(System.getProperty("os.arch")).append("'\n");
-              b.append("  name: '").append(System.getProperty("os.name")).append("'\n");
-              b.append("  version: '").append(System.getProperty("os.version")).append("'\n\n");
+              b.append("  arch: \"").append(System.getProperty("os.arch")).append("\"\n");
+              b.append("  name: \"").append(System.getProperty("os.name")).append("\"\n");
+              b.append("  version: \"").append(System.getProperty("os.version")).append("\"\n\n");
               b.append("# Please add a link to this file to your bug report!");
               b.append("\n# https://github.com/BedwarsRel/BedwarsRel/issues");
 
