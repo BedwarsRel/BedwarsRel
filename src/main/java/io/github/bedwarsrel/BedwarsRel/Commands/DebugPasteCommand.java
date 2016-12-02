@@ -2,7 +2,10 @@ package io.github.bedwarsrel.BedwarsRel.Commands;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.bukkit.command.CommandSender;
 
@@ -102,7 +105,10 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
               b.append("  arch: \"").append(System.getProperty("os.arch")).append("\"\n");
               b.append("  name: \"").append(System.getProperty("os.name")).append("\"\n");
               b.append("  version: \"").append(System.getProperty("os.version")).append("\"\n\n");
-              b.append("# Please add a link to this file to your bug report!");
+              b.append("# Date");
+              b.append("date: ").append(new Date())
+                  .append('\n');
+              b.append("\n# Please add a link to this file to your bug report!");
               b.append("\n# https://github.com/BedwarsRel/BedwarsRel/issues");
 
               String link = HastebinUtility.upload(b.toString());
