@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,7 +13,6 @@ import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
@@ -115,7 +113,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
   @Override
   public void run() {
-    Location dropLocation = this.location;
+    Location dropLocation = this.location.clone();
     ItemStack item = this.itemstack.clone();
 
     if (Main.getInstance().getBooleanConfig("spawnRessourcesInChest", true)) {
@@ -124,10 +122,10 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
         Chest chest = (Chest) blockState;
         if (canContainItem(chest.getInventory(), item)) {
           chest.getInventory().addItem(item);
+          return;
         } else {
-          dropItem(chest.getBlock().getRelative(BlockFace.UP).getLocation());
+          dropLocation.setY(dropLocation.getY() + 1);
         }
-        return;
       }
     }
     dropItem(dropLocation);
