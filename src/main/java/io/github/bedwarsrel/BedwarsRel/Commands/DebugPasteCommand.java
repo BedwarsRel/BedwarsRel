@@ -83,7 +83,7 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
                   .append('\n');
               b.append("online_mode: ").append(Main.getInstance().getServer().getOnlineMode())
                   .append('\n');
-              b.append("plugins:");
+              b.append("plugins(" + Main.getInstance().getServer().getPluginManager().getPlugins().length + "):");
               for (String plugin : SupportData.getPlugins()) {
                 b.append("\n  ").append("\'" + plugin + "\'");
               }
