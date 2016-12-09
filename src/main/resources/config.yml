@@ -122,7 +122,7 @@ die-on-void: false
 # type: boolean
 # If true the Ressourcespawner spawns items inside a chest if it is on top of a ressource spawner
 # If the chest is full, the items will drop naturally
-spawn-Ressources-In-Chest: true
+spawn-ressources-in-chest: true
 
 # Lobby Time
 # Type: int
