@@ -1,68 +1,68 @@
 ---
 default:
-  pages: Halaman ke $current$ dari $max$ halaman
-  currently: Saat ini
+  pages: Page $current$ of $max$
+  currently: Currently
 errors:
-  argumentslength: Jumlah argumen tidak cocok dengan jumlah yang benar!
-  holodependencynotfound: Tidak dapat menemukan $dependency$ untuk Hologram-Statistik
-  packagenotfound: Tidak dapat mengambil paket $package$!
-  classnotfound: Tidak dapat mengambil $package$ kelas $class$!
-  gameexists: Permainan dengan nama ini sudah ada!
-  gamenotfound: Permainan '$game$' tidak dapat ditemukan!
+  argumentslength: Number of arguments does not match the correct amount!
+  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
+  packagenotfound: Couldn't fetch $package$ package!
+  classnotfound: Couldn't fetch $package$ class $class$!
+  gameexists: A game with this name already exists!
+  gamenotfound: The game '$game$' could not be found!
   nofreegames: There are no free games available.
-  gamenotfoundsimple: Permainan tidak ditemukan!
-  playeramount: Pemain maksimal tidak dapat kurang dari 1 atau lebih dari 24!
-  teamcolornotallowed: Warna tim yang ditentukan tidak diijinan
-  teamnamelength: Nama tim harus memiliki 2 sampai dengan 20 karakter!
-  teamnotfound: Tim tidak ditemukan!
-  notingame: Anda tidak sedang dalam permainan!
+  gamenotfoundsimple: Game not found!
+  playeramount: The maxium of players can't be lower than 1 or higher than 24!
+  teamcolornotallowed: The given Team color isn't a allowed color
+  teamnamelength: Team name must have between 2 and 20 characters!
+  teamnotfound: Team not found!
+  notingame: You are currently not in a game!
   bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
-  regionargument: Argumen lokasi Anda seharusnya 'loc1' atau 'loc2'!
+  regionargument: Your location argument has to be 'loc1' or 'loc2'!
   spawnerargument: The resource parameter has to be a valid configured resource!
   blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Permainan tidak berjalan!
-  bungeenoserver: Server Bungeecord tidak diatur dengan benar. Bicaralah pada server administrator!
-  cantstartagain: Permainan sedang berjalan! Anda tidak dapat memulai kembali permainan yang sedang berjalan!
-  startoutofwaiting: Permainan harus dimulai dari mode menunggu!
-  cantjoingame: Anda tidak dapat bergabung dengan permainan yang sedang berjalan atau permainan yang sudah dihentikan!
-  lobbyongameworld: Lobi tidak dapat berada pada dunia permainan!
-  gamenotloaded: Tidak dapat memulai permainan!
+  gamenotrunning: Game isn't running!
+  bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
+  cantstartagain: Game is running! You can't start a running game again!
+  startoutofwaiting: Game have to be started out of the waiting mode!
+  cantjoingame: You can't join a running or stopped game!
+  lobbyongameworld: Lobby can't be on the game world!
+  gamenotloaded: Couldn't start up the game!
   gameloaderror: Loading game '$game$' throws an error!
-  regionnotfound: File wilayah tidak dapat ditemukan!
+  regionnotfound: Region file does not exists!
   savesign: Couldn't create a new sign config file!
-  nogames: Permainan tidak ditemukan!
-  notenoughress: Anda tidak memiliki sumber daya yang cukup untuk membeli barang ini!
-  teamnameinuse: Nama tim ini sudah digunakan!
-  minplayersmustnumber: Pemain min harus merupakan angka!
-  toolongregionname: Panjang maksimal dari nama wilayah adalah 15 karakter!
-  notwhilegamerunning: Tidak dapat melakukan itu ketika permainan sedang berjalan!
-  notwhileingame: Tidak dapat melakukan itu ketika anda berada di permainan yang sedang berjalan!
-  timeincorrect: Waktu harus berupa angka (0... 23000), 'day' tau 'night'!
-  minplayersnumeric: Parameter min-pemain harus berupa angka!
-  notinair: Anda tidak di udara!
-  teamfull: Tim penuh, silahkan membuka kembali menu pemilihan tim!
-  novalidmaterial: Jenis (material) blok yang diberikan tidak tepat!
-  wrongvalueonoff: Parameter salah! Gunakan true, on, 1 untuk menyalakan - Gunakan false, off, 0 untuk mematikan!
-  playernotfound: Pemain yang diberikan tidak ditemukan atau tidak online!
-  notingameforkick: Anda harus berada dalam permainan untuk mengeluarkan seorang pemain!
-  playernotingame: Pemain yang diberikan tidak berada dalam permainan ini!
-  mustbeinlobbyworld: Anda harus berada pada lobi dunia dari permainan
+  nogames: No games found!
+  notenoughress: You didn't have enough ressource to buy this item!
+  teamnameinuse: Team name is already in use!
+  minplayersmustnumber: Min players must be a number!
+  toolongregionname: Maximum length of region name are 15 characters!
+  notwhilegamerunning: Cannot do that while game is running!
+  notwhileingame: Cannot do that while you're in a running game!
+  timeincorrect: Time has to be a number (0 ... 23000), 'day' or 'night'!
+  minplayersnumeric: The min-players parameter must be numeric!
+  notinair: You're not in the air!
+  teamfull: The team is full, please reopen the team selection menu!
+  novalidmaterial: Given block type (material) isn't correct!
+  wrongvalueonoff: Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!
+  playernotfound: Given player was not found or isn't online!
+  notingameforkick: You must be in a game to kick a player!
+  playernotingame: Given player is not in this game!
+  mustbeinlobbyworld: You must be in the lobby world of the game
   addteamjoincancel: The adding of team join was cancelled!
   entitynotcompatible: This entity is not compatible with team join!
 success:
-  gameadded: Permainan baru $game$ berhasil ditambahkan!
-  teamadded: Tim $team$ berhasil ditambahkan!
-  joined: Anda berhasil bergabung dalam permainan!
-  left: Anda berhasil meninggalkan permainan!
-  saved: Permainan berhasil disimpan!
-  bedset: Anda berhasil menetapkan blok respawn tim $team$!
-  regionset: Lokasi wilayah permainan $location$ untuk permainan $game$ berhasil ditetapkan!
-  spawnset: Lokasi spawn untuk Tim $team$ berhasil ditetapkan!
-  spawnerset: Lokasi spawn sumber daya untuk $name$ berhasil ditetapkan!
-  stopped: Permainan berhasil dihentikan!
-  lobbyset: Lobi berhasil ditetapkan!
-  gameloaded: Permainan $game$ berhasil dimuat!
-  reloadconfig: Berhasil memuat ulang!
+  gameadded: New game '$game$' successfully added!
+  teamadded: Team '$team$' successfully added!
+  joined: You successfully joined the game!
+  left: You successfully left the game!
+  saved: Game was successfully saved!
+  bedset: You sucessfully set the respawn block of team $team$!
+  regionset: Game region location $location$ for Game $game$ was set successfully!
+  spawnset: Spawn location for Team $team$ was set successfully!
+  spawnerset: Ressource spawn location for $name$ was set successfully!
+  stopped: Game successfully stopped!
+  lobbyset: Lobby was set successfully!
+  gameloaded: Game '$game$' successfully loaded!
+  reloadconfig: Reload successful!
   teamremoved: Team was successfully removed!
   gameremoved: Game was successfully removed!
   spawnercleared: All ressource spawners has been removed!
@@ -157,13 +157,13 @@ lobby:
   countdowncancel: More players needed. Countdown was cancelled!
   cancelcountdown:
     not_enough_players: More players needed. Countdown cancelled!
-    not_enough_teams: Butuh lebih banyak tim. Hitung mundur dibatalkan!
+    not_enough_teams: More teams needed. Countdown cancelled!
   cancelstart:
-    not_enough_players: Membutuhkan tim lebih banyak untuk memulai permainan!
+    not_enough_players: More players are needed to start the game!
     not_enough_teams: More teams are needed to start the game!
   chooseteam: Choose a team
   startgame: Start game
-  reduce_countdown: Mengurangi hitung mundur
+  reduce_countdown: Reduce countdown
   gamefull: Game is full!
   gamefullpremium: The game is full of premium players already!
   teamjoined: You successfully joined the team $team$
@@ -172,7 +172,7 @@ lobby:
   kickedbyvip: You were kicked by a vip player which has joined the full game!
   moreplayersneeded: '$count$ more players needed.'
   moreplayersneeded-one: '$count$ more player needed.'
-  moreteamsneeded: Minimal dua pemain di dua tim yang berbeda diperlukan untuk memulai permainan!
+  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
 sign:
   firstline: '&6[Bedwars]'
   players: Players
@@ -193,10 +193,6 @@ stats:
   score: Scores
   destroyedBeds: Destroyed Beds
   games: Games
-ressources:
-  gold: '&6Gold'
-  iron: '&7Iron'
-  bronze: '&4Bronze'
 commands:
   addgame:
     name: Add Game

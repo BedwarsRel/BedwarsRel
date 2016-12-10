@@ -5,10 +5,13 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Item;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
@@ -110,7 +113,38 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
   @Override
   public void run() {
-    Location dropLocation = this.location;
+    Location dropLocation = this.location.clone();
+    ItemStack item = this.itemstack.clone();
+
+    if (Main.getInstance().getBooleanConfig("spawn-ressources-in-chest", true)) {
+      BlockState blockState = dropLocation.getBlock().getState();
+      if (blockState instanceof Chest) {
+        Chest chest = (Chest) blockState;
+        if (canContainItem(chest.getInventory(), item)) {
+          chest.getInventory().addItem(item);
+          return;
+        } else {
+          dropLocation.setY(dropLocation.getY() + 1);
+        }
+      }
+    }
+    dropItem(dropLocation);
+  }
+
+  public boolean canContainItem(Inventory inv, ItemStack item) {
+    int space = 0;
+    for (ItemStack stack : inv.getContents()) {
+      if (stack == null) {
+        space += this.itemstack.getMaxStackSize();
+      } else if (stack.getType() == this.itemstack.getType()
+          && stack.getDurability() == this.itemstack.getDurability()) {
+        space += this.itemstack.getMaxStackSize() - stack.getAmount();
+      }
+    }
+    return space >= this.itemstack.getAmount();
+  }
+
+  public void dropItem(Location dropLocation) {
     Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
     item.setPickupDelay(0);
 

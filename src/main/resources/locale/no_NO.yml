@@ -1,6 +1,6 @@
 ---
 default:
-  pages: Side $current$ av $max$
+  pages: Page $current$ of $max$
   currently: Currently
 errors:
   argumentslength: Number of arguments does not match the correct amount!
@@ -193,10 +193,6 @@ stats:
   score: Scores
   destroyedBeds: Destroyed Beds
   games: Games
-ressources:
-  gold: '&6Gold'
-  iron: '&7Iron'
-  bronze: '&4Bronze'
 commands:
   addgame:
     name: Add Game

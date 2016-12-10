@@ -274,6 +274,7 @@ public class ConfigUpdater {
     // </1.3.4>
 
     // <1.3.5>
+    Main.getInstance().getConfig().addDefault("spawn-ressources-in-chest", true);
     Main.getInstance().getConfig().addDefault("specials.auto-bridge.item", "egg");
     Main.getInstance().getConfig().addDefault("specials.auto-bridge.block", "sandstone");
     Main.getInstance().getConfig().addDefault("specials.auto-bridge.using-wait-time", 120);
