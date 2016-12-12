@@ -134,7 +134,7 @@ public class AutoBridge extends SpecialItem {
           if (!block.getType().equals(Material.AIR)) {
             return;
           }
-          
+
           block.setType(blockMaterial);
           if (!canBreak) {
             game.getRegion().addPlacedUnbreakableBlock(block, null);
@@ -146,7 +146,7 @@ public class AutoBridge extends SpecialItem {
           return;
         }
       }
-    }.runTaskTimer(Main.getInstance(), 0, 5L);
+    }.runTaskTimer(Main.getInstance(), 0, 1L);
     this.game.addRunningTask(this.bridgeTask);
   }
 
