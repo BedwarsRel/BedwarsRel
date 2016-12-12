@@ -112,9 +112,7 @@ public class AutoBridge extends SpecialItem {
     bridgeBlocks = (player.getLineOfSight(fillMaterial, distance));
     // bridgeBlocks.remove(0);
 
-    int max = bridgeBlocks.size();
-
-    buildBridge(player, blockMaterial, canBreak, max);
+    buildBridge(player, blockMaterial, canBreak, bridgeBlocks.size());
 
     if (breakTime > 0 || waitTime > 0) {
       this.runTask(breakTime, waitTime, player);
@@ -125,13 +123,6 @@ public class AutoBridge extends SpecialItem {
   public void buildBridge(final Player player, final Material blockMaterial, final boolean canBreak,
       final int max) {
     this.bridgeTask = new BukkitRunnable() {
-      int circleElements = 20;
-      double radius = 1.0;
-      double height2 = 1.0;
-      double through = 0.0;
-      double circles = 15.0;
-      double y = (height2 / circles) * through;
-
       @Override
       public void run() {
         count++;
@@ -143,17 +134,7 @@ public class AutoBridge extends SpecialItem {
           if (!block.getType().equals(Material.AIR)) {
             return;
           }
-
-          for (int i = 0; i < 20; i++) {
-            double alpha = (360.0 / circleElements) * i;
-            double x = radius * Math.sin(Math.toRadians(alpha));
-            double z = radius * Math.cos(Math.toRadians(alpha));
-
-            Location particle =
-                new Location(loc.getWorld(), loc.getX() + x, loc.getY() + y + 2, loc.getZ() + z);
-            Utils.createParticleInGame(game, "fireworksSpark", particle);
-          }
-
+          
           block.setType(blockMaterial);
           if (!canBreak) {
             game.getRegion().addPlacedUnbreakableBlock(block, null);
