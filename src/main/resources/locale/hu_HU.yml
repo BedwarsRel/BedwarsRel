@@ -124,12 +124,12 @@ ingame:
   player:
     left: '$player$ elhagyta a játékot!'
     died: '$player$ meghalt!'
-    killed: '$killer$ killed $player$!'
-    kicked: '$player$ was kicked!'
-    waskicked: You were kicked from the game!
+    killed: '$killer$ megölte $player$-t!'
+    kicked: '$player$ kirúgva a játékból!'
+    waskicked: Ki vagy rúgva ebből a játékból!
   blocks:
-    ownbeddestroy: You can't destroy your own bed!
-    beddestroyed: '$player$ destroyed bed of team $team$!'
+    ownbeddestroy: Saját ágyadat nem tudod széttörni!
+    beddestroyed: '$player$ kiütötte a(z) $team$ csapat ágyát!'
   specials:
     rescue-platform:
       left: There are &c$time$&f second(s) left until you can use the next rescue platform!
@@ -144,7 +144,7 @@ ingame:
       not-usable-here: You cannot use the protection wall here!
     warp-powder:
       cancelled: '&cYour teleport was cancelled!'
-      start: You will be teleported in &c$time$&f second(s). Don't move!
+      start: A teleportálás &c$time$&f másodperc múlva megkezdődik. Ne mozogj!
       cancel: '&4Cancel teleport'
       multiuse: '&cYou started a teleportation already!'
     tntsheep:
@@ -153,46 +153,46 @@ ingame:
       no-target-found: No target player was found!
       target-found: '$player$ is $blocks$ block(s) away from you.'
 lobby:
-  countdown: Game will start in $sec$ second(s)!
-  countdowncancel: More players needed. Countdown was cancelled!
+  countdown: A játék $sec$ másodperc múlva kezdetét veszi!
+  countdowncancel: Nincs elég játékos, a visszaszámlálás leállt!
   cancelcountdown:
     not_enough_players: More players needed. Countdown cancelled!
     not_enough_teams: More teams needed. Countdown cancelled!
   cancelstart:
     not_enough_players: More players are needed to start the game!
     not_enough_teams: More teams are needed to start the game!
-  chooseteam: Choose a team
-  startgame: Start game
+  chooseteam: Csapat választás
+  startgame: Játék indítása
   reduce_countdown: Reduce countdown
-  gamefull: Game is full!
-  gamefullpremium: The game is full of premium players already!
-  teamjoined: You successfully joined the team $team$
-  leavegame: Leave game
-  playerjoin: Player $player$ joined the game!
-  kickedbyvip: You were kicked by a vip player which has joined the full game!
-  moreplayersneeded: '$count$ more players needed.'
-  moreplayersneeded-one: '$count$ more player needed.'
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+  gamefull: A játék megtelt!
+  gamefullpremium: A játék tele van prémium játékosokkal!
+  teamjoined: Csatlakoztál a(z) $team$ csapathoz
+  leavegame: Játék elhagyása
+  playerjoin: '$player$ csatlakozott a játékhoz!'
+  kickedbyvip: Kikerültél a játékból, mert egy prémium játékos csatlakozott!
+  moreplayersneeded: '$count$ játékosra van még szükség a játék indításához.'
+  moreplayersneeded-one: '$count$ játékosra van még szükség a játék indításához.'
+  moreteamsneeded: Legalább két különböző csapatra van szükség a játék indításához!
 sign:
   firstline: '&6[Bedwars]'
-  players: Players
+  players: Játékosok
   gamestate:
-    stopped: '&4Stopped!'
-    waiting: '&aWaiting ...'
-    running: '&9Running!'
-    full: Full!
+    stopped: '&4Leállítva!'
+    waiting: '&aVárakozás ...'
+    running: '&9Játékban!'
+    full: Tele!
 stats:
-  header: Bedwars Stats
-  kd: K/D
-  statsnotfound: Statistics of $player$ not found!
-  name: Name
-  kills: Kills
-  deaths: Deaths
-  wins: Wins
-  loses: Loses
-  score: Scores
-  destroyedBeds: Destroyed Beds
-  games: Games
+  header: Bedwars statisztika
+  kd: Ö/H
+  statsnotfound: '$player$ statisztikái nem találhatóak!'
+  name: Név
+  kills: Ölések
+  deaths: Halálozások
+  wins: Győzelmek
+  loses: Vereségek
+  score: Pontok
+  destroyedBeds: Széttört ágyak
+  games: Játszmák
 commands:
   addgame:
     name: Add Game
@@ -240,20 +240,20 @@ commands:
     name: Reload
     desc: Reloads the configurations and translations
   setmainlobby:
-    name: Set main lobby
-    desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)
+    name: Fő lobby beállítása
+    desc: 'Beállítja a főlobby helyét. (szükséges a "mainlobby-enable: true" beállítás)'
   list:
-    name: List games
-    desc: Lists all available games
+    name: Játékok listája
+    desc: Kilistáza a játékokat
   regionname:
-    name: Set region name
+    name: Játéktér helyének beállítása
     desc: Sets an individual region name (instead of world name)
   removeteam:
-    name: Remove team
-    desc: Removes a team from the game (only in stopped mode)
+    name: Csapat törlése
+    desc: Egy csapat eltávolítása a játékból (csak megállított játék esetén lehetséges)
   removegame:
-    name: Remove game
-    desc: Removes a game and every configuration
+    name: Játék törlése
+    desc: Eltávolítja a játékot a konfigurációval együtt
   clearspawner:
     name: Clear spawners
     desc: Removes all spawners from the game. Saving needed.
@@ -261,11 +261,11 @@ commands:
     name: Set game time
     desc: Sets the game time which should be used in the game-world
   stats:
-    name: Statistics
-    desc: Shows your statistics
+    name: Statisztika
+    desc: Statisztika mutatása
   setbuilder:
-    name: Sets builder of map
-    desc: Sets the builder of the map which will be display in the title when game starts.
+    name: Építő beállítása
+    desc: Beállítja a építész nevét, amely megjelenik a játék indulásakor.
   setgameblock:
     name: Set game block
     desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
@@ -273,18 +273,18 @@ commands:
     name: Set autobalance
     desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
   setminplayers:
-    name: Set minimum players
-    desc: Sets the amount of players needed to start the game
+    name: Minimális játékosszám beállítása
+    desc: Beállítja hogy hány játékos kell a játék indulásához
   kick:
-    name: Kick player
-    desc: Kicks a player from the current game!
+    name: Játékos kirúgása
+    desc: Egy játékos kirúgása a jelenlegi játékból!
   addteamjoin:
     name: Add team selection
     desc: Mark a creature which can be used to join a specific team!
   addholo:
-    name: Add hologram location
-    desc: A hologram statistic will be added at the current position!
+    name: Hologram létrehozása
+    desc: Statisztika hologram létrehozása a jelenlegi helyen!
   removeholo:
-    name: Remove hologram location
-    desc: When the command was executed, the player can right-click the hologram which should be removed.
-    explain: Perform a left click within 10 seconds on the hologram you want to remove.
+    name: Hologram törlése
+    desc: Törli a kijelölődő statisztika hologramot. (Parancs lefuttatása után jobb klikk a hologramra).
+    explain: Kattintson a eltávolítani kívánt hologramra 10 másodpercen belül.
