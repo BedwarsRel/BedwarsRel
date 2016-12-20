@@ -52,19 +52,19 @@ errors:
 success:
   gameadded: Nova hra '$game$' uspesne pridana!
   teamadded: Tym '$team$' uspesne pridan!
-  joined: You successfully joined the game!
-  left: You successfully left the game!
-  saved: Game was successfully saved!
-  bedset: You sucessfully set the respawn block of team $team$!
-  regionset: Game region location $location$ for Game $game$ was set successfully!
-  spawnset: Spawn location for Team $team$ was set successfully!
-  spawnerset: Ressource spawn location for $name$ was set successfully!
-  stopped: Game successfully stopped!
-  lobbyset: Lobby was set successfully!
-  gameloaded: Game '$game$' successfully loaded!
-  reloadconfig: Reload successful!
-  teamremoved: Team was successfully removed!
-  gameremoved: Game was successfully removed!
+  joined: Pripojeni do hry bylo uspesne!
+  left: Odpojeni ze hry bylo uspesne.
+  saved: Hra byla uspesne ulozena!
+  bedset: Uspesne jsi nastavil respawn blok tymu $team$!
+  regionset: Oblast $location$ pro hru $game$ uspesne nastavena!
+  spawnset: Spawn lokace pro tym $team$ uspesne nastavena!
+  spawnerset: Spawn surovin $name$ uspesne nastaven!
+  stopped: Hra byla zastavena!
+  lobbyset: Lobby pro hru bylo nastaveno!
+  gameloaded: Hra '$game$' uspesne nactena!
+  reloadconfig: Konfigurace a jazyky znovu nacteny!
+  teamremoved: Tyym byl uspesne odstranen!
+  gameremoved: Hra byla uspesne odstranena!
   spawnercleared: All ressource spawners has been removed!
   gamerun: You started the game, players can now join!
   timeset: Game time was successfully set!
@@ -112,86 +112,86 @@ ingame:
   no-friendlybreak: '&cNemuzes znicit blok pod hracem sveho tymu!'
   teamchestdestroy: '&cTymova truhla byla znicena!'
   title:
-    map-builder: Built by $builder$
-    win-title: '&6Congratulations!'
-    win-subtitle: '$team$&6 won in &e$time$'
+    map-builder: Mapu postavil/a $builder$
+    win-title: '&a&lGratulace!'
+    win-subtitle: '$team$&6 vyhral v case &e$time$'
   shop:
-    name: Itemshop
-    newshop: Use new shop
-    oldshop: Use old shop
-    fullstackpershift: Multiply stacks per shift click
-    onestackpershift: One stack per shift click
+    name: Obchod
+    newshop: Pouzit novy obchod
+    oldshop: Pouzit stary obchod
+    fullstackpershift: Vice stacku za shift click
+    onestackpershift: Jeden stack za shift click
   player:
-    left: Player $player$ has left the game!
-    died: '$player$ died!'
-    killed: '$killer$ killed $player$!'
-    kicked: '$player$ was kicked!'
-    waskicked: You were kicked from the game!
+    left: Hrac $player$ odesel ze hry.
+    died: '$player$ zemrel!'
+    killed: '$killer$ zabil $player$!'
+    kicked: '$player$ byl vyhozen!'
+    waskicked: Byl jsi vyhozen ze hry!
   blocks:
-    ownbeddestroy: You can't destroy your own bed!
-    beddestroyed: '$player$ destroyed bed of team $team$!'
+    ownbeddestroy: Nemuzes znicit svou postel!
+    beddestroyed: '$player$ znicil postel tymu $team$!'
   specials:
     rescue-platform:
-      left: There are &c$time$&f second(s) left until you can use the next rescue platform!
+      left: '&cMusis pockat &e$time$&f sekund(u) pred pouzitim dalsi zachrane platformy!'
     arrow-blocker:
-      start: You are protected from being hit by arrows for &c$time$&f second(s).
-      end: '&cYour arrow protection is over'
-      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
+      start: Máš ochranu proti zásahu šípem na &c$time$&f sekund.
+      end: '&cOchrana proti zásahu šípem skončila'
+      left: Musíš počkat ještě &c$time$&f sekund než budeš moci znovu použít ochranu proti šípům!
     trap:
-      trapped: '&eSomeone went into a &ctrap&e of your team!'
+      trapped: '&eNekdo vstoupil do &cpasti&e tveho tymu!'
     protection-wall:
-      left: There are &c$time$&f second(s) left until you can use the next protection wall!
-      not-usable-here: You cannot use the protection wall here!
+      left: Musis pockat &c$time$&f sekund pred pouzitim!
+      not-usable-here: Tento predmet zde nemuzes pouzit!
     warp-powder:
-      cancelled: '&cYour teleport was cancelled!'
-      start: You will be teleported in &c$time$&f second(s). Don't move!
-      cancel: '&4Cancel teleport'
-      multiuse: '&cYou started a teleportation already!'
+      cancelled: '&cTeleportace zrusena!'
+      start: Budes teleportovan za &c$time$&f sekund!
+      cancel: '&4Zrusit Teleport'
+      multiuse: '&cTeleportace probiha! Nelze se teleportovat znova.'
     tntsheep:
-      no-target-found: No target player was found!
+      no-target-found: Nebyl nalezen zadny cil!
     tracker:
-      no-target-found: No target player was found!
-      target-found: '$player$ is $blocks$ block(s) away from you.'
+      no-target-found: Nebyl nalezen zadny cil!
+      target-found: '$player$ je $blocks$ bloku od tebe.'
 lobby:
-  countdown: Game will start in $sec$ second(s)!
-  countdowncancel: More players needed. Countdown was cancelled!
+  countdown: Hra zacne za $sec$ sekund!
+  countdowncancel: Je potreba vice hracu! Odpocet byl zastaven.
   cancelcountdown:
-    not_enough_players: More players needed. Countdown cancelled!
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_players: Je potreba vice hracu! Odpocet byl zastaven.
+    not_enough_teams: Je potreba vice tymu. Odpocitavani bylo zastaveno!
   cancelstart:
-    not_enough_players: More players are needed to start the game!
-    not_enough_teams: More teams are needed to start the game!
-  chooseteam: Choose a team
-  startgame: Start game
-  reduce_countdown: Reduce countdown
-  gamefull: Game is full!
-  gamefullpremium: The game is full of premium players already!
-  teamjoined: You successfully joined the team $team$
-  leavegame: Leave game
-  playerjoin: Player $player$ joined the game!
-  kickedbyvip: You were kicked by a vip player which has joined the full game!
-  moreplayersneeded: '$count$ more players needed.'
-  moreplayersneeded-one: '$count$ more player needed.'
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+    not_enough_players: Pro start hry je potreba vice hracu!
+    not_enough_teams: Je potreba vice tymu pro start hry!
+  chooseteam: Vyber si tym
+  startgame: Spustit hru
+  reduce_countdown: Snížit odpočítávání
+  gamefull: Hra je plna!
+  gamefullpremium: Tato hra je jiz plna VIP hracu!
+  teamjoined: Uspesne jsi se pripojil do tymu $team$
+  leavegame: Opustit hru
+  playerjoin: Hrac $player$ se pripojil do hry!
+  kickedbyvip: Bylo uvolneno misto pro VIP hrace, byl(a) jsi vyhozen.
+  moreplayersneeded: Je potreba $count$ hracu navic.
+  moreplayersneeded-one: Je potreba $count$ hrac navic.
+  moreteamsneeded: Jsou potreba minimalne dva hraci ve dvou ruznych tymech pro start hry!
 sign:
   firstline: '&6[Bedwars]'
-  players: Players
+  players: Hraci
   gamestate:
-    stopped: '&4Stopped!'
-    waiting: '&aWaiting ...'
-    running: '&9Running!'
-    full: Full!
+    stopped: '&4ZASTAVENO'
+    waiting: '&aLOBBY'
+    running: '&9HRA PROBIHA!'
+    full: '&cPLNO!'
 stats:
-  header: Bedwars Stats
+  header: Statistiky BedWars her
   kd: K/D
-  statsnotfound: Statistics of $player$ not found!
-  name: Name
-  kills: Kills
-  deaths: Deaths
-  wins: Wins
-  loses: Loses
-  score: Scores
-  destroyedBeds: Destroyed Beds
+  statsnotfound: Statistika hrace $player$ nenalezena!
+  name: Jmeno
+  kills: Zabiti
+  deaths: Smrti
+  wins: Vyhry
+  loses: Prohry
+  score: Skore
+  destroyedBeds: Znicene postele
   games: Games
 commands:
   addgame:
@@ -238,53 +238,53 @@ commands:
     desc: Display information about the plugin and its commands
   reload:
     name: Reload
-    desc: Reloads the configurations and translations
+    desc: Znovu nacte veskerou konfiguraci a jazyky
   setmainlobby:
-    name: Set main lobby
-    desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)
+    name: setmainlobby
+    desc: Nastavi tzv. main lobby, kam se teleportuji hraci po odehrane hre. (je potreba pokud je mainlobby-enabled nastaveno na true)
   list:
-    name: List games
-    desc: Lists all available games
+    name: list
+    desc: Zobrazi veskere dostupne hry
   regionname:
-    name: Set region name
-    desc: Sets an individual region name (instead of world name)
+    name: regionname
+    desc: Nastavi jmeno pro arenu
   removeteam:
-    name: Remove team
-    desc: Removes a team from the game (only in stopped mode)
+    name: removeteam
+    desc: Smaze tym ze hry (pouze pokud je hra vypnuta)
   removegame:
-    name: Remove game
-    desc: Removes a game and every configuration
+    name: removegame
+    desc: Smaze hru a konfiguraci
   clearspawner:
-    name: Clear spawners
-    desc: Removes all spawners from the game. Saving needed.
+    name: clearspawner
+    desc: Odstrani vsechny spawnery surovin. Je nutne ulozit opet arenu.
   gametime:
-    name: Set game time
-    desc: Sets the game time which should be used in the game-world
+    name: gametime
+    desc: Nastavi cas hry, po ktery se hraje v arene
   stats:
-    name: Statistics
-    desc: Shows your statistics
+    name: stats
+    desc: Zobrazi kompletni vypis BedWars statistik
   setbuilder:
-    name: Sets builder of map
-    desc: Sets the builder of the map which will be display in the title when game starts.
+    name: setbuilder
+    desc: Nastavi autora mapy, ktery se bude zobrazovat v titulu.
   setgameblock:
-    name: Set game block
-    desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
+    name: setgameblock
+    desc: Nastavi block hry, ktery muze byt pouzit misto bude pouzit misto 'game-block' pro tuto arenu. Parametr 'DEFAULT' pouzije blok z konfiguracniho souboru.
   setautobalance:
-    name: Set autobalance
-    desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
+    name: setautobalance
+    desc: Pokud je parametr 'global-autobalance' nastaven na 'false', tak lze pomoci tohoto prikazu nastavit automaticke balancovani hracu pro tuto hru!
   setminplayers:
-    name: Set minimum players
-    desc: Sets the amount of players needed to start the game
+    name: Nastavit minimum hracu
+    desc: Nastavit minimalni pocet hracu pro start hry
   kick:
-    name: Kick player
-    desc: Kicks a player from the current game!
+    name: kick
+    desc: Vyhodi zadaneho hrace ze hry
   addteamjoin:
-    name: Add team selection
-    desc: Mark a creature which can be used to join a specific team!
+    name: addteamjoin
+    desc: Vybere entitu, pomoci ktere se budete moci pripojit do tymu!
   addholo:
-    name: Add hologram location
-    desc: A hologram statistic will be added at the current position!
+    name: addholo
+    desc: Prida hologram do aktualni pozice!
   removeholo:
-    name: Remove hologram location
-    desc: When the command was executed, the player can right-click the hologram which should be removed.
-    explain: Perform a left click within 10 seconds on the hologram you want to remove.
+    name: removeholo
+    desc: Pri zadani prikazu staci kliknou pravym tlacitkem pro odstraneni..
+    explain: Uvnitr hologramu drz 10 sekund prave tlacitko!
