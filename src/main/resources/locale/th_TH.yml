@@ -51,9 +51,9 @@ errors:
   entitynotcompatible: This entity is not compatible with team join!
 success:
   gameadded: New game '$game$' successfully added!
-  teamadded: Team '$team$' successfully added!
+  teamadded: '''$team$ '' เพิ่มทีมเรียบร้อยแล้ว'
   joined: You successfully joined the game!
-  left: You successfully left the game!
+  left: คุณออกเกมเรียบร้อยแล้ว
   saved: Game was successfully saved!
   bedset: You sucessfully set the respawn block of team $team$!
   regionset: Game region location $location$ for Game $game$ was set successfully!
