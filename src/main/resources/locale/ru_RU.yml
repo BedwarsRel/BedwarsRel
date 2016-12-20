@@ -1,78 +1,78 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: 'Страница: $current$ из $max$'
+  currently: Сейчасcy cyka blyat
 errors:
-  argumentslength: Number of arguments does not match the correct amount!
-  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
-  packagenotfound: Couldn't fetch $package$ package!
-  classnotfound: Couldn't fetch $package$ class $class$!
-  gameexists: A game with this name already exists!
-  gamenotfound: The game '$game$' could not be found!
-  nofreegames: There are no free games available.
-  gamenotfoundsimple: Game not found!
-  playeramount: The maxium of players can't be lower than 1 or higher than 24!
-  teamcolornotallowed: The given Team color isn't a allowed color
-  teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
-  bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
-  regionargument: Your location argument has to be 'loc1' or 'loc2'!
-  spawnerargument: The resource parameter has to be a valid configured resource!
-  blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Game isn't running!
-  bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
-  cantstartagain: Game is running! You can't start a running game again!
-  startoutofwaiting: Game have to be started out of the waiting mode!
-  cantjoingame: You can't join a running or stopped game!
-  lobbyongameworld: Lobby can't be on the game world!
-  gamenotloaded: Couldn't start up the game!
-  gameloaderror: Loading game '$game$' throws an error!
-  regionnotfound: Region file does not exists!
-  savesign: Couldn't create a new sign config file!
-  nogames: No games found!
-  notenoughress: You didn't have enough ressource to buy this item!
-  teamnameinuse: Team name is already in use!
-  minplayersmustnumber: Min players must be a number!
-  toolongregionname: Maximum length of region name are 15 characters!
-  notwhilegamerunning: Cannot do that while game is running!
-  notwhileingame: Cannot do that while you're in a running game!
-  timeincorrect: Time has to be a number (0 ... 23000), 'day' or 'night'!
-  minplayersnumeric: The min-players parameter must be numeric!
-  notinair: You're not in the air!
-  teamfull: The team is full, please reopen the team selection menu!
-  novalidmaterial: Given block type (material) isn't correct!
-  wrongvalueonoff: Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!
-  playernotfound: Given player was not found or isn't online!
-  notingameforkick: You must be in a game to kick a player!
-  playernotingame: Given player is not in this game!
-  mustbeinlobbyworld: You must be in the lobby world of the game
-  addteamjoincancel: The adding of team join was cancelled!
-  entitynotcompatible: This entity is not compatible with team join!
+  argumentslength: Количество аргументов не соответствует правильному количество asd
+  holodependencynotfound: Не удалось найти $dependency$ для статистики голограммы
+  packagenotfound: Не удалось получить $package$ пакет
+  classnotfound: Не удалось получить пакет $package$ для класса $class$
+  gameexists: Игра с таким названием уже существует!
+  gamenotfound: Игра '$game$' не найдена
+  nofreegames: Нет доступных свободных игр.
+  gamenotfoundsimple: Игра не найдена
+  playeramount: Максимальное к-во игроков не может быть ниже 1 и выше 24
+  teamcolornotallowed: Данный командный цвет не допускается
+  teamnamelength: название команды должно быть от 2 до 20 символов
+  teamnotfound: Команда не найдена
+  notingame: В настоящее время вы вне игры
+  bedtargeting: Вы должны стоять на блоке который вы указали в конфиге вместо кровати
+  regionargument: 'Допустимые аргументы: ''loc1'' или ''loc2'''
+  spawnerargument: Параметр ресурса должен быть допустимым настроенным ресурсом!
+  blockdownnotfound: Вы должны стоять на блоке
+  gamenotrunning: Игра не запущена
+  bungeenoserver: Bungeecord сервер не был установлен должным образом. Сообщите проблему Администрации
+  cantstartagain: Игра уже запущена! Вы не можете запустить её ещё раз
+  startoutofwaiting: Игра уже запущена в режиме ожидания
+  cantjoingame: Вы не можете присоеденится к запущеной игре
+  lobbyongameworld: Лобби не может быть в игровом мире
+  gamenotloaded: Не удалось запустить игру
+  gameloaderror: Загружаемая игра '$game$' выдает ошибку
+  regionnotfound: Файл с регионами не существует
+  savesign: Не удалось создать новый файл конфигурации
+  nogames: Игры не найдены
+  notenoughress: У вас не хватает ресурсов чтобы купить этот предмет
+  teamnameinuse: Название команды уже используется
+  minplayersmustnumber: Минимальное количество игроков должно быть не ниже 2
+  toolongregionname: Максимальная длина имени региона - 15 символов
+  notwhilegamerunning: Вы не можеет сделать это во время игры
+  notwhileingame: Вы не можеет сделать это во время игры
+  timeincorrect: Время должно быть числом (0 ... 23000), 'днём' или 'ночью'
+  minplayersnumeric: Минимальное количество игроков должно быть не ниже 2
+  notinair: Вы не в воздухе
+  teamfull: В этой команде уже нет свободного места
+  novalidmaterial: Данный тип блока (материала) является неправильной!
+  wrongvalueonoff: Неправильный параметр! Используйте true,on,1, чтобы включить - используйте false,off,0, чтобы выключить!
+  playernotfound: Данный игрок не был найден или он не в сети!
+  notingameforkick: Вы должны быть в игре, чтобы ударить игрока!
+  playernotingame: Данного игрока нет в этой игре!
+  mustbeinlobbyworld: You must be in the lobby world of the game!
+  addteamjoincancel: Добавление команды join был отменён!
+  entitynotcompatible: Эта сущность не совместима с командой join!
 success:
-  gameadded: New game '$game$' successfully added!
-  teamadded: Team '$team$' successfully added!
-  joined: You successfully joined the game!
-  left: You successfully left the game!
-  saved: Game was successfully saved!
-  bedset: You sucessfully set the respawn block of team $team$!
-  regionset: Game region location $location$ for Game $game$ was set successfully!
-  spawnset: Spawn location for Team $team$ was set successfully!
-  spawnerset: Ressource spawn location for $name$ was set successfully!
-  stopped: Game successfully stopped!
-  lobbyset: Lobby was set successfully!
-  gameloaded: Game '$game$' successfully loaded!
-  reloadconfig: Reload successful!
-  teamremoved: Team was successfully removed!
-  gameremoved: Game was successfully removed!
-  spawnercleared: All ressource spawners has been removed!
-  gamerun: You started the game, players can now join!
-  timeset: Game time was successfully set!
-  regionnameset: Region name was set successfully!
-  minplayersset: Min players was set successfully!
-  mainlobbyset: Mainlobby was set successfully!
-  gametimeset: Game time was set successfully!
-  materialset: The respawn block type (material) was set succesfully!
+  gameadded: Новая игра '$game$' успешно создана
+  teamadded: Команда '$team$' успешно добавлена
+  joined: Вы присоединились к игре
+  left: Вы отсоединились от игры
+  saved: Игра успешно сохранена
+  bedset: Вы успешно установили точку для кровати команды $team$
+  regionset: Игровая локация $location$ успешно добавлена для игры $game$
+  spawnset: Точка возрождения успешно добалена для команды $team$
+  spawnerset: Спавнер ресурса $name$ успешно добавлен
+  stopped: Игра успешно остановлена
+  lobbyset: Лобби успешно добавлено
+  gameloaded: Игра '$game$' успешно загружена
+  reloadconfig: Перезагрузка прошла успешно
+  teamremoved: Команда успешно удалена
+  gameremoved: Игра успешно удалена
+  spawnercleared: Все спавнеры ресурсов были удалены
+  gamerun: Вы запустили игру. Теперь игроки могут подключатся
+  timeset: Игровое время успешно установлено
+  regionnameset: Имя региона изменено
+  minplayersset: Минимальное к-во игроков изменено
+  mainlobbyset: Главное лобби успешно добавлено
+  gametimeset: Игровое время установлено
+  materialset: Тип блока респауна (материала) была успешно установлена!
   builderset: The builder for the map was set successfully and will display in title!
   autobalanceseton: Autobalance was successfully turned on!
   autobalancesetoff: Autobalance was successfully turned &coff&a!
