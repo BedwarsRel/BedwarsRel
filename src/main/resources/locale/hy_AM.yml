@@ -1,6 +1,6 @@
 ---
 default:
-  pages: Page $current$ of $max$
+  pages: Էջ $current$ Հյուրատետր $max$
   currently: Currently
 errors:
   argumentslength: Number of arguments does not match the correct amount!
@@ -30,7 +30,7 @@ errors:
   gameloaderror: Loading game '$game$' throws an error!
   regionnotfound: Region file does not exists!
   savesign: Couldn't create a new sign config file!
-  nogames: No games found!
+  nogames: Ոչ խաղեր գտնվել!
   notenoughress: You didn't have enough ressource to buy this item!
   teamnameinuse: Team name is already in use!
   minplayersmustnumber: Min players must be a number!
