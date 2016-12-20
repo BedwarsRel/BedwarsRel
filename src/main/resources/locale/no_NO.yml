@@ -1,7 +1,7 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: Side $current$ av $max$
+  currently: For øyeblikket
 errors:
   argumentslength: Number of arguments does not match the correct amount!
   holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
@@ -14,8 +14,8 @@ errors:
   playeramount: The maxium of players can't be lower than 1 or higher than 24!
   teamcolornotallowed: The given Team color isn't a allowed color
   teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
+  teamnotfound: Team ikke funnet!
+  notingame: Du er ikke i et spill!
   bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
   regionargument: Your location argument has to be 'loc1' or 'loc2'!
   spawnerargument: The resource parameter has to be a valid configured resource!
