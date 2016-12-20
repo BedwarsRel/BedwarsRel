@@ -1,28 +1,28 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: Pagina $current$ din $max$
+  currently: In prezent
 errors:
-  argumentslength: Number of arguments does not match the correct amount!
-  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
-  packagenotfound: Couldn't fetch $package$ package!
-  classnotfound: Couldn't fetch $package$ class $class$!
-  gameexists: A game with this name already exists!
-  gamenotfound: The game '$game$' could not be found!
-  nofreegames: There are no free games available.
-  gamenotfoundsimple: Game not found!
-  playeramount: The maxium of players can't be lower than 1 or higher than 24!
-  teamcolornotallowed: The given Team color isn't a allowed color
-  teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
-  bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
-  regionargument: Your location argument has to be 'loc1' or 'loc2'!
-  spawnerargument: The resource parameter has to be a valid configured resource!
-  blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Game isn't running!
-  bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
-  cantstartagain: Game is running! You can't start a running game again!
+  argumentslength: Numarul de argumente nu se potriveste cu numarul corespunzator!
+  holodependencynotfound: Nu s-a putut gasi $dependency$ pentru Hologram-Statistic
+  packagenotfound: Nu s-a putut prelua pachetul $package$!
+  classnotfound: Nu s-a putut prelua pachetul $package$ clasa $class$!
+  gameexists: Un joc cu numele acesta exista deja!
+  gamenotfound: Nu s-a putut gasi jocul $game$!
+  nofreegames: Nu exista jocuri disponibile.
+  gamenotfoundsimple: Jocul nu a fost gasit!
+  playeramount: Numarul maxim de jucatori nu poate fi mai mic de 1 sau mai mare de 24!
+  teamcolornotallowed: Culoarea data echipei nu este o culoare permisa
+  teamnamelength: Numele echipei trebuie sa aiba intre 2 si 20 de caractere!
+  teamnotfound: Echipa nu a fost gasita!
+  notingame: In prezent nu te afli intr-un joc!
+  bedtargeting: Trebuie sa tintesti sau stai pe un block de tipul 'game-block' configurat!
+  regionargument: Argumentele locatiei tale trebuie sa fie 'loc1' sau 'loc2'!
+  spawnerargument: Parametrul de resurse trebuie sa fie o resursa configurata valid!
+  blockdownnotfound: Block-ul pe care stai nu a fost gasit!
+  gamenotrunning: Jocul nu ruleaza!
+  bungeenoserver: Server-ul Bungeecord nu a fost setat corect! Vorbeste cu administratorul server-ului!
+  cantstartagain: Jocul ruleaza! Nu poti porni un joc in curs de rulare din nou!
   startoutofwaiting: Game have to be started out of the waiting mode!
   cantjoingame: You can't join a running or stopped game!
   lobbyongameworld: Lobby can't be on the game world!
