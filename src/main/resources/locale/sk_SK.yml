@@ -1,38 +1,38 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: Stranka $current$ z $max$
+  currently: Aktualna
 errors:
-  argumentslength: Number of arguments does not match the correct amount!
+  argumentslength: Pocet argumentov prikazu neodpoveda spravnemu mnozstvu!
   holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
-  packagenotfound: Couldn't fetch $package$ package!
-  classnotfound: Couldn't fetch $package$ class $class$!
-  gameexists: A game with this name already exists!
-  gamenotfound: The game '$game$' could not be found!
+  packagenotfound: Nejde nacitat $package$ package!
+  classnotfound: Nejde nacitat $package$ class $class$!
+  gameexists: Hra s tymto menom uz existuje!
+  gamenotfound: Hra '$game$' nebola najdena!
   nofreegames: There are no free games available.
-  gamenotfoundsimple: Game not found!
-  playeramount: The maxium of players can't be lower than 1 or higher than 24!
-  teamcolornotallowed: The given Team color isn't a allowed color
-  teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
-  bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
-  regionargument: Your location argument has to be 'loc1' or 'loc2'!
+  gamenotfoundsimple: Hra nenajdena!
+  playeramount: Pocet hracov nesmie byt mensi ako 1 a vyssi ako 24!
+  teamcolornotallowed: Tato farba nie je pre timy povolena.
+  teamnamelength: Nazov timu musi mat 2 - 20 pismen!
+  teamnotfound: Tim nenajdeny!
+  notingame: Nie si v hre!
+  bedtargeting: Musis stat na bloku, ktory je v konfiguracii zapisany ako 'game-block'!
+  regionargument: Mozes zadat iba 'loc1' alebo 'loc2'!
   spawnerargument: The resource parameter has to be a valid configured resource!
-  blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Game isn't running!
-  bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
-  cantstartagain: Game is running! You can't start a running game again!
-  startoutofwaiting: Game have to be started out of the waiting mode!
-  cantjoingame: You can't join a running or stopped game!
-  lobbyongameworld: Lobby can't be on the game world!
-  gamenotloaded: Couldn't start up the game!
-  gameloaderror: Loading game '$game$' throws an error!
-  regionnotfound: Region file does not exists!
-  savesign: Couldn't create a new sign config file!
-  nogames: No games found!
-  notenoughress: You didn't have enough ressource to buy this item!
-  teamnameinuse: Team name is already in use!
+  blockdownnotfound: Blok na ktorom stojis nebol najdeny!
+  gamenotrunning: Hra nebezi!
+  bungeenoserver: Bungeecord server nie je spravne nastaveny! Kontaktuj administratora!
+  cantstartagain: Hra uz bezi! Nemozes zapnout hru, ktora uz bezi!
+  startoutofwaiting: Hra bude zapnuta bez cakania!
+  cantjoingame: Nemozes sa pripojit do hry, ktora uz bezi alebo je vypnuta!
+  lobbyongameworld: Lobby nemoze byt na hernom svete!
+  gamenotloaded: Hru nejde zapnut!
+  gameloaderror: Nejde nacitat hru '$game$'!
+  regionnotfound: Subor mapy neexistuje!
+  savesign: Nejde vytvorit novu konfiguraciu pre cedulku!
+  nogames: Ziadna hra neexistuje!
+  notenoughress: Nemas dostatok surovin pre kupu tohoto predmetu!
+  teamnameinuse: Meno timu je uz pouzite!
   minplayersmustnumber: Min players must be a number!
   toolongregionname: Maximum length of region name are 15 characters!
   notwhilegamerunning: Cannot do that while game is running!
