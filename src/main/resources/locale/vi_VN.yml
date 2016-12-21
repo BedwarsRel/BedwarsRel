@@ -1,7 +1,7 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: Trang $current$ $max $
+  currently: Trym
 errors:
   argumentslength: Number of arguments does not match the correct amount!
   holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
