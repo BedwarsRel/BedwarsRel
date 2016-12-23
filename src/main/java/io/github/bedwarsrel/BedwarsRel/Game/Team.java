@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinTeamEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Data;
 
@@ -69,6 +71,14 @@ public class Team implements ConfigurationSerializable {
 
   @SuppressWarnings("deprecation")
   public boolean addPlayer(Player player) {
+
+    BedwarsPlayerJoinTeamEvent playerJoinTeamEvent = new BedwarsPlayerJoinTeamEvent(this, player);
+    Main.getInstance().getServer().getPluginManager().callEvent(playerJoinTeamEvent);
+
+    if (playerJoinTeamEvent.isCancelled()) {
+      return false;
+    }
+
     if (Main.getInstance().isSpigot()) {
       if (this.getScoreboardTeam().getEntries().size() >= this.getMaxPlayers()) {
         return false;
@@ -78,14 +88,27 @@ public class Team implements ConfigurationSerializable {
         return false;
       }
     }
+
+    String displayName = player.getDisplayName();
+    String playerListName = player.getPlayerListName();
+
     if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
-      player.setDisplayName(this.getChatColor() + ChatColor.stripColor(player.getName()));
-      player.setPlayerListName(this.getChatColor() + ChatColor.stripColor(player.getName()));
+      displayName = this.getChatColor() + ChatColor.stripColor(player.getName());
+      playerListName = this.getChatColor() + ChatColor.stripColor(player.getName());
     }
 
     if (Main.getInstance().getBooleanConfig("teamname-on-tab", true)) {
-      player.setPlayerListName(this.getChatColor() + this.getName() + ChatColor.WHITE + " | "
-          + this.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+      playerListName = this.getChatColor() + this.getName() + ChatColor.WHITE + " | "
+          + this.getChatColor() + ChatColor.stripColor(player.getDisplayName());
+    }
+
+    BedwarsPlayerSetNameEvent playerSetNameEvent =
+        new BedwarsPlayerSetNameEvent(this, displayName, playerListName, player);
+    Main.getInstance().getServer().getPluginManager().callEvent(playerSetNameEvent);
+
+    if (!playerSetNameEvent.isCancelled()) {
+      player.setDisplayName(playerSetNameEvent.getDisplayName());
+      player.setPlayerListName(playerSetNameEvent.getPlayerListName());
     }
 
     if (Main.getInstance().isSpigot()) {
