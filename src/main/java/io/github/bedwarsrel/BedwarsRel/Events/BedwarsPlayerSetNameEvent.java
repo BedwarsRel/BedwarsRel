@@ -49,7 +49,7 @@ public class BedwarsPlayerSetNameEvent extends Event implements Cancellable {
     return this.playerListName;
   }
 
-  public void getPlayerListName(String playerListName) {
+  public void setPlayerListName(String playerListName) {
     this.playerListName = playerListName;
   }
 
