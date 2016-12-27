@@ -43,6 +43,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
@@ -264,6 +265,10 @@ public class Game {
       Main.getInstance().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN
           + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getRegion().getName()))));
     }
+
+    BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
+    Main.getInstance().getServer().getPluginManager().callEvent(startedEvent);
+
     return true;
   }
 
@@ -789,7 +794,6 @@ public class Game {
     this.playerDamages.remove(p);
     if (team != null && Main.getInstance().getGameManager().getGameOfPlayer(p) != null
         && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
-      team.removePlayer(p);
       if (kicked) {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
@@ -797,6 +801,7 @@ public class Game {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player",
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
       }
+      team.removePlayer(p);
     }
 
     Main.getInstance().getGameManager().removeGamePlayer(p);

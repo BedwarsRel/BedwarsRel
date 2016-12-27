@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffect;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenTeamSelectionEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
 
 public class PlayerStorage {
 
@@ -77,28 +78,39 @@ public class PlayerStorage {
 
     boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
     boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
-    if (overwriteNames) {
-      Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
-      if (game != null) {
-        Team team = game.getPlayerTeam(this.player);
-        if (team != null) {
-          this.player
-              .setDisplayName(team.getChatColor() + ChatColor.stripColor(this.player.getName()));
-        } else {
-          this.player.setDisplayName(ChatColor.stripColor(this.player.getName()));
-        }
-      }
-    }
 
-    if (teamnameOnTab) {
+    String displayName = this.player.getDisplayName();
+    String playerListName = this.player.getPlayerListName();
+
+    if (overwriteNames || teamnameOnTab) {
       Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
       if (game != null) {
         Team team = game.getPlayerTeam(this.player);
-        if (team != null) {
-          this.player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE
-              + " | " + team.getChatColor() + ChatColor.stripColor(this.player.getDisplayName()));
-        } else {
-          this.player.setPlayerListName(ChatColor.stripColor(this.player.getDisplayName()));
+
+        if (overwriteNames) {
+          if (team != null) {
+            displayName = team.getChatColor() + ChatColor.stripColor(this.player.getName());
+          } else {
+            displayName = ChatColor.stripColor(this.player.getName());
+          }
+        }
+
+        if (teamnameOnTab) {
+          if (team != null) {
+            playerListName = team.getChatColor() + team.getName() + ChatColor.WHITE + " | "
+                + team.getChatColor() + ChatColor.stripColor(this.player.getDisplayName());
+          } else {
+            playerListName = ChatColor.stripColor(this.player.getDisplayName());
+          }
+        }
+
+        BedwarsPlayerSetNameEvent playerSetNameEvent =
+            new BedwarsPlayerSetNameEvent(team, displayName, playerListName, player);
+        Main.getInstance().getServer().getPluginManager().callEvent(playerSetNameEvent);
+
+        if (!playerSetNameEvent.isCancelled()) {
+          this.player.setDisplayName(playerSetNameEvent.getDisplayName());
+          this.player.setPlayerListName(playerSetNameEvent.getPlayerListName());
         }
       }
     }
