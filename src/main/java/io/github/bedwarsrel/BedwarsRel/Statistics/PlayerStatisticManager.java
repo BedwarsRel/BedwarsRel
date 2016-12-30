@@ -19,6 +19,7 @@ import io.github.bedwarsrel.BedwarsRel.Database.DBField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBGetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBSetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSavePlayerStatisticEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
@@ -106,6 +107,14 @@ public class PlayerStatisticManager {
   }
 
   public void storeStatistic(PlayerStatistic statistic) {
+    BedwarsSavePlayerStatisticEvent savePlayerStatisticEvent =
+        new BedwarsSavePlayerStatisticEvent(statistic);
+    Main.getInstance().getServer().getPluginManager().callEvent(savePlayerStatisticEvent);
+
+    if (savePlayerStatisticEvent.isCancelled()) {
+      return;
+    }
+
     if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
       this.storeYamlStatistic(statistic);
     } else {
@@ -309,7 +318,7 @@ public class PlayerStatisticManager {
         this.playerStatistic.put(statistic.getPlayer(), statistic);
         return;
       }
-      
+
       for (DBField field : statistic.getFields().values()) {
         if (field.getSetter() == null) {
           continue;
