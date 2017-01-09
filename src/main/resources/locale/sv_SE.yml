@@ -1,6 +1,6 @@
 ---
 default:
-  pages: "Page $current$ of $max$"
+  pages: "Sida $current$ av $max$"
   currently: Currently
 errors:
   argumentslength: "Number of arguments does not match the correct amount!"
