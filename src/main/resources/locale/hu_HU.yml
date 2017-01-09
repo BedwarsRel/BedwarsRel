@@ -210,14 +210,14 @@ commands:
     name: "Save Game"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
-    name: "Set target"
+    name: "Célpont beállítása"
     desc: "Sets the location of a team's target block"
   setbed:
-    name: "Set bed (synonym for settarget)"
+    name: "Ágy beállítása (a \"settarget\" szinonimája)"
     desc: "Sets the location of a team's bed block (Synonym for settarget)"
   setlobby:
     name: "Set lobby"
-    desc: "Sets the location of the gamelobby"
+    desc: "Add meg a helyzetét a játék elosztónak!"
   setregion:
     name: "Sets a region point"
     desc: "Sets a region point for the game"
@@ -228,17 +228,17 @@ commands:
     name: "Set spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
-    desc: "Starts a game"
+    name: "Játék indítása"
+    desc: "Indul a játék"
   stop:
-    name: "Stop game"
-    desc: "Stops a game"
+    name: "Játék leállítása"
+    desc: "Leállt a játék"
   help:
-    name: "Show Help"
-    desc: "Display information about the plugin and its commands"
+    name: "Súgó"
+    desc: "Mutasd az információkat a pluginról"
   reload:
-    name: "Reload"
-    desc: "Reloads the configurations and translations"
+    name: "Újratöltés"
+    desc: "Konfiguráció és fordítás újratöltése"
   setmainlobby:
     name: "Fő lobby beállítása"
     desc: "Beállítja a főlobby helyét. (szükséges a \"mainlobby-enable: true\" beállítás)"
@@ -247,7 +247,7 @@ commands:
     desc: "Kilistáza a játékokat"
   regionname:
     name: "Játéktér helyének beállítása"
-    desc: "Sets an individual region name (instead of world name)"
+    desc: "Beállítja egy egyéni régió nevét (nem a világ neve)"
   removeteam:
     name: "Csapat törlése"
     desc: "Egy csapat eltávolítása a játékból (csak megállított játék esetén lehetséges)"
@@ -258,8 +258,8 @@ commands:
     name: "Clear spawners"
     desc: "Removes all spawners from the game. Saving needed."
   gametime:
-    name: "Set game time"
-    desc: "Sets the game time which should be used in the game-world"
+    name: "Játék idó beállítása"
+    desc: "Beállítja a játék ideje, amelyet akkor kell használni a játék-világ"
   stats:
     name: "Statisztika"
     desc: "Statisztika mutatása"
@@ -267,7 +267,7 @@ commands:
     name: "Építő beállítása"
     desc: "Beállítja a építész nevét, amely megjelenik a játék indulásakor."
   setgameblock:
-    name: "Set game block"
+    name: "Játék blokk beállítása"
     desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
     name: "Set autobalance"
