@@ -4,12 +4,12 @@ default:
   currently: momenteel
 errors:
   argumentslength: "Nummer van argumenten klopt niet met het juiste aantal!"
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  holodependencynotfound: "Kon $dependency$ voor Hologram-Statistiek niet vinden"
   packagenotfound: "Kon pakket $package$ niet ophalen!"
   classnotfound: "Kon pakket $package$ van klasse $class$ niet ophalen!"
   gameexists: "Een spel met deze naam bestaat al!"
   gamenotfound: "Het spel '$game$' werdt niet gevonden!"
-  nofreegames: "There are no free games available."
+  nofreegames: "Er zijn geen gratis spellen beschikbaar."
   gamenotfoundsimple: "Spel niet gevonden!"
   playeramount: "Het max van spelers kan niet lager dan 1 of hoger dan 24 zijn!"
   teamcolornotallowed: "Het gegeven team kleur is geen toegelaten kleur"
@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Eén of meer teams heeft geen bed!"
   TEAM_NO_WRONG_TARGET: "Eén of meer teams heeft geen respawn blok gezet!"
 ingame:
-  teams: "Teams"
+  teams: "Ploegen"
   all: "Al"
   record: "&e$record$&a Is het record van deze map!"
   record-with-holders: '&aHet record op deze map is &e$record$&a en is gehouden door $holders$'
@@ -134,8 +134,8 @@ ingame:
     rescue-platform:
       left: "Er is &c$time$&f seconden over voordat je het volgende beveiligings platform kunt gebruiken!"
     arrow-blocker:
-      start: "You are protected from being hit by arrows for &c$time$&f second(s)."
-      end: "&cYour arrow protection is over"
+      start: "Je bent beschermd om geraakt te woorden door pijlen voor &c$time$&f second(en)."
+      end: "&cJe bescherming tegen pijlen is verlopen"
       left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
     trap:
       trapped: "&eIemand is in een &ctrap&e geweest van jouw team!"
