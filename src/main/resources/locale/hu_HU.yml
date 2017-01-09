@@ -280,7 +280,7 @@ commands:
     desc: "Egy játékos kirúgása a jelenlegi játékból!"
   addteamjoin:
     name: "Add team selection"
-    desc: "Mark a creature which can be used to join a specific team!"
+    desc: "Mark egy lény, amely lehet használni, hogy csatlakozzon egy különleges csapatot!"
   addholo:
     name: "Hologram létrehozása"
     desc: "Statisztika hologram létrehozása a jelenlegi helyen!"
