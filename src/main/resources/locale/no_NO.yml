@@ -3,11 +3,11 @@ default:
   pages: "Side $current$ av $max$"
   currently: For øyeblikket
 errors:
-  argumentslength: "Number of arguments does not match the correct amount!"
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  argumentslength: "Antall argumenter samsvarer ikke riktig beløp!"
+  holodependencynotfound: "Kunne ikke finne $dependency$ for Hologram-statistikken"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
-  gameexists: "A game with this name already exists!"
+  gameexists: "Et spill med dette navnet finnes allerede."
   gamenotfound: "The game '$game$' could not be found!"
   nofreegames: "There are no free games available."
   gamenotfoundsimple: "Game not found!"
@@ -252,7 +252,7 @@ commands:
     name: "Remove team"
     desc: "Removes a team from the game (only in stopped mode)"
   removegame:
-    name: "Remove game"
+    name: "Fjerne spillet"
     desc: "Removes a game and every configuration"
   clearspawner:
     name: "Clear spawners"
