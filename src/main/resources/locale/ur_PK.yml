@@ -1,9 +1,9 @@
 ---
 default:
-  pages: "Page $current$ of $max$"
+  pages: "صفحہ $current$ کا $max$"
   currently: موجودہ
 errors:
-  argumentslength: "Number of arguments does not match the correct amount!"
+  argumentslength: "دلائل کی تعداد اصل مقدار سے مماثل نہیں ہے!"
   holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
@@ -14,8 +14,8 @@ errors:
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "Team name must have between 2 and 20 characters!"
-  teamnotfound: "Team not found!"
-  notingame: "You are currently not in a game!"
+  teamnotfound: "ٹیم نہیں ملی!"
+  notingame: "آپ فی الوقت گیم میں نہیں ہیں!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
   regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
@@ -30,7 +30,7 @@ errors:
   gameloaderror: "Loading game '$game$' throws an error!"
   regionnotfound: "Region file does not exists!"
   savesign: "Couldn't create a new sign config file!"
-  nogames: "No games found!"
+  nogames: "کسی کھیل کا سراغ نہ ملا!"
   notenoughress: "You didn't have enough ressource to buy this item!"
   teamnameinuse: "Team name is already in use!"
   minplayersmustnumber: "Min players must be a number!"
