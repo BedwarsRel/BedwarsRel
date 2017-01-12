@@ -1,8 +1,7 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: ubuntu:14.04
-    cmd: ["/bin/bash"] # specify if image does not already have Command set
+  - image: circleci/build-image:ubuntu-14.04-XL-783-8f4b56f
 stages:
   build:
     workDir: ~/my-project
