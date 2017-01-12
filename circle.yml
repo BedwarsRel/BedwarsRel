@@ -4,19 +4,14 @@ containerInfo:
   - image: circleci/build-image:ubuntu-14.04-XL-783-8f4b56f
 stages:
   build:
-    workDir: ~/my-project
+    workDir: ~/BedwarsRel
     steps:
       - type: checkout
-      # Add an entry to /etc/hosts
+
       - type: shell
         shell: /bin/bash --login
         command: mvn install
 
-      # Save artifacts
       - type: artifacts-store
-        path: /tmp/artifacts
+        path: target/
         destination: build
-
-      # Upload test results
-      - type: test-results-store
-        path: /tmp/test-results
