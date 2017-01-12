@@ -105,7 +105,6 @@ public class ConfigUpdater {
       Sound.valueOf(
           Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase());
     } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
       if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
         Main.getInstance().getConfig().set("bed-sound", "ENDERDRAGON_GROWL");
       } else {
