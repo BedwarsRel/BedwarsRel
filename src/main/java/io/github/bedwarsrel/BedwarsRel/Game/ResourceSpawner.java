@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsResourceSpawnEvent;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.ItemStackParser;
 
@@ -115,6 +116,16 @@ public class ResourceSpawner implements Runnable, ConfigurationSerializable {
   public void run() {
     Location dropLocation = this.location.clone();
     ItemStack item = this.itemstack.clone();
+
+    BedwarsResourceSpawnEvent resourceSpawnEvent =
+        new BedwarsResourceSpawnEvent(this.game, this.location, item);
+    Main.getInstance().getServer().getPluginManager().callEvent(resourceSpawnEvent);
+
+    if (resourceSpawnEvent.isCancelled()) {
+      return;
+    }
+
+    item = resourceSpawnEvent.getResource();
 
     if (Main.getInstance().getBooleanConfig("spawn-ressources-in-chest", true)) {
       BlockState blockState = dropLocation.getBlock().getState();
