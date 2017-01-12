@@ -74,7 +74,6 @@ public class PlayerStorage {
     this.player.setMaxHealth(20.0D);
     this.player.setHealth(20.0D);
     this.player.setFireTicks(0);
-    this.player.setGameMode(GameMode.SURVIVAL);
 
     boolean teamnameOnTab = Main.getInstance().getBooleanConfig("teamname-on-tab", true);
     boolean overwriteNames = Main.getInstance().getBooleanConfig("overwrite-names", false);
@@ -85,6 +84,7 @@ public class PlayerStorage {
     if (overwriteNames || teamnameOnTab) {
       Game game = Main.getInstance().getGameManager().getGameOfPlayer(this.player);
       if (game != null) {
+        game.setPlayerGameMode(player);
         Team team = game.getPlayerTeam(this.player);
 
         if (overwriteNames) {
