@@ -243,7 +243,11 @@ public class GameManager {
       game.setLoc(loc2, "loc2");
       game.setLobby(Utils.locationDeserialize(cfg.get("lobby")));
 
-      String regionName = loc1.getWorld().getName();
+      String regionName = "";
+
+      if (loc1.getWorld() != null) {
+        regionName = loc1.getWorld().getName();
+      }
 
       if (cfg.contains("regionname")) {
         regionName = cfg.getString("regionname");
