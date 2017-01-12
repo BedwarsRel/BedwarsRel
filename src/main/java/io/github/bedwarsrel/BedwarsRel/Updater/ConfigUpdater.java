@@ -274,7 +274,7 @@ public class ConfigUpdater {
     // </1.3.4>
     
     // <1.3.5>
-    Main.getInstance().getConfig().addDefault("spawn-ressources-in-chest", true);
+    Main.getInstance().getConfig().addDefault("spawn-resources-in-chest", true);
     // </1.3.5>
   }
 

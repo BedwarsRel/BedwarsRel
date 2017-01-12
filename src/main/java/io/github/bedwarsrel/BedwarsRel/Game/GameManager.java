@@ -181,11 +181,11 @@ public class GameManager {
           spawner = cfg.getConfigurationSection("spawner").getValues(false);
 
           for (Object obj : spawner.values()) {
-            if (!(obj instanceof RessourceSpawner)) {
+            if (!(obj instanceof ResourceSpawner)) {
               continue;
             }
 
-            RessourceSpawner rs = (RessourceSpawner) obj;
+            ResourceSpawner rs = (ResourceSpawner) obj;
             rs.setGame(game);
             game.addRessourceSpawner(rs);
           }
@@ -193,11 +193,11 @@ public class GameManager {
 
         if (cfg.isList("spawner")) {
           for (Object rs : cfg.getList("spawner")) {
-            if (!(rs instanceof RessourceSpawner)) {
+            if (!(rs instanceof ResourceSpawner)) {
               continue;
             }
 
-            RessourceSpawner rsp = (RessourceSpawner) rs;
+            ResourceSpawner rsp = (ResourceSpawner) rs;
             rsp.setGame(game);
             game.addRessourceSpawner(rsp);
           }
