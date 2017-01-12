@@ -10,7 +10,7 @@ stages:
       # Add an entry to /etc/hosts
       - type: shell
         shell: /bin/bash --login
-        command: echo "hi"
+        command: mvn install
 
       # Save artifacts
       - type: artifacts-store
