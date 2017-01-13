@@ -225,7 +225,7 @@ commands:
     name: "Sets a team spawn"
     desc: "Sets the spawn of the given team"
   setspawner:
-    name: "Set spawner"
+    name: "Spawner lehelyezése"
     desc: "Sets a spawner location of a specific ressource"
   start:
     name: "Játék indítása"
@@ -255,8 +255,8 @@ commands:
     name: "Játék törlése"
     desc: "Eltávolítja a játékot a konfigurációval együtt"
   clearspawner:
-    name: "Clear spawners"
-    desc: "Removes all spawners from the game. Saving needed."
+    name: "Spawner törlése"
+    desc: "Eltávolítja az összes spawnert a játékból. Mentés szükséges."
   gametime:
     name: "Játék idó beállítása"
     desc: "Beállítja a játék ideje, amelyet akkor kell használni a játék-világ"
