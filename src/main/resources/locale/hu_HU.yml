@@ -5,7 +5,7 @@ default:
 errors:
   argumentslength: "Nincs elegendő kritérium a parancs végrehajtásához!"
   holodependencynotfound: "Nem találtam Hologram-Statisztikát"
-  packagenotfound: "Couldn't fetch $package$ package!"
+  packagenotfound: "Nem tudtam letölteni a $package$ csomagot!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: "Már létezik ilyen nevű aréna!"
   gamenotfound: "A(z) \"$game$\" játékaréna nem található!"
@@ -196,7 +196,7 @@ stats:
 commands:
   addgame:
     name: "Játék hozzáadás"
-    desc: "Adds a new game"
+    desc: "Új játék létrehozása"
   addteam:
     name: "Csapat hozzáadása"
     desc: "Adds a team to a specific game"
@@ -204,10 +204,10 @@ commands:
     name: "Join Game"
     desc: "Joins a specific game"
   leave:
-    name: "Leave Game"
+    name: "Játék elhagyása"
     desc: "Leave the current game"
   save:
-    name: "Save Game"
+    name: "Játék mentése"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
     name: "Célpont beállítása"
@@ -279,7 +279,7 @@ commands:
     name: "Játékos kirúgása"
     desc: "Egy játékos kirúgása a jelenlegi játékból!"
   addteamjoin:
-    name: "Add team selection"
+    name: "Csapatválasztó hozzáadása"
     desc: "Mark egy lény, amely lehet használni, hogy csatlakozzon egy különleges csapatot!"
   addholo:
     name: "Hologram létrehozása"
