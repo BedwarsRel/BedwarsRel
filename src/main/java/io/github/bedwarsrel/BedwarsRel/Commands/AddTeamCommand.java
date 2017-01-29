@@ -49,8 +49,15 @@ public class AddTeamCommand extends BaseCommand {
     String name = args.get(1);
     String color = args.get(2);
     String maxPlayers = args.get(3);
+    TeamColor tColor = null;
 
-    TeamColor tColor = TeamColor.valueOf(color.toUpperCase());
+    try {
+      tColor = TeamColor.valueOf(color.toUpperCase());
+    } catch (Exception e) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamcolornotallowed")));
+      return false;
+    }
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
@@ -68,12 +75,6 @@ public class AddTeamCommand extends BaseCommand {
 
     if (playerMax < 1 || playerMax > 24) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.playeramount")));
-      return false;
-    }
-
-    if (tColor == null) {
-      sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamcolornotallowed")));
       return false;
     }
 
