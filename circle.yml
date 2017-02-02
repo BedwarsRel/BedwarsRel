@@ -32,10 +32,10 @@ stages:
           fi
 
       - type: artifacts-store
-        path: target/BedwarsRel-*.jar
-        destination: build
+        path: target/artifacts
+        destination: artifacts
         
       - type: artifacts-store
         path: target/apidocs
-        destination: javadocs
+        destination: apidocs
 
