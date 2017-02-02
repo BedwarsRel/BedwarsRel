@@ -16,20 +16,18 @@ stages:
         shell: /bin/bash --login
         command: |
           if [ "${CIRCLE_BRANCH}" == "master"];
-            mvn clean install -P ci-release,attach-javadocs,attach-sources
+            mvn clean install -P ci-release,attach-javadocs,attach-sources;
           else
-            mvn clean install -P ci-snapshot,attach-javadocs,attach-sources
-          else
-            mvn clean install -P ci-snapshot
+            mvn clean install -P ci-snapshot,attach-javadocs,attach-sources;
           fi
         
       - type: deploy
         shell: /bin/bash --login
         command: |
           if [ "${CIRCLE_BRANCH}" == "master"];
-            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources
+            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources;
           elif [ "${CIRCLE_BRANCH}" == "develop"];
-            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources
+            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources;
           fi
 
       - type: artifacts-store
