@@ -5,8 +5,6 @@ containerInfo:
 stages:
   build:
     workDir: ~/BedwarsRel
-    environment:
-      - SHORT_HASH: $(echo $CIRCLE_SHA1 | cut -c -7)
     steps:
       - type: checkout
 
