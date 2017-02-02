@@ -76,7 +76,6 @@ public abstract class StoringTable extends DatabaseObject {
       getter.setAccessible(true);
       return getter.invoke(this, new Object[] {});
     } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
           .sendMessage(ChatWriter.pluginMessage("Couldn't fetch value of field: " + field));
     }

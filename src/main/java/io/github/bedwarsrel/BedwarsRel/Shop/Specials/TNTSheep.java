@@ -221,6 +221,9 @@ public class TNTSheep extends SpecialItem {
       possibleTargets.removeAll(playerTeam.getPlayers());
 
       for (Player p : possibleTargets) {
+        if (player.getWorld() != p.getWorld()) {
+          continue;
+        }
         double dist = player.getLocation().distance(p.getLocation());
         if (dist < distance) {
           foundPlayer = p;

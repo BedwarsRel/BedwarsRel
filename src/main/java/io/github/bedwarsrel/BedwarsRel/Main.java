@@ -67,7 +67,7 @@ import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameManager;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.RessourceSpawner;
+import io.github.bedwarsrel.BedwarsRel.Game.ResourceSpawner;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Listener.BlockListener;
 import io.github.bedwarsrel.BedwarsRel.Listener.ChunkListener;
@@ -714,7 +714,7 @@ public class Main extends JavaPlugin {
   }
 
   private void registerConfigurationClasses() {
-    ConfigurationSerialization.registerClass(RessourceSpawner.class, "RessourceSpawner");
+    ConfigurationSerialization.registerClass(ResourceSpawner.class, "RessourceSpawner");
     ConfigurationSerialization.registerClass(Team.class, "Team");
   }
 

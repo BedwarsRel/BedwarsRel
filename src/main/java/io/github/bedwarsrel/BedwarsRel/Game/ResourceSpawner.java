@@ -20,7 +20,7 @@ import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.ItemStackParser;
 
 @SerializableAs("RessourceSpawner")
-public class RessourceSpawner implements Runnable, ConfigurationSerializable {
+public class ResourceSpawner implements Runnable, ConfigurationSerializable {
 
   private Game game = null;
   private Location location = null;
@@ -29,7 +29,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
   private String name = null;
   private double spread = 1.0;
 
-  public RessourceSpawner(Map<String, Object> deserialize) {
+  public ResourceSpawner(Map<String, Object> deserialize) {
     this.location = Utils.locationDeserialize(deserialize.get("location"));
 
     if (deserialize.containsKey("name")) {
@@ -42,7 +42,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
           this.spread = Double.parseDouble(deserialize.get("spread").toString());
         }
       } else {
-        this.itemstack = RessourceSpawner.createSpawnerStackByConfig(
+        this.itemstack = ResourceSpawner.createSpawnerStackByConfig(
             Main.getInstance().getConfig().get("ressource." + this.name));
         this.interval =
             Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
@@ -60,7 +60,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
           this.spread = Double.parseDouble(deserialize.get("spread").toString());
         }
       } else {
-        this.itemstack = RessourceSpawner.createSpawnerStackByConfig(
+        this.itemstack = ResourceSpawner.createSpawnerStackByConfig(
             Main.getInstance().getConfig().get("ressource." + this.name));
         this.interval =
             Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
@@ -70,13 +70,13 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     }
   }
 
-  public RessourceSpawner(Game game, String name, Location location) {
+  public ResourceSpawner(Game game, String name, Location location) {
     this.game = game;
     this.name = name;
     this.interval =
         Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
     this.location = location;
-    this.itemstack = RessourceSpawner
+    this.itemstack = ResourceSpawner
         .createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
     this.spread =
         Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);

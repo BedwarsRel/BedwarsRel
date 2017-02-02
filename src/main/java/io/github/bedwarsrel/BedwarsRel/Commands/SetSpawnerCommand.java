@@ -16,7 +16,7 @@ import com.google.common.collect.ImmutableMap;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.RessourceSpawner;
+import io.github.bedwarsrel.BedwarsRel.Game.ResourceSpawner;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class SetSpawnerCommand extends BaseCommand {
@@ -90,10 +90,10 @@ public class SetSpawnerCommand extends BaseCommand {
     }
 
     Object section = Main.getInstance().getConfig().get("ressource." + material);
-    ItemStack stack = RessourceSpawner.createSpawnerStackByConfig(section);
+    ItemStack stack = ResourceSpawner.createSpawnerStackByConfig(section);
 
     Location location = player.getLocation();
-    RessourceSpawner spawner = new RessourceSpawner(game, material, location);
+    ResourceSpawner spawner = new ResourceSpawner(game, material, location);
     game.addRessourceSpawner(spawner);
     player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnerset",
         ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));
