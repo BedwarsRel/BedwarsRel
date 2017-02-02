@@ -119,8 +119,8 @@ ingame:
     name: "Boutique"
     newshop: "Utilisez la nouvelle boutique"
     oldshop: "Utilisez l'ancienne boutique"
-    fullstackpershift: Multipliez les stacks avec MAJ clic
-    onestackpershift: Un stack par MAJ clic
+    fullstackpershift: "Multipliez les stacks avec MAJ clic"
+    onestackpershift: "Un stack par MAJ clic"
   player:
     left: "Le joueur $player$ a quitté la partie !"
     died: "$player$ est mort !"
@@ -282,8 +282,8 @@ commands:
     name: "Ajouter une sélection de team"
     desc: "Marquez une créature qui peut être utilisée pour rejoindre une équipe spécifique!"
   addholo:
-    name: "Ajouter une position holographique"
-    desc: "Une statistique d'hologramme sera ajoutée à la position actuelle!"
+    debugpaste: "Send debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "Supprimer une position holographique"
     desc: "Une statistique d'hologramme sera ajoutée à la position actuelle."
