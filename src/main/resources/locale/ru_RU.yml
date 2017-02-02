@@ -119,8 +119,8 @@ ingame:
     name: "Магазин Ресурсов"
     newshop: "Использовать новую механику покупки"
     oldshop: "Использовать старую механику покупки"
-    fullstackpershift: Купить много стаков при ЛКМ+Shift
-    onestackpershift: Купить один стак при ЛКМ+Shift
+    fullstackpershift: "Купить много стаков при ЛКМ+Shift"
+    onestackpershift: "Купить один стак при ЛКМ+Shift"
   player:
     left: "Игрок $player$ покинул игру"
     died: "$player$ умер"
@@ -282,8 +282,8 @@ commands:
     name: "Добавить выбор команды"
     desc: "Отмеченный моб, который может использоваться для конкретной команды!"
   addholo:
-    name: "Добавить расположение голограммы"
-    desc: "Статистика голограммы будет добавлена в текущей позиции!"
+    debugpaste: "Send debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "Удалить расположение голограммы"
     desc: "Когда была выполнена команда, игрок может нажать на правую кнопку мыши голограммы, которая должна быть удалена."
