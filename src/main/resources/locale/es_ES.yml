@@ -119,8 +119,8 @@ ingame:
     name: "Tienda de Objetos"
     newshop: "Usar la tienda nueva"
     oldshop: "Usar la tienda antigua"
-    fullstackpershift: Múltiples stacks por shift click
-    onestackpershift: Un stack por shift click
+    fullstackpershift: "Múltiples stacks por shift click"
+    onestackpershift: "Un stack por shift click"
   player:
     left: "¡El jugador $player$ ha abandonado el Juego!"
     died: "¡$player$ murió!"
@@ -282,8 +282,8 @@ commands:
     name: "Añadir selección de equipo"
     desc: "¡Marca una criatura que pueda ser usada para unirse a un equipo específico!"
   addholo:
-    name: "Añadir ubicación del holograma"
-    desc: "¡Se agregará un holograma de estadísticas en la posición actual!"
+    debugpaste: "Send debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "Quitar la ubicación del holograma"
     desc: "Cuando el comando es ejecutado, el jugador debe dar click-derecho en el holograma para eliminarlo."
