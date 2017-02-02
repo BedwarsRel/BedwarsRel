@@ -119,8 +119,8 @@ ingame:
     name: "Itemwinkel"
     newshop: "Gebruik nieuwe winkel"
     oldshop: "Gebruik oude winkel"
-    fullstackpershift: Vermenigvuldig stacks met shift-klik
-    onestackpershift: Eén stack per shift-klik
+    fullstackpershift: "Vermenigvuldig stacks met shift-klik"
+    onestackpershift: "Eén stack per shift-klik"
   player:
     left: "Speler $player$ heeft het spel verlaten!"
     died: "$player$ is gestorven!"
@@ -282,8 +282,8 @@ commands:
     name: "Add team selection"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    name: "Add hologram location"
-    desc: "A hologram statistic will be added at the current position!"
+    debugpaste: "Send debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "Remove hologram location"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
