@@ -10,7 +10,7 @@ stages:
 
       - type: shell
         shell: /bin/bash --login
-        command: mvn deploy --settings settings.xml
+        command: mvn clean deploy --settings settings.xml
 
       - type: artifacts-store
         path: target/

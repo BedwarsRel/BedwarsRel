@@ -4,7 +4,7 @@
 
 	<groupId>io.github.bedwarsrel</groupId>
 	<artifactId>BedwarsRel</artifactId>
-	<version>1.3.5</version>
+	<version>${versionstring}</version>
 	<name>BedwarsRel</name>
 	<description>A Bedwars Plugin for Minecraft servers.</description>
 	<url>https://bedwarsrel.github.io</url>
@@ -30,6 +30,10 @@
 		<url>https://github.com/BedwarsRel/BedwarsRel/issues</url>
 	</issueManagement>
 
+	<properties>
+		<version>1.3.5</version>
+	</properties>
+
 	<profiles>
 		<profile>
 			<id>circleci-dev</id>
@@ -40,8 +44,8 @@
 				</property>
 			</activation>
 			<properties>
-				<versionstring>${project.version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
-				<filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
+				<versionstring>${version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
+				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
 			</properties>
 			<build>
 				<plugins>
@@ -94,8 +98,8 @@
 				</property>
 			</activation>
 			<properties>
-				<versionstring>${project.version}</versionstring>
-				<filename>${project.artifactId}-${project.version}</filename>
+				<versionstring>${version}</versionstring>
+				<filename>${project.artifactId}-${version}</filename>
 			</properties>
 		</profile>
 		<profile>
@@ -104,8 +108,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<versionstring>${project.version}-SNAPSHOT</versionstring>
-				<filename>${project.artifactId}-${project.version}-SNAPSHOT</filename>
+				<versionstring>${version}-SNAPSHOT</versionstring>
+				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
 			</properties>
 		</profile>
 	</profiles>
