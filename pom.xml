@@ -36,7 +36,17 @@
 
 	<profiles>
 		<profile>
-			<id>circleci</id>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<versionstring>${version}-SNAPSHOT</versionstring>
+				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
+			</properties>
+		</profile>
+		<profile>
+			<id>ciSnapshot</id>
 			<activation>
 				<property>
 					<name>env.CIRCLECI</name>
@@ -49,45 +59,9 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>circleci-dev</id>
-			<activation>
-				<property>
-					<name>env.CIRCLE_BRANCH</name>
-					<value>develop</value>
-				</property>
-			</activation>
-			<properties>
-				<versionstring>${version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
-				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
-			</properties>
+			<id>deploy-snapshot</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>2.2.1</version>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.9.1</version>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -103,7 +77,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>circleci-release</id>
+			<id>ci-release</id>
 			<activation>
 				<property>
 					<name>env.CIRCLE_BRANCH</name>
@@ -114,34 +88,11 @@
 				<versionstring>${version}</versionstring>
 				<filename>${project.artifactId}-${version}</filename>
 			</properties>
+		</profile>
+		<profile>
+			<id>deploy-release</id>
 			<build>
 				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>2.2.1</version>
-						<executions>
-							<execution>
-								<id>attach-sources</id>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.9.1</version>
-						<executions>
-							<execution>
-								<id>attach-javadocs</id>
-								<goals>
-									<goal>jar</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					<plugin>
 						<groupId>org.sonatype.plugins</groupId>
 						<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -157,14 +108,44 @@
 			</build>
 		</profile>
 		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<versionstring>${version}-SNAPSHOT</versionstring>
-				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
-			</properties>
+			<id>attachJavadocs</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>attachSources</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 

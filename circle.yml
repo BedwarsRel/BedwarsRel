@@ -7,10 +7,30 @@ stages:
     workDir: ~/BedwarsRel
     steps:
       - type: checkout
+      
+      - type: shell
+        shell: /bin/bash --login
+        command: SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
         
       - type: shell
         shell: /bin/bash --login
-        command: SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7) && mvn clean deploy --settings settings.xml
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master"];
+            mvn clean install -P ci-release,attach-javadocs,attach-sources
+          else
+            mvn clean install -P ci-snapshot,attach-javadocs,attach-sources
+          else
+            mvn clean install -P ci-snapshot
+          fi
+        
+      - type: deploy
+        shell: /bin/bash --login
+        command: |
+          if [ "${CIRCLE_BRANCH}" == "master"];
+            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources
+          elif [ "${CIRCLE_BRANCH}" == "develop"];
+            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources
+          fi
 
       - type: artifacts-store
         path: target/
