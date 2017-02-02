@@ -23,7 +23,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
-import org.mcstats.Metrics;
 
 import com.bugsnag.Bugsnag;
 import com.bugsnag.Report;
@@ -90,6 +89,7 @@ import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
 import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Metrics;
 import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
