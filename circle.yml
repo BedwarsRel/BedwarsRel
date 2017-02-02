@@ -15,7 +15,7 @@ stages:
       - type: shell
         shell: /bin/bash --login
         command: |
-          if [ "${CIRCLE_BRANCH}" == "master"];
+          if [ "${CIRCLE_BRANCH}" == "master"]; then
             mvn clean install -P ci-release,attach-javadocs,attach-sources;
           else
             mvn clean install -P ci-snapshot,attach-javadocs,attach-sources;
@@ -24,9 +24,9 @@ stages:
       - type: deploy
         shell: /bin/bash --login
         command: |
-          if [ "${CIRCLE_BRANCH}" == "master"];
+          if [ "${CIRCLE_BRANCH}" == "master"]; then
             mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources;
-          elif [ "${CIRCLE_BRANCH}" == "develop"];
+          elif [ "${CIRCLE_BRANCH}" == "develop"]; then
             mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources;
           fi
 
