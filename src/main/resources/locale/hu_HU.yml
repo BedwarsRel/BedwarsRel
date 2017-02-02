@@ -119,8 +119,8 @@ ingame:
     name: "Bolt"
     newshop: "Új bolt használata"
     oldshop: "Régi bolt használata"
-    fullstackpershift: Több stack per Shift + klikk
-    onestackpershift: Egy stack per Shift + klikk
+    fullstackpershift: "Több stack per Shift + klikk"
+    onestackpershift: "Egy stack per Shift + klikk"
   player:
     left: "$player$ elhagyta a játékot!"
     died: "$player$ meghalt!"
@@ -282,8 +282,8 @@ commands:
     name: "Csapatválasztó hozzáadása"
     desc: "Mark egy lény, amely lehet használni, hogy csatlakozzon egy különleges csapatot!"
   addholo:
-    name: "Hologram létrehozása"
-    desc: "Statisztika hologram létrehozása a jelenlegi helyen!"
+    debugpaste: "Send debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "Hologram törlése"
     desc: "Törli a kijelölődő statisztika hologramot. (Parancs lefuttatása után jobb klikk a hologramra)."
