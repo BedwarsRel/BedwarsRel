@@ -119,8 +119,8 @@ ingame:
     name: "Obchod"
     newshop: "Pouzit novy obchod"
     oldshop: "Pouzit stary obchod"
-    fullstackpershift: Vice stacku za shift click
-    onestackpershift: Jeden stack za shift click
+    fullstackpershift: "Vice stacku za shift click"
+    onestackpershift: "Jeden stack za shift click"
   player:
     left: "Hrac $player$ odesel ze hry."
     died: "$player$ zemrel!"
@@ -282,8 +282,8 @@ commands:
     name: "addteamjoin"
     desc: "Vybere entitu, pomoci ktere se budete moci pripojit do tymu!"
   addholo:
-    name: "addholo"
-    desc: "Prida hologram do aktualni pozice!"
+    debugpaste: "Send debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "removeholo"
     desc: "Pri zadani prikazu staci kliknou pravym tlacitkem pro odstraneni.."
