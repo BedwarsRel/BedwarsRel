@@ -46,13 +46,7 @@
 			</properties>
 		</profile>
 		<profile>
-			<id>ciSnapshot</id>
-			<activation>
-				<property>
-					<name>env.CIRCLECI</name>
-					<value>true</value>
-				</property>
-			</activation>
+			<id>ci-snapshot</id>
 			<properties>
 				<versionstring>${version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
 				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
@@ -78,12 +72,6 @@
 		</profile>
 		<profile>
 			<id>ci-release</id>
-			<activation>
-				<property>
-					<name>env.CIRCLE_BRANCH</name>
-					<value>master</value>
-				</property>
-			</activation>
 			<properties>
 				<versionstring>${version}</versionstring>
 				<filename>${project.artifactId}-${version}</filename>
@@ -108,7 +96,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>attachJavadocs</id>
+			<id>attach-javadocs</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -128,7 +116,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>attachSources</id>
+			<id>attach-sources</id>
 			<build>
 				<plugins>
 					<plugin>
