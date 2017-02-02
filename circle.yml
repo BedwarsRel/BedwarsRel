@@ -27,10 +27,10 @@ stages:
           export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
           if [ "${CIRCLE_BRANCH}" == "master" ]
           then
-            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources
+            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources --settings settings.xml
           elif [ "${CIRCLE_BRANCH}" == "develop" ]
           then
-            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources
+            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources --settings settings.xml
           fi
 
       - type: artifacts-store
