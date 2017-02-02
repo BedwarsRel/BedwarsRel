@@ -36,11 +36,24 @@
 
 	<profiles>
 		<profile>
-			<id>circleci-dev</id>
+			<id>circleci</id>
 			<activation>
 				<property>
 					<name>env.CIRCLECI</name>
 					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<versionstring>${version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
+				<filename>${project.artifactId}-${version}-SNAPSHOT</filename>
+			</properties>
+		</profile>
+		<profile>
+			<id>circleci-dev</id>
+			<activation>
+				<property>
+					<name>env.CIRCLE_BRANCH</name>
+					<value>develop</value>
 				</property>
 			</activation>
 			<properties>
@@ -101,6 +114,47 @@
 				<versionstring>${version}</versionstring>
 				<filename>${project.artifactId}-${version}</filename>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.9.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.7</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>sonatype-nexus-releases</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>default</id>
@@ -254,6 +308,10 @@
 	</build>
 
 	<distributionManagement>
+		<repository>
+			<id>sonatype-nexus-releases</id>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
+		</repository>
 		<snapshotRepository>
 			<id>sonatype-nexus-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
