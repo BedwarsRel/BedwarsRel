@@ -18,6 +18,7 @@ stages:
           else
             mvn clean install -P ci-snapshot,attach-javadocs,attach-sources
           fi
+          mkdir target/artifacts/
           cp target/BedwarsRel-*.jar target/artifacts/.
         
       - type: deploy
