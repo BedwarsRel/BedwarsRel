@@ -15,3 +15,4 @@ stages:
       - type: artifacts-store
         path: target/
         destination: build
+
