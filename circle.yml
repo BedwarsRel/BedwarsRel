@@ -7,10 +7,10 @@ stages:
     workDir: ~/BedwarsRel
     steps:
       - type: checkout
-
+        
       - type: shell
         shell: /bin/bash --login
-        command: mvn clean deploy --settings settings.xml
+        command: SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7) && mvn clean deploy --settings settings.xml
 
       - type: artifacts-store
         path: target/
