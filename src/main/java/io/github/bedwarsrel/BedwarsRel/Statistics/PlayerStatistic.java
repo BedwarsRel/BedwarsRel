@@ -140,7 +140,6 @@ public class PlayerStatistic extends StoringTable {
           this.uuid = this.player.getUniqueId();
         }
       } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
         this.uuid = UUIDFetcher.getUUIDOf(this.player.getName());
       }
     }

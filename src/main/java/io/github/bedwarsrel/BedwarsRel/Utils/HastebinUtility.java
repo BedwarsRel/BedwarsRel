@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 public class HastebinUtility {
 
-  public static final String BIN_URL = "http://hastebin.com/documents", USER_AGENT = "Mozilla/5.0";
+  public static final String BIN_URL = "https://hastebin.com/documents", USER_AGENT = "Mozilla/5.0";
   public static final Pattern PATTERN = Pattern.compile("\\{\"key\":\"([\\S\\s]*)\"\\}");
 
   public static String upload(final String string) throws IOException {
@@ -43,7 +43,7 @@ public class HastebinUtility {
 
     Matcher matcher = PATTERN.matcher(response.toString());
     if (matcher.matches()) {
-      return "http://hastebin.com/" + matcher.group(1);
+      return "https://hastebin.com/" + matcher.group(1);
     } 
     return "Error while communicating with hastebin!";
   }
@@ -53,7 +53,7 @@ public class HastebinUtility {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       String line;
       int i = 0;
-      while ((line = reader.readLine()) != null && i++ < 1000) {
+      while ((line = reader.readLine()) != null && i++ < 2500) {
         content.append(line).append("\n");
       }
     }

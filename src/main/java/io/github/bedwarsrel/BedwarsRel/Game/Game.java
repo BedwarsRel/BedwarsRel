@@ -43,6 +43,7 @@ import com.google.common.collect.ImmutableMap;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
@@ -60,7 +61,7 @@ import lombok.Data;
 public class Game {
 
   private String name = null;
-  private List<RessourceSpawner> ressourceSpawners = null;
+  private List<ResourceSpawner> resourceSpawners = null;
   private List<BukkitTask> runningTasks = null;
   private GameState state = null;
   private HashMap<String, Team> teams = null;
@@ -120,7 +121,7 @@ public class Game {
     this.runningTasks = new ArrayList<BukkitTask>();
 
     this.freePlayers = new ArrayList<Player>();
-    this.ressourceSpawners = new ArrayList<RessourceSpawner>();
+    this.resourceSpawners = new ArrayList<ResourceSpawner>();
     this.teams = new HashMap<String, Team>();
     this.playingTeams = new ArrayList<Team>();
 
@@ -237,7 +238,7 @@ public class Game {
     this.makeTeamsReady();
 
     this.cycle.onGameStart();
-    this.startRessourceSpawners();
+    this.startResourceSpawners();
 
     // Update world time before game starts
     this.getRegion().getWorld().setTime(this.time);
@@ -264,6 +265,10 @@ public class Game {
       Main.getInstance().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN
           + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getRegion().getName()))));
     }
+
+    BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
+    Main.getInstance().getServer().getPluginManager().callEvent(startedEvent);
+
     return true;
   }
 
@@ -335,12 +340,12 @@ public class Game {
     return this.freePlayers.contains(p);
   }
 
-  public void addRessourceSpawner(RessourceSpawner rs) {
-    this.ressourceSpawners.add(rs);
+  public void addRessourceSpawner(ResourceSpawner rs) {
+    this.resourceSpawners.add(rs);
   }
 
-  public List<RessourceSpawner> getRessourceSpawner() {
-    return this.ressourceSpawners;
+  public List<ResourceSpawner> getRessourceSpawner() {
+    return this.resourceSpawners;
   }
 
   public void setLoc(Location loc, String type) {
@@ -789,7 +794,6 @@ public class Game {
     this.playerDamages.remove(p);
     if (team != null && Main.getInstance().getGameManager().getGameOfPlayer(p) != null
         && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
-      team.removePlayer(p);
       if (kicked) {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
@@ -797,6 +801,7 @@ public class Game {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player",
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
       }
+      team.removePlayer(p);
     }
 
     Main.getInstance().getGameManager().removeGamePlayer(p);
@@ -1740,7 +1745,7 @@ public class Game {
 
     yml.set("autobalance", this.autobalance);
 
-    yml.set("spawner", this.ressourceSpawners);
+    yml.set("spawner", this.resourceSpawners);
     yml.createSection("teams", this.teams);
 
     try {
@@ -1767,8 +1772,8 @@ public class Game {
     this.updateSigns();
   }
 
-  private void startRessourceSpawners() {
-    for (RessourceSpawner rs : this.getRessourceSpawner()) {
+  private void startResourceSpawners() {
+    for (ResourceSpawner rs : this.getRessourceSpawner()) {
       rs.setGame(this);
       this.runningTasks.add(Main.getInstance().getServer().getScheduler().runTaskTimer(
           Main.getInstance(), rs, Math.round((((double) rs.getInterval()) / 1000.0) * 20.0),

@@ -5,18 +5,22 @@ import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Item;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsResourceSpawnEvent;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.ItemStackParser;
 
 @SerializableAs("RessourceSpawner")
-public class RessourceSpawner implements Runnable, ConfigurationSerializable {
+public class ResourceSpawner implements Runnable, ConfigurationSerializable {
 
   private Game game = null;
   private Location location = null;
@@ -25,7 +29,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
   private String name = null;
   private double spread = 1.0;
 
-  public RessourceSpawner(Map<String, Object> deserialize) {
+  public ResourceSpawner(Map<String, Object> deserialize) {
     this.location = Utils.locationDeserialize(deserialize.get("location"));
 
     if (deserialize.containsKey("name")) {
@@ -38,7 +42,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
           this.spread = Double.parseDouble(deserialize.get("spread").toString());
         }
       } else {
-        this.itemstack = RessourceSpawner.createSpawnerStackByConfig(
+        this.itemstack = ResourceSpawner.createSpawnerStackByConfig(
             Main.getInstance().getConfig().get("ressource." + this.name));
         this.interval =
             Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
@@ -56,7 +60,7 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
           this.spread = Double.parseDouble(deserialize.get("spread").toString());
         }
       } else {
-        this.itemstack = RessourceSpawner.createSpawnerStackByConfig(
+        this.itemstack = ResourceSpawner.createSpawnerStackByConfig(
             Main.getInstance().getConfig().get("ressource." + this.name));
         this.interval =
             Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
@@ -66,13 +70,13 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
     }
   }
 
-  public RessourceSpawner(Game game, String name, Location location) {
+  public ResourceSpawner(Game game, String name, Location location) {
     this.game = game;
     this.name = name;
     this.interval =
         Main.getInstance().getIntConfig("ressource." + this.name + ".spawn-interval", 1000);
     this.location = location;
-    this.itemstack = RessourceSpawner
+    this.itemstack = ResourceSpawner
         .createSpawnerStackByConfig(Main.getInstance().getConfig().get("ressource." + this.name));
     this.spread =
         Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
@@ -110,7 +114,48 @@ public class RessourceSpawner implements Runnable, ConfigurationSerializable {
 
   @Override
   public void run() {
-    Location dropLocation = this.location;
+    Location dropLocation = this.location.clone();
+    ItemStack item = this.itemstack.clone();
+
+    BedwarsResourceSpawnEvent resourceSpawnEvent =
+        new BedwarsResourceSpawnEvent(this.game, this.location, item);
+    Main.getInstance().getServer().getPluginManager().callEvent(resourceSpawnEvent);
+
+    if (resourceSpawnEvent.isCancelled()) {
+      return;
+    }
+
+    item = resourceSpawnEvent.getResource();
+
+    if (Main.getInstance().getBooleanConfig("spawn-ressources-in-chest", true)) {
+      BlockState blockState = dropLocation.getBlock().getState();
+      if (blockState instanceof Chest) {
+        Chest chest = (Chest) blockState;
+        if (canContainItem(chest.getInventory(), item)) {
+          chest.getInventory().addItem(item);
+          return;
+        } else {
+          dropLocation.setY(dropLocation.getY() + 1);
+        }
+      }
+    }
+    dropItem(dropLocation);
+  }
+
+  public boolean canContainItem(Inventory inv, ItemStack item) {
+    int space = 0;
+    for (ItemStack stack : inv.getContents()) {
+      if (stack == null) {
+        space += this.itemstack.getMaxStackSize();
+      } else if (stack.getType() == this.itemstack.getType()
+          && stack.getDurability() == this.itemstack.getDurability()) {
+        space += this.itemstack.getMaxStackSize() - stack.getAmount();
+      }
+    }
+    return space >= this.itemstack.getAmount();
+  }
+
+  public void dropItem(Location dropLocation) {
     Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
     item.setPickupDelay(0);
 

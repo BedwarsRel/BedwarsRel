@@ -23,7 +23,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.ScoreboardManager;
-import org.mcstats.Metrics;
 
 import com.bugsnag.Bugsnag;
 import com.bugsnag.Report;
@@ -67,7 +66,7 @@ import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameManager;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.RessourceSpawner;
+import io.github.bedwarsrel.BedwarsRel.Game.ResourceSpawner;
 import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import io.github.bedwarsrel.BedwarsRel.Listener.BlockListener;
 import io.github.bedwarsrel.BedwarsRel.Listener.ChunkListener;
@@ -90,6 +89,7 @@ import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
 import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Metrics;
 import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
@@ -714,7 +714,7 @@ public class Main extends JavaPlugin {
   }
 
   private void registerConfigurationClasses() {
-    ConfigurationSerialization.registerClass(RessourceSpawner.class, "RessourceSpawner");
+    ConfigurationSerialization.registerClass(ResourceSpawner.class, "RessourceSpawner");
     ConfigurationSerialization.registerClass(Team.class, "Team");
   }
 

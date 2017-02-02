@@ -181,11 +181,11 @@ public class GameManager {
           spawner = cfg.getConfigurationSection("spawner").getValues(false);
 
           for (Object obj : spawner.values()) {
-            if (!(obj instanceof RessourceSpawner)) {
+            if (!(obj instanceof ResourceSpawner)) {
               continue;
             }
 
-            RessourceSpawner rs = (RessourceSpawner) obj;
+            ResourceSpawner rs = (ResourceSpawner) obj;
             rs.setGame(game);
             game.addRessourceSpawner(rs);
           }
@@ -193,11 +193,11 @@ public class GameManager {
 
         if (cfg.isList("spawner")) {
           for (Object rs : cfg.getList("spawner")) {
-            if (!(rs instanceof RessourceSpawner)) {
+            if (!(rs instanceof ResourceSpawner)) {
               continue;
             }
 
-            RessourceSpawner rsp = (RessourceSpawner) rs;
+            ResourceSpawner rsp = (ResourceSpawner) rs;
             rsp.setGame(game);
             game.addRessourceSpawner(rsp);
           }
@@ -243,7 +243,11 @@ public class GameManager {
       game.setLoc(loc2, "loc2");
       game.setLobby(Utils.locationDeserialize(cfg.get("lobby")));
 
-      String regionName = loc1.getWorld().getName();
+      String regionName = "";
+
+      if (loc1.getWorld() != null) {
+        regionName = loc1.getWorld().getName();
+      }
 
       if (cfg.contains("regionname")) {
         regionName = cfg.getString("regionname");

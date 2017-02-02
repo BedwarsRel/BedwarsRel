@@ -105,7 +105,6 @@ public class ConfigUpdater {
       Sound.valueOf(
           Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase());
     } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
       if (Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
         Main.getInstance().getConfig().set("bed-sound", "ENDERDRAGON_GROWL");
       } else {
@@ -272,6 +271,10 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.using-wait-time", 30);
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.item", "ender_eye");
     // </1.3.4>
+    
+    // <1.3.5>
+    Main.getInstance().getConfig().addDefault("spawn-resources-in-chest", true);
+    // </1.3.5>
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})

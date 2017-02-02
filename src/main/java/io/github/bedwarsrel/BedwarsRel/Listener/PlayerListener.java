@@ -47,6 +47,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
 import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
@@ -518,25 +519,37 @@ public class PlayerListener extends BaseListener {
     String message = ce.getMessage();
     boolean isSpectator = game.isSpectator(player);
 
+    String displayName = player.getDisplayName();
+    String playerListName = player.getPlayerListName();
+
     if (Main.getInstance().getBooleanConfig("overwrite-names", false)) {
       if (team == null) {
-        player.setDisplayName(ChatColor.stripColor(player.getName()));
+        displayName = ChatColor.stripColor(player.getName());
 
-        player.setPlayerListName(ChatColor.stripColor(player.getName()));
+        playerListName = ChatColor.stripColor(player.getName());
       } else {
-        player.setDisplayName(team.getChatColor() + ChatColor.stripColor(player.getName()));
-        player.setPlayerListName(team.getChatColor() + ChatColor.stripColor(player.getName()));
+        displayName = team.getChatColor() + ChatColor.stripColor(player.getName());
+        playerListName = team.getChatColor() + ChatColor.stripColor(player.getName());
       }
 
     }
 
     if (Main.getInstance().getBooleanConfig("teamname-on-tab", false)) {
       if (team == null || isSpectator) {
-        player.setPlayerListName(ChatColor.stripColor(player.getDisplayName()));
+        playerListName = ChatColor.stripColor(player.getDisplayName());
       } else {
-        player.setPlayerListName(team.getChatColor() + team.getName() + ChatColor.WHITE + " | "
-            + team.getChatColor() + ChatColor.stripColor(player.getDisplayName()));
+        playerListName = team.getChatColor() + team.getName() + ChatColor.WHITE + " | "
+            + team.getChatColor() + ChatColor.stripColor(player.getDisplayName());
       }
+    }
+
+    BedwarsPlayerSetNameEvent playerSetNameEvent =
+        new BedwarsPlayerSetNameEvent(team, displayName, playerListName, player);
+    Main.getInstance().getServer().getPluginManager().callEvent(playerSetNameEvent);
+
+    if (!playerSetNameEvent.isCancelled()) {
+      player.setDisplayName(playerSetNameEvent.getDisplayName());
+      player.setPlayerListName(playerSetNameEvent.getPlayerListName());
     }
 
     if (game.getState() != GameState.RUNNING && game.getState() == GameState.WAITING) {

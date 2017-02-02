@@ -232,7 +232,7 @@ public class Region {
       }
     }
 
-    for (RessourceSpawner spawner : game.getRessourceSpawner()) {
+    for (ResourceSpawner spawner : game.getRessourceSpawner()) {
       spawner.getLocation().getChunk().load();
     }
 
