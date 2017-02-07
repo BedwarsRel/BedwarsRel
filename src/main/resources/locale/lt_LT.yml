@@ -225,7 +225,7 @@ commands:
     name: "Sets a team spawn"
     desc: "Sets the spawn of the given team"
   setspawner:
-    name: "Set spawner"
+    name: "Nustatyti spawnerį"
     desc: "Sets a spawner location of a specific ressource"
   start:
     name: "Start game"
@@ -270,16 +270,16 @@ commands:
     name: "Set game block"
     desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
-    name: "Set autobalance"
+    name: "Nustatyi auto balansavimą"
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
-    name: "Set minimum players"
+    name: "Nustatymi mažiausia žaidėjų skaičių"
     desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Kick player"
+    name: "Išmesti žaidėją"
     desc: "Kicks a player from the current game!"
   addteamjoin:
-    name: "Add team selection"
+    name: "Pridėti komandos pasirinkimą"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
     debugpaste: "Send debug data"
