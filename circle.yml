@@ -10,9 +10,34 @@ stages:
         
       - type: shell
         shell: /bin/bash --login
-        command: SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7) && mvn clean deploy --settings settings.xml
+        command: |
+          export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
+          if [ "${CIRCLE_BRANCH}" == "master" ]
+          then
+            mvn clean install -P ci-release,attach-javadocs,attach-sources
+          else
+            mvn clean install -P ci-snapshot,attach-javadocs,attach-sources
+          fi
+          mkdir target/artifacts/
+          cp target/BedwarsRel-*.jar target/artifacts/.
+        
+      - type: deploy
+        shell: /bin/bash --login
+        command: |
+          export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
+          if [ "${CIRCLE_BRANCH}" == "master" ]
+          then
+            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources --settings settings.xml
+          elif [ "${CIRCLE_BRANCH}" == "develop" ]
+          then
+            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources --settings settings.xml
+          fi
 
       - type: artifacts-store
-        path: target/
-        destination: build
+        path: target/artifacts
+        destination: artifacts
+        
+      - type: artifacts-store
+        path: target/apidocs
+        destination: apidocs
 

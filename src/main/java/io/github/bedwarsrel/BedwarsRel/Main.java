@@ -87,9 +87,10 @@ import io.github.bedwarsrel.BedwarsRel.Updater.DatabaseUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
+import io.github.bedwarsrel.BedwarsRel.Utils.BStatsMetrics;
 import io.github.bedwarsrel.BedwarsRel.Utils.BedwarsCommandExecutor;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Metrics;
+import io.github.bedwarsrel.BedwarsRel.Utils.McStatsMetrics;
 import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import lombok.Getter;
@@ -649,9 +650,10 @@ public class Main extends JavaPlugin {
 
   public void startMetricsIfEnabled() {
     if (this.metricsEnabled()) {
+      new BStatsMetrics(this);
       try {
-        Metrics metrics = new Metrics(this);
-        metrics.start();
+        McStatsMetrics mcStatsMetrics = new McStatsMetrics(this);
+        mcStatsMetrics.start();
       } catch (Exception ex) {
         Main.getInstance().getBugsnag().notify(ex);
         this.getServer().getConsoleSender().sendMessage(ChatWriter
