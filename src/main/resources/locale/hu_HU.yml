@@ -6,7 +6,7 @@ errors:
   argumentslength: "Nincs elegendő kritérium a parancs végrehajtásához!"
   holodependencynotfound: "Nem találtam Hologram-Statisztikát"
   packagenotfound: "Nem tudtam letölteni a $package$ csomagot!"
-  classnotfound: "Couldn't fetch $package$ class $class$!"
+  classnotfound: "Nem tudtam letölteni a(z)  $package$ osztályt $class$!"
   gameexists: "Már létezik ilyen nevű aréna!"
   gamenotfound: "A(z) \"$game$\" játékaréna nem található!"
   nofreegames: "Nincs elérhető szabad játék."
@@ -82,7 +82,7 @@ success:
 gamecheck:
   LOC_NOT_SET_ERROR: "Elhelyezkedés a régóban iincs mehfelelően."
   TEAM_SIZE_LOW_ERROR: "Te tudsz beállítani több csapatot!"
-  NO_RES_SPAWNER_ERROR: "You didn't set any resource spawner!"
+  NO_RES_SPAWNER_ERROR: "Nem állítottad be az összes érclelő helyet!"
   NO_LOBBY_SET: "Még, nem állítottad be az elosztót!"
   TEAMS_WITHOUT_SPAWNS: "Csapat vagy csapatoknak nincsen kezdő pontja!"
   NO_ITEMSHOP_CATEGORIES: "Nemtalál tárgybolt kategóriákat!"
@@ -151,7 +151,7 @@ ingame:
       no-target-found: "Nincs beállítva játékos megtalálva!"
     tracker:
       no-target-found: "Nincs beállítva játékos megtalálva!"
-      target-found: "$player$ is $blocks$ block(s) away from you."
+      target-found: "$player$ $blocks$ blokkra van tőled."
 lobby:
   countdown: "A játék $sec$ másodperc múlva kezdetét veszi!"
   countdowncancel: "Nincs elég játékos, a visszaszámlálás leállt!"
@@ -159,8 +159,8 @@ lobby:
     not_enough_players: "Több játékost igényel! Állotsd át."
     not_enough_teams: "Több csapat kell! Csinálj még csapatot."
   cancelstart:
-    not_enough_players: "More players are needed to start the game!"
-    not_enough_teams: "More teams are needed to start the game!"
+    not_enough_players: "Több játékos kell a játék elkezdéséhez!"
+    not_enough_teams: "Több csapat kell a játék elkezdéséhez!"
   chooseteam: "Csapat választás"
   startgame: "Játék indítása"
   reduce_countdown: "Csökken a visszaszámlálás"
@@ -199,34 +199,34 @@ commands:
     desc: "Új játék létrehozása"
   addteam:
     name: "Csapat hozzáadása"
-    desc: "Adds a team to a specific game"
+    desc: "Adj hozzá csapatokat"
   join:
-    name: "Join Game"
-    desc: "Joins a specific game"
+    name: "Belépés"
+    desc: "Belépés játékokba"
   leave:
     name: "Játék elhagyása"
-    desc: "Leave the current game"
+    desc: "Jelenlegi játék elhagyása"
   save:
     name: "Játék mentése"
-    desc: "Saves a game (and map) to config file(s)"
+    desc: "Menti a játékot (és a mapot) a konfigurációs fájl(ok)-ba"
   settarget:
     name: "Célpont beállítása"
-    desc: "Sets the location of a team's target block"
+    desc: "Egy csapat célblokkjának beállítása"
   setbed:
     name: "Ágy beállítása (a \"settarget\" szinonimája)"
-    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+    desc: "Egy csapat ágyának beállítása (a \"settarget\" szinonimája)"
   setlobby:
-    name: "Set lobby"
+    name: "Állitsd be az elosztót!"
     desc: "Add meg a helyzetét a játék elosztónak!"
   setregion:
-    name: "Sets a region point"
-    desc: "Sets a region point for the game"
+    name: "Játékterület sarkainak beállítása"
+    desc: "Egy játékterület sarkainak beállítása"
   setspawn:
-    name: "Sets a team spawn"
-    desc: "Sets the spawn of the given team"
+    name: "Újraéledőhely beállítása"
+    desc: "Egy adott csapat újraéledőhelyének beállítása"
   setspawner:
     name: "Spawner lehelyezése"
-    desc: "Sets a spawner location of a specific ressource"
+    desc: "Egy adott nyersanyag termelőhelyének lehelyezése"
   start:
     name: "Játék indítása"
     desc: "Indul a játék"
@@ -268,10 +268,10 @@ commands:
     desc: "Beállítja a építész nevét, amely megjelenik a játék indulásakor."
   setgameblock:
     name: "Játék blokk beállítása"
-    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    desc: "Ez a játék, amelyet akkor kell használni, nem a \"játék-block\" konfigurációs játék blokk típust állít be. Írni a \"DEFAULT\" típust használ a típusú config újra"
   setautobalance:
-    name: "Set autobalance"
-    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    name: "Automatikus csapatelosztás beállítása"
+    desc: "Automatikus csapatelosztás be-ki kapcsolása. Ha \"false\" szabad a csapatválasztás."
   setminplayers:
     name: "Minimális játékosszám beállítása"
     desc: "Beállítja hogy hány játékos kell a játék indulásához"
