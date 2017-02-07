@@ -282,8 +282,8 @@ commands:
     name: "Team-Auswahl hinzufügen"
     desc: "Markiert eine Kreatur, die zur Team-Auswahl für ein bestimmtes Team verwendet werden kann"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    debugpaste: "Sende Debug-Informationen"
+    desc: "Lade einige Debug-Informationen auf Hastebin hoch und erhalte einen Link, den du mit den Entwicklern teilen kannst"
   removeholo:
     name: "Hologram-Position entfernen"
     desc: "Sobald der Command ausgelöst wurde, kann innerhalb von 10 Sekunden auf das entsprechende Hologram geklickt werden, um es zu entfernen"
