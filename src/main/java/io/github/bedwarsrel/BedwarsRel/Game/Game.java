@@ -1,5 +1,20 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartedEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
+import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategoryComparator;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,7 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -38,24 +53,6 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartedEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
-import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
-import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategoryComparator;
-import lombok.Data;
 
 @Data
 public class Game {
@@ -537,14 +534,14 @@ public class Game {
   public Location getPlayerTeleportLocation(Player player) {
     if (this.isSpectator(player)
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       return ((Team) this.teams.values().toArray()[Utils.randInt(0, this.teams.size() - 1)])
           .getSpawnLocation();
     }
 
     if (this.getPlayerTeam(player) != null
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       return this.getPlayerTeam(player).getSpawnLocation();
     }
 
@@ -554,22 +551,26 @@ public class Game {
   public void setPlayerGameMode(Player player) {
     if (this.isSpectator(player)
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
 
       player.setAllowFlight(true);
       player.setFlying(true);
       player.setGameMode(GameMode.SPECTATOR);
 
     } else {
-      Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
-      if (gameMode == 0) {
+      if (this.getState().equals(GameState.RUNNING)) {
         player.setGameMode(GameMode.SURVIVAL);
-      } else if (gameMode == 1) {
-        player.setGameMode(GameMode.CREATIVE);
-      } else if (gameMode == 2) {
-        player.setGameMode(GameMode.ADVENTURE);
-      } else if (gameMode == 3) {
-        player.setGameMode(GameMode.SPECTATOR);
+      } else if (this.getState().equals(GameState.WAITING)) {
+        Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
+        if (gameMode == 0) {
+          player.setGameMode(GameMode.SURVIVAL);
+        } else if (gameMode == 1) {
+          player.setGameMode(GameMode.CREATIVE);
+        } else if (gameMode == 2) {
+          player.setGameMode(GameMode.ADVENTURE);
+        } else if (gameMode == 3) {
+          player.setGameMode(GameMode.SPECTATOR);
+        }
       }
     }
   }
@@ -580,7 +581,7 @@ public class Game {
 
     if (this.state == GameState.RUNNING
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       if (this.isSpectator(player)) {
         if (player.getGameMode().equals(GameMode.SURVIVAL)) {
           for (Player playerInGame : players) {
@@ -822,7 +823,7 @@ public class Game {
 
       if (Main.getInstance().isHologramsEnabled()
           && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
-              .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
+          .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
         Main.getInstance().getHolographicInteractor().updateHolograms(p);
       }
 
@@ -1923,7 +1924,6 @@ public class Game {
     }
 
     this.updateScoreboard();
-
 
     if (this.isStartable() && this.getLobbyCountdown() == null) {
       GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
