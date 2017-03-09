@@ -283,7 +283,7 @@ commands:
     desc: "¡Marca una criatura que pueda ser usada para unirse a un equipo específico!"
   addholo:
     debugpaste: "Enviar datos de depuración"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "Esto enviará datos de errores a Hastebin y te proporcionara un link que puedes compartir con los desarrolladores"
   removeholo:
     name: "Quitar la ubicación del holograma"
     desc: "Cuando el comando es ejecutado, el jugador debe dar click-derecho en el holograma para eliminarlo."
