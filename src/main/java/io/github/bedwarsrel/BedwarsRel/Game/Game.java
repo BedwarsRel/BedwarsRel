@@ -7,6 +7,7 @@ import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsTargetBlockDestroyedEvent;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
@@ -977,6 +978,10 @@ public class Game {
           "{score}",
           String.valueOf(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
     }
+
+    BedwarsTargetBlockDestroyedEvent targetBlockDestroyedEvent =
+        new BedwarsTargetBlockDestroyedEvent(this, p, bedDestroyTeam);
+    Main.getInstance().getServer().getPluginManager().callEvent(targetBlockDestroyedEvent);
 
     this.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed",
         ImmutableMap.of("team",
