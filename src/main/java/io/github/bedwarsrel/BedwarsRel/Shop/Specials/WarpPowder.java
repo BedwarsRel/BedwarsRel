@@ -16,32 +16,18 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class WarpPowder extends SpecialItem {
 
+  private int fullTeleportingTime = 6;
+  private Game game = null;
+  private Player player = null;
+  private ItemStack stack = null;
   private BukkitTask teleportingTask = null;
   private double teleportingTime = 6.0;
-  private Player player = null;
-  private Game game = null;
-  private int fullTeleportingTime = 6;
-  private ItemStack stack = null;
 
   public WarpPowder() {
     super();
 
     this.fullTeleportingTime =
         Main.getInstance().getIntConfig("specials.warp-powder.teleport-time", 6);
-  }
-
-  @Override
-  public Material getItemMaterial() {
-    return Material.SULPHUR;
-  }
-
-  @Override
-  public Material getActivatedMaterial() {
-    return Material.GLOWSTONE_DUST;
-  }
-
-  public Player getPlayer() {
-    return this.player;
   }
 
   public void cancelTeleport(boolean removeSpecial, boolean showMessage) {
@@ -63,7 +49,8 @@ public class WarpPowder extends SpecialItem {
 
     if (showMessage) {
       this.player
-          .sendMessage(ChatWriter.pluginMessage(Main._l(this.player, "ingame.specials.warp-powder.cancelled")));
+          .sendMessage(ChatWriter
+              .pluginMessage(Main._l(this.player, "ingame.specials.warp-powder.cancelled")));
     }
 
     this.setStackAmount(this.getStack().getAmount() - 1);
@@ -78,6 +65,11 @@ public class WarpPowder extends SpecialItem {
     this.player.updateInventory();
   }
 
+  @Override
+  public Material getActivatedMaterial() {
+    return Material.GLOWSTONE_DUST;
+  }
+
   private ItemStack getCancelItemStack() {
     ItemStack glowstone = new ItemStack(this.getActivatedMaterial(), 1);
     ItemMeta meta = glowstone.getItemMeta();
@@ -85,6 +77,23 @@ public class WarpPowder extends SpecialItem {
     glowstone.setItemMeta(meta);
 
     return glowstone;
+  }
+
+  @Override
+  public Material getItemMaterial() {
+    return Material.SULPHUR;
+  }
+
+  public Player getPlayer() {
+    return this.player;
+  }
+
+  public void setPlayer(Player player) {
+    this.player = player;
+  }
+
+  public ItemStack getStack() {
+    return this.stack;
   }
 
   @SuppressWarnings("deprecation")
@@ -115,11 +124,11 @@ public class WarpPowder extends SpecialItem {
 
     this.teleportingTask = new BukkitRunnable() {
 
-      public double through = 0.0;
       public String particle =
           Main.getInstance().getStringConfig("specials.warp-powder.particle", "fireworksSpark");
       public boolean showParticle =
           Main.getInstance().getBooleanConfig("specials.warp-powder.show-particles", true);
+      public double through = 0.0;
 
       @Override
       public void run() {
@@ -179,16 +188,8 @@ public class WarpPowder extends SpecialItem {
     this.game.addSpecialItem(this);
   }
 
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
-
   public void setGame(Game game) {
     this.game = game;
-  }
-
-  public ItemStack getStack() {
-    return this.stack;
   }
 
   public void setStackAmount(int amount) {

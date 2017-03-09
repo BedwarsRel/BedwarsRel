@@ -16,26 +16,6 @@ public class AddGameCommand extends BaseCommand {
   }
 
   @Override
-  public String getCommand() {
-    return "addgame";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.addgame.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.addgame.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[]{"name", "minplayers"};
-  }
-
-  @Override
   public boolean execute(CommandSender sender, ArrayList<String> args) {
     if (!sender.hasPermission("bw." + this.getPermission())) {
       return false;
@@ -51,7 +31,8 @@ public class AddGameCommand extends BaseCommand {
     }
 
     if (addGame == null) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.gameexists")));
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.gameexists")));
       return false;
     }
 
@@ -64,6 +45,26 @@ public class AddGameCommand extends BaseCommand {
     sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
         + Main._l(sender, "success.gameadded", ImmutableMap.of("game", args.get(0).toString()))));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"name", "minplayers"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "addgame";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.addgame.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.addgame.name");
   }
 
   @Override

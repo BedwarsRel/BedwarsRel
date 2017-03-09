@@ -1,20 +1,18 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
 import java.util.ArrayList;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
-
 public class BedwarsCommandExecutedEvent extends Event {
 
   private static final HandlerList handlers = new HandlerList();
-  private CommandSender sender = null;
   private BaseCommand command = null;
-  private boolean result = false;
   private ArrayList<String> params = null;
+  private boolean result = false;
+  private CommandSender sender = null;
 
   public BedwarsCommandExecutedEvent(CommandSender sender, BaseCommand command,
       ArrayList<String> params, boolean result) {
@@ -24,25 +22,25 @@ public class BedwarsCommandExecutedEvent extends Event {
     this.result = result;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsCommandExecutedEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsCommandExecutedEvent.handlers;
-  }
-
-  public CommandSender getSender() {
-    return this.sender;
   }
 
   public BaseCommand getCommand() {
     return this.command;
   }
 
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsCommandExecutedEvent.handlers;
+  }
+
   public ArrayList<String> getParameter() {
     return this.params;
+  }
+
+  public CommandSender getSender() {
+    return this.sender;
   }
 
   public boolean isSuccess() {

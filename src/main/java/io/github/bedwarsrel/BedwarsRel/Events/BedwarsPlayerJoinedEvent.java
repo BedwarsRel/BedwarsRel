@@ -19,11 +19,6 @@ public class BedwarsPlayerJoinedEvent extends Event {
     this.team = team;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsPlayerJoinedEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsPlayerJoinedEvent.handlers;
   }
@@ -32,12 +27,17 @@ public class BedwarsPlayerJoinedEvent extends Event {
     return this.game;
   }
 
-  public Team getTeam() {
-    return this.team;
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsPlayerJoinedEvent.handlers;
   }
 
   public Player getPlayer() {
     return this.player;
+  }
+
+  public Team getTeam() {
+    return this.team;
   }
 
 }

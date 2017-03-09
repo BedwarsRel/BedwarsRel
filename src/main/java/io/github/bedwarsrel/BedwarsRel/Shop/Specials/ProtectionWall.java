@@ -1,8 +1,12 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,52 +16,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class ProtectionWall extends SpecialItem {
 
-  private List<Block> wallBlocks = null;
-  private Player owner = null;
   private Game game = null;
   private int livingTime = 0;
+  private Player owner = null;
   private BukkitTask task = null;
+  private List<Block> wallBlocks = null;
 
   public ProtectionWall() {
     super();
     this.wallBlocks = new ArrayList<Block>();
     this.owner = null;
     this.game = null;
-  }
-
-  @Override
-  public Material getItemMaterial() {
-    return Utils.getMaterialByConfig("specials.protection-wall.item", Material.BRICK);
-  }
-
-  public List<Block> getWallBlocks() {
-    return this.wallBlocks;
-  }
-
-  @Override
-  public Material getActivatedMaterial() {
-    return null;
-  }
-
-  public Player getOwner() {
-    return this.owner;
-  }
-
-  public Game getGame() {
-    return this.game;
-  }
-
-  public int getLivingTime() {
-    return this.livingTime;
   }
 
   @SuppressWarnings("deprecation")
@@ -86,7 +57,8 @@ public class ProtectionWall extends SpecialItem {
 
     if (player.getEyeLocation().getBlock().getType() != Material.AIR) {
       player.sendMessage(
-          ChatWriter.pluginMessage(Main._l(player, "ingame.specials.protection-wall.not-usable-here")));
+          ChatWriter
+              .pluginMessage(Main._l(player, "ingame.specials.protection-wall.not-usable-here")));
       return;
     }
 
@@ -213,6 +185,24 @@ public class ProtectionWall extends SpecialItem {
     this.game.addRunningTask(this.task);
   }
 
+  @Override
+  public Material getActivatedMaterial() {
+    return null;
+  }
+
+  public Game getGame() {
+    return this.game;
+  }
+
+  @Override
+  public Material getItemMaterial() {
+    return Utils.getMaterialByConfig("specials.protection-wall.item", Material.BRICK);
+  }
+
+  public int getLivingTime() {
+    return this.livingTime;
+  }
+
   private ArrayList<ProtectionWall> getLivingWalls() {
     ArrayList<ProtectionWall> livingWalls = new ArrayList<ProtectionWall>();
     for (SpecialItem item : game.getSpecialItems()) {
@@ -224,6 +214,14 @@ public class ProtectionWall extends SpecialItem {
       }
     }
     return livingWalls;
+  }
+
+  public Player getOwner() {
+    return this.owner;
+  }
+
+  public List<Block> getWallBlocks() {
+    return this.wallBlocks;
   }
 
 }

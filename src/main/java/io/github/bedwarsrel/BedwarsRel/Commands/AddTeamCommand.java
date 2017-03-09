@@ -1,42 +1,19 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
-import java.util.ArrayList;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-
 import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
 import io.github.bedwarsrel.BedwarsRel.Game.TeamColor;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import java.util.ArrayList;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
 public class AddTeamCommand extends BaseCommand {
 
   public AddTeamCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "addteam";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.addteam.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.addteam.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "name", "color", "maxplayers"};
   }
 
   @Override
@@ -61,7 +38,8 @@ public class AddTeamCommand extends BaseCommand {
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
@@ -74,18 +52,21 @@ public class AddTeamCommand extends BaseCommand {
     int playerMax = Integer.parseInt(maxPlayers);
 
     if (playerMax < 1 || playerMax > 24) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.playeramount")));
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.playeramount")));
       return false;
     }
 
     if (name.length() < 3 || name.length() > 20) {
       sender
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.teamnamelength")));
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.teamnamelength")));
       return false;
     }
 
     if (game.getTeam(name) != null) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.teamnameinuse")));
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.teamnameinuse")));
       return false;
     }
 
@@ -93,6 +74,26 @@ public class AddTeamCommand extends BaseCommand {
     sender.sendMessage(ChatWriter.pluginMessage(
         ChatColor.GREEN + Main._l(sender, "success.teamadded", ImmutableMap.of("team", name))));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "name", "color", "maxplayers"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "addteam";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.addteam.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.addteam.name");
   }
 
   @Override

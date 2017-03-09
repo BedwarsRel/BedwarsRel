@@ -15,17 +15,49 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_11_R1;
 
 import net.minecraft.server.v1_11_R1.NBTTagCompound;
-
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_11_R1.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 public class SpawnEgg1_11 {
+
   private EntityType type;
 
   public SpawnEgg1_11(EntityType type) {
     this.type = type;
+  }
+
+  /**
+   * Converts from an item stack to a spawn egg 1.9
+   *
+   * @param item - ItemStack, quantity is disregarded
+   * @return SpawnEgg 1.9
+   */
+  public static SpawnEgg1_11 fromItemStack(ItemStack item) {
+    if (item == null) {
+      throw new IllegalArgumentException("item cannot be null");
+    }
+    if (item.getType() != Material.MONSTER_EGG) {
+      throw new IllegalArgumentException("item is not a monster egg");
+    }
+    net.minecraft.server.v1_11_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
+    NBTTagCompound tagCompound = stack.getTag();
+    if (tagCompound != null) {
+      @SuppressWarnings("deprecation")
+      EntityType type = EntityType.fromName(tagCompound.getCompound("EntityTag").getString("id"));
+      if (type != null) {
+        return new SpawnEgg1_11(type);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  public SpawnEgg1_11 clone() {
+    return (SpawnEgg1_11) this.clone();
   }
 
   /**
@@ -48,17 +80,9 @@ public class SpawnEgg1_11 {
     }
   }
 
-  public String toString() {
-    return "SPAWN EGG{" + getSpawnedType() + "}";
-  }
-
-  public SpawnEgg1_11 clone() {
-    return (SpawnEgg1_11) this.clone();
-  }
-
   /**
    * Get an ItemStack of one spawn egg
-   * 
+   *
    * @return ItemStack
    */
   public ItemStack toItemStack() {
@@ -68,8 +92,7 @@ public class SpawnEgg1_11 {
 
   /**
    * Get an itemstack of spawn eggs
-   * 
-   * @param amount
+   *
    * @return ItemStack of spawn eggs
    */
   @SuppressWarnings("deprecation")
@@ -87,29 +110,7 @@ public class SpawnEgg1_11 {
     return CraftItemStack.asBukkitCopy(stack);
   }
 
-  /**
-   * Converts from an item stack to a spawn egg 1.9
-   * 
-   * @param item - ItemStack, quantity is disregarded
-   * @return SpawnEgg 1.9
-   */
-  public static SpawnEgg1_11 fromItemStack(ItemStack item) {
-    if (item == null)
-      throw new IllegalArgumentException("item cannot be null");
-    if (item.getType() != Material.MONSTER_EGG)
-      throw new IllegalArgumentException("item is not a monster egg");
-    net.minecraft.server.v1_11_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
-    NBTTagCompound tagCompound = stack.getTag();
-    if (tagCompound != null) {
-      @SuppressWarnings("deprecation")
-      EntityType type = EntityType.fromName(tagCompound.getCompound("EntityTag").getString("id"));
-      if (type != null) {
-        return new SpawnEgg1_11(type);
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
+  public String toString() {
+    return "SPAWN EGG{" + getSpawnedType() + "}";
   }
 }

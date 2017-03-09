@@ -1,5 +1,8 @@
 package io.github.bedwarsrel.BedwarsRel.Updater;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +15,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,10 +27,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class ConfigUpdater {
 
@@ -271,10 +269,62 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.using-wait-time", 30);
     Main.getInstance().getConfig().addDefault("specials.arrow-blocker.item", "ender_eye");
     // </1.3.4>
-    
+
     // <1.3.5>
     Main.getInstance().getConfig().addDefault("spawn-resources-in-chest", true);
     // </1.3.5>
+  }
+
+  private void excludeShop() {
+    if (Main.getInstance().getConfig().contains("shop")) {
+      ConfigurationSection shop = Main.getInstance().getConfig().getConfigurationSection("shop");
+
+      // move to new file
+      File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
+      if (file.exists()) {
+        // shop exists already, only remove old section
+        this.removeShopSection();
+        return;
+      }
+
+      // file not exists, so create one
+      try {
+        file.createNewFile();
+      } catch (IOException e) {
+        Main.getInstance().getBugsnag().notify(e);
+        // couldn't create file, exit
+        e.printStackTrace();
+        return;
+      }
+
+      YamlConfiguration config = new YamlConfiguration();
+      config.set("shop", shop);
+      this.saveShopFile(config, file);
+      this.removeShopSection();
+    }
+  }
+
+  private void removeShopSection() {
+    Main.getInstance().getConfig().set("shop", null);
+  }
+
+  private void saveShopFile(YamlConfiguration config, File file) {
+    try {
+      String data = Main.getInstance().getYamlDump(config);
+
+      FileOutputStream stream = new FileOutputStream(file);
+      OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
+
+      try {
+        writer.write(data);
+      } finally {
+        writer.close();
+        stream.close();
+      }
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      ex.printStackTrace();
+    }
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
@@ -366,11 +416,11 @@ public class ConfigUpdater {
             if (oldCfgSection.containsKey("meta")) {
               if (!material.equals(Material.POTION)
                   && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
-                      && (material.equals(Material.valueOf("TIPPED_ARROW"))
-                          || material.equals(Material.valueOf("LINGERING_POTION"))
-                          || material.equals(Material.valueOf("SPLASH_POTION"))))) {
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+                  && (material.equals(Material.valueOf("TIPPED_ARROW"))
+                  || material.equals(Material.valueOf("LINGERING_POTION"))
+                  || material.equals(Material.valueOf("SPLASH_POTION"))))) {
 
                 try {
                   meta = Byte.parseByte(oldCfgSection.get("meta").toString());
@@ -735,8 +785,8 @@ public class ConfigUpdater {
             if (hasMeta) {
               if (material.equals(Material.MONSTER_EGG) && meta == 91
                   && (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))) {
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                  || Main.getInstance().getCurrentVersion().startsWith("v1_11"))) {
                 if (Main.getInstance().getCurrentVersion().equalsIgnoreCase("v1_9_R1")) {
                   finalRewardStack =
                       new io.github.bedwarsrel.BedwarsRel.Com.v1_9_R1.SpawnEgg1_9(EntityType.SHEEP)
@@ -783,11 +833,11 @@ public class ConfigUpdater {
 
             if (material.equals(Material.POTION)
                 || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                    || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-                    || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
-                    && (material.equals(Material.valueOf("TIPPED_ARROW"))
-                        || material.equals(Material.valueOf("LINGERING_POTION"))
-                        || material.equals(Material.valueOf("SPLASH_POTION"))))) {
+                || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+                && (material.equals(Material.valueOf("TIPPED_ARROW"))
+                || material.equals(Material.valueOf("LINGERING_POTION"))
+                || material.equals(Material.valueOf("SPLASH_POTION"))))) {
 
               if (!hasPotionMeta && (oldCfgSection.containsKey("effects"))) {
                 PotionMeta customPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
@@ -847,13 +897,13 @@ public class ConfigUpdater {
 
                   if (!finalRewardStack.getType().equals(Material.POTION)
                       && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-                          || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-                          || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
-                          && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
-                              || finalRewardStack.getType()
-                                  .equals(Material.valueOf("LINGERING_POTION"))
-                              || finalRewardStack.getType()
-                                  .equals(Material.valueOf("SPLASH_POTION"))))) {
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+                      || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+                      && (finalRewardStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+                      || finalRewardStack.getType()
+                      .equals(Material.valueOf("LINGERING_POTION"))
+                      || finalRewardStack.getType()
+                      .equals(Material.valueOf("SPLASH_POTION"))))) {
                     Enchantment en = null;
                     int level = 0;
 
@@ -912,7 +962,7 @@ public class ConfigUpdater {
                   || Main.getInstance().getCurrentVersion().startsWith("v1_10")
                   || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
                   && (finalRewardStack.getType().equals(Material.valueOf("LINGERING_POTION"))
-                      || finalRewardStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
+                  || finalRewardStack.getType().equals(Material.valueOf("SPLASH_POTION"))))) {
                 PotionMeta finalRewardStackPotionMeta = (PotionMeta) finalRewardStack.getItemMeta();
                 if (finalRewardStackPotionMeta.getCustomEffects().size() >= 1) {
                   String effectName =
@@ -1040,57 +1090,5 @@ public class ConfigUpdater {
 
     // Save shop in UTF-8
     this.saveShopFile(shopConfig, file);
-  }
-
-  private void excludeShop() {
-    if (Main.getInstance().getConfig().contains("shop")) {
-      ConfigurationSection shop = Main.getInstance().getConfig().getConfigurationSection("shop");
-
-      // move to new file
-      File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
-      if (file.exists()) {
-        // shop exists already, only remove old section
-        this.removeShopSection();
-        return;
-      }
-
-      // file not exists, so create one
-      try {
-        file.createNewFile();
-      } catch (IOException e) {
-        Main.getInstance().getBugsnag().notify(e);
-        // couldn't create file, exit
-        e.printStackTrace();
-        return;
-      }
-
-      YamlConfiguration config = new YamlConfiguration();
-      config.set("shop", shop);
-      this.saveShopFile(config, file);
-      this.removeShopSection();
-    }
-  }
-
-  private void saveShopFile(YamlConfiguration config, File file) {
-    try {
-      String data = Main.getInstance().getYamlDump(config);
-
-      FileOutputStream stream = new FileOutputStream(file);
-      OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
-
-      try {
-        writer.write(data);
-      } finally {
-        writer.close();
-        stream.close();
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-  }
-
-  private void removeShopSection() {
-    Main.getInstance().getConfig().set("shop", null);
   }
 }

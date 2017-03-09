@@ -1,20 +1,18 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.Material;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 
 public abstract class SpecialItem {
 
   private static List<Class<? extends SpecialItem>> availableSpecials =
       new ArrayList<Class<? extends SpecialItem>>();
 
-  public abstract Material getItemMaterial();
-
-  public abstract Material getActivatedMaterial();
+  public static List<Class<? extends SpecialItem>> getSpecials() {
+    return SpecialItem.availableSpecials;
+  }
 
   public static void loadSpecials() {
     SpecialItem.availableSpecials.add(RescuePlatform.class);
@@ -43,8 +41,8 @@ public abstract class SpecialItem {
         Main.getInstance());
   }
 
-  public static List<Class<? extends SpecialItem>> getSpecials() {
-    return SpecialItem.availableSpecials;
-  }
+  public abstract Material getActivatedMaterial();
+
+  public abstract Material getItemMaterial();
 
 }

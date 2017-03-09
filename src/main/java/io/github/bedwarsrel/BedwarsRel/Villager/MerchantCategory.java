@@ -1,11 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Villager;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,16 +19,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class MerchantCategory {
 
-  private String name = null;
   private Material item = null;
   private List<String> lores = null;
+  private String name = null;
   private ArrayList<VillagerTrade> offers = null;
   private int order = 0;
   private String permission = null;
@@ -42,14 +40,6 @@ public class MerchantCategory {
     this.lores = lores;
     this.order = order;
     this.permission = permission;
-  }
-
-  public List<String> getLores() {
-    return this.lores;
-  }
-
-  public int getOrder() {
-    return this.order;
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
@@ -162,37 +152,6 @@ public class MerchantCategory {
   }
 
   @SuppressWarnings("deprecation")
-  private static ItemStack setRessourceName(ItemStack item) {
-
-    ItemMeta im = item.getItemMeta();
-    String name = im.getDisplayName();
-
-    // check if is ressource
-    ConfigurationSection ressourceSection =
-        Main.getInstance().getConfig().getConfigurationSection("ressource");
-    for (String key : ressourceSection.getKeys(false)) {
-      Material ressMaterial = null;
-      String itemType = ressourceSection.getString(key + ".item");
-
-      if (Utils.isNumber(itemType)) {
-        ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
-      } else {
-        ressMaterial = Material.getMaterial(itemType);
-      }
-
-      if (item.getType().equals(ressMaterial)) {
-        name =
-            ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
-      }
-    }
-
-    im.setDisplayName(name);
-    item.setItemMeta(im);
-
-    return item;
-  }
-
-  @SuppressWarnings("deprecation")
   public static void openCategorySelection(Player p, Game g) {
     List<MerchantCategory> cats = g.getOrderedItemShopCategories();
 
@@ -230,12 +189,35 @@ public class MerchantCategory {
     p.openInventory(inv);
   }
 
-  public String getName() {
-    return this.name;
-  }
+  @SuppressWarnings("deprecation")
+  private static ItemStack setRessourceName(ItemStack item) {
 
-  public Material getMaterial() {
-    return this.item;
+    ItemMeta im = item.getItemMeta();
+    String name = im.getDisplayName();
+
+    // check if is ressource
+    ConfigurationSection ressourceSection =
+        Main.getInstance().getConfig().getConfigurationSection("ressource");
+    for (String key : ressourceSection.getKeys(false)) {
+      Material ressMaterial = null;
+      String itemType = ressourceSection.getString(key + ".item");
+
+      if (Utils.isNumber(itemType)) {
+        ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
+      } else {
+        ressMaterial = Material.getMaterial(itemType);
+      }
+
+      if (item.getType().equals(ressMaterial)) {
+        name =
+            ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
+      }
+    }
+
+    im.setDisplayName(name);
+    item.setItemMeta(im);
+
+    return item;
   }
 
   @SuppressWarnings("unchecked")
@@ -254,8 +236,24 @@ public class MerchantCategory {
     return trades;
   }
 
+  public List<String> getLores() {
+    return this.lores;
+  }
+
+  public Material getMaterial() {
+    return this.item;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
   public ArrayList<VillagerTrade> getOffers() {
     return this.offers;
+  }
+
+  public int getOrder() {
+    return this.order;
   }
 
   public String getPermission() {

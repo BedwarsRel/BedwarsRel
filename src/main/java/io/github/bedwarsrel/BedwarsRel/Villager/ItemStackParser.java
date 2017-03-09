@@ -1,9 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Villager;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-
+import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,19 +16,14 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import lombok.Getter;
-
 public class ItemStackParser {
 
-  private Object configSection = null;
-  private Material material = null;
   private int amount = 1;
-  private LinkedHashMap<String, Object> linkedSection = null;
-
+  private Object configSection = null;
   @Getter
   private ItemStack finalStack = null;
+  private LinkedHashMap<String, Object> linkedSection = null;
+  private Material material = null;
 
   public ItemStackParser(Object section) {
     this.configSection = section;
@@ -46,6 +43,52 @@ public class ItemStackParser {
     }
 
     return linkedMap;
+  }
+
+  private byte getMeta() {
+    return Byte.parseByte(this.linkedSection.get("meta").toString());
+  }
+
+  private short getPotionMeta() {
+    return Short.parseShort(this.linkedSection.get("meta").toString());
+  }
+
+  private int getStackAmount() {
+    int amount = 0;
+    try {
+      if (this.linkedSection.containsKey("amount")) {
+        amount = Integer.parseInt(this.linkedSection.get("amount").toString());
+      }
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      amount = 1;
+    }
+
+    return amount;
+  }
+
+  private boolean hasMeta() {
+    return this.linkedSection.containsKey("meta");
+  }
+
+  private boolean isMetarizable() {
+    return (!this.material.equals(Material.POTION)
+        && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+        && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
+        || this.material.equals(Material.valueOf("LINGERING_POTION"))
+        || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+  }
+
+  private boolean isPotion() {
+    return (this.material.equals(Material.POTION)
+        || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+        || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+        && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
+        || this.material.equals(Material.valueOf("LINGERING_POTION"))
+        || this.material.equals(Material.valueOf("SPLASH_POTION")))));
   }
 
   public ItemStack parse() {
@@ -90,28 +133,53 @@ public class ItemStackParser {
     return null;
   }
 
-  private boolean isPotion() {
-    return (this.material.equals(Material.POTION)
-        || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
-            && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
-                || this.material.equals(Material.valueOf("LINGERING_POTION"))
-                || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+  private void parseCustomName() {
+    String name =
+        ChatColor.translateAlternateColorCodes('&', this.linkedSection.get("name").toString());
+    ItemMeta im = this.finalStack.getItemMeta();
+
+    im.setDisplayName(name);
+    this.finalStack.setItemMeta(im);
   }
 
-  private int getStackAmount() {
-    int amount = 0;
-    try {
-      if (this.linkedSection.containsKey("amount")) {
-        amount = Integer.parseInt(this.linkedSection.get("amount").toString());
+  @SuppressWarnings("deprecation")
+  private void parseEnchants() {
+    if (this.isMetarizable()) {
+      Enchantment en = null;
+      int level = 0;
+
+      ConfigurationSection newSection = (ConfigurationSection) (this.configSection);
+      ConfigurationSection enchantSection = (ConfigurationSection) newSection.get("enchants");
+
+      for (String key : enchantSection.getKeys(false)) {
+        if (Utils.isNumber(key)) {
+          en = Enchantment.getById(Integer.parseInt(key));
+          level = Integer.parseInt(enchantSection.get(key).toString());
+        } else {
+          en = Enchantment.getByName(key.toUpperCase());
+          level = Integer.parseInt(enchantSection.get(key).toString());
+        }
+
+        if (en == null) {
+          continue;
+        }
+
+        this.finalStack.addUnsafeEnchantment(en, level);
       }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      amount = 1;
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private void parseLore() {
+    List<String> lores = new ArrayList<String>();
+    ItemMeta im = this.finalStack.getItemMeta();
+
+    for (Object lore : (List<String>) this.linkedSection.get("lore")) {
+      lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
     }
 
-    return amount;
+    im.setLore(lores);
+    this.finalStack.setItemMeta(im);
   }
 
   @SuppressWarnings("deprecation")
@@ -126,41 +194,6 @@ public class ItemStackParser {
     }
 
     return material;
-  }
-
-  private boolean isMetarizable() {
-    return (!this.material.equals(Material.POTION)
-        && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-            || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
-            && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
-                || this.material.equals(Material.valueOf("LINGERING_POTION"))
-                || this.material.equals(Material.valueOf("SPLASH_POTION")))));
-  }
-
-  private boolean hasMeta() {
-    return this.linkedSection.containsKey("meta");
-  }
-
-  private short getPotionMeta() {
-    return Short.parseShort(this.linkedSection.get("meta").toString());
-  }
-
-  private byte getMeta() {
-    return Byte.parseByte(this.linkedSection.get("meta").toString());
-  }
-
-  @SuppressWarnings("unchecked")
-  private void parseLore() {
-    List<String> lores = new ArrayList<String>();
-    ItemMeta im = this.finalStack.getItemMeta();
-
-    for (Object lore : (List<String>) this.linkedSection.get("lore")) {
-      lores.add(ChatColor.translateAlternateColorCodes('&', lore.toString()));
-    }
-
-    im.setLore(lores);
-    this.finalStack.setItemMeta(im);
   }
 
   @SuppressWarnings("unchecked")
@@ -198,42 +231,6 @@ public class ItemStackParser {
     }
 
     this.finalStack.setItemMeta(customPotionMeta);
-  }
-
-  @SuppressWarnings("deprecation")
-  private void parseEnchants() {
-    if (this.isMetarizable()) {
-      Enchantment en = null;
-      int level = 0;
-
-      ConfigurationSection newSection = (ConfigurationSection) (this.configSection);
-      ConfigurationSection enchantSection = (ConfigurationSection) newSection.get("enchants");
-
-      for (String key : enchantSection.getKeys(false)) {
-        if (Utils.isNumber(key)) {
-          en = Enchantment.getById(Integer.parseInt(key));
-          level = Integer.parseInt(enchantSection.get(key).toString());
-        } else {
-          en = Enchantment.getByName(key.toUpperCase());
-          level = Integer.parseInt(enchantSection.get(key).toString());
-        }
-
-        if (en == null) {
-          continue;
-        }
-
-        this.finalStack.addUnsafeEnchantment(en, level);
-      }
-    }
-  }
-
-  private void parseCustomName() {
-    String name =
-        ChatColor.translateAlternateColorCodes('&', this.linkedSection.get("name").toString());
-    ItemMeta im = this.finalStack.getItemMeta();
-
-    im.setDisplayName(name);
-    this.finalStack.setItemMeta(im);
   }
 
 }

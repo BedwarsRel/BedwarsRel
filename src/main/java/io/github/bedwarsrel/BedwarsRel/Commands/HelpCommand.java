@@ -1,16 +1,13 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.ChatPaginator;
 import org.bukkit.util.ChatPaginator.ChatPage;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class HelpCommand extends BaseCommand {
 
@@ -18,24 +15,26 @@ public class HelpCommand extends BaseCommand {
     super(plugin);
   }
 
-  @Override
-  public String getCommand() {
-    return "help";
-  }
+  private void appendCommand(BaseCommand command, StringBuilder sb) {
+    String arg = "";
+    for (String argument : command.getArguments()) {
+      arg = arg + " {" + argument + "}";
+    }
 
-  @Override
-  public String getName() {
-    return Main._l("commands.help.name");
-  }
+    if (command.getCommand().equals("help")) {
+      arg = " {page?}";
+    } else if (command.getCommand().equalsIgnoreCase("list")) {
+      arg = " {page?}";
+    } else if (command.getCommand().equalsIgnoreCase("stats")) {
+      arg = " {player?}";
+    } else if (command.getCommand().equalsIgnoreCase("reload")) {
+      arg = " {config;locale;shop;games;all?}";
+    } else if (command.getCommand().equalsIgnoreCase("stop")) {
+      arg = " {game?}";
+    }
 
-  @Override
-  public String getDescription() {
-    return Main._l("commands.help.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
+    sb.append(ChatColor.YELLOW + "/" + "bw"
+        + " " + command.getCommand() + arg + " - " + command.getDescription() + "\n");
   }
 
   @Override
@@ -92,33 +91,31 @@ public class HelpCommand extends BaseCommand {
     }
     sender.sendMessage(ChatColor.GREEN + "---------- "
         + Main._l(sender, "default.pages",
-            ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max",
-                String.valueOf(chatPage.getTotalPages())))
+        ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max",
+            String.valueOf(chatPage.getTotalPages())))
         + " ----------");
 
     return true;
   }
 
-  private void appendCommand(BaseCommand command, StringBuilder sb) {
-    String arg = "";
-    for (String argument : command.getArguments()) {
-      arg = arg + " {" + argument + "}";
-    }
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
 
-    if (command.getCommand().equals("help")) {
-      arg = " {page?}";
-    } else if (command.getCommand().equalsIgnoreCase("list")) {
-      arg = " {page?}";
-    } else if (command.getCommand().equalsIgnoreCase("stats")) {
-      arg = " {player?}";
-    } else if (command.getCommand().equalsIgnoreCase("reload")) {
-      arg = " {config;locale;shop;games;all?}";
-    } else if (command.getCommand().equalsIgnoreCase("stop")) {
-      arg = " {game?}";
-    }
+  @Override
+  public String getCommand() {
+    return "help";
+  }
 
-    sb.append(ChatColor.YELLOW + "/" + "bw"
-        + " " + command.getCommand() + arg + " - " + command.getDescription() + "\n");
+  @Override
+  public String getDescription() {
+    return Main._l("commands.help.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.help.name");
   }
 
   @Override

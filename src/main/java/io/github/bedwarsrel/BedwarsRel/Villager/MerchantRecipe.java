@@ -1,14 +1,13 @@
 package io.github.bedwarsrel.BedwarsRel.Villager;
 
-import java.lang.reflect.Method;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
+import java.lang.reflect.Method;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class MerchantRecipe {
 
-  private Class merchantRecipe = null;
   private Object instance = null;
+  private Class merchantRecipe = null;
 
   public MerchantRecipe(Object recipe) {
     this.instance = recipe;
@@ -30,12 +29,12 @@ public class MerchantRecipe {
     this(item1, null, reward);
   }
 
-  public Object getInstance() {
-    return this.instance;
-  }
-
   public static Class getReflectionClass() {
     return Main.getInstance().getMinecraftServerClass("MerchantRecipe");
+  }
+
+  public Object getInstance() {
+    return this.instance;
   }
 
   public Object getItem1() {

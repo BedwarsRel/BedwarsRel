@@ -1,38 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class KickCommand extends BaseCommand implements ICommand {
 
   public KickCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "kick";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.kick.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.kick.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"player"};
   }
 
   @Override
@@ -64,6 +42,26 @@ public class KickCommand extends BaseCommand implements ICommand {
 
     game.playerLeave(kickPlayer, true);
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"player"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "kick";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.kick.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.kick.name");
   }
 
   @Override

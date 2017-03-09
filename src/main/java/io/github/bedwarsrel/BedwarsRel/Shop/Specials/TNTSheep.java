@@ -1,7 +1,12 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsUseTNTSheepEvent;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,26 +18,38 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.SpawnEgg;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsUseTNTSheepEvent;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-
 public class TNTSheep extends SpecialItem {
 
-  private Player player = null;
   private Game game = null;
+  private Player player = null;
   private ITNTSheep sheep = null;
 
-  @Override
-  public Material getItemMaterial() {
-    return Material.MONSTER_EGG;
-  }
+  private Player findTargetPlayer(Player player) {
+    Player foundPlayer = null;
 
-  public int getEntityTypeId() {
-    return 91;
+    if (game.getPlayers().size() == 1) {
+      foundPlayer = player;
+    } else {
+      double distance = Double.MAX_VALUE;
+
+      Team playerTeam = this.game.getPlayerTeam(player);
+
+      ArrayList<Player> possibleTargets = new ArrayList<Player>();
+      possibleTargets.addAll(this.game.getTeamPlayers());
+      possibleTargets.removeAll(playerTeam.getPlayers());
+
+      for (Player p : possibleTargets) {
+        if (player.getWorld() != p.getWorld()) {
+          continue;
+        }
+        double dist = player.getLocation().distance(p.getLocation());
+        if (dist < distance) {
+          foundPlayer = p;
+          distance = dist;
+        }
+      }
+    }
+    return foundPlayer;
   }
 
   @Override
@@ -40,20 +57,29 @@ public class TNTSheep extends SpecialItem {
     return null;
   }
 
-  public void setPlayer(Player player) {
-    this.player = player;
-  }
-
-  public void setGame(Game game) {
-    this.game = game;
+  public int getEntityTypeId() {
+    return 91;
   }
 
   public Game getGame() {
     return this.game;
   }
 
+  public void setGame(Game game) {
+    this.game = game;
+  }
+
+  @Override
+  public Material getItemMaterial() {
+    return Material.MONSTER_EGG;
+  }
+
   public Player getPlayer() {
     return this.player;
+  }
+
+  public void setPlayer(Player player) {
+    this.player = player;
   }
 
   public ITNTSheep getSheep() {
@@ -89,7 +115,8 @@ public class TNTSheep extends SpecialItem {
     Player targetPlayer = this.findTargetPlayer(this.player);
     if (targetPlayer == null) {
       this.player.sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + Main._l(this.player, "ingame.specials.tntsheep.no-target-found")));
+          .pluginMessage(
+              ChatColor.RED + Main._l(this.player, "ingame.specials.tntsheep.no-target-found")));
       return;
     }
 
@@ -204,34 +231,6 @@ public class TNTSheep extends SpecialItem {
       }
 
     }.runTaskLater(Main.getInstance(), 60L);
-  }
-
-  private Player findTargetPlayer(Player player) {
-    Player foundPlayer = null;
-
-    if (game.getPlayers().size() == 1) {
-      foundPlayer = player;
-    } else {
-      double distance = Double.MAX_VALUE;
-
-      Team playerTeam = this.game.getPlayerTeam(player);
-
-      ArrayList<Player> possibleTargets = new ArrayList<Player>();
-      possibleTargets.addAll(this.game.getTeamPlayers());
-      possibleTargets.removeAll(playerTeam.getPlayers());
-
-      for (Player p : possibleTargets) {
-        if (player.getWorld() != p.getWorld()) {
-          continue;
-        }
-        double dist = player.getLocation().distance(p.getLocation());
-        if (dist < distance) {
-          foundPlayer = p;
-          distance = dist;
-        }
-      }
-    }
-    return foundPlayer;
   }
 
 }

@@ -1,9 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Game.TeamJoinMetaDataValue;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,139 +30,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Game.TeamJoinMetaDataValue;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class EntityListener extends BaseListener {
-
-  @EventHandler
-  public void onEntitySpawn(CreatureSpawnEvent ese) {
-    if (Main.getInstance().getGameManager() == null) {
-      return;
-    }
-
-    if (ese.getLocation() == null) {
-      return;
-    }
-
-    if (ese.getLocation().getWorld() == null) {
-      return;
-    }
-
-    Game game = Main.getInstance().getGameManager().getGameByLocation(ese.getLocation());
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.STOPPED) {
-      return;
-    }
-
-    if (ese.getEntityType().equals(EntityType.CREEPER)
-        || ese.getEntityType().equals(EntityType.CAVE_SPIDER)
-        || ese.getEntityType().equals(EntityType.SPIDER)
-        || ese.getEntityType().equals(EntityType.ZOMBIE)
-        || ese.getEntityType().equals(EntityType.SKELETON)
-        || ese.getEntityType().equals(EntityType.SILVERFISH)) {
-      ese.setCancelled(true);
-    }
-  }
-
-  @EventHandler(priority = EventPriority.HIGH)
-  public void onRegainHealth(EntityRegainHealthEvent rhe) {
-    if (rhe.getEntityType() != EntityType.PLAYER) {
-      return;
-    }
-
-    Player player = (Player) rhe.getEntity();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (player.getHealth() >= player.getMaxHealth()) {
-      game.setPlayerDamager(player, null);
-    }
-  }
-
-  @EventHandler(priority = EventPriority.HIGH)
-  public void onInteractEntity(PlayerInteractAtEntityEvent event) {
-    if (event.getRightClicked() == null) {
-      return;
-    }
-
-    Entity entity = event.getRightClicked();
-    Player player = event.getPlayer();
-    if (!player.hasMetadata("bw-addteamjoin")) {
-      if (!(entity instanceof LivingEntity)) {
-        return;
-      }
-
-      LivingEntity livEntity = (LivingEntity) entity;
-      Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-      if (game == null) {
-        return;
-      }
-
-      if (game.getState() != GameState.WAITING) {
-        return;
-      }
-
-      Team team = game.getTeam(ChatColor.stripColor(livEntity.getCustomName()));
-      if (team == null) {
-        return;
-      }
-
-      game.playerJoinTeam(player, team);
-      event.setCancelled(true);
-      return;
-    }
-
-    List<MetadataValue> values = player.getMetadata("bw-addteamjoin");
-    if (values == null || values.size() == 0) {
-      return;
-    }
-
-    event.setCancelled(true);
-    TeamJoinMetaDataValue value = (TeamJoinMetaDataValue) values.get(0);
-    if (!((boolean) value.value())) {
-      return;
-    }
-
-    if (!(entity instanceof LivingEntity)) {
-      player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.entitynotcompatible")));
-      return;
-    }
-
-    LivingEntity living = (LivingEntity) entity;
-    living.setRemoveWhenFarAway(false);
-    living.setCanPickupItems(false);
-    living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
-    living.setCustomNameVisible(
-        Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
-
-    if (living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
-      Utils.equipArmorStand(living, value.getTeam());
-    }
-
-    player.removeMetadata("bw-addteamjoin", Main.getInstance());
-    player.sendMessage(ChatWriter
-        .pluginMessage(ChatColor.GREEN + Main._l(player, "success.teamjoinadded", ImmutableMap.of("team",
-            value.getTeam().getChatColor() + value.getTeam().getDisplayName() + ChatColor.GREEN))));
-  }
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onEntityDamage(EntityDamageEvent ede) {
@@ -231,6 +106,39 @@ public class EntityListener extends BaseListener {
 
     if (game.getState() == GameState.WAITING) {
       event.setCancelled(true);
+    }
+  }
+
+  @EventHandler
+  public void onEntitySpawn(CreatureSpawnEvent ese) {
+    if (Main.getInstance().getGameManager() == null) {
+      return;
+    }
+
+    if (ese.getLocation() == null) {
+      return;
+    }
+
+    if (ese.getLocation().getWorld() == null) {
+      return;
+    }
+
+    Game game = Main.getInstance().getGameManager().getGameByLocation(ese.getLocation());
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() == GameState.STOPPED) {
+      return;
+    }
+
+    if (ese.getEntityType().equals(EntityType.CREEPER)
+        || ese.getEntityType().equals(EntityType.CAVE_SPIDER)
+        || ese.getEntityType().equals(EntityType.SPIDER)
+        || ese.getEntityType().equals(EntityType.ZOMBIE)
+        || ese.getEntityType().equals(EntityType.SKELETON)
+        || ese.getEntityType().equals(EntityType.SILVERFISH)) {
+      ese.setCancelled(true);
     }
   }
 
@@ -325,6 +233,97 @@ public class EntityListener extends BaseListener {
       } else {
         game.getRegion().addBreakedBlock(exploding);
       }
+    }
+  }
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onInteractEntity(PlayerInteractAtEntityEvent event) {
+    if (event.getRightClicked() == null) {
+      return;
+    }
+
+    Entity entity = event.getRightClicked();
+    Player player = event.getPlayer();
+    if (!player.hasMetadata("bw-addteamjoin")) {
+      if (!(entity instanceof LivingEntity)) {
+        return;
+      }
+
+      LivingEntity livEntity = (LivingEntity) entity;
+      Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+      if (game == null) {
+        return;
+      }
+
+      if (game.getState() != GameState.WAITING) {
+        return;
+      }
+
+      Team team = game.getTeam(ChatColor.stripColor(livEntity.getCustomName()));
+      if (team == null) {
+        return;
+      }
+
+      game.playerJoinTeam(player, team);
+      event.setCancelled(true);
+      return;
+    }
+
+    List<MetadataValue> values = player.getMetadata("bw-addteamjoin");
+    if (values == null || values.size() == 0) {
+      return;
+    }
+
+    event.setCancelled(true);
+    TeamJoinMetaDataValue value = (TeamJoinMetaDataValue) values.get(0);
+    if (!((boolean) value.value())) {
+      return;
+    }
+
+    if (!(entity instanceof LivingEntity)) {
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.entitynotcompatible")));
+      return;
+    }
+
+    LivingEntity living = (LivingEntity) entity;
+    living.setRemoveWhenFarAway(false);
+    living.setCanPickupItems(false);
+    living.setCustomName(value.getTeam().getChatColor() + value.getTeam().getDisplayName());
+    living.setCustomNameVisible(
+        Main.getInstance().getBooleanConfig("jointeam-entity.show-name", true));
+
+    if (living.getType().equals(EntityType.valueOf("ARMOR_STAND"))) {
+      Utils.equipArmorStand(living, value.getTeam());
+    }
+
+    player.removeMetadata("bw-addteamjoin", Main.getInstance());
+    player.sendMessage(ChatWriter
+        .pluginMessage(
+            ChatColor.GREEN + Main._l(player, "success.teamjoinadded", ImmutableMap.of("team",
+                value.getTeam().getChatColor() + value.getTeam().getDisplayName()
+                    + ChatColor.GREEN))));
+  }
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onRegainHealth(EntityRegainHealthEvent rhe) {
+    if (rhe.getEntityType() != EntityType.PLAYER) {
+      return;
+    }
+
+    Player player = (Player) rhe.getEntity();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (player.getHealth() >= player.getMaxHealth()) {
+      game.setPlayerDamager(player, null);
     }
   }
 }

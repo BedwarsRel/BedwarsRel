@@ -1,44 +1,17 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Updater.ConfigUpdater;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import java.io.File;
+import java.util.ArrayList;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 
 public class ReloadCommand extends BaseCommand {
 
   public ReloadCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getPermission() {
-    return "setup";
-  }
-
-  @Override
-  public String getCommand() {
-    return "reload";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.reload.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.reload.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
   }
 
   @Override
@@ -109,8 +82,34 @@ public class ReloadCommand extends BaseCommand {
       return false;
     }
 
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.reloadconfig")));
+    sender.sendMessage(
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.reloadconfig")));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
+
+  @Override
+  public String getCommand() {
+    return "reload";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.reload.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.reload.name");
+  }
+
+  @Override
+  public String getPermission() {
+    return "setup";
   }
 
 }

@@ -1,8 +1,13 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -13,21 +18,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class RescuePlatform extends SpecialItem {
 
+  private Game game = null;
   private int livingTime = 0;
   private Player owner = null;
   private List<Block> platformBlocks = null;
   private BukkitTask task = null;
-  private Game game = null;
 
   public RescuePlatform() {
     super();
@@ -35,23 +32,6 @@ public class RescuePlatform extends SpecialItem {
     this.platformBlocks = new ArrayList<Block>();
     this.game = null;
     this.owner = null;
-  }
-
-  @Override
-  public Material getItemMaterial() {
-    return Utils.getMaterialByConfig("specials.rescue-platform.item", Material.BLAZE_ROD);
-  }
-
-  public int getLivingTime() {
-    return this.livingTime;
-  }
-
-  public Game getGame() {
-    return this.game;
-  }
-
-  public Player getOwner() {
-    return this.owner;
   }
 
   public void addPlatformBlock(Block block) {
@@ -86,7 +66,8 @@ public class RescuePlatform extends SpecialItem {
     }
 
     if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.notinair")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.notinair")));
       return;
     }
 
@@ -113,7 +94,6 @@ public class RescuePlatform extends SpecialItem {
       }
     }
     player.updateInventory();
-
 
     for (BlockFace face : BlockFace.values()) {
       if (face.equals(BlockFace.DOWN) || face.equals(BlockFace.UP)) {
@@ -145,6 +125,42 @@ public class RescuePlatform extends SpecialItem {
     }
   }
 
+  @Override
+  public Material getActivatedMaterial() {
+    // not needed
+    return null;
+  }
+
+  public Game getGame() {
+    return this.game;
+  }
+
+  @Override
+  public Material getItemMaterial() {
+    return Utils.getMaterialByConfig("specials.rescue-platform.item", Material.BLAZE_ROD);
+  }
+
+  private ArrayList<RescuePlatform> getLivingPlatforms() {
+    ArrayList<RescuePlatform> livingPlatforms = new ArrayList<RescuePlatform>();
+    for (SpecialItem item : game.getSpecialItems()) {
+      if (item instanceof RescuePlatform) {
+        RescuePlatform rescuePlatform = (RescuePlatform) item;
+        if (rescuePlatform.getOwner().equals(this.getOwner())) {
+          livingPlatforms.add(rescuePlatform);
+        }
+      }
+    }
+    return livingPlatforms;
+  }
+
+  public int getLivingTime() {
+    return this.livingTime;
+  }
+
+  public Player getOwner() {
+    return this.owner;
+  }
+
   public void runTask(final int breakTime, final int waitTime) {
     this.task = new BukkitRunnable() {
 
@@ -171,25 +187,6 @@ public class RescuePlatform extends SpecialItem {
       }
     }.runTaskTimer(Main.getInstance(), 20L, 20L);
     this.game.addRunningTask(this.task);
-  }
-
-  private ArrayList<RescuePlatform> getLivingPlatforms() {
-    ArrayList<RescuePlatform> livingPlatforms = new ArrayList<RescuePlatform>();
-    for (SpecialItem item : game.getSpecialItems()) {
-      if (item instanceof RescuePlatform) {
-        RescuePlatform rescuePlatform = (RescuePlatform) item;
-        if (rescuePlatform.getOwner().equals(this.getOwner())) {
-          livingPlatforms.add(rescuePlatform);
-        }
-      }
-    }
-    return livingPlatforms;
-  }
-
-  @Override
-  public Material getActivatedMaterial() {
-    // not needed
-    return null;
   }
 
 }

@@ -1,9 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.ResourceSpawner;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -11,53 +16,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.ResourceSpawner;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-
 public class SetSpawnerCommand extends BaseCommand {
 
   public SetSpawnerCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "setspawner";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.setspawner.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.setspawner.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "ressource"};
-  }
-
-  private String[] getRessources() {
-    ConfigurationSection section =
-        Main.getInstance().getConfig().getConfigurationSection("ressource");
-    if (section == null) {
-      return new String[] {};
-    }
-
-    List<String> ressources = new ArrayList<String>();
-    for (String key : section.getKeys(false)) {
-      ressources.add(key.toLowerCase());
-    }
-
-    return ressources.toArray(new String[ressources.size()]);
   }
 
   @Override
@@ -73,7 +35,8 @@ public class SetSpawnerCommand extends BaseCommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l(player,"errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(player, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
@@ -85,7 +48,8 @@ public class SetSpawnerCommand extends BaseCommand {
 
     if (!arguments.contains(material)) {
       player
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.spawnerargument")));
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.spawnerargument")));
       return false;
     }
 
@@ -95,14 +59,50 @@ public class SetSpawnerCommand extends BaseCommand {
     Location location = player.getLocation();
     ResourceSpawner spawner = new ResourceSpawner(game, material, location);
     game.addRessourceSpawner(spawner);
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player,"success.spawnerset",
-        ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));
+    player.sendMessage(
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.spawnerset",
+            ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "ressource"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "setspawner";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.setspawner.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.setspawner.name");
   }
 
   @Override
   public String getPermission() {
     return "setup";
+  }
+
+  private String[] getRessources() {
+    ConfigurationSection section =
+        Main.getInstance().getConfig().getConfigurationSection("ressource");
+    if (section == null) {
+      return new String[]{};
+    }
+
+    List<String> ressources = new ArrayList<String>();
+    for (String key : section.getKeys(false)) {
+      ressources.add(key.toLowerCase());
+    }
+
+    return ressources.toArray(new String[ressources.size()]);
   }
 
 }

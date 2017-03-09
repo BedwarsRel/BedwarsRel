@@ -1,11 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
 
 public class BedwarsPlayerLeaveEvent extends Event {
 
@@ -20,17 +19,17 @@ public class BedwarsPlayerLeaveEvent extends Event {
     this.team = team;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsPlayerLeaveEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsPlayerLeaveEvent.handlers;
   }
 
   public Game getGame() {
     return this.game;
+  }
+
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsPlayerLeaveEvent.handlers;
   }
 
   public Player getPlayer() {

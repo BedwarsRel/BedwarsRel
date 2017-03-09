@@ -1,11 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_8_R2;
 
+import net.minecraft.server.v1_8_R2.PacketPlayInClientCommand;
+import net.minecraft.server.v1_8_R2.PacketPlayInClientCommand.EnumClientCommand;
 import org.bukkit.craftbukkit.v1_8_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import net.minecraft.server.v1_8_R2.PacketPlayInClientCommand;
-import net.minecraft.server.v1_8_R2.PacketPlayInClientCommand.EnumClientCommand;
 
 public class PerformRespawnRunnable extends BukkitRunnable {
 

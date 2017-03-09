@@ -1,50 +1,22 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Game.TeamJoinMetaDataValue;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Game.TeamJoinMetaDataValue;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-
 public class AddTeamJoinCommand extends BaseCommand {
 
   public AddTeamJoinCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getPermission() {
-    return "setup";
-  }
-
-  @Override
-  public String getCommand() {
-    return "addteamjoin";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.addteamjoin.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.addteamjoin.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "team"};
   }
 
   @Override
@@ -59,7 +31,8 @@ public class AddTeamJoinCommand extends BaseCommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
@@ -72,7 +45,8 @@ public class AddTeamJoinCommand extends BaseCommand {
     Team gameTeam = game.getTeam(team);
 
     if (gameTeam == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player,"errors.teamnotfound")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamnotfound")));
       return false;
     }
 
@@ -108,8 +82,34 @@ public class AddTeamJoinCommand extends BaseCommand {
     }.runTaskLater(Main.getInstance(), 20L * 10L);
 
     player.sendMessage(
-        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player,"success.selectteamjoinentity")));
+        ChatWriter
+            .pluginMessage(ChatColor.GREEN + Main._l(player, "success.selectteamjoinentity")));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "team"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "addteamjoin";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.addteamjoin.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.addteamjoin.name");
+  }
+
+  @Override
+  public String getPermission() {
+    return "setup";
   }
 
 }

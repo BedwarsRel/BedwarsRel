@@ -56,92 +56,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerListener extends BaseListener {
 
-  @EventHandler(priority = EventPriority.HIGHEST)
-  public void onJoin(PlayerJoinEvent je) {
+  private String getChatFormat(String format, Team team, boolean isSpectator, boolean all) {
+    String form = format;
 
-    final Player player = je.getPlayer();
-
-    if (Main.getInstance().isHologramsEnabled()
-        && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
-        .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
-      Main.getInstance().getHolographicInteractor().updateHolograms(player, 60L);
+    if (all) {
+      form = form.replace("$all$", Main._l("ingame.all") + ChatColor.RESET);
     }
 
-    ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
-    if (games.size() == 0) {
-      return;
+    form = form.replace("$player$",
+        ((!isSpectator && team != null) ? team.getChatColor() : "") + "%1$s" + ChatColor.RESET);
+    form = form.replace("$msg$", "%2$s");
+
+    if (isSpectator) {
+      form = form.replace("$team$", Main._l("ingame.spectator"));
+    } else if (team != null) {
+      form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
     }
 
-    if (!Main.getInstance().isBungee()) {
-      Game game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
-
-      if (game != null) {
-        if (game.getMainLobby() != null) {
-          player.teleport(game.getMainLobby());
-        } else {
-          game.playerJoins(player);
-        }
-        return;
-      }
-    }
-
-    if (Main.getInstance().isBungee()) {
-      je.setJoinMessage(null);
-      final Game firstGame = games.get(0);
-
-      if (firstGame.getState() == GameState.STOPPED && player.hasPermission("bw.setup")) {
-        return;
-      }
-
-      if (!firstGame.playerJoins(player)) {
-        new BukkitRunnable() {
-
-          @Override
-          public void run() {
-            if (firstGame.getCycle() instanceof BungeeGameCycle) {
-              ((BungeeGameCycle) firstGame.getCycle())
-                  .bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
-            }
-          }
-
-        }.runTaskLater(Main.getInstance(), 5L);
-      }
-
-    }
+    return ChatColor.translateAlternateColorCodes('&', form);
   }
-
-  @EventHandler
-  public void onSwitchWorld(PlayerChangedWorldEvent change) {
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer());
-    if (game != null) {
-      if (game.getState() == GameState.RUNNING) {
-        if (!game.getCycle().isEndGameRunning()) {
-          if (!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
-            game.playerLeave(change.getPlayer(), false);
-          } else {
-            game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
-          }
-        }
-      } else if (game.getState() == GameState.WAITING) {
-        if (!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
-          game.playerLeave(change.getPlayer(), false);
-        } else {
-          game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
-        }
-      }
-    }
-
-    if (!Main.getInstance().isHologramsEnabled()
-        || Main.getInstance().getHolographicInteractor() == null) {
-      return;
-    }
-
-    Main.getInstance().getHolographicInteractor().updateHolograms(change.getPlayer());
-  }
-
-  /*
-   * GAME
-   */
 
   @SuppressWarnings("deprecation")
   private void inGameInteractEntity(PlayerInteractEntityEvent iee, Game game, Player player) {
@@ -213,273 +146,9 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  @EventHandler
-  public void openInventory(InventoryOpenEvent ioe) {
-    if (!(ioe.getPlayer() instanceof Player)) {
-      return;
-    }
-
-    Player player = (Player) ioe.getPlayer();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (ioe.getInventory().getType() == InventoryType.ENCHANTING
-        || ioe.getInventory().getType() == InventoryType.BREWING
-        || (ioe.getInventory().getType() == InventoryType.CRAFTING
-        && !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
-      ioe.setCancelled(true);
-      return;
-    } else if (ioe.getInventory().getType() == InventoryType.CRAFTING
-        && Main.getInstance().getBooleanConfig("allow-crafting", false)) {
-      return;
-    }
-
-    if (game.isSpectator(player)) {
-      if (ioe.getInventory().getName().equals(Main._l("ingame.spectator"))) {
-        return;
-      }
-
-      ioe.setCancelled(true);
-    }
-
-    if (ioe.getInventory().getHolder() == null) {
-      return;
-    }
-
-    if (game.getRegion().getInventories().contains(ioe.getInventory())) {
-      return;
-    }
-
-    game.getRegion().addInventory(ioe.getInventory());
-  }
-
-  @EventHandler
-  public void onCraft(CraftItemEvent cie) {
-    Player player = (Player) cie.getWhoClicked();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.STOPPED) {
-      return;
-    }
-
-    if (Main.getInstance().getBooleanConfig("allow-crafting", false)) {
-      return;
-    }
-
-    cie.setCancelled(true);
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST)
-  public void onPlayerRespawn(PlayerRespawnEvent pre) {
-    Player p = pre.getPlayer();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(p);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.RUNNING) {
-      game.getCycle().onPlayerRespawn(pre, p);
-      return;
-    }
-
-    if (game.getState() == GameState.WAITING) {
-      pre.setRespawnLocation(game.getLobby());
-    }
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST)
-  public void onPlayerDie(PlayerDeathEvent pde) {
-    final Player player = pde.getEntity();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.RUNNING) {
-      pde.setDroppedExp(0);
-      pde.setDeathMessage(null);
-
-      if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
-        pde.getDrops().clear();
-      }
-
-      try {
-        if (!Main.getInstance().isSpigot()) {
-          Class<?> clazz = null;
-          try {
-            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-                + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
-          } catch (ClassNotFoundException ex) {
-            Main.getInstance().getBugsnag().notify(ex);
-            clazz = Class
-                .forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
-          }
-
-          BukkitRunnable respawnRunnable =
-              (BukkitRunnable) clazz.getDeclaredConstructor(Player.class).newInstance(player);
-          respawnRunnable.runTaskLater(Main.getInstance(), 20L);
-        } else {
-          new BukkitRunnable() {
-
-            @Override
-            public void run() {
-              player.spigot().respawn();
-            }
-          }.runTaskLater(Main.getInstance(), 20L);
-        }
-
-      } catch (Exception e) {
-        Main.getInstance().getBugsnag().notify(e);
-        e.printStackTrace();
-      }
-
-      pde.setKeepInventory(Main.getInstance().getBooleanConfig("keep-inventory-on-death", false));
-
-      Player killer = player.getKiller();
-      if (killer == null) {
-        killer = game.getPlayerDamager(player);
-      }
-
-      game.getCycle().onPlayerDies(player, killer);
-    }
-  }
-
-  @EventHandler
-  public void onInventoryClick(InventoryClickEvent ice) {
-    Player player = (Player) ice.getWhoClicked();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.WAITING) {
-      this.onLobbyInventoryClick(ice, player, game);
-    }
-
-    if (game.getState() == GameState.RUNNING) {
-      this.onIngameInventoryClick(ice, player, game);
-    }
-  }
-
-  @SuppressWarnings({"rawtypes", "unchecked"})
-  private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
-    if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
-      if (game.isSpectator(player)
-          || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
-          && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
-
-        ItemStack clickedStack = ice.getCurrentItem();
-        if (clickedStack == null) {
-          return;
-        }
-
-        if (ice.getInventory().getName().equals(Main._l("ingame.spectator"))) {
-          ice.setCancelled(true);
-          if (!clickedStack.getType().equals(Material.SKULL_ITEM)) {
-            return;
-          }
-
-          SkullMeta meta = (SkullMeta) clickedStack.getItemMeta();
-          Player pl = Main.getInstance().getServer().getPlayer(meta.getOwner());
-          if (pl == null) {
-            return;
-          }
-
-          if (!game.isInGame(pl)) {
-            return;
-          }
-
-          player.teleport(pl);
-          player.closeInventory();
-          return;
-        }
-
-        Material clickedMat = ice.getCurrentItem().getType();
-        if (clickedMat.equals(Material.SLIME_BALL)) {
-          game.playerLeave(player, false);
-        }
-
-        if (clickedMat.equals(Material.COMPASS)) {
-          game.openSpectatorCompass(player);
-        }
-      }
-      return;
-    }
-
-    ice.setCancelled(true);
-    ItemStack clickedStack = ice.getCurrentItem();
-
-    if (clickedStack == null) {
-      return;
-    }
-
-    if (game.getPlayerSettings(player).useOldShop()) {
-      try {
-        if (clickedStack.getType() == Material.SNOW_BALL) {
-          game.getPlayerSettings(player).setUseOldShop(false);
-
-          // open new shop
-          NewItemShop itemShop = game.openNewItemShop(player);
-          itemShop.setCurrentCategory(null);
-          itemShop.openCategoryInventory(player);
-          return;
-        }
-
-        MerchantCategory cat = game.getItemShopCategories().get(clickedStack.getType());
-        if (cat == null) {
-          return;
-        }
-
-        Class clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-            + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
-        Object villagerItemShop =
-            clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
-                .newInstance(game, player, cat);
-
-        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
-        openTrade.invoke(villagerItemShop, new Object[]{});
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        ex.printStackTrace();
-      }
-    } else {
-      game.getNewItemShop(player).handleInventoryClick(ice, game, player);
-    }
-  }
-
-  private String getChatFormat(String format, Team team, boolean isSpectator, boolean all) {
-    String form = format;
-
-    if (all) {
-      form = form.replace("$all$", Main._l("ingame.all") + ChatColor.RESET);
-    }
-
-    form = form.replace("$player$",
-        ((!isSpectator && team != null) ? team.getChatColor() : "") + "%1$s" + ChatColor.RESET);
-    form = form.replace("$msg$", "%2$s");
-
-    if (isSpectator) {
-      form = form.replace("$team$", Main._l("ingame.spectator"));
-    } else if (team != null) {
-      form = form.replace("$team$", team.getDisplayName() + ChatColor.RESET);
-    }
-
-    return ChatColor.translateAlternateColorCodes('&', form);
-  }
+  /*
+   * GAME
+   */
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onChat(AsyncPlayerChatEvent ce) {
@@ -648,29 +317,6 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  @EventHandler
-  public void onPickup(PlayerPickupItemEvent ppie) {
-    Player player = ppie.getPlayer();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
-      if (game == null) {
-        return;
-      }
-    }
-
-    if (game.getState() != GameState.WAITING && game.isInGame(player)) {
-      return;
-    }
-
-    ppie.setCancelled(true);
-  }
-
-  /*
-   * LOBBY & GAME
-   */
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onCommand(PlayerCommandPreprocessEvent pcpe) {
     Player player = pcpe.getPlayer();
@@ -707,10 +353,52 @@ public class PlayerListener extends BaseListener {
   }
 
   @EventHandler
-  public void onSleep(PlayerBedEnterEvent bee) {
+  public void onCraft(CraftItemEvent cie) {
+    Player player = (Player) cie.getWhoClicked();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
-    Player p = bee.getPlayer();
+    if (game == null) {
+      return;
+    }
 
+    if (game.getState() == GameState.STOPPED) {
+      return;
+    }
+
+    if (Main.getInstance().getBooleanConfig("allow-crafting", false)) {
+      return;
+    }
+
+    cie.setCancelled(true);
+  }
+
+  @EventHandler
+  public void onDamage(EntityDamageEvent ede) {
+    if (!(ede.getEntity() instanceof Player)) {
+      if (!(ede instanceof EntityDamageByEntityEvent)) {
+        return;
+      }
+
+      EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
+      if (edbee.getDamager() == null || !(edbee.getDamager() instanceof Player)) {
+        return;
+      }
+
+      Player player = (Player) edbee.getDamager();
+      Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+      if (game == null) {
+        return;
+      }
+
+      if (game.getState() == GameState.WAITING) {
+        ede.setCancelled(true);
+      }
+
+      return;
+    }
+
+    Player p = (Player) ede.getEntity();
     Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
     if (g == null) {
       return;
@@ -720,25 +408,79 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    bee.setCancelled(true);
+    if (g.getState() == GameState.RUNNING) {
+      if (g.isSpectator(p)) {
+        ede.setCancelled(true);
+        return;
+      }
+
+      if (g.isProtected(p) && ede.getCause() != DamageCause.VOID) {
+        ede.setCancelled(true);
+        return;
+      }
+
+      if (Main.getInstance().getBooleanConfig("die-on-void", false)
+          && ede.getCause() == DamageCause.VOID) {
+        ede.setCancelled(true);
+        p.setHealth(0);
+        return;
+      }
+
+      if (ede instanceof EntityDamageByEntityEvent) {
+        EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
+
+        if (edbee.getDamager() instanceof Player) {
+          Player damager = (Player) edbee.getDamager();
+          if (g.isSpectator(damager)) {
+            ede.setCancelled(true);
+            return;
+          }
+
+          g.setPlayerDamager(p, damager);
+        } else if (edbee.getDamager().getType().equals(EntityType.ARROW)) {
+          Arrow arrow = (Arrow) edbee.getDamager();
+          if (arrow.getShooter() instanceof Player) {
+            Player shooter = (Player) arrow.getShooter();
+            if (g.isSpectator(shooter)) {
+              ede.setCancelled(true);
+              return;
+            }
+
+            g.setPlayerDamager(p, (Player) arrow.getShooter());
+          }
+        }
+      }
+
+      if (!g.getCycle().isEndGameRunning()) {
+        return;
+      } else if (ede.getCause() == DamageCause.VOID) {
+        p.teleport(g.getPlayerTeam(p).getSpawnLocation());
+      }
+    } else if (g.getState() == GameState.WAITING
+        && ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
+      p.teleport(g.getLobby());
+    }
+
+    ede.setCancelled(true);
   }
 
   @EventHandler
-  public void onInteractEntity(PlayerInteractEntityEvent iee) {
-    Player p = iee.getPlayer();
+  public void onDrop(PlayerDropItemEvent die) {
+    Player p = die.getPlayer();
     Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
     if (g == null) {
       return;
     }
 
-    if (g.getState() == GameState.WAITING) {
-      iee.setCancelled(true);
+    if (g.getState() != GameState.WAITING) {
+      if (g.isSpectator(p)) {
+        die.setCancelled(true);
+      }
+
       return;
     }
 
-    if (g.getState() == GameState.RUNNING) {
-      this.inGameInteractEntity(iee, g, p);
-    }
+    die.setCancelled(true);
   }
 
   @EventHandler(priority = EventPriority.HIGHEST)
@@ -761,10 +503,6 @@ public class PlayerListener extends BaseListener {
 
     tfe.setCancelled(true);
   }
-
-  /*
-   * LOBBY
-   */
 
   @EventHandler(priority = EventPriority.HIGH)
   public void onHunger(FoodLevelChangeEvent flce) {
@@ -791,6 +529,297 @@ public class PlayerListener extends BaseListener {
 
     flce.setCancelled(true);
   }
+
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
+    if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
+      if (game.isSpectator(player)
+          || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
+          && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+
+        ItemStack clickedStack = ice.getCurrentItem();
+        if (clickedStack == null) {
+          return;
+        }
+
+        if (ice.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+          ice.setCancelled(true);
+          if (!clickedStack.getType().equals(Material.SKULL_ITEM)) {
+            return;
+          }
+
+          SkullMeta meta = (SkullMeta) clickedStack.getItemMeta();
+          Player pl = Main.getInstance().getServer().getPlayer(meta.getOwner());
+          if (pl == null) {
+            return;
+          }
+
+          if (!game.isInGame(pl)) {
+            return;
+          }
+
+          player.teleport(pl);
+          player.closeInventory();
+          return;
+        }
+
+        Material clickedMat = ice.getCurrentItem().getType();
+        if (clickedMat.equals(Material.SLIME_BALL)) {
+          game.playerLeave(player, false);
+        }
+
+        if (clickedMat.equals(Material.COMPASS)) {
+          game.openSpectatorCompass(player);
+        }
+      }
+      return;
+    }
+
+    ice.setCancelled(true);
+    ItemStack clickedStack = ice.getCurrentItem();
+
+    if (clickedStack == null) {
+      return;
+    }
+
+    if (game.getPlayerSettings(player).useOldShop()) {
+      try {
+        if (clickedStack.getType() == Material.SNOW_BALL) {
+          game.getPlayerSettings(player).setUseOldShop(false);
+
+          // open new shop
+          NewItemShop itemShop = game.openNewItemShop(player);
+          itemShop.setCurrentCategory(null);
+          itemShop.openCategoryInventory(player);
+          return;
+        }
+
+        MerchantCategory cat = game.getItemShopCategories().get(clickedStack.getType());
+        if (cat == null) {
+          return;
+        }
+
+        Class clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+            + Main.getInstance().getCurrentVersion() + ".VillagerItemShop");
+        Object villagerItemShop =
+            clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
+                .newInstance(game, player, cat);
+
+        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
+        openTrade.invoke(villagerItemShop, new Object[]{});
+      } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
+        ex.printStackTrace();
+      }
+    } else {
+      game.getNewItemShop(player).handleInventoryClick(ice, game, player);
+    }
+  }
+
+  @EventHandler
+  public void onInteractEntity(PlayerInteractEntityEvent iee) {
+    Player p = iee.getPlayer();
+    Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
+    if (g == null) {
+      return;
+    }
+
+    if (g.getState() == GameState.WAITING) {
+      iee.setCancelled(true);
+      return;
+    }
+
+    if (g.getState() == GameState.RUNNING) {
+      this.inGameInteractEntity(iee, g, p);
+    }
+  }
+
+  @EventHandler
+  public void onInventoryClick(InventoryClickEvent ice) {
+    Player player = (Player) ice.getWhoClicked();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() == GameState.WAITING) {
+      this.onLobbyInventoryClick(ice, player, game);
+    }
+
+    if (game.getState() == GameState.RUNNING) {
+      this.onIngameInventoryClick(ice, player, game);
+    }
+  }
+
+  /*
+   * LOBBY & GAME
+   */
+
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onJoin(PlayerJoinEvent je) {
+
+    final Player player = je.getPlayer();
+
+    if (Main.getInstance().isHologramsEnabled()
+        && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
+        .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
+      Main.getInstance().getHolographicInteractor().updateHolograms(player, 60L);
+    }
+
+    ArrayList<Game> games = Main.getInstance().getGameManager().getGames();
+    if (games.size() == 0) {
+      return;
+    }
+
+    if (!Main.getInstance().isBungee()) {
+      Game game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
+
+      if (game != null) {
+        if (game.getMainLobby() != null) {
+          player.teleport(game.getMainLobby());
+        } else {
+          game.playerJoins(player);
+        }
+        return;
+      }
+    }
+
+    if (Main.getInstance().isBungee()) {
+      je.setJoinMessage(null);
+      final Game firstGame = games.get(0);
+
+      if (firstGame.getState() == GameState.STOPPED && player.hasPermission("bw.setup")) {
+        return;
+      }
+
+      if (!firstGame.playerJoins(player)) {
+        new BukkitRunnable() {
+
+          @Override
+          public void run() {
+            if (firstGame.getCycle() instanceof BungeeGameCycle) {
+              ((BungeeGameCycle) firstGame.getCycle())
+                  .bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
+            }
+          }
+
+        }.runTaskLater(Main.getInstance(), 5L);
+      }
+
+    }
+  }
+
+  private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
+    Inventory inv = ice.getInventory();
+    ItemStack clickedStack = ice.getCurrentItem();
+
+    if (!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
+      ice.setCancelled(true);
+      return;
+    }
+
+    if (clickedStack == null) {
+      ice.setCancelled(true);
+      return;
+    }
+
+    if (clickedStack.getType() != Material.WOOL) {
+      ice.setCancelled(true);
+      return;
+    }
+
+    ice.setCancelled(true);
+    Wool wool = (Wool) clickedStack.getData();
+    Team team = game.getTeamByDyeColor(wool.getColor());
+    if (team == null) {
+      return;
+    }
+
+    game.playerJoinTeam(player, team);
+    player.closeInventory();
+  }
+
+  @EventHandler
+  public void onPickup(PlayerPickupItemEvent ppie) {
+    Player player = ppie.getPlayer();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
+      if (game == null) {
+        return;
+      }
+    }
+
+    if (game.getState() != GameState.WAITING && game.isInGame(player)) {
+      return;
+    }
+
+    ppie.setCancelled(true);
+  }
+
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onPlayerDie(PlayerDeathEvent pde) {
+    final Player player = pde.getEntity();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() == GameState.RUNNING) {
+      pde.setDroppedExp(0);
+      pde.setDeathMessage(null);
+
+      if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
+        pde.getDrops().clear();
+      }
+
+      try {
+        if (!Main.getInstance().isSpigot()) {
+          Class<?> clazz = null;
+          try {
+            clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+                + Main.getInstance().getCurrentVersion() + ".PerformRespawnRunnable");
+          } catch (ClassNotFoundException ex) {
+            Main.getInstance().getBugsnag().notify(ex);
+            clazz = Class
+                .forName("io.github.bedwarsrel.BedwarsRel.Com.Fallback.PerformRespawnRunnable");
+          }
+
+          BukkitRunnable respawnRunnable =
+              (BukkitRunnable) clazz.getDeclaredConstructor(Player.class).newInstance(player);
+          respawnRunnable.runTaskLater(Main.getInstance(), 20L);
+        } else {
+          new BukkitRunnable() {
+
+            @Override
+            public void run() {
+              player.spigot().respawn();
+            }
+          }.runTaskLater(Main.getInstance(), 20L);
+        }
+
+      } catch (Exception e) {
+        Main.getInstance().getBugsnag().notify(e);
+        e.printStackTrace();
+      }
+
+      pde.setKeepInventory(Main.getInstance().getBooleanConfig("keep-inventory-on-death", false));
+
+      Player killer = player.getKiller();
+      if (killer == null) {
+        killer = game.getPlayerDamager(player);
+      }
+
+      game.getCycle().onPlayerDies(player, killer);
+    }
+  }
+
+  /*
+   * LOBBY
+   */
 
   @EventHandler
   public void onPlayerInteract(PlayerInteractEvent pie) {
@@ -819,7 +848,8 @@ public class PlayerListener extends BaseListener {
       }
 
       if (game.playerJoins(player)) {
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.joined")));
+        player.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.joined")));
       }
       return;
     }
@@ -984,53 +1014,23 @@ public class PlayerListener extends BaseListener {
     }
   }
 
-  private void onLobbyInventoryClick(InventoryClickEvent ice, Player player, Game game) {
-    Inventory inv = ice.getInventory();
-    ItemStack clickedStack = ice.getCurrentItem();
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onPlayerRespawn(PlayerRespawnEvent pre) {
+    Player p = pre.getPlayer();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(p);
 
-    if (!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
-      ice.setCancelled(true);
+    if (game == null) {
       return;
     }
 
-    if (clickedStack == null) {
-      ice.setCancelled(true);
+    if (game.getState() == GameState.RUNNING) {
+      game.getCycle().onPlayerRespawn(pre, p);
       return;
     }
 
-    if (clickedStack.getType() != Material.WOOL) {
-      ice.setCancelled(true);
-      return;
+    if (game.getState() == GameState.WAITING) {
+      pre.setRespawnLocation(game.getLobby());
     }
-
-    ice.setCancelled(true);
-    Wool wool = (Wool) clickedStack.getData();
-    Team team = game.getTeamByDyeColor(wool.getColor());
-    if (team == null) {
-      return;
-    }
-
-    game.playerJoinTeam(player, team);
-    player.closeInventory();
-  }
-
-  @EventHandler
-  public void onDrop(PlayerDropItemEvent die) {
-    Player p = die.getPlayer();
-    Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
-    if (g == null) {
-      return;
-    }
-
-    if (g.getState() != GameState.WAITING) {
-      if (g.isSpectator(p)) {
-        die.setCancelled(true);
-      }
-
-      return;
-    }
-
-    die.setCancelled(true);
   }
 
   @EventHandler(priority = EventPriority.HIGHEST)
@@ -1058,32 +1058,10 @@ public class PlayerListener extends BaseListener {
   }
 
   @EventHandler
-  public void onDamage(EntityDamageEvent ede) {
-    if (!(ede.getEntity() instanceof Player)) {
-      if (!(ede instanceof EntityDamageByEntityEvent)) {
-        return;
-      }
+  public void onSleep(PlayerBedEnterEvent bee) {
 
-      EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
-      if (edbee.getDamager() == null || !(edbee.getDamager() instanceof Player)) {
-        return;
-      }
+    Player p = bee.getPlayer();
 
-      Player player = (Player) edbee.getDamager();
-      Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-      if (game == null) {
-        return;
-      }
-
-      if (game.getState() == GameState.WAITING) {
-        ede.setCancelled(true);
-      }
-
-      return;
-    }
-
-    Player p = (Player) ede.getEntity();
     Game g = Main.getInstance().getGameManager().getGameOfPlayer(p);
     if (g == null) {
       return;
@@ -1093,60 +1071,83 @@ public class PlayerListener extends BaseListener {
       return;
     }
 
-    if (g.getState() == GameState.RUNNING) {
-      if (g.isSpectator(p)) {
-        ede.setCancelled(true);
-        return;
-      }
+    bee.setCancelled(true);
+  }
 
-      if (g.isProtected(p) && ede.getCause() != DamageCause.VOID) {
-        ede.setCancelled(true);
-        return;
-      }
-
-      if (Main.getInstance().getBooleanConfig("die-on-void", false)
-          && ede.getCause() == DamageCause.VOID) {
-        ede.setCancelled(true);
-        p.setHealth(0);
-        return;
-      }
-
-      if (ede instanceof EntityDamageByEntityEvent) {
-        EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent) ede;
-
-        if (edbee.getDamager() instanceof Player) {
-          Player damager = (Player) edbee.getDamager();
-          if (g.isSpectator(damager)) {
-            ede.setCancelled(true);
-            return;
-          }
-
-          g.setPlayerDamager(p, damager);
-        } else if (edbee.getDamager().getType().equals(EntityType.ARROW)) {
-          Arrow arrow = (Arrow) edbee.getDamager();
-          if (arrow.getShooter() instanceof Player) {
-            Player shooter = (Player) arrow.getShooter();
-            if (g.isSpectator(shooter)) {
-              ede.setCancelled(true);
-              return;
-            }
-
-            g.setPlayerDamager(p, (Player) arrow.getShooter());
+  @EventHandler
+  public void onSwitchWorld(PlayerChangedWorldEvent change) {
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(change.getPlayer());
+    if (game != null) {
+      if (game.getState() == GameState.RUNNING) {
+        if (!game.getCycle().isEndGameRunning()) {
+          if (!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
+            game.playerLeave(change.getPlayer(), false);
+          } else {
+            game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
           }
         }
+      } else if (game.getState() == GameState.WAITING) {
+        if (!game.getPlayerSettings(change.getPlayer()).isTeleporting()) {
+          game.playerLeave(change.getPlayer(), false);
+        } else {
+          game.getPlayerSettings(change.getPlayer()).setTeleporting(false);
+        }
       }
-
-      if (!g.getCycle().isEndGameRunning()) {
-        return;
-      } else if (ede.getCause() == DamageCause.VOID) {
-        p.teleport(g.getPlayerTeam(p).getSpawnLocation());
-      }
-    } else if (g.getState() == GameState.WAITING
-        && ede.getCause() == EntityDamageEvent.DamageCause.VOID) {
-      p.teleport(g.getLobby());
     }
 
-    ede.setCancelled(true);
+    if (!Main.getInstance().isHologramsEnabled()
+        || Main.getInstance().getHolographicInteractor() == null) {
+      return;
+    }
+
+    Main.getInstance().getHolographicInteractor().updateHolograms(change.getPlayer());
+  }
+
+  @EventHandler
+  public void openInventory(InventoryOpenEvent ioe) {
+    if (!(ioe.getPlayer() instanceof Player)) {
+      return;
+    }
+
+    Player player = (Player) ioe.getPlayer();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (ioe.getInventory().getType() == InventoryType.ENCHANTING
+        || ioe.getInventory().getType() == InventoryType.BREWING
+        || (ioe.getInventory().getType() == InventoryType.CRAFTING
+        && !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
+      ioe.setCancelled(true);
+      return;
+    } else if (ioe.getInventory().getType() == InventoryType.CRAFTING
+        && Main.getInstance().getBooleanConfig("allow-crafting", false)) {
+      return;
+    }
+
+    if (game.isSpectator(player)) {
+      if (ioe.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+        return;
+      }
+
+      ioe.setCancelled(true);
+    }
+
+    if (ioe.getInventory().getHolder() == null) {
+      return;
+    }
+
+    if (game.getRegion().getInventories().contains(ioe.getInventory())) {
+      return;
+    }
+
+    game.getRegion().addInventory(ioe.getInventory());
   }
 
 }

@@ -1,22 +1,29 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-
 public class BedwarsSaveGameEvent extends Event implements Cancellable {
 
   private static final HandlerList handlers = new HandlerList();
-  private CommandSender sender = null;
-  private Game game = null;
   private boolean cancelled = false;
+  private Game game = null;
+  private CommandSender sender = null;
 
   public BedwarsSaveGameEvent(Game game, CommandSender sender) {
     this.sender = sender;
     this.game = game;
+  }
+
+  public static HandlerList getHandlerList() {
+    return BedwarsSaveGameEvent.handlers;
+  }
+
+  public Game getGame() {
+    return this.game;
   }
 
   @Override
@@ -24,16 +31,8 @@ public class BedwarsSaveGameEvent extends Event implements Cancellable {
     return BedwarsSaveGameEvent.handlers;
   }
 
-  public static HandlerList getHandlerList() {
-    return BedwarsSaveGameEvent.handlers;
-  }
-
   public CommandSender getSender() {
     return this.sender;
-  }
-
-  public Game getGame() {
-    return this.game;
   }
 
   @Override

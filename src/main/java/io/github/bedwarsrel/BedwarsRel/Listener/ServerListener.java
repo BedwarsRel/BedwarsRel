@@ -1,14 +1,42 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.server.ServerListPingEvent;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-
 public class ServerListener extends BaseListener {
+
+  private String getCurrentPlayersString(Game game) {
+    int currentPlayers = 0;
+    if (game.getState() == GameState.RUNNING) {
+      currentPlayers = game.getTeamPlayers().size();
+    } else if (game.getState() == GameState.WAITING) {
+      currentPlayers = game.getPlayers().size();
+    } else {
+      currentPlayers = 0;
+    }
+
+    return String.valueOf(currentPlayers);
+  }
+
+  private String getMaxPlayersString(Game game) {
+    int maxPlayers = game.getMaxPlayers();
+    return String.valueOf(maxPlayers);
+  }
+
+  private String getStatus(Game game) {
+    String status = null;
+    if (game.getState() == GameState.WAITING && game.isFull()) {
+      status = ChatColor.RED + Main._l("sign.gamestate.full");
+    } else {
+      status = Main._l("sign.gamestate." + game.getState().toString().toLowerCase());
+    }
+
+    return status;
+  }
 
   @EventHandler
   public void onServerListPing(ServerListPingEvent slpe) {
@@ -55,7 +83,7 @@ public class ServerListener extends BaseListener {
 
   private String replacePlaceholder(Game game, String line) {
     String finalLine = line;
-    
+
     finalLine = finalLine.replace("$title$", Main._l("sign.firstline"));
     finalLine = finalLine.replace("$gamename$", game.getName());
     finalLine = finalLine.replace("$regionname$", game.getRegion().getName());
@@ -64,35 +92,6 @@ public class ServerListener extends BaseListener {
     finalLine = finalLine.replace("$status$", getStatus(game));
 
     return finalLine;
-  }
-
-  private String getMaxPlayersString(Game game) {
-    int maxPlayers = game.getMaxPlayers();
-    return String.valueOf(maxPlayers);
-  }
-
-  private String getCurrentPlayersString(Game game) {
-    int currentPlayers = 0;
-    if (game.getState() == GameState.RUNNING) {
-      currentPlayers = game.getTeamPlayers().size();
-    } else if (game.getState() == GameState.WAITING) {
-      currentPlayers = game.getPlayers().size();
-    } else {
-      currentPlayers = 0;
-    }
-
-    return String.valueOf(currentPlayers);
-  }
-
-  private String getStatus(Game game) {
-    String status = null;
-    if (game.getState() == GameState.WAITING && game.isFull()) {
-      status = ChatColor.RED + Main._l("sign.gamestate.full");
-    } else {
-      status = Main._l("sign.gamestate." + game.getState().toString().toLowerCase());
-    }
-
-    return status;
   }
 
 }

@@ -1,5 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -14,12 +19,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class TNTSheepListener implements Listener {
 
   public TNTSheepListener() {
@@ -31,6 +30,58 @@ public class TNTSheepListener implements Listener {
     } catch (Exception e) {
       Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
+    }
+  }
+
+  @EventHandler(priority = EventPriority.HIGHEST)
+  public void onDamageEntity(EntityDamageByEntityEvent event) {
+    if (event.getCause().equals(DamageCause.CUSTOM) || event.getCause().equals(DamageCause.VOID)
+        || event.getCause().equals(DamageCause.FALL)) {
+      return;
+    }
+
+    if (event.getEntity() instanceof ITNTSheep) {
+      event.setDamage(0.0);
+      return;
+    }
+
+    if (!(event.getEntity() instanceof Player)) {
+      return;
+    }
+
+    if (!(event.getDamager() instanceof TNTPrimed)) {
+      return;
+    }
+
+    TNTPrimed damager = (TNTPrimed) event.getDamager();
+
+    if (!(damager.getSource() instanceof Player)) {
+      return;
+    }
+
+    Player damagerPlayer = (Player) damager.getSource();
+    Player player = (Player) event.getEntity();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (game.isSpectator(damagerPlayer) || game.isSpectator(player)) {
+      event.setCancelled(true);
+      return;
+    }
+
+    Team damagerTeam = game.getPlayerTeam(damagerPlayer);
+    Team team = game.getPlayerTeam(player);
+
+    if (damagerTeam.equals(team) && !damagerTeam.getScoreboardTeam().allowFriendlyFire()) {
+      event.setCancelled(true);
+      return;
     }
   }
 
@@ -110,58 +161,6 @@ public class TNTSheepListener implements Listener {
 
     if (event.getRightClicked().getVehicle() != null
         && event.getRightClicked().getVehicle() instanceof ITNTSheep) {
-      event.setCancelled(true);
-      return;
-    }
-  }
-
-  @EventHandler(priority = EventPriority.HIGHEST)
-  public void onDamageEntity(EntityDamageByEntityEvent event) {
-    if (event.getCause().equals(DamageCause.CUSTOM) || event.getCause().equals(DamageCause.VOID)
-        || event.getCause().equals(DamageCause.FALL)) {
-      return;
-    }
-
-    if (event.getEntity() instanceof ITNTSheep) {
-      event.setDamage(0.0);
-      return;
-    }
-
-    if (!(event.getEntity() instanceof Player)) {
-      return;
-    }
-
-    if (!(event.getDamager() instanceof TNTPrimed)) {
-      return;
-    }
-
-    TNTPrimed damager = (TNTPrimed) event.getDamager();
-
-    if (!(damager.getSource() instanceof Player)) {
-      return;
-    }
-
-    Player damagerPlayer = (Player) damager.getSource();
-    Player player = (Player) event.getEntity();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (game.isSpectator(damagerPlayer) || game.isSpectator(player)) {
-      event.setCancelled(true);
-      return;
-    }
-
-    Team damagerTeam = game.getPlayerTeam(damagerPlayer);
-    Team team = game.getPlayerTeam(player);
-
-    if (damagerTeam.equals(team) && !damagerTeam.getScoreboardTeam().allowFriendlyFire()) {
       event.setCancelled(true);
       return;
     }

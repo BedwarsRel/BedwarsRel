@@ -1,8 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsResourceSpawnEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.ItemStackParser;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -14,18 +17,13 @@ import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsResourceSpawnEvent;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import io.github.bedwarsrel.BedwarsRel.Villager.ItemStackParser;
-
 @SerializableAs("RessourceSpawner")
 public class ResourceSpawner implements Runnable, ConfigurationSerializable {
 
   private Game game = null;
-  private Location location = null;
   private int interval = 1000;
   private ItemStack itemstack = null;
+  private Location location = null;
   private String name = null;
   private double spread = 1.0;
 
@@ -82,6 +80,45 @@ public class ResourceSpawner implements Runnable, ConfigurationSerializable {
         Main.getInstance().getConfig().getDouble("ressource." + this.name + ".spread", 1.0);
   }
 
+  public static ItemStack createSpawnerStackByConfig(Object section) {
+    ItemStackParser parser = new ItemStackParser(section);
+    return parser.parse();
+  }
+
+  public boolean canContainItem(Inventory inv, ItemStack item) {
+    int space = 0;
+    for (ItemStack stack : inv.getContents()) {
+      if (stack == null) {
+        space += this.itemstack.getMaxStackSize();
+      } else if (stack.getType() == this.itemstack.getType()
+          && stack.getDurability() == this.itemstack.getDurability()) {
+        space += this.itemstack.getMaxStackSize() - stack.getAmount();
+      }
+    }
+    return space >= this.itemstack.getAmount();
+  }
+
+  public void dropItem(Location dropLocation) {
+    Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
+    item.setPickupDelay(0);
+
+    if (this.spread != 1.0) {
+      item.setVelocity(item.getVelocity().multiply(this.spread));
+    }
+  }
+
+  public int getInterval() {
+    return this.interval;
+  }
+
+  public ItemStack getItemStack() {
+    return this.itemstack;
+  }
+
+  public Location getLocation() {
+    return this.location;
+  }
+
   private String getNameByMaterial(Material material) {
     for (String key : Main.getInstance().getConfig().getConfigurationSection("ressource")
         .getKeys(true)) {
@@ -102,14 +139,6 @@ public class ResourceSpawner implements Runnable, ConfigurationSerializable {
     }
 
     return null;
-  }
-
-  public int getInterval() {
-    return this.interval;
-  }
-
-  public void setGame(Game game) {
-    this.game = game;
   }
 
   @Override
@@ -142,28 +171,6 @@ public class ResourceSpawner implements Runnable, ConfigurationSerializable {
     dropItem(dropLocation);
   }
 
-  public boolean canContainItem(Inventory inv, ItemStack item) {
-    int space = 0;
-    for (ItemStack stack : inv.getContents()) {
-      if (stack == null) {
-        space += this.itemstack.getMaxStackSize();
-      } else if (stack.getType() == this.itemstack.getType()
-          && stack.getDurability() == this.itemstack.getDurability()) {
-        space += this.itemstack.getMaxStackSize() - stack.getAmount();
-      }
-    }
-    return space >= this.itemstack.getAmount();
-  }
-
-  public void dropItem(Location dropLocation) {
-    Item item = this.game.getRegion().getWorld().dropItemNaturally(dropLocation, this.itemstack);
-    item.setPickupDelay(0);
-
-    if (this.spread != 1.0) {
-      item.setVelocity(item.getVelocity().multiply(this.spread));
-    }
-  }
-
   @Override
   public Map<String, Object> serialize() {
     HashMap<String, Object> rs = new HashMap<>();
@@ -173,17 +180,8 @@ public class ResourceSpawner implements Runnable, ConfigurationSerializable {
     return rs;
   }
 
-  public ItemStack getItemStack() {
-    return this.itemstack;
-  }
-
-  public Location getLocation() {
-    return this.location;
-  }
-
-  public static ItemStack createSpawnerStackByConfig(Object section) {
-    ItemStackParser parser = new ItemStackParser(section);
-    return parser.parse();
+  public void setGame(Game game) {
+    this.game = game;
   }
 
 }

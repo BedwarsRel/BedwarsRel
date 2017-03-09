@@ -1,5 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,20 +12,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class ArrowBlocker extends SpecialItem {
 
+  public boolean isActive = false;
+  private Game game = null;
   private int livingTime = 0;
   private Player owner = null;
   private BukkitTask task = null;
-  private Game game = null;
-  public boolean isActive = false;
 
   public ArrowBlocker() {
     super();
@@ -29,29 +27,13 @@ public class ArrowBlocker extends SpecialItem {
     this.owner = null;
   }
 
-  @Override
-  public Material getItemMaterial() {
-    return Utils.getMaterialByConfig("specials.arrow-blocker.item", Material.EYE_OF_ENDER);
-  }
-
-  public int getLivingTime() {
-    return this.livingTime;
-  }
-
-  public Game getGame() {
-    return this.game;
-  }
-
-  public Player getOwner() {
-    return this.owner;
-  }
-
   @SuppressWarnings("deprecation")
   public void create(Player player, Game game) {
     this.game = game;
     this.owner = player;
 
-    int protectionTime = Main.getInstance().getIntConfig("specials.arrow-blocker.protection-time", 10);
+    int protectionTime = Main.getInstance()
+        .getIntConfig("specials.arrow-blocker.protection-time", 10);
     int waitTime = Main.getInstance().getIntConfig("specials.arrow-blocker.using-wait-time", 30);
 
     if (waitTime > 0) {
@@ -87,41 +69,31 @@ public class ArrowBlocker extends SpecialItem {
       }
     }
     player.updateInventory();
-    
-    player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.start",
-        ImmutableMap.of("time", String.valueOf(protectionTime)))));
-    
+
+    player
+        .sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.start",
+            ImmutableMap.of("time", String.valueOf(protectionTime)))));
+
     if (protectionTime > 0 || waitTime > 0) {
       isActive = true;
       this.runTask(protectionTime, waitTime, player);
       game.addSpecialItem(this);
     }
   }
-  
-  public void runTask(final int protectionTime, final int waitTime, final Player player) {
-    this.task = new BukkitRunnable() {
 
-      @Override
-      public void run() {
-        ArrowBlocker.this.livingTime++;
+  @Override
+  public Material getActivatedMaterial() {
+    // not needed
+    return null;
+  }
 
-        if (protectionTime > 0 && ArrowBlocker.this.livingTime == protectionTime) {
-          player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.end")));
-          isActive = false;
-        }
+  public Game getGame() {
+    return this.game;
+  }
 
-        if (ArrowBlocker.this.livingTime >= waitTime
-            && ArrowBlocker.this.livingTime >= protectionTime) {
-          ArrowBlocker.this.game.removeRunningTask(this);
-          ArrowBlocker.this.game.removeSpecialItem(ArrowBlocker.this);
-          ArrowBlocker.this.task = null;
-          isActive = false;
-          this.cancel();
-          return;
-        }
-      }
-    }.runTaskTimer(Main.getInstance(), 0, 20L);
-    this.game.addRunningTask(this.task);
+  @Override
+  public Material getItemMaterial() {
+    return Utils.getMaterialByConfig("specials.arrow-blocker.item", Material.EYE_OF_ENDER);
   }
 
   private ArrayList<ArrowBlocker> getLivingBlocker() {
@@ -137,10 +109,39 @@ public class ArrowBlocker extends SpecialItem {
     return livingBlocker;
   }
 
-  @Override
-  public Material getActivatedMaterial() {
-    // not needed
-    return null;
+  public int getLivingTime() {
+    return this.livingTime;
+  }
+
+  public Player getOwner() {
+    return this.owner;
+  }
+
+  public void runTask(final int protectionTime, final int waitTime, final Player player) {
+    this.task = new BukkitRunnable() {
+
+      @Override
+      public void run() {
+        ArrowBlocker.this.livingTime++;
+
+        if (protectionTime > 0 && ArrowBlocker.this.livingTime == protectionTime) {
+          player.sendMessage(
+              ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.end")));
+          isActive = false;
+        }
+
+        if (ArrowBlocker.this.livingTime >= waitTime
+            && ArrowBlocker.this.livingTime >= protectionTime) {
+          ArrowBlocker.this.game.removeRunningTask(this);
+          ArrowBlocker.this.game.removeSpecialItem(ArrowBlocker.this);
+          ArrowBlocker.this.task = null;
+          isActive = false;
+          this.cancel();
+          return;
+        }
+      }
+    }.runTaskTimer(Main.getInstance(), 0, 20L);
+    this.game.addRunningTask(this.task);
   }
 
 }

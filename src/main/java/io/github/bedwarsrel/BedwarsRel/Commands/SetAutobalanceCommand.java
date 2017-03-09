@@ -1,42 +1,19 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class SetAutobalanceCommand extends BaseCommand implements ICommand {
 
   public SetAutobalanceCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "setautobalance";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.setautobalance.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.setautobalance.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "value"};
   }
 
   @Override
@@ -52,7 +29,8 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l(player, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(player, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
@@ -66,7 +44,8 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
         && !value.equalsIgnoreCase("off") && !value.equalsIgnoreCase("on")
         && !value.equalsIgnoreCase("1") && !value.equalsIgnoreCase("0")) {
       player
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.wrongvalueonoff")));
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.wrongvalueonoff")));
       return true;
     }
 
@@ -86,6 +65,26 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
           ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.autobalancesetoff")));
     }
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "value"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "setautobalance";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.setautobalance.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.setautobalance.name");
   }
 
   @Override

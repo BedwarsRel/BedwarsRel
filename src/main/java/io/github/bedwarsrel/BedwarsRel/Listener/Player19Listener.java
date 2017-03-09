@@ -1,13 +1,12 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
 public class Player19Listener extends BaseListener {
 
@@ -22,7 +21,7 @@ public class Player19Listener extends BaseListener {
 
     if (game.getState() == GameState.WAITING
         || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       event.setCancelled(true);
       return;
     }

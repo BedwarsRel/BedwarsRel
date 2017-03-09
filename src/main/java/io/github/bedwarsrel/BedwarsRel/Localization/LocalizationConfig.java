@@ -25,6 +25,24 @@ public class LocalizationConfig extends YamlConfiguration {
     this.loadLocale();
   }
 
+  @Override
+  public Object get(String path) {
+    return this.getString(path);
+  }
+
+  public Object get(String path, Map<String, String> params) {
+    return this.getFormatString(path, params);
+  }
+
+  public String getFormatString(String path, Map<String, String> params) {
+    String str = this.getString(path);
+    for (String key : params.keySet()) {
+      str = str.replace("$" + key.toLowerCase() + "$", params.get(key));
+    }
+
+    return ChatColor.translateAlternateColorCodes('&', str);
+  }
+
   @SuppressWarnings("unchecked")
   public String getPlayerLocale(Player player) {
     try {
@@ -40,6 +58,15 @@ public class LocalizationConfig extends YamlConfiguration {
       Main.getInstance().getBugsnag().notify(ex);
       return Main.getInstance().getFallbackLocale();
     }
+  }
+
+  @Override
+  public String getString(String path) {
+    if (super.get(path) == null) {
+      return "LOCALE_NOT_FOUND";
+    }
+
+    return ChatColor.translateAlternateColorCodes('&', super.getString(path));
   }
 
   public void loadLocale() {
@@ -84,33 +111,6 @@ public class LocalizationConfig extends YamlConfiguration {
         }
       }
     }
-  }
-
-  @Override
-  public Object get(String path) {
-    return this.getString(path);
-  }
-
-  public Object get(String path, Map<String, String> params) {
-    return this.getFormatString(path, params);
-  }
-
-  @Override
-  public String getString(String path) {
-    if (super.get(path) == null) {
-      return "LOCALE_NOT_FOUND";
-    }
-
-    return ChatColor.translateAlternateColorCodes('&', super.getString(path));
-  }
-
-  public String getFormatString(String path, Map<String, String> params) {
-    String str = this.getString(path);
-    for (String key : params.keySet()) {
-      str = str.replace("$" + key.toLowerCase() + "$", params.get(key));
-    }
-
-    return ChatColor.translateAlternateColorCodes('&', str);
   }
 
 }

@@ -1,21 +1,19 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
 import java.util.ArrayList;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Commands.BaseCommand;
-
 public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
 
   private static final HandlerList handlers = new HandlerList();
-  private CommandSender sender = null;
+  private boolean cancelled = false;
   private BaseCommand command = null;
   private ArrayList<String> params = null;
-  private boolean cancelled = false;
+  private CommandSender sender = null;
 
   public BedwarsExecuteCommandEvent(CommandSender sender, BaseCommand command,
       ArrayList<String> params) {
@@ -24,25 +22,25 @@ public class BedwarsExecuteCommandEvent extends Event implements Cancellable {
     this.params = params;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsExecuteCommandEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsExecuteCommandEvent.handlers;
-  }
-
-  public CommandSender getSender() {
-    return this.sender;
   }
 
   public BaseCommand getCommand() {
     return this.command;
   }
 
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsExecuteCommandEvent.handlers;
+  }
+
   public ArrayList<String> getParameter() {
     return this.params;
+  }
+
+  public CommandSender getSender() {
+    return this.sender;
   }
 
   @Override

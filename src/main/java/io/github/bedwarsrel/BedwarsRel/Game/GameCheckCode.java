@@ -9,8 +9,8 @@ public enum GameCheckCode {
       402), NO_LOBBY_SET(403), TEAMS_WITHOUT_SPAWNS(404), NO_ITEMSHOP_CATEGORIES(
       405), TEAM_NO_WRONG_BED(406), NO_MAIN_LOBBY_SET(407), TEAM_NO_WRONG_TARGET(408);
 
-  private int code;
   public static HashMap<String, String> GameCheckCodeMessages = null;
+  private int code;
 
   GameCheckCode(int code) {
     this.code = code;

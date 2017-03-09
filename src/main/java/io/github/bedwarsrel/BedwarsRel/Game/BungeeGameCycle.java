@@ -25,9 +25,35 @@ public class BungeeGameCycle extends GameCycle {
     super(game);
   }
 
-  @Override
-  public void onGameStart() {
-    // do nothing, world will be reseted on restarting
+  public void bungeeSendToServer(final String server, final Player player, boolean preventDelay) {
+    if (server == null) {
+      player
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bungeenoserver")));
+      return;
+    }
+
+    new BukkitRunnable() {
+
+      @Override
+      public void run() {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(b);
+
+        try {
+          out.writeUTF("Connect");
+          out.writeUTF(server);
+        } catch (Exception e) {
+          Main.getInstance().getBugsnag().notify(e);
+          e.printStackTrace();
+          return;
+        }
+
+        if (b != null) {
+          player.sendPluginMessage(Main.getInstance(), "BungeeCord", b.toByteArray());
+        }
+      }
+    }.runTaskLater(Main.getInstance(), (preventDelay) ? 0L : 20L);
   }
 
   private void kickAllPlayers() {
@@ -91,142 +117,8 @@ public class BungeeGameCycle extends GameCycle {
   }
 
   @Override
-  public void onPlayerLeave(Player player) {
-    if (player.isOnline() || player.isDead()) {
-      this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
-    }
-
-    if (this.getGame().getState() == GameState.RUNNING && !this.getGame().isStopping()) {
-      this.checkGameOver();
-    }
-  }
-
-  @Override
   public void onGameLoaded() {
     // Reset on game end
-  }
-
-  @Override
-  public boolean onPlayerJoins(Player player) {
-    final Player p = player;
-
-    if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
-      if (this.getGame().getState() != GameState.RUNNING
-          || !Main.getInstance().spectationEnabled()) {
-        this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
-        new BukkitRunnable() {
-
-          @Override
-          public void run() {
-            BungeeGameCycle.this.sendBungeeMessage(p,
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefull")));
-          }
-        }.runTaskLater(Main.getInstance(), 60L);
-
-        return false;
-      }
-    } else if (this.getGame().isFull() && player.hasPermission("bw.vip.joinfull")) {
-      if (this.getGame().getState() == GameState.WAITING) {
-        List<Player> players = this.getGame().getNonVipPlayers();
-
-        if (players.size() == 0) {
-          this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
-          new BukkitRunnable() {
-
-            @Override
-            public void run() {
-              BungeeGameCycle.this.sendBungeeMessage(p,
-                  ChatWriter.pluginMessage(ChatColor.RED + Main._l(p,"lobby.gamefullpremium")));
-            }
-          }.runTaskLater(Main.getInstance(), 60L);
-          return false;
-        }
-
-        Player kickPlayer = null;
-        if (players.size() == 1) {
-          kickPlayer = players.get(0);
-        } else {
-          kickPlayer = players.get(Utils.randInt(0, players.size() - 1));
-        }
-
-        final Player kickedPlayer = kickPlayer;
-
-        this.getGame().playerLeave(kickedPlayer, false);
-        new BukkitRunnable() {
-
-          @Override
-          public void run() {
-            BungeeGameCycle.this.sendBungeeMessage(kickedPlayer,
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l(kickedPlayer, "lobby.kickedbyvip")));
-          }
-        }.runTaskLater(Main.getInstance(), 60L);
-      } else {
-        if (this.getGame().getState() == GameState.RUNNING
-            && !Main.getInstance().spectationEnabled()) {
-
-          new BukkitRunnable() {
-
-            @Override
-            public void run() {
-              BungeeGameCycle.this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
-            }
-
-          }.runTaskLater(Main.getInstance(), 5L);
-
-          new BukkitRunnable() {
-
-            @Override
-            public void run() {
-              BungeeGameCycle.this.sendBungeeMessage(p,
-                  ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefull")));
-            }
-          }.runTaskLater(Main.getInstance(), 60L);
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  public void sendBungeeMessage(Player player, String message) {
-    ByteArrayDataOutput out = ByteStreams.newDataOutput();
-
-    out.writeUTF("Message");
-    out.writeUTF(player.getName());
-    out.writeUTF(message);
-
-    player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
-  }
-
-  public void bungeeSendToServer(final String server, final Player player, boolean preventDelay) {
-    if (server == null) {
-      player
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bungeenoserver")));
-      return;
-    }
-
-    new BukkitRunnable() {
-
-      @Override
-      public void run() {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
-
-        try {
-          out.writeUTF("Connect");
-          out.writeUTF(server);
-        } catch (Exception e) {
-          Main.getInstance().getBugsnag().notify(e);
-          e.printStackTrace();
-          return;
-        }
-
-        if (b != null) {
-          player.sendPluginMessage(Main.getInstance(), "BungeeCord", b.toByteArray());
-        }
-      }
-    }.runTaskLater(Main.getInstance(), (preventDelay) ? 0L : 20L);
   }
 
   @Override
@@ -301,6 +193,116 @@ public class BungeeGameCycle extends GameCycle {
     }
 
     task.decCounter();
+  }
+
+  @Override
+  public void onGameStart() {
+    // do nothing, world will be reseted on restarting
+  }
+
+  @Override
+  public boolean onPlayerJoins(Player player) {
+    final Player p = player;
+
+    if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
+      if (this.getGame().getState() != GameState.RUNNING
+          || !Main.getInstance().spectationEnabled()) {
+        this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
+        new BukkitRunnable() {
+
+          @Override
+          public void run() {
+            BungeeGameCycle.this.sendBungeeMessage(p,
+                ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefull")));
+          }
+        }.runTaskLater(Main.getInstance(), 60L);
+
+        return false;
+      }
+    } else if (this.getGame().isFull() && player.hasPermission("bw.vip.joinfull")) {
+      if (this.getGame().getState() == GameState.WAITING) {
+        List<Player> players = this.getGame().getNonVipPlayers();
+
+        if (players.size() == 0) {
+          this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
+          new BukkitRunnable() {
+
+            @Override
+            public void run() {
+              BungeeGameCycle.this.sendBungeeMessage(p,
+                  ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefullpremium")));
+            }
+          }.runTaskLater(Main.getInstance(), 60L);
+          return false;
+        }
+
+        Player kickPlayer = null;
+        if (players.size() == 1) {
+          kickPlayer = players.get(0);
+        } else {
+          kickPlayer = players.get(Utils.randInt(0, players.size() - 1));
+        }
+
+        final Player kickedPlayer = kickPlayer;
+
+        this.getGame().playerLeave(kickedPlayer, false);
+        new BukkitRunnable() {
+
+          @Override
+          public void run() {
+            BungeeGameCycle.this.sendBungeeMessage(kickedPlayer,
+                ChatWriter
+                    .pluginMessage(ChatColor.RED + Main._l(kickedPlayer, "lobby.kickedbyvip")));
+          }
+        }.runTaskLater(Main.getInstance(), 60L);
+      } else {
+        if (this.getGame().getState() == GameState.RUNNING
+            && !Main.getInstance().spectationEnabled()) {
+
+          new BukkitRunnable() {
+
+            @Override
+            public void run() {
+              BungeeGameCycle.this.bungeeSendToServer(Main.getInstance().getBungeeHub(), p, false);
+            }
+
+          }.runTaskLater(Main.getInstance(), 5L);
+
+          new BukkitRunnable() {
+
+            @Override
+            public void run() {
+              BungeeGameCycle.this.sendBungeeMessage(p,
+                  ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefull")));
+            }
+          }.runTaskLater(Main.getInstance(), 60L);
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  @Override
+  public void onPlayerLeave(Player player) {
+    if (player.isOnline() || player.isDead()) {
+      this.bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
+    }
+
+    if (this.getGame().getState() == GameState.RUNNING && !this.getGame().isStopping()) {
+      this.checkGameOver();
+    }
+  }
+
+  public void sendBungeeMessage(Player player, String message) {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+
+    out.writeUTF("Message");
+    out.writeUTF(player.getName());
+    out.writeUTF(message);
+
+    player.sendPluginMessage(Main.getInstance(), "BungeeCord", out.toByteArray());
   }
 
 }

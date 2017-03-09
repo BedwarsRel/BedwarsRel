@@ -1,42 +1,19 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class RegionNameCommand extends BaseCommand implements ICommand {
 
   public RegionNameCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "regionname";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.regionname.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.regionname.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "name"};
   }
 
   @Override
@@ -52,7 +29,8 @@ public class RegionNameCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
@@ -70,8 +48,29 @@ public class RegionNameCommand extends BaseCommand implements ICommand {
 
     game.setRegionName(name);
     player
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.regionnameset")));
+        .sendMessage(
+            ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.regionnameset")));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "name"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "regionname";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.regionname.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.regionname.name");
   }
 
   @Override

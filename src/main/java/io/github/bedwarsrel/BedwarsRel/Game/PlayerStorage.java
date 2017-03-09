@@ -22,18 +22,17 @@ import org.bukkit.potion.PotionEffect;
 
 public class PlayerStorage {
 
-  private Player player = null;
-
-  private ItemStack[] inventory = null;
   private ItemStack[] armor = null;
-  private float xp = 0.0F;
+  private String displayName = null;
   private Collection<PotionEffect> effects = null;
-  private GameMode mode = null;
+  private int foodLevel = 0;
+  private ItemStack[] inventory = null;
   private Location left = null;
   private int level = 0;
-  private String displayName = null;
   private String listName = null;
-  private int foodLevel = 0;
+  private GameMode mode = null;
+  private Player player = null;
+  private float xp = 0.0F;
 
   public PlayerStorage(Player p) {
     super();
@@ -41,17 +40,20 @@ public class PlayerStorage {
     this.player = p;
   }
 
-  public void store() {
-    this.inventory = this.player.getInventory().getContents();
-    this.armor = this.player.getInventory().getArmorContents();
-    this.xp = Float.valueOf(this.player.getExp());
-    this.effects = this.player.getActivePotionEffects();
-    this.mode = this.player.getGameMode();
-    this.left = this.player.getLocation();
-    this.level = this.player.getLevel();
-    this.listName = this.player.getPlayerListName();
-    this.displayName = this.player.getDisplayName();
-    this.foodLevel = this.player.getFoodLevel();
+  public void addGameStartItem() {
+    ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
+    ItemMeta im = startGame.getItemMeta();
+    im.setDisplayName(Main._l(player, "lobby.startgame"));
+    startGame.setItemMeta(im);
+    this.player.getInventory().addItem(startGame);
+  }
+
+  public void addReduceCountdownItem() {
+    ItemStack reduceCountdownItem = new ItemStack(Material.EMERALD, 1);
+    ItemMeta im = reduceCountdownItem.getItemMeta();
+    im.setDisplayName(Main._l(player, "lobby.reduce_countdown"));
+    reduceCountdownItem.setItemMeta(im);
+    this.player.getInventory().addItem(reduceCountdownItem);
   }
 
   public void clean() {
@@ -124,34 +126,6 @@ public class PlayerStorage {
     this.player.updateInventory();
   }
 
-  public void restore() {
-    if (Main.getInstance().getBooleanConfig("save-inventory", true)) {
-      this.player.getInventory().setContents(this.inventory);
-      this.player.getInventory().setArmorContents(this.armor);
-
-      this.player.addPotionEffects(this.effects);
-      this.player.setLevel(this.level);
-      this.player.setExp(this.xp);
-      this.player.setFoodLevel(this.foodLevel);
-
-      for (PotionEffect e : this.player.getActivePotionEffects()) {
-        this.player.removePotionEffect(e.getType());
-      }
-
-      this.player.addPotionEffects(this.effects);
-    }
-
-    this.player.setPlayerListName(this.listName);
-    this.player.setDisplayName(this.displayName);
-
-    this.player.setGameMode(this.mode);
-
-    if (this.mode == GameMode.CREATIVE) {
-      this.player.setAllowFlight(true);
-    }
-    this.player.updateInventory();
-  }
-
   public Location getLeft() {
     return this.left;
   }
@@ -192,22 +166,6 @@ public class PlayerStorage {
     }
 
     this.player.updateInventory();
-  }
-
-  public void addGameStartItem() {
-    ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
-    ItemMeta im = startGame.getItemMeta();
-    im.setDisplayName(Main._l(player, "lobby.startgame"));
-    startGame.setItemMeta(im);
-    this.player.getInventory().addItem(startGame);
-  }
-
-  public void addReduceCountdownItem() {
-    ItemStack reduceCountdownItem = new ItemStack(Material.EMERALD, 1);
-    ItemMeta im = reduceCountdownItem.getItemMeta();
-    im.setDisplayName(Main._l(player, "lobby.reduce_countdown"));
-    reduceCountdownItem.setItemMeta(im);
-    this.player.getInventory().addItem(reduceCountdownItem);
   }
 
   public void openTeamSelection(Game game) {
@@ -259,6 +217,47 @@ public class PlayerStorage {
     }
 
     this.player.openInventory(inv);
+  }
+
+  public void restore() {
+    if (Main.getInstance().getBooleanConfig("save-inventory", true)) {
+      this.player.getInventory().setContents(this.inventory);
+      this.player.getInventory().setArmorContents(this.armor);
+
+      this.player.addPotionEffects(this.effects);
+      this.player.setLevel(this.level);
+      this.player.setExp(this.xp);
+      this.player.setFoodLevel(this.foodLevel);
+
+      for (PotionEffect e : this.player.getActivePotionEffects()) {
+        this.player.removePotionEffect(e.getType());
+      }
+
+      this.player.addPotionEffects(this.effects);
+    }
+
+    this.player.setPlayerListName(this.listName);
+    this.player.setDisplayName(this.displayName);
+
+    this.player.setGameMode(this.mode);
+
+    if (this.mode == GameMode.CREATIVE) {
+      this.player.setAllowFlight(true);
+    }
+    this.player.updateInventory();
+  }
+
+  public void store() {
+    this.inventory = this.player.getInventory().getContents();
+    this.armor = this.player.getInventory().getArmorContents();
+    this.xp = Float.valueOf(this.player.getExp());
+    this.effects = this.player.getActivePotionEffects();
+    this.mode = this.player.getGameMode();
+    this.left = this.player.getLocation();
+    this.level = this.player.getLevel();
+    this.listName = this.player.getPlayerListName();
+    this.displayName = this.player.getDisplayName();
+    this.foodLevel = this.player.getFoodLevel();
   }
 
 }

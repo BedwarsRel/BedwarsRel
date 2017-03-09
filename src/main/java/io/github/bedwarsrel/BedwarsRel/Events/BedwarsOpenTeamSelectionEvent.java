@@ -1,23 +1,30 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-
 public class BedwarsOpenTeamSelectionEvent extends Event implements Cancellable {
 
   private static final HandlerList handlers = new HandlerList();
-  private Player player = null;
-  private Game game = null;
   private boolean cancelled = false;
+  private Game game = null;
+  private Player player = null;
 
   public BedwarsOpenTeamSelectionEvent(Game game, Player player) {
     this.player = player;
     this.game = game;
+  }
+
+  public static HandlerList getHandlerList() {
+    return BedwarsOpenTeamSelectionEvent.handlers;
+  }
+
+  public Game getGame() {
+    return this.game;
   }
 
   @Override
@@ -25,16 +32,8 @@ public class BedwarsOpenTeamSelectionEvent extends Event implements Cancellable 
     return BedwarsOpenTeamSelectionEvent.handlers;
   }
 
-  public static HandlerList getHandlerList() {
-    return BedwarsOpenTeamSelectionEvent.handlers;
-  }
-
   public CommandSender getPlayer() {
     return this.player;
-  }
-
-  public Game getGame() {
-    return this.game;
   }
 
   @Override

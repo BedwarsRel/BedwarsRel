@@ -1,11 +1,15 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
-import org.bukkit.Material;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import org.bukkit.Material;
 
 public class MagnetShoe extends SpecialItem {
+
+  @Override
+  public Material getActivatedMaterial() {
+    return null;
+  }
 
   @SuppressWarnings("deprecation")
   @Override
@@ -23,11 +27,6 @@ public class MagnetShoe extends SpecialItem {
     }
 
     return material;
-  }
-
-  @Override
-  public Material getActivatedMaterial() {
-    return null;
   }
 
 }

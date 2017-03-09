@@ -10,18 +10,13 @@ import org.bukkit.event.HandlerList;
 public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
 
   private static final HandlerList handlers = new HandlerList();
+  private boolean cancelled = false;
   private Game game = null;
   private Player player = null;
-  private boolean cancelled = false;
 
   public BedwarsPlayerJoinEvent(Game game, Player player) {
     this.game = game;
     this.player = player;
-  }
-
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsPlayerJoinEvent.handlers;
   }
 
   public static HandlerList getHandlerList() {
@@ -32,16 +27,13 @@ public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
     return this.game;
   }
 
-  public Player getPlayer() {
-    return this.player;
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsPlayerJoinEvent.handlers;
   }
 
-  public void setPlayerLocale(String locale) {
-    if (Main.getInstance().getPlayerLocales().containsKey(this.player.getUniqueId()) && !locale
-        .equals(Main.getInstance().getPlayerLocales().get(this.player.getUniqueId()))) {
-      Main.getInstance().getPlayerLocales().remove(this.player.getUniqueId());
-    }
-    Main.getInstance().getPlayerLocales().put(this.player.getUniqueId(), locale);
+  public Player getPlayer() {
+    return this.player;
   }
 
   @Override
@@ -52,6 +44,14 @@ public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
   @Override
   public void setCancelled(boolean cancel) {
     this.cancelled = cancel;
+  }
+
+  public void setPlayerLocale(String locale) {
+    if (Main.getInstance().getPlayerLocales().containsKey(this.player.getUniqueId()) && !locale
+        .equals(Main.getInstance().getPlayerLocales().get(this.player.getUniqueId()))) {
+      Main.getInstance().getPlayerLocales().remove(this.player.getUniqueId());
+    }
+    Main.getInstance().getPlayerLocales().put(this.player.getUniqueId(), locale);
   }
 
 }

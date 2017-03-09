@@ -1,9 +1,8 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
 
 public class BedwarsGameStartedEvent extends Event {
 
@@ -14,17 +13,17 @@ public class BedwarsGameStartedEvent extends Event {
     this.game = game;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsGameStartedEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsGameStartedEvent.handlers;
   }
 
   public Game getGame() {
     return this.game;
+  }
+
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsGameStartedEvent.handlers;
   }
 
 }

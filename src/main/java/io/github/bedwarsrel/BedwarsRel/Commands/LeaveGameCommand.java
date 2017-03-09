@@ -1,37 +1,15 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import java.util.ArrayList;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
 
 public class LeaveGameCommand extends BaseCommand {
 
   public LeaveGameCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "leave";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.leave.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.leave.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
   }
 
   @Override
@@ -49,6 +27,26 @@ public class LeaveGameCommand extends BaseCommand {
 
     game.playerLeave(player, false);
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
+
+  @Override
+  public String getCommand() {
+    return "leave";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.leave.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.leave.name");
   }
 
   @Override

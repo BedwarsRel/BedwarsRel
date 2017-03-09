@@ -16,17 +16,8 @@ public class GameOverTask extends BukkitRunnable {
     this.winner = winner;
   }
 
-  @Override
-  public void run() {
-    this.cycle.onGameOver(this);
-  }
-
-  public int getStartCount() {
-    return this.counterStart;
-  }
-
-  public Team getWinner() {
-    return this.winner;
+  public void decCounter() {
+    this.counter--;
   }
 
   public int getCounter() {
@@ -37,12 +28,21 @@ public class GameOverTask extends BukkitRunnable {
     this.counter = counter;
   }
 
-  public void decCounter() {
-    this.counter--;
-  }
-
   public GameCycle getCycle() {
     return this.cycle;
+  }
+
+  public int getStartCount() {
+    return this.counterStart;
+  }
+
+  public Team getWinner() {
+    return this.winner;
+  }
+
+  @Override
+  public void run() {
+    this.cycle.onGameOver(this);
   }
 
 }

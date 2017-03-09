@@ -1,40 +1,17 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class SetBuilderCommand extends BaseCommand implements ICommand {
 
   public SetBuilderCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "setbuilder";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.setbuilder.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.setbuilder.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "builder"};
   }
 
   @Override
@@ -48,13 +25,35 @@ public class SetBuilderCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     game.setBuilder(builder);
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.builderset")));
+    sender.sendMessage(
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.builderset")));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "builder"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "setbuilder";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.setbuilder.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.setbuilder.name");
   }
 
   @Override

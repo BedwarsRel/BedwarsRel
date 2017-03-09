@@ -1,20 +1,17 @@
 package io.github.bedwarsrel.BedwarsRel.Com.Fallback;
 
+import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class PerformRespawnRunnable extends BukkitRunnable {
 
@@ -22,6 +19,30 @@ public class PerformRespawnRunnable extends BukkitRunnable {
 
   public PerformRespawnRunnable(Player player) {
     this.player = player;
+  }
+
+  private Object getPacketObject(String packetName, Class<?>[] constructorClasses,
+      Object[] constructorParams) {
+    try {
+      Class<?> clazz = Main.getInstance().getMinecraftServerClass(packetName);
+      if (clazz == null) {
+        throw new NotFoundException("packet not found");
+      }
+
+      Constructor<?> constr = clazz.getDeclaredConstructor(constructorClasses);
+      if (constr == null) {
+        throw new NotFoundException("constructor not found");
+      }
+
+      constr.setAccessible(true);
+      return constr.newInstance(constructorParams);
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
+          ChatColor.RED + "Couldn't catch packet class " + ChatColor.YELLOW + packetName));
+    }
+
+    return null;
   }
 
   @Override
@@ -52,7 +73,7 @@ public class PerformRespawnRunnable extends BukkitRunnable {
 
       // Create packet instance
       Object packetPlayInClientCommand = this.getPacketObject("PacketPlayInClientCommand",
-          new Class[] {enumClientCommand}, new Object[] {respawnObject});
+          new Class[]{enumClientCommand}, new Object[]{respawnObject});
       Object craftPlayer = Utils.getCraftPlayer(this.player);
       Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
       Field playerConnectionField = craftPlayerClass.getField("playerConnection");
@@ -62,40 +83,16 @@ public class PerformRespawnRunnable extends BukkitRunnable {
       Object playerConnection = playerConnectionField.get(craftPlayer);
       Class<?> playerConnectionClass =
           Main.getInstance().getMinecraftServerClass("PlayerConnection");
-      Method aMethod = playerConnectionClass.getMethod("a", new Class[] {packetClass});
+      Method aMethod = playerConnectionClass.getMethod("a", new Class[]{packetClass});
       aMethod.setAccessible(true);
 
       // invoke respawn
-      aMethod.invoke(playerConnection, new Object[] {packetPlayInClientCommand});
+      aMethod.invoke(playerConnection, new Object[]{packetPlayInClientCommand});
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
           .pluginMessage(ChatColor.RED + "Plugin not compatible with your server version!"));
     }
-  }
-
-  private Object getPacketObject(String packetName, Class<?>[] constructorClasses,
-      Object[] constructorParams) {
-    try {
-      Class<?> clazz = Main.getInstance().getMinecraftServerClass(packetName);
-      if (clazz == null) {
-        throw new NotFoundException("packet not found");
-      }
-
-      Constructor<?> constr = clazz.getDeclaredConstructor(constructorClasses);
-      if (constr == null) {
-        throw new NotFoundException("constructor not found");
-      }
-
-      constr.setAccessible(true);
-      return constr.newInstance(constructorParams);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
-          ChatColor.RED + "Couldn't catch packet class " + ChatColor.YELLOW + packetName));
-    }
-
-    return null;
   }
 
 }

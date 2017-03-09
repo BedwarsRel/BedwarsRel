@@ -15,10 +15,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
-  private Game game = null;
   @Getter
   @Setter
   private int counter = 0;
+  private Game game = null;
   @Getter
   private int lobbytime;
   @Getter
