@@ -51,20 +51,20 @@ public class SetGameBlockCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Material targetMaterial = Utils.parseMaterial(material);
     if (targetMaterial == null && !"DEFAULT".equals(material)) {
       sender
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.novalidmaterial")));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.novalidmaterial")));
       return true;
     }
 
@@ -74,7 +74,7 @@ public class SetGameBlockCommand extends BaseCommand implements ICommand {
       game.setTargetMaterial(targetMaterial);
     }
 
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.materialset")));
+    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.materialset")));
     return true;
   }
 

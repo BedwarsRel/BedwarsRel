@@ -1,10 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameEndEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -12,15 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.google.common.collect.ImmutableMap;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameEndEvent;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class BungeeGameCycle extends GameCycle {
 
@@ -122,7 +119,7 @@ public class BungeeGameCycle extends GameCycle {
           @Override
           public void run() {
             BungeeGameCycle.this.sendBungeeMessage(p,
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
+                ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefull")));
           }
         }.runTaskLater(Main.getInstance(), 60L);
 
@@ -139,7 +136,7 @@ public class BungeeGameCycle extends GameCycle {
             @Override
             public void run() {
               BungeeGameCycle.this.sendBungeeMessage(p,
-                  ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefullpremium")));
+                  ChatWriter.pluginMessage(ChatColor.RED + Main._l(p,"lobby.gamefullpremium")));
             }
           }.runTaskLater(Main.getInstance(), 60L);
           return false;
@@ -160,7 +157,7 @@ public class BungeeGameCycle extends GameCycle {
           @Override
           public void run() {
             BungeeGameCycle.this.sendBungeeMessage(kickedPlayer,
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
+                ChatWriter.pluginMessage(ChatColor.RED + Main._l(kickedPlayer, "lobby.kickedbyvip")));
           }
         }.runTaskLater(Main.getInstance(), 60L);
       } else {
@@ -181,7 +178,7 @@ public class BungeeGameCycle extends GameCycle {
             @Override
             public void run() {
               BungeeGameCycle.this.sendBungeeMessage(p,
-                  ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
+                  ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "lobby.gamefull")));
             }
           }.runTaskLater(Main.getInstance(), 60L);
           return false;
@@ -205,7 +202,7 @@ public class BungeeGameCycle extends GameCycle {
   public void bungeeSendToServer(final String server, final Player player, boolean preventDelay) {
     if (server == null) {
       player
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bungeenoserver")));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bungeenoserver")));
       return;
     }
 
@@ -269,10 +266,20 @@ public class BungeeGameCycle extends GameCycle {
       }.runTaskLater(Main.getInstance(), 20L);
     }
     if (task.getCounter() == task.getStartCount() && task.getWinner() != null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon",
-          ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.teamwon",
+                  ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD))));
+        }
+      }
     } else if (task.getCounter() == task.getStartCount() && task.getWinner() == null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.draw")));
+        }
+      }
     }
 
     // game over
@@ -284,8 +291,13 @@ public class BungeeGameCycle extends GameCycle {
       task.cancel();
     } else if ((task.getCounter() == task.getStartCount()) || (task.getCounter() % 10 == 0)
         || (task.getCounter() <= 5 && (task.getCounter() > 0))) {
-      this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.serverrestart", ImmutableMap
-          .of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(ChatWriter
+              .pluginMessage(ChatColor.AQUA + Main._l(aPlayer, "ingame.serverrestart", ImmutableMap
+                  .of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
+        }
+      }
     }
 
     task.decCounter();

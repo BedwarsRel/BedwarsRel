@@ -52,25 +52,25 @@ public class RegionNameCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     if (name.length() > 15) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.toolongregionname")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.toolongregionname")));
       return true;
     }
 
     game.setRegionName(name);
     player
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.regionnameset")));
+        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.regionnameset")));
     return true;
   }
 

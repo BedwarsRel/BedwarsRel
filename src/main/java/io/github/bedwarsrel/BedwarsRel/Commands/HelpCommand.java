@@ -91,7 +91,7 @@ public class HelpCommand extends BaseCommand {
       sender.sendMessage(line);
     }
     sender.sendMessage(ChatColor.GREEN + "---------- "
-        + Main._l("default.pages",
+        + Main._l(sender, "default.pages",
             ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max",
                 String.valueOf(chatPage.getTotalPages())))
         + " ----------");

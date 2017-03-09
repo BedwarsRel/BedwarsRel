@@ -234,7 +234,7 @@ public class BlockListener extends BaseListener {
 
           if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).equals(e.getBlock())) {
             p.sendMessage(
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.no-friendlybreak")));
+                ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.no-friendlybreak")));
             e.setCancelled(true);
             return;
           }
@@ -246,7 +246,11 @@ public class BlockListener extends BaseListener {
           List<Block> teamChests = team.getChests();
           if (teamChests.contains(breakedBlock)) {
             team.removeChest(breakedBlock);
-            g.broadcast(Main._l("ingame.teamchestdestroy"), team.getPlayers());
+            for(Player aPlayer : team.getPlayers()){
+              if (aPlayer.isOnline()) {
+                aPlayer.sendMessage(ChatWriter.pluginMessage(Main._l(aPlayer, "ingame.teamchestdestroy")));
+              }
+            }
             break;
           }
         }

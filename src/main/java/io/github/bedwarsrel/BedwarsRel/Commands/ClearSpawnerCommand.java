@@ -47,19 +47,19 @@ public class ClearSpawnerCommand extends BaseCommand implements ICommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     game.getRessourceSpawner().clear();
     sender
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnercleared")));
+        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.spawnercleared")));
     return true;
   }
 

@@ -1,12 +1,15 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -14,12 +17,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class GameManager {
 
@@ -148,7 +145,8 @@ public class GameManager {
     for (Game g : this.games) {
       if (!g.run(Main.getInstance().getServer().getConsoleSender())) {
         Main.getInstance().getServer().getConsoleSender()
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotloaded")));
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main
+                ._l(Main.getInstance().getServer().getConsoleSender(), "errors.gamenotloaded")));
       } else {
         g.getCycle().onGameLoaded();
       }
@@ -299,13 +297,15 @@ public class GameManager {
 
       this.games.add(game);
       Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameloaded",
-              ImmutableMap.of("game", game.getRegion().getName()))));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main
+              ._l(Main.getInstance().getServer().getConsoleSender(), "success.gameloaded",
+                  ImmutableMap.of("game", game.getRegion().getName()))));
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameloaderror",
-              ImmutableMap.of("game", configFile.getParentFile().getName()))));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main
+              ._l(Main.getInstance().getServer().getConsoleSender(), "errors.gameloaderror",
+                  ImmutableMap.of("game", configFile.getParentFile().getName()))));
     }
   }
 

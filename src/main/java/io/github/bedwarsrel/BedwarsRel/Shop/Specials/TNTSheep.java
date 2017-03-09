@@ -89,7 +89,7 @@ public class TNTSheep extends SpecialItem {
     Player targetPlayer = this.findTargetPlayer(this.player);
     if (targetPlayer == null) {
       this.player.sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + Main._l("ingame.specials.tntsheep.no-target-found")));
+          .pluginMessage(ChatColor.RED + Main._l(this.player, "ingame.specials.tntsheep.no-target-found")));
       return;
     }
 

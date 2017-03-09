@@ -189,7 +189,8 @@ public class Game {
   public boolean run(CommandSender sender) {
     if (this.state != GameState.STOPPED) {
       sender
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantstartagain")));
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.cantstartagain")));
       return false;
     }
 
@@ -200,7 +201,8 @@ public class Game {
     }
 
     if (sender instanceof Player) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gamerun")));
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.gamerun")));
     }
 
     this.isStopping = false;
@@ -212,7 +214,7 @@ public class Game {
   public boolean start(CommandSender sender) {
     if (this.state != GameState.WAITING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.startoutofwaiting")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.startoutofwaiting")));
       return false;
     }
 
@@ -224,7 +226,12 @@ public class Game {
     }
 
     this.isOver = false;
-    this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
+    for (Player aPlayer : this.getPlayers()) {
+      if (aPlayer.isOnline()) {
+        aPlayer.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(aPlayer, "ingame.gamestarting")));
+      }
+    }
 
     // load shop categories again (if shop was changed)
     this.loadItemShopCategories();
@@ -260,8 +267,11 @@ public class Game {
     this.updateSigns();
 
     if (Main.getInstance().getBooleanConfig("global-messages", true)) {
-      Main.getInstance().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-          + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getRegion().getName()))));
+      for (Player aPlayer : Main.getInstance().getServer().getOnlinePlayers()) {
+        aPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+            + Main._l(aPlayer, "ingame.gamestarted",
+            ImmutableMap.of("game", this.getRegion().getName()))));
+      }
     }
 
     BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
@@ -510,7 +520,7 @@ public class Game {
     // Leave Game (Slimeball)
     ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
     ItemMeta im = leaveGame.getItemMeta();
-    im.setDisplayName(Main._l("lobby.leavegame"));
+    im.setDisplayName(Main._l(player, "lobby.leavegame"));
     leaveGame.setItemMeta(im);
     p.getInventory().setItem(8, leaveGame);
 
@@ -523,7 +533,7 @@ public class Game {
     // Teleport to player (Compass)
     ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
     im = teleportPlayer.getItemMeta();
-    im.setDisplayName(Main._l("ingame.spectate"));
+    im.setDisplayName(Main._l(p, "ingame.spectate"));
     teleportPlayer.setItemMeta(im);
     p.getInventory().setItem(0, teleportPlayer);
 
@@ -626,9 +636,9 @@ public class Game {
         || (this.state == GameState.RUNNING && !Main.getInstance().spectationEnabled())) {
       if (this.cycle instanceof BungeeGameCycle) {
         ((BungeeGameCycle) this.cycle).sendBungeeMessage(p,
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "errors.cantjoingame")));
       } else {
-        p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
+        p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "errors.cantjoingame")));
       }
       return false;
     }
@@ -708,8 +718,13 @@ public class Game {
 
       }.runTaskLater(Main.getInstance(), 15L);
 
-      this.broadcast(ChatColor.GREEN + Main._l("lobby.playerjoin",
-          ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
+      for (Player aPlayer : this.getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(aPlayer, "lobby.playerjoin",
+                  ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN))));
+        }
+      }
 
       if (!this.isAutobalanceEnabled()) {
         this.freePlayers.add(p);
@@ -730,10 +745,21 @@ public class Game {
       } else {
         if (!this.hasEnoughPlayers()) {
           int playersNeeded = this.getMinPlayers() - this.getPlayerAmount();
-          this.broadcast(ChatColor.GREEN + Main._l("lobby.moreplayersneeded", "count",
-              ImmutableMap.of("count", String.valueOf(playersNeeded))));
+          for (Player aPlayer : this.getPlayers()) {
+            if (aPlayer.isOnline()) {
+              aPlayer.sendMessage(ChatWriter
+                  .pluginMessage(
+                      ChatColor.GREEN + Main._l(aPlayer, "lobby.moreplayersneeded", "count",
+                          ImmutableMap.of("count", String.valueOf(playersNeeded)))));
+            }
+          }
         } else if (!this.hasEnoughTeams()) {
-          this.broadcast(ChatColor.RED + Main._l("lobby.moreteamssneeded"));
+          for (Player aPlayer : this.getPlayers()) {
+            if (aPlayer.isOnline()) {
+              aPlayer.sendMessage(ChatWriter
+                  .pluginMessage(ChatColor.RED + Main._l(aPlayer, "lobby.moreteamssneeded")));
+            }
+          }
         }
       }
     }
@@ -797,11 +823,23 @@ public class Game {
     if (team != null && Main.getInstance().getGameManager().getGameOfPlayer(p) != null
         && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
       if (kicked) {
-        this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
-            Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
+        for (Player aPlayer : this.getPlayers()) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(
+                ChatWriter.pluginMessage(ChatColor.RED + Main
+                    ._l(aPlayer, "ingame.player.kicked", ImmutableMap.of("player",
+                        Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED))));
+          }
+        }
       } else {
-        this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player",
-            Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
+        for (Player aPlayer : this.getPlayers()) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(
+                ChatWriter.pluginMessage(
+                    ChatColor.RED + Main._l(aPlayer, "ingame.player.left", ImmutableMap.of("player",
+                        Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED))));
+          }
+        }
       }
       team.removePlayer(p);
     }
@@ -852,9 +890,10 @@ public class Game {
 
     if (!Main.getInstance().isBungee() && p.isOnline()) {
       if (kicked) {
-        p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.player.waskicked")));
+        p.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.player.waskicked")));
       } else {
-        p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
+        p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(p, "success.left")));
       }
     }
 
@@ -874,13 +913,6 @@ public class Game {
     return storage;
   }
 
-  public void broadcast(String message) {
-    for (Player p : this.getPlayers()) {
-      if (p.isOnline()) {
-        p.sendMessage(ChatWriter.pluginMessage(message));
-      }
-    }
-  }
 
   public void broadcastSound(Sound sound, float volume, float pitch) {
     for (Player p : this.getPlayers()) {
@@ -894,14 +926,6 @@ public class Game {
     for (Player p : players) {
       if (p.isOnline()) {
         p.playSound(p.getLocation(), sound, volume, pitch);
-      }
-    }
-  }
-
-  public void broadcast(String message, List<Player> players) {
-    for (Player p : players) {
-      if (p.isOnline()) {
-        p.sendMessage(ChatWriter.pluginMessage(message));
       }
     }
   }
@@ -933,7 +957,7 @@ public class Game {
 
       if (bedBlock.equals(breakBlock)) {
         p.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.blocks.ownbeddestroy")));
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.blocks.ownbeddestroy")));
         return false;
       }
 
@@ -949,7 +973,7 @@ public class Game {
     } else {
       if (bedBlock.equals(block)) {
         p.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.blocks.ownbeddestroy")));
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.blocks.ownbeddestroy")));
         return false;
       }
 
@@ -983,10 +1007,16 @@ public class Game {
         new BedwarsTargetBlockDestroyedEvent(this, p, bedDestroyTeam);
     Main.getInstance().getServer().getPluginManager().callEvent(targetBlockDestroyedEvent);
 
-    this.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed",
-        ImmutableMap.of("team",
-            bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED, "player",
-            Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
+    for (Player aPlayer : this.getPlayers()) {
+      if (aPlayer.isOnline()) {
+        aPlayer.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(aPlayer, "ingame.blocks.beddestroyed",
+                ImmutableMap.of("team",
+                    bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED,
+                    "player",
+                    Game.getPlayerWithTeamString(p, team, ChatColor.RED)))));
+      }
+    }
 
     this.broadcastSound(
         Sound.valueOf(
@@ -1054,7 +1084,7 @@ public class Game {
     int teamplayers = this.getTeamPlayers().size();
     int nom = (teamplayers % 9 == 0) ? 9 : (teamplayers % 9);
     int size = teamplayers + (9 - nom);
-    Inventory compass = Bukkit.createInventory(null, size, Main._l("ingame.spectator"));
+    Inventory compass = Bukkit.createInventory(null, size, Main._l(player, "ingame.spectator"));
     for (Team t : this.getTeams().values()) {
       for (Player p : t.getPlayers()) {
         ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
@@ -1304,7 +1334,8 @@ public class Game {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.savesign")));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main
+              ._l(Main.getInstance().getServer().getConsoleSender(), "errors.savesign")));
     }
   }
 
@@ -1536,19 +1567,21 @@ public class Game {
 
     if (this.region != null && this.region.getWorld().equals(lobby.getWorld())) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.lobbyongameworld")));
       return;
     }
 
     this.lobby = lobby;
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.lobbyset")));
+    sender.sendMessage(
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.lobbyset")));
   }
 
   public void setLobby(Location lobby) {
     if (this.region != null) {
       if (this.region.getWorld().equals(lobby.getWorld())) {
         Main.getInstance().getServer().getConsoleSender().sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
+            ChatWriter.pluginMessage(ChatColor.RED + Main
+                ._l(Main.getInstance().getServer().getConsoleSender(), "errors.lobbyongameworld")));
         return;
       }
     }
@@ -1646,7 +1679,7 @@ public class Game {
             Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
 
         showSubTitle.invoke(null, player,
-            Main._l("ingame.title.map-builder",
+            Main._l(player, "ingame.title.map-builder",
                 ImmutableMap.of("builder",
                     ChatColor.translateAlternateColorCodes('&', this.builder))),
             subtitleFadeIn, subtitleStay, subtitleFadeOut);
@@ -1678,11 +1711,11 @@ public class Game {
         }
       }
 
-      player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.record-with-holders",
+      player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.record-with-holders",
           ImmutableMap.of("record", this.getFormattedRecord(), "holders", holders.toString()))));
     } else {
       player.sendMessage(ChatWriter.pluginMessage(
-          Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
+          Main._l(player, "ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
     }
   }
 
@@ -1907,7 +1940,8 @@ public class Game {
 
   public void playerJoinTeam(Player player, Team team) {
     if (team.getPlayers().size() >= team.getMaxPlayers()) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamfull")));
       return;
     }
 
@@ -1924,7 +1958,8 @@ public class Game {
       player.getInventory().setItem(7, chestplate);
       player.updateInventory();
     } else {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamfull")));
       return;
     }
 
@@ -1936,8 +1971,9 @@ public class Game {
       this.setLobbyCountdown(lobbyCountdown);
     }
 
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined",
-        ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
+    player
+        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "lobby.teamjoined",
+            ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
   }
 
   private void startTimerCountdown() {

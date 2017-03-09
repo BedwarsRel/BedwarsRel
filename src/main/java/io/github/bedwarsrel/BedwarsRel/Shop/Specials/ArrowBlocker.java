@@ -61,7 +61,7 @@ public class ArrowBlocker extends SpecialItem {
           int waitLeft = waitTime - livingBlocker.getLivingTime();
           if (waitLeft > 0) {
             player.sendMessage(
-                ChatWriter.pluginMessage(Main._l("ingame.specials.arrow-blocker.left",
+                ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.left",
                     ImmutableMap.of("time", String.valueOf(waitLeft)))));
             return;
           }
@@ -88,7 +88,7 @@ public class ArrowBlocker extends SpecialItem {
     }
     player.updateInventory();
     
-    player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.arrow-blocker.start",
+    player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.start",
         ImmutableMap.of("time", String.valueOf(protectionTime)))));
     
     if (protectionTime > 0 || waitTime > 0) {
@@ -106,7 +106,7 @@ public class ArrowBlocker extends SpecialItem {
         ArrowBlocker.this.livingTime++;
 
         if (protectionTime > 0 && ArrowBlocker.this.livingTime == protectionTime) {
-          player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.arrow-blocker.end")));
+          player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.specials.arrow-blocker.end")));
           isActive = false;
         }
 

@@ -86,7 +86,7 @@ public class ProtectionWall extends SpecialItem {
 
     if (player.getEyeLocation().getBlock().getType() != Material.AIR) {
       player.sendMessage(
-          ChatWriter.pluginMessage(Main._l("ingame.specials.protection-wall.not-usable-here")));
+          ChatWriter.pluginMessage(Main._l(player, "ingame.specials.protection-wall.not-usable-here")));
       return;
     }
 
@@ -97,7 +97,7 @@ public class ProtectionWall extends SpecialItem {
           int waitLeft = waitTime - livingWall.getLivingTime();
           if (waitLeft > 0) {
             player.sendMessage(
-                ChatWriter.pluginMessage(Main._l("ingame.specials.protection-wall.left",
+                ChatWriter.pluginMessage(Main._l(player, "ingame.specials.protection-wall.left",
                     ImmutableMap.of("time", String.valueOf(waitLeft)))));
             return;
           }

@@ -1,5 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,14 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class WarpPowder extends SpecialItem {
 
@@ -65,7 +63,7 @@ public class WarpPowder extends SpecialItem {
 
     if (showMessage) {
       this.player
-          .sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.cancelled")));
+          .sendMessage(ChatWriter.pluginMessage(Main._l(this.player, "ingame.specials.warp-powder.cancelled")));
     }
 
     this.setStackAmount(this.getStack().getAmount() - 1);
@@ -111,8 +109,9 @@ public class WarpPowder extends SpecialItem {
 
     this.teleportingTime =
         (double) Main.getInstance().getIntConfig("specials.warp-powder.teleport-time", 6);
-    this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.warp-powder.start",
-        ImmutableMap.of("time", String.valueOf(this.fullTeleportingTime)))));
+    this.player.sendMessage(
+        ChatWriter.pluginMessage(Main._l(this.player, "ingame.specials.warp-powder.start",
+            ImmutableMap.of("time", String.valueOf(this.fullTeleportingTime)))));
 
     this.teleportingTask = new BukkitRunnable() {
 

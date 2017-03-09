@@ -77,7 +77,7 @@ public class RescuePlatform extends SpecialItem {
           int waitLeft = waitTime - livingPlatform.getLivingTime();
           if (waitLeft > 0) {
             player.sendMessage(
-                ChatWriter.pluginMessage(Main._l("ingame.specials.rescue-platform.left",
+                ChatWriter.pluginMessage(Main._l(player, "ingame.specials.rescue-platform.left",
                     ImmutableMap.of("time", String.valueOf(waitLeft)))));
             return;
           }
@@ -86,7 +86,7 @@ public class RescuePlatform extends SpecialItem {
     }
 
     if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notinair")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.notinair")));
       return;
     }
 

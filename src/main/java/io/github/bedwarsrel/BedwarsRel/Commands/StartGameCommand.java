@@ -46,7 +46,7 @@ public class StartGameCommand extends BaseCommand implements ICommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 

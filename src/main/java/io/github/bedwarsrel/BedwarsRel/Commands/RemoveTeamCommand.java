@@ -50,24 +50,24 @@ public class RemoveTeamCommand extends BaseCommand {
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() != GameState.STOPPED) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Team theTeam = game.getTeam(name);
     if (theTeam == null) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
+      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.teamnotfound")));
       return false;
     }
 
     game.removeTeam(theTeam);
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.teamremoved")));
+    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.teamremoved")));
     return true;
   }
 

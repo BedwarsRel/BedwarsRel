@@ -1,18 +1,15 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
 import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameEndEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class SingleGameCycle extends GameCycle {
 
@@ -153,7 +150,7 @@ public class SingleGameCycle extends GameCycle {
     if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
       if (this.getGame().getState() != GameState.RUNNING
           || !Main.getInstance().spectationEnabled()) {
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "lobby.gamefull")));
         return false;
       }
     } else if (this.getGame().isFull() && player.hasPermission("bw.vip.joinfull")) {
@@ -162,7 +159,7 @@ public class SingleGameCycle extends GameCycle {
 
         if (players.size() == 0) {
           player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefullpremium")));
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "lobby.gamefullpremium")));
           return false;
         }
 
@@ -174,13 +171,13 @@ public class SingleGameCycle extends GameCycle {
         }
 
         kickPlayer
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(kickPlayer, "lobby.kickedbyvip")));
         this.getGame().playerLeave(kickPlayer, false);
       } else {
         if (this.getGame().getState() == GameState.RUNNING
             && !Main.getInstance().spectationEnabled()) {
           player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.cantjoingame")));
           return false;
         }
       }
@@ -192,11 +189,21 @@ public class SingleGameCycle extends GameCycle {
   @Override
   public void onGameOver(GameOverTask task) {
     if (task.getCounter() == task.getStartCount() && task.getWinner() != null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon",
-          ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.teamwon",
+                  ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD))));
+        }
+      }
       this.getGame().stopWorkers();
     } else if (task.getCounter() == task.getStartCount() && task.getWinner() == null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.draw")));
+        }
+      }
     }
 
     if (task.getCounter() == 0) {
@@ -206,8 +213,14 @@ public class SingleGameCycle extends GameCycle {
       this.onGameEnds();
       task.cancel();
     } else {
-      this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.backtolobby", ImmutableMap.of("sec",
-          ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(
+                  ChatColor.AQUA + Main._l(aPlayer, "ingame.backtolobby", ImmutableMap.of("sec",
+                      ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
+        }
+      }
     }
 
     task.decCounter();

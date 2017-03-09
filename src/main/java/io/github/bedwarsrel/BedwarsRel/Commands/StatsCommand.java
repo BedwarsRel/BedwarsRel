@@ -54,20 +54,20 @@ public class StatsCommand extends BaseCommand implements ICommand {
     }
 
     player.sendMessage(ChatWriter.pluginMessage(
-        ChatColor.GREEN + "----------- " + Main._l("stats.header") + " -----------"));
+        ChatColor.GREEN + "----------- " + Main._l(player, "stats.header") + " -----------"));
 
     if (args.size() == 1) {
       String playerStats = args.get(0).toString();
       OfflinePlayer offPlayer = Main.getInstance().getServer().getPlayerExact(playerStats);
 
       if (offPlayer != null) {
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GRAY + Main._l("stats.name") + ": "
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GRAY + Main._l(player, "stats.name") + ": "
             + ChatColor.YELLOW + offPlayer.getName()));
         PlayerStatistic statistic =
             Main.getInstance().getPlayerStatisticManager().getStatistic(offPlayer);
         if (statistic == null) {
           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-              + Main._l("stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+              + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
           return true;
         }
 
@@ -80,7 +80,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
         offUUID = UUIDFetcher.getUUIDOf(playerStats);
         if (offUUID == null) {
           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-              + Main._l("stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+              + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
           return true;
         }
       } catch (Exception e) {
@@ -91,7 +91,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
       offPlayer = Main.getInstance().getServer().getOfflinePlayer(offUUID);
       if (offPlayer == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+            + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
         return true;
       }
 
@@ -99,7 +99,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
           Main.getInstance().getPlayerStatisticManager().getStatistic(offPlayer);
       if (statistic == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("stats.statsnotfound", ImmutableMap.of("player", offPlayer.getName()))));
+            + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", offPlayer.getName()))));
         return true;
       }
 
@@ -110,7 +110,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
           Main.getInstance().getPlayerStatisticManager().getStatistic(player);
       if (statistic == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("stats.statsnotfound", ImmutableMap.of("player", player.getName()))));
+            + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", player.getName()))));
         return true;
       }
 

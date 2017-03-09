@@ -75,18 +75,22 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -98,12 +102,15 @@ public class Main extends JavaPlugin {
 
   public static int PROJECT_ID = 91743;
 
-  private ArrayList<BaseCommand> commands = new ArrayList<BaseCommand>();
+  private ArrayList<BaseCommand> commands = new ArrayList<>();
   private BukkitTask timeTask = null;
   private Package craftbukkit = null;
   private Package minecraft = null;
   private String version = null;
-  private LocalizationConfig localization = null;
+  @Getter
+  private HashMap<String, LocalizationConfig> localization = new HashMap<>();
+  @Getter
+  private HashMap<UUID, String> playerLocales = new HashMap<>();
   private DatabaseManager dbManager = null;
   private BukkitTask updateChecker = null;
 
@@ -119,6 +126,7 @@ public class Main extends JavaPlugin {
   private PlayerStatisticManager playerStatisticManager = null;
 
   private ScoreboardManager scoreboardManager = null;
+  @Getter
   private GameManager gameManager = null;
   @Getter
   private Bugsnag bugsnag;
@@ -171,7 +179,7 @@ public class Main extends JavaPlugin {
     }
 
     this.loadStatistics();
-    this.localization = this.loadLocalization();
+    this.loadLocalization(this.getConfig().getString("locale"));
 
     this.checkUpdates();
 
@@ -451,10 +459,10 @@ public class Main extends JavaPlugin {
     }
   }
 
-  private LocalizationConfig loadLocalization() {
-    LocalizationConfig config = new LocalizationConfig();
-    config.loadLocale(this.getConfig().getString("locale"), false);
-    return config;
+  private void loadLocalization(String locale) {
+    if (!this.localization.containsKey(locale)) {
+      this.localization.put(locale, new LocalizationConfig(locale));
+    }
   }
 
   private void loadStatistics() {
@@ -550,10 +558,6 @@ public class Main extends JavaPlugin {
     return defaultBool;
   }
 
-  public LocalizationConfig getLocalization() {
-    return this.localization;
-  }
-
   private String loadVersion() {
     String packName = Bukkit.getServer().getClass().getPackage().getName();
     return packName.substring(packName.lastIndexOf('.') + 1);
@@ -586,7 +590,8 @@ public class Main extends JavaPlugin {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.packagenotfound", ImmutableMap.of("package", "craftbukkit"))));
+          + Main._l(this.getServer().getConsoleSender(), "errors.packagenotfound",
+          ImmutableMap.of("package", "craftbukkit"))));
       return null;
     }
   }
@@ -602,7 +607,8 @@ public class Main extends JavaPlugin {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.packagenotfound", ImmutableMap.of("package", "minecraft server"))));
+          + Main._l(this.getServer().getConsoleSender(), "errors.packagenotfound",
+          ImmutableMap.of("package", "minecraft server"))));
       return null;
     }
   }
@@ -618,8 +624,9 @@ public class Main extends JavaPlugin {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound",
-              ImmutableMap.of("package", "craftbukkit", "class", classname))));
+          .sendMessage(ChatWriter.pluginMessage(
+              ChatColor.RED + Main._l(this.getServer().getConsoleSender(), "errors.classnotfound",
+                  ImmutableMap.of("package", "craftbukkit", "class", classname))));
       return null;
     }
   }
@@ -635,8 +642,9 @@ public class Main extends JavaPlugin {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       this.getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.classnotfound",
-              ImmutableMap.of("package", "minecraft server", "class", classname))));
+          .sendMessage(ChatWriter.pluginMessage(
+              ChatColor.RED + Main._l(this.getServer().getConsoleSender(), "errors.classnotfound",
+                  ImmutableMap.of("package", "minecraft server", "class", classname))));
       return null;
     }
   }
@@ -803,10 +811,6 @@ public class Main extends JavaPlugin {
     return commands;
   }
 
-  public GameManager getGameManager() {
-    return this.gameManager;
-  }
-
   private void startTimeListener() {
     this.timeTask = this.getServer().getScheduler().runTaskTimer(this, new Runnable() {
 
@@ -821,19 +825,54 @@ public class Main extends JavaPlugin {
     }, (long) 5 * 20, (long) 5 * 20);
   }
 
-  public static String _l(String localeKey, String singularValue, Map<String, String> params) {
+  public static String _l(CommandSender commandSender, String key, String singularValue,
+      Map<String, String> params) {
+    return Main._l(Main.getSenderLocale(commandSender), key, singularValue, params);
+  }
+
+  public static String _l(String locale, String key, String singularValue,
+      Map<String, String> params) {
     if ("1".equals(params.get(singularValue))) {
-      return (String) Main.getInstance().getLocalization().get(localeKey + "-one", params);
+      return Main._l(locale, key + "-one", params);
     }
-    return (String) Main.getInstance().getLocalization().get(localeKey, params);
+    return Main._l(locale, key, params);
   }
 
-  public static String _l(String localeKey, Map<String, String> params) {
-    return (String) Main.getInstance().getLocalization().get(localeKey, params);
+  public static String _l(CommandSender commandSender, String key, Map<String, String> params) {
+    return Main._l(Main.getSenderLocale(commandSender), key, params);
   }
 
-  public static String _l(String localeKey) {
-    return (String) Main.getInstance().getLocalization().get(localeKey);
+  public static String _l(String locale, String key, Map<String, String> params) {
+    if (!Main.getInstance().localization.containsKey(locale)) {
+      Main.getInstance().loadLocalization(locale);
+    }
+    return (String) Main.getInstance().getLocalization().get(locale).get(key, params);
+  }
+
+  public static String _l(CommandSender commandSender, String key) {
+    return Main._l(Main.getSenderLocale(commandSender), key);
+  }
+
+  public static String _l(String key) {
+    return Main._l(Main.getInstance().getConfig().getString("locale"), key);
+  }
+
+  public static String _l(String locale, String key) {
+    if (!Main.getInstance().localization.containsKey(locale)) {
+      Main.getInstance().loadLocalization(locale);
+    }
+    return (String) Main.getInstance().getLocalization().get(locale).get(key);
+  }
+
+  public static String getSenderLocale(CommandSender commandSender) {
+    String locale = Main.getInstance().getConfig().getString("locale");
+    if (commandSender instanceof Player) {
+      Player player = (Player) commandSender;
+      if (Main.getInstance().getPlayerLocales().containsKey(player.getUniqueId())) {
+        locale = Main.getInstance().getPlayerLocales().get(player.getUniqueId());
+      }
+    }
+    return locale;
   }
 
   private void stopTimeListener() {
@@ -851,7 +890,8 @@ public class Main extends JavaPlugin {
   }
 
   public void reloadLocalization() {
-    this.localization.loadLocale(this.getConfig().getString("locale"), false);
+    this.localization = new HashMap<>();
+    this.loadLocalization(this.getConfig().getString("locale"));
   }
 
   public boolean spectationEnabled() {

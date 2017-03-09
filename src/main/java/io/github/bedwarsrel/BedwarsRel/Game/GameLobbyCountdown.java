@@ -1,19 +1,17 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
-import lombok.Getter;
-import lombok.Setter;
 
 public class GameLobbyCountdown extends BukkitRunnable {
 
@@ -47,14 +45,15 @@ public class GameLobbyCountdown extends BukkitRunnable {
     if (this.counter > this.lobbytimeWhenFull
         && this.game.getPlayerAmount() == this.game.getMaxPlayers()) {
       this.counter = this.lobbytimeWhenFull;
-      this.game
-          .broadcast(
-              ChatColor.YELLOW
-                  + Main
-                      ._l("lobby.countdown",
-                          ImmutableMap.of("sec",
-                              ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-              players);
+      for (Player aPlayer : players) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.YELLOW
+              + Main
+              ._l(aPlayer, "lobby.countdown",
+                  ImmutableMap.of("sec",
+                      ChatColor.RED.toString() + this.counter + ChatColor.YELLOW))));
+        }
+      }
     }
 
     if (this.counter == this.lobbytimeWhenFull) {
@@ -76,14 +75,15 @@ public class GameLobbyCountdown extends BukkitRunnable {
     }
 
     if (this.counter == this.lobbytime) {
-      this.game
-          .broadcast(
-              ChatColor.YELLOW
-                  + Main
-                      ._l("lobby.countdown",
-                          ImmutableMap.of("sec",
-                              ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-              players);
+      for (Player aPlayer : players) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.YELLOW
+              + Main
+              ._l(aPlayer, "lobby.countdown",
+                  ImmutableMap.of("sec",
+                      ChatColor.RED.toString() + this.counter + ChatColor.YELLOW))));
+        }
+      }
 
       for (Player p : players) {
         if (!p.getInventory().contains(Material.DIAMOND) && p.hasPermission("bw.vip.forcestart")) {
@@ -99,11 +99,19 @@ public class GameLobbyCountdown extends BukkitRunnable {
 
     if (!this.game.isStartable()) {
       if (!this.game.hasEnoughPlayers()) {
-        this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown.not_enough_players"),
-            players);
+        for (Player aPlayer : players) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(ChatWriter.pluginMessage(
+                ChatColor.RED + Main._l(aPlayer, "lobby.cancelcountdown.not_enough_players")));
+          }
+        }
       } else if (!this.game.hasEnoughTeams()) {
-        this.game.broadcast(ChatColor.RED + Main._l("lobby.cancelcountdown.not_enough_teams"),
-            players);
+        for (Player aPlayer : players) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(ChatWriter.pluginMessage(
+                ChatColor.RED + Main._l(aPlayer, "lobby.cancelcountdown.not_enough_teams")));
+          }
+        }
       }
 
       this.counter = this.lobbytime;
@@ -120,14 +128,15 @@ public class GameLobbyCountdown extends BukkitRunnable {
     }
 
     if (this.counter <= 10 && this.counter > 0) {
-      this.game
-          .broadcast(
-              ChatColor.YELLOW
-                  + Main
-                      ._l("lobby.countdown",
-                          ImmutableMap.of("sec",
-                              ChatColor.RED.toString() + this.counter + ChatColor.YELLOW)),
-              players);
+      for (Player aPlayer : players) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.YELLOW
+              + Main
+              ._l(aPlayer, "lobby.countdown",
+                  ImmutableMap.of("sec",
+                      ChatColor.RED.toString() + this.counter + ChatColor.YELLOW))));
+        }
+      }
 
       Class<?> titleClass = null;
       Method showTitle = null;

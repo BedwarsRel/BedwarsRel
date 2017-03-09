@@ -53,18 +53,18 @@ public class GameTimeCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     if (!Utils.isNumber(gametime) && !"day".equals(gametime) && !"night".equals(gametime)) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.timeincorrect")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.timeincorrect")));
       return true;
     }
 
@@ -78,7 +78,7 @@ public class GameTimeCommand extends BaseCommand implements ICommand {
     }
 
     game.setTime(time);
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gametimeset")));
+    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.gametimeset")));
     return true;
   }
 

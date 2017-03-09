@@ -75,7 +75,7 @@ public class NewItemShop {
     int nom = (catSize % 9 == 0) ? 9 : (catSize % 9);
     int size = (catSize + (9 - nom)) + 9;
 
-    Inventory inventory = Bukkit.createInventory(player, size, Main._l("ingame.shop.name"));
+    Inventory inventory = Bukkit.createInventory(player, size, Main._l(player, "ingame.shop.name"));
 
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
@@ -84,7 +84,7 @@ public class NewItemShop {
     ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
     ItemMeta slimeMeta = slime.getItemMeta();
 
-    slimeMeta.setDisplayName(Main._l("ingame.shop.oldshop"));
+    slimeMeta.setDisplayName(Main._l(player, "ingame.shop.oldshop"));
     slimeMeta.setLore(new ArrayList<String>());
     slime.setItemMeta(slimeMeta);
     ItemStack stack = null;
@@ -94,16 +94,16 @@ public class NewItemShop {
         stack = new ItemStack(Material.BUCKET, 1);
         ItemMeta meta = stack.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + Main._l("default.currently") + ": " + ChatColor.WHITE
-            + Main._l("ingame.shop.onestackpershift"));
+        meta.setDisplayName(ChatColor.AQUA + Main._l(player, "default.currently") + ": " + ChatColor.WHITE
+            + Main._l(player, "ingame.shop.onestackpershift"));
         meta.setLore(new ArrayList<String>());
         stack.setItemMeta(meta);
       } else {
         stack = new ItemStack(Material.LAVA_BUCKET, 1);
         ItemMeta meta = stack.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + Main._l("default.currently") + ": " + ChatColor.WHITE
-            + Main._l("ingame.shop.fullstackpershift"));
+        meta.setDisplayName(ChatColor.AQUA + Main._l(player, "default.currently") + ": " + ChatColor.WHITE
+            + Main._l(player, "ingame.shop.fullstackpershift"));
         meta.setLore(new ArrayList<String>());
         stack.setItemMeta(meta);
       }
@@ -244,7 +244,7 @@ public class NewItemShop {
         Float.valueOf("1.0"), Float.valueOf("1.0"));
 
     this.currentCategory = category;
-    Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l("ingame.shop.name"));
+    Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l(player, "ingame.shop.name"));
     this.addCategoriesToInventory(buyInventory, player, game);
 
     for (int i = 0; i < offers.size(); i++) {
@@ -355,7 +355,7 @@ public class NewItemShop {
       // enough ressources?
       if (!this.hasEnoughRessource(player, trade)) {
         player
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notenoughress")));
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.notenoughress")));
         return;
       }
 

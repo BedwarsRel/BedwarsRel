@@ -92,14 +92,14 @@ public class ListGamesCommand extends BaseCommand {
           + ((code != GameCheckCode.OK) ? ChatColor.RED + game.getName() + ChatColor.YELLOW
               : game.getName())
           + " - " + game.getRegion().getName() + " - "
-          + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + ChatColor.YELLOW
-          + " - " + Main._l("sign.players") + ": " + ChatColor.WHITE + "[" + ChatColor.YELLOW
+          + Main._l(sender, "sign.gamestate." + game.getState().toString().toLowerCase()) + ChatColor.YELLOW
+          + " - " + Main._l(sender, "sign.players") + ": " + ChatColor.WHITE + "[" + ChatColor.YELLOW
           + players + ChatColor.WHITE + "/" + ChatColor.YELLOW + game.getMaxPlayers()
           + ChatColor.WHITE + "]\n");
     }
 
     if (showedGames.size() == 0) {
-      sb.append(ChatColor.RED + Main._l("errors.nogames"));
+      sb.append(ChatColor.RED + Main._l(sender, "errors.nogames"));
     }
 
     ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
@@ -107,7 +107,7 @@ public class ListGamesCommand extends BaseCommand {
       sender.sendMessage(line);
     }
     sender.sendMessage(ChatColor.GREEN + "---------- "
-        + Main._l("default.pages",
+        + Main._l(sender, "default.pages",
             ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max",
                 String.valueOf(chatPage.getTotalPages())))
         + " ----------");

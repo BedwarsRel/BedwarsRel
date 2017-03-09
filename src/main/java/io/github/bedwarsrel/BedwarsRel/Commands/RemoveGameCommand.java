@@ -48,19 +48,19 @@ public class RemoveGameCommand extends BaseCommand {
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Main.getInstance().getGameManager().unloadGame(game);
     Main.getInstance().getGameManager().removeGame(game);
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameremoved")));
+    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.gameremoved")));
     return true;
   }
 

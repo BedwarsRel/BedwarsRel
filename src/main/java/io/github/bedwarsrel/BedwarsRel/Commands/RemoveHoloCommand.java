@@ -48,7 +48,7 @@ public class RemoveHoloCommand extends BaseCommand implements ICommand {
     if (Main.getInstance().getHolographicInteractor().getType()
         .equalsIgnoreCase("HolographicDisplays")) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("commands.removeholo.explain")));
+          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "commands.removeholo.explain")));
 
     } else if (Main.getInstance().getHolographicInteractor().getType()
         .equalsIgnoreCase("HologramAPI")) {

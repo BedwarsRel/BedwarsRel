@@ -109,7 +109,7 @@ public class ReloadCommand extends BaseCommand {
       return false;
     }
 
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.reloadconfig")));
+    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.reloadconfig")));
     return true;
   }
 

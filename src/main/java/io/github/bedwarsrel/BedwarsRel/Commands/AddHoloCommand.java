@@ -47,7 +47,7 @@ public class AddHoloCommand extends BaseCommand implements ICommand {
       String missingholodependency = Main.getInstance().getMissingHoloDependency();
 
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.holodependencynotfound", ImmutableMap.of("dependency", missingholodependency))));
+          + Main._l(sender,"errors.holodependencynotfound", ImmutableMap.of("dependency", missingholodependency))));
       return true;
     }
 

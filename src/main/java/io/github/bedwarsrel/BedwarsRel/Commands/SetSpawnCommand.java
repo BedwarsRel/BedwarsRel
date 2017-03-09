@@ -51,24 +51,24 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(player, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Team team = game.getTeam(args.get(1));
     if (team == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player,"errors.teamnotfound")));
       return false;
     }
 
     team.setSpawnLocation(player.getLocation());
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnset",
+    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.spawnset",
         ImmutableMap.of("team", team.getChatColor() + team.getDisplayName() + ChatColor.GREEN))));
     return true;
   }

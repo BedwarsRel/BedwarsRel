@@ -1,11 +1,20 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
+import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -45,17 +54,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenShopEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
-import io.github.bedwarsrel.BedwarsRel.Game.BungeeGameCycle;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-
 public class PlayerListener extends BaseListener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
@@ -65,7 +63,7 @@ public class PlayerListener extends BaseListener {
 
     if (Main.getInstance().isHologramsEnabled()
         && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
-            .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
+        .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
       Main.getInstance().getHolographicInteractor().updateHolograms(player, 60L);
     }
 
@@ -73,7 +71,6 @@ public class PlayerListener extends BaseListener {
     if (games.size() == 0) {
       return;
     }
-
 
     if (!Main.getInstance().isBungee()) {
       Game game = Main.getInstance().getGameManager().getGameByLocation(player.getLocation());
@@ -159,15 +156,15 @@ public class PlayerListener extends BaseListener {
     } else {
       if (iee.getPlayer().getInventory().getItemInMainHand().getType().equals(Material.MONSTER_EGG)
           || iee.getPlayer().getInventory().getItemInMainHand().getType()
-              .equals(Material.MONSTER_EGGS)
+          .equals(Material.MONSTER_EGGS)
           || iee.getPlayer().getInventory().getItemInMainHand().getType()
-              .equals(Material.DRAGON_EGG)
+          .equals(Material.DRAGON_EGG)
           || iee.getPlayer().getInventory().getItemInOffHand().getType()
-              .equals(Material.MONSTER_EGG)
+          .equals(Material.MONSTER_EGG)
           || iee.getPlayer().getInventory().getItemInOffHand().getType()
-              .equals(Material.MONSTER_EGGS)
+          .equals(Material.MONSTER_EGGS)
           || iee.getPlayer().getInventory().getItemInOffHand().getType()
-              .equals(Material.DRAGON_EGG)) {
+          .equals(Material.DRAGON_EGG)) {
         iee.setCancelled(true);
         return;
       }
@@ -236,7 +233,7 @@ public class PlayerListener extends BaseListener {
     if (ioe.getInventory().getType() == InventoryType.ENCHANTING
         || ioe.getInventory().getType() == InventoryType.BREWING
         || (ioe.getInventory().getType() == InventoryType.CRAFTING
-            && !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
+        && !Main.getInstance().getBooleanConfig("allow-crafting", false))) {
       ioe.setCancelled(true);
       return;
     } else if (ioe.getInventory().getType() == InventoryType.CRAFTING
@@ -315,7 +312,6 @@ public class PlayerListener extends BaseListener {
       pde.setDroppedExp(0);
       pde.setDeathMessage(null);
 
-
       if (!Main.getInstance().getBooleanConfig("player-drops", false)) {
         pde.getDrops().clear();
       }
@@ -384,7 +380,7 @@ public class PlayerListener extends BaseListener {
     if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
       if (game.isSpectator(player)
           || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
-              && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+          && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
 
         ItemStack clickedStack = ice.getCurrentItem();
         if (clickedStack == null) {
@@ -454,8 +450,8 @@ public class PlayerListener extends BaseListener {
             clazz.getDeclaredConstructor(Game.class, Player.class, MerchantCategory.class)
                 .newInstance(game, player, cat);
 
-        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[] {});
-        openTrade.invoke(villagerItemShop, new Object[] {});
+        Method openTrade = clazz.getDeclaredMethod("openTrading", new Class[]{});
+        openTrade.invoke(villagerItemShop, new Object[]{});
       } catch (Exception ex) {
         Main.getInstance().getBugsnag().notify(ex);
         ex.printStackTrace();
@@ -823,7 +819,7 @@ public class PlayerListener extends BaseListener {
       }
 
       if (game.playerJoins(player)) {
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.joined")));
+        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.joined")));
       }
       return;
     }
@@ -838,7 +834,7 @@ public class PlayerListener extends BaseListener {
     if (g.getState() == GameState.RUNNING) {
       if (pie.getAction() == Action.PHYSICAL && clickedBlock != null
           && (clickedBlock.getType() == Material.WHEAT
-              || clickedBlock.getType() == Material.SOIL)) {
+          || clickedBlock.getType() == Material.SOIL)) {
         pie.setCancelled(true);
         return;
       }
@@ -858,7 +854,7 @@ public class PlayerListener extends BaseListener {
 
       if (g.isSpectator(player)
           || (g.getCycle() instanceof BungeeGameCycle && g.getCycle().isEndGameRunning()
-              && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+          && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
         if (interactingMaterial == Material.SLIME_BALL) {
           g.playerLeave(player, false);
           return;
@@ -912,7 +908,7 @@ public class PlayerListener extends BaseListener {
           player.openInventory(chestTeam.getInventory());
         } else {
           player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.noturteamchest")));
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "ingame.noturteamchest")));
         }
 
         return;
@@ -956,10 +952,11 @@ public class PlayerListener extends BaseListener {
             } else {
               if (!g.hasEnoughPlayers()) {
                 player.sendMessage(ChatWriter.pluginMessage(
-                    ChatColor.RED + Main._l("lobby.cancelstart.not_enough_players")));
+                    ChatColor.RED + Main._l(player, "lobby.cancelstart.not_enough_players")));
               } else if (!g.hasEnoughTeams()) {
                 player.sendMessage(ChatWriter
-                    .pluginMessage(ChatColor.RED + Main._l("lobby.cancelstart.not_enough_teams")));
+                    .pluginMessage(
+                        ChatColor.RED + Main._l(player, "lobby.cancelstart.not_enough_teams")));
               }
             }
           }
@@ -969,7 +966,7 @@ public class PlayerListener extends BaseListener {
           if ((player.isOp() || player.hasPermission("bw.setup")
               || player.hasPermission("bw.vip.reducecountdown"))
               && g.getGameLobbyCountdown().getCounter() > g.getGameLobbyCountdown()
-                  .getLobbytimeWhenFull()) {
+              .getLobbytimeWhenFull()) {
             g.getGameLobbyCountdown().setCounter(g.getGameLobbyCountdown().getLobbytimeWhenFull());
           }
           break;
@@ -1047,7 +1044,7 @@ public class PlayerListener extends BaseListener {
     // Remove holographs
     if (Main.getInstance().isHologramsEnabled()
         && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
-            .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
+        .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
       Main.getInstance().getHolographicInteractor().unloadAllHolograms(player);
     }
 

@@ -41,7 +41,7 @@ public class BedwarsCommandExecutor implements CommandExecutor {
       if (bCommand.getCommand().equalsIgnoreCase(command)) {
         if (bCommand.getArguments().length > arguments.size()) {
           sender.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.argumentslength")));
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.argumentslength")));
           return false;
         }
 

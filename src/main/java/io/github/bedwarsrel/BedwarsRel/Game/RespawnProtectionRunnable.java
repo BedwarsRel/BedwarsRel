@@ -23,12 +23,12 @@ public class RespawnProtectionRunnable extends BukkitRunnable {
   @Override
   public void run() {
     if (this.length > 0) {
-      this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.protectionleft",
+      this.player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.protectionleft",
           ImmutableMap.of("length", String.valueOf(this.length)))));
     }
 
     if (this.length <= 0) {
-      this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.protectionend")));
+      this.player.sendMessage(ChatWriter.pluginMessage(Main._l(this.player, "ingame.protectionend")));
       this.game.removeProtection(this.player);
     }
 

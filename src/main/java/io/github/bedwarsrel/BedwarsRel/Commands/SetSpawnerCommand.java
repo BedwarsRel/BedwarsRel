@@ -73,19 +73,19 @@ public class SetSpawnerCommand extends BaseCommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(player,"errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     if (!arguments.contains(material)) {
       player
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.spawnerargument")));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.spawnerargument")));
       return false;
     }
 
@@ -95,7 +95,7 @@ public class SetSpawnerCommand extends BaseCommand {
     Location location = player.getLocation();
     ResourceSpawner spawner = new ResourceSpawner(game, material, location);
     game.addRessourceSpawner(spawner);
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.spawnerset",
+    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player,"success.spawnerset",
         ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));
     return true;
   }

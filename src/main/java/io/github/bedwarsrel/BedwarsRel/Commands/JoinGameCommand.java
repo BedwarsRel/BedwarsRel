@@ -53,7 +53,7 @@ public class JoinGameCommand extends BaseCommand {
     if (gameOfPlayer != null) {
       if (gameOfPlayer.getState() == GameState.RUNNING) {
         sender.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhileingame")));
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhileingame")));
         return false;
       }
 
@@ -65,7 +65,7 @@ public class JoinGameCommand extends BaseCommand {
     if (game == null) {
       if (!args.get(0).equalsIgnoreCase("random")) {
         sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+            + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
         return true;
       }
       
@@ -76,7 +76,7 @@ public class JoinGameCommand extends BaseCommand {
         }
       }
       if (games.size() == 0) {
-        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.nofreegames")));
+        sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.nofreegames")));
         return true;
       }
       game = games.get(Utils.randInt(0, games.size() - 1));
@@ -84,7 +84,7 @@ public class JoinGameCommand extends BaseCommand {
 
 
     if (game.playerJoins(player)) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.joined")));
+      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.joined")));
     }
     return true;
   }

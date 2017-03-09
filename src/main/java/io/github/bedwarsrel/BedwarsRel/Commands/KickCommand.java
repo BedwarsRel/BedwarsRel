@@ -48,17 +48,17 @@ public class KickCommand extends BaseCommand implements ICommand {
     Player kickPlayer = Main.getInstance().getServer().getPlayer(args.get(0).toString());
 
     if (game == null) {
-      player.sendMessage(ChatWriter.pluginMessage(Main._l("errors.notingameforkick")));
+      player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "errors.notingameforkick")));
       return true;
     }
 
     if (kickPlayer == null || !kickPlayer.isOnline()) {
-      player.sendMessage(ChatWriter.pluginMessage(Main._l("errors.playernotfound")));
+      player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "errors.playernotfound")));
       return true;
     }
 
     if (!game.isInGame(kickPlayer)) {
-      player.sendMessage(ChatWriter.pluginMessage(Main._l("errors.playernotingame")));
+      player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "errors.playernotingame")));
       return true;
     }
 

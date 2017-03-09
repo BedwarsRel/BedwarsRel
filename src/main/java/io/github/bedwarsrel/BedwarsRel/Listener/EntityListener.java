@@ -136,7 +136,7 @@ public class EntityListener extends BaseListener {
 
     if (!(entity instanceof LivingEntity)) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.entitynotcompatible")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.entitynotcompatible")));
       return;
     }
 
@@ -153,7 +153,7 @@ public class EntityListener extends BaseListener {
 
     player.removeMetadata("bw-addteamjoin", Main.getInstance());
     player.sendMessage(ChatWriter
-        .pluginMessage(ChatColor.GREEN + Main._l("success.teamjoinadded", ImmutableMap.of("team",
+        .pluginMessage(ChatColor.GREEN + Main._l(player, "success.teamjoinadded", ImmutableMap.of("team",
             value.getTeam().getChatColor() + value.getTeam().getDisplayName() + ChatColor.GREEN))));
   }
 

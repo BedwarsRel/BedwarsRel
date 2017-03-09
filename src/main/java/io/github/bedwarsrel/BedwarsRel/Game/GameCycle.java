@@ -1,5 +1,15 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameOverEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerKilledEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.RescuePlatform;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
+import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -8,22 +18,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameOverEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerKilledEvent;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.RescuePlatform;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
-import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
-import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public abstract class GameCycle {
 
@@ -65,7 +63,12 @@ public abstract class GameCycle {
       }
 
       if (!throughBed) {
-        this.getGame().broadcast(Main._l("ingame.record-nobeddestroy"));
+        for (Player aPlayer : this.getGame().getPlayers()) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(
+                ChatWriter.pluginMessage(Main._l(aPlayer, "ingame.record-nobeddestroy")));
+          }
+        }
         return false;
       }
 
@@ -82,10 +85,15 @@ public abstract class GameCycle {
       this.getGame().setRecord(playTime);
       this.getGame().saveRecord();
 
-      this.getGame()
-          .broadcast(Main._l("ingame.newrecord",
-              ImmutableMap.of("record", this.getGame().getFormattedRecord(), "team",
-                  winner.getChatColor() + winner.getDisplayName())));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(Main._l(aPlayer, "ingame.newrecord",
+                  ImmutableMap.of("record", this.getGame().getFormattedRecord(), "team",
+                      winner.getChatColor() + winner.getDisplayName()))));
+        }
+      }
+
       return true;
     }
 
@@ -128,51 +136,53 @@ public abstract class GameCycle {
     }
 
     int delay = Main.getInstance().getConfig().getInt("gameoverdelay"); // configurable
-                                                                        // delay
-    String title = this.winTitleReplace(Main._l("ingame.title.win-title"), winner);
-    String subtitle = this.winTitleReplace(Main._l("ingame.title.win-subtitle"), winner);
+    // delay
 
     if (Main.getInstance().statisticsEnabled()
         || Main.getInstance().getBooleanConfig("rewards.enabled", false)
-        || (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
-            && (!"".equals(title) || !"".equals(subtitle)))) {
+        || (Main.getInstance().getBooleanConfig("titles.win.enabled", true))) {
       if (winner != null) {
         for (Player player : winner.getPlayers()) {
-          if (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
-              && (!"".equals(title) || !"".equals(subtitle))) {
-            try {
-              Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-                  + Main.getInstance().getCurrentVersion() + ".Title");
+          String title = this.winTitleReplace(Main._l(player, "ingame.title.win-title"), winner);
+          String subtitle = this.winTitleReplace(Main._l(player, "ingame.title.win-subtitle"), winner);
+          if (!"".equals(title) || !"".equals(subtitle)) {
+            if (Main.getInstance().getBooleanConfig("titles.win.enabled", true)
+                && (!"".equals(title) || !"".equals(subtitle))) {
+              try {
+                Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+                    + Main.getInstance().getCurrentVersion() + ".Title");
 
-              if (!"".equals(title)) {
-                double titleFadeIn =
-                    Main.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
-                double titleStay =
-                    Main.getInstance().getConfig().getDouble("titles.win.title-stay", 5.0);
-                double titleFadeOut =
-                    Main.getInstance().getConfig().getDouble("titles.win.title-fade-out", 2.0);
-                Method showTitle = clazz.getDeclaredMethod("showTitle", Player.class, String.class,
-                    double.class, double.class, double.class);
+                if (!"".equals(title)) {
+                  double titleFadeIn =
+                      Main.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
+                  double titleStay =
+                      Main.getInstance().getConfig().getDouble("titles.win.title-stay", 5.0);
+                  double titleFadeOut =
+                      Main.getInstance().getConfig().getDouble("titles.win.title-fade-out", 2.0);
+                  Method showTitle = clazz
+                      .getDeclaredMethod("showTitle", Player.class, String.class,
+                          double.class, double.class, double.class);
 
-                showTitle.invoke(null, player, title, titleFadeIn, titleStay, titleFadeOut);
+                  showTitle.invoke(null, player, title, titleFadeIn, titleStay, titleFadeOut);
+                }
+
+                if (!"".equals(subtitle)) {
+                  double subTitleFadeIn =
+                      Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
+                  double subTitleStay =
+                      Main.getInstance().getConfig().getDouble("titles.win.subtitle-stay", 5.0);
+                  double subTitleFadeOut =
+                      Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-out", 2.0);
+                  Method showSubTitle = clazz.getDeclaredMethod("showSubTitle", Player.class,
+                      String.class, double.class, double.class, double.class);
+
+                  showSubTitle.invoke(null, player, subtitle, subTitleFadeIn, subTitleStay,
+                      subTitleFadeOut);
+                }
+              } catch (Exception ex) {
+                Main.getInstance().getBugsnag().notify(ex);
+                ex.printStackTrace();
               }
-
-              if (!"".equals(subtitle)) {
-                double subTitleFadeIn =
-                    Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
-                double subTitleStay =
-                    Main.getInstance().getConfig().getDouble("titles.win.subtitle-stay", 5.0);
-                double subTitleFadeOut =
-                    Main.getInstance().getConfig().getDouble("titles.win.subtitle-fade-out", 2.0);
-                Method showSubTitle = clazz.getDeclaredMethod("showSubTitle", Player.class,
-                    String.class, double.class, double.class, double.class);
-
-                showSubTitle.invoke(null, player, subtitle, subTitleFadeIn, subTitleStay,
-                    subTitleFadeOut);
-              }
-            } catch (Exception ex) {
-              Main.getInstance().getBugsnag().notify(ex);
-              ex.printStackTrace();
             }
           }
 
@@ -380,8 +390,15 @@ public abstract class GameCycle {
     }
 
     if (killer == null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.died", ImmutableMap
-          .of("player", Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(
+                  ChatColor.GOLD + Main._l(aPlayer, "ingame.player.died", ImmutableMap
+                      .of("player",
+                          Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD)))));
+        }
+      }
 
       this.sendTeamDeadMessage(deathTeam);
       this.checkGameOver();
@@ -390,8 +407,15 @@ public abstract class GameCycle {
 
     Team killerTeam = this.getGame().getPlayerTeam(killer);
     if (killerTeam == null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.player.died", ImmutableMap
-          .of("player", Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(
+                  ChatColor.GOLD + Main._l(aPlayer, "ingame.player.died", ImmutableMap
+                      .of("player",
+                          Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD)))));
+        }
+      }
       this.sendTeamDeadMessage(deathTeam);
       this.checkGameOver();
       return;
@@ -410,11 +434,17 @@ public abstract class GameCycle {
       hearts = "[" + ChatColor.RED + "\u2764" + format.format(health) + ChatColor.GOLD + "]";
     }
 
-    this.getGame()
-        .broadcast(ChatColor.GOLD + Main._l("ingame.player.killed",
-            ImmutableMap.of("killer",
-                Game.getPlayerWithTeamString(killer, killerTeam, ChatColor.GOLD, hearts), "player",
-                Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD))));
+    for (Player aPlayer : this.getGame().getPlayers()) {
+      if (aPlayer.isOnline()) {
+        aPlayer.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.player.killed",
+                ImmutableMap.of("killer",
+                    Game.getPlayerWithTeamString(killer, killerTeam, ChatColor.GOLD, hearts),
+                    "player",
+                    Game.getPlayerWithTeamString(player, deathTeam, ChatColor.GOLD)))));
+      }
+    }
+
     if (deathTeam.isDead(this.getGame())) {
       killer.playSound(killer.getLocation(), SoundMachine.get("LEVEL_UP", "ENTITY_PLAYER_LEVELUP"),
           Float.valueOf("1.0"), Float.valueOf("1.0"));
@@ -425,8 +455,14 @@ public abstract class GameCycle {
 
   private void sendTeamDeadMessage(Team deathTeam) {
     if (deathTeam.getPlayers().size() == 1 && deathTeam.isDead(this.getGame())) {
-      this.getGame().broadcast(ChatColor.RED + Main._l("ingame.team-dead", ImmutableMap.of("team",
-          deathTeam.getChatColor() + deathTeam.getDisplayName() + ChatColor.RED)));
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(
+                  ChatColor.RED + Main._l(aPlayer, "ingame.team-dead", ImmutableMap.of("team",
+                      deathTeam.getChatColor() + deathTeam.getDisplayName() + ChatColor.RED))));
+        }
+      }
     }
   }
 

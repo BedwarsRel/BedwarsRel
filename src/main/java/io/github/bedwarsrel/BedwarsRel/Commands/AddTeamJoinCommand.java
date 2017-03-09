@@ -59,27 +59,27 @@ public class AddTeamJoinCommand extends BaseCommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Team gameTeam = game.getTeam(team);
 
     if (gameTeam == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player,"errors.teamnotfound")));
       return false;
     }
 
     // only in lobby
     if (game.getLobby() == null || !player.getWorld().equals(game.getLobby().getWorld())) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.mustbeinlobbyworld")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.mustbeinlobbyworld")));
       return false;
     }
 
@@ -108,7 +108,7 @@ public class AddTeamJoinCommand extends BaseCommand {
     }.runTaskLater(Main.getInstance(), 20L * 10L);
 
     player.sendMessage(
-        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.selectteamjoinentity")));
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player,"success.selectteamjoinentity")));
     return true;
   }
 

@@ -37,13 +37,13 @@ public class Tracker extends SpecialItem {
 
     if (target == null) {
       this.player.sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + Main._l("ingame.specials.tracker.no-target-found")));
+          .pluginMessage(ChatColor.RED + Main._l(this.player, "ingame.specials.tracker.no-target-found")));
       this.player.setCompassTarget(this.game.getPlayerTeam(this.player).getSpawnLocation());
       return;
     }
 
     int blocks = (int) this.player.getLocation().distance(target.getLocation());
-    this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.specials.tracker.target-found",
+    this.player.sendMessage(ChatWriter.pluginMessage(Main._l(this.player, "ingame.specials.tracker.target-found",
         ImmutableMap.of("player", target.getDisplayName(), "blocks", String.valueOf(blocks)))));
   }
 

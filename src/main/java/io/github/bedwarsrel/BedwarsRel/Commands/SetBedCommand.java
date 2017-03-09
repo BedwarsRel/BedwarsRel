@@ -60,20 +60,20 @@ public class SetBedCommand extends BaseCommand implements ICommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Team gameTeam = game.getTeam(team);
 
     if (gameTeam == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamnotfound")));
       return false;
     }
 
@@ -114,13 +114,13 @@ public class SetBedCommand extends BaseCommand implements ICommand {
     Block standingBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 
     if (targetBlock == null || standingBlock == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bedtargeting")));
       return false;
     }
 
     Material targetMaterial = game.getTargetMaterial();
     if (targetBlock.getType() != targetMaterial && standingBlock.getType() != targetMaterial) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
+      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bedtargeting")));
       return false;
     }
 
@@ -147,7 +147,7 @@ public class SetBedCommand extends BaseCommand implements ICommand {
       gameTeam.setTargets(theBlock, null);
     }
 
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.bedset",
+    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.bedset",
         ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
     return true;
   }

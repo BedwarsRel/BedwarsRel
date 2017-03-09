@@ -52,13 +52,13 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main._l(player, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
@@ -66,7 +66,7 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
         && !value.equalsIgnoreCase("off") && !value.equalsIgnoreCase("on")
         && !value.equalsIgnoreCase("1") && !value.equalsIgnoreCase("0")) {
       player
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.wrongvalueonoff")));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.wrongvalueonoff")));
       return true;
     }
 
@@ -80,10 +80,10 @@ public class SetAutobalanceCommand extends BaseCommand implements ICommand {
 
     if (autobalance) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.autobalanceseton")));
+          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.autobalanceseton")));
     } else {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.autobalancesetoff")));
+          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.autobalancesetoff")));
     }
     return true;
   }

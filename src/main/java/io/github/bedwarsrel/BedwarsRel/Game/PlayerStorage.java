@@ -1,10 +1,12 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenTeamSelectionEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -17,10 +19,6 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsOpenTeamSelectionEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
 
 public class PlayerStorage {
 
@@ -60,7 +58,7 @@ public class PlayerStorage {
 
     PlayerInventory inv = this.player.getInventory();
     inv.setArmorContents(new ItemStack[4]);
-    inv.setContents(new ItemStack[] {});
+    inv.setContents(new ItemStack[]{});
 
     this.player.setAllowFlight(false);
     this.player.setFlying(false);
@@ -181,15 +179,15 @@ public class PlayerStorage {
     if ((this.player.hasPermission("bw.setup") || this.player.isOp()
         || this.player.hasPermission("bw.vip.forcestart"))
         || (game.getGameLobbyCountdown() != null && (this.player.hasPermission("bw.setup")
-            || this.player.isOp() || this.player.hasPermission("bw.vip.forcestart")))) {
+        || this.player.isOp() || this.player.hasPermission("bw.vip.forcestart")))) {
       this.addGameStartItem();
     }
 
     if (game.getGameLobbyCountdown() != null
         && game.getGameLobbyCountdown().getLobbytime() > game.getGameLobbyCountdown()
-            .getLobbytimeWhenFull()
+        .getLobbytimeWhenFull()
         && (this.player.hasPermission("bw.setup") || this.player.isOp()
-            || this.player.hasPermission("bw.vip.reducecountdown"))) {
+        || this.player.hasPermission("bw.vip.reducecountdown"))) {
       this.addReduceCountdownItem();
     }
 
@@ -199,7 +197,7 @@ public class PlayerStorage {
   public void addGameStartItem() {
     ItemStack startGame = new ItemStack(Material.DIAMOND, 1);
     ItemMeta im = startGame.getItemMeta();
-    im.setDisplayName(Main._l("lobby.startgame"));
+    im.setDisplayName(Main._l(player, "lobby.startgame"));
     startGame.setItemMeta(im);
     this.player.getInventory().addItem(startGame);
   }
@@ -207,7 +205,7 @@ public class PlayerStorage {
   public void addReduceCountdownItem() {
     ItemStack reduceCountdownItem = new ItemStack(Material.EMERALD, 1);
     ItemMeta im = reduceCountdownItem.getItemMeta();
-    im.setDisplayName(Main._l("lobby.reduce_countdown"));
+    im.setDisplayName(Main._l(player, "lobby.reduce_countdown"));
     reduceCountdownItem.setItemMeta(im);
     this.player.getInventory().addItem(reduceCountdownItem);
   }

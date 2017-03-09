@@ -1,5 +1,6 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,8 +84,11 @@ public class Trap extends SpecialItem {
       player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"),
           Float.valueOf("1.0"), Float.valueOf("1.0"));
 
-      this.game.broadcast(Main._l("ingame.specials.trap.trapped"),
-          new ArrayList<Player>(this.team.getPlayers()));
+      for(Player aPlayer : this.team.getPlayers()){
+        if(aPlayer.isOnline()){
+          aPlayer.sendMessage(ChatWriter.pluginMessage(Main._l(aPlayer, "ingame.specials.trap.trapped")));
+        }
+      }
       if (this.playSound) {
         this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"),
             Float.valueOf("1.0"), Float.valueOf("1.0"), this.team.getPlayers());
