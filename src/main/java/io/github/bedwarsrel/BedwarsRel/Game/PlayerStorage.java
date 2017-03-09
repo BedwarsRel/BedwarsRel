@@ -138,7 +138,7 @@ public class PlayerStorage {
       // Choose team (Wool)
       ItemStack teamSelection = new ItemStack(Material.BED, 1);
       im = teamSelection.getItemMeta();
-      im.setDisplayName(Main._l("lobby.chooseteam"));
+      im.setDisplayName(Main._l(this.player, "lobby.chooseteam"));
       teamSelection.setItemMeta(im);
       this.player.getInventory().addItem(teamSelection);
     }
@@ -146,7 +146,7 @@ public class PlayerStorage {
     // Leave Game (Slimeball)
     ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
     im = leaveGame.getItemMeta();
-    im.setDisplayName(Main._l("lobby.leavegame"));
+    im.setDisplayName(Main._l(this.player, "lobby.leavegame"));
     leaveGame.setItemMeta(im);
     this.player.getInventory().setItem(8, leaveGame);
 
@@ -180,7 +180,8 @@ public class PlayerStorage {
 
     int nom = (teams.size() % 9 == 0) ? 9 : (teams.size() % 9);
     Inventory inv =
-        Bukkit.createInventory(this.player, teams.size() + (9 - nom), Main._l("lobby.chooseteam"));
+        Bukkit.createInventory(this.player, teams.size() + (9 - nom),
+            Main._l(this.player, "lobby.chooseteam"));
     for (Team team : teams.values()) {
       List<Player> players = team.getPlayers();
       if (players.size() >= team.getMaxPlayers()) {

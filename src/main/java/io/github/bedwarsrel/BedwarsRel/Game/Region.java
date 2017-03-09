@@ -379,7 +379,8 @@ public class Region {
       if (e.getType() == EntityType.VILLAGER) {
         LivingEntity le = (LivingEntity) e;
         le.setCustomNameVisible(false);
-        le.setCustomName(Main._l("ingame.shop.name"));
+        le.setCustomName(
+            Main._l(Main.getInstance().getServer().getConsoleSender(), "ingame.shop.name"));
       }
     }
   }

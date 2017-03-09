@@ -158,7 +158,7 @@ public class MerchantCategory {
     int nom = (cats.size() % 9 == 0) ? 9 : (cats.size() % 9);
     int size = (cats.size() + (9 - nom)) + 9;
 
-    Inventory inv = Bukkit.createInventory(p, size, Main._l("ingame.shop.name"));
+    Inventory inv = Bukkit.createInventory(p, size, Main._l(p, "ingame.shop.name"));
     for (MerchantCategory cat : cats) {
       if (p != null && !p.hasPermission(cat.getPermission())) {
         continue;
@@ -181,7 +181,7 @@ public class MerchantCategory {
     ItemStack snow = new ItemStack(Material.SNOW_BALL, 1);
     ItemMeta snowMeta = snow.getItemMeta();
 
-    snowMeta.setDisplayName(Main._l("ingame.shop.newshop"));
+    snowMeta.setDisplayName(Main._l(p, "ingame.shop.newshop"));
     snowMeta.setLore(new ArrayList<String>());
     snow.setItemMeta(snowMeta);
 

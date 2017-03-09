@@ -26,6 +26,7 @@ public enum GameCheckCode {
   }
 
   public String getCodeMessage() {
-    return Main._l("gamecheck." + this.toString());
+    return Main
+        ._l(Main.getInstance().getServer().getConsoleSender(), "gamecheck." + this.toString());
   }
 }

@@ -532,7 +532,7 @@ public class PlayerListener extends BaseListener {
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   private void onIngameInventoryClick(InventoryClickEvent ice, Player player, Game game) {
-    if (!ice.getInventory().getName().equals(Main._l("ingame.shop.name"))) {
+    if (!ice.getInventory().getName().equals(Main._l(player, "ingame.shop.name"))) {
       if (game.isSpectator(player)
           || (game.getCycle() instanceof BungeeGameCycle && game.getCycle().isEndGameRunning()
           && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
@@ -542,7 +542,7 @@ public class PlayerListener extends BaseListener {
           return;
         }
 
-        if (ice.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+        if (ice.getInventory().getName().equals(Main._l(player, "ingame.spectator"))) {
           ice.setCancelled(true);
           if (!clickedStack.getType().equals(Material.SKULL_ITEM)) {
             return;
@@ -714,7 +714,7 @@ public class PlayerListener extends BaseListener {
     Inventory inv = ice.getInventory();
     ItemStack clickedStack = ice.getCurrentItem();
 
-    if (!inv.getTitle().equals(Main._l("lobby.chooseteam"))) {
+    if (!inv.getTitle().equals(Main._l(player, "lobby.chooseteam"))) {
       ice.setCancelled(true);
       return;
     }
@@ -1132,7 +1132,7 @@ public class PlayerListener extends BaseListener {
     }
 
     if (game.isSpectator(player)) {
-      if (ioe.getInventory().getName().equals(Main._l("ingame.spectator"))) {
+      if (ioe.getInventory().getName().equals(Main._l(player, "ingame.spectator"))) {
         return;
       }
 

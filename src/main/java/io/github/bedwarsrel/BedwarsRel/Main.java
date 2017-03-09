@@ -125,7 +125,7 @@ public class Main extends JavaPlugin {
 
   public static String _l(CommandSender commandSender, String key, String singularValue,
       Map<String, String> params) {
-    return Main._l(Main.getSenderLocale(commandSender), key, singularValue, params);
+    return Main._l(Main.getInstance().getSenderLocale(commandSender), key, singularValue, params);
   }
 
   public static String _l(String locale, String key, String singularValue,
@@ -137,7 +137,7 @@ public class Main extends JavaPlugin {
   }
 
   public static String _l(CommandSender commandSender, String key, Map<String, String> params) {
-    return Main._l(Main.getSenderLocale(commandSender), key, params);
+    return Main._l(Main.getInstance().getSenderLocale(commandSender), key, params);
   }
 
   public static String _l(String locale, String key, Map<String, String> params) {
@@ -148,7 +148,7 @@ public class Main extends JavaPlugin {
   }
 
   public static String _l(CommandSender commandSender, String key) {
-    return Main._l(Main.getSenderLocale(commandSender), key);
+    return Main._l(Main.getInstance().getSenderLocale(commandSender), key);
   }
 
   public static String _l(String key) {
@@ -164,17 +164,6 @@ public class Main extends JavaPlugin {
 
   public static Main getInstance() {
     return Main.instance;
-  }
-
-  public static String getSenderLocale(CommandSender commandSender) {
-    String locale = Main.getInstance().getConfig().getString("locale");
-    if (commandSender instanceof Player) {
-      Player player = (Player) commandSender;
-      if (Main.getInstance().getPlayerLocales().containsKey(player.getUniqueId())) {
-        locale = Main.getInstance().getPlayerLocales().get(player.getUniqueId());
-      }
-    }
-    return locale;
   }
 
   public boolean allPlayersBackToMainLobby() {
@@ -500,6 +489,17 @@ public class Main extends JavaPlugin {
 
   public ScoreboardManager getScoreboardManager() {
     return this.scoreboardManager;
+  }
+
+  public String getSenderLocale(CommandSender commandSender) {
+    String locale = Main.getInstance().getConfig().getString("locale");
+    if (commandSender instanceof Player) {
+      Player player = (Player) commandSender;
+      if (Main.getInstance().getPlayerLocales().containsKey(player.getUniqueId())) {
+        locale = Main.getInstance().getPlayerLocales().get(player.getUniqueId());
+      }
+    }
+    return locale;
   }
 
   @SuppressWarnings("unchecked")
