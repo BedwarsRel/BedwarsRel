@@ -214,39 +214,39 @@ commands:
     desc: "Nustato vietą komandos tikslo bloką"
   setbed:
     name: "Nustatyti lova (settarget sinonimas)"
-    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+    desc: "Nustato vietą komandos lovos"
   setlobby:
     name: "Nustatyti lobby"
     desc: "Nustato zaidimo lobby vieta"
   setregion:
-    name: "Sets a region point"
-    desc: "Sets a region point for the game"
+    name: "Nustatytas regiono taškas"
+    desc: "Nustatytas regiono taškas žaidimui"
   setspawn:
     name: "Nustato komandos atsiradimo vietą"
-    desc: "Sets the spawn of the given team"
+    desc: "Nustatyti komandos atsiradimo vieta"
   setspawner:
     name: "Nustatyti spawnerį"
-    desc: "Sets a spawner location of a specific ressource"
+    desc: "Nustato resursų bronzo,metalo,aukso atsiradimo vieta"
   start:
-    name: "Start game"
-    desc: "Starts a game"
+    name: "Pradėti žaidimą"
+    desc: "Žaidimas prasideda"
   stop:
-    name: "Stop game"
-    desc: "Stops a game"
+    name: "Sustabdyti žaidimą"
+    desc: "Sustabdytas žaidimas"
   help:
-    name: "Show Help"
-    desc: "Display information about the plugin and its commands"
+    name: "Rodyti pagalbą"
+    desc: "Informacija apie įskiepa ir komandas"
   reload:
     name: "Perkrauti"
-    desc: "Reloads the configurations and translations"
+    desc: "Perkrauti bedwars įskiepa"
   setmainlobby:
-    name: "Set main lobby"
-    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+    name: "Nustatyti pagrindini atsiradimo tašką"
+    desc: "Nustatyta pagrindinė atsiradimo vieta! (Būtuina,kad konfiguracijose butu mainlobby-enabled,nes kitaip neveiks!)"
   list:
-    name: "List games"
-    desc: "Lists all available games"
+    name: "Arenu sąrašas"
+    desc: "Visi galimi žaidimai:"
   regionname:
-    name: "Set region name"
+    name: "Nustatyti regionio pavadinima"
     desc: "Sets an individual region name (instead of world name)"
   removeteam:
     name: "Remove team"
