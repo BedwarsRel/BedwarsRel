@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
@@ -27,6 +26,7 @@ import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import io.github.bedwarsrel.BedwarsRel.Villager.VillagerTrade;
+import org.bukkit.inventory.meta.PotionMeta;
 
 public class NewItemShop {
 
@@ -515,10 +515,16 @@ public class NewItemShop {
               || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
               && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
                   || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
-                  || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))
-          && (((PotionMeta) iStack.getItemMeta()).getCustomEffects()
-              .equals(((PotionMeta) stack.getItemMeta()).getCustomEffects()))) {
-        return trade;
+                  || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))) {
+        if(Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
+          if(iStack.getItemMeta().equals(stack.getItemMeta())) {
+            return trade;
+          }
+        } else {
+          if(((PotionMeta)iStack.getItemMeta()).getBasePotionData().equals(((PotionMeta)stack.getItemMeta()).getBasePotionData())) {
+            return trade;
+          }
+        }
       } else if (iStack.equals(stack)) {
         return trade;
       }
