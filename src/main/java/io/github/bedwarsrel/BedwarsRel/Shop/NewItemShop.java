@@ -27,7 +27,6 @@ import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import io.github.bedwarsrel.BedwarsRel.Villager.VillagerTrade;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
 
 public class NewItemShop {
 
