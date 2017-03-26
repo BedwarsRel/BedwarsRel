@@ -76,14 +76,12 @@ public class ProtectionWall extends SpecialItem {
         Utils.getMaterialByConfig("specials.protection-wall.block", Material.SANDSTONE);
 
     if (width % 2 == 0) {
-      try {
-        throw new IllegalArgumentException("The width of a protection block has to be odd!");
-      } catch (IllegalArgumentException ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        ex.printStackTrace();
+      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
+          "The width of a protection block has to be odd! " + width + " is not an odd number."));
+      width = width + 1;
+      if (width % 2 == 0) {
+        return;
       }
-
-      return;
     }
 
     if (player.getEyeLocation().getBlock().getType() != Material.AIR) {

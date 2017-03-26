@@ -1,5 +1,21 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartedEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsTargetBlockDestroyedEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
+import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategoryComparator;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -11,7 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -39,28 +55,11 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.util.Vector;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameStartEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinedEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerLeaveEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSaveGameEvent;
-import io.github.bedwarsrel.BedwarsRel.Shop.NewItemShop;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
-import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategoryComparator;
-import lombok.Data;
-
 @Data
 public class Game {
 
   private String name = null;
-  private List<RessourceSpawner> ressourceSpawners = null;
+  private List<ResourceSpawner> resourceSpawners = null;
   private List<BukkitTask> runningTasks = null;
   private GameState state = null;
   private HashMap<String, Team> teams = null;
@@ -120,7 +119,7 @@ public class Game {
     this.runningTasks = new ArrayList<BukkitTask>();
 
     this.freePlayers = new ArrayList<Player>();
-    this.ressourceSpawners = new ArrayList<RessourceSpawner>();
+    this.resourceSpawners = new ArrayList<ResourceSpawner>();
     this.teams = new HashMap<String, Team>();
     this.playingTeams = new ArrayList<Team>();
 
@@ -237,7 +236,7 @@ public class Game {
     this.makeTeamsReady();
 
     this.cycle.onGameStart();
-    this.startRessourceSpawners();
+    this.startResourceSpawners();
 
     // Update world time before game starts
     this.getRegion().getWorld().setTime(this.time);
@@ -264,6 +263,10 @@ public class Game {
       Main.getInstance().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN
           + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getRegion().getName()))));
     }
+
+    BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
+    Main.getInstance().getServer().getPluginManager().callEvent(startedEvent);
+
     return true;
   }
 
@@ -335,12 +338,12 @@ public class Game {
     return this.freePlayers.contains(p);
   }
 
-  public void addRessourceSpawner(RessourceSpawner rs) {
-    this.ressourceSpawners.add(rs);
+  public void addRessourceSpawner(ResourceSpawner rs) {
+    this.resourceSpawners.add(rs);
   }
 
-  public List<RessourceSpawner> getRessourceSpawner() {
-    return this.ressourceSpawners;
+  public List<ResourceSpawner> getRessourceSpawner() {
+    return this.resourceSpawners;
   }
 
   public void setLoc(Location loc, String type) {
@@ -532,14 +535,14 @@ public class Game {
   public Location getPlayerTeleportLocation(Player player) {
     if (this.isSpectator(player)
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       return ((Team) this.teams.values().toArray()[Utils.randInt(0, this.teams.size() - 1)])
           .getSpawnLocation();
     }
 
     if (this.getPlayerTeam(player) != null
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       return this.getPlayerTeam(player).getSpawnLocation();
     }
 
@@ -549,22 +552,26 @@ public class Game {
   public void setPlayerGameMode(Player player) {
     if (this.isSpectator(player)
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
 
       player.setAllowFlight(true);
       player.setFlying(true);
       player.setGameMode(GameMode.SPECTATOR);
 
     } else {
-      Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
-      if (gameMode == 0) {
+      if (this.getState().equals(GameState.RUNNING)) {
         player.setGameMode(GameMode.SURVIVAL);
-      } else if (gameMode == 1) {
-        player.setGameMode(GameMode.CREATIVE);
-      } else if (gameMode == 2) {
-        player.setGameMode(GameMode.ADVENTURE);
-      } else if (gameMode == 3) {
-        player.setGameMode(GameMode.SPECTATOR);
+      } else if (this.getState().equals(GameState.WAITING)) {
+        Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
+        if (gameMode == 0) {
+          player.setGameMode(GameMode.SURVIVAL);
+        } else if (gameMode == 1) {
+          player.setGameMode(GameMode.CREATIVE);
+        } else if (gameMode == 2) {
+          player.setGameMode(GameMode.ADVENTURE);
+        } else if (gameMode == 3) {
+          player.setGameMode(GameMode.SPECTATOR);
+        }
       }
     }
   }
@@ -575,7 +582,7 @@ public class Game {
 
     if (this.state == GameState.RUNNING
         && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-            && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
       if (this.isSpectator(player)) {
         if (player.getGameMode().equals(GameMode.SURVIVAL)) {
           for (Player playerInGame : players) {
@@ -789,7 +796,6 @@ public class Game {
     this.playerDamages.remove(p);
     if (team != null && Main.getInstance().getGameManager().getGameOfPlayer(p) != null
         && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
-      team.removePlayer(p);
       if (kicked) {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
@@ -797,6 +803,7 @@ public class Game {
         this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player",
             Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
       }
+      team.removePlayer(p);
     }
 
     Main.getInstance().getGameManager().removeGamePlayer(p);
@@ -817,7 +824,7 @@ public class Game {
 
       if (Main.getInstance().isHologramsEnabled()
           && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
-              .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
+          .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
         Main.getInstance().getHolographicInteractor().updateHolograms(p);
       }
 
@@ -971,6 +978,10 @@ public class Game {
           "{score}",
           String.valueOf(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
     }
+
+    BedwarsTargetBlockDestroyedEvent targetBlockDestroyedEvent =
+        new BedwarsTargetBlockDestroyedEvent(this, p, bedDestroyTeam);
+    Main.getInstance().getServer().getPluginManager().callEvent(targetBlockDestroyedEvent);
 
     this.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed",
         ImmutableMap.of("team",
@@ -1740,7 +1751,7 @@ public class Game {
 
     yml.set("autobalance", this.autobalance);
 
-    yml.set("spawner", this.ressourceSpawners);
+    yml.set("spawner", this.resourceSpawners);
     yml.createSection("teams", this.teams);
 
     try {
@@ -1767,8 +1778,8 @@ public class Game {
     this.updateSigns();
   }
 
-  private void startRessourceSpawners() {
-    for (RessourceSpawner rs : this.getRessourceSpawner()) {
+  private void startResourceSpawners() {
+    for (ResourceSpawner rs : this.getRessourceSpawner()) {
       rs.setGame(this);
       this.runningTasks.add(Main.getInstance().getServer().getScheduler().runTaskTimer(
           Main.getInstance(), rs, Math.round((((double) rs.getInterval()) / 1000.0) * 20.0),
@@ -1918,7 +1929,6 @@ public class Game {
     }
 
     this.updateScoreboard();
-
 
     if (this.isStartable() && this.getLobbyCountdown() == null) {
       GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);

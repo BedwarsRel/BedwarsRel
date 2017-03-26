@@ -1,294 +1,290 @@
 ---
 default:
-  pages: Page $current$ of $max$
-  currently: Currently
+  pages: "Le pagine $current$ di $max$"
+  currently: Al momento
 errors:
-  argumentslength: Number of arguments does not match the correct amount!
-  holodependencynotfound: Couldn't find $dependency$ for Hologram-Statistic
-  packagenotfound: Couldn't fetch $package$ package!
-  classnotfound: Couldn't fetch $package$ class $class$!
-  gameexists: A game with this name already exists!
-  gamenotfound: The game '$game$' could not be found!
-  nofreegames: There are no free games available.
-  gamenotfoundsimple: Game not found!
-  playeramount: The maxium of players can't be lower than 1 or higher than 24!
-  teamcolornotallowed: The given Team color isn't a allowed color
-  teamnamelength: Team name must have between 2 and 20 characters!
-  teamnotfound: Team not found!
-  notingame: You are currently not in a game!
-  bedtargeting: You have to target or stand on a block of the configured 'game-block' type!
-  regionargument: Your location argument has to be 'loc1' or 'loc2'!
-  spawnerargument: The resource parameter has to be a valid configured resource!
-  blockdownnotfound: The block you're standing on was not found!
-  gamenotrunning: Game isn't running!
-  bungeenoserver: Bungeecord Servers wasn't set properly! Talk to the server administrator!
-  cantstartagain: Game is running! You can't start a running game again!
-  startoutofwaiting: Game have to be started out of the waiting mode!
-  cantjoingame: You can't join a running or stopped game!
-  lobbyongameworld: Lobby can't be on the game world!
-  gamenotloaded: Couldn't start up the game!
-  gameloaderror: Loading game '$game$' throws an error!
-  regionnotfound: Region file does not exists!
-  savesign: Couldn't create a new sign config file!
-  nogames: No games found!
-  notenoughress: You didn't have enough ressource to buy this item!
-  teamnameinuse: Team name is already in use!
-  minplayersmustnumber: Min players must be a number!
-  toolongregionname: Maximum length of region name are 15 characters!
-  notwhilegamerunning: Cannot do that while game is running!
-  notwhileingame: Cannot do that while you're in a running game!
-  timeincorrect: Time has to be a number (0 ... 23000), 'day' or 'night'!
-  minplayersnumeric: The min-players parameter must be numeric!
-  notinair: You're not in the air!
-  teamfull: The team is full, please reopen the team selection menu!
-  novalidmaterial: Given block type (material) isn't correct!
-  wrongvalueonoff: Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!
-  playernotfound: Given player was not found or isn't online!
-  notingameforkick: You must be in a game to kick a player!
-  playernotingame: Given player is not in this game!
-  mustbeinlobbyworld: You must be in the lobby world of the game
-  addteamjoincancel: The adding of team join was cancelled!
-  entitynotcompatible: This entity is not compatible with team join!
+  argumentslength: "Il numero di argomenti non corrisponde alla corretta quantità!"
+  holodependencynotfound: "Non riusciva a trovare $dependency$ per ologramma-statistica"
+  packagenotfound: "Non poteva recuperare il pacchetto di $ $package!"
+  classnotfound: "Impossibile trovare il pacchetto $package$ e la classe $class$!"
+  gameexists: "Una partita con questo nome esiste già!"
+  gamenotfound: "Il gioco $game$ non può essere trovato!"
+  nofreegames: "Non ci sono giochi liberi disponibili."
+  gamenotfoundsimple: "Partita non trovata!"
+  playeramount: "Il massimo dei player non può essere minore di 1 e maggiore di 24!"
+  teamcolornotallowed: "Il colore che hai dato non è stato trovato"
+  teamnamelength: "Il nome deve essere lungo minimo 2 lettere e massimo 20 lettere!"
+  teamnotfound: "Squadra non trovata!"
+  notingame: "Non sei attualmente in un gioco!"
+  bedtargeting: "Devi indirizzare o stare in piedi su un blocco del tipo 'gioco-blocco' configurato!"
+  regionargument: "Il tuo argomento di posizione deve essere 'luogo1' o 'loc2'!"
+  spawnerargument: "Il parametro di risorsa deve essere una valida risorsa configurata!"
+  blockdownnotfound: "Non è stato trovato il blocco che ci sei sopra!"
+  gamenotrunning: "Gioco non è in esecuzione!"
+  bungeenoserver: "Bungeecord server non è stato impostato correttamente! Parlare con l'amministratore del server!"
+  cantstartagain: "Gioco è in esecuzione! Non è possibile avviare un gioco che ancora una volta!"
+  startoutofwaiting: "Gioco deve essere avviato dalla modalità di attesa!"
+  cantjoingame: "Non è possibile aggiungere un gioco in esecuzione o arrestato!"
+  lobbyongameworld: "Hall non può essere il mondo di gioco!"
+  gamenotloaded: "Non poteva iniziare il gioco!"
+  gameloaderror: "Caricamento gioco '$game$ ' genera un errore!"
+  regionnotfound: "File di regione non esiste!"
+  savesign: "Impossibile creare un nuovo file di configurazione di segno!"
+  nogames: "Nessun gioco trovato!"
+  notenoughress: "Non avevi abbastanza ressource a comprare questo oggetto!"
+  teamnameinuse: "Nome della squadra è già in uso!"
+  minplayersmustnumber: "Minimo giocatori devono essere un numero!"
+  toolongregionname: "Lunghezza massima del nome della regione sono 15 caratteri!"
+  notwhilegamerunning: "Non puoi farlo mentre il gioco è in esecuzione!"
+  notwhileingame: "Non puoi farlo mentre sei in un gioco di corsa!"
+  timeincorrect: "Tempo deve essere un numero (0... 23000), 'giorno' o 'notte'!"
+  minplayersnumeric: "Il parametro min-giocatori deve essere numerico!"
+  notinair: "Tu non sei nell'aria!"
+  teamfull: "La squadra è completa, si prega di riaprire il menu di selezione della squadra!"
+  novalidmaterial: "Dato blocco tipo (materiale) non è corretto!"
+  wrongvalueonoff: "Parametro errato! Utilizzare true, on, 1 per accendere - utilizzare false, off, 0 per disattivare!"
+  playernotfound: "Dato giocatore era non trovato o non è in linea!"
+  notingameforkick: "È necessario essere in un gioco a calci un giocatore!"
+  playernotingame: "Dato giocatore non è in questo gioco!"
+  mustbeinlobbyworld: "È necessario essere nel mondo Hall del gioco"
+  addteamjoincancel: "L'aggiunta di join team è stato annullato!"
+  entitynotcompatible: "Questa entità non è compatibile con join team!"
 success:
-  gameadded: New game '$game$' successfully added!
-  teamadded: Team '$team$' successfully added!
-  joined: You successfully joined the game!
-  left: You successfully left the game!
-  saved: Game was successfully saved!
-  bedset: You sucessfully set the respawn block of team $team$!
-  regionset: Game region location $location$ for Game $game$ was set successfully!
-  spawnset: Spawn location for Team $team$ was set successfully!
-  spawnerset: Ressource spawn location for $name$ was set successfully!
-  stopped: Game successfully stopped!
-  lobbyset: Lobby was set successfully!
-  gameloaded: Game '$game$' successfully loaded!
-  reloadconfig: Reload successful!
-  teamremoved: Team was successfully removed!
-  gameremoved: Game was successfully removed!
-  spawnercleared: All ressource spawners has been removed!
-  gamerun: You started the game, players can now join!
-  timeset: Game time was successfully set!
-  regionnameset: Region name was set successfully!
-  minplayersset: Min players was set successfully!
-  mainlobbyset: Mainlobby was set successfully!
-  gametimeset: Game time was set successfully!
-  materialset: The respawn block type (material) was set succesfully!
-  builderset: The builder for the map was set successfully and will display in title!
-  autobalanceseton: Autobalance was successfully turned on!
-  autobalancesetoff: Autobalance was successfully turned &coff&a!
-  selectteamjoinentity: Now do a right click on the entity you want to use as team join!
-  teamjoinadded: Entity was successfully marked as team selection for team $team$
-  holoremoved: Hologram-Statistic successfully removed!
+  gameadded: "Nuovo gioco '$game$ ' aggiunto con successo!"
+  teamadded: "Squadra '$team$ ' aggiunto con successo!"
+  joined: "Sei entrato nella partita con successo!"
+  left: "Hai lasciato la partita con successo!"
+  saved: "Partita salvata con successo!"
+  bedset: "Hai settato con successo il blocco di spawn del team $team$!"
+  regionset: "La regione della partita settata su $location$ per la partita $game$ è stata settata con successo!"
+  spawnset: "Posizione di spawn per il team $team$ è stata settata con successo!"
+  spawnerset: "Spawn per la risorsa $name$ settato con successo!"
+  stopped: "Partita fermata con successo!"
+  lobbyset: "Lobby settata con successo!"
+  gameloaded: "Partita $game$ caricata con successo!"
+  reloadconfig: "Ricaricato con successo!"
+  teamremoved: "Team rimosso con successo!"
+  gameremoved: "Partita rimossa con successo!"
+  spawnercleared: "Tutte gli spawner per le risorse sono stati rimossi!"
+  gamerun: "Hai abbiato la partita, i giocatori possono entrare adesso!"
+  timeset: "Tempo per la partita settato con successo!"
+  regionnameset: "Nome dell' area settato con successo!"
+  minplayersset: "Minimi player settati con successo!"
+  mainlobbyset: "Mainlobby settata con successo!"
+  gametimeset: "Tempo della partita settato con successo!"
+  materialset: "Il tipo di blocco di respawn (materiale) è stato creato con successo!"
+  builderset: "Il costruttore per la mappa è stato settato con successo e verrà mostrato nel titolo!"
+  autobalanceseton: "Soldi automatici abilitati!"
+  autobalancesetoff: "Soldi automatici &cdisabilitati &acon successo!"
+  selectteamjoinentity: "Adesso clicca con il tasto destro sull' entità che vuoi usare come selettore per i team!"
+  teamjoinadded: "Entità settata con successo e impostata come selettore per il team $team$"
+  holoremoved: "Statistiche sull' ologramma rimosse con successo!"
 gamecheck:
-  LOC_NOT_SET_ERROR: Locations for the region were not set properly!
-  TEAM_SIZE_LOW_ERROR: You have to set more teams!
-  NO_RES_SPAWNER_ERROR: You didn't set any resource spawner!
-  NO_LOBBY_SET: You didn't set a lobby!
-  TEAMS_WITHOUT_SPAWNS: There are team(s) without a spawn location!
-  NO_ITEMSHOP_CATEGORIES: No itemshop categories found!
-  NO_MAIN_LOBBY_SET: You didn't set a main lobby even though you did set 'tomainlobby' to true
-  TEAM_NO_WRONG_BED: One or more teams have no bed set!
-  TEAM_NO_WRONG_TARGET: One or more teams have no respawn block set!
+  LOC_NOT_SET_ERROR: "La zona per la regione non è settata correttamente!"
+  TEAM_SIZE_LOW_ERROR: "Devi impostare più team!"
+  NO_RES_SPAWNER_ERROR: "Non hai impostato lo spawn di nessuna risorsa!"
+  NO_LOBBY_SET: "Non hai settato una lobby!"
+  TEAMS_WITHOUT_SPAWNS: "Ci sono team senza una zona su cui spawnare!"
+  NO_ITEMSHOP_CATEGORIES: "Nessuna categoria trovata nello shop!"
+  NO_MAIN_LOBBY_SET: "Non hai settato una mainlobby oppure non hai settato 'tomainlobby' su true"
+  TEAM_NO_WRONG_BED: "Uno o più team non hanno il letto impostato!"
+  TEAM_NO_WRONG_TARGET: "Uno o più team non hanno il blocco di respawn settato!"
 ingame:
-  teams: Teams
-  all: All
-  record: '&e$record$&a is the record on this map!'
-  record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
-  newrecord: '&aTeam $team$&a set a new record: &6$record$'
-  record-nobeddestroy: '&cRecord won''t be saved, because no bed was destroyed!'
-  teamwon: Congratulations! Team $team$ won!
-  draw: The game ends with a draw!
-  serverrestart: Server restart in $sec$ second(s)!
-  gamestarting: Game starting ...
-  gamestarted: Game '$game$' has just started!
-  backtolobby: Back to lobby in $sec$ second(s)!
-  spectator: Spectator
-  spectate: '&aSpectate'
-  teamchest: Team chest
-  noturteamchest: This chest isn't a chest of your team!
-  protectionleft: Invulnerable for &c$length$&f second(s)!
-  protectionend: You're now &cvulnerable&f again!
-  team-dead: Team $team$ was destroyed!
-  no-friendlybreak: '&cCan''t break block under team-member!'
-  teamchestdestroy: '&cOne of your teamchest(s) has been destroyed!'
+  teams: "Squadre"
+  all: "Globale"
+  record: "&e$record$ &aè il record su questa mappa!"
+  record-with-holders: '&aIl record di questa mappa è &e$record$&a ed è mantenuto da $holders$'
+  newrecord: '& aTeam $team$ & un insieme un nuovo record: & 6$record$'
+  record-nobeddestroy: "& cRecord non verranno salvate, perché nessun letto è stata distrutta!"
+  teamwon: "Congratulazioni! Squadra $team dollari vinti!"
+  draw: "Il gioco è finito in pareggio!"
+  serverrestart: "Riavvio del server in $sec$ secondi!"
+  gamestarting: "Gioco a partire..."
+  gamestarted: "Gioco '$game$ ' è appena iniziato!"
+  backtolobby: "Torna alla lobby in $sec$ secondi!"
+  spectator: "Spettatori"
+  spectate: "& aSpectate"
+  teamchest: "Cesta di squadra"
+  noturteamchest: "Questo cesta non è una cassa della tua squadra!"
+  protectionleft: "Invulnerabilità per & c$length$ & f secondi!"
+  protectionend: "Ora sei ancora &cvulnerable&f!"
+  team-dead: "La squadra $team$ è stato distrutto!"
+  no-friendlybreak: "& cNon puoi piazzare i blocchi sotto il membro del tuo team!"
+  teamchestdestroy: "&c La cassa di squadra è stata distrutta!"
   title:
-    map-builder: Built by $builder$
-    win-title: '&6Congratulations!'
-    win-subtitle: '$team$&6 won in &e$time$'
+    map-builder: "Costruito da $builder$"
+    win-title: "& 6Congratulazioni!"
+    win-subtitle: "$team$ & 6 ha vinto & e$time$"
   shop:
-    name: Itemshop
-    newshop: Use new shop
-    oldshop: Use old shop
-    fullstackpershift: Multiply stacks per shift click
-    onestackpershift: One stack per shift click
+    name: "Venditore"
+    newshop: "Utilizza il nuovo negozio"
+    oldshop: "Vecchio negozio in uso"
+    fullstackpershift: "Moltiplica stack per ogni click dello shift"
+    onestackpershift: "Fare clic su uno stack per turno"
   player:
-    left: Player $player$ has left the game!
-    died: '$player$ died!'
-    killed: '$killer$ killed $player$!'
-    kicked: '$player$ was kicked!'
-    waskicked: You were kicked from the game!
+    left: "Il giocatore $player$ ha lasciato il gioco!"
+    died: "$player$ è morto!"
+    killed: "$killer$ ha ucciso $player$!"
+    kicked: "$player$ è stato espulso!"
+    waskicked: "Sei stato cacciato dal gioco!"
   blocks:
-    ownbeddestroy: You can't destroy your own bed!
-    beddestroyed: '$player$ destroyed bed of team $team$!'
+    ownbeddestroy: "Non puoi distruggere il tuo letto!"
+    beddestroyed: "$player$ ha distrutto il letto della squadra $team$!"
   specials:
     rescue-platform:
-      left: There are &c$time$&f second(s) left until you can use the next rescue platform!
+      left: "In altri & c$time$ & f secondi potrai usare un'altra piattaforma!"
     arrow-blocker:
-      start: You are protected from being hit by arrows for &c$time$&f second(s).
-      end: '&cYour arrow protection is over'
-      left: There are &c$time$&f second(s) left until you can use the next arrowblocker!
+      start: "Sei protetto dalle freccie & c$time$ & f secondi."
+      end: "&cLa protezione dalle freccie è terminata"
+      left: "In & c$time$ & f secondi potrai usare un'altro arroblocker!"
     trap:
-      trapped: '&eSomeone went into a &ctrap&e of your team!'
+      trapped: "& eQualcuno è salito su una &ctrap&e della tua squadra!"
     protection-wall:
-      left: There are &c$time$&f second(s) left until you can use the next protection wall!
-      not-usable-here: You cannot use the protection wall here!
+      left: "Attenti & c$time$ & f secondi per creare un altro muro protettivo!"
+      not-usable-here: "Non è possibile utilizzare il muro di protezione qui!"
     warp-powder:
-      cancelled: '&cYour teleport was cancelled!'
-      start: You will be teleported in &c$time$&f second(s). Don't move!
-      cancel: '&4Cancel teleport'
-      multiuse: '&cYou started a teleportation already!'
+      cancelled: "&c Il tuo teletrasporto è stato annullato!"
+      start: "Sarai teletrasportato in & c$time$ & f secondi. Non ti muovere!"
+      cancel: "&4 teletrasporto cancellato"
+      multiuse: "&cHai già iniziato un teletrasporto!"
     tntsheep:
-      no-target-found: No target player was found!
+      no-target-found: "Nessun bersaglio identificato!"
     tracker:
-      no-target-found: No target player was found!
-      target-found: '$player$ is $blocks$ block(s) away from you.'
+      no-target-found: "Nessun bersaglio identificato!"
+      target-found: "$player$ è $blocks$ blocchi lontano da te."
 lobby:
-  countdown: Game will start in $sec$ second(s)!
-  countdowncancel: More players needed. Countdown was cancelled!
+  countdown: "Il gioco inizierà in $sec$ secondi!"
+  countdowncancel: "Più giocatori necessari. Il conto alla rovescia è stato annullato!"
   cancelcountdown:
-    not_enough_players: More players needed. Countdown cancelled!
-    not_enough_teams: More teams needed. Countdown cancelled!
+    not_enough_players: "Più giocatori necessari. Conto alla rovescia annullato!"
+    not_enough_teams: "Sono necessarie più squadre. Conto alla rovescia annullato!"
   cancelstart:
-    not_enough_players: More players are needed to start the game!
-    not_enough_teams: More teams are needed to start the game!
-  chooseteam: Choose a team
-  startgame: Start game
-  reduce_countdown: Reduce countdown
-  gamefull: Game is full!
-  gamefullpremium: The game is full of premium players already!
-  teamjoined: You successfully joined the team $team$
-  leavegame: Leave game
-  playerjoin: Player $player$ joined the game!
-  kickedbyvip: You were kicked by a vip player which has joined the full game!
-  moreplayersneeded: '$count$ more players needed.'
-  moreplayersneeded-one: '$count$ more player needed.'
-  moreteamsneeded: A minimum of two players in two different teams is needed to start the game!
+    not_enough_players: "Servono più utenti per avviare la partita!"
+    not_enough_teams: "Servono più team per avviare la partita!"
+  chooseteam: "Scegli un team"
+  startgame: "Avvia il gioco"
+  reduce_countdown: "Riduci il conto alla rovescia"
+  gamefull: "La partita è piena!"
+  gamefullpremium: "La partita è già piena di giocatori premium!"
+  teamjoined: "Sei entrato nel team $team$ con successo"
+  leavegame: "Esci dalla partita"
+  playerjoin: "Il giocatore $player$ è entrato!"
+  kickedbyvip: "Sei stato kikkato da un giocatore vip che è entrato nella partita piena!"
+  moreplayersneeded: "Servono ancora $count$ players."
+  moreplayersneeded-one: "Serve ancora $count$ player."
+  moreteamsneeded: "Un minimo di 2 players in 2 team diversi sono necessari per avviare il gioco!"
 sign:
-  firstline: '&6[Bedwars]'
-  players: Players
+  firstline: "&6[Bedwars]"
+  players: "Giocatori"
   gamestate:
-    stopped: '&4Stopped!'
-    waiting: '&aWaiting ...'
-    running: '&9Running!'
-    full: Full!
+    stopped: "&4Fermata!"
+    waiting: "&cAspettando..."
+    running: "&9Avviata!"
+    full: "&4Piena!"
 stats:
-  header: Bedwars Stats
-  kd: K/D
-  statsnotfound: Statistics of $player$ not found!
-  name: Name
-  kills: Kills
-  deaths: Deaths
-  wins: Wins
-  loses: Loses
-  score: Scores
-  destroyedBeds: Destroyed Beds
-  games: Games
-ressources:
-  gold: '&6Gold'
-  iron: '&7Iron'
-  bronze: '&4Bronze'
+  header: "Statistiche delle BedWars"
+  kd: "Uccisioni/Morti"
+  statsnotfound: "Statistiche del giocatore $player$ non trovate!"
+  name: "Nome"
+  kills: "Uccisioni"
+  deaths: "Morti"
+  wins: "Vittorie"
+  loses: "Perse"
+  score: "Punteggio"
+  destroyedBeds: "Letti distrutti"
+  games: "Partite"
 commands:
   addgame:
-    name: Add Game
-    desc: Adds a new game
+    name: "Aggiungi una partita"
+    desc: "Aggiungi una nuova partita"
   addteam:
-    name: Add Team
-    desc: Adds a team to a specific game
+    name: "Aggiungi una squadra"
+    desc: "Aggiungi una squadra ad una partita specifica"
   join:
-    name: Join Game
-    desc: Joins a specific game
+    name: "Entra nella partita"
+    desc: "Entra in un gioco specifico"
   leave:
-    name: Leave Game
-    desc: Leave the current game
+    name: "Esci dalla partita"
+    desc: "Esci dalla partita corrente"
   save:
-    name: Save Game
-    desc: Saves a game (and map) to config file(s)
+    name: "Salva la partita"
+    desc: "Salva la partita (e la mappa) nei config"
   settarget:
-    name: Set target
-    desc: Sets the location of a team's target block
+    name: "Imposta l' obbiettivo"
+    desc: "Imposta la zona dell' obbiettivo del team"
   setbed:
-    name: Set bed (synonym for settarget)
-    desc: Sets the location of a team's bed block (Synonym for settarget)
+    name: "Imposta il letto"
+    desc: "Imposta la zona del letto della squadra"
   setlobby:
-    name: Set lobby
-    desc: Sets the location of the gamelobby
+    name: "Imposta la lobby"
+    desc: "Imposta la zona della lobby della partita"
   setregion:
-    name: Sets a region point
-    desc: Sets a region point for the game
+    name: "Imposta un punto della regione"
+    desc: "Imposta un punto per la regione della partita"
   setspawn:
-    name: Sets a team spawn
-    desc: Sets the spawn of the given team
+    name: "Imposta uno spawn per il team"
+    desc: "Imposta lo spawn del team specificato"
   setspawner:
-    name: Set spawner
-    desc: Sets a spawner location of a specific ressource
+    name: "Set spawner"
+    desc: "Imposta una posizione spawner di un specifico materiale"
   start:
-    name: Start game
-    desc: Starts a game
+    name: "Inizia la partita"
+    desc: "Inizia una partita"
   stop:
-    name: Stop game
-    desc: Stops a game
+    name: "Interrompere il gioco"
+    desc: "Ferma un gioco"
   help:
-    name: Show Help
-    desc: Display information about the plugin and its commands
+    name: "Visualizza la guida"
+    desc: "Visualizzare informazioni sui plugin e i relativi comandi"
   reload:
-    name: Reload
-    desc: Reloads the configurations and translations
+    name: "Riavvia"
+    desc: "Consente di ricaricare le configurazioni e le traduzioni"
   setmainlobby:
-    name: Set main lobby
-    desc: Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)
+    name: "Impostare la lobby principale"
+    desc: "Imposta la lobby principale di un gioco (quando abiliti questa cosa la mainlobby deve essere impostata su true)"
   list:
-    name: List games
-    desc: Lists all available games
+    name: "Elenco giochi"
+    desc: "Elenca tutti i giochi disponibili"
   regionname:
-    name: Set region name
-    desc: Sets an individual region name (instead of world name)
+    name: "Nome dell'area"
+    desc: "Imposta un nome di singola regione (anziché il nome del mondo)"
   removeteam:
-    name: Remove team
-    desc: Removes a team from the game (only in stopped mode)
+    name: "Rimuovere la squadra"
+    desc: "Rimuove una squadra dal gioco (solo in modalità di interruzione)"
   removegame:
-    name: Remove game
-    desc: Removes a game and every configuration
+    name: "Rimuovere il gioco"
+    desc: "Rimuove un gioco e ogni configurazione"
   clearspawner:
-    name: Clear spawners
-    desc: Removes all spawners from the game. Saving needed.
+    name: "Spawner eliminati"
+    desc: "Rimuove tutti i riproduttori dal gioco. Risparmio necessari."
   gametime:
-    name: Set game time
-    desc: Sets the game time which should be used in the game-world
+    name: "Tempo di gioco"
+    desc: "Imposta il tempo di gioco che deve essere utilizzato nel gioco-mondo"
   stats:
-    name: Statistics
-    desc: Shows your statistics
+    name: "Statistiche"
+    desc: "Mostra le vostre statistiche"
   setbuilder:
-    name: Sets builder of map
-    desc: Sets the builder of the map which will be display in the title when game starts.
+    name: "Costruttore della mappa"
+    desc: "Imposta il costruttore della mappa che sarà visualizzato nel titolo quando il gioco inizia."
   setgameblock:
-    name: Set game block
-    desc: Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again
+    name: "Impostare il blocco del gioco"
+    desc: "Imposta il tipo di gioco blocco per questo gioco che dovrebbe essere usato anziché la configurazione di 'gioco-blocco'. Scrivere 'DEFAULT' come tipo di utilizzare di nuovo il tipo di configurazione"
   setautobalance:
-    name: Set autobalance
-    desc: If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!
+    name: "Set autobalance"
+    desc: "Se 'global-autobalance' è impostato a 'false', con questo comando che è possibile impostare la squadra-autobalance a partita a on o off!"
   setminplayers:
-    name: Set minimum players
-    desc: Sets the amount of players needed to start the game
+    name: "Impostare il minimo di giocatori"
+    desc: "Imposta la quantità di giocatori necessari per iniziare il gioco"
   kick:
-    name: Kick player
-    desc: Kicks a player from the current game!
+    name: "Espelle un giocatore"
+    desc: "Espelle un giocatore dal gioco corrente!"
   addteamjoin:
-    name: Add team selection
-    desc: Mark a creature which can be used to join a specific team!
+    name: "Aggiungi selezione squadra"
+    desc: "Segnala una creatura che può essere utilizzata per entrare in un team specifico!"
   addholo:
-    name: Add hologram location
-    desc: A hologram statistic will be added at the current position!
+    debugpaste: "Manda una data di debug"
+    desc: "Questo maderà qualche stringa del debug a hastebin e ti ritornerà come link che potrai condividere con gli sviluppatori"
   removeholo:
-    name: Remove hologram location
-    desc: When the command was executed, the player can right-click the hologram which should be removed.
-    explain: Perform a left click within 10 seconds on the hologram you want to remove.
+    name: "Rimuovere la posizione di ologramma"
+    desc: "Quando il comando viene eseguito, il giocatore può fare clic destro l'ologramma che dovrebbe essere rimosso."
+    explain: "Eseguire un click sinistro entro 10 secondi l'ologramma che si desidera rimuovere."
