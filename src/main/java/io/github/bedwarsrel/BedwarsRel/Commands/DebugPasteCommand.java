@@ -1,42 +1,20 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.bukkit.command.CommandSender;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.HastebinUtility;
 import io.github.bedwarsrel.BedwarsRel.Utils.SupportData;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import net.md_5.bungee.api.ChatColor;
+import org.bukkit.command.CommandSender;
 
 public class DebugPasteCommand extends BaseCommand implements ICommand {
 
   public DebugPasteCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "debugpaste";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.debugpaste.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.debugpaste.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
   }
 
   @Override
@@ -118,6 +96,26 @@ public class DebugPasteCommand extends BaseCommand implements ICommand {
           }
         });
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
+
+  @Override
+  public String getCommand() {
+    return "debugpaste";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.debugpaste.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.debugpaste.name");
   }
 
   @Override

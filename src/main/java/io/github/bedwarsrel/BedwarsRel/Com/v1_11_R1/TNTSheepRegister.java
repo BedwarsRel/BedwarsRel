@@ -1,7 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_11_R1;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheep;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheepRegister;
 import java.lang.reflect.Field;
-
+import net.minecraft.server.v1_11_R1.EntityTNTPrimed;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
@@ -14,11 +17,6 @@ import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheep;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheepRegister;
-import net.minecraft.server.v1_11_R1.EntityTNTPrimed;
-
 public class TNTSheepRegister implements ITNTSheepRegister {
 
   @Override
@@ -27,7 +25,8 @@ public class TNTSheepRegister implements ITNTSheepRegister {
   }
 
   @Override
-  public ITNTSheep spawnCreature(final io.github.bedwarsrel.BedwarsRel.Shop.Specials.TNTSheep specialItem,
+  public ITNTSheep spawnCreature(
+      final io.github.bedwarsrel.BedwarsRel.Shop.Specials.TNTSheep specialItem,
       final Location location, final Player owner, Player target, final DyeColor color) {
     final TNTSheep sheep = new TNTSheep(location, target);
 
@@ -38,7 +37,7 @@ public class TNTSheepRegister implements ITNTSheepRegister {
 
       @Override
       public void run() {
-        
+
         TNTPrimed primedTnt = (TNTPrimed) location.getWorld()
             .spawnEntity(location.add(0.0, 1.0, 0.0), EntityType.PRIMED_TNT);
         ((CraftSheep) sheep.getBukkitEntity()).setPassenger(primedTnt);

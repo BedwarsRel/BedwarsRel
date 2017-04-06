@@ -1,15 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Statistics;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Database.DBField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBGetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DBSetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DatabaseObject;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class StoringTable extends DatabaseObject {
 
@@ -19,6 +18,30 @@ public abstract class StoringTable extends DatabaseObject {
     this.fields = new HashMap<String, DBField>();
     this.loadFields();
   }
+
+  public Map<String, DBField> getFields() {
+    return this.fields;
+  }
+
+  public abstract String getKeyField();
+
+  public abstract String getTableName();
+
+  public Object getValue(String field) {
+    try {
+      Method getter = this.fields.get(field).getGetter();
+
+      getter.setAccessible(true);
+      return getter.invoke(this, new Object[]{});
+    } catch (Exception ex) {
+      Main.getInstance().getServer().getConsoleSender()
+          .sendMessage(ChatWriter.pluginMessage("Couldn't fetch value of field: " + field));
+    }
+
+    return null;
+  }
+
+  public abstract void load();
 
   private void loadFields() {
     this.fields.clear();
@@ -55,37 +78,11 @@ public abstract class StoringTable extends DatabaseObject {
     }
   }
 
-  public Map<String, DBField> getFields() {
-    return this.fields;
-  }
-
-  public abstract String getTableName();
-
-  public abstract String getKeyField();
-
-  public abstract void load();
-
-  public abstract void store();
-
   public abstract void setDefault();
-
-  public Object getValue(String field) {
-    try {
-      Method getter = this.fields.get(field).getGetter();
-
-      getter.setAccessible(true);
-      return getter.invoke(this, new Object[] {});
-    } catch (Exception ex) {
-      Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage("Couldn't fetch value of field: " + field));
-    }
-
-    return null;
-  }
 
   public void setValue(String field, Object value) {
     Object valueToSet = null;
-    
+
     try {
       Method setter = this.fields.get(field).getSetter();
 
@@ -104,22 +101,22 @@ public abstract class StoringTable extends DatabaseObject {
             classname = "int";
           }
 
-          Method castNumber = value.getClass().getMethod(classname + "Value", new Class<?>[] {});
+          Method castNumber = value.getClass().getMethod(classname + "Value", new Class<?>[]{});
           castNumber.setAccessible(true);
 
           Class<?> returningNumberType = castNumber.getReturnType();
           if (!paramType.equals(returningNumberType)) {
             setter.invoke(this,
-                new Object[] {paramType.cast(castNumber.invoke(value, new Object[] {}))});
+                new Object[]{paramType.cast(castNumber.invoke(value, new Object[]{}))});
             return;
           }
 
-          setter.invoke(this, new Object[] {castNumber.invoke(value, new Object[] {})});
+          setter.invoke(this, new Object[]{castNumber.invoke(value, new Object[]{})});
           return;
         }
 
         valueToSet = paramType.cast(value);
-        setter.invoke(this, new Object[] {valueToSet});
+        setter.invoke(this, new Object[]{valueToSet});
       } catch (Exception ex) {
         Main.getInstance().getBugsnag().notify(ex);
         Main.getInstance().getServer().getConsoleSender()
@@ -131,4 +128,6 @@ public abstract class StoringTable extends DatabaseObject {
           .sendMessage(ChatWriter.pluginMessage("Couldn't set value of field: " + field));
     }
   }
+
+  public abstract void store();
 }

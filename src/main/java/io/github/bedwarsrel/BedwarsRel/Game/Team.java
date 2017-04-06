@@ -1,10 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinTeamEvent;
+import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import lombok.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,25 +23,19 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerJoinTeamEvent;
-import io.github.bedwarsrel.BedwarsRel.Events.BedwarsPlayerSetNameEvent;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import lombok.Data;
-
 @Data
 @SerializableAs("Team")
 public class Team implements ConfigurationSerializable {
 
-  private TeamColor color = null;
-  private org.bukkit.scoreboard.Team scoreboardTeam = null;
-  private String name = null;
-  private int maxPlayers = 0;
-  private Location spawnLocation = null;
-  private Location targetHeadBlock = null;
-  private Location targetFeetBlock = null;
-  private Inventory inventory = null;
   private List<Block> chests = null;
+  private TeamColor color = null;
+  private Inventory inventory = null;
+  private int maxPlayers = 0;
+  private String name = null;
+  private org.bukkit.scoreboard.Team scoreboardTeam = null;
+  private Location spawnLocation = null;
+  private Location targetFeetBlock = null;
+  private Location targetHeadBlock = null;
 
   public Team(Map<String, Object> deserialize) {
     this.setName(deserialize.get("name").toString());

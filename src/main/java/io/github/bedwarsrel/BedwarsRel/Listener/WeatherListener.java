@@ -1,13 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
-import java.util.List;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.weather.WeatherChangeEvent;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import java.util.List;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 public class WeatherListener extends BaseListener {
 

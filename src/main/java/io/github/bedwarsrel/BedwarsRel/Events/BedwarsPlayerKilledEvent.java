@@ -1,17 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-
 public class BedwarsPlayerKilledEvent extends Event {
 
   private static final HandlerList handlers = new HandlerList();
-  private Player player = null;
-  private Player killer = null;
   private Game game = null;
+  private Player killer = null;
+  private Player player = null;
 
   public BedwarsPlayerKilledEvent(Game game, Player player, Player killer) {
     this.player = player;
@@ -19,25 +18,25 @@ public class BedwarsPlayerKilledEvent extends Event {
     this.game = game;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsPlayerKilledEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsPlayerKilledEvent.handlers;
   }
 
-  public Player getPlayer() {
-    return this.player;
+  public Game getGame() {
+    return this.game;
+  }
+
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsPlayerKilledEvent.handlers;
   }
 
   public Player getKiller() {
     return this.killer;
   }
 
-  public Game getGame() {
-    return this.game;
+  public Player getPlayer() {
+    return this.player;
   }
 
 }

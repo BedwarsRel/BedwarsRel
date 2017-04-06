@@ -9,10 +9,6 @@ public enum StorageType {
     this.name = configName;
   }
 
-  public String getName() {
-    return this.name;
-  }
-
   public static StorageType getByName(String name) {
     for (StorageType type : StorageType.values()) {
       if (type.getName().equals(name)) {
@@ -21,5 +17,9 @@ public enum StorageType {
     }
 
     return StorageType.YAML;
+  }
+
+  public String getName() {
+    return this.name;
   }
 }

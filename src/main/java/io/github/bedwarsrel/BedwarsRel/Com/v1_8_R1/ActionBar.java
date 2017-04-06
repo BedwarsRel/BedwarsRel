@@ -1,12 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_8_R1;
 
-import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.IChatBaseComponent;
 import net.minecraft.server.v1_8_R1.PacketPlayOutChat;
+import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.v1_8_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 public class ActionBar {
 

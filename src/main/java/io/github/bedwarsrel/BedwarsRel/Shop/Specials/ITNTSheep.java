@@ -8,13 +8,13 @@ public interface ITNTSheep {
 
   public Location getLocation();
 
-  public void setTNT(TNTPrimed tnt);
-
   public TNTPrimed getTNT();
 
-  public void setPassenger(TNTPrimed tnt);
+  public void setTNT(TNTPrimed tnt);
 
   public void remove();
+
+  public void setPassenger(TNTPrimed tnt);
 
   public void setTNTSource(Entity source);
 

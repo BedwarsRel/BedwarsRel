@@ -1,44 +1,21 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.UUIDFetcher;
 import java.util.ArrayList;
 import java.util.UUID;
-
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.UUIDFetcher;
-
 public class StatsCommand extends BaseCommand implements ICommand {
 
   public StatsCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "stats";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.stats.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.stats.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
   }
 
   @Override
@@ -54,20 +31,21 @@ public class StatsCommand extends BaseCommand implements ICommand {
     }
 
     player.sendMessage(ChatWriter.pluginMessage(
-        ChatColor.GREEN + "----------- " + Main._l("stats.header") + " -----------"));
+        ChatColor.GREEN + "----------- " + Main._l(player, "stats.header") + " -----------"));
 
     if (args.size() == 1) {
       String playerStats = args.get(0).toString();
       OfflinePlayer offPlayer = Main.getInstance().getServer().getPlayerExact(playerStats);
 
       if (offPlayer != null) {
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.GRAY + Main._l("stats.name") + ": "
-            + ChatColor.YELLOW + offPlayer.getName()));
+        player.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.GRAY + Main._l(player, "stats.name") + ": "
+                + ChatColor.YELLOW + offPlayer.getName()));
         PlayerStatistic statistic =
             Main.getInstance().getPlayerStatisticManager().getStatistic(offPlayer);
         if (statistic == null) {
           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-              + Main._l("stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+              + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
           return true;
         }
 
@@ -80,7 +58,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
         offUUID = UUIDFetcher.getUUIDOf(playerStats);
         if (offUUID == null) {
           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-              + Main._l("stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+              + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
           return true;
         }
       } catch (Exception e) {
@@ -91,7 +69,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
       offPlayer = Main.getInstance().getServer().getOfflinePlayer(offUUID);
       if (offPlayer == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+            + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
         return true;
       }
 
@@ -99,7 +77,8 @@ public class StatsCommand extends BaseCommand implements ICommand {
           Main.getInstance().getPlayerStatisticManager().getStatistic(offPlayer);
       if (statistic == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("stats.statsnotfound", ImmutableMap.of("player", offPlayer.getName()))));
+            + Main
+            ._l(player, "stats.statsnotfound", ImmutableMap.of("player", offPlayer.getName()))));
         return true;
       }
 
@@ -110,7 +89,7 @@ public class StatsCommand extends BaseCommand implements ICommand {
           Main.getInstance().getPlayerStatisticManager().getStatistic(player);
       if (statistic == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + Main._l("stats.statsnotfound", ImmutableMap.of("player", player.getName()))));
+            + Main._l(player, "stats.statsnotfound", ImmutableMap.of("player", player.getName()))));
         return true;
       }
 
@@ -121,15 +100,35 @@ public class StatsCommand extends BaseCommand implements ICommand {
     return false;
   }
 
-  private void sendStats(Player player, PlayerStatistic statistic) {
-    for (String line : statistic.createStatisticLines(false, ChatColor.GRAY, ChatColor.YELLOW)) {
-      player.sendMessage(line);
-    }
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
+
+  @Override
+  public String getCommand() {
+    return "stats";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.stats.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.stats.name");
   }
 
   @Override
   public String getPermission() {
     return "base";
+  }
+
+  private void sendStats(Player player, PlayerStatistic statistic) {
+    for (String line : statistic.createStatisticLines(false, ChatColor.GRAY, ChatColor.YELLOW)) {
+      player.sendMessage(line);
+    }
   }
 
 }

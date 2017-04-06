@@ -1,10 +1,8 @@
 package io.github.bedwarsrel.BedwarsRel.Villager;
 
-import java.lang.reflect.Method;
-
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
+import java.lang.reflect.Method;
+import org.bukkit.inventory.ItemStack;
 
 public class CraftItemStack {
 
@@ -23,11 +21,12 @@ public class CraftItemStack {
   }
 
   @SuppressWarnings("unchecked")
-  public Object asNMSCopy() {
+  public ItemStack asBukkitCopy() {
     try {
-      Method m = this.craftItemStack.getDeclaredMethod("asNMSCopy", new Class[] {ItemStack.class});
+      Method m =
+          this.craftItemStack.getDeclaredMethod("asBukkitCopy", new Class[]{ItemStack.class});
       m.setAccessible(true);
-      return m.invoke(null, new Object[] {this.stack});
+      return (ItemStack) m.invoke(null, new Object[]{this.stack});
     } catch (Exception e) {
       Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();
@@ -36,12 +35,11 @@ public class CraftItemStack {
   }
 
   @SuppressWarnings("unchecked")
-  public ItemStack asBukkitCopy() {
+  public Object asNMSCopy() {
     try {
-      Method m =
-          this.craftItemStack.getDeclaredMethod("asBukkitCopy", new Class[] {ItemStack.class});
+      Method m = this.craftItemStack.getDeclaredMethod("asNMSCopy", new Class[]{ItemStack.class});
       m.setAccessible(true);
-      return (ItemStack) m.invoke(null, new Object[] {this.stack});
+      return m.invoke(null, new Object[]{this.stack});
     } catch (Exception e) {
       Main.getInstance().getBugsnag().notify(e);
       e.printStackTrace();

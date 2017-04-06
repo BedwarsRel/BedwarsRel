@@ -1,10 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,39 +19,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.material.Bed;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class SetBedCommand extends BaseCommand implements ICommand {
 
   public SetBedCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "setbed";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.setbed.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.setbed.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "team"};
   }
 
   @Override
@@ -60,20 +37,22 @@ public class SetBedCommand extends BaseCommand implements ICommand {
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
     if (game == null) {
       player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Team gameTeam = game.getTeam(team);
 
     if (gameTeam == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamnotfound")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamnotfound")));
       return false;
     }
 
@@ -88,12 +67,12 @@ public class SetBedCommand extends BaseCommand implements ICommand {
     try {
       try {
         targetBlockMethod =
-            player.getClass().getMethod("getTargetBlock", new Class<?>[] {Set.class, int.class});
+            player.getClass().getMethod("getTargetBlock", new Class<?>[]{Set.class, int.class});
       } catch (Exception ex) {
         Main.getInstance().getBugsnag().notify(ex);
         try {
           targetBlockMethod = player.getClass().getMethod("getTargetBlock",
-              new Class<?>[] {HashSet.class, int.class});
+              new Class<?>[]{HashSet.class, int.class});
         } catch (Exception exc) {
           Main.getInstance().getBugsnag().notify(exc);
           exc.printStackTrace();
@@ -101,9 +80,9 @@ public class SetBedCommand extends BaseCommand implements ICommand {
       }
 
       if (hashsetType.equals(Byte.class)) {
-        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[] {null, 15});
+        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[]{null, 15});
       } else {
-        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[] {transparent, 15});
+        targetBlock = (Block) targetBlockMethod.invoke(player, new Object[]{transparent, 15});
       }
 
     } catch (Exception e) {
@@ -114,13 +93,15 @@ public class SetBedCommand extends BaseCommand implements ICommand {
     Block standingBlock = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
 
     if (targetBlock == null || standingBlock == null) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bedtargeting")));
       return false;
     }
 
     Material targetMaterial = game.getTargetMaterial();
     if (targetBlock.getType() != targetMaterial && standingBlock.getType() != targetMaterial) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.bedtargeting")));
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.bedtargeting")));
       return false;
     }
 
@@ -147,9 +128,29 @@ public class SetBedCommand extends BaseCommand implements ICommand {
       gameTeam.setTargets(theBlock, null);
     }
 
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.bedset",
+    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "success.bedset",
         ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "team"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "setbed";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.setbed.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.setbed.name");
   }
 
   @Override

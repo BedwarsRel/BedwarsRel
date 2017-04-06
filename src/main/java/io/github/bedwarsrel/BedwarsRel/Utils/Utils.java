@@ -1,5 +1,8 @@
 package io.github.bedwarsrel.BedwarsRel.Utils;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -17,7 +20,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -33,26 +35,35 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-
 public final class Utils {
 
-  public static String implode(String glue, ArrayList<String> strings) {
-    if (strings.isEmpty()) {
-      return "";
+  public static boolean checkBungeePlugin() {
+    try {
+      Class.forName("net.md_5.bungee.BungeeCord");
+      return true;
+    } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
     }
 
-    StringBuilder builder = new StringBuilder();
-    builder.append(strings.remove(0));
+    return false;
+  }
 
-    for (String str : strings) {
-      builder.append(glue);
-      builder.append(str);
+  public static void createParticleInGame(Game game, String particle, Location loc) {
+    try {
+      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+          + Main.getInstance().getCurrentVersion() + ".ParticleSpawner");
+
+      Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
+          float.class, float.class, float.class);
+      particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),
+          (float) loc.getY(), (float) loc.getZ());
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
     }
+  }
 
-    return builder.toString();
+  private static final void die(String foa) {
+    throw new IllegalArgumentException(foa);
   }
 
   public static void equipArmorStand(LivingEntity armor, Team team) {
@@ -92,25 +103,6 @@ public final class Utils {
     stand.setBoots(boots);
   }
 
-  public static void createParticleInGame(Game game, String particle, Location loc) {
-    try {
-      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-          + Main.getInstance().getCurrentVersion() + ".ParticleSpawner");
-
-      Method particleMethod = clazz.getDeclaredMethod("spawnParticle", List.class, String.class,
-          float.class, float.class, float.class);
-      particleMethod.invoke(null, game.getPlayers(), particle, (float) loc.getX(),
-          (float) loc.getY(), (float) loc.getZ());
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-    }
-  }
-
-  public static Location getDirectionLocation(Location location, int blockOffset) {
-    Location loc = location.clone();
-    return loc.add(loc.getDirection().setY(0).normalize().multiply(blockOffset));
-  }
-
   public static Block getBedNeighbor(Block head) {
     if (Utils.isBedBlock(head.getRelative(BlockFace.EAST))) {
       return head.getRelative(BlockFace.EAST);
@@ -123,12 +115,105 @@ public final class Utils {
     }
   }
 
-  public static boolean isBedBlock(Block isBed) {
-    if (isBed == null) {
-      return false;
+  public static BlockFace getCardinalDirection(Location location) {
+    double rotation = (location.getYaw() - 90) % 360;
+    if (rotation < 0) {
+      rotation += 360.0;
+    }
+    if (0 <= rotation && rotation < 22.5) {
+      return BlockFace.NORTH;
+    } else if (22.5 <= rotation && rotation < 67.5) {
+      return BlockFace.NORTH_EAST;
+    } else if (67.5 <= rotation && rotation < 112.5) {
+      return BlockFace.EAST;
+    } else if (112.5 <= rotation && rotation < 157.5) {
+      return BlockFace.SOUTH_EAST;
+    } else if (157.5 <= rotation && rotation < 202.5) {
+      return BlockFace.SOUTH;
+    } else if (202.5 <= rotation && rotation < 247.5) {
+      return BlockFace.SOUTH_WEST;
+    } else if (247.5 <= rotation && rotation < 292.5) {
+      return BlockFace.WEST;
+    } else if (292.5 <= rotation && rotation < 337.5) {
+      return BlockFace.NORTH_WEST;
+    } else if (337.5 <= rotation && rotation < 360.0) {
+      return BlockFace.NORTH;
+    } else {
+      return BlockFace.NORTH;
+    }
+  }
+
+  public static Method getColorableMethod(Material mat) {
+    try {
+      ItemStack tempStack = new ItemStack(mat, 1);
+      Method method =
+          tempStack.getItemMeta().getClass().getMethod("setColor", new Class[]{Color.class});
+      if (method != null) {
+        return method;
+      }
+    } catch (Exception ex) {
+      // NO ERROR
     }
 
-    return (isBed.getType() == Material.BED || isBed.getType() == Material.BED_BLOCK);
+    return null;
+  }
+
+  public static Object getCraftPlayer(Player player) {
+    try {
+      Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
+      Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[]{});
+      getHandle.setAccessible(true);
+
+      return getHandle.invoke(player, new Object[]{});
+    } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
+      return null;
+    }
+  }
+
+  public static Location getDirectionLocation(Location location, int blockOffset) {
+    Location loc = location.clone();
+    return loc.add(loc.getDirection().setY(0).normalize().multiply(blockOffset));
+  }
+
+  public static String getFormattedTime(int time) {
+    int hr = 0;
+    int min = 0;
+    int sec = 0;
+    String minStr = "";
+    String secStr = "";
+    String hrStr = "";
+
+    hr = (int) Math.floor((time / 60) / 60);
+    min = ((int) Math.floor((time / 60)) - (hr * 60));
+    sec = time % 60;
+
+    hrStr = (hr < 10) ? "0" + String.valueOf(hr) : String.valueOf(hr);
+    minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
+    secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
+
+    return hrStr + ":" + minStr + ":" + secStr;
+  }
+
+  public static Class<?> getGenericTypeOfParameter(Class<?> clazz, String method,
+      int parameterIndex) {
+    try {
+      Method m = clazz.getMethod(method, new Class<?>[]{Set.class, int.class});
+      ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
+      return (Class<?>) type.getActualTypeArguments()[0];
+    } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
+      try {
+        Method m = clazz.getMethod(method, new Class<?>[]{HashSet.class, int.class});
+        ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
+        return (Class<?>) type.getActualTypeArguments()[0];
+      } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
+        ex.printStackTrace();
+      }
+    }
+
+    return null;
   }
 
   @SuppressWarnings("deprecation")
@@ -148,61 +233,30 @@ public final class Utils {
     return defaultMaterial;
   }
 
-  public static Object getCraftPlayer(Player player) {
-    try {
-      Class<?> craftPlayerClass = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer");
-      Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[] {});
-      getHandle.setAccessible(true);
-
-      return getHandle.invoke(player, new Object[] {});
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      return null;
-    }
-  }
-
-  public static boolean isNumber(String numberString) {
-    try {
-      Integer.parseInt(numberString);
-      return true;
-    } catch (Exception ex) {
-      // NO ERROR
-      return false;
-    }
-  }
-
-  public static Method getColorableMethod(Material mat) {
-    try {
-      ItemStack tempStack = new ItemStack(mat, 1);
-      Method method =
-          tempStack.getItemMeta().getClass().getMethod("setColor", new Class[] {Color.class});
-      if (method != null) {
-        return method;
-      }
-    } catch (Exception ex) {
-      // NO ERROR
+  public static Class<?> getPrimitiveWrapper(Class<?> primitive) {
+    if (!primitive.isPrimitive()) {
+      return primitive;
     }
 
-    return null;
-  }
-
-  public static boolean isColorable(ItemStack itemstack) {
-    return (itemstack.getType().equals(Material.STAINED_CLAY)
-        || itemstack.getType().equals(Material.WOOL) 
-        || itemstack.getType().equals(Material.CARPET)
-        || itemstack.getType().equals(Material.STAINED_GLASS)
-        || itemstack.getType().equals(Material.STAINED_GLASS_PANE));
-  }
-
-  public static boolean checkBungeePlugin() {
-    try {
-      Class.forName("net.md_5.bungee.BungeeCord");
-      return true;
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
+    if (primitive.getSimpleName().equals("int")) {
+      return Integer.class;
+    } else if (primitive.getSimpleName().equals("long")) {
+      return Long.class;
+    } else if (primitive.getSimpleName().equals("short")) {
+      return Short.class;
+    } else if (primitive.getSimpleName().equals("byte")) {
+      return Byte.class;
+    } else if (primitive.getSimpleName().equals("float")) {
+      return Float.class;
+    } else if (primitive.getSimpleName().equals("boolean")) {
+      return Boolean.class;
+    } else if (primitive.getSimpleName().equals("char")) {
+      return Character.class;
+    } else if (primitive.getSimpleName().equals("double")) {
+      return Double.class;
+    } else {
+      return primitive;
     }
-
-    return false;
   }
 
   @SuppressWarnings("resource")
@@ -226,17 +280,17 @@ public final class Utils {
     if (dirURL.getProtocol().equals("jar")) {
       /* A JAR path */
       String jarPath = dirURL.getPath().substring(5, dirURL.getPath().indexOf("!")); // strip
-                                                                                     // out
-                                                                                     // only
-                                                                                     // the
-                                                                                     // JAR
-                                                                                     // file
+      // out
+      // only
+      // the
+      // JAR
+      // file
       JarFile jar = new JarFile(URLDecoder.decode(jarPath, "UTF-8"));
       Enumeration<JarEntry> entries = jar.entries(); // gives ALL entries
-                                                     // in jar
+      // in jar
       Set<String> result = new HashSet<String>(); // avoid duplicates in
-                                                  // case it is a
-                                                  // subdirectory
+      // case it is a
+      // subdirectory
       while (entries.hasMoreElements()) {
         String name = entries.nextElement().getName();
         if (name.startsWith(path)) { // filter according to the path
@@ -256,23 +310,46 @@ public final class Utils {
     throw new UnsupportedOperationException("Cannot list files for URL " + dirURL);
   }
 
-  public static int randInt(int min, int max) {
-    Random rand = new Random();
-    int randomNum = rand.nextInt((max - min) + 1) + min;
+  public static String implode(String glue, ArrayList<String> strings) {
+    if (strings.isEmpty()) {
+      return "";
+    }
 
-    return randomNum;
+    StringBuilder builder = new StringBuilder();
+    builder.append(strings.remove(0));
+
+    for (String str : strings) {
+      builder.append(glue);
+      builder.append(str);
+    }
+
+    return builder.toString();
   }
 
-  public static Map<String, Object> locationSerialize(Location location) {
-    Map<String, Object> section = new HashMap<String, Object>();
-    section.put("x", location.getX());
-    section.put("y", location.getY());
-    section.put("z", location.getZ());
-    section.put("pitch", (double) location.getPitch());
-    section.put("yaw", (double) location.getYaw());
-    section.put("world", location.getWorld().getName());
+  public static boolean isBedBlock(Block isBed) {
+    if (isBed == null) {
+      return false;
+    }
 
-    return section;
+    return (isBed.getType() == Material.BED || isBed.getType() == Material.BED_BLOCK);
+  }
+
+  public static boolean isColorable(ItemStack itemstack) {
+    return (itemstack.getType().equals(Material.STAINED_CLAY)
+        || itemstack.getType().equals(Material.WOOL)
+        || itemstack.getType().equals(Material.CARPET)
+        || itemstack.getType().equals(Material.STAINED_GLASS)
+        || itemstack.getType().equals(Material.STAINED_GLASS_PANE));
+  }
+
+  public static boolean isNumber(String numberString) {
+    try {
+      Integer.parseInt(numberString);
+      return true;
+    } catch (Exception ex) {
+      // NO ERROR
+      return false;
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -358,51 +435,39 @@ public final class Utils {
     return null;
   }
 
-  public static Class<?> getPrimitiveWrapper(Class<?> primitive) {
-    if (!primitive.isPrimitive()) {
-      return primitive;
-    }
+  public static Map<String, Object> locationSerialize(Location location) {
+    Map<String, Object> section = new HashMap<String, Object>();
+    section.put("x", location.getX());
+    section.put("y", location.getY());
+    section.put("z", location.getZ());
+    section.put("pitch", (double) location.getPitch());
+    section.put("yaw", (double) location.getYaw());
+    section.put("world", location.getWorld().getName());
 
-    if (primitive.getSimpleName().equals("int")) {
-      return Integer.class;
-    } else if (primitive.getSimpleName().equals("long")) {
-      return Long.class;
-    } else if (primitive.getSimpleName().equals("short")) {
-      return Short.class;
-    } else if (primitive.getSimpleName().equals("byte")) {
-      return Byte.class;
-    } else if (primitive.getSimpleName().equals("float")) {
-      return Float.class;
-    } else if (primitive.getSimpleName().equals("boolean")) {
-      return Boolean.class;
-    } else if (primitive.getSimpleName().equals("char")) {
-      return Character.class;
-    } else if (primitive.getSimpleName().equals("double")) {
-      return Double.class;
-    } else {
-      return primitive;
-    }
+    return section;
   }
 
-  public static Class<?> getGenericTypeOfParameter(Class<?> clazz, String method,
-      int parameterIndex) {
+  @SuppressWarnings("deprecation")
+  public static Material parseMaterial(String material) {
     try {
-      Method m = clazz.getMethod(method, new Class<?>[] {Set.class, int.class});
-      ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
-      return (Class<?>) type.getActualTypeArguments()[0];
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      try {
-        Method m = clazz.getMethod(method, new Class<?>[] {HashSet.class, int.class});
-        ParameterizedType type = (ParameterizedType) m.getGenericParameterTypes()[parameterIndex];
-        return (Class<?>) type.getActualTypeArguments()[0];
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        ex.printStackTrace();
+      if (Utils.isNumber(material)) {
+        return Material.getMaterial(Integer.parseInt(material));
+      } else {
+        return Material.getMaterial(material.toUpperCase());
       }
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      // failed to parse
     }
 
     return null;
+  }
+
+  public static int randInt(int min, int max) {
+    Random rand = new Random();
+    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+    return randomNum;
   }
 
   public final static String unescape_perl_string(String oldstr) {
@@ -473,7 +538,7 @@ public final class Utils {
         /*
          * A "control" character is what you get when you xor its codepoint with '@'==64. This only
          * makes sense for ASCII, and may not yield a "control" character after all.
-         * 
+         *
          * Strange but true: "\c{" is ";", "\c}" is "=", etc.
          */
         case 'c': {
@@ -669,10 +734,6 @@ public final class Utils {
     return newstr.toString();
   }
 
-  private static final void die(String foa) {
-    throw new IllegalArgumentException(foa);
-  }
-
   /*
    * Return a string "U+XX.XXX.XXXX" etc, where each XX set is the xdigits of the logical Unicode
    * code point. No bloody brain-damaged UTF-16 surrogate crap, just true logical characters.
@@ -695,69 +756,6 @@ public final class Utils {
       }
     }
     return sb.toString();
-  }
-
-  public static BlockFace getCardinalDirection(Location location) {
-    double rotation = (location.getYaw() - 90) % 360;
-    if (rotation < 0) {
-      rotation += 360.0;
-    }
-    if (0 <= rotation && rotation < 22.5) {
-      return BlockFace.NORTH;
-    } else if (22.5 <= rotation && rotation < 67.5) {
-      return BlockFace.NORTH_EAST;
-    } else if (67.5 <= rotation && rotation < 112.5) {
-      return BlockFace.EAST;
-    } else if (112.5 <= rotation && rotation < 157.5) {
-      return BlockFace.SOUTH_EAST;
-    } else if (157.5 <= rotation && rotation < 202.5) {
-      return BlockFace.SOUTH;
-    } else if (202.5 <= rotation && rotation < 247.5) {
-      return BlockFace.SOUTH_WEST;
-    } else if (247.5 <= rotation && rotation < 292.5) {
-      return BlockFace.WEST;
-    } else if (292.5 <= rotation && rotation < 337.5) {
-      return BlockFace.NORTH_WEST;
-    } else if (337.5 <= rotation && rotation < 360.0) {
-      return BlockFace.NORTH;
-    } else {
-      return BlockFace.NORTH;
-    }
-  }
-
-  public static String getFormattedTime(int time) {
-    int hr = 0;
-    int min = 0;
-    int sec = 0;
-    String minStr = "";
-    String secStr = "";
-    String hrStr = "";
-
-    hr = (int) Math.floor((time / 60) / 60);
-    min = ((int) Math.floor((time / 60)) - (hr * 60));
-    sec = time % 60;
-
-    hrStr = (hr < 10) ? "0" + String.valueOf(hr) : String.valueOf(hr);
-    minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
-    secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
-
-    return hrStr + ":" + minStr + ":" + secStr;
-  }
-
-  @SuppressWarnings("deprecation")
-  public static Material parseMaterial(String material) {
-    try {
-      if (Utils.isNumber(material)) {
-        return Material.getMaterial(Integer.parseInt(material));
-      } else {
-        return Material.getMaterial(material.toUpperCase());
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      // failed to parse
-    }
-
-    return null;
   }
 
 }

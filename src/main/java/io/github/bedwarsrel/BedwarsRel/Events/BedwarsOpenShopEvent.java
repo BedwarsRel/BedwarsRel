@@ -1,7 +1,8 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import java.util.HashMap;
-
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -10,17 +11,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-
 public class BedwarsOpenShopEvent extends Event implements Cancellable {
 
   private static final HandlerList handlers = new HandlerList();
-  private Player player = null;
+  private boolean cancelled = false;
+  private Entity clickedEntity = null;
   private Game game = null;
   private HashMap<Material, MerchantCategory> itemshop = null;
-  private Entity clickedEntity = null;
-  private boolean cancelled = false;
+  private Player player = null;
 
   public BedwarsOpenShopEvent(Game game, Player player,
       HashMap<Material, MerchantCategory> itemshop, Entity clickedEntity) {
@@ -30,29 +28,29 @@ public class BedwarsOpenShopEvent extends Event implements Cancellable {
     this.clickedEntity = clickedEntity;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsOpenShopEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsOpenShopEvent.handlers;
   }
 
-  public CommandSender getPlayer() {
-    return this.player;
+  public Entity getEntity() {
+    return this.clickedEntity;
   }
 
   public Game getGame() {
     return this.game;
   }
 
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsOpenShopEvent.handlers;
+  }
+
   public HashMap<Material, MerchantCategory> getItemshop() {
     return this.itemshop;
   }
 
-  public Entity getEntity() {
-    return this.clickedEntity;
+  public CommandSender getPlayer() {
+    return this.player;
   }
 
   @Override

@@ -1,45 +1,22 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameCheckCode;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.util.ChatPaginator;
 import org.bukkit.util.ChatPaginator.ChatPage;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameCheckCode;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class ListGamesCommand extends BaseCommand {
 
   public ListGamesCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "list";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.list.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.list.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
   }
 
   @Override
@@ -90,16 +67,18 @@ public class ListGamesCommand extends BaseCommand {
 
       sb.append(ChatColor.YELLOW
           + ((code != GameCheckCode.OK) ? ChatColor.RED + game.getName() + ChatColor.YELLOW
-              : game.getName())
+          : game.getName())
           + " - " + game.getRegion().getName() + " - "
-          + Main._l("sign.gamestate." + game.getState().toString().toLowerCase()) + ChatColor.YELLOW
-          + " - " + Main._l("sign.players") + ": " + ChatColor.WHITE + "[" + ChatColor.YELLOW
+          + Main._l(sender, "sign.gamestate." + game.getState().toString().toLowerCase())
+          + ChatColor.YELLOW
+          + " - " + Main._l(sender, "sign.players") + ": " + ChatColor.WHITE + "["
+          + ChatColor.YELLOW
           + players + ChatColor.WHITE + "/" + ChatColor.YELLOW + game.getMaxPlayers()
           + ChatColor.WHITE + "]\n");
     }
 
     if (showedGames.size() == 0) {
-      sb.append(ChatColor.RED + Main._l("errors.nogames"));
+      sb.append(ChatColor.RED + Main._l(sender, "errors.nogames"));
     }
 
     ChatPage chatPage = ChatPaginator.paginate(sb.toString(), page);
@@ -107,12 +86,32 @@ public class ListGamesCommand extends BaseCommand {
       sender.sendMessage(line);
     }
     sender.sendMessage(ChatColor.GREEN + "---------- "
-        + Main._l("default.pages",
-            ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max",
-                String.valueOf(chatPage.getTotalPages())))
+        + Main._l(sender, "default.pages",
+        ImmutableMap.of("current", String.valueOf(chatPage.getPageNumber()), "max",
+            String.valueOf(chatPage.getTotalPages())))
         + " ----------");
 
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
+
+  @Override
+  public String getCommand() {
+    return "list";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.list.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.list.name");
   }
 
   @Override

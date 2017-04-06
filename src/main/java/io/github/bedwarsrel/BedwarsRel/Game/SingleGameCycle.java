@@ -1,71 +1,20 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-
 import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsGameEndEvent;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 public class SingleGameCycle extends GameCycle {
 
   public SingleGameCycle(Game game) {
     super(game);
-  }
-
-  @Override
-  public void onGameStart() {
-    // Reset on game end
-  }
-
-  @Override
-  public void onGameEnds() {
-    // Reset scoreboard first
-    this.getGame().resetScoreboard();
-
-    // First team players, they get a reserved slot in lobby
-    for (Player p : this.getGame().getTeamPlayers()) {
-      this.kickPlayer(p, false);
-    }
-
-    // and now the spectators
-    List<Player> freePlayers = new ArrayList<Player>(this.getGame().getFreePlayers());
-    for (Player p : freePlayers) {
-      this.kickPlayer(p, true);
-    }
-
-    // reset countdown prevention breaks
-    this.setEndGameRunning(false);
-
-    // Reset team chests
-    for (Team team : this.getGame().getTeams().values()) {
-      team.setInventory(null);
-      team.getChests().clear();
-    }
-
-    // clear protections
-    this.getGame().clearProtections();
-
-    // reset region
-    this.getGame().resetRegion();
-
-    // Restart lobby directly?
-    if (this.getGame().isStartable() && this.getGame().getLobbyCountdown() == null) {
-      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this.getGame());
-      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-      this.getGame().setLobbyCountdown(lobbyCountdown);
-    }
-
-    // set state and with that, the sign
-    this.getGame().setState(GameState.WAITING);
-    this.getGame().updateScoreboard();
   }
 
   private void kickPlayer(Player player, boolean wasSpectator) {
@@ -115,6 +64,142 @@ public class SingleGameCycle extends GameCycle {
   }
 
   @Override
+  public void onGameEnds() {
+    // Reset scoreboard first
+    this.getGame().resetScoreboard();
+
+    // First team players, they get a reserved slot in lobby
+    for (Player p : this.getGame().getTeamPlayers()) {
+      this.kickPlayer(p, false);
+    }
+
+    // and now the spectators
+    List<Player> freePlayers = new ArrayList<Player>(this.getGame().getFreePlayers());
+    for (Player p : freePlayers) {
+      this.kickPlayer(p, true);
+    }
+
+    // reset countdown prevention breaks
+    this.setEndGameRunning(false);
+
+    // Reset team chests
+    for (Team team : this.getGame().getTeams().values()) {
+      team.setInventory(null);
+      team.getChests().clear();
+    }
+
+    // clear protections
+    this.getGame().clearProtections();
+
+    // reset region
+    this.getGame().resetRegion();
+
+    // Restart lobby directly?
+    if (this.getGame().isStartable() && this.getGame().getLobbyCountdown() == null) {
+      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this.getGame());
+      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+      this.getGame().setLobbyCountdown(lobbyCountdown);
+    }
+
+    // set state and with that, the sign
+    this.getGame().setState(GameState.WAITING);
+    this.getGame().updateScoreboard();
+  }
+
+  @Override
+  public void onGameLoaded() {
+    // Reset on game end
+  }
+
+  @Override
+  public void onGameOver(GameOverTask task) {
+    if (task.getCounter() == task.getStartCount() && task.getWinner() != null) {
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.teamwon",
+                  ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD))));
+        }
+      }
+      this.getGame().stopWorkers();
+    } else if (task.getCounter() == task.getStartCount() && task.getWinner() == null) {
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GOLD + Main._l(aPlayer, "ingame.draw")));
+        }
+      }
+    }
+
+    if (task.getCounter() == 0) {
+      BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
+      Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
+
+      this.onGameEnds();
+      task.cancel();
+    } else {
+      for (Player aPlayer : this.getGame().getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(
+                  ChatColor.AQUA + Main._l(aPlayer, "ingame.backtolobby", ImmutableMap.of("sec",
+                      ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
+        }
+      }
+    }
+
+    task.decCounter();
+  }
+
+  @Override
+  public void onGameStart() {
+    // Reset on game end
+  }
+
+  @Override
+  public boolean onPlayerJoins(Player player) {
+    if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
+      if (this.getGame().getState() != GameState.RUNNING
+          || !Main.getInstance().spectationEnabled()) {
+        player.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "lobby.gamefull")));
+        return false;
+      }
+    } else if (this.getGame().isFull() && player.hasPermission("bw.vip.joinfull")) {
+      if (this.getGame().getState() == GameState.WAITING) {
+        List<Player> players = this.getGame().getNonVipPlayers();
+
+        if (players.size() == 0) {
+          player.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "lobby.gamefullpremium")));
+          return false;
+        }
+
+        Player kickPlayer = null;
+        if (players.size() == 1) {
+          kickPlayer = players.get(0);
+        } else {
+          kickPlayer = players.get(Utils.randInt(0, players.size() - 1));
+        }
+
+        kickPlayer
+            .sendMessage(
+                ChatWriter.pluginMessage(ChatColor.RED + Main._l(kickPlayer, "lobby.kickedbyvip")));
+        this.getGame().playerLeave(kickPlayer, false);
+      } else {
+        if (this.getGame().getState() == GameState.RUNNING
+            && !Main.getInstance().spectationEnabled()) {
+          player.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.cantjoingame")));
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  @Override
   public void onPlayerLeave(Player player) {
     // teleport to join location
     PlayerStorage storage = this.getGame().getPlayerStorage(player);
@@ -141,76 +226,6 @@ public class SingleGameCycle extends GameCycle {
         && !this.getGame().isSpectator(player)) {
       this.checkGameOver();
     }
-  }
-
-  @Override
-  public void onGameLoaded() {
-    // Reset on game end
-  }
-
-  @Override
-  public boolean onPlayerJoins(Player player) {
-    if (this.getGame().isFull() && !player.hasPermission("bw.vip.joinfull")) {
-      if (this.getGame().getState() != GameState.RUNNING
-          || !Main.getInstance().spectationEnabled()) {
-        player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefull")));
-        return false;
-      }
-    } else if (this.getGame().isFull() && player.hasPermission("bw.vip.joinfull")) {
-      if (this.getGame().getState() == GameState.WAITING) {
-        List<Player> players = this.getGame().getNonVipPlayers();
-
-        if (players.size() == 0) {
-          player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.gamefullpremium")));
-          return false;
-        }
-
-        Player kickPlayer = null;
-        if (players.size() == 1) {
-          kickPlayer = players.get(0);
-        } else {
-          kickPlayer = players.get(Utils.randInt(0, players.size() - 1));
-        }
-
-        kickPlayer
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("lobby.kickedbyvip")));
-        this.getGame().playerLeave(kickPlayer, false);
-      } else {
-        if (this.getGame().getState() == GameState.RUNNING
-            && !Main.getInstance().spectationEnabled()) {
-          player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  @Override
-  public void onGameOver(GameOverTask task) {
-    if (task.getCounter() == task.getStartCount() && task.getWinner() != null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.teamwon",
-          ImmutableMap.of("team", task.getWinner().getDisplayName() + ChatColor.GOLD)));
-      this.getGame().stopWorkers();
-    } else if (task.getCounter() == task.getStartCount() && task.getWinner() == null) {
-      this.getGame().broadcast(ChatColor.GOLD + Main._l("ingame.draw"));
-    }
-
-    if (task.getCounter() == 0) {
-      BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
-      Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
-
-      this.onGameEnds();
-      task.cancel();
-    } else {
-      this.getGame().broadcast(ChatColor.AQUA + Main._l("ingame.backtolobby", ImmutableMap.of("sec",
-          ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA)));
-    }
-
-    task.decCounter();
   }
 
 }

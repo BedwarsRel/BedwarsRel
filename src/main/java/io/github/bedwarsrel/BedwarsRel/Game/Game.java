@@ -58,59 +58,45 @@ import org.bukkit.util.Vector;
 @Data
 public class Game {
 
-  private String name = null;
-  private List<ResourceSpawner> resourceSpawners = null;
-  private List<BukkitTask> runningTasks = null;
-  private GameState state = null;
-  private HashMap<String, Team> teams = null;
-  private List<Team> playingTeams = null;
-  private List<Player> freePlayers = null;
-  private int minPlayers = 0;
-  private Region region = null;
-  private Location lobby = null;
-  private HashMap<Player, PlayerStorage> playerStorages = null;
-  private Scoreboard scoreboard = null;
-  private GameLobbyCountdown gameLobbyCountdown = null;
-  private HashMap<Material, MerchantCategory> shopCategories = null;
-  private List<MerchantCategory> orderedShopCategories = null;
+  private boolean autobalance = false;
+  private String builder = null;
+  private YamlConfiguration config = null;
   private GameCycle cycle = null;
-  private Location mainLobby = null;
-  private HashMap<Location, GameJoinSign> joinSigns = null;
-  private int timeLeft = 0;
+  private List<Player> freePlayers = null;
+  private GameLobbyCountdown gameLobbyCountdown = null;
+  private Location hologramLocation = null;
   private boolean isOver = false;
   private boolean isStopping = false;
-
-  private Location hologramLocation = null;
-
-  private boolean autobalance = false;
-
-  private List<String> recordHolders = null;
-  private int record = 0;
+  private HashMap<Location, GameJoinSign> joinSigns = null;
   private int length = 0;
-
-  private String builder = null;
-
-  private Map<Player, PlayerSettings> playerSettings = null;
-
-  private List<SpecialItem> specialItems = null;
-
-  private int time = 1000;
-
-  private Map<Player, Player> playerDamages = null;
-
-  private Map<Player, RespawnProtectionRunnable> respawnProtections = null;
-
-  private String regionName = null;
-
-  // Itemshops
-  private HashMap<Player, NewItemShop> newItemShops = null;
-
-  private YamlConfiguration config = null;
-
+  private Location lobby = null;
   private Location loc1 = null;
   private Location loc2 = null;
-
+  private Location mainLobby = null;
+  private int minPlayers = 0;
+  private String name = null;
+  // Itemshops
+  private HashMap<Player, NewItemShop> newItemShops = null;
+  private List<MerchantCategory> orderedShopCategories = null;
+  private Map<Player, Player> playerDamages = null;
+  private Map<Player, PlayerSettings> playerSettings = null;
+  private HashMap<Player, PlayerStorage> playerStorages = null;
+  private List<Team> playingTeams = null;
+  private int record = 0;
+  private List<String> recordHolders = null;
+  private Region region = null;
+  private String regionName = null;
+  private List<ResourceSpawner> resourceSpawners = null;
+  private Map<Player, RespawnProtectionRunnable> respawnProtections = null;
+  private List<BukkitTask> runningTasks = null;
+  private Scoreboard scoreboard = null;
+  private HashMap<Material, MerchantCategory> shopCategories = null;
+  private List<SpecialItem> specialItems = null;
+  private GameState state = null;
   private Material targetMaterial = null;
+  private HashMap<String, Team> teams = null;
+  private int time = 1000;
+  private int timeLeft = 0;
 
   public Game(String name) {
     super();
@@ -155,6 +141,14 @@ public class Game {
    * STATIC
    */
 
+  public static String bedExistString() {
+    return "\u2714";
+  }
+
+  public static String bedLostString() {
+    return "\u2718";
+  }
+
   public static String getPlayerWithTeamString(Player player, Team team, ChatColor before) {
     if (Main.getInstance().getBooleanConfig("teamname-in-chat", true)) {
       return player.getDisplayName() + before + " (" + team.getChatColor() + team.getDisplayName()
@@ -174,265 +168,52 @@ public class Game {
     return player.getDisplayName() + before + playerAdding + before;
   }
 
-  public static String bedLostString() {
-    return "\u2718";
-  }
-
-  public static String bedExistString() {
-    return "\u2714";
-  }
-
   /*
    * PUBLIC
    */
 
-  public boolean run(CommandSender sender) {
-    if (this.state != GameState.STOPPED) {
-      sender
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantstartagain")));
-      return false;
+  public void addJoinSign(Location signLocation) {
+    if (this.joinSigns.containsKey(signLocation)) {
+      this.joinSigns.remove(signLocation);
     }
 
-    GameCheckCode gcc = this.checkGame();
-    if (gcc != GameCheckCode.OK) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + gcc.getCodeMessage()));
-      return false;
-    }
-
-    if (sender instanceof Player) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gamerun")));
-    }
-
-    this.isStopping = false;
-    this.state = GameState.WAITING;
-    this.updateSigns();
-    return true;
+    this.joinSigns.put(signLocation, new GameJoinSign(this, signLocation));
+    this.updateSignConfig();
   }
 
-  public boolean start(CommandSender sender) {
-    if (this.state != GameState.WAITING) {
-      sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.startoutofwaiting")));
-      return false;
-    }
-
-    BedwarsGameStartEvent startEvent = new BedwarsGameStartEvent(this);
-    Main.getInstance().getServer().getPluginManager().callEvent(startEvent);
-
-    if (startEvent.isCancelled()) {
-      return false;
-    }
-
-    this.isOver = false;
-    this.broadcast(ChatColor.GREEN + Main._l("ingame.gamestarting"));
-
-    // load shop categories again (if shop was changed)
-    this.loadItemShopCategories();
-
-    this.runningTasks.clear();
-    this.cleanUsersInventory();
-    this.clearProtections();
-    this.moveFreePlayersToTeam();
-    this.makeTeamsReady();
-
-    this.cycle.onGameStart();
-    this.startResourceSpawners();
-
-    // Update world time before game starts
-    this.getRegion().getWorld().setTime(this.time);
-
-    this.teleportPlayersToTeamSpawn();
-
-    this.state = GameState.RUNNING;
-    this.startActionBarRunnable();
-    this.updateScoreboard();
-
-    if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
-      this.displayRecord();
-    }
-
-    this.startTimerCountdown();
-
-    if (Main.getInstance().getBooleanConfig("titles.map.enabled", false)) {
-      this.displayMapInfo();
-    }
-
-    this.updateSigns();
-
-    if (Main.getInstance().getBooleanConfig("global-messages", true)) {
-      Main.getInstance().getServer().broadcastMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-          + Main._l("ingame.gamestarted", ImmutableMap.of("game", this.getRegion().getName()))));
-    }
-
-    BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
-    Main.getInstance().getServer().getPluginManager().callEvent(startedEvent);
-
-    return true;
+  public void addPlayerSettings(Player player) {
+    this.playerSettings.put(player, new PlayerSettings(player));
   }
 
-  private void startActionBarRunnable() {
-    if (Main.getInstance().getBooleanConfig("show-team-in-actionbar", false)) {
-      try {
-        Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-            + Main.getInstance().getCurrentVersion() + ".ActionBar");
-        final Method sendActionBar =
-            clazz.getDeclaredMethod("sendActionBar", Player.class, String.class);
+  public PlayerStorage addPlayerStorage(Player p) {
+    PlayerStorage storage = new PlayerStorage(p);
+    this.playerStorages.put(p, storage);
 
-        BukkitTask task = new BukkitRunnable() {
-
-          @Override
-          public void run() {
-            for (Team team : Game.this.getTeams().values()) {
-              for (Player player : team.getPlayers()) {
-                try {
-                  sendActionBar.invoke(null, player,
-                      team.getChatColor() + "Team " + team.getDisplayName());
-                } catch (IllegalAccessException | IllegalArgumentException
-                    | InvocationTargetException e) {
-                  Main.getInstance().getBugsnag().notify(e);
-                  e.printStackTrace();
-                }
-              }
-            }
-          }
-        }.runTaskTimer(Main.getInstance(), 0L, 20L);
-        this.addRunningTask(task);
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        ex.printStackTrace();
-      }
-    }
+    return storage;
   }
 
-  public boolean stop() {
-    if (this.state == GameState.STOPPED) {
-      return false;
-    }
+  public RespawnProtectionRunnable addProtection(Player player) {
+    RespawnProtectionRunnable rpr =
+        new RespawnProtectionRunnable(this, player, Main.getInstance().getRespawnProtectionTime());
+    this.respawnProtections.put(player, rpr);
 
-    this.isStopping = true;
-
-    this.stopWorkers();
-    this.clearProtections();
-
-    try {
-      this.kickAllPlayers();
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      e.printStackTrace();
-    }
-    this.resetRegion();
-    this.state = GameState.STOPPED;
-    this.updateSigns();
-
-    this.isStopping = false;
-    return true;
+    return rpr;
   }
 
-  public boolean isInGame(Player p) {
-    for (Team t : this.teams.values()) {
-      if (t.isInTeam(p)) {
-        return true;
-      }
-    }
-
-    return this.freePlayers.contains(p);
+  public void addRecordHolder(String holder) {
+    this.recordHolders.add(holder);
   }
 
   public void addRessourceSpawner(ResourceSpawner rs) {
     this.resourceSpawners.add(rs);
   }
 
-  public List<ResourceSpawner> getRessourceSpawner() {
-    return this.resourceSpawners;
+  public void addRunningTask(BukkitTask task) {
+    this.runningTasks.add(task);
   }
 
-  public void setLoc(Location loc, String type) {
-    if (type.equalsIgnoreCase("loc1")) {
-      this.loc1 = loc;
-    } else {
-      this.loc2 = loc;
-    }
-  }
-
-  public Team getPlayerTeam(Player p) {
-    for (Team team : this.getTeams().values()) {
-      if (team.isInTeam(p)) {
-        return team;
-      }
-    }
-
-    return null;
-  }
-
-  public boolean saveGame(CommandSender sender, boolean direct) {
-    BedwarsSaveGameEvent saveEvent = new BedwarsSaveGameEvent(this, sender);
-    Main.getInstance().getServer().getPluginManager().callEvent(saveEvent);
-
-    if (saveEvent.isCancelled()) {
-      return true;
-    }
-
-    GameCheckCode check = this.checkGame();
-
-    if (check != GameCheckCode.OK) {
-      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + check.getCodeMessage()));
-      return false;
-    }
-
-    File gameConfig = new File(Main.getInstance().getDataFolder() + "/" + GameManager.gamesPath
-        + "/" + this.name + "/game.yml");
-    gameConfig.mkdirs();
-
-    if (gameConfig.exists()) {
-      gameConfig.delete();
-    }
-
-    this.saveRegion(direct);
-    this.createGameConfig(gameConfig);
-
-    return true;
-  }
-
-  public int getMaxPlayers() {
-    int max = 0;
-    for (Team t : this.teams.values()) {
-      max += t.getMaxPlayers();
-    }
-
-    return max;
-  }
-
-  public Team getTeamOfBed(Block bed) {
-    for (Team team : this.getTeams().values()) {
-      if (team.getFeetTarget() == null) {
-        if (team.getHeadTarget().equals(bed)) {
-          return team;
-        }
-      } else {
-        if (team.getHeadTarget().equals(bed) || team.getFeetTarget().equals(bed)) {
-          return team;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  public int getCurrentPlayerAmount() {
-    int amount = 0;
-    for (Team t : this.teams.values()) {
-      amount += t.getPlayers().size();
-    }
-
-    return amount;
-  }
-
-  public int getPlayerAmount() {
-    return this.getPlayers().size();
-  }
-
-  public boolean isFull() {
-    return (this.getMaxPlayers() <= this.getPlayerAmount());
+  public void addSpecialItem(SpecialItem item) {
+    this.specialItems.add(item);
   }
 
   public void addTeam(String name, TeamColor color, int maxPlayers) {
@@ -442,14 +223,6 @@ public class Game {
 
     Team theTeam = new Team(name, color, maxPlayers, newTeam);
     this.teams.put(name, theTeam);
-  }
-
-  public boolean isAutobalanceEnabled() {
-    if (Main.getInstance().getBooleanConfig("global-autobalance", false)) {
-      return true;
-    }
-
-    return this.autobalance;
   }
 
   public void addTeam(Team team) {
@@ -462,74 +235,386 @@ public class Game {
     this.teams.put(team.getName(), team);
   }
 
-  public void toSpectator(Player player) {
-    final Player p = player;
+  public void broadcastSound(Sound sound, float volume, float pitch) {
+    for (Player p : this.getPlayers()) {
+      if (p.isOnline()) {
+        p.playSound(p.getLocation(), sound, volume, pitch);
+      }
+    }
+  }
 
-    if (!this.freePlayers.contains(player)) {
-      this.freePlayers.add(player);
+  public void broadcastSound(Sound sound, float volume, float pitch, List<Player> players) {
+    for (Player p : players) {
+      if (p.isOnline()) {
+        p.playSound(p.getLocation(), sound, volume, pitch);
+      }
+    }
+  }
+
+  public GameCheckCode checkGame() {
+    if (this.loc1 == null || this.loc2 == null) {
+      return GameCheckCode.LOC_NOT_SET_ERROR;
     }
 
-    PlayerStorage storage = this.getPlayerStorage(player);
-    if (storage != null) {
-      storage.clean();
-    } else {
-      storage = this.addPlayerStorage(player);
-      storage.store();
-      storage.clean();
+    if (this.teams == null || this.teams.size() <= 1) {
+      return GameCheckCode.TEAM_SIZE_LOW_ERROR;
     }
 
-    final Location location = this.getPlayerTeleportLocation(p);
+    GameCheckCode teamCheck = this.checkTeams();
+    if (teamCheck != GameCheckCode.OK) {
+      return teamCheck;
+    }
 
-    if (!p.getLocation().getWorld().equals(location.getWorld())) {
-      this.getPlayerSettings(p).setTeleporting(true);
-      if (Main.getInstance().isBungee()) {
-        new BukkitRunnable() {
+    if (this.getRessourceSpawner().size() == 0) {
+      return GameCheckCode.NO_RES_SPAWNER_ERROR;
+    }
 
-          @Override
-          public void run() {
-            p.teleport(location);
-          }
+    if (this.lobby == null) {
+      return GameCheckCode.NO_LOBBY_SET;
+    }
 
-        }.runTaskLater(Main.getInstance(), 10L);
+    if (Main.getInstance().toMainLobby() && this.mainLobby == null) {
+      return GameCheckCode.NO_MAIN_LOBBY_SET;
+    }
 
+    return GameCheckCode.OK;
+  }
+
+  private GameCheckCode checkTeams() {
+    for (Team t : this.teams.values()) {
+      if (t.getSpawnLocation() == null) {
+        return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
+      }
+
+      Material targetMaterial = this.getTargetMaterial();
+
+      if (targetMaterial.equals(Material.BED_BLOCK)) {
+        if ((t.getHeadTarget() == null || t.getFeetTarget() == null)
+            || (!Utils.isBedBlock(t.getHeadTarget()) || !Utils.isBedBlock(t.getFeetTarget()))) {
+          return GameCheckCode.TEAM_NO_WRONG_BED;
+        }
       } else {
-        p.teleport(location);
+        if (t.getHeadTarget() == null) {
+          return GameCheckCode.TEAM_NO_WRONG_TARGET;
+        }
+
+        if (!t.getHeadTarget().getType().equals(targetMaterial)) {
+          return GameCheckCode.TEAM_NO_WRONG_TARGET;
+        }
+      }
+
+    }
+
+    return GameCheckCode.OK;
+  }
+
+  private void cleanUsersInventory() {
+    for (PlayerStorage storage : this.playerStorages.values()) {
+      storage.clean();
+    }
+  }
+
+  public void clearProtections() {
+    for (RespawnProtectionRunnable protection : this.respawnProtections.values()) {
+      try {
+        protection.cancel();
+      } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
+        // isn't running, ignore
       }
     }
 
-    new BukkitRunnable() {
+    this.respawnProtections.clear();
+  }
 
-      @Override
-      public void run() {
-        Game.this.setPlayerGameMode(p);
-        Game.this.setPlayerVisibility(p);
+  private void createGameConfig(File config) {
+    YamlConfiguration yml = new YamlConfiguration();
+
+    yml.set("name", this.name);
+    yml.set("world", this.getRegion().getWorld().getName());
+    yml.set("loc1", Utils.locationSerialize(this.loc1));
+    yml.set("loc2", Utils.locationSerialize(this.loc2));
+    yml.set("lobby", Utils.locationSerialize(this.lobby));
+    yml.set("minplayers", this.getMinPlayers());
+
+    if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
+      yml.set("record", this.record);
+
+      if (Main.getInstance().getBooleanConfig("store-game-records-holder", true)) {
+        yml.set("record-holders", this.recordHolders);
       }
-
-    }.runTaskLater(Main.getInstance(), 15L);
-
-    // Leave Game (Slimeball)
-    ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
-    ItemMeta im = leaveGame.getItemMeta();
-    im.setDisplayName(Main._l("lobby.leavegame"));
-    leaveGame.setItemMeta(im);
-    p.getInventory().setItem(8, leaveGame);
-
-    if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
-      p.updateInventory();
-      return;
     }
 
-    // Teleport to player (Compass)
-    ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
-    im = teleportPlayer.getItemMeta();
-    im.setDisplayName(Main._l("ingame.spectate"));
-    teleportPlayer.setItemMeta(im);
-    p.getInventory().setItem(0, teleportPlayer);
+    if (this.regionName == null) {
+      this.regionName = this.region.getName();
+    }
 
-    p.updateInventory();
-    this.updateScoreboard();
+    yml.set("regionname", this.regionName);
+    yml.set("time", this.time);
 
+    yml.set("targetmaterial", this.getTargetMaterial().name());
+    yml.set("builder", this.builder);
+
+    if (this.hologramLocation != null) {
+      yml.set("hololoc", Utils.locationSerialize(this.hologramLocation));
+    }
+
+    if (this.mainLobby != null) {
+      yml.set("mainlobby", Utils.locationSerialize(this.mainLobby));
+    }
+
+    yml.set("autobalance", this.autobalance);
+
+    yml.set("spawner", this.resourceSpawners);
+    yml.createSection("teams", this.teams);
+
+    try {
+      yml.save(config);
+      this.config = yml;
+    } catch (IOException e) {
+      Main.getInstance().getBugsnag().notify(e);
+      Main.getInstance().getLogger().info(ChatWriter.pluginMessage(e.getMessage()));
+    }
+  }
+
+  private void displayMapInfo() {
+    for (Player player : this.getPlayers()) {
+      this.displayMapInfo(player);
+    }
+  }
+
+  private void displayMapInfo(Player player) {
+    try {
+      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+          + Main.getInstance().getCurrentVersion() + ".Title");
+      Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class,
+          double.class, double.class);
+      double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
+      double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
+      double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
+
+      showTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay,
+          titleFadeOut);
+
+      if (this.builder != null) {
+        Method showSubTitle = clazz.getMethod("showSubTitle", Player.class, String.class,
+            double.class, double.class, double.class);
+        double subtitleFadeIn =
+            Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
+        double subtitleStay = Main.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
+        double subtitleFadeOut =
+            Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
+
+        showSubTitle.invoke(null, player,
+            Main._l(player, "ingame.title.map-builder",
+                ImmutableMap.of("builder",
+                    ChatColor.translateAlternateColorCodes('&', this.builder))),
+            subtitleFadeIn, subtitleStay, subtitleFadeOut);
+      }
+
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      ex.printStackTrace();
+    }
+  }
+
+  private void displayRecord() {
+    for (Player player : this.getPlayers()) {
+      this.displayRecord(player);
+    }
+  }
+
+  private void displayRecord(Player player) {
+    boolean displayHolders = Main.getInstance().getBooleanConfig("store-game-records-holder", true);
+
+    if (displayHolders && this.getRecordHolders().size() > 0) {
+      StringBuilder holders = new StringBuilder();
+
+      for (String holder : this.recordHolders) {
+        if (holders.length() == 0) {
+          holders.append(ChatColor.WHITE + holder);
+        } else {
+          holders.append(ChatColor.GOLD + ", " + ChatColor.WHITE + holder);
+        }
+      }
+
+      player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.record-with-holders",
+          ImmutableMap.of("record", this.getFormattedRecord(), "holders", holders.toString()))));
+    } else {
+      player.sendMessage(ChatWriter.pluginMessage(
+          Main._l(player, "ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
+    }
+  }
+
+  private String formatLobbyScoreboardString(String str) {
+    String finalStr = str;
+
+    finalStr = finalStr.replace("$regionname$", this.region.getName());
+    finalStr = finalStr.replace("$gamename$", this.name);
+    finalStr = finalStr.replace("$players$", String.valueOf(this.getPlayerAmount()));
+    finalStr = finalStr.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
+
+    return ChatColor.translateAlternateColorCodes('&', finalStr);
+  }
+
+  private String formatScoreboardTeam(Team team, boolean destroyed) {
+    String format = null;
+
+    if (team == null) {
+      return "";
+    }
+
+    if (destroyed) {
+      format = Main.getInstance().getStringConfig("scoreboard.format-bed-destroyed",
+          "&c$status$ $team$");
+    } else {
+      format =
+          Main.getInstance().getStringConfig("scoreboard.format-bed-alive", "&a$status$ $team$");
+    }
+
+    format = format.replace("$status$", (destroyed) ? Game.bedLostString() : Game.bedExistString());
+    format = format.replace("$team$", team.getChatColor() + team.getName());
+
+    return ChatColor.translateAlternateColorCodes('&', format);
+  }
+
+  private String formatScoreboardTitle() {
+    String format =
+        Main.getInstance().getStringConfig("scoreboard.format-title", "&e$region$&f - $time$");
+
+    // replaces
+    format = format.replace("$region$", this.getRegion().getName());
+    format = format.replace("$game$", this.name);
+    format = format.replace("$time$", this.getFormattedTimeLeft());
+
+    return ChatColor.translateAlternateColorCodes('&', format);
+  }
+
+  public int getCurrentPlayerAmount() {
+    int amount = 0;
+    for (Team t : this.teams.values()) {
+      amount += t.getPlayers().size();
+    }
+
+    return amount;
+  }
+
+  public String getFormattedRecord() {
+    return Utils.getFormattedTime(this.record);
+  }
+
+  private String getFormattedTimeLeft() {
+    int min = 0;
+    int sec = 0;
+    String minStr = "";
+    String secStr = "";
+
+    min = (int) Math.floor(this.timeLeft / 60);
+    sec = this.timeLeft % 60;
+
+    minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
+    secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
+
+    return minStr + ":" + secStr;
+  }
+
+  public List<Player> getFreePlayersClone() {
+    List<Player> players = new ArrayList<Player>();
+    if (this.freePlayers.size() > 0) {
+      players.addAll(this.freePlayers);
+    }
+
+    return players;
+  }
+
+  public HashMap<Material, MerchantCategory> getItemShopCategories() {
+    return this.shopCategories;
+  }
+
+  public void setItemShopCategories(HashMap<Material, MerchantCategory> cats) {
+    this.shopCategories = cats;
+  }
+
+  public GameLobbyCountdown getLobbyCountdown() {
+    return this.gameLobbyCountdown;
+  }
+
+  public void setLobbyCountdown(GameLobbyCountdown glc) {
+    this.gameLobbyCountdown = glc;
+  }
+
+  private Team getLowestTeam() {
+    Team lowest = null;
+    for (Team team : this.teams.values()) {
+      if (lowest == null) {
+        lowest = team;
+        continue;
+      }
+
+      if (team.getPlayers().size() < lowest.getPlayers().size()) {
+        lowest = team;
+      }
+    }
+
+    return lowest;
+  }
+
+  public int getMaxPlayers() {
+    int max = 0;
+    for (Team t : this.teams.values()) {
+      max += t.getMaxPlayers();
+    }
+
+    return max;
+  }
+
+  public NewItemShop getNewItemShop(Player player) {
+    return this.newItemShops.get(player);
+  }
+
+  public List<Player> getNonVipPlayers() {
+    List<Player> players = this.getPlayers();
+
+    Iterator<Player> playerIterator = players.iterator();
+    while (playerIterator.hasNext()) {
+      Player player = playerIterator.next();
+      if (player.hasPermission("bw.vip.joinfull") || player.hasPermission("bw.vip.forcestart")
+          || player.hasPermission("bw.vip")) {
+        playerIterator.remove();
+      }
+    }
+
+    return players;
+  }
+
+  public List<MerchantCategory> getOrderedItemShopCategories() {
+    return this.orderedShopCategories;
+  }
+
+  public int getPlayerAmount() {
+    return this.getPlayers().size();
+  }
+
+  public Player getPlayerDamager(Player p) {
+    return this.playerDamages.get(p);
+  }
+
+  public PlayerSettings getPlayerSettings(Player player) {
+    return this.playerSettings.get(player);
+  }
+
+  public PlayerStorage getPlayerStorage(Player p) {
+    return this.playerStorages.get(p);
+  }
+
+  public Team getPlayerTeam(Player p) {
+    for (Team team : this.getTeams().values()) {
+      if (team.isInTeam(p)) {
+        return team;
+      }
+    }
+
+    return null;
   }
 
   public Location getPlayerTeleportLocation(Player player) {
@@ -549,75 +634,396 @@ public class Game {
     return this.getLobby();
   }
 
-  public void setPlayerGameMode(Player player) {
-    if (this.isSpectator(player)
-        && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+  public ArrayList<Player> getPlayers() {
+    ArrayList<Player> players = new ArrayList<>();
 
-      player.setAllowFlight(true);
-      player.setFlying(true);
-      player.setGameMode(GameMode.SPECTATOR);
+    players.addAll(this.freePlayers);
 
-    } else {
-      if (this.getState().equals(GameState.RUNNING)) {
-        player.setGameMode(GameMode.SURVIVAL);
-      } else if (this.getState().equals(GameState.WAITING)) {
-        Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
-        if (gameMode == 0) {
-          player.setGameMode(GameMode.SURVIVAL);
-        } else if (gameMode == 1) {
-          player.setGameMode(GameMode.CREATIVE);
-        } else if (gameMode == 2) {
-          player.setGameMode(GameMode.ADVENTURE);
-        } else if (gameMode == 3) {
-          player.setGameMode(GameMode.SPECTATOR);
+    for (Team team : this.teams.values()) {
+      players.addAll(team.getPlayers());
+    }
+
+    return players;
+  }
+
+  public List<ResourceSpawner> getRessourceSpawner() {
+    return this.resourceSpawners;
+  }
+
+  public HashMap<Location, GameJoinSign> getSigns() {
+    return this.joinSigns;
+  }
+
+  public List<SpecialItem> getSpecialItems() {
+    return this.specialItems;
+  }
+
+  public Material getTargetMaterial() {
+    if (this.targetMaterial == null) {
+      return Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+    }
+
+    return this.targetMaterial;
+  }
+
+  public Team getTeam(String name) {
+    return this.teams.get(name);
+  }
+
+  public Team getTeamByDyeColor(DyeColor color) {
+    for (Team t : this.teams.values()) {
+      if (t.getColor().getDyeColor().equals(color)) {
+        return t;
+      }
+    }
+
+    return null;
+  }
+
+  public Team getTeamOfBed(Block bed) {
+    for (Team team : this.getTeams().values()) {
+      if (team.getFeetTarget() == null) {
+        if (team.getHeadTarget().equals(bed)) {
+          return team;
+        }
+      } else {
+        if (team.getHeadTarget().equals(bed) || team.getFeetTarget().equals(bed)) {
+          return team;
         }
       }
+    }
+
+    return null;
+  }
+
+  public Team getTeamOfEnderChest(Block chest) {
+    for (Team team : this.teams.values()) {
+      if (team.getChests().contains(chest)) {
+        return team;
+      }
+    }
+
+    return null;
+  }
+
+  public ArrayList<Player> getTeamPlayers() {
+    ArrayList<Player> players = new ArrayList<>();
+
+    for (Team team : this.teams.values()) {
+      players.addAll(team.getPlayers());
+    }
+
+    return players;
+  }
+
+  public HashMap<String, Team> getTeams() {
+    return this.teams;
+  }
+
+  public boolean handleDestroyTargetMaterial(Player p, Block block) {
+    Team team = this.getPlayerTeam(p);
+    if (team == null) {
+      return false;
+    }
+
+    Team bedDestroyTeam = null;
+    Block bedBlock = team.getHeadTarget();
+
+    if (block.getType().equals(Material.BED_BLOCK)) {
+      Block breakBlock = block;
+      Block neighbor = null;
+      Bed breakBed = (Bed) breakBlock.getState().getData();
+
+      if (!breakBed.isHeadOfBed()) {
+        neighbor = breakBlock;
+        breakBlock = Utils.getBedNeighbor(neighbor);
+      } else {
+        neighbor = Utils.getBedNeighbor(breakBlock);
+      }
+
+      if (bedBlock.equals(breakBlock)) {
+        p.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.blocks.ownbeddestroy")));
+        return false;
+      }
+
+      bedDestroyTeam = this.getTeamOfBed(breakBlock);
+      if (bedDestroyTeam == null) {
+        return false;
+      }
+
+      neighbor.getDrops().clear();
+      neighbor.setType(Material.AIR);
+      breakBlock.getDrops().clear();
+      breakBlock.setType(Material.AIR);
+    } else {
+      if (bedBlock.equals(block)) {
+        p.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.blocks.ownbeddestroy")));
+        return false;
+      }
+
+      bedDestroyTeam = this.getTeamOfBed(block);
+      if (bedDestroyTeam == null) {
+        return false;
+      }
+
+      block.getDrops().clear();
+      block.setType(Material.AIR);
+    }
+
+    // set statistics
+    if (Main.getInstance().statisticsEnabled()) {
+      PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
+      statistic.setDestroyedBeds(statistic.getDestroyedBeds() + 1);
+      statistic
+          .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+    }
+
+    // reward when destroy bed
+    if (Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
+      List<String> commands =
+          Main.getInstance().getConfig().getStringList("rewards.player-destroy-bed");
+      Main.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", p.getName(),
+          "{score}",
+          String.valueOf(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
+    }
+
+    BedwarsTargetBlockDestroyedEvent targetBlockDestroyedEvent =
+        new BedwarsTargetBlockDestroyedEvent(this, p, bedDestroyTeam);
+    Main.getInstance().getServer().getPluginManager().callEvent(targetBlockDestroyedEvent);
+
+    for (Player aPlayer : this.getPlayers()) {
+      if (aPlayer.isOnline()) {
+        aPlayer.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(aPlayer, "ingame.blocks.beddestroyed",
+                ImmutableMap.of("team",
+                    bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED,
+                    "player",
+                    Game.getPlayerWithTeamString(p, team, ChatColor.RED)))));
+      }
+    }
+
+    this.broadcastSound(
+        Sound.valueOf(
+            Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()),
+        30.0F, 10.0F);
+    this.updateScoreboard();
+    return true;
+  }
+
+  public boolean hasEnoughPlayers() {
+    return this.getPlayers().size() >= this.getMinPlayers();
+  }
+
+  public boolean hasEnoughTeams() {
+    int teamsWithPlayers = 0;
+    for (Team team : this.getTeams().values()) {
+      if (team.getPlayers().size() > 0) {
+        teamsWithPlayers++;
+      }
+    }
+
+    return (teamsWithPlayers > 1 || (teamsWithPlayers == 1 && this.getFreePlayers().size() >= 1)
+        || (teamsWithPlayers == 0 && this.getFreePlayers().size() >= 2));
+  }
+
+  public boolean isAutobalanceEnabled() {
+    if (Main.getInstance().getBooleanConfig("global-autobalance", false)) {
+      return true;
+    }
+
+    return this.autobalance;
+  }
+
+  public boolean isFull() {
+    return (this.getMaxPlayers() <= this.getPlayerAmount());
+  }
+
+  /*
+   * GETTER / SETTER
+   */
+
+  public boolean isInGame(Player p) {
+    for (Team t : this.teams.values()) {
+      if (t.isInTeam(p)) {
+        return true;
+      }
+    }
+
+    return this.freePlayers.contains(p);
+  }
+
+  public Team isOver() {
+    if (this.isOver || this.state != GameState.RUNNING) {
+      return null;
+    }
+
+    ArrayList<Player> players = this.getTeamPlayers();
+    ArrayList<Team> teams = new ArrayList<>();
+
+    if (players.size() == 0 || players.isEmpty()) {
+      return null;
+    }
+
+    for (Player player : players) {
+      Team playerTeam = this.getPlayerTeam(player);
+      if (teams.contains(playerTeam)) {
+        continue;
+      }
+
+      if (!player.isDead()) {
+        teams.add(playerTeam);
+      } else if (!playerTeam.isDead(this)) {
+        teams.add(playerTeam);
+      }
+    }
+
+    if (teams.size() == 1) {
+      return teams.get(0);
+    } else {
+      return null;
     }
   }
 
-  public void setPlayerVisibility(Player player) {
-    ArrayList<Player> players = new ArrayList<Player>();
-    players.addAll(this.getPlayers());
+  public boolean isOverSet() {
+    return this.isOver;
+  }
 
-    if (this.state == GameState.RUNNING
-        && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
-        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
-      if (this.isSpectator(player)) {
-        if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-          for (Player playerInGame : players) {
-            playerInGame.hidePlayer(player);
-            player.showPlayer(playerInGame);
-          }
-        } else {
-          for (Player teamPlayer : this.getTeamPlayers()) {
-            teamPlayer.hidePlayer(player);
-            player.showPlayer(teamPlayer);
-          }
-          for (Player freePlayer : this.getFreePlayers()) {
-            freePlayer.showPlayer(player);
-            player.showPlayer(freePlayer);
-          }
-        }
-      } else {
-        for (Player playerInGame : players) {
-          playerInGame.showPlayer(player);
-          player.showPlayer(playerInGame);
-        }
-      }
-    } else {
-      for (Player playerInGame : players) {
-        if (!playerInGame.equals(player)) {
-          playerInGame.showPlayer(player);
-          player.showPlayer(playerInGame);
-        }
-      }
-    }
-
+  public boolean isProtected(Player player) {
+    return (this.respawnProtections.containsKey(player) && this.getState() == GameState.RUNNING);
   }
 
   public boolean isSpectator(Player player) {
     return (this.getState() == GameState.RUNNING && this.freePlayers.contains(player));
+  }
+
+  public boolean isStartable() {
+    return (this.hasEnoughPlayers() && this.hasEnoughTeams());
+  }
+
+  public void kickAllPlayers() {
+    for (Player p : this.getPlayers()) {
+      this.playerLeave(p, false);
+    }
+  }
+
+  public void loadItemShopCategories() {
+    this.shopCategories = MerchantCategory.loadCategories(Main.getInstance().getShopConfig());
+    this.orderedShopCategories = this.loadOrderedItemShopCategories();
+  }
+
+  private List<MerchantCategory> loadOrderedItemShopCategories() {
+    List<MerchantCategory> list = new ArrayList<MerchantCategory>(this.shopCategories.values());
+    Collections.sort(list, new MerchantCategoryComparator());
+    return list;
+  }
+
+  private void makeTeamsReady() {
+    this.playingTeams.clear();
+
+    for (Team team : this.teams.values()) {
+      team.getScoreboardTeam()
+          .setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
+      if (team.getPlayers().size() == 0) {
+        if (team.getFeetTarget() != null) {
+          team.getFeetTarget().setType(Material.AIR);
+        }
+
+        team.getHeadTarget().setType(Material.AIR);
+      } else {
+
+        this.playingTeams.add(team);
+      }
+    }
+
+    this.updateScoreboard();
+  }
+
+  private void moveFreePlayersToTeam() {
+    for (Player player : this.freePlayers) {
+      Team lowest = this.getLowestTeam();
+      lowest.addPlayer(player);
+    }
+
+    this.freePlayers = new ArrayList<Player>();
+    this.updateScoreboard();
+  }
+
+  public void nonFreePlayer(Player p) {
+    if (this.freePlayers.contains(p)) {
+      this.freePlayers.remove(p);
+    }
+  }
+
+  public NewItemShop openNewItemShop(Player player) {
+    NewItemShop newShop = new NewItemShop(this.orderedShopCategories);
+    this.newItemShops.put(player, newShop);
+
+    return newShop;
+  }
+
+  public void openSpectatorCompass(Player player) {
+    if (!this.isSpectator(player)) {
+      return;
+    }
+
+    int teamplayers = this.getTeamPlayers().size();
+    int nom = (teamplayers % 9 == 0) ? 9 : (teamplayers % 9);
+    int size = teamplayers + (9 - nom);
+    Inventory compass = Bukkit.createInventory(null, size, Main._l(player, "ingame.spectator"));
+    for (Team t : this.getTeams().values()) {
+      for (Player p : t.getPlayers()) {
+        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        SkullMeta meta = (SkullMeta) head.getItemMeta();
+        meta.setDisplayName(t.getChatColor() + p.getDisplayName());
+        meta.setLore(Arrays.asList(t.getChatColor() + t.getDisplayName()));
+        meta.setOwner(p.getName());
+        head.setItemMeta(meta);
+
+        compass.addItem(head);
+      }
+    }
+
+    player.openInventory(compass);
+  }
+
+  public void playerJoinTeam(Player player, Team team) {
+    if (team.getPlayers().size() >= team.getMaxPlayers()) {
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamfull")));
+      return;
+    }
+
+    if (team.addPlayer(player)) {
+      this.nonFreePlayer(player);
+
+      // Team color chestplate
+      ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+      LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
+      meta.setColor(team.getColor().getColor());
+      meta.setDisplayName(team.getChatColor() + team.getDisplayName());
+      chestplate.setItemMeta(meta);
+
+      player.getInventory().setItem(7, chestplate);
+      player.updateInventory();
+    } else {
+      player.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(player, "errors.teamfull")));
+      return;
+    }
+
+    this.updateScoreboard();
+
+    if (this.isStartable() && this.getLobbyCountdown() == null) {
+      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
+      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
+      this.setLobbyCountdown(lobbyCountdown);
+    }
+
+    player
+        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(player, "lobby.teamjoined",
+            ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
   }
 
   public boolean playerJoins(final Player p) {
@@ -626,9 +1032,9 @@ public class Game {
         || (this.state == GameState.RUNNING && !Main.getInstance().spectationEnabled())) {
       if (this.cycle instanceof BungeeGameCycle) {
         ((BungeeGameCycle) this.cycle).sendBungeeMessage(p,
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "errors.cantjoingame")));
       } else {
-        p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.cantjoingame")));
+        p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "errors.cantjoingame")));
       }
       return false;
     }
@@ -708,8 +1114,13 @@ public class Game {
 
       }.runTaskLater(Main.getInstance(), 15L);
 
-      this.broadcast(ChatColor.GREEN + Main._l("lobby.playerjoin",
-          ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN)));
+      for (Player aPlayer : this.getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(aPlayer, "lobby.playerjoin",
+                  ImmutableMap.of("player", p.getDisplayName() + ChatColor.GREEN))));
+        }
+      }
 
       if (!this.isAutobalanceEnabled()) {
         this.freePlayers.add(p);
@@ -730,10 +1141,21 @@ public class Game {
       } else {
         if (!this.hasEnoughPlayers()) {
           int playersNeeded = this.getMinPlayers() - this.getPlayerAmount();
-          this.broadcast(ChatColor.GREEN + Main._l("lobby.moreplayersneeded", "count",
-              ImmutableMap.of("count", String.valueOf(playersNeeded))));
+          for (Player aPlayer : this.getPlayers()) {
+            if (aPlayer.isOnline()) {
+              aPlayer.sendMessage(ChatWriter
+                  .pluginMessage(
+                      ChatColor.GREEN + Main._l(aPlayer, "lobby.moreplayersneeded", "count",
+                          ImmutableMap.of("count", String.valueOf(playersNeeded)))));
+            }
+          }
         } else if (!this.hasEnoughTeams()) {
-          this.broadcast(ChatColor.RED + Main._l("lobby.moreteamssneeded"));
+          for (Player aPlayer : this.getPlayers()) {
+            if (aPlayer.isOnline()) {
+              aPlayer.sendMessage(ChatWriter
+                  .pluginMessage(ChatColor.RED + Main._l(aPlayer, "lobby.moreteamssneeded")));
+            }
+          }
         }
       }
     }
@@ -797,11 +1219,23 @@ public class Game {
     if (team != null && Main.getInstance().getGameManager().getGameOfPlayer(p) != null
         && !Main.getInstance().getGameManager().getGameOfPlayer(p).isSpectator(p)) {
       if (kicked) {
-        this.broadcast(ChatColor.RED + Main._l("ingame.player.kicked", ImmutableMap.of("player",
-            Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
+        for (Player aPlayer : this.getPlayers()) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(
+                ChatWriter.pluginMessage(ChatColor.RED + Main
+                    ._l(aPlayer, "ingame.player.kicked", ImmutableMap.of("player",
+                        Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED))));
+          }
+        }
       } else {
-        this.broadcast(ChatColor.RED + Main._l("ingame.player.left", ImmutableMap.of("player",
-            Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED)));
+        for (Player aPlayer : this.getPlayers()) {
+          if (aPlayer.isOnline()) {
+            aPlayer.sendMessage(
+                ChatWriter.pluginMessage(
+                    ChatColor.RED + Main._l(aPlayer, "ingame.player.left", ImmutableMap.of("player",
+                        Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED))));
+          }
+        }
       }
       team.removePlayer(p);
     }
@@ -852,9 +1286,10 @@ public class Game {
 
     if (!Main.getInstance().isBungee() && p.isOnline()) {
       if (kicked) {
-        p.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.player.waskicked")));
+        p.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.player.waskicked")));
       } else {
-        p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.left")));
+        p.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(p, "success.left")));
       }
     }
 
@@ -867,132 +1302,121 @@ public class Game {
     return true;
   }
 
-  public PlayerStorage addPlayerStorage(Player p) {
-    PlayerStorage storage = new PlayerStorage(p);
-    this.playerStorages.put(p, storage);
-
-    return storage;
+  public void removeJoinSign(Location location) {
+    this.joinSigns.remove(location);
+    this.updateSignConfig();
   }
 
-  public void broadcast(String message) {
-    for (Player p : this.getPlayers()) {
-      if (p.isOnline()) {
-        p.sendMessage(ChatWriter.pluginMessage(message));
-      }
+  public void removeNewItemShop(Player player) {
+    if (!this.newItemShops.containsKey(player)) {
+      return;
     }
+
+    this.newItemShops.remove(player);
   }
 
-  public void broadcastSound(Sound sound, float volume, float pitch) {
-    for (Player p : this.getPlayers()) {
-      if (p.isOnline()) {
-        p.playSound(p.getLocation(), sound, volume, pitch);
-      }
+  public void removePlayerSettings(Player player) {
+    this.playerSettings.remove(player);
+  }
+
+  public void removeProtection(Player player) {
+    RespawnProtectionRunnable rpr = this.respawnProtections.get(player);
+    if (rpr == null) {
+      return;
     }
-  }
 
-  public void broadcastSound(Sound sound, float volume, float pitch, List<Player> players) {
-    for (Player p : players) {
-      if (p.isOnline()) {
-        p.playSound(p.getLocation(), sound, volume, pitch);
-      }
+    try {
+      rpr.cancel();
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      // isn't running, ignore
     }
+
+    this.respawnProtections.remove(player);
   }
 
-  public void broadcast(String message, List<Player> players) {
-    for (Player p : players) {
-      if (p.isOnline()) {
-        p.sendMessage(ChatWriter.pluginMessage(message));
-      }
+  public void removeRunningTask(BukkitTask task) {
+    this.runningTasks.remove(task);
+  }
+
+  public void removeRunningTask(BukkitRunnable bukkitRunnable) {
+    this.runningTasks.remove(bukkitRunnable);
+  }
+
+  public void removeSpecialItem(SpecialItem item) {
+    this.specialItems.remove(item);
+  }
+
+  public void removeTeam(Team team) {
+    this.teams.remove(team.getName());
+    this.updateSigns();
+  }
+
+  public void resetRegion() {
+    if (this.region == null) {
+      return;
     }
+
+    this.region.reset(this);
   }
 
-  public void addRunningTask(BukkitTask task) {
-    this.runningTasks.add(task);
+  public void resetScoreboard() {
+    this.timeLeft = Main.getInstance().getMaxLength();
+    this.length = this.timeLeft;
+    this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
   }
 
-  public boolean handleDestroyTargetMaterial(Player p, Block block) {
-    Team team = this.getPlayerTeam(p);
-    if (team == null) {
+  public boolean run(CommandSender sender) {
+    if (this.state != GameState.STOPPED) {
+      sender
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.cantstartagain")));
       return false;
     }
 
-    Team bedDestroyTeam = null;
-    Block bedBlock = team.getHeadTarget();
-
-    if (block.getType().equals(Material.BED_BLOCK)) {
-      Block breakBlock = block;
-      Block neighbor = null;
-      Bed breakBed = (Bed) breakBlock.getState().getData();
-
-      if (!breakBed.isHeadOfBed()) {
-        neighbor = breakBlock;
-        breakBlock = Utils.getBedNeighbor(neighbor);
-      } else {
-        neighbor = Utils.getBedNeighbor(breakBlock);
-      }
-
-      if (bedBlock.equals(breakBlock)) {
-        p.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.blocks.ownbeddestroy")));
-        return false;
-      }
-
-      bedDestroyTeam = this.getTeamOfBed(breakBlock);
-      if (bedDestroyTeam == null) {
-        return false;
-      }
-
-      neighbor.getDrops().clear();
-      neighbor.setType(Material.AIR);
-      breakBlock.getDrops().clear();
-      breakBlock.setType(Material.AIR);
-    } else {
-      if (bedBlock.equals(block)) {
-        p.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.blocks.ownbeddestroy")));
-        return false;
-      }
-
-      bedDestroyTeam = this.getTeamOfBed(block);
-      if (bedDestroyTeam == null) {
-        return false;
-      }
-
-      block.getDrops().clear();
-      block.setType(Material.AIR);
+    GameCheckCode gcc = this.checkGame();
+    if (gcc != GameCheckCode.OK) {
+      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + gcc.getCodeMessage()));
+      return false;
     }
 
-    // set statistics
-    if (Main.getInstance().statisticsEnabled()) {
-      PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
-      statistic.setDestroyedBeds(statistic.getDestroyedBeds() + 1);
-      statistic
-          .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+    if (sender instanceof Player) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.gamerun")));
     }
 
-    // reward when destroy bed
-    if (Main.getInstance().getBooleanConfig("rewards.enabled", false)) {
-      List<String> commands =
-          Main.getInstance().getConfig().getStringList("rewards.player-destroy-bed");
-      Main.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", p.getName(),
-          "{score}",
-          String.valueOf(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
+    this.isStopping = false;
+    this.state = GameState.WAITING;
+    this.updateSigns();
+    return true;
+  }
+
+  public boolean saveGame(CommandSender sender, boolean direct) {
+    BedwarsSaveGameEvent saveEvent = new BedwarsSaveGameEvent(this, sender);
+    Main.getInstance().getServer().getPluginManager().callEvent(saveEvent);
+
+    if (saveEvent.isCancelled()) {
+      return true;
     }
 
-    BedwarsTargetBlockDestroyedEvent targetBlockDestroyedEvent =
-        new BedwarsTargetBlockDestroyedEvent(this, p, bedDestroyTeam);
-    Main.getInstance().getServer().getPluginManager().callEvent(targetBlockDestroyedEvent);
+    GameCheckCode check = this.checkGame();
 
-    this.broadcast(ChatColor.RED + Main._l("ingame.blocks.beddestroyed",
-        ImmutableMap.of("team",
-            bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED, "player",
-            Game.getPlayerWithTeamString(p, team, ChatColor.RED))));
+    if (check != GameCheckCode.OK) {
+      sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + check.getCodeMessage()));
+      return false;
+    }
 
-    this.broadcastSound(
-        Sound.valueOf(
-            Main.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()),
-        30.0F, 10.0F);
-    this.updateScoreboard();
+    File gameConfig = new File(Main.getInstance().getDataFolder() + "/" + GameManager.gamesPath
+        + "/" + this.name + "/game.yml");
+    gameConfig.mkdirs();
+
+    if (gameConfig.exists()) {
+      gameConfig.delete();
+    }
+
+    this.saveRegion(direct);
+    this.createGameConfig(gameConfig);
+
     return true;
   }
 
@@ -1017,150 +1441,411 @@ public class Game {
     }
   }
 
-  public GameCheckCode checkGame() {
-    if (this.loc1 == null || this.loc2 == null) {
-      return GameCheckCode.LOC_NOT_SET_ERROR;
+  private void saveRegion(boolean direct) {
+    if (this.region == null || direct) {
+      if (this.regionName == null) {
+        this.regionName = this.loc1.getWorld().getName();
+      }
+
+      this.region = new Region(this.loc1, this.loc2, this.regionName);
     }
 
-    if (this.teams == null || this.teams.size() <= 1) {
-      return GameCheckCode.TEAM_SIZE_LOW_ERROR;
-    }
+    // nametag the villager
+    this.region.setVillagerNametag();
 
-    GameCheckCode teamCheck = this.checkTeams();
-    if (teamCheck != GameCheckCode.OK) {
-      return teamCheck;
-    }
-
-    if (this.getRessourceSpawner().size() == 0) {
-      return GameCheckCode.NO_RES_SPAWNER_ERROR;
-    }
-
-    if (this.lobby == null) {
-      return GameCheckCode.NO_LOBBY_SET;
-    }
-
-    if (Main.getInstance().toMainLobby() && this.mainLobby == null) {
-      return GameCheckCode.NO_MAIN_LOBBY_SET;
-    }
-
-    return GameCheckCode.OK;
+    this.updateSigns();
   }
 
-  public void openSpectatorCompass(Player player) {
-    if (!this.isSpectator(player)) {
+  public void setGameLobbyCountdown(GameLobbyCountdown countdown) {
+    this.gameLobbyCountdown = countdown;
+  }
+
+  public void setLobby(Player sender) {
+    Location lobby = sender.getLocation();
+
+    if (this.region != null && this.region.getWorld().equals(lobby.getWorld())) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.lobbyongameworld")));
       return;
     }
 
-    int teamplayers = this.getTeamPlayers().size();
-    int nom = (teamplayers % 9 == 0) ? 9 : (teamplayers % 9);
-    int size = teamplayers + (9 - nom);
-    Inventory compass = Bukkit.createInventory(null, size, Main._l("ingame.spectator"));
-    for (Team t : this.getTeams().values()) {
-      for (Player p : t.getPlayers()) {
-        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-        SkullMeta meta = (SkullMeta) head.getItemMeta();
-        meta.setDisplayName(t.getChatColor() + p.getDisplayName());
-        meta.setLore(Arrays.asList(t.getChatColor() + t.getDisplayName()));
-        meta.setOwner(p.getName());
-        head.setItemMeta(meta);
+    this.lobby = lobby;
+    sender.sendMessage(
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.lobbyset")));
+  }
 
-        compass.addItem(head);
+  public void setLobby(Location lobby) {
+    if (this.region != null) {
+      if (this.region.getWorld().equals(lobby.getWorld())) {
+        Main.getInstance().getServer().getConsoleSender().sendMessage(
+            ChatWriter.pluginMessage(ChatColor.RED + Main
+                ._l(Main.getInstance().getServer().getConsoleSender(), "errors.lobbyongameworld")));
+        return;
       }
     }
 
-    player.openInventory(compass);
+    this.lobby = lobby;
   }
 
-  public void nonFreePlayer(Player p) {
-    if (this.freePlayers.contains(p)) {
-      this.freePlayers.remove(p);
-    }
-  }
+  /*
+   * PRIVATE
+   */
 
-  public void loadItemShopCategories() {
-    this.shopCategories = MerchantCategory.loadCategories(Main.getInstance().getShopConfig());
-    this.orderedShopCategories = this.loadOrderedItemShopCategories();
-  }
-
-  public NewItemShop openNewItemShop(Player player) {
-    NewItemShop newShop = new NewItemShop(this.orderedShopCategories);
-    this.newItemShops.put(player, newShop);
-
-    return newShop;
-  }
-
-  private List<MerchantCategory> loadOrderedItemShopCategories() {
-    List<MerchantCategory> list = new ArrayList<MerchantCategory>(this.shopCategories.values());
-    Collections.sort(list, new MerchantCategoryComparator());
-    return list;
-  }
-
-  public void kickAllPlayers() {
-    for (Player p : this.getPlayers()) {
-      this.playerLeave(p, false);
-    }
-  }
-
-  public Team getTeamOfEnderChest(Block chest) {
-    for (Team team : this.teams.values()) {
-      if (team.getChests().contains(chest)) {
-        return team;
-      }
-    }
-
-    return null;
-  }
-
-  public void resetRegion() {
-    if (this.region == null) {
-      return;
-    }
-
-    this.region.reset(this);
-  }
-
-  private String formatScoreboardTitle() {
-    String format =
-        Main.getInstance().getStringConfig("scoreboard.format-title", "&e$region$&f - $time$");
-
-    // replaces
-    format = format.replace("$region$", this.getRegion().getName());
-    format = format.replace("$game$", this.name);
-    format = format.replace("$time$", this.getFormattedTimeLeft());
-
-    return ChatColor.translateAlternateColorCodes('&', format);
-  }
-
-  private String formatScoreboardTeam(Team team, boolean destroyed) {
-    String format = null;
-
-    if (team == null) {
-      return "";
-    }
-
-    if (destroyed) {
-      format = Main.getInstance().getStringConfig("scoreboard.format-bed-destroyed",
-          "&c$status$ $team$");
+  public void setLoc(Location loc, String type) {
+    if (type.equalsIgnoreCase("loc1")) {
+      this.loc1 = loc;
     } else {
-      format =
-          Main.getInstance().getStringConfig("scoreboard.format-bed-alive", "&a$status$ $team$");
+      this.loc2 = loc;
     }
-
-    format = format.replace("$status$", (destroyed) ? Game.bedLostString() : Game.bedExistString());
-    format = format.replace("$team$", team.getChatColor() + team.getName());
-
-    return ChatColor.translateAlternateColorCodes('&', format);
   }
 
-  private String formatLobbyScoreboardString(String str) {
-    String finalStr = str;
+  public void setMinPlayers(int players) {
+    int max = this.getMaxPlayers();
+    int minPlayers = players;
 
-    finalStr = finalStr.replace("$regionname$", this.region.getName());
-    finalStr = finalStr.replace("$gamename$", this.name);
-    finalStr = finalStr.replace("$players$", String.valueOf(this.getPlayerAmount()));
-    finalStr = finalStr.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
+    if (max < players && max > 0) {
+      minPlayers = max;
+    }
 
-    return ChatColor.translateAlternateColorCodes('&', finalStr);
+    this.minPlayers = minPlayers;
+  }
+
+  public void setPlayerDamager(Player p, Player damager) {
+    this.playerDamages.remove(p);
+    this.playerDamages.put(p, damager);
+  }
+
+  public void setPlayerGameMode(Player player) {
+    if (this.isSpectator(player)
+        && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+
+      player.setAllowFlight(true);
+      player.setFlying(true);
+      player.setGameMode(GameMode.SPECTATOR);
+
+    } else {
+      if (this.getState().equals(GameState.RUNNING)) {
+        player.setGameMode(GameMode.SURVIVAL);
+      } else if (this.getState().equals(GameState.WAITING)) {
+        Integer gameMode = Main.getInstance().getIntConfig("lobby-gamemode", 0);
+        if (gameMode == 0) {
+          player.setGameMode(GameMode.SURVIVAL);
+        } else if (gameMode == 1) {
+          player.setGameMode(GameMode.CREATIVE);
+        } else if (gameMode == 2) {
+          player.setGameMode(GameMode.ADVENTURE);
+        } else if (gameMode == 3) {
+          player.setGameMode(GameMode.SPECTATOR);
+        }
+      }
+    }
+  }
+
+  public void setPlayerVisibility(Player player) {
+    ArrayList<Player> players = new ArrayList<Player>();
+    players.addAll(this.getPlayers());
+
+    if (this.state == GameState.RUNNING
+        && !(this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true))) {
+      if (this.isSpectator(player)) {
+        if (player.getGameMode().equals(GameMode.SURVIVAL)) {
+          for (Player playerInGame : players) {
+            playerInGame.hidePlayer(player);
+            player.showPlayer(playerInGame);
+          }
+        } else {
+          for (Player teamPlayer : this.getTeamPlayers()) {
+            teamPlayer.hidePlayer(player);
+            player.showPlayer(teamPlayer);
+          }
+          for (Player freePlayer : this.getFreePlayers()) {
+            freePlayer.showPlayer(player);
+            player.showPlayer(freePlayer);
+          }
+        }
+      } else {
+        for (Player playerInGame : players) {
+          playerInGame.showPlayer(player);
+          player.showPlayer(playerInGame);
+        }
+      }
+    } else {
+      for (Player playerInGame : players) {
+        if (!playerInGame.equals(player)) {
+          playerInGame.showPlayer(player);
+          player.showPlayer(playerInGame);
+        }
+      }
+    }
+
+  }
+
+  public void setScoreboard(Scoreboard sb) {
+    this.scoreboard = sb;
+  }
+
+  public void setState(GameState state) {
+    this.state = state;
+    this.updateSigns();
+  }
+
+  public boolean start(CommandSender sender) {
+    if (this.state != GameState.WAITING) {
+      sender.sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.startoutofwaiting")));
+      return false;
+    }
+
+    BedwarsGameStartEvent startEvent = new BedwarsGameStartEvent(this);
+    Main.getInstance().getServer().getPluginManager().callEvent(startEvent);
+
+    if (startEvent.isCancelled()) {
+      return false;
+    }
+
+    this.isOver = false;
+    for (Player aPlayer : this.getPlayers()) {
+      if (aPlayer.isOnline()) {
+        aPlayer.sendMessage(
+            ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(aPlayer, "ingame.gamestarting")));
+      }
+    }
+
+    // load shop categories again (if shop was changed)
+    this.loadItemShopCategories();
+
+    this.runningTasks.clear();
+    this.cleanUsersInventory();
+    this.clearProtections();
+    this.moveFreePlayersToTeam();
+    this.makeTeamsReady();
+
+    this.cycle.onGameStart();
+    this.startResourceSpawners();
+
+    // Update world time before game starts
+    this.getRegion().getWorld().setTime(this.time);
+
+    this.teleportPlayersToTeamSpawn();
+
+    this.state = GameState.RUNNING;
+    this.startActionBarRunnable();
+    this.updateScoreboard();
+
+    if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
+      this.displayRecord();
+    }
+
+    this.startTimerCountdown();
+
+    if (Main.getInstance().getBooleanConfig("titles.map.enabled", false)) {
+      this.displayMapInfo();
+    }
+
+    this.updateSigns();
+
+    if (Main.getInstance().getBooleanConfig("global-messages", true)) {
+      for (Player aPlayer : Main.getInstance().getServer().getOnlinePlayers()) {
+        aPlayer.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+            + Main._l(aPlayer, "ingame.gamestarted",
+            ImmutableMap.of("game", this.getRegion().getName()))));
+      }
+    }
+
+    BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
+    Main.getInstance().getServer().getPluginManager().callEvent(startedEvent);
+
+    return true;
+  }
+
+  private void startActionBarRunnable() {
+    if (Main.getInstance().getBooleanConfig("show-team-in-actionbar", false)) {
+      try {
+        Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
+            + Main.getInstance().getCurrentVersion() + ".ActionBar");
+        final Method sendActionBar =
+            clazz.getDeclaredMethod("sendActionBar", Player.class, String.class);
+
+        BukkitTask task = new BukkitRunnable() {
+
+          @Override
+          public void run() {
+            for (Team team : Game.this.getTeams().values()) {
+              for (Player player : team.getPlayers()) {
+                try {
+                  sendActionBar.invoke(null, player,
+                      team.getChatColor() + "Team " + team.getDisplayName());
+                } catch (IllegalAccessException | IllegalArgumentException
+                    | InvocationTargetException e) {
+                  Main.getInstance().getBugsnag().notify(e);
+                  e.printStackTrace();
+                }
+              }
+            }
+          }
+        }.runTaskTimer(Main.getInstance(), 0L, 20L);
+        this.addRunningTask(task);
+      } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
+        ex.printStackTrace();
+      }
+    }
+  }
+
+  private void startResourceSpawners() {
+    for (ResourceSpawner rs : this.getRessourceSpawner()) {
+      rs.setGame(this);
+      this.runningTasks.add(Main.getInstance().getServer().getScheduler().runTaskTimer(
+          Main.getInstance(), rs, Math.round((((double) rs.getInterval()) / 1000.0) * 20.0),
+          Math.round((((double) rs.getInterval()) / 1000.0) * 20.0)));
+    }
+  }
+
+  private void startTimerCountdown() {
+    this.timeLeft = Main.getInstance().getMaxLength();
+    this.length = Main.getInstance().getMaxLength();
+    BukkitRunnable task = new BukkitRunnable() {
+
+      @Override
+      public void run() {
+        Game.this.updateScoreboardTimer();
+        if (Game.this.timeLeft == 0) {
+          Game.this.isOver = true;
+          Game.this.getCycle().checkGameOver();
+          this.cancel();
+          return;
+        }
+
+        Game.this.timeLeft--;
+      }
+    };
+
+    this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
+  }
+
+  public boolean stop() {
+    if (this.state == GameState.STOPPED) {
+      return false;
+    }
+
+    this.isStopping = true;
+
+    this.stopWorkers();
+    this.clearProtections();
+
+    try {
+      this.kickAllPlayers();
+    } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
+      e.printStackTrace();
+    }
+    this.resetRegion();
+    this.state = GameState.STOPPED;
+    this.updateSigns();
+
+    this.isStopping = false;
+    return true;
+  }
+
+  public void stopWorkers() {
+    for (BukkitTask task : this.runningTasks) {
+      try {
+        task.cancel();
+      } catch (Exception ex) {
+        Main.getInstance().getBugsnag().notify(ex);
+        // already cancelled
+      }
+    }
+
+    this.runningTasks.clear();
+  }
+
+  private void teleportPlayersToTeamSpawn() {
+    for (Team team : this.teams.values()) {
+      for (Player player : team.getPlayers()) {
+        if (!player.getWorld().equals(team.getSpawnLocation().getWorld())) {
+          this.getPlayerSettings(player).setTeleporting(true);
+        }
+        player.setVelocity(new Vector(0, 0, 0));
+        player.setFallDistance(0.0F);
+        player.teleport(team.getSpawnLocation());
+        if (this.getPlayerStorage(player) != null) {
+          this.getPlayerStorage(player).clean();
+        }
+      }
+    }
+  }
+
+  public void toSpectator(Player player) {
+    final Player p = player;
+
+    if (!this.freePlayers.contains(player)) {
+      this.freePlayers.add(player);
+    }
+
+    PlayerStorage storage = this.getPlayerStorage(player);
+    if (storage != null) {
+      storage.clean();
+    } else {
+      storage = this.addPlayerStorage(player);
+      storage.store();
+      storage.clean();
+    }
+
+    final Location location = this.getPlayerTeleportLocation(p);
+
+    if (!p.getLocation().getWorld().equals(location.getWorld())) {
+      this.getPlayerSettings(p).setTeleporting(true);
+      if (Main.getInstance().isBungee()) {
+        new BukkitRunnable() {
+
+          @Override
+          public void run() {
+            p.teleport(location);
+          }
+
+        }.runTaskLater(Main.getInstance(), 10L);
+
+      } else {
+        p.teleport(location);
+      }
+    }
+
+    new BukkitRunnable() {
+
+      @Override
+      public void run() {
+        Game.this.setPlayerGameMode(p);
+        Game.this.setPlayerVisibility(p);
+      }
+
+    }.runTaskLater(Main.getInstance(), 15L);
+
+    // Leave Game (Slimeball)
+    ItemStack leaveGame = new ItemStack(Material.SLIME_BALL, 1);
+    ItemMeta im = leaveGame.getItemMeta();
+    im.setDisplayName(Main._l(player, "lobby.leavegame"));
+    leaveGame.setItemMeta(im);
+    p.getInventory().setItem(8, leaveGame);
+
+    if (this.getCycle() instanceof BungeeGameCycle && this.getCycle().isEndGameRunning()
+        && Main.getInstance().getBooleanConfig("bungeecord.endgame-in-lobby", true)) {
+      p.updateInventory();
+      return;
+    }
+
+    // Teleport to player (Compass)
+    ItemStack teleportPlayer = new ItemStack(Material.COMPASS, 1);
+    im = teleportPlayer.getItemMeta();
+    im.setDisplayName(Main._l(p, "ingame.spectate"));
+    teleportPlayer.setItemMeta(im);
+    p.getInventory().setItem(0, teleportPlayer);
+
+    p.updateInventory();
+    this.updateScoreboard();
+
   }
 
   private void updateLobbyScoreboard() {
@@ -1228,60 +1913,17 @@ public class Game {
     }
   }
 
-  public void setScoreboard(Scoreboard sb) {
-    this.scoreboard = sb;
-  }
-
-  public Team isOver() {
-    if (this.isOver || this.state != GameState.RUNNING) {
-      return null;
+  private void updateScoreboardTimer() {
+    Objective obj = this.scoreboard.getObjective("display");
+    if (obj == null) {
+      obj = this.scoreboard.registerNewObjective("display", "dummy");
     }
 
-    ArrayList<Player> players = this.getTeamPlayers();
-    ArrayList<Team> teams = new ArrayList<>();
+    obj.setDisplayName(this.formatScoreboardTitle());
 
-    if (players.size() == 0 || players.isEmpty()) {
-      return null;
+    for (Player player : this.getPlayers()) {
+      player.setScoreboard(this.scoreboard);
     }
-
-    for (Player player : players) {
-      Team playerTeam = this.getPlayerTeam(player);
-      if (teams.contains(playerTeam)) {
-        continue;
-      }
-
-      if (!player.isDead()) {
-        teams.add(playerTeam);
-      } else if (!playerTeam.isDead(this)) {
-        teams.add(playerTeam);
-      }
-    }
-
-    if (teams.size() == 1) {
-      return teams.get(0);
-    } else {
-      return null;
-    }
-  }
-
-  public void resetScoreboard() {
-    this.timeLeft = Main.getInstance().getMaxLength();
-    this.length = this.timeLeft;
-    this.scoreboard.clearSlot(DisplaySlot.SIDEBAR);
-  }
-
-  public void addJoinSign(Location signLocation) {
-    if (this.joinSigns.containsKey(signLocation)) {
-      this.joinSigns.remove(signLocation);
-    }
-
-    this.joinSigns.put(signLocation, new GameJoinSign(this, signLocation));
-    this.updateSignConfig();
-  }
-
-  public void removeJoinSign(Location location) {
-    this.joinSigns.remove(location);
-    this.updateSignConfig();
   }
 
   private void updateSignConfig() {
@@ -1304,7 +1946,8 @@ public class Game {
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.savesign")));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main
+              ._l(Main.getInstance().getServer().getConsoleSender(), "errors.savesign")));
     }
   }
 
@@ -1338,627 +1981,5 @@ public class Game {
     if (removedItem) {
       Game.this.updateSignConfig();
     }
-  }
-
-  public void stopWorkers() {
-    for (BukkitTask task : this.runningTasks) {
-      try {
-        task.cancel();
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        // already cancelled
-      }
-    }
-
-    this.runningTasks.clear();
-  }
-
-  public boolean isProtected(Player player) {
-    return (this.respawnProtections.containsKey(player) && this.getState() == GameState.RUNNING);
-  }
-
-  public void clearProtections() {
-    for (RespawnProtectionRunnable protection : this.respawnProtections.values()) {
-      try {
-        protection.cancel();
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        // isn't running, ignore
-      }
-    }
-
-    this.respawnProtections.clear();
-  }
-
-  public void removeTeam(Team team) {
-    this.teams.remove(team.getName());
-    this.updateSigns();
-  }
-
-  public void removeRunningTask(BukkitTask task) {
-    this.runningTasks.remove(task);
-  }
-
-  public void removeRunningTask(BukkitRunnable bukkitRunnable) {
-    this.runningTasks.remove(bukkitRunnable);
-  }
-
-  public String getFormattedRecord() {
-    return Utils.getFormattedTime(this.record);
-  }
-
-  /*
-   * GETTER / SETTER
-   */
-
-  public List<SpecialItem> getSpecialItems() {
-    return this.specialItems;
-  }
-
-  public Player getPlayerDamager(Player p) {
-    return this.playerDamages.get(p);
-  }
-
-  public void setPlayerDamager(Player p, Player damager) {
-    this.playerDamages.remove(p);
-    this.playerDamages.put(p, damager);
-  }
-
-  public void removeProtection(Player player) {
-    RespawnProtectionRunnable rpr = this.respawnProtections.get(player);
-    if (rpr == null) {
-      return;
-    }
-
-    try {
-      rpr.cancel();
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      // isn't running, ignore
-    }
-
-    this.respawnProtections.remove(player);
-  }
-
-  public RespawnProtectionRunnable addProtection(Player player) {
-    RespawnProtectionRunnable rpr =
-        new RespawnProtectionRunnable(this, player, Main.getInstance().getRespawnProtectionTime());
-    this.respawnProtections.put(player, rpr);
-
-    return rpr;
-  }
-
-  public void addRecordHolder(String holder) {
-    this.recordHolders.add(holder);
-  }
-
-  public Material getTargetMaterial() {
-    if (this.targetMaterial == null) {
-      return Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
-    }
-
-    return this.targetMaterial;
-  }
-
-  public List<MerchantCategory> getOrderedItemShopCategories() {
-    return this.orderedShopCategories;
-  }
-
-  public void setGameLobbyCountdown(GameLobbyCountdown countdown) {
-    this.gameLobbyCountdown = countdown;
-  }
-
-  public boolean isOverSet() {
-    return this.isOver;
-  }
-
-  public HashMap<Location, GameJoinSign> getSigns() {
-    return this.joinSigns;
-  }
-
-  public void setItemShopCategories(HashMap<Material, MerchantCategory> cats) {
-    this.shopCategories = cats;
-  }
-
-  public HashMap<Material, MerchantCategory> getItemShopCategories() {
-    return this.shopCategories;
-  }
-
-  public Team getTeamByDyeColor(DyeColor color) {
-    for (Team t : this.teams.values()) {
-      if (t.getColor().getDyeColor().equals(color)) {
-        return t;
-      }
-    }
-
-    return null;
-  }
-
-  public HashMap<String, Team> getTeams() {
-    return this.teams;
-  }
-
-  public ArrayList<Player> getTeamPlayers() {
-    ArrayList<Player> players = new ArrayList<>();
-
-    for (Team team : this.teams.values()) {
-      players.addAll(team.getPlayers());
-    }
-
-    return players;
-  }
-
-  public ArrayList<Player> getPlayers() {
-    ArrayList<Player> players = new ArrayList<>();
-
-    players.addAll(this.freePlayers);
-
-    for (Team team : this.teams.values()) {
-      players.addAll(team.getPlayers());
-    }
-
-    return players;
-  }
-
-  public List<Player> getNonVipPlayers() {
-    List<Player> players = this.getPlayers();
-
-    Iterator<Player> playerIterator = players.iterator();
-    while (playerIterator.hasNext()) {
-      Player player = playerIterator.next();
-      if (player.hasPermission("bw.vip.joinfull") || player.hasPermission("bw.vip.forcestart")
-          || player.hasPermission("bw.vip")) {
-        playerIterator.remove();
-      }
-    }
-
-    return players;
-  }
-
-  public void setState(GameState state) {
-    this.state = state;
-    this.updateSigns();
-  }
-
-  public void setMinPlayers(int players) {
-    int max = this.getMaxPlayers();
-    int minPlayers = players;
-
-    if (max < players && max > 0) {
-      minPlayers = max;
-    }
-
-    this.minPlayers = minPlayers;
-  }
-
-  public void setLobby(Player sender) {
-    Location lobby = sender.getLocation();
-
-    if (this.region != null && this.region.getWorld().equals(lobby.getWorld())) {
-      sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
-      return;
-    }
-
-    this.lobby = lobby;
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.lobbyset")));
-  }
-
-  public void setLobby(Location lobby) {
-    if (this.region != null) {
-      if (this.region.getWorld().equals(lobby.getWorld())) {
-        Main.getInstance().getServer().getConsoleSender().sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.lobbyongameworld")));
-        return;
-      }
-    }
-
-    this.lobby = lobby;
-  }
-
-  public Team getTeam(String name) {
-    return this.teams.get(name);
-  }
-
-  public void removePlayerSettings(Player player) {
-    this.playerSettings.remove(player);
-  }
-
-  public void addPlayerSettings(Player player) {
-    this.playerSettings.put(player, new PlayerSettings(player));
-  }
-
-  public PlayerSettings getPlayerSettings(Player player) {
-    return this.playerSettings.get(player);
-  }
-
-  public PlayerStorage getPlayerStorage(Player p) {
-    return this.playerStorages.get(p);
-  }
-
-  public void addSpecialItem(SpecialItem item) {
-    this.specialItems.add(item);
-  }
-
-  public void removeSpecialItem(SpecialItem item) {
-    this.specialItems.remove(item);
-  }
-
-  public NewItemShop getNewItemShop(Player player) {
-    return this.newItemShops.get(player);
-  }
-
-  public void removeNewItemShop(Player player) {
-    if (!this.newItemShops.containsKey(player)) {
-      return;
-    }
-
-    this.newItemShops.remove(player);
-  }
-
-  public List<Player> getFreePlayersClone() {
-    List<Player> players = new ArrayList<Player>();
-    if (this.freePlayers.size() > 0) {
-      players.addAll(this.freePlayers);
-    }
-
-    return players;
-  }
-
-  public GameLobbyCountdown getLobbyCountdown() {
-    return this.gameLobbyCountdown;
-  }
-
-  public void setLobbyCountdown(GameLobbyCountdown glc) {
-    this.gameLobbyCountdown = glc;
-  }
-
-  /*
-   * PRIVATE
-   */
-
-  private void displayMapInfo() {
-    for (Player player : this.getPlayers()) {
-      this.displayMapInfo(player);
-    }
-  }
-
-  private void displayMapInfo(Player player) {
-    try {
-      Class<?> clazz = Class.forName("io.github.bedwarsrel.BedwarsRel.Com."
-          + Main.getInstance().getCurrentVersion() + ".Title");
-      Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class,
-          double.class, double.class);
-      double titleFadeIn = Main.getInstance().getConfig().getDouble("titles.map.title-fade-in");
-      double titleStay = Main.getInstance().getConfig().getDouble("titles.map.title-stay");
-      double titleFadeOut = Main.getInstance().getConfig().getDouble("titles.map.title-fade-out");
-
-      showTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay,
-          titleFadeOut);
-
-      if (this.builder != null) {
-        Method showSubTitle = clazz.getMethod("showSubTitle", Player.class, String.class,
-            double.class, double.class, double.class);
-        double subtitleFadeIn =
-            Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
-        double subtitleStay = Main.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
-        double subtitleFadeOut =
-            Main.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
-
-        showSubTitle.invoke(null, player,
-            Main._l("ingame.title.map-builder",
-                ImmutableMap.of("builder",
-                    ChatColor.translateAlternateColorCodes('&', this.builder))),
-            subtitleFadeIn, subtitleStay, subtitleFadeOut);
-      }
-
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-  }
-
-  private void displayRecord() {
-    for (Player player : this.getPlayers()) {
-      this.displayRecord(player);
-    }
-  }
-
-  private void displayRecord(Player player) {
-    boolean displayHolders = Main.getInstance().getBooleanConfig("store-game-records-holder", true);
-
-    if (displayHolders && this.getRecordHolders().size() > 0) {
-      StringBuilder holders = new StringBuilder();
-
-      for (String holder : this.recordHolders) {
-        if (holders.length() == 0) {
-          holders.append(ChatColor.WHITE + holder);
-        } else {
-          holders.append(ChatColor.GOLD + ", " + ChatColor.WHITE + holder);
-        }
-      }
-
-      player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.record-with-holders",
-          ImmutableMap.of("record", this.getFormattedRecord(), "holders", holders.toString()))));
-    } else {
-      player.sendMessage(ChatWriter.pluginMessage(
-          Main._l("ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
-    }
-  }
-
-  private void makeTeamsReady() {
-    this.playingTeams.clear();
-
-    for (Team team : this.teams.values()) {
-      team.getScoreboardTeam()
-          .setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
-      if (team.getPlayers().size() == 0) {
-        if (team.getFeetTarget() != null) {
-          team.getFeetTarget().setType(Material.AIR);
-        }
-
-        team.getHeadTarget().setType(Material.AIR);
-      } else {
-
-        this.playingTeams.add(team);
-      }
-    }
-
-    this.updateScoreboard();
-  }
-
-  private void cleanUsersInventory() {
-    for (PlayerStorage storage : this.playerStorages.values()) {
-      storage.clean();
-    }
-  }
-
-  private void createGameConfig(File config) {
-    YamlConfiguration yml = new YamlConfiguration();
-
-    yml.set("name", this.name);
-    yml.set("world", this.getRegion().getWorld().getName());
-    yml.set("loc1", Utils.locationSerialize(this.loc1));
-    yml.set("loc2", Utils.locationSerialize(this.loc2));
-    yml.set("lobby", Utils.locationSerialize(this.lobby));
-    yml.set("minplayers", this.getMinPlayers());
-
-    if (Main.getInstance().getBooleanConfig("store-game-records", true)) {
-      yml.set("record", this.record);
-
-      if (Main.getInstance().getBooleanConfig("store-game-records-holder", true)) {
-        yml.set("record-holders", this.recordHolders);
-      }
-    }
-
-    if (this.regionName == null) {
-      this.regionName = this.region.getName();
-    }
-
-    yml.set("regionname", this.regionName);
-    yml.set("time", this.time);
-
-    yml.set("targetmaterial", this.getTargetMaterial().name());
-    yml.set("builder", this.builder);
-
-    if (this.hologramLocation != null) {
-      yml.set("hololoc", Utils.locationSerialize(this.hologramLocation));
-    }
-
-    if (this.mainLobby != null) {
-      yml.set("mainlobby", Utils.locationSerialize(this.mainLobby));
-    }
-
-    yml.set("autobalance", this.autobalance);
-
-    yml.set("spawner", this.resourceSpawners);
-    yml.createSection("teams", this.teams);
-
-    try {
-      yml.save(config);
-      this.config = yml;
-    } catch (IOException e) {
-      Main.getInstance().getBugsnag().notify(e);
-      Main.getInstance().getLogger().info(ChatWriter.pluginMessage(e.getMessage()));
-    }
-  }
-
-  private void saveRegion(boolean direct) {
-    if (this.region == null || direct) {
-      if (this.regionName == null) {
-        this.regionName = this.loc1.getWorld().getName();
-      }
-
-      this.region = new Region(this.loc1, this.loc2, this.regionName);
-    }
-
-    // nametag the villager
-    this.region.setVillagerNametag();
-
-    this.updateSigns();
-  }
-
-  private void startResourceSpawners() {
-    for (ResourceSpawner rs : this.getRessourceSpawner()) {
-      rs.setGame(this);
-      this.runningTasks.add(Main.getInstance().getServer().getScheduler().runTaskTimer(
-          Main.getInstance(), rs, Math.round((((double) rs.getInterval()) / 1000.0) * 20.0),
-          Math.round((((double) rs.getInterval()) / 1000.0) * 20.0)));
-    }
-  }
-
-  private void teleportPlayersToTeamSpawn() {
-    for (Team team : this.teams.values()) {
-      for (Player player : team.getPlayers()) {
-        if (!player.getWorld().equals(team.getSpawnLocation().getWorld())) {
-          this.getPlayerSettings(player).setTeleporting(true);
-        }
-        player.setVelocity(new Vector(0, 0, 0));
-        player.setFallDistance(0.0F);
-        player.teleport(team.getSpawnLocation());
-        if (this.getPlayerStorage(player) != null) {
-          this.getPlayerStorage(player).clean();
-        }
-      }
-    }
-  }
-
-  private Team getLowestTeam() {
-    Team lowest = null;
-    for (Team team : this.teams.values()) {
-      if (lowest == null) {
-        lowest = team;
-        continue;
-      }
-
-      if (team.getPlayers().size() < lowest.getPlayers().size()) {
-        lowest = team;
-      }
-    }
-
-    return lowest;
-  }
-
-  private void moveFreePlayersToTeam() {
-    for (Player player : this.freePlayers) {
-      Team lowest = this.getLowestTeam();
-      lowest.addPlayer(player);
-    }
-
-    this.freePlayers = new ArrayList<Player>();
-    this.updateScoreboard();
-  }
-
-  private GameCheckCode checkTeams() {
-    for (Team t : this.teams.values()) {
-      if (t.getSpawnLocation() == null) {
-        return GameCheckCode.TEAMS_WITHOUT_SPAWNS;
-      }
-
-      Material targetMaterial = this.getTargetMaterial();
-
-      if (targetMaterial.equals(Material.BED_BLOCK)) {
-        if ((t.getHeadTarget() == null || t.getFeetTarget() == null)
-            || (!Utils.isBedBlock(t.getHeadTarget()) || !Utils.isBedBlock(t.getFeetTarget()))) {
-          return GameCheckCode.TEAM_NO_WRONG_BED;
-        }
-      } else {
-        if (t.getHeadTarget() == null) {
-          return GameCheckCode.TEAM_NO_WRONG_TARGET;
-        }
-
-        if (!t.getHeadTarget().getType().equals(targetMaterial)) {
-          return GameCheckCode.TEAM_NO_WRONG_TARGET;
-        }
-      }
-
-    }
-
-    return GameCheckCode.OK;
-  }
-
-  private void updateScoreboardTimer() {
-    Objective obj = this.scoreboard.getObjective("display");
-    if (obj == null) {
-      obj = this.scoreboard.registerNewObjective("display", "dummy");
-    }
-
-    obj.setDisplayName(this.formatScoreboardTitle());
-
-    for (Player player : this.getPlayers()) {
-      player.setScoreboard(this.scoreboard);
-    }
-  }
-
-  private String getFormattedTimeLeft() {
-    int min = 0;
-    int sec = 0;
-    String minStr = "";
-    String secStr = "";
-
-    min = (int) Math.floor(this.timeLeft / 60);
-    sec = this.timeLeft % 60;
-
-    minStr = (min < 10) ? "0" + String.valueOf(min) : String.valueOf(min);
-    secStr = (sec < 10) ? "0" + String.valueOf(sec) : String.valueOf(sec);
-
-    return minStr + ":" + secStr;
-  }
-
-  public boolean isStartable() {
-    return (this.hasEnoughPlayers() && this.hasEnoughTeams());
-  }
-
-  public boolean hasEnoughTeams() {
-    int teamsWithPlayers = 0;
-    for (Team team : this.getTeams().values()) {
-      if (team.getPlayers().size() > 0) {
-        teamsWithPlayers++;
-      }
-    }
-
-    return (teamsWithPlayers > 1 || (teamsWithPlayers == 1 && this.getFreePlayers().size() >= 1)
-        || (teamsWithPlayers == 0 && this.getFreePlayers().size() >= 2));
-  }
-
-  public boolean hasEnoughPlayers() {
-    return this.getPlayers().size() >= this.getMinPlayers();
-  }
-
-  public void playerJoinTeam(Player player, Team team) {
-    if (team.getPlayers().size() >= team.getMaxPlayers()) {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
-      return;
-    }
-
-    if (team.addPlayer(player)) {
-      this.nonFreePlayer(player);
-
-      // Team color chestplate
-      ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-      LeatherArmorMeta meta = (LeatherArmorMeta) chestplate.getItemMeta();
-      meta.setColor(team.getColor().getColor());
-      meta.setDisplayName(team.getChatColor() + team.getDisplayName());
-      chestplate.setItemMeta(meta);
-
-      player.getInventory().setItem(7, chestplate);
-      player.updateInventory();
-    } else {
-      player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.teamfull")));
-      return;
-    }
-
-    this.updateScoreboard();
-
-    if (this.isStartable() && this.getLobbyCountdown() == null) {
-      GameLobbyCountdown lobbyCountdown = new GameLobbyCountdown(this);
-      lobbyCountdown.runTaskTimer(Main.getInstance(), 20L, 20L);
-      this.setLobbyCountdown(lobbyCountdown);
-    }
-
-    player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("lobby.teamjoined",
-        ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
-  }
-
-  private void startTimerCountdown() {
-    this.timeLeft = Main.getInstance().getMaxLength();
-    this.length = Main.getInstance().getMaxLength();
-    BukkitRunnable task = new BukkitRunnable() {
-
-      @Override
-      public void run() {
-        Game.this.updateScoreboardTimer();
-        if (Game.this.timeLeft == 0) {
-          Game.this.isOver = true;
-          Game.this.getCycle().checkGameOver();
-          this.cancel();
-          return;
-        }
-
-        Game.this.timeLeft--;
-      }
-    };
-
-    this.runningTasks.add(task.runTaskTimer(Main.getInstance(), 0L, 20L));
   }
 }

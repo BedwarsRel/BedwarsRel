@@ -1,11 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
 
 public class BedwarsGameOverEvent extends Event implements Cancellable {
 
@@ -19,17 +18,17 @@ public class BedwarsGameOverEvent extends Event implements Cancellable {
     this.winner = winner;
   }
 
-  @Override
-  public HandlerList getHandlers() {
-    return BedwarsGameOverEvent.handlers;
-  }
-
   public static HandlerList getHandlerList() {
     return BedwarsGameOverEvent.handlers;
   }
 
   public Game getGame() {
     return this.game;
+  }
+
+  @Override
+  public HandlerList getHandlers() {
+    return BedwarsGameOverEvent.handlers;
   }
 
   public Team getWinner() {

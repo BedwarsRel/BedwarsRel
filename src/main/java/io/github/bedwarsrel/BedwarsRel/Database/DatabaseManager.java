@@ -1,30 +1,25 @@
 package io.github.bedwarsrel.BedwarsRel.Database;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.mchange.v2.c3p0.DataSources;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import org.bukkit.ChatColor;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.mchange.v2.c3p0.DataSources;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public class DatabaseManager {
 
+  public static String DBPrefix = "bw_";
+  private static DatabaseManager instance = null;
+  private ComboPooledDataSource dataSource = null;
+  private String database = null;
   private String host = null;
+  private String password = null;
   private int port = 3306;
   private String user = null;
-  private String password = null;
-  private String database = null;
-  private ComboPooledDataSource dataSource = null;
-
-  private static DatabaseManager instance = null;
-
-  public static String DBPrefix = "bw_";
 
   public DatabaseManager(String host, int port, String user, String password, String database) {
     this.host = host;
@@ -34,73 +29,12 @@ public class DatabaseManager {
     this.database = database;
   }
 
-  public void initialize() {
-    this.initializePooledDataSource(this.getMinPoolSizeConfig(), this.getMaxPoolSizeConfig());
-    DatabaseManager.instance = this;
-  }
-
-  public static DatabaseManager getInstance() {
-    return DatabaseManager.instance;
-  }
-
-  private int getMinPoolSizeConfig() {
-    return Main.getInstance().getIntConfig("database.connection-pooling.min-pool-size", 3);
-  }
-
-  private int getMaxPoolSizeConfig() {
-    return Main.getInstance().getIntConfig("database.connection-pooling.max-pool-size", 15);
-  }
-
-  private void initializePooledDataSource(int minPoolSize, int maxPoolSize) {
-    try {
-      this.dataSource = new ComboPooledDataSource();
-
-      // currently only mysql is supported
-      this.dataSource.setDriverClass("com.mysql.jdbc.Driver");
-      this.dataSource.setJdbcUrl(
-          "jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/" + this.database);
-
-      this.dataSource.setUser(this.user);
-      this.dataSource.setPassword(this.password);
-
-      // connection pool configuration
-      this.dataSource.setMaxIdleTime(600);
-      this.dataSource.setMinPoolSize(minPoolSize);
-      this.dataSource.setMaxPoolSize(maxPoolSize);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + "Couldn't create pooled datasource: " + ex.getMessage()));
-    }
-  }
-
-  public Connection getDataSourceConnection() {
-    try {
-      return this.dataSource.getConnection();
-    } catch (SQLException e) {
-      Main.getInstance().getBugsnag().notify(e);
-      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + "Couldn't get a pooled connection: " + e.getMessage()));
-    }
-
-    return null;
-  }
-
   public static Connection getConnection() {
     return DatabaseManager.instance.getDataSourceConnection();
   }
 
-  public void cleanUp() {
-    if (this.dataSource != null) {
-      try {
-        this.dataSource.setMinPoolSize(0);
-        this.dataSource.setInitialPoolSize(0);
-        DataSources.destroy(this.dataSource);
-      } catch (SQLException e) {
-        Main.getInstance().getBugsnag().notify(e);
-        // just shutdown
-      }
-    }
+  public static DatabaseManager getInstance() {
+    return DatabaseManager.instance;
   }
 
   public void clean(Connection dbConnection) {
@@ -111,6 +45,21 @@ public class DatabaseManager {
 
       if (!dbConnection.isClosed()) {
         dbConnection.close();
+      }
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      ex.printStackTrace();
+    }
+  }
+
+  public void cleanResult(ResultSet result) {
+    try {
+      if (result == null) {
+        return;
+      }
+
+      if (!result.isClosed()) {
+        result.close();
       }
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
@@ -133,19 +82,21 @@ public class DatabaseManager {
     }
   }
 
-  public void cleanResult(ResultSet result) {
-    try {
-      if (result == null) {
-        return;
+  public void cleanUp() {
+    if (this.dataSource != null) {
+      try {
+        this.dataSource.setMinPoolSize(0);
+        this.dataSource.setInitialPoolSize(0);
+        DataSources.destroy(this.dataSource);
+      } catch (SQLException e) {
+        Main.getInstance().getBugsnag().notify(e);
+        // just shutdown
       }
-
-      if (!result.isClosed()) {
-        result.close();
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
     }
+  }
+
+  public void delete(String sql) {
+    this.update(sql);
   }
 
   public void execute(String... sqls) throws SQLException {
@@ -174,6 +125,72 @@ public class DatabaseManager {
     }
   }
 
+  public Connection getDataSourceConnection() {
+    try {
+      return this.dataSource.getConnection();
+    } catch (SQLException e) {
+      Main.getInstance().getBugsnag().notify(e);
+      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
+          .pluginMessage(ChatColor.RED + "Couldn't get a pooled connection: " + e.getMessage()));
+    }
+
+    return null;
+  }
+
+  private int getMaxPoolSizeConfig() {
+    return Main.getInstance().getIntConfig("database.connection-pooling.max-pool-size", 15);
+  }
+
+  private int getMinPoolSizeConfig() {
+    return Main.getInstance().getIntConfig("database.connection-pooling.min-pool-size", 3);
+  }
+
+  public int getRowCount(ResultSet result) {
+    int size = 0;
+    try {
+      result.last();
+      size = result.getRow();
+      result.beforeFirst();
+
+      return size;
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      return 0;
+    }
+  }
+
+  public void initialize() {
+    this.initializePooledDataSource(this.getMinPoolSizeConfig(), this.getMaxPoolSizeConfig());
+    DatabaseManager.instance = this;
+  }
+
+  private void initializePooledDataSource(int minPoolSize, int maxPoolSize) {
+    try {
+      this.dataSource = new ComboPooledDataSource();
+
+      // currently only mysql is supported
+      this.dataSource.setDriverClass("com.mysql.jdbc.Driver");
+      this.dataSource.setJdbcUrl(
+          "jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/" + this.database);
+
+      this.dataSource.setUser(this.user);
+      this.dataSource.setPassword(this.password);
+
+      // connection pool configuration
+      this.dataSource.setMaxIdleTime(600);
+      this.dataSource.setMinPoolSize(minPoolSize);
+      this.dataSource.setMaxPoolSize(maxPoolSize);
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
+          .pluginMessage(ChatColor.RED + "Couldn't create pooled datasource: " + ex.getMessage()));
+    }
+  }
+
+  public void insert(String sql) {
+    this.update(sql);
+  }
+
   public ResultSet query(String sql) {
     Connection con = null;
     Statement statement = null;
@@ -194,20 +211,6 @@ public class DatabaseManager {
     return null;
   }
 
-  public int getRowCount(ResultSet result) {
-    int size = 0;
-    try {
-      result.last();
-      size = result.getRow();
-      result.beforeFirst();
-
-      return size;
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      return 0;
-    }
-  }
-
   public void update(String sql) {
     Connection con = null;
     Statement statement = null;
@@ -224,13 +227,5 @@ public class DatabaseManager {
       this.clean(con);
       this.cleanStatement(statement);
     }
-  }
-
-  public void insert(String sql) {
-    this.update(sql);
-  }
-
-  public void delete(String sql) {
-    this.update(sql);
   }
 }

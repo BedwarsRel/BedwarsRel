@@ -1,18 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import com.google.common.collect.ImmutableMap;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class RespawnProtectionRunnable extends BukkitRunnable {
 
   private Game game = null;
-  private Player player = null;
   private int length = 0;
+  private Player player = null;
 
   public RespawnProtectionRunnable(Game game, Player player, int seconds) {
     this.game = game;
@@ -23,12 +21,13 @@ public class RespawnProtectionRunnable extends BukkitRunnable {
   @Override
   public void run() {
     if (this.length > 0) {
-      this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.protectionleft",
+      this.player.sendMessage(ChatWriter.pluginMessage(Main._l(player, "ingame.protectionleft",
           ImmutableMap.of("length", String.valueOf(this.length)))));
     }
 
     if (this.length <= 0) {
-      this.player.sendMessage(ChatWriter.pluginMessage(Main._l("ingame.protectionend")));
+      this.player
+          .sendMessage(ChatWriter.pluginMessage(Main._l(this.player, "ingame.protectionend")));
       this.game.removeProtection(this.player);
     }
 

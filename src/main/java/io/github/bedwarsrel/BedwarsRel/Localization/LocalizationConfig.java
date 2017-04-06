@@ -1,5 +1,7 @@
 package io.github.bedwarsrel.BedwarsRel.Localization;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,23 +12,44 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-
 public class LocalizationConfig extends YamlConfiguration {
+
+  private String locale;
+
+  public LocalizationConfig(String locale) {
+    this.locale = locale;
+    this.loadLocale();
+  }
+
+  @Override
+  public Object get(String path) {
+    return this.getString(path);
+  }
+
+  public Object get(String path, Map<String, String> params) {
+    return this.getFormatString(path, params);
+  }
+
+  public String getFormatString(String path, Map<String, String> params) {
+    String str = this.getString(path);
+    for (String key : params.keySet()) {
+      str = str.replace("$" + key.toLowerCase() + "$", params.get(key));
+    }
+
+    return ChatColor.translateAlternateColorCodes('&', str);
+  }
 
   @SuppressWarnings("unchecked")
   public String getPlayerLocale(Player player) {
     try {
       Method getHandleMethod = Main.getInstance().getCraftBukkitClass("entity.CraftPlayer")
-          .getMethod("getHandle", new Class[] {});
+          .getMethod("getHandle", new Class[]{});
       getHandleMethod.setAccessible(true);
-      Object nmsPlayer = getHandleMethod.invoke(player, new Object[] {});
+      Object nmsPlayer = getHandleMethod.invoke(player, new Object[]{});
 
       Field localeField = nmsPlayer.getClass().getDeclaredField("locale");
       localeField.setAccessible(true);
@@ -37,9 +60,18 @@ public class LocalizationConfig extends YamlConfiguration {
     }
   }
 
-  public void loadLocale(String locKey, boolean isFallback) {
+  @Override
+  public String getString(String path) {
+    if (super.get(path) == null) {
+      return "LOCALE_NOT_FOUND";
+    }
+
+    return ChatColor.translateAlternateColorCodes('&', super.getString(path));
+  }
+
+  public void loadLocale() {
     File locFile =
-        new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + locKey + ".yml");
+        new File(Main.getInstance().getDataFolder().getPath() + "/locale/" + this.locale + ".yml");
     BufferedReader reader = null;
     InputStream inputStream = null;
     if (locFile.exists()) {
@@ -49,14 +81,14 @@ public class LocalizationConfig extends YamlConfiguration {
         // NO ERROR
       }
       Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
-          .pluginMessage(ChatColor.GOLD + "Using your custom locale \"" + locKey + "\"."));
+          .pluginMessage(ChatColor.GOLD + "Using your custom locale \"" + this.locale + "\"."));
     } else {
       if (inputStream == null) {
-        inputStream = Main.getInstance().getResource("locale/" + locKey + ".yml");
+        inputStream = Main.getInstance().getResource("locale/" + this.locale + ".yml");
       }
       if (inputStream == null) {
         Main.getInstance().getServer().getConsoleSender()
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.GOLD + "The locale \"" + locKey
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.GOLD + "The locale \"" + this.locale
                 + "\" defined in your config is not available. Using fallback locale: "
                 + Main.getInstance().getFallbackLocale()));
         inputStream = Main.getInstance()
@@ -79,33 +111,6 @@ public class LocalizationConfig extends YamlConfiguration {
         }
       }
     }
-  }
-
-  @Override
-  public Object get(String path) {
-    return this.getString(path);
-  }
-
-  public Object get(String path, Map<String, String> params) {
-    return this.getFormatString(path, params);
-  }
-
-  @Override
-  public String getString(String path) {
-    if (super.get(path) == null) {
-      return "LOCALE_NOT_FOUND";
-    }
-
-    return ChatColor.translateAlternateColorCodes('&', super.getString(path));
-  }
-
-  public String getFormatString(String path, Map<String, String> params) {
-    String str = this.getString(path);
-    for (String key : params.keySet()) {
-      str = str.replace("$" + key.toLowerCase() + "$", params.get(key));
-    }
-
-    return ChatColor.translateAlternateColorCodes('&', str);
   }
 
 }

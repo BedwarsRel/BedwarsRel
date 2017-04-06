@@ -1,11 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
 
 public class GameJoinSign {
 
@@ -15,51 +14,6 @@ public class GameJoinSign {
   public GameJoinSign(Game game, Location sign) {
     this.game = game;
     this.signLocation = sign;
-  }
-
-  public void updateSign() {
-    Sign sign = (Sign) this.signLocation.getBlock().getState();
-
-    String[] signLines = this.getSignLines();
-    for (int i = 0; i < signLines.length; i++) {
-      sign.setLine(i, signLines[i]);
-    }
-
-    sign.update(true, true);
-  }
-
-  private String[] getSignLines() {
-    String[] sign = new String[4];
-    sign[0] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
-        Main.getInstance().getConfig().getString("sign.first-line")));
-    sign[1] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
-        Main.getInstance().getConfig().getString("sign.second-line")));
-    sign[2] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
-        Main.getInstance().getConfig().getString("sign.third-line")));
-    sign[3] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
-        Main.getInstance().getConfig().getString("sign.fourth-line")));
-
-    return sign;
-  }
-
-  private String getMaxPlayersString() {
-    int maxPlayers = this.game.getMaxPlayers();
-    int currentPlayers = 0;
-    if (this.game.getState() == GameState.RUNNING) {
-      currentPlayers = this.game.getTeamPlayers().size();
-    } else if (this.game.getState() == GameState.WAITING) {
-      currentPlayers = this.game.getPlayers().size();
-    } else {
-      currentPlayers = 0;
-    }
-
-    String max = String.valueOf(maxPlayers);
-
-    if (currentPlayers >= maxPlayers) {
-      max = ChatColor.RED + max + ChatColor.WHITE;
-    }
-
-    return max;
   }
 
   private String getCurrentPlayersString() {
@@ -83,6 +37,50 @@ public class GameJoinSign {
     return current;
   }
 
+  private String getMaxPlayersString() {
+    int maxPlayers = this.game.getMaxPlayers();
+    int currentPlayers = 0;
+    if (this.game.getState() == GameState.RUNNING) {
+      currentPlayers = this.game.getTeamPlayers().size();
+    } else if (this.game.getState() == GameState.WAITING) {
+      currentPlayers = this.game.getPlayers().size();
+    } else {
+      currentPlayers = 0;
+    }
+
+    String max = String.valueOf(maxPlayers);
+
+    if (currentPlayers >= maxPlayers) {
+      max = ChatColor.RED + max + ChatColor.WHITE;
+    }
+
+    return max;
+  }
+
+  public Sign getSign() {
+    BlockState state = this.signLocation.getBlock().getState();
+
+    if (!(state instanceof Sign)) {
+      return null;
+    }
+
+    return (Sign) state;
+  }
+
+  private String[] getSignLines() {
+    String[] sign = new String[4];
+    sign[0] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
+        Main.getInstance().getConfig().getString("sign.first-line")));
+    sign[1] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
+        Main.getInstance().getConfig().getString("sign.second-line")));
+    sign[2] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
+        Main.getInstance().getConfig().getString("sign.third-line")));
+    sign[3] = this.replacePlaceholder(ChatColor.translateAlternateColorCodes('&',
+        Main.getInstance().getConfig().getString("sign.fourth-line")));
+
+    return sign;
+  }
+
   private String getStatus() {
     String status = null;
     if (this.game.getState() == GameState.WAITING && this.game.isFull()) {
@@ -96,7 +94,7 @@ public class GameJoinSign {
 
   private String replacePlaceholder(String line) {
     String finalLine = line;
-    
+
     finalLine = finalLine.replace("$title$", Main._l("sign.firstline"));
     finalLine = finalLine.replace("$gamename$", this.game.getName());
     finalLine = finalLine.replace("$regionname$", this.game.getRegion().getName());
@@ -107,14 +105,15 @@ public class GameJoinSign {
     return finalLine;
   }
 
-  public Sign getSign() {
-    BlockState state = this.signLocation.getBlock().getState();
+  public void updateSign() {
+    Sign sign = (Sign) this.signLocation.getBlock().getState();
 
-    if (!(state instanceof Sign)) {
-      return null;
+    String[] signLines = this.getSignLines();
+    for (int i = 0; i < signLines.length; i++) {
+      sign.setLine(i, signLines[i]);
     }
 
-    return (Sign) state;
+    sign.update(true, true);
   }
 
 }

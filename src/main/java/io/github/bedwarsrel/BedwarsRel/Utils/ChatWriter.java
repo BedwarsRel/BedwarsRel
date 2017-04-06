@@ -1,8 +1,7 @@
 package io.github.bedwarsrel.BedwarsRel.Utils;
 
-import org.bukkit.ChatColor;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
+import org.bukkit.ChatColor;
 
 public class ChatWriter {
 

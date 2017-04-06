@@ -1,8 +1,13 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_10_R1;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheep;
 import java.lang.reflect.Field;
 import java.util.Set;
-
+import net.minecraft.server.v1_10_R1.EntityLiving;
+import net.minecraft.server.v1_10_R1.EntitySheep;
+import net.minecraft.server.v1_10_R1.EntityTNTPrimed;
+import net.minecraft.server.v1_10_R1.GenericAttributes;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
@@ -16,17 +21,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.EntityTargetEvent.TargetReason;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheep;
-import net.minecraft.server.v1_10_R1.EntityLiving;
-import net.minecraft.server.v1_10_R1.EntitySheep;
-import net.minecraft.server.v1_10_R1.EntityTNTPrimed;
-import net.minecraft.server.v1_10_R1.GenericAttributes;
-
 public class TNTSheep extends EntitySheep implements ITNTSheep {
 
-  private World world = null;
   private TNTPrimed primedTnt = null;
+  private World world = null;
 
   public TNTSheep(net.minecraft.server.v1_10_R1.World world) {
     super(world);
@@ -57,7 +55,7 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
     }
 
     this.goalSelector.a(0, new PathfinderGoalBedwarsPlayer(this, 1D, false)); // Add bedwars player
-                                                                              // goal
+    // goal
     try {
       this.setGoalTarget((EntityLiving) (((CraftPlayer) target).getHandle()),
           TargetReason.TARGET_ATTACKED_ENTITY, false);
@@ -78,23 +76,23 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
   }
 
   @Override
-  public void setTNT(TNTPrimed tnt) {
-    this.primedTnt = tnt;
-  }
-
-  @Override
   public TNTPrimed getTNT() {
     return this.primedTnt;
   }
 
   @Override
-  public void setPassenger(TNTPrimed tnt) {
-    this.getBukkitEntity().setPassenger(tnt);
+  public void setTNT(TNTPrimed tnt) {
+    this.primedTnt = tnt;
   }
 
   @Override
   public void remove() {
     this.getBukkitEntity().remove();
+  }
+
+  @Override
+  public void setPassenger(TNTPrimed tnt) {
+    this.getBukkitEntity().setPassenger(tnt);
   }
 
   @Override

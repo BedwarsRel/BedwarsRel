@@ -1,43 +1,20 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 
 public class SetGameBlockCommand extends BaseCommand implements ICommand {
 
   public SetGameBlockCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "setgameblock";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.setgameblock.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.setgameblock.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {"game", "blocktype"};
   }
 
   @Override
@@ -51,20 +28,22 @@ public class SetGameBlockCommand extends BaseCommand implements ICommand {
 
     if (game == null) {
       sender.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-          + Main._l("errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
+          + Main
+          ._l(sender, "errors.gamenotfound", ImmutableMap.of("game", args.get(0).toString()))));
       return false;
     }
 
     if (game.getState() == GameState.RUNNING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notwhilegamerunning")));
+          ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.notwhilegamerunning")));
       return false;
     }
 
     Material targetMaterial = Utils.parseMaterial(material);
     if (targetMaterial == null && !"DEFAULT".equals(material)) {
       sender
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.novalidmaterial")));
+          .sendMessage(
+              ChatWriter.pluginMessage(ChatColor.RED + Main._l(sender, "errors.novalidmaterial")));
       return true;
     }
 
@@ -74,8 +53,29 @@ public class SetGameBlockCommand extends BaseCommand implements ICommand {
       game.setTargetMaterial(targetMaterial);
     }
 
-    sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.materialset")));
+    sender.sendMessage(
+        ChatWriter.pluginMessage(ChatColor.GREEN + Main._l(sender, "success.materialset")));
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{"game", "blocktype"};
+  }
+
+  @Override
+  public String getCommand() {
+    return "setgameblock";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.setgameblock.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.setgameblock.name");
   }
 
   @Override

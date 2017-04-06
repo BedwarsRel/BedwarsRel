@@ -1,5 +1,9 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -11,12 +15,43 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-
 public class TrapListener implements Listener {
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onBreak(BlockBreakEvent br) {
+    if (br.isCancelled()) {
+      return;
+    }
+
+    Block toDestroy = br.getBlock();
+    if (br.getBlock().getType() != Material.TRIPWIRE) {
+      Block relative = br.getBlock().getRelative(BlockFace.UP);
+      // check above
+      if (!relative.getType().equals(Material.TRIPWIRE)) {
+        return;
+      }
+
+      toDestroy = relative;
+    }
+
+    Player player = br.getPlayer();
+    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
+
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (br.getBlock().equals(toDestroy)) {
+      br.setCancelled(true);
+      return;
+    }
+
+    toDestroy.setType(Material.AIR);
+  }
 
   @EventHandler
   public void onMove(PlayerMoveEvent move) {
@@ -76,42 +111,6 @@ public class TrapListener implements Listener {
         return;
       }
     }
-  }
-
-  @EventHandler(priority = EventPriority.HIGH)
-  public void onBreak(BlockBreakEvent br) {
-    if (br.isCancelled()) {
-      return;
-    }
-
-    Block toDestroy = br.getBlock();
-    if (br.getBlock().getType() != Material.TRIPWIRE) {
-      Block relative = br.getBlock().getRelative(BlockFace.UP);
-      // check above
-      if (!relative.getType().equals(Material.TRIPWIRE)) {
-        return;
-      }
-
-      toDestroy = relative;
-    }
-
-    Player player = br.getPlayer();
-    Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (br.getBlock().equals(toDestroy)) {
-      br.setCancelled(true);
-      return;
-    }
-
-    toDestroy.setType(Material.AIR);
   }
 
   @EventHandler(priority = EventPriority.HIGH)

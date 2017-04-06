@@ -1,12 +1,18 @@
 package io.github.bedwarsrel.BedwarsRel.Shop;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
+import io.github.bedwarsrel.BedwarsRel.Villager.VillagerTrade;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,14 +24,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-import io.github.bedwarsrel.BedwarsRel.Villager.VillagerTrade;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class NewItemShop {
@@ -75,7 +73,7 @@ public class NewItemShop {
     int nom = (catSize % 9 == 0) ? 9 : (catSize % 9);
     int size = (catSize + (9 - nom)) + 9;
 
-    Inventory inventory = Bukkit.createInventory(player, size, Main._l("ingame.shop.name"));
+    Inventory inventory = Bukkit.createInventory(player, size, Main._l(player,"ingame.shop.name"));
 
     Game game = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
@@ -84,7 +82,7 @@ public class NewItemShop {
     ItemStack slime = new ItemStack(Material.SLIME_BALL, 1);
     ItemMeta slimeMeta = slime.getItemMeta();
 
-    slimeMeta.setDisplayName(Main._l("ingame.shop.oldshop"));
+    slimeMeta.setDisplayName(Main._l(player,"ingame.shop.oldshop"));
     slimeMeta.setLore(new ArrayList<String>());
     slime.setItemMeta(slimeMeta);
     ItemStack stack = null;
@@ -94,16 +92,16 @@ public class NewItemShop {
         stack = new ItemStack(Material.BUCKET, 1);
         ItemMeta meta = stack.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + Main._l("default.currently") + ": " + ChatColor.WHITE
-            + Main._l("ingame.shop.onestackpershift"));
+        meta.setDisplayName(ChatColor.AQUA + Main._l(player,"default.currently") + ": " + ChatColor.WHITE
+            + Main._l(player,"ingame.shop.onestackpershift"));
         meta.setLore(new ArrayList<String>());
         stack.setItemMeta(meta);
       } else {
         stack = new ItemStack(Material.LAVA_BUCKET, 1);
         ItemMeta meta = stack.getItemMeta();
 
-        meta.setDisplayName(ChatColor.AQUA + Main._l("default.currently") + ": " + ChatColor.WHITE
-            + Main._l("ingame.shop.fullstackpershift"));
+        meta.setDisplayName(ChatColor.AQUA + Main._l(player,"default.currently") + ": " + ChatColor.WHITE
+            + Main._l(player,"ingame.shop.fullstackpershift"));
         meta.setLore(new ArrayList<String>());
         stack.setItemMeta(meta);
       }
@@ -244,7 +242,7 @@ public class NewItemShop {
         Float.valueOf("1.0"), Float.valueOf("1.0"));
 
     this.currentCategory = category;
-    Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l("ingame.shop.name"));
+    Inventory buyInventory = Bukkit.createInventory(player, invSize, Main._l(player,"ingame.shop.name"));
     this.addCategoriesToInventory(buyInventory, player, game);
 
     for (int i = 0; i < offers.size(); i++) {
@@ -355,7 +353,7 @@ public class NewItemShop {
       // enough ressources?
       if (!this.hasEnoughRessource(player, trade)) {
         player
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.notenoughress")));
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l(player,"errors.notenoughress")));
         return;
       }
 
@@ -511,11 +509,11 @@ public class NewItemShop {
         return trade;
       } else if ((iStack.getType() == Material.POTION
           || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-              || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-              || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
-              && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
-                  || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
-                  || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))) {
+          || Main.getInstance().getCurrentVersion().startsWith("v1_10")
+          || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+          && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
+          || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
+          || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))) {
         if(Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
           if(iStack.getItemMeta().equals(stack.getItemMeta())) {
             return trade;

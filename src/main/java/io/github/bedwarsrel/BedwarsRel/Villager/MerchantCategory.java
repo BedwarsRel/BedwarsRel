@@ -1,11 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Villager;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,16 +19,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class MerchantCategory {
 
-  private String name = null;
   private Material item = null;
   private List<String> lores = null;
+  private String name = null;
   private ArrayList<VillagerTrade> offers = null;
   private int order = 0;
   private String permission = null;
@@ -42,14 +40,6 @@ public class MerchantCategory {
     this.lores = lores;
     this.order = order;
     this.permission = permission;
-  }
-
-  public List<String> getLores() {
-    return this.lores;
-  }
-
-  public int getOrder() {
-    return this.order;
   }
 
   @SuppressWarnings({"unchecked", "deprecation"})
@@ -162,6 +152,44 @@ public class MerchantCategory {
   }
 
   @SuppressWarnings("deprecation")
+  public static void openCategorySelection(Player p, Game g) {
+    List<MerchantCategory> cats = g.getOrderedItemShopCategories();
+
+    int nom = (cats.size() % 9 == 0) ? 9 : (cats.size() % 9);
+    int size = (cats.size() + (9 - nom)) + 9;
+
+    Inventory inv = Bukkit.createInventory(p, size, Main._l(p, "ingame.shop.name"));
+    for (MerchantCategory cat : cats) {
+      if (p != null && !p.hasPermission(cat.getPermission())) {
+        continue;
+      }
+
+      ItemStack is = new ItemStack(cat.getMaterial(), 1);
+      ItemMeta im = is.getItemMeta();
+
+      if (Utils.isColorable(is)) {
+        is.setDurability(g.getPlayerTeam(p).getColor().getDyeColor().getWoolData());
+      }
+
+      im.setDisplayName(cat.getName());
+      im.setLore(cat.getLores());
+      is.setItemMeta(im);
+
+      inv.addItem(is);
+    }
+
+    ItemStack snow = new ItemStack(Material.SNOW_BALL, 1);
+    ItemMeta snowMeta = snow.getItemMeta();
+
+    snowMeta.setDisplayName(Main._l(p, "ingame.shop.newshop"));
+    snowMeta.setLore(new ArrayList<String>());
+    snow.setItemMeta(snowMeta);
+
+    inv.setItem(size - 5, snow);
+    p.openInventory(inv);
+  }
+
+  @SuppressWarnings("deprecation")
   private static ItemStack setRessourceName(ItemStack item) {
 
     ItemMeta im = item.getItemMeta();
@@ -192,52 +220,6 @@ public class MerchantCategory {
     return item;
   }
 
-  @SuppressWarnings("deprecation")
-  public static void openCategorySelection(Player p, Game g) {
-    List<MerchantCategory> cats = g.getOrderedItemShopCategories();
-
-    int nom = (cats.size() % 9 == 0) ? 9 : (cats.size() % 9);
-    int size = (cats.size() + (9 - nom)) + 9;
-
-    Inventory inv = Bukkit.createInventory(p, size, Main._l("ingame.shop.name"));
-    for (MerchantCategory cat : cats) {
-      if (p != null && !p.hasPermission(cat.getPermission())) {
-        continue;
-      }
-
-      ItemStack is = new ItemStack(cat.getMaterial(), 1);
-      ItemMeta im = is.getItemMeta();
-
-      if (Utils.isColorable(is)) {
-        is.setDurability(g.getPlayerTeam(p).getColor().getDyeColor().getWoolData());
-      }
-
-      im.setDisplayName(cat.getName());
-      im.setLore(cat.getLores());
-      is.setItemMeta(im);
-
-      inv.addItem(is);
-    }
-
-    ItemStack snow = new ItemStack(Material.SNOW_BALL, 1);
-    ItemMeta snowMeta = snow.getItemMeta();
-
-    snowMeta.setDisplayName(Main._l("ingame.shop.newshop"));
-    snowMeta.setLore(new ArrayList<String>());
-    snow.setItemMeta(snowMeta);
-
-    inv.setItem(size - 5, snow);
-    p.openInventory(inv);
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public Material getMaterial() {
-    return this.item;
-  }
-
   @SuppressWarnings("unchecked")
   public ArrayList<VillagerTrade> getFilteredOffers() {
     ArrayList<VillagerTrade> trades = (ArrayList<VillagerTrade>) this.offers.clone();
@@ -254,8 +236,24 @@ public class MerchantCategory {
     return trades;
   }
 
+  public List<String> getLores() {
+    return this.lores;
+  }
+
+  public Material getMaterial() {
+    return this.item;
+  }
+
+  public String getName() {
+    return this.name;
+  }
+
   public ArrayList<VillagerTrade> getOffers() {
     return this.offers;
+  }
+
+  public int getOrder() {
+    return this.order;
   }
 
   public String getPermission() {

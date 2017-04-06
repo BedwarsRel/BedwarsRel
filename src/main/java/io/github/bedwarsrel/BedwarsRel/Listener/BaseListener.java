@@ -1,8 +1,7 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
-import org.bukkit.event.Listener;
-
 import io.github.bedwarsrel.BedwarsRel.Main;
+import org.bukkit.event.Listener;
 
 public abstract class BaseListener implements Listener {
 

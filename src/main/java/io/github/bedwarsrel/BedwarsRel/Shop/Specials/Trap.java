@@ -1,8 +1,12 @@
 package io.github.bedwarsrel.BedwarsRel.Shop.Specials;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,32 +14,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.SoundMachine;
-
 public class Trap extends SpecialItem {
 
   private List<PotionEffect> effects = null;
   private Game game = null;
-  private Team team = null;
+  private Location location = null;
   private int maxDuration = 5;
   private boolean playSound = true;
-  private Location location = null;
+  private Team team = null;
 
   public Trap() {
     this.effects = new ArrayList<PotionEffect>();
-  }
-
-  @Override
-  public Material getItemMaterial() {
-    return Material.TRIPWIRE;
-  }
-
-  @Override
-  public Material getActivatedMaterial() {
-    return null;
   }
 
   public void activate(final Player player) {
@@ -83,8 +72,12 @@ public class Trap extends SpecialItem {
       player.playSound(player.getLocation(), SoundMachine.get("FUSE", "ENTITY_TNT_PRIMED"),
           Float.valueOf("1.0"), Float.valueOf("1.0"));
 
-      this.game.broadcast(Main._l("ingame.specials.trap.trapped"),
-          new ArrayList<Player>(this.team.getPlayers()));
+      for (Player aPlayer : this.team.getPlayers()) {
+        if (aPlayer.isOnline()) {
+          aPlayer.sendMessage(
+              ChatWriter.pluginMessage(Main._l(aPlayer, "ingame.specials.trap.trapped")));
+        }
+      }
       if (this.playSound) {
         this.game.broadcastSound(SoundMachine.get("SHEEP_IDLE", "ENTITY_SHEEP_AMBIENT"),
             Float.valueOf("1.0"), Float.valueOf("1.0"), this.team.getPlayers());
@@ -107,8 +100,18 @@ public class Trap extends SpecialItem {
     this.game.addSpecialItem(this);
   }
 
+  @Override
+  public Material getActivatedMaterial() {
+    return null;
+  }
+
   public Game getGame() {
     return this.game;
+  }
+
+  @Override
+  public Material getItemMaterial() {
+    return Material.TRIPWIRE;
   }
 
   public Location getLocation() {

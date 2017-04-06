@@ -1,14 +1,13 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-
 public class TeamJoinMetaDataValue implements MetadataValue {
 
-  private boolean teamjoin = true;
   private Team team = null;
+  private boolean teamjoin = true;
 
   public TeamJoinMetaDataValue(Team team) {
     this.team = team;
@@ -59,6 +58,10 @@ public class TeamJoinMetaDataValue implements MetadataValue {
     return Main.getInstance();
   }
 
+  public Team getTeam() {
+    return this.team;
+  }
+
   @Override
   public void invalidate() {
     this.teamjoin = false;
@@ -67,10 +70,6 @@ public class TeamJoinMetaDataValue implements MetadataValue {
   @Override
   public Object value() {
     return this.teamjoin;
-  }
-
-  public Team getTeam() {
-    return this.team;
   }
 
 }

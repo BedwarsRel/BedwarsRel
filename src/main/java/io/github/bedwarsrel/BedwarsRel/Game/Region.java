@@ -1,10 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,25 +23,22 @@ import org.bukkit.material.Lever;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Redstone;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-
 public class Region {
 
   public final static int CHUNK_SIZE = 16;
-
-  private Location minCorner = null;
+  private HashMap<Block, Byte> breakedBlockData = null;
+  private HashMap<Block, BlockFace> breakedBlockFace = null;
+  private HashMap<Block, Boolean> breakedBlockPower = null;
+  private HashMap<Block, Integer> breakedBlockTypes = null;
+  private List<Block> breakedBlocks = null;
+  private List<Inventory> inventories = null;
   private Location maxCorner = null;
-  private World world = null;
+  private Location minCorner = null;
   private String name = null;
   private List<Block> placedBlocks = null;
-  private List<Block> breakedBlocks = null;
-  private HashMap<Block, Integer> breakedBlockTypes = null;
-  private HashMap<Block, Byte> breakedBlockData = null;
   private List<Block> placedUnbreakableBlocks = null;
-  private HashMap<Block, Boolean> breakedBlockPower = null;
-  private HashMap<Block, BlockFace> breakedBlockFace = null;
   private List<Entity> removingEntities = null;
-  private List<Inventory> inventories = null;
+  private World world = null;
 
   public Region(Location pos1, Location pos2, String name) {
     if (pos1 == null || pos2 == null) {
@@ -71,18 +68,82 @@ public class Region {
     this(new Location(w, x1, y1, z1), new Location(w, x2, y2, z2), w.getName());
   }
 
+  @SuppressWarnings("deprecation")
+  public void addBreakedBlock(Block bedBlock) {
+    if (bedBlock.getState().getData() instanceof Directional) {
+      this.breakedBlockFace.put(bedBlock,
+          ((Directional) bedBlock.getState().getData()).getFacing());
+    }
+
+    this.breakedBlockTypes.put(bedBlock, bedBlock.getTypeId());
+    this.breakedBlockData.put(bedBlock, bedBlock.getData());
+
+    if (bedBlock.getState().getData() instanceof Redstone) {
+      this.breakedBlockPower.put(bedBlock, ((Redstone) bedBlock.getState().getData()).isPowered());
+    }
+
+    this.breakedBlocks.add(bedBlock);
+  }
+
+  public void addInventory(Inventory inventory) {
+    this.inventories.add(inventory);
+  }
+
+  @SuppressWarnings("deprecation")
+  public void addPlacedBlock(Block placeBlock, BlockState replacedBlock) {
+    this.placedBlocks.add(placeBlock);
+    if (replacedBlock != null) {
+      if (replacedBlock.getData() instanceof Directional) {
+        this.breakedBlockFace.put(replacedBlock.getBlock(),
+            ((Directional) replacedBlock.getData()).getFacing());
+      }
+
+      this.breakedBlockTypes.put(replacedBlock.getBlock(), replacedBlock.getTypeId());
+      this.breakedBlockData.put(replacedBlock.getBlock(), replacedBlock.getData().getData());
+
+      this.breakedBlocks.add(replacedBlock.getBlock());
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public void addPlacedUnbreakableBlock(Block placed, BlockState replaced) {
+    this.placedUnbreakableBlocks.add(placed);
+    if (replaced != null) {
+      if (replaced.getData() instanceof Directional) {
+        this.breakedBlockFace.put(replaced.getBlock(),
+            ((Directional) replaced.getData()).getFacing());
+      }
+
+      this.breakedBlockTypes.put(replaced.getBlock(), replaced.getTypeId());
+      this.breakedBlockData.put(replaced.getBlock(), replaced.getData().getData());
+      this.breakedBlocks.add(replaced.getBlock());
+
+      if (replaced.getData() instanceof Redstone) {
+        this.breakedBlockPower.put(placed, ((Redstone) replaced.getData()).isPowered());
+      }
+    }
+  }
+
+  public void addRemovingEntity(Entity removing) {
+    this.removingEntities.add(removing);
+  }
+
   public boolean check() {
     return (this.minCorner != null && this.maxCorner != null && this.world != null);
   }
 
-  private void setMinMax(Location pos1, Location pos2) {
-    this.minCorner = this.getMinimumCorner(pos1, pos2);
-    this.maxCorner = this.getMaximumCorner(pos1, pos2);
+  public boolean chunkIsInRegion(Chunk chunk) {
+    return (chunk.getX() >= this.minCorner.getX() && chunk.getX() <= this.maxCorner.getX()
+        && chunk.getZ() >= this.minCorner.getZ() && chunk.getZ() <= this.maxCorner.getZ());
   }
 
-  private Location getMinimumCorner(Location pos1, Location pos2) {
-    return new Location(this.world, Math.min(pos1.getBlockX(), pos2.getBlockX()),
-        Math.min(pos1.getBlockY(), pos2.getBlockY()), Math.min(pos1.getBlockZ(), pos2.getBlockZ()));
+  public boolean chunkIsInRegion(double x, double z) {
+    return (x >= this.minCorner.getX() && x <= this.maxCorner.getX() && z >= this.minCorner.getZ()
+        && z <= this.maxCorner.getZ());
+  }
+
+  public List<Inventory> getInventories() {
+    return this.inventories;
   }
 
   private Location getMaximumCorner(Location pos1, Location pos2) {
@@ -90,12 +151,21 @@ public class Region {
         Math.max(pos1.getBlockY(), pos2.getBlockY()), Math.max(pos1.getBlockZ(), pos2.getBlockZ()));
   }
 
-  public List<Inventory> getInventories() {
-    return this.inventories;
+  private Location getMinimumCorner(Location pos1, Location pos2) {
+    return new Location(this.world, Math.min(pos1.getBlockX(), pos2.getBlockX()),
+        Math.min(pos1.getBlockY(), pos2.getBlockY()), Math.min(pos1.getBlockZ(), pos2.getBlockZ()));
   }
 
-  public void addInventory(Inventory inventory) {
-    this.inventories.add(inventory);
+  public String getName() {
+    if (this.name == null) {
+      this.name = this.world.getName();
+    }
+
+    return this.name;
+  }
+
+  public World getWorld() {
+    return this.minCorner.getWorld();
   }
 
   public boolean isInRegion(Location location) {
@@ -111,18 +181,36 @@ public class Region {
         && location.getBlockZ() <= this.maxCorner.getBlockZ());
   }
 
-  public boolean chunkIsInRegion(Chunk chunk) {
-    return (chunk.getX() >= this.minCorner.getX() && chunk.getX() <= this.maxCorner.getX()
-        && chunk.getZ() >= this.minCorner.getZ() && chunk.getZ() <= this.maxCorner.getZ());
+  public boolean isPlacedBlock(Block block) {
+    return this.placedBlocks.contains(block);
   }
 
-  public boolean chunkIsInRegion(double x, double z) {
-    return (x >= this.minCorner.getX() && x <= this.maxCorner.getX() && z >= this.minCorner.getZ()
-        && z <= this.maxCorner.getZ());
+  public boolean isPlacedUnbreakableBlock(Block clickedBlock) {
+    return this.placedUnbreakableBlocks.contains(clickedBlock);
   }
 
-  public void addRemovingEntity(Entity removing) {
-    this.removingEntities.add(removing);
+  public void loadChunks() {
+    int minX = (int) Math.floor(this.minCorner.getX());
+    int maxX = (int) Math.ceil(this.maxCorner.getX());
+    int minZ = (int) Math.floor(this.minCorner.getZ());
+    int maxZ = (int) Math.ceil(this.maxCorner.getZ());
+
+    for (int x = minX; x <= maxX; x += Region.CHUNK_SIZE) {
+      for (int z = minZ; z <= maxZ; z += Region.CHUNK_SIZE) {
+        Chunk chunk = this.world.getChunkAt(x, z);
+        if (!chunk.isLoaded()) {
+          chunk.load();
+        }
+      }
+    }
+  }
+
+  public void removePlacedBlock(Block block) {
+    this.placedBlocks.remove(block);
+  }
+
+  public void removePlacedUnbreakableBlock(Block block) {
+    this.placedUnbreakableBlocks.remove(block);
   }
 
   public void removeRemovingEntity(Entity removing) {
@@ -274,100 +362,9 @@ public class Region {
     this.removingEntities.clear();
   }
 
-  public World getWorld() {
-    return this.minCorner.getWorld();
-  }
-
-  public boolean isPlacedBlock(Block block) {
-    return this.placedBlocks.contains(block);
-  }
-
-  @SuppressWarnings("deprecation")
-  public void addPlacedBlock(Block placeBlock, BlockState replacedBlock) {
-    this.placedBlocks.add(placeBlock);
-    if (replacedBlock != null) {
-      if (replacedBlock.getData() instanceof Directional) {
-        this.breakedBlockFace.put(replacedBlock.getBlock(),
-            ((Directional) replacedBlock.getData()).getFacing());
-      }
-
-      this.breakedBlockTypes.put(replacedBlock.getBlock(), replacedBlock.getTypeId());
-      this.breakedBlockData.put(replacedBlock.getBlock(), replacedBlock.getData().getData());
-
-      this.breakedBlocks.add(replacedBlock.getBlock());
-    }
-  }
-
-  public void removePlacedBlock(Block block) {
-    this.placedBlocks.remove(block);
-  }
-
-  public String getName() {
-    if (this.name == null) {
-      this.name = this.world.getName();
-    }
-
-    return this.name;
-  }
-
-  @SuppressWarnings("deprecation")
-  public void addBreakedBlock(Block bedBlock) {
-    if (bedBlock.getState().getData() instanceof Directional) {
-      this.breakedBlockFace.put(bedBlock,
-          ((Directional) bedBlock.getState().getData()).getFacing());
-    }
-
-    this.breakedBlockTypes.put(bedBlock, bedBlock.getTypeId());
-    this.breakedBlockData.put(bedBlock, bedBlock.getData());
-
-    if (bedBlock.getState().getData() instanceof Redstone) {
-      this.breakedBlockPower.put(bedBlock, ((Redstone) bedBlock.getState().getData()).isPowered());
-    }
-
-    this.breakedBlocks.add(bedBlock);
-  }
-
-  @SuppressWarnings("deprecation")
-  public void addPlacedUnbreakableBlock(Block placed, BlockState replaced) {
-    this.placedUnbreakableBlocks.add(placed);
-    if (replaced != null) {
-      if (replaced.getData() instanceof Directional) {
-        this.breakedBlockFace.put(replaced.getBlock(),
-            ((Directional) replaced.getData()).getFacing());
-      }
-
-      this.breakedBlockTypes.put(replaced.getBlock(), replaced.getTypeId());
-      this.breakedBlockData.put(replaced.getBlock(), replaced.getData().getData());
-      this.breakedBlocks.add(replaced.getBlock());
-
-      if (replaced.getData() instanceof Redstone) {
-        this.breakedBlockPower.put(placed, ((Redstone) replaced.getData()).isPowered());
-      }
-    }
-  }
-
-  public void removePlacedUnbreakableBlock(Block block) {
-    this.placedUnbreakableBlocks.remove(block);
-  }
-
-  public void loadChunks() {
-    int minX = (int) Math.floor(this.minCorner.getX());
-    int maxX = (int) Math.ceil(this.maxCorner.getX());
-    int minZ = (int) Math.floor(this.minCorner.getZ());
-    int maxZ = (int) Math.ceil(this.maxCorner.getZ());
-
-    for (int x = minX; x <= maxX; x += Region.CHUNK_SIZE) {
-      for (int z = minZ; z <= maxZ; z += Region.CHUNK_SIZE) {
-        Chunk chunk = this.world.getChunkAt(x, z);
-        if (!chunk.isLoaded()) {
-          chunk.load();
-        }
-      }
-    }
-  }
-
-  public boolean isPlacedUnbreakableBlock(Block clickedBlock) {
-    return this.placedUnbreakableBlocks.contains(clickedBlock);
+  private void setMinMax(Location pos1, Location pos2) {
+    this.minCorner = this.getMinimumCorner(pos1, pos2);
+    this.maxCorner = this.getMaximumCorner(pos1, pos2);
   }
 
   public void setVillagerNametag() {
@@ -382,7 +379,8 @@ public class Region {
       if (e.getType() == EntityType.VILLAGER) {
         LivingEntity le = (LivingEntity) e;
         le.setCustomNameVisible(false);
-        le.setCustomName(Main._l("ingame.shop.name"));
+        le.setCustomName(
+            Main._l(Main.getInstance().getServer().getConsoleSender(), "ingame.shop.name"));
       }
     }
   }

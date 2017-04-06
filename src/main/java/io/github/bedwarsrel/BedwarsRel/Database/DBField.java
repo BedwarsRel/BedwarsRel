@@ -21,12 +21,12 @@ public class DBField {
     return this.getter;
   }
 
-  public Method getSetter() {
-    return this.setter;
-  }
-
   public void setGetter(Method getter) {
     this.getter = getter;
+  }
+
+  public Method getSetter() {
+    return this.setter;
   }
 
   public void setSetter(Method setter) {

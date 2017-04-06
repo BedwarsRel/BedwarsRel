@@ -1,5 +1,6 @@
 package io.github.bedwarsrel.BedwarsRel.Events;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -7,16 +8,14 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-
 public class BedwarsUseTNTSheepEvent extends Event implements Cancellable {
 
   private static final HandlerList handlers = new HandlerList();
-  private Player player = null;
+  private boolean cancelled = false;
   private Game game = null;
+  private Player player = null;
   private Location startLocation = null;
   private Player targetPlayer = null;
-  private boolean cancelled = false;
 
   public BedwarsUseTNTSheepEvent(Game game, Player player, Player targetPlayer,
       Location startLocation) {
@@ -26,12 +25,16 @@ public class BedwarsUseTNTSheepEvent extends Event implements Cancellable {
     this.targetPlayer = targetPlayer;
   }
 
-  @Override
-  public HandlerList getHandlers() {
+  public static HandlerList getHandlerList() {
     return BedwarsUseTNTSheepEvent.handlers;
   }
 
-  public static HandlerList getHandlerList() {
+  public Game getGame() {
+    return this.game;
+  }
+
+  @Override
+  public HandlerList getHandlers() {
     return BedwarsUseTNTSheepEvent.handlers;
   }
 
@@ -39,20 +42,16 @@ public class BedwarsUseTNTSheepEvent extends Event implements Cancellable {
     return this.player;
   }
 
-  public Game getGame() {
-    return this.game;
-  }
-
   public Location getStartLocation() {
     return this.startLocation;
   }
 
-  public Player getTargetPlayer() {
-    return this.targetPlayer;
-  }
-
   public void setStartLocation(Location loc) {
     this.startLocation = loc;
+  }
+
+  public Player getTargetPlayer() {
+    return this.targetPlayer;
   }
 
   public void setTargetPlayer(Player target) {

@@ -1,12 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_9_R1;
 
 import java.util.List;
-
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
-import org.bukkit.entity.Player;
-
 import net.minecraft.server.v1_9_R1.EnumParticle;
 import net.minecraft.server.v1_9_R1.PacketPlayOutWorldParticles;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 
 public class ParticleSpawner {
 

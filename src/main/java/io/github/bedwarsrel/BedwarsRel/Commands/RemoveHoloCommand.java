@@ -1,40 +1,18 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-
 public class RemoveHoloCommand extends BaseCommand implements ICommand {
 
   public RemoveHoloCommand(Main plugin) {
     super(plugin);
-  }
-
-  @Override
-  public String getCommand() {
-    return "removeholo";
-  }
-
-  @Override
-  public String getName() {
-    return Main._l("commands.removeholo.name");
-  }
-
-  @Override
-  public String getDescription() {
-    return Main._l("commands.removeholo.desc");
-  }
-
-  @Override
-  public String[] getArguments() {
-    return new String[] {};
   }
 
   @Override
@@ -48,7 +26,8 @@ public class RemoveHoloCommand extends BaseCommand implements ICommand {
     if (Main.getInstance().getHolographicInteractor().getType()
         .equalsIgnoreCase("HolographicDisplays")) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("commands.removeholo.explain")));
+          ChatWriter
+              .pluginMessage(ChatColor.GREEN + Main._l(player, "commands.removeholo.explain")));
 
     } else if (Main.getInstance().getHolographicInteractor().getType()
         .equalsIgnoreCase("HologramAPI")) {
@@ -75,6 +54,26 @@ public class RemoveHoloCommand extends BaseCommand implements ICommand {
 
     }
     return true;
+  }
+
+  @Override
+  public String[] getArguments() {
+    return new String[]{};
+  }
+
+  @Override
+  public String getCommand() {
+    return "removeholo";
+  }
+
+  @Override
+  public String getDescription() {
+    return Main._l("commands.removeholo.desc");
+  }
+
+  @Override
+  public String getName() {
+    return Main._l("commands.removeholo.name");
   }
 
   @Override

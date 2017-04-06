@@ -1,11 +1,10 @@
 package io.github.bedwarsrel.BedwarsRel.Updater;
 
+import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
-import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 
 public class DatabaseUpdater {
 

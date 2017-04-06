@@ -1,9 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_11_R1;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.server.v1_11_R1.EntityHuman;
+import net.minecraft.server.v1_11_R1.EntityVillager;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
@@ -14,18 +19,11 @@ import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-import net.minecraft.server.v1_11_R1.EntityHuman;
-import net.minecraft.server.v1_11_R1.EntityVillager;
-
 public class VillagerItemShop {
 
+  private MerchantCategory category = null;
   private Game game = null;
   private Player player = null;
-  private MerchantCategory category = null;
 
   public VillagerItemShop(Game g, Player p, MerchantCategory category) {
     this.game = g;
@@ -83,7 +81,7 @@ public class VillagerItemShop {
             } else if (colorable != null) {
               ItemMeta meta = reward.getItemMeta();
               colorable.setAccessible(true);
-              colorable.invoke(meta, new Object[] {VillagerItemShop.this.game
+              colorable.invoke(meta, new Object[]{VillagerItemShop.this.game
                   .getPlayerTeam(VillagerItemShop.this.player).getColor().getColor()});
               reward.setItemMeta(meta);
             }

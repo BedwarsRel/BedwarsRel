@@ -1,22 +1,28 @@
 package io.github.bedwarsrel.BedwarsRel.Utils;
 
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import javax.net.ssl.HttpsURLConnection;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
+import javax.net.ssl.HttpsURLConnection;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * bStats collects some data for plugin authors.
@@ -37,12 +43,10 @@ public class BStatsMetrics {
 
   // The uuid of the server
   private static String serverUUID;
-
-  // The plugin
-  private final JavaPlugin plugin;
-
   // A list with all custom charts
   private final List<CustomChart> charts = new ArrayList<>();
+  // The plugin
+  private final JavaPlugin plugin;
 
   /**
    * Class constructor.
@@ -109,6 +113,62 @@ public class BStatsMetrics {
   }
 
   /**
+   * Gzips the given String.
+   *
+   * @param str The string to gzip.
+   * @return The gzipped String.
+   * @throws IOException If the compression failed.
+   */
+  private static byte[] compress(final String str) throws IOException {
+    if (str == null) {
+      return null;
+    }
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    GZIPOutputStream gzip = new GZIPOutputStream(outputStream);
+    gzip.write(str.getBytes("UTF-8"));
+    gzip.close();
+    return outputStream.toByteArray();
+  }
+
+  /**
+   * Sends the data to the bStats server.
+   *
+   * @param data The data to send.
+   * @throws Exception If the request failed.
+   */
+  private static void sendData(JSONObject data) throws Exception {
+    if (data == null) {
+      throw new IllegalArgumentException("Data cannot be null!");
+    }
+    if (Bukkit.isPrimaryThread()) {
+      throw new IllegalAccessException("This method must not be called from the main thread!");
+    }
+    HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
+
+    // Compress the data to save bandwidth
+    byte[] compressedData = compress(data.toString());
+
+    // Add headers
+    connection.setRequestMethod("POST");
+    connection.addRequestProperty("Accept", "application/json");
+    connection.addRequestProperty("Connection", "close");
+    connection.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
+    connection.addRequestProperty("Content-Length", String.valueOf(compressedData.length));
+    connection.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON
+    // format
+    connection.setRequestProperty("User-Agent", "MC-Server/" + B_STATS_VERSION);
+
+    // Send data
+    connection.setDoOutput(true);
+    DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
+    outputStream.write(compressedData);
+    outputStream.flush();
+    outputStream.close();
+
+    connection.getInputStream().close(); // We don't care about the response - Just send our data :)
+  }
+
+  /**
    * Adds a custom chart.
    *
    * @param chart The chart to add.
@@ -118,37 +178,6 @@ public class BStatsMetrics {
       throw new IllegalArgumentException("Chart cannot be null!");
     }
     charts.add(chart);
-  }
-
-  /**
-   * Starts the Scheduler which submits our data every 30 minutes.
-   */
-  private void startSubmitting() {
-    final Timer timer = new Timer(true); // We use a timer cause the Bukkit scheduler is affected by
-                                         // server lags
-    timer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        if (!plugin.isEnabled()) { // Plugin was disabled
-          timer.cancel();
-          return;
-        }
-        // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the
-        // Bukkit scheduler
-        // Don't be afraid! The connection to the bStats server is still async, only the stats
-        // collection is sync ;)
-        Bukkit.getScheduler().runTask(plugin, new Runnable() {
-          @Override
-          public void run() {
-            submitData();
-          }
-        });
-      }
-    }, 1000 * 60 * 5, 1000 * 60 * 30);
-    // Submit the data every 30 minutes, first time after 5 minutes to give other plugins enough
-    // time to start
-    // WARNING: Changing the frequency has no effect but your plugin WILL be blocked/deleted!
-    // WARNING: Just don't do it!
   }
 
   /**
@@ -216,6 +245,37 @@ public class BStatsMetrics {
   }
 
   /**
+   * Starts the Scheduler which submits our data every 30 minutes.
+   */
+  private void startSubmitting() {
+    final Timer timer = new Timer(true); // We use a timer cause the Bukkit scheduler is affected by
+    // server lags
+    timer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        if (!plugin.isEnabled()) { // Plugin was disabled
+          timer.cancel();
+          return;
+        }
+        // Nevertheless we want our code to run in the Bukkit main thread, so we have to use the
+        // Bukkit scheduler
+        // Don't be afraid! The connection to the bStats server is still async, only the stats
+        // collection is sync ;)
+        Bukkit.getScheduler().runTask(plugin, new Runnable() {
+          @Override
+          public void run() {
+            submitData();
+          }
+        });
+      }
+    }, 1000 * 60 * 5, 1000 * 60 * 30);
+    // Submit the data every 30 minutes, first time after 5 minutes to give other plugins enough
+    // time to start
+    // WARNING: Changing the frequency has no effect but your plugin WILL be blocked/deleted!
+    // WARNING: Just don't do it!
+  }
+
+  /**
    * Collects the data and sends it afterwards.
    */
   private void submitData() {
@@ -255,457 +315,6 @@ public class BStatsMetrics {
         }
       }
     }).start();
-
-  }
-
-  /**
-   * Sends the data to the bStats server.
-   *
-   * @param data The data to send.
-   * @throws Exception If the request failed.
-   */
-  private static void sendData(JSONObject data) throws Exception {
-    if (data == null) {
-      throw new IllegalArgumentException("Data cannot be null!");
-    }
-    if (Bukkit.isPrimaryThread()) {
-      throw new IllegalAccessException("This method must not be called from the main thread!");
-    }
-    HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
-
-    // Compress the data to save bandwidth
-    byte[] compressedData = compress(data.toString());
-
-    // Add headers
-    connection.setRequestMethod("POST");
-    connection.addRequestProperty("Accept", "application/json");
-    connection.addRequestProperty("Connection", "close");
-    connection.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
-    connection.addRequestProperty("Content-Length", String.valueOf(compressedData.length));
-    connection.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON
-                                                                       // format
-    connection.setRequestProperty("User-Agent", "MC-Server/" + B_STATS_VERSION);
-
-    // Send data
-    connection.setDoOutput(true);
-    DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream());
-    outputStream.write(compressedData);
-    outputStream.flush();
-    outputStream.close();
-
-    connection.getInputStream().close(); // We don't care about the response - Just send our data :)
-  }
-
-  /**
-   * Gzips the given String.
-   *
-   * @param str The string to gzip.
-   * @return The gzipped String.
-   * @throws IOException If the compression failed.
-   */
-  private static byte[] compress(final String str) throws IOException {
-    if (str == null) {
-      return null;
-    }
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    GZIPOutputStream gzip = new GZIPOutputStream(outputStream);
-    gzip.write(str.getBytes("UTF-8"));
-    gzip.close();
-    return outputStream.toByteArray();
-  }
-
-  /**
-   * Represents a custom chart.
-   */
-  public static abstract class CustomChart {
-
-    // The id of the chart
-    protected final String chartId;
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public CustomChart(String chartId) {
-      if (chartId == null || chartId.isEmpty()) {
-        throw new IllegalArgumentException("ChartId cannot be null or empty!");
-      }
-      this.chartId = chartId;
-    }
-
-    protected JSONObject getRequestJsonObject() {
-      JSONObject chart = new JSONObject();
-      chart.put("chartId", chartId);
-      try {
-        JSONObject data = getChartData();
-        if (data == null) {
-          // If the data is null we don't send the chart.
-          return null;
-        }
-        chart.put("data", data);
-      } catch (Throwable t) {
-        if (logFailedRequests) {
-          Bukkit.getLogger().log(Level.WARNING,
-              "Failed to get data for custom chart with id " + chartId, t);
-        }
-        return null;
-      }
-      return chart;
-    }
-
-    protected abstract JSONObject getChartData();
-
-  }
-
-  /**
-   * Represents a custom simple pie.
-   */
-  public static abstract class SimplePie extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public SimplePie(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the value of the pie.
-     *
-     * @return The value of the pie.
-     */
-    public abstract String getValue();
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      String value = getValue();
-      if (value == null || value.isEmpty()) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("value", value);
-      return data;
-    }
-  }
-
-  /**
-   * Represents a custom advanced pie.
-   */
-  public static abstract class AdvancedPie extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public AdvancedPie(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the values of the pie.
-     *
-     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
-     *        don't have to create a map yourself!
-     * @return The values of the pie.
-     */
-    public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      JSONObject values = new JSONObject();
-      HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
-      if (map == null || map.isEmpty()) {
-        // Null = skip the chart
-        return null;
-      }
-      boolean allSkipped = true;
-      for (Map.Entry<String, Integer> entry : map.entrySet()) {
-        if (entry.getValue() == 0) {
-          continue; // Skip this invalid
-        }
-        allSkipped = false;
-        values.put(entry.getKey(), entry.getValue());
-      }
-      if (allSkipped) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("values", values);
-      return data;
-    }
-  }
-
-  /**
-   * Represents a custom single line chart.
-   */
-  public static abstract class SingleLineChart extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public SingleLineChart(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the value of the chart.
-     *
-     * @return The value of the chart.
-     */
-    public abstract int getValue();
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      int value = getValue();
-      if (value == 0) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("value", value);
-      return data;
-    }
-
-  }
-
-  /**
-   * Represents a custom multi line chart.
-   */
-  public static abstract class MultiLineChart extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public MultiLineChart(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the values of the chart.
-     *
-     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
-     *        don't have to create a map yourself!
-     * @return The values of the chart.
-     */
-    public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      JSONObject values = new JSONObject();
-      HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
-      if (map == null || map.isEmpty()) {
-        // Null = skip the chart
-        return null;
-      }
-      boolean allSkipped = true;
-      for (Map.Entry<String, Integer> entry : map.entrySet()) {
-        if (entry.getValue() == 0) {
-          continue; // Skip this invalid
-        }
-        allSkipped = false;
-        values.put(entry.getKey(), entry.getValue());
-      }
-      if (allSkipped) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("values", values);
-      return data;
-    }
-
-  }
-
-  /**
-   * Represents a custom simple bar chart.
-   */
-  public static abstract class SimpleBarChart extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public SimpleBarChart(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the value of the chart.
-     *
-     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
-     *        don't have to create a map yourself!
-     * @return The value of the chart.
-     */
-    public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      JSONObject values = new JSONObject();
-      HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
-      if (map == null || map.isEmpty()) {
-        // Null = skip the chart
-        return null;
-      }
-      for (Map.Entry<String, Integer> entry : map.entrySet()) {
-        JSONArray categoryValues = new JSONArray();
-        categoryValues.add(entry.getValue());
-        values.put(entry.getKey(), categoryValues);
-      }
-      data.put("values", values);
-      return data;
-    }
-
-  }
-
-  /**
-   * Represents a custom advanced bar chart.
-   */
-  public static abstract class AdvancedBarChart extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public AdvancedBarChart(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the value of the chart.
-     *
-     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
-     *        don't have to create a map yourself!
-     * @return The value of the chart.
-     */
-    public abstract HashMap<String, int[]> getValues(HashMap<String, int[]> valueMap);
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      JSONObject values = new JSONObject();
-      HashMap<String, int[]> map = getValues(new HashMap<String, int[]>());
-      if (map == null || map.isEmpty()) {
-        // Null = skip the chart
-        return null;
-      }
-      boolean allSkipped = true;
-      for (Map.Entry<String, int[]> entry : map.entrySet()) {
-        if (entry.getValue().length == 0) {
-          continue; // Skip this invalid
-        }
-        allSkipped = false;
-        JSONArray categoryValues = new JSONArray();
-        for (int categoryValue : entry.getValue()) {
-          categoryValues.add(categoryValue);
-        }
-        values.put(entry.getKey(), categoryValues);
-      }
-      if (allSkipped) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("values", values);
-      return data;
-    }
-
-  }
-
-  /**
-   * Represents a custom simple map chart.
-   */
-  public static abstract class SimpleMapChart extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public SimpleMapChart(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the value of the chart.
-     *
-     * @return The value of the chart.
-     */
-    public abstract Country getValue();
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      Country value = getValue();
-
-      if (value == null) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("value", value.getCountryIsoTag());
-      return data;
-    }
-
-  }
-
-  /**
-   * Represents a custom advanced map chart.
-   */
-  public static abstract class AdvancedMapChart extends CustomChart {
-
-    /**
-     * Class constructor.
-     *
-     * @param chartId The id of the chart.
-     */
-    public AdvancedMapChart(String chartId) {
-      super(chartId);
-    }
-
-    /**
-     * Gets the value of the chart.
-     *
-     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
-     *        don't have to create a map yourself!
-     * @return The value of the chart.
-     */
-    public abstract HashMap<Country, Integer> getValues(HashMap<Country, Integer> valueMap);
-
-    @Override
-    protected JSONObject getChartData() {
-      JSONObject data = new JSONObject();
-      JSONObject values = new JSONObject();
-      HashMap<Country, Integer> map = getValues(new HashMap<Country, Integer>());
-      if (map == null || map.isEmpty()) {
-        // Null = skip the chart
-        return null;
-      }
-      boolean allSkipped = true;
-      for (Map.Entry<Country, Integer> entry : map.entrySet()) {
-        if (entry.getValue() == 0) {
-          continue; // Skip this invalid
-        }
-        allSkipped = false;
-        values.put(entry.getKey().getCountryIsoTag(), entry.getValue());
-      }
-      if (allSkipped) {
-        // Null = skip the chart
-        return null;
-      }
-      data.put("values", values);
-      return data;
-    }
 
   }
 
@@ -980,24 +589,6 @@ public class BStatsMetrics {
     }
 
     /**
-     * Gets the name of the country.
-     *
-     * @return The name of the country.
-     */
-    public String getCountryName() {
-      return name;
-    }
-
-    /**
-     * Gets the iso tag of the country.
-     *
-     * @return The iso tag of the country.
-     */
-    public String getCountryIsoTag() {
-      return isoTag;
-    }
-
-    /**
      * Gets a country by it's iso tag.
      *
      * @param isoTag The iso tag of the county.
@@ -1017,11 +608,424 @@ public class BStatsMetrics {
      *
      * @param locale The locale.
      * @return The country from the giben locale or <code>null</code> if unknown country or if the
-     *         locale does not contain a country.
+     * locale does not contain a country.
      */
     public static Country byLocale(Locale locale) {
       return byIsoTag(locale.getCountry());
     }
+
+    /**
+     * Gets the iso tag of the country.
+     *
+     * @return The iso tag of the country.
+     */
+    public String getCountryIsoTag() {
+      return isoTag;
+    }
+
+    /**
+     * Gets the name of the country.
+     *
+     * @return The name of the country.
+     */
+    public String getCountryName() {
+      return name;
+    }
+
+  }
+
+  /**
+   * Represents a custom advanced bar chart.
+   */
+  public static abstract class AdvancedBarChart extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public AdvancedBarChart(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      JSONObject values = new JSONObject();
+      HashMap<String, int[]> map = getValues(new HashMap<String, int[]>());
+      if (map == null || map.isEmpty()) {
+        // Null = skip the chart
+        return null;
+      }
+      boolean allSkipped = true;
+      for (Map.Entry<String, int[]> entry : map.entrySet()) {
+        if (entry.getValue().length == 0) {
+          continue; // Skip this invalid
+        }
+        allSkipped = false;
+        JSONArray categoryValues = new JSONArray();
+        for (int categoryValue : entry.getValue()) {
+          categoryValues.add(categoryValue);
+        }
+        values.put(entry.getKey(), categoryValues);
+      }
+      if (allSkipped) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("values", values);
+      return data;
+    }
+
+    /**
+     * Gets the value of the chart.
+     *
+     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
+     * don't have to create a map yourself!
+     * @return The value of the chart.
+     */
+    public abstract HashMap<String, int[]> getValues(HashMap<String, int[]> valueMap);
+
+  }
+
+  /**
+   * Represents a custom advanced map chart.
+   */
+  public static abstract class AdvancedMapChart extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public AdvancedMapChart(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      JSONObject values = new JSONObject();
+      HashMap<Country, Integer> map = getValues(new HashMap<Country, Integer>());
+      if (map == null || map.isEmpty()) {
+        // Null = skip the chart
+        return null;
+      }
+      boolean allSkipped = true;
+      for (Map.Entry<Country, Integer> entry : map.entrySet()) {
+        if (entry.getValue() == 0) {
+          continue; // Skip this invalid
+        }
+        allSkipped = false;
+        values.put(entry.getKey().getCountryIsoTag(), entry.getValue());
+      }
+      if (allSkipped) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("values", values);
+      return data;
+    }
+
+    /**
+     * Gets the value of the chart.
+     *
+     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
+     * don't have to create a map yourself!
+     * @return The value of the chart.
+     */
+    public abstract HashMap<Country, Integer> getValues(HashMap<Country, Integer> valueMap);
+
+  }
+
+  /**
+   * Represents a custom advanced pie.
+   */
+  public static abstract class AdvancedPie extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public AdvancedPie(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      JSONObject values = new JSONObject();
+      HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
+      if (map == null || map.isEmpty()) {
+        // Null = skip the chart
+        return null;
+      }
+      boolean allSkipped = true;
+      for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        if (entry.getValue() == 0) {
+          continue; // Skip this invalid
+        }
+        allSkipped = false;
+        values.put(entry.getKey(), entry.getValue());
+      }
+      if (allSkipped) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("values", values);
+      return data;
+    }
+
+    /**
+     * Gets the values of the pie.
+     *
+     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
+     * don't have to create a map yourself!
+     * @return The values of the pie.
+     */
+    public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
+  }
+
+  /**
+   * Represents a custom chart.
+   */
+  public static abstract class CustomChart {
+
+    // The id of the chart
+    protected final String chartId;
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public CustomChart(String chartId) {
+      if (chartId == null || chartId.isEmpty()) {
+        throw new IllegalArgumentException("ChartId cannot be null or empty!");
+      }
+      this.chartId = chartId;
+    }
+
+    protected abstract JSONObject getChartData();
+
+    protected JSONObject getRequestJsonObject() {
+      JSONObject chart = new JSONObject();
+      chart.put("chartId", chartId);
+      try {
+        JSONObject data = getChartData();
+        if (data == null) {
+          // If the data is null we don't send the chart.
+          return null;
+        }
+        chart.put("data", data);
+      } catch (Throwable t) {
+        if (logFailedRequests) {
+          Bukkit.getLogger().log(Level.WARNING,
+              "Failed to get data for custom chart with id " + chartId, t);
+        }
+        return null;
+      }
+      return chart;
+    }
+
+  }
+
+  /**
+   * Represents a custom multi line chart.
+   */
+  public static abstract class MultiLineChart extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public MultiLineChart(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      JSONObject values = new JSONObject();
+      HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
+      if (map == null || map.isEmpty()) {
+        // Null = skip the chart
+        return null;
+      }
+      boolean allSkipped = true;
+      for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        if (entry.getValue() == 0) {
+          continue; // Skip this invalid
+        }
+        allSkipped = false;
+        values.put(entry.getKey(), entry.getValue());
+      }
+      if (allSkipped) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("values", values);
+      return data;
+    }
+
+    /**
+     * Gets the values of the chart.
+     *
+     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
+     * don't have to create a map yourself!
+     * @return The values of the chart.
+     */
+    public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
+
+  }
+
+  /**
+   * Represents a custom simple bar chart.
+   */
+  public static abstract class SimpleBarChart extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public SimpleBarChart(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      JSONObject values = new JSONObject();
+      HashMap<String, Integer> map = getValues(new HashMap<String, Integer>());
+      if (map == null || map.isEmpty()) {
+        // Null = skip the chart
+        return null;
+      }
+      for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        JSONArray categoryValues = new JSONArray();
+        categoryValues.add(entry.getValue());
+        values.put(entry.getKey(), categoryValues);
+      }
+      data.put("values", values);
+      return data;
+    }
+
+    /**
+     * Gets the value of the chart.
+     *
+     * @param valueMap Just an empty map. The only reason it exists is to make your life easier. You
+     * don't have to create a map yourself!
+     * @return The value of the chart.
+     */
+    public abstract HashMap<String, Integer> getValues(HashMap<String, Integer> valueMap);
+
+  }
+
+  /**
+   * Represents a custom simple map chart.
+   */
+  public static abstract class SimpleMapChart extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public SimpleMapChart(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      Country value = getValue();
+
+      if (value == null) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("value", value.getCountryIsoTag());
+      return data;
+    }
+
+    /**
+     * Gets the value of the chart.
+     *
+     * @return The value of the chart.
+     */
+    public abstract Country getValue();
+
+  }
+
+  /**
+   * Represents a custom simple pie.
+   */
+  public static abstract class SimplePie extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public SimplePie(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      String value = getValue();
+      if (value == null || value.isEmpty()) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("value", value);
+      return data;
+    }
+
+    /**
+     * Gets the value of the pie.
+     *
+     * @return The value of the pie.
+     */
+    public abstract String getValue();
+  }
+
+  /**
+   * Represents a custom single line chart.
+   */
+  public static abstract class SingleLineChart extends CustomChart {
+
+    /**
+     * Class constructor.
+     *
+     * @param chartId The id of the chart.
+     */
+    public SingleLineChart(String chartId) {
+      super(chartId);
+    }
+
+    @Override
+    protected JSONObject getChartData() {
+      JSONObject data = new JSONObject();
+      int value = getValue();
+      if (value == 0) {
+        // Null = skip the chart
+        return null;
+      }
+      data.put("value", value);
+      return data;
+    }
+
+    /**
+     * Gets the value of the chart.
+     *
+     * @return The value of the chart.
+     */
+    public abstract int getValue();
 
   }
 

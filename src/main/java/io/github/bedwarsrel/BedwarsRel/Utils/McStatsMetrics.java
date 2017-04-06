@@ -27,15 +27,6 @@ package io.github.bedwarsrel.BedwarsRel.Utils;
  * expressed or implied, of anybody else.
  */
 
-import org.bukkit.Bukkit;
-import org.bukkit.Server;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.scheduler.BukkitTask;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,64 +48,61 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.zip.GZIPOutputStream;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.scheduler.BukkitTask;
 
 public class McStatsMetrics {
-
-  /**
-   * The current revision number
-   */
-  private final static int REVISION = 7;
 
   /**
    * The base url of the metrics domain
    */
   private static final String BASE_URL = "http://report.mcstats.org";
-
-  /**
-   * The url used to report a server's status
-   */
-  private static final String REPORT_URL = "/plugin/%s";
-
   /**
    * Interval of time to ping (in minutes)
    */
   private static final int PING_INTERVAL = 15;
-
   /**
-   * The plugin this metrics submits for
+   * The url used to report a server's status
    */
-  private final Plugin plugin;
-
+  private static final String REPORT_URL = "/plugin/%s";
   /**
-   * All of the custom graphs to submit to metrics
+   * The current revision number
    */
-  private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
-
+  private final static int REVISION = 7;
   /**
    * The plugin configuration file
    */
   private final YamlConfiguration configuration;
-
   /**
    * The plugin configuration file
    */
   private final File configurationFile;
-
-  /**
-   * Unique server id
-   */
-  private final String guid;
-
   /**
    * Debug mode
    */
   private final boolean debug;
-
+  /**
+   * All of the custom graphs to submit to metrics
+   */
+  private final Set<Graph> graphs = Collections.synchronizedSet(new HashSet<Graph>());
+  /**
+   * Unique server id
+   */
+  private final String guid;
   /**
    * Lock for synchronization
    */
   private final Object optOutLock = new Object();
-
+  /**
+   * The plugin this metrics submits for
+   */
+  private final Plugin plugin;
   /**
    * The scheduled task
    */
@@ -148,26 +136,110 @@ public class McStatsMetrics {
   }
 
   /**
-   * Construct and create a Graph that can be used to separate specific plotters to their own graphs
-   * on the metrics website. Plotters can be added to the graph object returned.
-   *
-   * @param name The name of the graph
-   * @return Graph object created. Will never return NULL under normal circumstances unless bad
-   *         parameters are given
+   * Appends a json encoded key/value pair to the given string builder.
    */
-  public Graph createGraph(final String name) {
-    if (name == null) {
-      throw new IllegalArgumentException("Graph name cannot be null");
+  private static void appendJSONPair(StringBuilder json, String key, String value)
+      throws UnsupportedEncodingException {
+    boolean isValueNumeric = false;
+
+    try {
+      if (value.equals("0") || !value.endsWith("0")) {
+        Double.parseDouble(value);
+        isValueNumeric = true;
+      }
+    } catch (NumberFormatException e) {
+      isValueNumeric = false;
     }
 
-    // Construct the graph object
-    final Graph graph = new Graph(name);
+    if (json.charAt(json.length() - 1) != '{') {
+      json.append(',');
+    }
 
-    // Now we can add our graph
-    graphs.add(graph);
+    json.append(escapeJSON(key));
+    json.append(':');
 
-    // and return back
-    return graph;
+    if (isValueNumeric) {
+      json.append(value);
+    } else {
+      json.append(escapeJSON(value));
+    }
+  }
+
+  /**
+   * Escape a string to create a valid JSON string
+   */
+  private static String escapeJSON(String text) {
+    StringBuilder builder = new StringBuilder();
+
+    builder.append('"');
+    for (int index = 0; index < text.length(); index++) {
+      char chr = text.charAt(index);
+
+      switch (chr) {
+        case '"':
+        case '\\':
+          builder.append('\\');
+          builder.append(chr);
+          break;
+        case '\b':
+          builder.append("\\b");
+          break;
+        case '\t':
+          builder.append("\\t");
+          break;
+        case '\n':
+          builder.append("\\n");
+          break;
+        case '\r':
+          builder.append("\\r");
+          break;
+        default:
+          if (chr < ' ') {
+            String t = "000" + Integer.toHexString(chr);
+            builder.append("\\u" + t.substring(t.length() - 4));
+          } else {
+            builder.append(chr);
+          }
+          break;
+      }
+    }
+    builder.append('"');
+
+    return builder.toString();
+  }
+
+  /**
+   * GZip compress a string of bytes
+   */
+  public static byte[] gzip(String input) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    GZIPOutputStream gzos = null;
+
+    try {
+      gzos = new GZIPOutputStream(baos);
+      gzos.write(input.getBytes("UTF-8"));
+    } catch (IOException e) {
+      e.printStackTrace();
+    } finally {
+      if (gzos != null) {
+        try {
+          gzos.close();
+        } catch (IOException ignore) {
+        }
+      }
+    }
+
+    return baos.toByteArray();
+  }
+
+  /**
+   * Encode text as UTF-8
+   *
+   * @param text the text to encode
+   * @return the encoded text, as UTF-8
+   */
+  private static String urlEncode(final String text) throws UnsupportedEncodingException {
+    return URLEncoder.encode(text, "UTF-8");
   }
 
   /**
@@ -185,61 +257,121 @@ public class McStatsMetrics {
   }
 
   /**
-   * Start measuring statistics. This will immediately create an async repeating task as the plugin
-   * and send the initial data to the metrics backend, and then after that it will post in
-   * increments of PING_INTERVAL * 1200 ticks.
+   * Construct and create a Graph that can be used to separate specific plotters to their own graphs
+   * on the metrics website. Plotters can be added to the graph object returned.
    *
-   * @return True if statistics measuring is running, otherwise false.
+   * @param name The name of the graph
+   * @return Graph object created. Will never return NULL under normal circumstances unless bad
+   * parameters are given
    */
-  public boolean start() {
+  public Graph createGraph(final String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("Graph name cannot be null");
+    }
+
+    // Construct the graph object
+    final Graph graph = new Graph(name);
+
+    // Now we can add our graph
+    graphs.add(graph);
+
+    // and return back
+    return graph;
+  }
+
+  /**
+   * Disables metrics for the server by setting "opt-out" to true in the config file and canceling
+   * the metrics task.
+   */
+  public void disable() throws IOException {
+    // This has to be synchronized or it can collide with the check in the task.
     synchronized (optOutLock) {
-      // Did we opt out?
-      if (isOptOut()) {
-        return false;
+      // Check if the server owner has already set opt-out, if not, set it.
+      if (!isOptOut()) {
+        configuration.set("opt-out", true);
+        configuration.save(configurationFile);
       }
 
-      // Is metrics already running?
+      // Disable Task, if it is running
       if (task != null) {
-        return true;
+        task.cancel();
+        task = null;
+      }
+    }
+  }
+
+  /**
+   * Enables metrics for the server by setting "opt-out" to false in the config file and starting
+   * the metrics task.
+   */
+  public void enable() throws IOException {
+    // This has to be synchronized or it can collide with the check in the task.
+    synchronized (optOutLock) {
+      // Check if the server owner has already set opt-out, if not, set it.
+      if (isOptOut()) {
+        configuration.set("opt-out", false);
+        configuration.save(configurationFile);
       }
 
-      // Begin hitting the server with glorious data
-      task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+      // Enable Task, if it is not running
+      if (task == null) {
+        start();
+      }
+    }
+  }
 
-        private boolean firstPost = true;
+  /**
+   * Gets the File object of the config file that should be used to store data such as the GUID and
+   * opt-out status
+   *
+   * @return the File object for the config file
+   */
+  public File getConfigFile() {
+    // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins to
+    // use
+    // is to abuse the plugin object we already have
+    // plugin.getDataFolder() => base/plugins/PluginA/
+    // pluginsFolder => base/plugins/
+    // The base is not necessarily relative to the startup directory.
+    File pluginsFolder = plugin.getDataFolder().getParentFile();
 
-        public void run() {
-          try {
-            // This has to be synchronized or it can collide with the disable method.
-            synchronized (optOutLock) {
-              // Disable Task, if it is running and the server owner decided to opt-out
-              if (isOptOut() && task != null) {
-                task.cancel();
-                task = null;
-                // Tell all plotters to stop gathering information.
-                for (Graph graph : graphs) {
-                  graph.onOptOut();
-                }
-              }
-            }
+    // return => base/plugins/PluginMetrics/config.yml
+    return new File(new File(pluginsFolder, "PluginMetrics"), "config.yml");
+  }
 
-            // We use the inverse of firstPost because if it is the first time we are posting,
-            // it is not a interval ping, so it evaluates to FALSE
-            // Each time thereafter it will evaluate to TRUE, i.e PING!
-            postPlugin(!firstPost);
+  /**
+   * Gets the online player (backwards compatibility)
+   *
+   * @return online player amount
+   */
+  private int getOnlinePlayers() {
+    try {
+      Method onlinePlayerMethod = Server.class.getMethod("getOnlinePlayers");
+      if (onlinePlayerMethod.getReturnType().equals(Collection.class)) {
+        return ((Collection<?>) onlinePlayerMethod.invoke(Bukkit.getServer())).size();
+      } else {
+        return ((Player[]) onlinePlayerMethod.invoke(Bukkit.getServer())).length;
+      }
+    } catch (Exception ex) {
+      if (debug) {
+        Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+      }
+    }
 
-            // After the first post we set firstPost to false
-            // Each post thereafter will be a ping
-            firstPost = false;
-          } catch (IOException e) {
-            if (debug) {
-              Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
-            }
-          }
-        }
-      }, 0, PING_INTERVAL * 1200);
+    return 0;
+  }
 
+  /**
+   * Check if mineshafter is present. If it is, we need to bypass it to send POST requests
+   *
+   * @return true if mineshafter is installed on the server
+   */
+  private boolean isMineshafterPresent() {
+    try {
+      Class.forName("mineshafter.MineServer");
       return true;
+    } catch (Exception e) {
+      return false;
     }
   }
 
@@ -266,92 +398,6 @@ public class McStatsMetrics {
       }
       return configuration.getBoolean("opt-out", false);
     }
-  }
-
-  /**
-   * Enables metrics for the server by setting "opt-out" to false in the config file and starting
-   * the metrics task.
-   *
-   * @throws java.io.IOException
-   */
-  public void enable() throws IOException {
-    // This has to be synchronized or it can collide with the check in the task.
-    synchronized (optOutLock) {
-      // Check if the server owner has already set opt-out, if not, set it.
-      if (isOptOut()) {
-        configuration.set("opt-out", false);
-        configuration.save(configurationFile);
-      }
-
-      // Enable Task, if it is not running
-      if (task == null) {
-        start();
-      }
-    }
-  }
-
-  /**
-   * Disables metrics for the server by setting "opt-out" to true in the config file and canceling
-   * the metrics task.
-   *
-   * @throws java.io.IOException
-   */
-  public void disable() throws IOException {
-    // This has to be synchronized or it can collide with the check in the task.
-    synchronized (optOutLock) {
-      // Check if the server owner has already set opt-out, if not, set it.
-      if (!isOptOut()) {
-        configuration.set("opt-out", true);
-        configuration.save(configurationFile);
-      }
-
-      // Disable Task, if it is running
-      if (task != null) {
-        task.cancel();
-        task = null;
-      }
-    }
-  }
-
-  /**
-   * Gets the File object of the config file that should be used to store data such as the GUID and
-   * opt-out status
-   *
-   * @return the File object for the config file
-   */
-  public File getConfigFile() {
-    // I believe the easiest way to get the base folder (e.g craftbukkit set via -P) for plugins to
-    // use
-    // is to abuse the plugin object we already have
-    // plugin.getDataFolder() => base/plugins/PluginA/
-    // pluginsFolder => base/plugins/
-    // The base is not necessarily relative to the startup directory.
-    File pluginsFolder = plugin.getDataFolder().getParentFile();
-
-    // return => base/plugins/PluginMetrics/config.yml
-    return new File(new File(pluginsFolder, "PluginMetrics"), "config.yml");
-  }
-
-  /**
-   * Gets the online player (backwards compatibility)
-   * 
-   * @return online player amount
-   */
-  private int getOnlinePlayers() {
-    try {
-      Method onlinePlayerMethod = Server.class.getMethod("getOnlinePlayers");
-      if (onlinePlayerMethod.getReturnType().equals(Collection.class)) {
-        return ((Collection<?>) onlinePlayerMethod.invoke(Bukkit.getServer())).size();
-      } else {
-        return ((Player[]) onlinePlayerMethod.invoke(Bukkit.getServer())).length;
-      }
-    } catch (Exception ex) {
-      if (debug) {
-        Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
-      }
-    }
-
-    return 0;
   }
 
   /**
@@ -462,7 +508,6 @@ public class McStatsMetrics {
       connection = url.openConnection();
     }
 
-
     byte[] uncompressed = json.toString().getBytes();
     byte[] compressed = gzip(json.toString());
 
@@ -522,134 +567,62 @@ public class McStatsMetrics {
   }
 
   /**
-   * GZip compress a string of bytes
+   * Start measuring statistics. This will immediately create an async repeating task as the plugin
+   * and send the initial data to the metrics backend, and then after that it will post in
+   * increments of PING_INTERVAL * 1200 ticks.
    *
-   * @param input
-   * @return
+   * @return True if statistics measuring is running, otherwise false.
    */
-  public static byte[] gzip(String input) {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    GZIPOutputStream gzos = null;
-
-    try {
-      gzos = new GZIPOutputStream(baos);
-      gzos.write(input.getBytes("UTF-8"));
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      if (gzos != null)
-        try {
-          gzos.close();
-        } catch (IOException ignore) {
-        }
-    }
-
-    return baos.toByteArray();
-  }
-
-  /**
-   * Check if mineshafter is present. If it is, we need to bypass it to send POST requests
-   *
-   * @return true if mineshafter is installed on the server
-   */
-  private boolean isMineshafterPresent() {
-    try {
-      Class.forName("mineshafter.MineServer");
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
-  }
-
-  /**
-   * Appends a json encoded key/value pair to the given string builder.
-   *
-   * @param json
-   * @param key
-   * @param value
-   * @throws UnsupportedEncodingException
-   */
-  private static void appendJSONPair(StringBuilder json, String key, String value)
-      throws UnsupportedEncodingException {
-    boolean isValueNumeric = false;
-
-    try {
-      if (value.equals("0") || !value.endsWith("0")) {
-        Double.parseDouble(value);
-        isValueNumeric = true;
+  public boolean start() {
+    synchronized (optOutLock) {
+      // Did we opt out?
+      if (isOptOut()) {
+        return false;
       }
-    } catch (NumberFormatException e) {
-      isValueNumeric = false;
-    }
 
-    if (json.charAt(json.length() - 1) != '{') {
-      json.append(',');
-    }
+      // Is metrics already running?
+      if (task != null) {
+        return true;
+      }
 
-    json.append(escapeJSON(key));
-    json.append(':');
+      // Begin hitting the server with glorious data
+      task = plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
 
-    if (isValueNumeric) {
-      json.append(value);
-    } else {
-      json.append(escapeJSON(value));
-    }
-  }
+        private boolean firstPost = true;
 
-  /**
-   * Escape a string to create a valid JSON string
-   *
-   * @param text
-   * @return
-   */
-  private static String escapeJSON(String text) {
-    StringBuilder builder = new StringBuilder();
+        public void run() {
+          try {
+            // This has to be synchronized or it can collide with the disable method.
+            synchronized (optOutLock) {
+              // Disable Task, if it is running and the server owner decided to opt-out
+              if (isOptOut() && task != null) {
+                task.cancel();
+                task = null;
+                // Tell all plotters to stop gathering information.
+                for (Graph graph : graphs) {
+                  graph.onOptOut();
+                }
+              }
+            }
 
-    builder.append('"');
-    for (int index = 0; index < text.length(); index++) {
-      char chr = text.charAt(index);
+            // We use the inverse of firstPost because if it is the first time we are posting,
+            // it is not a interval ping, so it evaluates to FALSE
+            // Each time thereafter it will evaluate to TRUE, i.e PING!
+            postPlugin(!firstPost);
 
-      switch (chr) {
-        case '"':
-        case '\\':
-          builder.append('\\');
-          builder.append(chr);
-          break;
-        case '\b':
-          builder.append("\\b");
-          break;
-        case '\t':
-          builder.append("\\t");
-          break;
-        case '\n':
-          builder.append("\\n");
-          break;
-        case '\r':
-          builder.append("\\r");
-          break;
-        default:
-          if (chr < ' ') {
-            String t = "000" + Integer.toHexString(chr);
-            builder.append("\\u" + t.substring(t.length() - 4));
-          } else {
-            builder.append(chr);
+            // After the first post we set firstPost to false
+            // Each post thereafter will be a ping
+            firstPost = false;
+          } catch (IOException e) {
+            if (debug) {
+              Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
+            }
           }
-          break;
-      }
+        }
+      }, 0, PING_INTERVAL * 1200);
+
+      return true;
     }
-    builder.append('"');
-
-    return builder.toString();
-  }
-
-  /**
-   * Encode text as UTF-8
-   *
-   * @param text the text to encode
-   * @return the encoded text, as UTF-8
-   */
-  private static String urlEncode(final String text) throws UnsupportedEncodingException {
-    return URLEncoder.encode(text, "UTF-8");
   }
 
   /**
@@ -673,15 +646,6 @@ public class McStatsMetrics {
     }
 
     /**
-     * Gets the graph's name
-     *
-     * @return the Graph's name
-     */
-    public String getName() {
-      return name;
-    }
-
-    /**
      * Add a plotter to the graph, which will be used to plot entries
      *
      * @param plotter the plotter to add to the graph
@@ -690,13 +654,23 @@ public class McStatsMetrics {
       plotters.add(plotter);
     }
 
+    @Override
+    public boolean equals(final Object object) {
+      if (!(object instanceof Graph)) {
+        return false;
+      }
+
+      final Graph graph = (Graph) object;
+      return graph.name.equals(name);
+    }
+
     /**
-     * Remove a plotter from the graph
+     * Gets the graph's name
      *
-     * @param plotter the plotter to remove from the graph
+     * @return the Graph's name
      */
-    public void removePlotter(final Plotter plotter) {
-      plotters.remove(plotter);
+    public String getName() {
+      return name;
     }
 
     /**
@@ -713,20 +687,20 @@ public class McStatsMetrics {
       return name.hashCode();
     }
 
-    @Override
-    public boolean equals(final Object object) {
-      if (!(object instanceof Graph)) {
-        return false;
-      }
-
-      final Graph graph = (Graph) object;
-      return graph.name.equals(name);
-    }
-
     /**
      * Called when the server owner decides to opt-out of BukkitMetrics while the server is running.
      */
-    protected void onOptOut() {}
+    protected void onOptOut() {
+    }
+
+    /**
+     * Remove a plotter from the graph
+     *
+     * @param plotter the plotter to remove from the graph
+     */
+    public void removePlotter(final Plotter plotter) {
+      plotters.remove(plotter);
+    }
   }
 
   /**
@@ -755,15 +729,15 @@ public class McStatsMetrics {
       this.name = name;
     }
 
-    /**
-     * Get the current value for the plotted point. Since this function defers to an external
-     * function it may or may not return immediately thus cannot be guaranteed to be thread friendly
-     * or safe. This function can be called from any thread so care should be taken when accessing
-     * resources that need to be synchronized.
-     *
-     * @return the current value for the point to be plotted.
-     */
-    public abstract int getValue();
+    @Override
+    public boolean equals(final Object object) {
+      if (!(object instanceof Plotter)) {
+        return false;
+      }
+
+      final Plotter plotter = (Plotter) object;
+      return plotter.name.equals(name) && plotter.getValue() == getValue();
+    }
 
     /**
      * Get the column name for the plotted point
@@ -775,23 +749,24 @@ public class McStatsMetrics {
     }
 
     /**
-     * Called after the website graphs have been updated
+     * Get the current value for the plotted point. Since this function defers to an external
+     * function it may or may not return immediately thus cannot be guaranteed to be thread friendly
+     * or safe. This function can be called from any thread so care should be taken when accessing
+     * resources that need to be synchronized.
+     *
+     * @return the current value for the point to be plotted.
      */
-    public void reset() {}
+    public abstract int getValue();
 
     @Override
     public int hashCode() {
       return getColumnName().hashCode();
     }
 
-    @Override
-    public boolean equals(final Object object) {
-      if (!(object instanceof Plotter)) {
-        return false;
-      }
-
-      final Plotter plotter = (Plotter) object;
-      return plotter.name.equals(name) && plotter.getValue() == getValue();
+    /**
+     * Called after the website graphs have been updated
+     */
+    public void reset() {
     }
   }
 }

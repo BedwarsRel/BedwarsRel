@@ -1,8 +1,14 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_8_R2;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheep;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
+import net.minecraft.server.v1_8_R2.EntityHuman;
+import net.minecraft.server.v1_8_R2.EntityLiving;
+import net.minecraft.server.v1_8_R2.EntitySheep;
+import net.minecraft.server.v1_8_R2.EntityTNTPrimed;
+import net.minecraft.server.v1_8_R2.GenericAttributes;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
@@ -16,18 +22,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.entity.EntityTargetEvent;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Shop.Specials.ITNTSheep;
-import net.minecraft.server.v1_8_R2.EntityHuman;
-import net.minecraft.server.v1_8_R2.EntityLiving;
-import net.minecraft.server.v1_8_R2.EntitySheep;
-import net.minecraft.server.v1_8_R2.EntityTNTPrimed;
-import net.minecraft.server.v1_8_R2.GenericAttributes;
-
 public class TNTSheep extends EntitySheep implements ITNTSheep {
 
-  private World world = null;
   private TNTPrimed primedTnt = null;
+  private World world = null;
 
   public TNTSheep(net.minecraft.server.v1_8_R2.World world) {
     super(world);
@@ -66,23 +64,23 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
   }
 
   @Override
-  public void setTNT(TNTPrimed tnt) {
-    this.primedTnt = tnt;
-  }
-
-  @Override
   public TNTPrimed getTNT() {
     return this.primedTnt;
   }
 
   @Override
-  public void setPassenger(TNTPrimed tnt) {
-    this.getBukkitEntity().setPassenger(tnt);
+  public void setTNT(TNTPrimed tnt) {
+    this.primedTnt = tnt;
   }
 
   @Override
   public void remove() {
     this.getBukkitEntity().remove();
+  }
+
+  @Override
+  public void setPassenger(TNTPrimed tnt) {
+    this.getBukkitEntity().setPassenger(tnt);
   }
 
   @Override

@@ -3,6 +3,7 @@ package io.github.bedwarsrel.BedwarsRel.Villager;
 import org.bukkit.inventory.ItemStack;
 
 public class VillagerTrade {
+
   private ItemStack item1;
   private ItemStack item2;
   private ItemStack rewardItem;
@@ -34,10 +35,6 @@ public class VillagerTrade {
         new CraftItemStack(this.rewardItem).asNMSCopy());
   }
 
-  public boolean hasItem2() {
-    return this.item2 != null;
-  }
-
   public ItemStack getItem1() {
     return this.item1;
   }
@@ -48,6 +45,10 @@ public class VillagerTrade {
 
   public ItemStack getRewardItem() {
     return this.rewardItem;
+  }
+
+  public boolean hasItem2() {
+    return this.item2 != null;
   }
 
 }

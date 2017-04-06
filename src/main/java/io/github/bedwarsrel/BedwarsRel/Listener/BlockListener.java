@@ -1,7 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Listener;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Game.GameState;
+import io.github.bedwarsrel.BedwarsRel.Game.Team;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.List;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -24,85 +28,7 @@ import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Game.GameState;
-import io.github.bedwarsrel.BedwarsRel.Game.Team;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-
 public class BlockListener extends BaseListener {
-
-  @EventHandler(priority = EventPriority.HIGH)
-  public void onBurn(BlockBurnEvent bbe) {
-    Block block = bbe.getBlock();
-    if (block == null) {
-      return;
-    }
-
-    Game game = Main.getInstance().getGameManager().getGameByLocation(block.getLocation());
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.STOPPED) {
-      return;
-    }
-
-    bbe.setCancelled(true);
-  }
-
-  @EventHandler(ignoreCancelled = true)
-  public void onSpread(BlockSpreadEvent spread) {
-
-    if (spread.getBlock() == null) {
-      return;
-    }
-
-    Game game =
-        Main.getInstance().getGameManager().getGameByLocation(spread.getBlock().getLocation());
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() != GameState.RUNNING) {
-      return;
-    }
-
-    if (spread.getNewState() == null || spread.getSource() == null) {
-      return;
-    }
-
-    if (spread.getNewState().getType().equals(Material.FIRE)) {
-      spread.setCancelled(true);
-      return;
-    }
-
-    if (game.getRegion().isPlacedBlock(spread.getSource())) {
-      game.getRegion().addPlacedBlock(spread.getBlock(), spread.getBlock().getState());
-    } else {
-      game.getRegion().addPlacedUnbreakableBlock(spread.getBlock(), spread.getBlock().getState());
-    }
-  }
-
-  @EventHandler(ignoreCancelled = true)
-  public void onForm(BlockFormEvent form) {
-
-    if (form.getNewState().getType() != Material.SNOW) {
-      return;
-    }
-
-    Game game =
-        Main.getInstance().getGameManager().getGameByLocation(form.getBlock().getLocation());
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.STOPPED) {
-      return;
-    }
-
-    form.setCancelled(true);
-  }
 
   @EventHandler(ignoreCancelled = true)
   public void onBlockGrow(BlockGrowEvent grow) {
@@ -114,34 +40,6 @@ public class BlockListener extends BaseListener {
     }
 
     grow.setCancelled(true);
-  }
-
-  @EventHandler(ignoreCancelled = true)
-  public void onStructureGrow(StructureGrowEvent grow) {
-
-    Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getLocation());
-    if (game == null) {
-      return;
-    }
-
-    grow.setCancelled(true);
-  }
-
-  @EventHandler(ignoreCancelled = true)
-  public void onFade(BlockFadeEvent e) {
-
-    Game game = Main.getInstance().getGameManager().getGameByLocation(e.getBlock().getLocation());
-    if (game == null) {
-      return;
-    }
-
-    if (game.getState() == GameState.STOPPED) {
-      return;
-    }
-
-    if (!game.getRegion().isPlacedBlock(e.getBlock())) {
-      e.setCancelled(true);
-    }
   }
 
   @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
@@ -234,7 +132,7 @@ public class BlockListener extends BaseListener {
 
           if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).equals(e.getBlock())) {
             p.sendMessage(
-                ChatWriter.pluginMessage(ChatColor.RED + Main._l("ingame.no-friendlybreak")));
+                ChatWriter.pluginMessage(ChatColor.RED + Main._l(p, "ingame.no-friendlybreak")));
             e.setCancelled(true);
             return;
           }
@@ -246,7 +144,12 @@ public class BlockListener extends BaseListener {
           List<Block> teamChests = team.getChests();
           if (teamChests.contains(breakedBlock)) {
             team.removeChest(breakedBlock);
-            g.broadcast(Main._l("ingame.teamchestdestroy"), team.getPlayers());
+            for (Player aPlayer : team.getPlayers()) {
+              if (aPlayer.isOnline()) {
+                aPlayer.sendMessage(
+                    ChatWriter.pluginMessage(Main._l(aPlayer, "ingame.teamchestdestroy")));
+              }
+            }
             break;
           }
         }
@@ -273,6 +176,62 @@ public class BlockListener extends BaseListener {
 
       g.getRegion().removePlacedBlock(breakedBlock);
     }
+  }
+
+  @EventHandler(priority = EventPriority.HIGH)
+  public void onBurn(BlockBurnEvent bbe) {
+    Block block = bbe.getBlock();
+    if (block == null) {
+      return;
+    }
+
+    Game game = Main.getInstance().getGameManager().getGameByLocation(block.getLocation());
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() == GameState.STOPPED) {
+      return;
+    }
+
+    bbe.setCancelled(true);
+  }
+
+  @EventHandler(ignoreCancelled = true)
+  public void onFade(BlockFadeEvent e) {
+
+    Game game = Main.getInstance().getGameManager().getGameByLocation(e.getBlock().getLocation());
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() == GameState.STOPPED) {
+      return;
+    }
+
+    if (!game.getRegion().isPlacedBlock(e.getBlock())) {
+      e.setCancelled(true);
+    }
+  }
+
+  @EventHandler(ignoreCancelled = true)
+  public void onForm(BlockFormEvent form) {
+
+    if (form.getNewState().getType() != Material.SNOW) {
+      return;
+    }
+
+    Game game =
+        Main.getInstance().getGameManager().getGameByLocation(form.getBlock().getLocation());
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() == GameState.STOPPED) {
+      return;
+    }
+
+    form.setCancelled(true);
   }
 
   @EventHandler(ignoreCancelled = true)
@@ -369,9 +328,9 @@ public class BlockListener extends BaseListener {
 
       if (replacedBlock != null && !Main.getInstance().getBooleanConfig("place-in-liquid", true)
           && (replacedBlock.getType().equals(Material.WATER)
-              || replacedBlock.getType().equals(Material.STATIONARY_WATER)
-              || replacedBlock.getType().equals(Material.LAVA)
-              || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
+          || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+          || replacedBlock.getType().equals(Material.LAVA)
+          || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
         bpe.setCancelled(true);
         bpe.setBuild(false);
         return;
@@ -379,9 +338,9 @@ public class BlockListener extends BaseListener {
 
       if (replacedBlock != null && placeBlock.getType().equals(Material.WEB)
           && (replacedBlock.getType().equals(Material.WATER)
-              || replacedBlock.getType().equals(Material.STATIONARY_WATER)
-              || replacedBlock.getType().equals(Material.LAVA)
-              || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
+          || replacedBlock.getType().equals(Material.STATIONARY_WATER)
+          || replacedBlock.getType().equals(Material.LAVA)
+          || replacedBlock.getType().equals(Material.STATIONARY_LAVA))) {
         bpe.setCancelled(true);
         bpe.setBuild(false);
         return;
@@ -401,6 +360,50 @@ public class BlockListener extends BaseListener {
             (replacedBlock.getType().equals(Material.AIR) ? null : replacedBlock));
       }
     }
+  }
+
+  @EventHandler(ignoreCancelled = true)
+  public void onSpread(BlockSpreadEvent spread) {
+
+    if (spread.getBlock() == null) {
+      return;
+    }
+
+    Game game =
+        Main.getInstance().getGameManager().getGameByLocation(spread.getBlock().getLocation());
+    if (game == null) {
+      return;
+    }
+
+    if (game.getState() != GameState.RUNNING) {
+      return;
+    }
+
+    if (spread.getNewState() == null || spread.getSource() == null) {
+      return;
+    }
+
+    if (spread.getNewState().getType().equals(Material.FIRE)) {
+      spread.setCancelled(true);
+      return;
+    }
+
+    if (game.getRegion().isPlacedBlock(spread.getSource())) {
+      game.getRegion().addPlacedBlock(spread.getBlock(), spread.getBlock().getState());
+    } else {
+      game.getRegion().addPlacedUnbreakableBlock(spread.getBlock(), spread.getBlock().getState());
+    }
+  }
+
+  @EventHandler(ignoreCancelled = true)
+  public void onStructureGrow(StructureGrowEvent grow) {
+
+    Game game = Main.getInstance().getGameManager().getGameByLocation(grow.getLocation());
+    if (game == null) {
+      return;
+    }
+
+    grow.setCancelled(true);
   }
 
 }

@@ -44,7 +44,7 @@ public class HastebinUtility {
     Matcher matcher = PATTERN.matcher(response.toString());
     if (matcher.matches()) {
       return "https://hastebin.com/" + matcher.group(1);
-    } 
+    }
     return "Error while communicating with hastebin!";
   }
 

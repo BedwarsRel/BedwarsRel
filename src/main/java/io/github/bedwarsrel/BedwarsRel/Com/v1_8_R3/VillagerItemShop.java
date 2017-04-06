@@ -1,8 +1,16 @@
 package io.github.bedwarsrel.BedwarsRel.Com.v1_8_R3;
 
+import io.github.bedwarsrel.BedwarsRel.Game.Game;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-
+import net.minecraft.server.v1_8_R3.EntityHuman;
+import net.minecraft.server.v1_8_R3.EntityVillager;
+import net.minecraft.server.v1_8_R3.MerchantRecipe;
+import net.minecraft.server.v1_8_R3.MerchantRecipeList;
+import net.minecraft.server.v1_8_R3.StatisticList;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -10,21 +18,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-import io.github.bedwarsrel.BedwarsRel.Villager.MerchantCategory;
-import net.minecraft.server.v1_8_R3.EntityHuman;
-import net.minecraft.server.v1_8_R3.EntityVillager;
-import net.minecraft.server.v1_8_R3.MerchantRecipe;
-import net.minecraft.server.v1_8_R3.MerchantRecipeList;
-import net.minecraft.server.v1_8_R3.StatisticList;
-
 public class VillagerItemShop {
 
+  private MerchantCategory category = null;
   private Game game = null;
   private Player player = null;
-  private MerchantCategory category = null;
 
   public VillagerItemShop(Game g, Player p, MerchantCategory category) {
     this.game = g;
@@ -80,11 +78,12 @@ public class VillagerItemShop {
             Method colorable = Utils.getColorableMethod(reward.getType());
 
             if (Utils.isColorable(reward)) {
-              reward.setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
+              reward
+                  .setDurability(game.getPlayerTeam(player).getColor().getDyeColor().getWoolData());
             } else if (colorable != null) {
               ItemMeta meta = reward.getItemMeta();
               colorable.setAccessible(true);
-              colorable.invoke(meta, new Object[] {VillagerItemShop.this.game
+              colorable.invoke(meta, new Object[]{VillagerItemShop.this.game
                   .getPlayerTeam(VillagerItemShop.this.player).getColor().getColor()});
               reward.setItemMeta(meta);
             }

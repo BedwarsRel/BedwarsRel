@@ -1,12 +1,15 @@
 package io.github.bedwarsrel.BedwarsRel.Game;
 
+import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -15,18 +18,11 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import com.google.common.collect.ImmutableMap;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
-import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
-
 public class GameManager {
 
   public static String gamesPath = "games";
-
-  private ArrayList<Game> games = null;
   private Map<Player, Game> gamePlayer = null;
+  private ArrayList<Game> games = null;
 
   public GameManager() {
     this.games = new ArrayList<Game>();
@@ -44,24 +40,12 @@ public class GameManager {
     return newGame;
   }
 
-  public Game getGameOfPlayer(Player player) {
-    return this.gamePlayer.get(player);
-  }
-
   public void addGamePlayer(Player player, Game game) {
     if (this.gamePlayer.containsKey(player)) {
       this.gamePlayer.remove(player);
     }
 
     this.gamePlayer.put(player, game);
-  }
-
-  public void removeGamePlayer(Player player) {
-    this.gamePlayer.remove(player);
-  }
-
-  public ArrayList<Game> getGames() {
-    return this.games;
   }
 
   public Game getGame(String name) {
@@ -74,85 +58,74 @@ public class GameManager {
     return null;
   }
 
-  public void reloadGames() {
-    this.unloadGames();
-
-    this.gamePlayer.clear();
-    this.loadGames();
-  }
-
-  public void removeGame(Game game) {
-    if (game == null) {
-      return;
-    }
-
-    File configs = new File(Main.getInstance().getDataFolder() + File.separator
-        + GameManager.gamesPath + File.separator + game.getName());
-
-    if (configs.exists()) {
-      configs.delete();
-    }
-
-    this.games.remove(game);
-  }
-
-  public void unloadGame(Game game) {
-    if (game.getState() != GameState.STOPPED) {
-      game.stop();
-    }
-
-    game.setState(GameState.STOPPED);
-    game.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
-
-    try {
-      game.kickAllPlayers();
-    } catch (Exception e) {
-      Main.getInstance().getBugsnag().notify(e);
-      e.printStackTrace();
-    }
-    game.resetRegion();
-    game.updateSigns();
-  }
-
-  public void loadGames() {
-    String path = Main.getInstance().getDataFolder() + File.separator + GameManager.gamesPath;
-    File file = new File(path);
-
-    if (!file.exists()) {
-      return;
-    }
-
-    File[] files = file.listFiles(new FileFilter() {
-
-      @Override
-      public boolean accept(File pathname) {
-        return pathname.isDirectory();
-      }
-    });
-
-    if (files.length > 0) {
-      for (File dir : files) {
-        File[] configFiles = dir.listFiles();
-        for (File cfg : configFiles) {
-          if (!cfg.isFile()) {
-            continue;
-          }
-
-          if (cfg.getName().equals("game.yml")) {
-            this.loadGame(cfg);
-          }
-        }
+  public Game getGameByChunkLocation(int x, int z) {
+    for (Game game : this.games) {
+      if (game.getRegion().chunkIsInRegion(x, z)) {
+        return game;
       }
     }
 
-    for (Game g : this.games) {
-      if (!g.run(Main.getInstance().getServer().getConsoleSender())) {
-        Main.getInstance().getServer().getConsoleSender()
-            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gamenotloaded")));
-      } else {
-        g.getCycle().onGameLoaded();
+    return null;
+  }
+
+  public Game getGameByLocation(Location loc) {
+    for (Game game : this.games) {
+      if (game.getRegion() == null) {
+        continue;
+      }
+
+      if (game.getRegion().getWorld() == null) {
+        continue;
+      }
+
+      if (game.getRegion().isInRegion(loc)) {
+        return game;
       }
     }
+
+    return null;
+  }
+
+  public Game getGameBySignLocation(Location location) {
+    for (Game game : this.games) {
+      if (game.getSigns().containsKey(location)) {
+        return game;
+      }
+    }
+
+    return null;
+  }
+
+  public Game getGameOfPlayer(Player player) {
+    return this.gamePlayer.get(player);
+  }
+
+  public int getGamePlayerAmount() {
+    return this.gamePlayer.size();
+  }
+
+  public ArrayList<Game> getGames() {
+    return this.games;
+  }
+
+  public List<Game> getGamesByWorld(World world) {
+    List<Game> games = new ArrayList<Game>();
+
+    for (Game game : this.games) {
+      if (game.getRegion() == null) {
+        continue;
+      }
+
+      if (game.getRegion().getWorld() == null) {
+        continue;
+      }
+
+      if (game.getRegion().getWorld().equals(world)) {
+        games.add(game);
+      }
+    }
+
+    return games;
   }
 
   @SuppressWarnings("unchecked")
@@ -299,14 +272,102 @@ public class GameManager {
 
       this.games.add(game);
       Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main._l("success.gameloaded",
-              ImmutableMap.of("game", game.getRegion().getName()))));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + Main
+              ._l(Main.getInstance().getServer().getConsoleSender(), "success.gameloaded",
+                  ImmutableMap.of("game", game.getRegion().getName()))));
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender()
-          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main._l("errors.gameloaderror",
-              ImmutableMap.of("game", configFile.getParentFile().getName()))));
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main
+              ._l(Main.getInstance().getServer().getConsoleSender(), "errors.gameloaderror",
+                  ImmutableMap.of("game", configFile.getParentFile().getName()))));
     }
+  }
+
+  public void loadGames() {
+    String path = Main.getInstance().getDataFolder() + File.separator + GameManager.gamesPath;
+    File file = new File(path);
+
+    if (!file.exists()) {
+      return;
+    }
+
+    File[] files = file.listFiles(new FileFilter() {
+
+      @Override
+      public boolean accept(File pathname) {
+        return pathname.isDirectory();
+      }
+    });
+
+    if (files.length > 0) {
+      for (File dir : files) {
+        File[] configFiles = dir.listFiles();
+        for (File cfg : configFiles) {
+          if (!cfg.isFile()) {
+            continue;
+          }
+
+          if (cfg.getName().equals("game.yml")) {
+            this.loadGame(cfg);
+          }
+        }
+      }
+    }
+
+    for (Game g : this.games) {
+      if (!g.run(Main.getInstance().getServer().getConsoleSender())) {
+        Main.getInstance().getServer().getConsoleSender()
+            .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + Main
+                ._l(Main.getInstance().getServer().getConsoleSender(), "errors.gamenotloaded")));
+      } else {
+        g.getCycle().onGameLoaded();
+      }
+    }
+  }
+
+  public void reloadGames() {
+    this.unloadGames();
+
+    this.gamePlayer.clear();
+    this.loadGames();
+  }
+
+  public void removeGame(Game game) {
+    if (game == null) {
+      return;
+    }
+
+    File configs = new File(Main.getInstance().getDataFolder() + File.separator
+        + GameManager.gamesPath + File.separator + game.getName());
+
+    if (configs.exists()) {
+      configs.delete();
+    }
+
+    this.games.remove(game);
+  }
+
+  public void removeGamePlayer(Player player) {
+    this.gamePlayer.remove(player);
+  }
+
+  public void unloadGame(Game game) {
+    if (game.getState() != GameState.STOPPED) {
+      game.stop();
+    }
+
+    game.setState(GameState.STOPPED);
+    game.setScoreboard(Main.getInstance().getScoreboardManager().getNewScoreboard());
+
+    try {
+      game.kickAllPlayers();
+    } catch (Exception e) {
+      Main.getInstance().getBugsnag().notify(e);
+      e.printStackTrace();
+    }
+    game.resetRegion();
+    game.updateSigns();
   }
 
   public void unloadGames() {
@@ -315,68 +376,6 @@ public class GameManager {
     }
 
     this.games.clear();
-  }
-
-  public Game getGameByLocation(Location loc) {
-    for (Game game : this.games) {
-      if (game.getRegion() == null) {
-        continue;
-      }
-
-      if (game.getRegion().getWorld() == null) {
-        continue;
-      }
-
-      if (game.getRegion().isInRegion(loc)) {
-        return game;
-      }
-    }
-
-    return null;
-  }
-
-  public Game getGameBySignLocation(Location location) {
-    for (Game game : this.games) {
-      if (game.getSigns().containsKey(location)) {
-        return game;
-      }
-    }
-
-    return null;
-  }
-
-  public List<Game> getGamesByWorld(World world) {
-    List<Game> games = new ArrayList<Game>();
-
-    for (Game game : this.games) {
-      if (game.getRegion() == null) {
-        continue;
-      }
-
-      if (game.getRegion().getWorld() == null) {
-        continue;
-      }
-
-      if (game.getRegion().getWorld().equals(world)) {
-        games.add(game);
-      }
-    }
-
-    return games;
-  }
-
-  public Game getGameByChunkLocation(int x, int z) {
-    for (Game game : this.games) {
-      if (game.getRegion().chunkIsInRegion(x, z)) {
-        return game;
-      }
-    }
-
-    return null;
-  }
-
-  public int getGamePlayerAmount() {
-    return this.gamePlayer.size();
   }
 
 }

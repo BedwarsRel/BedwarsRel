@@ -1,18 +1,5 @@
 package io.github.bedwarsrel.BedwarsRel;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-
 import de.inventivegames.hologram.Hologram;
 import de.inventivegames.hologram.HologramAPI;
 import de.inventivegames.hologram.view.ViewHandler;
@@ -20,7 +7,18 @@ import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import io.github.bedwarsrel.BedwarsRel.Statistics.StatField;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import io.github.bedwarsrel.BedwarsRel.Utils.Utils;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import lombok.Getter;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 public class HologramAPIInteraction implements IHologramInteraction {
 
@@ -30,14 +28,67 @@ public class HologramAPIInteraction implements IHologramInteraction {
   @Getter
   private HashMap<Location, List<Hologram>> hologramSets = null;
 
-  public void unloadHolograms() {
-    if (Main.getInstance().isHologramsEnabled()) {
-      for (Hologram hologram : HologramAPI.getHolograms()) {
-        if (hologram.isSpawned()) {
-          hologram.despawn();
-        }
-      }
+  public void addHologramLocation(Location eyeLocation) {
+    this.hologramLocations.add(eyeLocation);
+    this.updateHologramDatabase();
+    this.createStatisticHologram(eyeLocation);
+  }
+
+  private void createStatisticHologram(Location holoLocation) {
+
+    List<String> lines = new ArrayList<String>();
+    List<Hologram> holograms = new ArrayList<Hologram>();
+    final PlayerStatistic statistic = new PlayerStatistic();
+
+    lines.add(ChatColor.translateAlternateColorCodes('&', Main.getInstance()
+        .getStringConfig("holographic-stats.head-line", "Your &eBEDWARS&f stats")));
+
+    for (StatField statField : statistic.getStatFields()) {
+      lines.add(ChatColor.GRAY + Main._l("stats." + statField.name()) + ": " + ChatColor.YELLOW
+          + "%%" + statField.name() + "%%");
     }
+
+    int currentLine = 0;
+    while (currentLine < lines.size()) {
+      Hologram holo = HologramAPI.createHologram(
+          new Location(holoLocation.getWorld(), holoLocation.getX(),
+              holoLocation.getY() - (currentLine * 0.3), holoLocation.getZ()),
+          lines.get(currentLine));
+      holo.addViewHandler(new ViewHandler() {
+        @Override
+        public String onView(Hologram hologram, Player player, String line) {
+          PlayerStatistic playerStatistic =
+              Main.getInstance().getPlayerStatisticManager().getStatistic(player);
+          for (StatField statField : statistic.getStatFields()) {
+            String value = playerStatistic.getValue(statField.name()).toString();
+            if (statField.name().equals("kd")) {
+              value =
+                  (BigDecimal.valueOf(Double.valueOf(value)).setScale(2, BigDecimal.ROUND_HALF_UP))
+                      .toPlainString();
+            }
+            line = line.replace("%%" + statField.name() + "%%", value);
+          }
+          return line;
+        }
+      });
+      /*
+       * holo.setTouchable(true); holo.addTouchHandler(new TouchHandler() {
+       *
+       * @Override public void onTouch(Hologram hologram, Player player, TouchAction action) {
+       * HologramAPIInteraction.this.onHologramTouch(player, hologram); }
+       *
+       * });
+       */
+      holo.spawn();
+      holograms.add(holo);
+      currentLine++;
+    }
+    this.hologramSets.put(holoLocation, holograms);
+  }
+
+  @Override
+  public String getType() {
+    return "HologramAPI";
   }
 
   @SuppressWarnings("unchecked")
@@ -75,36 +126,6 @@ public class HologramAPIInteraction implements IHologramInteraction {
       this.createStatisticHologram(holoLocation);
     }
   }
-
-  private void updateHologramDatabase() {
-    try {
-      // update hologram-database file
-      File file = new File(Main.getInstance().getDataFolder(), "holodb.yml");
-      YamlConfiguration config = new YamlConfiguration();
-      List<Map<String, Object>> serializedLocations = new ArrayList<Map<String, Object>>();
-
-      for (Location holoLocation : this.hologramLocations) {
-        serializedLocations.add(Utils.locationSerialize(holoLocation));
-      }
-
-      if (!file.exists()) {
-        file.createNewFile();
-      }
-
-      config.set("locations", serializedLocations);
-      config.save(file);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-  }
-
-  public void addHologramLocation(Location eyeLocation) {
-    this.hologramLocations.add(eyeLocation);
-    this.updateHologramDatabase();
-    this.createStatisticHologram(eyeLocation);
-  }
-
 
   @Override
   public void onHologramTouch(Player player, Location holoLocation) {
@@ -156,62 +177,42 @@ public class HologramAPIInteraction implements IHologramInteraction {
 
   }
 
-  private void createStatisticHologram(Location holoLocation) {
-
-    List<String> lines = new ArrayList<String>();
-    List<Hologram> holograms = new ArrayList<Hologram>();
-    final PlayerStatistic statistic = new PlayerStatistic();
-
-    lines.add(ChatColor.translateAlternateColorCodes('&', Main.getInstance()
-        .getStringConfig("holographic-stats.head-line", "Your &eBEDWARS&f stats")));
-
-
-    for (StatField statField : statistic.getStatFields()) {
-      lines.add(ChatColor.GRAY + Main._l("stats." + statField.name()) + ": " + ChatColor.YELLOW
-          + "%%" + statField.name() + "%%");
-    }
-
-    int currentLine = 0;
-    while (currentLine < lines.size()) {
-      Hologram holo = HologramAPI.createHologram(
-          new Location(holoLocation.getWorld(), holoLocation.getX(),
-              holoLocation.getY() - (currentLine * 0.3), holoLocation.getZ()),
-          lines.get(currentLine));
-      holo.addViewHandler(new ViewHandler() {
-        @Override
-        public String onView(Hologram hologram, Player player, String line) {
-          PlayerStatistic playerStatistic =
-              Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-          for (StatField statField : statistic.getStatFields()) {
-            String value = playerStatistic.getValue(statField.name()).toString();
-            if (statField.name().equals("kd")) {
-              value =
-                  (BigDecimal.valueOf(Double.valueOf(value)).setScale(2, BigDecimal.ROUND_HALF_UP))
-                      .toPlainString();
-            }
-            line = line.replace("%%" + statField.name() + "%%", value);
-          }
-          return line;
-        }
-      });
-      /*
-       * holo.setTouchable(true); holo.addTouchHandler(new TouchHandler() {
-       * 
-       * @Override public void onTouch(Hologram hologram, Player player, TouchAction action) {
-       * HologramAPIInteraction.this.onHologramTouch(player, hologram); }
-       * 
-       * });
-       */
-      holo.spawn();
-      holograms.add(holo);
-      currentLine++;
-    }
-    this.hologramSets.put(holoLocation, holograms);
+  @Override
+  public void unloadAllHolograms(Player player) {
+    // NOT NEEDED HERE
   }
 
-  @Override
-  public String getType() {
-    return "HologramAPI";
+  public void unloadHolograms() {
+    if (Main.getInstance().isHologramsEnabled()) {
+      for (Hologram hologram : HologramAPI.getHolograms()) {
+        if (hologram.isSpawned()) {
+          hologram.despawn();
+        }
+      }
+    }
+  }
+
+  private void updateHologramDatabase() {
+    try {
+      // update hologram-database file
+      File file = new File(Main.getInstance().getDataFolder(), "holodb.yml");
+      YamlConfiguration config = new YamlConfiguration();
+      List<Map<String, Object>> serializedLocations = new ArrayList<Map<String, Object>>();
+
+      for (Location holoLocation : this.hologramLocations) {
+        serializedLocations.add(Utils.locationSerialize(holoLocation));
+      }
+
+      if (!file.exists()) {
+        file.createNewFile();
+      }
+
+      config.set("locations", serializedLocations);
+      config.save(file);
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      ex.printStackTrace();
+    }
   }
 
   @Override
@@ -221,11 +222,6 @@ public class HologramAPIInteraction implements IHologramInteraction {
 
   @Override
   public void updateHolograms(Player player, long l) {
-    // NOT NEEDED HERE
-  }
-
-  @Override
-  public void unloadAllHolograms(Player player) {
     // NOT NEEDED HERE
   }
 

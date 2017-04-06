@@ -1,13 +1,11 @@
 package io.github.bedwarsrel.BedwarsRel.Commands;
 
+import io.github.bedwarsrel.BedwarsRel.Main;
+import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.util.ArrayList;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 
 public abstract class BaseCommand implements ICommand {
 
@@ -17,24 +15,24 @@ public abstract class BaseCommand implements ICommand {
     this.plugin = plugin;
   }
 
-  protected Main getPlugin() {
-    return this.plugin;
-  }
-
   @Override
-  public abstract String getCommand();
-
-  @Override
-  public abstract String getName();
-
-  @Override
-  public abstract String getDescription();
+  public abstract boolean execute(CommandSender sender, ArrayList<String> args);
 
   @Override
   public abstract String[] getArguments();
 
   @Override
-  public abstract boolean execute(CommandSender sender, ArrayList<String> args);
+  public abstract String getCommand();
+
+  @Override
+  public abstract String getDescription();
+
+  @Override
+  public abstract String getName();
+
+  protected Main getPlugin() {
+    return this.plugin;
+  }
 
   @Override
   public boolean hasPermission(CommandSender sender) {
