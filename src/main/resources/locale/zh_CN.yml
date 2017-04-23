@@ -13,7 +13,7 @@ errors:
   gamenotfoundsimple: "游戏不存在!"
   playeramount: "玩家最少需要1名最大不超过24名!"
   teamcolornotallowed: "队伍颜色有误"
-  teamnamelength: "队伍名字2-20个字符"
+  teamnamelength: "队伍名必须在2-20个字符之间！"
   teamnotfound: "队伍没有发现!"
   notingame: "你不在游戏中!"
   bedtargeting: "请指定或站在要配置的目标方块上!"
@@ -282,8 +282,8 @@ commands:
     name: "添加队伍选择"
     desc: "在当前位置加入指定队伍的标记!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    debugpaste: "发送调试数据"
+    desc: "这将向 hastebin 计划发送一些调试数据，并返回一个连接以提供给开发人员"
   removeholo:
     name: "删除权限显示"
     desc: "使用这个命令后玩家right-click即可移除全息图."
