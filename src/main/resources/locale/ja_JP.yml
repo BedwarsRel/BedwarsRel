@@ -90,8 +90,8 @@ gamecheck:
   TEAM_NO_WRONG_BED: "One or more teams have no bed set!"
   TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
-  teams: "Teams"
-  all: "All"
+  teams: "チーム"
+  all: "全て"
   record: "&e$record$&a is the record on this map!"
   record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
   newrecord: '&aTeam $team$&a set a new record: &6$record$'
@@ -104,8 +104,8 @@ ingame:
   backtolobby: "Back to lobby in $sec$ second(s)!"
   spectator: "Spectator"
   spectate: "&aSpectate"
-  teamchest: "Team chest"
-  noturteamchest: "This chest isn't a chest of your team!"
+  teamchest: "チームチェスト"
+  noturteamchest: "このチェストはあなたのチームのチェストではありません。"
   protectionleft: "Invulnerable for &c$length$&f second(s)!"
   protectionend: "You're now &cvulnerable&f again!"
   team-dead: "Team $team$ was destroyed!"
@@ -222,40 +222,40 @@ commands:
     name: "Sets a region point"
     desc: "Sets a region point for the game"
   setspawn:
-    name: "Sets a team spawn"
-    desc: "Sets the spawn of the given team"
+    name: "チームのスポーン地点を設定します。"
+    desc: "特定のチームスポーン地点を設定します。"
   setspawner:
-    name: "Set spawner"
+    name: "スポナーのセット"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
-    desc: "Starts a game"
+    name: "ゲームを開始"
+    desc: "ゲームを開始"
   stop:
-    name: "Stop game"
-    desc: "Stops a game"
+    name: "ゲームを停止"
+    desc: "ゲームを停止"
   help:
-    name: "Show Help"
-    desc: "Display information about the plugin and its commands"
+    name: "ヘルプを表示"
+    desc: "プラグインとコマンドの情報を表示します。"
   reload:
-    name: "Reload"
-    desc: "Reloads the configurations and translations"
+    name: "リロード"
+    desc: "設定、翻訳ファイルをリロードします。"
   setmainlobby:
-    name: "Set main lobby"
+    name: "メインロビーを設定"
     desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
   list:
-    name: "List games"
-    desc: "Lists all available games"
+    name: "ゲームリスト"
+    desc: "現在利用可能なすべてのリストを表示します。"
   regionname:
-    name: "Set region name"
+    name: "リージョンの名前を設定します。"
     desc: "Sets an individual region name (instead of world name)"
   removeteam:
-    name: "Remove team"
+    name: "チームを削除"
     desc: "Removes a team from the game (only in stopped mode)"
   removegame:
-    name: "Remove game"
+    name: "ゲームを削除"
     desc: "Removes a game and every configuration"
   clearspawner:
-    name: "Clear spawners"
+    name: "スポナーをクリア"
     desc: "Removes all spawners from the game. Saving needed."
   gametime:
     name: "Set game time"
