@@ -1047,7 +1047,11 @@ public class Game {
     Main.getInstance().getServer().getPluginManager().callEvent(joiningEvent);
 
     if (joiningEvent.isCancelled()) {
-      return false;
+      if(joiningEvent.getKickOnCancel()){
+        return false;
+      } else {
+        return true;
+      }
     }
 
     Main.getInstance().getGameManager().addGamePlayer(p, this);

@@ -13,6 +13,7 @@ public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
   private boolean cancelled = false;
   private Game game = null;
   private Player player = null;
+  private Boolean kickOnCancel = true;
 
   public BedwarsPlayerJoinEvent(Game game, Player player) {
     this.game = game;
@@ -34,6 +35,14 @@ public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
 
   public Player getPlayer() {
     return this.player;
+  }
+
+  public void setKickOnCancel(Boolean kick){
+    this.kickOnCancel = kick;
+  }
+
+  public Boolean getKickOnCancel() {
+    return kickOnCancel;
   }
 
   @Override
