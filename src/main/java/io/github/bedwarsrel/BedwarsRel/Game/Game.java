@@ -1048,10 +1048,17 @@ public class Game {
 
     if (joiningEvent.isCancelled()) {
       if(joiningEvent.getKickOnCancel()){
-        return false;
-      } else {
-        return true;
+        new BukkitRunnable() {
+          @Override
+          public void run() {
+            if (Game.this.getCycle() instanceof BungeeGameCycle) {
+              ((BungeeGameCycle) Game.this.getCycle())
+                  .bungeeSendToServer(Main.getInstance().getBungeeHub(), p, true);
+            }
+          }
+        }.runTaskLater(Main.getInstance(), 5L);
       }
+      return false;
     }
 
     Main.getInstance().getGameManager().addGamePlayer(p, this);

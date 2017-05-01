@@ -693,19 +693,7 @@ public class PlayerListener extends BaseListener {
         return;
       }
 
-      if (!firstGame.playerJoins(player)) {
-        new BukkitRunnable() {
-
-          @Override
-          public void run() {
-            if (firstGame.getCycle() instanceof BungeeGameCycle) {
-              ((BungeeGameCycle) firstGame.getCycle())
-                  .bungeeSendToServer(Main.getInstance().getBungeeHub(), player, true);
-            }
-          }
-
-        }.runTaskLater(Main.getInstance(), 5L);
-      }
+      firstGame.playerJoins(player);
 
     }
   }
