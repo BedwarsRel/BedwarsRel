@@ -195,7 +195,7 @@ stats:
   games: "Spill"
 commands:
   addgame:
-    name: "Lett til spill"
+    name: "Add Game"
     desc: "Adds a new game"
   addteam:
     name: "Legg til lag"
@@ -244,7 +244,7 @@ commands:
     desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
   list:
     name: "Viser spill"
-    desc: "Viser alle tigjengelige spill"
+    desc: "Lists all available games"
   regionname:
     name: "Set region name"
     desc: "Sets an individual region name (instead of world name)"
