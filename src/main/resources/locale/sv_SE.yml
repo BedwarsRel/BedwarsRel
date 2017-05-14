@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "En eller flera lag har ingen säng inställd!"
   TEAM_NO_WRONG_TARGET: "En eller flera lag har inget respawn block inställd!"
 ingame:
+  team: "Team"
   teams: "Lag"
   all: "Alla"
   record: "&e$record$&a är rekordet på denna kartan!"
