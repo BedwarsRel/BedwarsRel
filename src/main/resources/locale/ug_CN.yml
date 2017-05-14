@@ -1,26 +1,26 @@
 ---
 default:
-  pages: "Page $current$ of $max$"
-  currently: Currently
+  pages: "بەت $current$ of $max$"
+  currently: ھازىر
 errors:
-  argumentslength: "Number of arguments does not match the correct amount!"
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  argumentslength: "دائىملىق سان بىلەن توغرا سان ئۇدۇللاشمىغان!"
+  holodependencynotfound: "تاپالمىدى $dependency$ for Hologram-Statistic"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: "A game with this name already exists!"
   gamenotfound: "The game '$game$' could not be found!"
   nofreegames: "There are no free games available."
-  gamenotfoundsimple: "Game not found!"
+  gamenotfoundsimple: "ئويۇن بايقالمىدى!"
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "Team name must have between 2 and 20 characters!"
-  teamnotfound: "Team not found!"
-  notingame: "You are currently not in a game!"
+  teamnotfound: "گورۇپپا تىپىلمىدى!"
+  notingame: "سىز ھازىرقى ئويۇندا يوق!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
   regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
   blockdownnotfound: "The block you're standing on was not found!"
-  gamenotrunning: "Game isn't running!"
+  gamenotrunning: "ئويۇن قوزغالمىدى!"
   bungeenoserver: "Bungeecord Servers wasn't set properly! Talk to the server administrator!"
   cantstartagain: "Game is running! You can't start a running game again!"
   startoutofwaiting: "Game have to be started out of the waiting mode!"
@@ -30,9 +30,9 @@ errors:
   gameloaderror: "Loading game '$game$' throws an error!"
   regionnotfound: "Region file does not exists!"
   savesign: "Couldn't create a new sign config file!"
-  nogames: "No games found!"
+  nogames: "ئويۇن بايقالمىدى!"
   notenoughress: "You didn't have enough ressource to buy this item!"
-  teamnameinuse: "Team name is already in use!"
+  teamnameinuse: "گورۇپپا نامى ئىشلىتىپ بولغان!"
   minplayersmustnumber: "Min players must be a number!"
   toolongregionname: "Maximum length of region name are 15 characters!"
   notwhilegamerunning: "Cannot do that while game is running!"
@@ -90,8 +90,8 @@ gamecheck:
   TEAM_NO_WRONG_BED: "One or more teams have no bed set!"
   TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
-  teams: "Teams"
-  all: "All"
+  teams: "گورۇپ"
+  all: "ھەممە"
   record: "&e$record$&a is the record on this map!"
   record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
   newrecord: '&aTeam $team$&a set a new record: &6$record$'
@@ -185,29 +185,29 @@ stats:
   header: "Bedwars Stats"
   kd: "K/D"
   statsnotfound: "Statistics of $player$ not found!"
-  name: "Name"
-  kills: "Kills"
-  deaths: "Deaths"
-  wins: "Wins"
-  loses: "Loses"
-  score: "Scores"
+  name: "نامى"
+  kills: "ئۆلگەن"
+  deaths: "ئۆلدى"
+  wins: "يەڭدى"
+  loses: "ئۇتتۇرغۇچى"
+  score: "نۇمۇر"
   destroyedBeds: "Destroyed Beds"
-  games: "Games"
+  games: "ئويۇن"
 commands:
   addgame:
-    name: "Add Game"
+    name: "ئويۇن قوشۇش"
     desc: "Adds a new game"
   addteam:
-    name: "Add Team"
+    name: "قوروپ قوشۇش"
     desc: "Adds a team to a specific game"
   join:
-    name: "Join Game"
+    name: "قاتنىشىش"
     desc: "Joins a specific game"
   leave:
-    name: "Leave Game"
+    name: "دەرىجە"
     desc: "Leave the current game"
   save:
-    name: "Save Game"
+    name: "ساقلاش"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
     name: "Set target"
@@ -228,13 +228,13 @@ commands:
     name: "Set spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
-    desc: "Starts a game"
+    name: "باشلاش"
+    desc: "باشلاش"
   stop:
-    name: "Stop game"
-    desc: "Stops a game"
+    name: "توختىتىش"
+    desc: "توختىتىش"
   help:
-    name: "Show Help"
+    name: "ياردەم كۆرنۈش"
     desc: "Display information about the plugin and its commands"
   reload:
     name: "Reload"
@@ -243,7 +243,7 @@ commands:
     name: "Set main lobby"
     desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
   list:
-    name: "List games"
+    name: "تىزىملىك"
     desc: "Lists all available games"
   regionname:
     name: "Set region name"

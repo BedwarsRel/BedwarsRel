@@ -282,7 +282,7 @@ commands:
     name: "Csapatválasztó hozzáadása"
     desc: "Mark egy lény, amely lehet használni, hogy csatlakozzon egy különleges csapatot!"
   addholo:
-    debugpaste: "Send debug data"
+    debugpaste: "Debug-adatok küldése"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "Hologram törlése"
