@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "有队伍没有设置床!"
   TEAM_NO_WRONG_TARGET: "有队伍没有设置重生点!"
 ingame:
+  team: "Team"
   teams: "队伍"
   all: "全部"
   record: "&e$record$&a 是这个地图的记录!"
