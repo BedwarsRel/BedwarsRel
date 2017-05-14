@@ -31,7 +31,14 @@ public class DatabaseManager {
   public static Connection getConnection() {
     DatabaseManager databaseManager = DatabaseManager.getInstance();
     try {
-      Class.forName("com.mysql.cj.jdbc.Driver");
+      if (Main.getInstance().getCurrentVersion().startsWith("v1_8") || Main.getInstance()
+          .getCurrentVersion().startsWith("v1_9") || Main.getInstance().getCurrentVersion()
+          .startsWith("v1_10") || Main.getInstance().getCurrentVersion().startsWith("v1_11")) {
+        Class.forName("com.mysql.jdbc.Driver");
+      } else {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+      }
+
       return DriverManager.getConnection(
           "jdbc:mysql://" + databaseManager.host + ":" + String.valueOf(databaseManager.port) + "/"
               + databaseManager.database + "?serverTimezone=" + TimeZone
