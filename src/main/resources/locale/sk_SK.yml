@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Jeden alebo viac timov nemaju nastavenu postel!"
   TEAM_NO_WRONG_TARGET: "Jeden alebo viac timov nemaju nastaveny respawn block!"
 ingame:
+  team: "Team"
   teams: "Timy"
   all: "Vsetci"
   record: "&e$record$&a je rekord na tejto mape!"
