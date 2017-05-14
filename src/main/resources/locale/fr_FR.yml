@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Une ou plusieurs équipes n'ont pas de lit configuré !"
   TEAM_NO_WRONG_TARGET: "Une ou plusieurs équipes n'ont pas de bloc de respawn configuré !"
 ingame:
+  team: "Team"
   teams: "Equipes"
   all: "Tous"
   record: "&e$record$&a est le record sur cette map !"

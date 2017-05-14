@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Uno o più team non hanno il letto impostato!"
   TEAM_NO_WRONG_TARGET: "Uno o più team non hanno il blocco di respawn settato!"
 ingame:
+  team: "Team"
   teams: "Squadre"
   all: "Globale"
   record: "&e$record$ &aè il record su questa mappa!"

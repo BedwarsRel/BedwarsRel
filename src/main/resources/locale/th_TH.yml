@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "มีทีมที่ยังไม่ได้เซทเตียง"
   TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
+  team: "Team"
   teams: "ทีม"
   all: "ทั้งหมด"
   record: "&e$record$&a is the record on this map!"

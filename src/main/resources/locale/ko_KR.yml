@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "One or more teams have no bed set!"
   TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
+  team: "Team"
   teams: "팀"
   all: "All"
   record: "&a이 맵의 최단 기록: &e$record$"
