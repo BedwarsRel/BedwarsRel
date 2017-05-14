@@ -42,7 +42,7 @@ errors:
   notinair: "你不在空氣中!"
   teamfull: "該團隊已滿，請重新打開團隊選擇菜單!"
   novalidmaterial: "方塊類型不正確!"
-  wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
+  wrongvalueonoff: "參數錯誤! Use true,on,1 to turn on - Use false,off,0 to turn off!"
   playernotfound: "玩家不在線!"
   notingameforkick: "你只能在遊戲中踢出玩家!"
   playernotingame: "玩家不再遊戲中!"
@@ -169,7 +169,7 @@ lobby:
   teamjoined: "您成功加入了團隊 $team$"
   leavegame: "離開遊戲"
   playerjoin: "玩家 $player$ 加入了遊戲!"
-  kickedbyvip: "You were kicked by a vip player which has joined the full game!"
+  kickedbyvip: "有 Vip 玩家加入的關係，你已被踢出本遊戲。"
   moreplayersneeded: "還需要 $count$ 個玩家。"
   moreplayersneeded-one: "還需要 $count$ 個玩家."
   moreteamsneeded: "至少需要有兩名玩家在兩個不同的團隊才能開始遊戲!"
@@ -213,8 +213,8 @@ commands:
     name: "設定目標"
     desc: "設置一個目標陷進"
   setbed:
-    name: "Set bed (synonym for settarget)"
-    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+    name: "設置床 (synonym for settarget)"
+    desc: "為隊伍設置床 (Synonym for settarget)"
   setlobby:
     name: "設置大堂"
     desc: "設置遊戲大堂的位置"
@@ -241,16 +241,16 @@ commands:
     desc: "重新載入配置文件和語言文件"
   setmainlobby:
     name: "設置主要的大堂"
-    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+    desc: "設置遊戲主大廳 (is needed when mainlobby-enabled is set to true)"
   list:
     name: "列出遊戲"
     desc: "列出所有可用的遊戲"
   regionname:
     name: "設置區域名字"
-    desc: "Sets an individual region name (instead of world name)"
+    desc: "給區域設置單獨的名字 (instead of world name)"
   removeteam:
     name: "移除團隊"
-    desc: "Removes a team from the game (only in stopped mode)"
+    desc: "從遊戲移除一個隊伍 (only in stopped mode)"
   removegame:
     name: "移除遊戲"
     desc: "從配置文件刪除遊戲"
@@ -282,7 +282,7 @@ commands:
     name: "添加隊伍選擇"
     desc: "在當前位置加入指定隊伍的標記!"
   addholo:
-    debugpaste: "Send debug data"
+    debugpaste: "發送除錯數據"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   removeholo:
     name: "刪除權限顯示"
