@@ -229,9 +229,7 @@ public class NewItemShop {
       if (iStack.getType() == Material.ENDER_CHEST && stack.getType() == Material.ENDER_CHEST) {
         return trade;
       } else if ((iStack.getType() == Material.POTION
-          || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-          || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-          || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+          || (!Main.getInstance().getCurrentVersion().startsWith("v1_8")
           && (iStack.getType().equals(Material.valueOf("TIPPED_ARROW"))
           || iStack.getType().equals(Material.valueOf("LINGERING_POTION"))
           || iStack.getType().equals(Material.valueOf("SPLASH_POTION")))))) {

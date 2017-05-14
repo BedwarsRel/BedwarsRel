@@ -63,6 +63,9 @@ public class LocalizationConfig extends YamlConfiguration {
   @Override
   public String getString(String path) {
     if (super.get(path) == null) {
+      Main.getInstance().getServer().getConsoleSender()
+          .sendMessage(ChatWriter
+              .pluginMessage(ChatColor.GOLD + "No translation found for: \"" + path + "\""));
       return "LOCALE_NOT_FOUND";
     }
 

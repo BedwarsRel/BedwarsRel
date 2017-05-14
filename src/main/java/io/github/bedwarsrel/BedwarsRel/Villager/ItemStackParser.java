@@ -73,9 +73,7 @@ public class ItemStackParser {
 
   private boolean isMetarizable() {
     return (!this.material.equals(Material.POTION)
-        && !((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+        && !(!Main.getInstance().getCurrentVersion().startsWith("v1_8")
         && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
         || this.material.equals(Material.valueOf("LINGERING_POTION"))
         || this.material.equals(Material.valueOf("SPLASH_POTION")))));
@@ -83,12 +81,10 @@ public class ItemStackParser {
 
   private boolean isPotion() {
     return (this.material.equals(Material.POTION)
-        || ((Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_11"))
+        || (!Main.getInstance().getCurrentVersion().startsWith("v1_8"))
         && (this.material.equals(Material.valueOf("TIPPED_ARROW"))
         || this.material.equals(Material.valueOf("LINGERING_POTION"))
-        || this.material.equals(Material.valueOf("SPLASH_POTION")))));
+        || this.material.equals(Material.valueOf("SPLASH_POTION"))));
   }
 
   public ItemStack parse() {

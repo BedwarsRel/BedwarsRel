@@ -867,9 +867,7 @@ public class Main extends JavaPlugin {
     new WeatherListener();
     new BlockListener();
     new PlayerListener();
-    if (Main.getInstance().getCurrentVersion().startsWith("v1_9")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_10")
-        || Main.getInstance().getCurrentVersion().startsWith("v1_11")) {
+    if (!Main.getInstance().getCurrentVersion().startsWith("v1_8")) {
       new Player19Listener();
     }
     new HangingListener();

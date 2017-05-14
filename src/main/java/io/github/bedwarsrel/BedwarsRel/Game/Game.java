@@ -752,10 +752,11 @@ public class Game {
         return false;
       }
 
-      neighbor.getDrops().clear();
-      neighbor.setType(Material.AIR);
+
       breakBlock.getDrops().clear();
       breakBlock.setType(Material.AIR);
+      neighbor.getDrops().clear();
+      neighbor.setType(Material.AIR);
     } else {
       if (bedBlock.equals(block)) {
         p.sendMessage(
@@ -926,11 +927,13 @@ public class Game {
       team.getScoreboardTeam()
           .setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
       if (team.getPlayers().size() == 0) {
+
+        team.getHeadTarget().setType(Material.AIR);
+
         if (team.getFeetTarget() != null) {
           team.getFeetTarget().setType(Material.AIR);
         }
 
-        team.getHeadTarget().setType(Material.AIR);
       } else {
 
         this.playingTeams.add(team);
@@ -1164,7 +1167,7 @@ public class Game {
           for (Player aPlayer : this.getPlayers()) {
             if (aPlayer.isOnline()) {
               aPlayer.sendMessage(ChatWriter
-                  .pluginMessage(ChatColor.RED + Main._l(aPlayer, "lobby.moreteamssneeded")));
+                  .pluginMessage(ChatColor.RED + Main._l(aPlayer, "lobby.moreteamsneeded")));
             }
           }
         }
@@ -1642,6 +1645,12 @@ public class Game {
     this.teleportPlayersToTeamSpawn();
 
     this.state = GameState.RUNNING;
+
+    for(Player player : this.getPlayers()){
+      this.setPlayerGameMode(player);
+      this.setPlayerVisibility(player);
+    }
+
     this.startActionBarRunnable();
     this.updateScoreboard();
 
