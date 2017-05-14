@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Viena ar daugiau komandu neturi nustatytos lovos!"
   TEAM_NO_WRONG_TARGET: "Vienas ar daugiau komandų neturi nustatyto prisikėlimo bloko!"
 ingame:
+  team: "Team"
   teams: "Komandos"
   all: "Visi"
   record: "&e$record$&a yra sios arenos rekordas!"
