@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "En eller flere hold har ingen seng sæt!"
   TEAM_NO_WRONG_TARGET: "En eller flere hold har ingen respawn block sat!"
 ingame:
+  team: "Team"
   teams: "Hold"
   all: "Alle"
   record: "&e$record$&a er rekorden på dette map!"
