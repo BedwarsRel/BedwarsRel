@@ -154,7 +154,7 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.11-R0.1-SNAPSHOT</version>
+      <version>1.12-pre2-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -220,15 +220,22 @@
       <systemPath>${pom.basedir}/lib/spigot-1.11-R1-16c940b-eed13ca.jar</systemPath>
     </dependency>
     <dependency>
+      <groupId>net.minecraft</groupId>
+      <artifactId>minecraft-server-1-12-0</artifactId>
+      <version>1.11</version>
+      <scope>system</scope>
+      <systemPath>${pom.basedir}/lib/spigot-1.12-pre2.jar</systemPath>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.16.12</version>
+      <version>1.16.16</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>17.0</version>
+      <version>21.0</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

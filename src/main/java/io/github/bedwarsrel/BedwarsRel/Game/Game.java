@@ -751,11 +751,7 @@ public class Game {
       if (bedDestroyTeam == null) {
         return false;
       }
-
-      neighbor.getDrops().clear();
-      neighbor.setType(Material.AIR);
-      breakBlock.getDrops().clear();
-      breakBlock.setType(Material.AIR);
+      this.dropTargetBlock(block);
     } else {
       if (bedBlock.equals(block)) {
         p.sendMessage(
@@ -768,8 +764,7 @@ public class Game {
         return false;
       }
 
-      block.getDrops().clear();
-      block.setType(Material.AIR);
+      this.dropTargetBlock(block);
     }
 
     // set statistics
@@ -919,6 +914,30 @@ public class Game {
     return list;
   }
 
+  private void dropTargetBlock(Block targetBlock) {
+    if (targetBlock.getType().equals(Material.BED_BLOCK)) {
+      Block bedHead;
+      Block bedFeet;
+      Bed bedBlock = (Bed) targetBlock.getState().getData();
+
+      if (!bedBlock.isHeadOfBed()) {
+        bedFeet = targetBlock;
+        bedHead = Utils.getBedNeighbor(bedFeet);
+      } else {
+        bedHead = targetBlock;
+        bedFeet = Utils.getBedNeighbor(bedHead);
+      }
+
+      if (!Main.getInstance().getCurrentVersion().startsWith("v1_12")) {
+        bedFeet.setType(Material.AIR);
+      } else {
+        bedHead.setType(Material.AIR);
+      }
+    } else {
+      targetBlock.setType(Material.AIR);
+    }
+  }
+
   private void makeTeamsReady() {
     this.playingTeams.clear();
 
@@ -926,13 +945,8 @@ public class Game {
       team.getScoreboardTeam()
           .setAllowFriendlyFire(Main.getInstance().getConfig().getBoolean("friendlyfire"));
       if (team.getPlayers().size() == 0) {
-        if (team.getFeetTarget() != null) {
-          team.getFeetTarget().setType(Material.AIR);
-        }
-
-        team.getHeadTarget().setType(Material.AIR);
+        this.dropTargetBlock(team.getHeadTarget());
       } else {
-
         this.playingTeams.add(team);
       }
     }
@@ -1047,7 +1061,7 @@ public class Game {
     Main.getInstance().getServer().getPluginManager().callEvent(joiningEvent);
 
     if (joiningEvent.isCancelled()) {
-      if(joiningEvent.getKickOnCancel()){
+      if (joiningEvent.getKickOnCancel()) {
         new BukkitRunnable() {
           @Override
           public void run() {
@@ -1164,7 +1178,7 @@ public class Game {
           for (Player aPlayer : this.getPlayers()) {
             if (aPlayer.isOnline()) {
               aPlayer.sendMessage(ChatWriter
-                  .pluginMessage(ChatColor.RED + Main._l(aPlayer, "lobby.moreteamssneeded")));
+                  .pluginMessage(ChatColor.RED + Main._l(aPlayer, "lobby.moreteamsneeded")));
             }
           }
         }
@@ -1642,6 +1656,12 @@ public class Game {
     this.teleportPlayersToTeamSpawn();
 
     this.state = GameState.RUNNING;
+
+    for (Player player : this.getPlayers()) {
+      this.setPlayerGameMode(player);
+      this.setPlayerVisibility(player);
+    }
+
     this.startActionBarRunnable();
     this.updateScoreboard();
 
@@ -1687,7 +1707,8 @@ public class Game {
               for (Player player : team.getPlayers()) {
                 try {
                   sendActionBar.invoke(null, player,
-                      team.getChatColor() + "Team " + team.getDisplayName());
+                      team.getChatColor() + Main._l(player, "ingame.team") + " " + team
+                          .getDisplayName());
                 } catch (IllegalAccessException | IllegalArgumentException
                     | InvocationTargetException e) {
                   Main.getInstance().getBugsnag().notify(e);

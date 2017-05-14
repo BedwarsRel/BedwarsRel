@@ -282,8 +282,8 @@ commands:
     name: "Ajouter une sélection de team"
     desc: "Marquez une créature qui peut être utilisée pour rejoindre une équipe spécifique!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    debugpaste: "Envoyer les données de debug"
+    desc: "Cette option enverra des informations de debug à Hastebin et vous donnera un lien que vous pourrez partager avec les devellopeurs"
   removeholo:
     name: "Supprimer une position holographique"
     desc: "Une statistique d'hologramme sera ajoutée à la position actuelle."

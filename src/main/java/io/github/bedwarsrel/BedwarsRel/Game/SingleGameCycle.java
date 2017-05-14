@@ -131,7 +131,7 @@ public class SingleGameCycle extends GameCycle {
       }
     }
 
-    if (task.getCounter() == 0) {
+    if (this.getGame().getPlayers().size() == 0 || task.getCounter() == 0) {
       BedwarsGameEndEvent endEvent = new BedwarsGameEndEvent(this.getGame());
       Main.getInstance().getServer().getPluginManager().callEvent(endEvent);
 

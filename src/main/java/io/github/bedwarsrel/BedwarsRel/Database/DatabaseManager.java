@@ -169,7 +169,7 @@ public class DatabaseManager {
       this.dataSource = new ComboPooledDataSource();
 
       // currently only mysql is supported
-      this.dataSource.setDriverClass("com.mysql.jdbc.Driver");
+      this.dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
       this.dataSource.setJdbcUrl(
           "jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/" + this.database);
 

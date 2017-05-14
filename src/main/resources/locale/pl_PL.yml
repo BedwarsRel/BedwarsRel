@@ -48,7 +48,7 @@ errors:
   playernotingame: "Dany gracz nie jest w tej grze!"
   mustbeinlobbyworld: "Musisz być w świecie gdzie znajduje się lobby"
   addteamjoincancel: "Dodawanie druzyny zostało anulowane!"
-  entitynotcompatible: "This entity is not compatible with team join!"
+  entitynotcompatible: "Ten podmiot nie jest zgodny z drużyny dołączonej!"
 success:
   gameadded: "Nowa gra '$game$ ' pomyślnie dodana!"
   teamadded: "Zespół '$team$ ' pomyślnie dodany!"
@@ -76,26 +76,26 @@ success:
   builderset: "Budowniczy dla mapy została ustawiona pomyślnie i będą wyświetlane w tytule!"
   autobalanceseton: "Autobalans zespolow włączony!"
   autobalancesetoff: "Balansowanie zespolow zostalo wylaczone!"
-  selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
+  selectteamjoinentity: "Teraz kliknij prawym przyciskiem myszy na obiekt który chcesz użyć jako dołączanie do drużyn!"
   teamjoinadded: "Jednostka została pomyślnie oznaczony jako wybór zespołu $team$"
-  holoremoved: "Hologram-Statistic successfully removed!"
+  holoremoved: "Statystyki Hologramów pomyślnie usunięte!"
 gamecheck:
   LOC_NOT_SET_ERROR: "Lokalizacje dla regionu nie były prawidłowe!"
   TEAM_SIZE_LOW_ERROR: "Musisz ustawić więcej zespołów!"
   NO_RES_SPAWNER_ERROR: "Nie ustawiono żadnych spawnerów przedmiotów!"
   NO_LOBBY_SET: "Nie ustawiles lobby!"
   TEAMS_WITHOUT_SPAWNS: "Istnieją zespoły bez miejsca spawnu!"
-  NO_ITEMSHOP_CATEGORIES: "No itemshop categories found!"
-  NO_MAIN_LOBBY_SET: "You didn't set a main lobby even though you did set 'tomainlobby' to true"
+  NO_ITEMSHOP_CATEGORIES: "Nie znaleziono kategorii w itemshopie!"
+  NO_MAIN_LOBBY_SET: "Nie ustawisz głównego lobby ponieważ 'tomainlobby' nie ustawiłeś na true"
   TEAM_NO_WRONG_BED: "Jedno lub więcej drużyn nie ma ustawionego łóżka!"
-  TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
+  TEAM_NO_WRONG_TARGET: "Jedna lub więcej drużyn nie ma ustawionego spawnu!"
 ingame:
   teams: "Zespoły"
   all: "Wszystkie"
-  record: "&e$record$&a is the record on this map!"
-  record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
-  newrecord: '&aTeam $team$&a set a new record: &6$record$'
-  record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
+  record: "&e$record$&a To jest aktualny rekord mapy!"
+  record-with-holders: '&aRekord czasu tej mapy wynosi &e$record$&a i jest ustanowiony przez $holders$'
+  newrecord: '&aDrużyna $team$&a ustanowiła nowy rekord: &6$record$'
+  record-nobeddestroy: "&cRekord nie może być zapisany, ponieważ łóżko nie zostało zniszczone!"
   teamwon: "Gratulacje! Druzyna $team$ wygrala!"
   draw: "Gra zakonczyla sie remisem!"
   serverrestart: "Restart serwera za $sec$ sekund!"
@@ -106,23 +106,23 @@ ingame:
   spectate: "Obserwuj"
   teamchest: "Skrzynia druzynowa"
   noturteamchest: "Ta skrzynia nie jest skrzynia twojej druzyny!"
-  protectionleft: "Invulnerable for &c$length$&f second(s)!"
-  protectionend: "You're now &cvulnerable&f again!"
-  team-dead: "Team $team$ was destroyed!"
-  no-friendlybreak: "&cCan't break block under team-member!"
-  teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
+  protectionleft: "Jesteś nietykalny przez &c$length$&f sekund!"
+  protectionend: "Jesteś teraz &cvulnerable&f ponownie!"
+  team-dead: "Drużyna $team$ została zniszczona!"
+  no-friendlybreak: "&cNie możesz rozwalić bloku pod twoim przyjacielem z drużyny!"
+  teamchestdestroy: "&cJedna z twoich drużynowych skrzyń została zniszczona!"
   title:
-    map-builder: "Built by $builder$"
+    map-builder: "Zbudowane przez $builder$"
     win-title: "&6Gratulacje!"
-    win-subtitle: "$team$&6 won in &e$time$"
+    win-subtitle: "$team$&6 wygrali w czasie &e$time$"
   shop:
     name: "Itemshop"
     newshop: "Użyj nowego sklepu"
     oldshop: "Użyj starego sklepu"
-    fullstackpershift: "Multiply stacks per shift click"
-    onestackpershift: "One stack per shift click"
+    fullstackpershift: "Pomnóż stosy kliknięć shift"
+    onestackpershift: "Jeden stoj na kliknięcie shift"
   player:
-    left: "Player $player$ has left the game!"
+    left: "Gracz $player$ wyszedł z gry!"
     died: "$player$ zginął!"
     killed: "$killer$ zabił $player$!"
     kicked: "$player$ został wyrzucony!"
@@ -179,10 +179,10 @@ sign:
   gamestate:
     stopped: "&4Zatrzymano!"
     waiting: "&aOczekiwanie..."
-    running: "&9Running!"
+    running: "&9Uciekać!"
     full: "Pełen!"
 stats:
-  header: "Bedwars Stats"
+  header: "Statystyki BedWars"
   kd: "K/D"
   statsnotfound: "Statystyki gracza $player$ nie znalezione!"
   name: "Nick"
@@ -191,59 +191,59 @@ stats:
   wins: "Wygrane"
   loses: "Przegrane"
   score: "Punkty"
-  destroyedBeds: "Destroyed Beds"
+  destroyedBeds: "Zniszczone łóżka"
   games: "Gry"
 commands:
   addgame:
     name: "Dodaj gre"
-    desc: "Adds a new game"
+    desc: "Dodaj nową grę"
   addteam:
     name: "Dodaj druzyne"
     desc: "Dodaj druzyne do gry"
   join:
     name: "Dolacz do gry"
-    desc: "Joins a specific game"
+    desc: "Dołącza do określonej gry"
   leave:
-    name: "Leave Game"
-    desc: "Leave the current game"
+    name: "Opuść grę"
+    desc: "Wyjdź z aktualnej gry"
   save:
     name: "Zapisz gre"
     desc: "Zapisz gre (rowniez mape)"
   settarget:
     name: "Ustaw cel"
-    desc: "Sets the location of a team's target block"
+    desc: "Ustawia lokalizacje docelowej drużyny"
   setbed:
-    name: "Set bed (synonym for settarget)"
-    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+    name: "Ustaw łóżko (synonim settarget)"
+    desc: "Ustaw lokalizacje łóżka drużyny (Synonim settarget)"
   setlobby:
-    name: "Set lobby"
-    desc: "Sets the location of the gamelobby"
+    name: "Ustaw lobby"
+    desc: "Ustaw lokalizacje lobby gry"
   setregion:
-    name: "Sets a region point"
-    desc: "Sets a region point for the game"
+    name: "Ustaw punkt regionu"
+    desc: "Ustaw region dla tej gry"
   setspawn:
-    name: "Sets a team spawn"
-    desc: "Sets the spawn of the given team"
+    name: "Ustaw spawn drużyny"
+    desc: "Ustaw spawn danej drużyny"
   setspawner:
-    name: "Set spawner"
-    desc: "Sets a spawner location of a specific ressource"
+    name: "Ustaw spawner"
+    desc: "Ustaw spawner dla konkretnego itemu"
   start:
-    name: "Start game"
-    desc: "Starts a game"
+    name: "Rozpocznij grę"
+    desc: "Gra się rozpoczyna"
   stop:
-    name: "Stop game"
-    desc: "Stops a game"
+    name: "Zatrzymaj grę"
+    desc: "Zatrzymuje grę"
   help:
-    name: "Show Help"
-    desc: "Display information about the plugin and its commands"
+    name: "Pokaż Pomoc"
+    desc: "Wyświetl informacje o pluginie i jego komendy"
   reload:
-    name: "Reload"
-    desc: "Reloads the configurations and translations"
+    name: "Przeładuj"
+    desc: "Przeładuj konfiguracje i tłumaczenie"
   setmainlobby:
-    name: "Set main lobby"
-    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+    name: "Ustaw główne lobby"
+    desc: "Ustaw główne lobby gry (Wymagane jest mainlobby-enabled ustawione na true)"
   list:
-    name: "List games"
+    name: "Lista gier"
     desc: "Lista wszystkich dostępnych gier"
   regionname:
     name: "Ustaw nazwę regionu"
@@ -282,8 +282,8 @@ commands:
     name: "Dodaj wybór drużyny"
     desc: "Stwórz istotę, która może być użyta aby dołączyć do konkretnej drużyny!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    debugpaste: "Wyślij dane debugowania"
+    desc: "To będzie wysyłać dane debugowania do hastebin i zwróci link który możesz udostępnić deweloperom"
   removeholo:
     name: "Usuń lokalizację hologramu"
     desc: "Kiedy ta komenda zostanie wykonana, gracz może kliknąć prawym przyciskiem myszki na hologram aby go usunąć."

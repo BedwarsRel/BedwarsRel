@@ -136,7 +136,7 @@ ingame:
     arrow-blocker:
       start: "Je bent beschermd om geraakt te woorden door pijlen voor &c$time$&f second(en)."
       end: "&cJe bescherming tegen pijlen is verlopen"
-      left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
+      left: "Je moet nog &c$time$&f seconde(n) wachten totdat u weer arrowblocker kunt gebruiken!"
     trap:
       trapped: "&eIemand is in een &ctrap&e geweest van jouw team!"
     protection-wall:
@@ -157,13 +157,13 @@ lobby:
   countdowncancel: "Meer spelers nodig. aftelling is afgelast!"
   cancelcountdown:
     not_enough_players: "Meer spelers nodig. Aftelling is afgelast!"
-    not_enough_teams: "More teams needed. Countdown cancelled!"
+    not_enough_teams: "Meer teams nodig. Aftellen is gestopt!"
   cancelstart:
     not_enough_players: "Meer spelers zijn nodig om het spel te starten!"
-    not_enough_teams: "More teams are needed to start the game!"
+    not_enough_teams: "Meer teams zijn nodig om het spel te starten!"
   chooseteam: "Kies een team"
   startgame: "Start spel"
-  reduce_countdown: "Reduce countdown"
+  reduce_countdown: "Aftelling verminderen"
   gamefull: "Spel is vol!"
   gamefullpremium: "Het spel is voll met premium spelers!"
   teamjoined: "Je hebt met succes het $team$ team gejoined"
@@ -172,7 +172,7 @@ lobby:
   kickedbyvip: "Je bent gekit door een een VIP speler die het spel joint wanneer het spel vol is!"
   moreplayersneeded: "$count$ meer spelers nodig."
   moreplayersneeded-one: "$count$ speler meer nodig."
-  moreteamsneeded: "A minimum of two players in two different teams is needed to start the game!"
+  moreteamsneeded: "Een minimum van 2 spelers in 2 verschillende teams is nodig om het spel te starten!"
 sign:
   firstline: "&6[Bedwars]"
   players: "Spelers"
@@ -273,8 +273,8 @@ commands:
     name: "Zetten van autobalance"
     desc: "Als 'globale-autobalance' gezet is op vals, met dit commando kan je team-autobalance per spel op aan of uit zetten"
   setminplayers:
-    name: "Set minimum players"
-    desc: "Sets the amount of players needed to start the game"
+    name: "Zet minimaal aantal spelers"
+    desc: "Zet het aantal spelers dat nodig is om het spel te starten"
   kick:
     name: "Kick speler"
     desc: "Kick een speler van het spel dat nu gespeeld wordt!"
@@ -282,8 +282,8 @@ commands:
     name: "Voeg team selector toe"
     desc: "Duid een monster aan dat als team selector gebruikt kan worden voor een specifiek team!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    debugpaste: "Verzend debug data"
+    desc: "Dit verzend debug data naar hastebin en geeft jou een link die je kan delen met de developer"
   removeholo:
     name: "Verwijder hologram locatie"
     desc: "Wanneer het command uitgevoerd is, moeten de spelers rechts-klik drukken op de hologram en het zou weg moeten gaan."
