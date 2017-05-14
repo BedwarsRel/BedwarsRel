@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Az egyik csapatnak nincs ágya!"
   TEAM_NO_WRONG_TARGET: "Egy vagy több csapatnak nincs újraéledő pontja!"
 ingame:
+  team: "Team"
   teams: "Csapatok"
   all: "Mindenki"
   record: "&e$record$&7 A rekord ezen a mapon!"
