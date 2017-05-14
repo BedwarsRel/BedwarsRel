@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Một hoặc nhiều đội đã không có giường để thiết lập!"
   TEAM_NO_WRONG_TARGET: "Một hay một số đội không có khối respawn!"
 ingame:
+  team: "Team"
   teams: "Các đội"
   all: "Tất cả"
   record: "&e$record$&a được ghi trên bản đồ này!"

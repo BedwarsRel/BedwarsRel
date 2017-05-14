@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Обнаружена(ы) команда(ы) без кровати"
   TEAM_NO_WRONG_TARGET: "Одна или больше команд не имеет кровати"
 ingame:
+  team: "Team"
   teams: "Команде"
   all: "Всем"
   record: "&aЖелаем &cВам &bприятной &eигры"

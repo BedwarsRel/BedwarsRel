@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Eén of meer teams heeft geen bed!"
   TEAM_NO_WRONG_TARGET: "Eén of meer teams heeft geen respawn blok gezet!"
 ingame:
+  team: "Team"
   teams: "Ploegen"
   all: "Al"
   record: "&e$record$&a Is het record van deze map!"

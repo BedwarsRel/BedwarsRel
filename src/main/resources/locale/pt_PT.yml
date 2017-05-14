@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Uma ou mais teams nao tem cama setada"
   TEAM_NO_WRONG_TARGET: "Uma ou mais teams nao tem o bloco de respawn setado!"
 ingame:
+  team: "Team"
   teams: "Teams"
   all: "Todos"
   record: "&e$record$&a é o tempo recorde deste mapa!"

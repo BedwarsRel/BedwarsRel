@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Jedno lub więcej drużyn nie ma ustawionego łóżka!"
   TEAM_NO_WRONG_TARGET: "Jedna lub więcej drużyn nie ma ustawionego spawnu!"
 ingame:
+  team: "Team"
   teams: "Zespoły"
   all: "Wszystkie"
   record: "&e$record$&a To jest aktualny rekord mapy!"
