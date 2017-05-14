@@ -289,6 +289,9 @@ commands:
     name: "Remove hologram location"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
-  addholo:
-    debugpaste: "Send debug data"
+  debugpaste:
+    name: "Paste debug data"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

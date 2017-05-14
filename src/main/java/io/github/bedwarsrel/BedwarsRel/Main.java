@@ -13,6 +13,7 @@ import io.github.bedwarsrel.BedwarsRel.Commands.ClearSpawnerCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.DebugPasteCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.GameTimeCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.HelpCommand;
+import io.github.bedwarsrel.BedwarsRel.Commands.ItemsPasteCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.JoinGameCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.KickCommand;
 import io.github.bedwarsrel.BedwarsRel.Commands.LeaveGameCommand;
@@ -853,6 +854,7 @@ public class Main extends JavaPlugin {
     this.commands.add(new AddHoloCommand(this));
     this.commands.add(new RemoveHoloCommand(this));
     this.commands.add(new DebugPasteCommand(this));
+    this.commands.add(new ItemsPasteCommand(this));
 
     this.getCommand("bw").setExecutor(executor);
   }
