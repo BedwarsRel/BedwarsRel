@@ -239,12 +239,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.mchange</groupId>
-      <artifactId>c3p0</artifactId>
-      <version>0.9.5.2</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
       <groupId>com.bugsnag</groupId>
       <artifactId>bugsnag</artifactId>
       <version>3.0.2</version>

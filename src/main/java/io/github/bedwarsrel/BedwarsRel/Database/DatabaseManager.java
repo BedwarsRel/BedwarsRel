@@ -1,20 +1,19 @@
 package io.github.bedwarsrel.BedwarsRel.Database;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-import com.mchange.v2.c3p0.DataSources;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.TimeZone;
 import org.bukkit.ChatColor;
 
 public class DatabaseManager {
 
   public static String DBPrefix = "bw_";
   private static DatabaseManager instance = null;
-  private ComboPooledDataSource dataSource = null;
   private String database = null;
   private String host = null;
   private String password = null;
@@ -30,7 +29,20 @@ public class DatabaseManager {
   }
 
   public static Connection getConnection() {
-    return DatabaseManager.instance.getDataSourceConnection();
+    DatabaseManager databaseManager = DatabaseManager.getInstance();
+    try {
+      Class.forName("com.mysql.cj.jdbc.Driver");
+      return DriverManager.getConnection(
+          "jdbc:mysql://" + databaseManager.host + ":" + String.valueOf(databaseManager.port) + "/"
+              + databaseManager.database + "?serverTimezone=" + TimeZone
+              .getDefault().getID(),
+          databaseManager.user, databaseManager.password);
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
+          .pluginMessage(ChatColor.RED + "Couldn't connect to database: " + ex.getMessage()));
+    }
+    return null;
   }
 
   public static DatabaseManager getInstance() {
@@ -83,7 +95,7 @@ public class DatabaseManager {
   }
 
   public void cleanUp() {
-    if (this.dataSource != null) {
+  /*  if (this.dataSource != null) {
       try {
         this.dataSource.setMinPoolSize(0);
         this.dataSource.setInitialPoolSize(0);
@@ -92,7 +104,7 @@ public class DatabaseManager {
         Main.getInstance().getBugsnag().notify(e);
         // just shutdown
       }
-    }
+    } */
   }
 
   public void delete(String sql) {
@@ -108,7 +120,7 @@ public class DatabaseManager {
     }
 
     try {
-      con = this.getDataSourceConnection();
+      con = this.getConnection();
       statement = con.createStatement();
 
       if (sqls.length == 1) {
@@ -123,18 +135,6 @@ public class DatabaseManager {
     } finally {
       this.clean(con);
     }
-  }
-
-  public Connection getDataSourceConnection() {
-    try {
-      return this.dataSource.getConnection();
-    } catch (SQLException e) {
-      Main.getInstance().getBugsnag().notify(e);
-      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + "Couldn't get a pooled connection: " + e.getMessage()));
-    }
-
-    return null;
   }
 
   private int getMaxPoolSizeConfig() {
@@ -160,31 +160,7 @@ public class DatabaseManager {
   }
 
   public void initialize() {
-    this.initializePooledDataSource(this.getMinPoolSizeConfig(), this.getMaxPoolSizeConfig());
     DatabaseManager.instance = this;
-  }
-
-  private void initializePooledDataSource(int minPoolSize, int maxPoolSize) {
-    try {
-      this.dataSource = new ComboPooledDataSource();
-
-      // currently only mysql is supported
-      this.dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-      this.dataSource.setJdbcUrl(
-          "jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/" + this.database);
-
-      this.dataSource.setUser(this.user);
-      this.dataSource.setPassword(this.password);
-
-      // connection pool configuration
-      this.dataSource.setMaxIdleTime(600);
-      this.dataSource.setMinPoolSize(minPoolSize);
-      this.dataSource.setMaxPoolSize(maxPoolSize);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + "Couldn't create pooled datasource: " + ex.getMessage()));
-    }
   }
 
   public void insert(String sql) {
@@ -197,7 +173,7 @@ public class DatabaseManager {
     ResultSet result = null;
 
     try {
-      con = this.getDataSourceConnection();
+      con = this.getConnection();
       statement = con.createStatement();
       result = statement.executeQuery(sql);
 
@@ -216,7 +192,7 @@ public class DatabaseManager {
     Statement statement = null;
 
     try {
-      con = this.getDataSourceConnection();
+      con = this.getConnection();
       statement = con.createStatement();
 
       statement.executeUpdate(sql);
