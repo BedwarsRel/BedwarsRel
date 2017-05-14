@@ -90,6 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "¡Uno o más equipos no tiene una cama puesta!"
   TEAM_NO_WRONG_TARGET: "¡Uno o más equipos no tienen un Bloque de Respawn!"
 ingame:
+  team: "Team"
   teams: "Equipos"
   all: "Todo"
   record: "¡&e$record$&a es el récord en este mapa!"
