@@ -769,7 +769,6 @@ public class Main extends JavaPlugin {
       this.disableBugsnag();
     }
 
-    configUpdater.updateShop();
     this.loadShop();
 
     this.isSpigot = this.getIsSpigot();
