@@ -56,10 +56,10 @@ import io.github.bedwarsrel.BedwarsRel.Listener.SignListener;
 import io.github.bedwarsrel.BedwarsRel.Listener.WeatherListener;
 import io.github.bedwarsrel.BedwarsRel.Localization.LocalizationConfig;
 import io.github.bedwarsrel.BedwarsRel.Shop.Specials.SpecialItem;
+import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatistic;
 import io.github.bedwarsrel.BedwarsRel.Statistics.PlayerStatisticManager;
 import io.github.bedwarsrel.BedwarsRel.Statistics.StorageType;
 import io.github.bedwarsrel.BedwarsRel.Updater.ConfigUpdater;
-import io.github.bedwarsrel.BedwarsRel.Updater.DatabaseUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateCallback;
 import io.github.bedwarsrel.BedwarsRel.Updater.PluginUpdater.UpdateResult;
@@ -83,6 +83,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -209,11 +210,6 @@ public class Main extends JavaPlugin {
     }
   }
 
-  private void cleanDatabase() {
-    if (this.dbManager != null) {
-      this.dbManager.cleanUp();
-    }
-  }
 
   private void disableBugsnag() {
     this.bugsnag.addCallback(new Callback() {
@@ -668,7 +664,6 @@ public class Main extends JavaPlugin {
 
     this.getServer().getConsoleSender()
         .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Update database ..."));
-    (new DatabaseUpdater()).execute();
 
     this.getServer().getConsoleSender()
         .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
@@ -732,7 +727,6 @@ public class Main extends JavaPlugin {
   public void onDisable() {
     this.stopTimeListener();
     this.gameManager.unloadGames();
-    this.cleanDatabase();
 
     if (this.isHologramsEnabled() && this.holographicInteraction != null) {
       this.holographicInteraction.unloadHolograms();
@@ -862,6 +856,7 @@ public class Main extends JavaPlugin {
   private void registerConfigurationClasses() {
     ConfigurationSerialization.registerClass(ResourceSpawner.class, "RessourceSpawner");
     ConfigurationSerialization.registerClass(Team.class, "Team");
+    ConfigurationSerialization.registerClass(PlayerStatistic.class, "PlayerStatistic");
   }
 
   private void registerListener() {

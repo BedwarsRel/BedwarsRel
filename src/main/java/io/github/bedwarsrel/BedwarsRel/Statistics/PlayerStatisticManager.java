@@ -1,39 +1,39 @@
 package io.github.bedwarsrel.BedwarsRel.Statistics;
 
-import io.github.bedwarsrel.BedwarsRel.Database.DBField;
-import io.github.bedwarsrel.BedwarsRel.Database.DBGetField;
-import io.github.bedwarsrel.BedwarsRel.Database.DBSetField;
 import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSavePlayerStatisticEvent;
-import io.github.bedwarsrel.BedwarsRel.Game.Game;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
 import java.io.File;
-import java.lang.reflect.Method;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 public class PlayerStatisticManager {
 
+  static final String WRITE_OBJECT_SQL = "INSERT INTO bw_stats_players(uuid, name, deaths, destroyedBeds, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=VALUES(deaths),destroyedBeds=VALUES(destroyedBeds),kills=VALUES(kills),loses=VALUES(loses),score=VALUES(score),wins=VALUES(wins)";
+  static final String READ_OBJECT_SQL = "SELECT * FROM bw_stats_players WHERE uuid = ? LIMIT 1";
+
   private File databaseFile = null;
   private FileConfiguration fileDatabase = null;
-  private Map<OfflinePlayer, PlayerStatistic> playerStatistic = null;
+  private Map<UUID, PlayerStatistic> playerStatistic = null;
 
   public PlayerStatisticManager() {
-    this.playerStatistic = new HashMap<OfflinePlayer, PlayerStatistic>();
+    this.playerStatistic = new HashMap<>();
     this.fileDatabase = null;
-  }
-
-  public FileConfiguration getDatabaseFile() {
-    return this.fileDatabase;
   }
 
   public PlayerStatistic getStatistic(OfflinePlayer player) {
@@ -41,114 +41,13 @@ public class PlayerStatisticManager {
       return null;
     }
 
-    if (!this.playerStatistic.containsKey(player)) {
-      PlayerStatistic statistic = new PlayerStatistic(player);
-      statistic.load();
-      if (statistic.isOnce()) {
-        return statistic;
-      }
+    if (!this.playerStatistic.containsKey(player.getUniqueId())) {
+      return this.loadStatistic(player.getUniqueId());
     }
 
-    return this.playerStatistic.get(player);
+    return this.playerStatistic.get(player.getUniqueId());
   }
 
-  private String getStoreSQL(StoringTable statistic) {
-    StringBuilder sql = new StringBuilder();
-
-    if (statistic.isNew()) {
-      StringBuilder insertFields = new StringBuilder();
-      StringBuilder fieldValues = new StringBuilder();
-
-      sql.append("INSERT INTO `" + DatabaseManager.DBPrefix + statistic.getTableName() + "` (");
-      for (DBField field : statistic.getFields().values()) {
-        DBGetField anoGet = field.getGetter().getAnnotation(DBGetField.class);
-
-        if (anoGet == null) {
-          continue;
-        }
-
-        if (anoGet.name().equals("id")) {
-          continue;
-        }
-
-        insertFields.append("`" + anoGet.name() + "`,");
-        fieldValues.append("'" + statistic.getValue(anoGet.name()) + "',");
-      }
-
-      String ifields = insertFields.toString();
-      String fvalues = fieldValues.toString();
-
-      ifields = ifields.trim().substring(0, ifields.length() - 1);
-      fvalues = fvalues.trim().substring(0, fvalues.length() - 1);
-
-      sql.append(ifields + ") VALUES (");
-      sql.append(fvalues + ")");
-    } else {
-      StringBuilder updateString = new StringBuilder();
-
-      sql.append("UPDATE `" + DatabaseManager.DBPrefix + statistic.getTableName() + "` SET ");
-      for (DBField field : statistic.getFields().values()) {
-        DBGetField anoGet = field.getGetter().getAnnotation(DBGetField.class);
-
-        if (anoGet == null) {
-          continue;
-        }
-
-        if (anoGet.name().equals("id") || anoGet.name().equals(statistic.getKeyField())) {
-          continue;
-        }
-
-        updateString
-            .append("`" + anoGet.name() + "` = '" + statistic.getValue(anoGet.name()) + "',");
-      }
-
-      String update = updateString.toString().trim();
-      update = update.substring(0, update.length() - 1);
-
-      sql.append(update + " WHERE `" + statistic.getKeyField() + "` = '"
-          + statistic.getValue(statistic.getKeyField()) + "'");
-    }
-
-    return sql.toString();
-  }
-
-  private String getTableSql(StoringTable statistic) {
-    StringBuilder builder = new StringBuilder("CREATE TABLE IF NOT EXISTS ");
-    String tablename = DatabaseManager.DBPrefix + statistic.getTableName();
-
-    builder.append("`" + tablename + "` (");
-    for (DBField field : statistic.getFields().values()) {
-      Method getter = field.getGetter();
-
-      DBGetField fieldAno = getter.getAnnotation(DBGetField.class);
-      if (fieldAno == null) {
-        continue;
-      }
-
-      builder.append("`" + fieldAno.name() + "` ");
-      builder.append(fieldAno.dbType() + " ");
-      builder.append((fieldAno.notNull()) ? "NOT NULL" : "NULL");
-
-      if (!fieldAno.defaultValue().equals("")) {
-        builder.append(" DEFAULT '" + fieldAno.defaultValue() + "' ");
-      }
-
-      if (fieldAno.autoInc()) {
-        builder.append(" AUTO_INCREMENT");
-      }
-
-      builder.append(",");
-    }
-
-    if (statistic.getKeyField() != null) {
-      builder.append("UNIQUE (" + statistic.getKeyField() + "),");
-    }
-
-    builder.append("PRIMARY KEY (id)");
-    builder.append(");");
-
-    return builder.toString();
-  }
 
   public void initialize() {
     if (!Main.getInstance().getBooleanConfig("statistics.enabled", false)) {
@@ -157,7 +56,7 @@ public class PlayerStatisticManager {
 
     if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
       File file = new File(Main.getInstance().getDataFolder() + "/database/"
-          + DatabaseManager.DBPrefix + PlayerStatistic.tableName + ".yml");
+          + DatabaseManager.DBPrefix + "stats_players.yml");
       this.loadYml(file);
     }
 
@@ -169,138 +68,76 @@ public class PlayerStatisticManager {
   public void initializeDatabase() {
     Main.getInstance().getServer().getConsoleSender().sendMessage(
         ChatWriter.pluginMessage(ChatColor.GREEN + "Loading Statistics from Database ..."));
-
-    // create table if not exists
-    String sql = this.getTableSql(new PlayerStatistic());
-
-    try {
-      Main.getInstance().getDatabaseManager().execute(sql);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-
-    Main.getInstance().getServer().getConsoleSender()
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
   }
 
-  private void loadDatabaseStatistic(PlayerStatistic statistic) {
-    if (this.playerStatistic.containsKey(statistic.getPlayer())) {
-      return;
+  private PlayerStatistic loadDatabaseStatistic(UUID uuid) {
+    if (this.playerStatistic.containsKey(uuid)) {
+      return this.playerStatistic.get(uuid);
     }
 
-    ResultSet playerStatistic = null;
-    Game game = null;
-
+    HashMap<String, Object> deserialize = new HashMap<>();
     try {
-      playerStatistic = Main.getInstance().getDatabaseManager()
-          .query("SELECT * FROM" + " `" + DatabaseManager.DBPrefix + statistic.getTableName() + "`"
-              + " WHERE `" + statistic.getKeyField() + "` = '"
-              + statistic.getValue(statistic.getKeyField()) + "'");
+      Connection connection = Main.getInstance().getDatabaseManager().getConnection();
 
-      // get size
-      if (!playerStatistic.first()) {
-        statistic.setDefault();
-        this.playerStatistic.put(statistic.getPlayer(), statistic);
-        return;
+      PreparedStatement preparedStatement = connection.prepareStatement(READ_OBJECT_SQL);
+      preparedStatement.setString(1, uuid.toString());
+      ResultSet resultSet = preparedStatement.executeQuery();
+
+      ResultSetMetaData meta = resultSet.getMetaData();
+      while (resultSet.next()) {
+        for (int i = 1; i <= meta.getColumnCount(); i++) {
+          String key = meta.getColumnName(i);
+          Object value = resultSet.getObject(key);
+          deserialize.put(key, value);
+        }
       }
 
-      for (DBField field : statistic.getFields().values()) {
-        if (field.getSetter() == null) {
-          continue;
-        }
-
-        DBSetField setField = field.getSetter().getAnnotation(DBSetField.class);
-
-        if (setField == null) {
-          continue;
-        }
-
-        if (field.getSetter().getParameterTypes().length == 0) {
-          continue;
-        }
-
-        // Class<?> setterType =
-        // field.getSetter().getParameterTypes()[0];
-        statistic.setValue(setField.name(), playerStatistic.getObject(setField.name()));
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-      return;
-    } finally {
-      try {
-        Main.getInstance().getDatabaseManager()
-            .clean(playerStatistic.getStatement().getConnection());
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        ex.printStackTrace();
-      }
+      resultSet.close();
+      preparedStatement.close();
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
-    if (statistic.getPlayer().isOnline()) {
-      Player p = statistic.getPlayer().getPlayer();
-      game = Main.getInstance().getGameManager().getGameOfPlayer(p);
-    }
+    PlayerStatistic playerStatistic;
 
-    if (game == null) {
-      statistic.setOnce(true);
-      return;
-    }
-
-    this.playerStatistic.put(statistic.getPlayer(), statistic);
-  }
-
-  public void loadStatistic(PlayerStatistic statistic) {
-    if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
-      this.loadYamlStatistic(statistic);
+    if (deserialize.isEmpty()) {
+      playerStatistic = new PlayerStatistic(uuid);
     } else {
-      this.loadDatabaseStatistic(statistic);
+      playerStatistic = new PlayerStatistic(deserialize);
+    }
+
+    this.playerStatistic.put(playerStatistic.getId(), playerStatistic);
+    return playerStatistic;
+  }
+
+  public PlayerStatistic loadStatistic(UUID uuid) {
+    if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
+      return this.loadYamlStatistic(uuid);
+    } else {
+      return this.loadDatabaseStatistic(uuid);
     }
   }
 
-  private void loadYamlStatistic(PlayerStatistic statistic) {
-    if (this.playerStatistic.containsKey(statistic.getPlayer())) {
-      PlayerStatistic existing = this.playerStatistic.get(statistic.getPlayer());
-      for (String field : statistic.getFields().keySet()) {
-        if (field.equalsIgnoreCase("id")) {
-          continue;
-        }
+  private PlayerStatistic loadYamlStatistic(UUID uuid) {
 
-        statistic.setValue(field, existing.getValue(field));
-      }
-
-      statistic.setId(1);
-      return;
+    if (this.fileDatabase == null || !this.fileDatabase.contains("data." + uuid.toString())) {
+      PlayerStatistic playerStatistic = new PlayerStatistic(uuid);
+      this.playerStatistic.put(uuid, playerStatistic);
+      return playerStatistic;
     }
 
-    String keyValue = statistic.getValue(statistic.getKeyField()).toString();
-    statistic.setDefault();
-
-    if (this.fileDatabase == null) {
-      this.playerStatistic.put(statistic.getPlayer(), statistic);
-      return;
+    HashMap<String, Object> deserialize = new HashMap<>();
+    deserialize.putAll(
+        this.fileDatabase.getConfigurationSection("data." + uuid.toString()).getValues(false));
+    PlayerStatistic playerStatistic = new PlayerStatistic(deserialize);
+    playerStatistic.setId(uuid);
+    Player player = Main.getInstance().getServer().getPlayer(uuid);
+    if (player != null && !playerStatistic.getName().equals(player.getName())) {
+      playerStatistic.setName(player.getName());
     }
-
-    if (!this.fileDatabase.contains("data." + keyValue)) {
-      this.playerStatistic.put(statistic.getPlayer(), statistic);
-      return;
-    }
-
-    for (String field : statistic.getFields().keySet()) {
-      if (field.equalsIgnoreCase("id")) {
-        continue;
-      }
-
-      if (!this.fileDatabase.contains("data." + keyValue + "." + field)) {
-        continue;
-      }
-
-      statistic.setValue(field, this.fileDatabase.get("data." + keyValue + "." + field));
-    }
-
-    statistic.setId(1);
-    this.playerStatistic.put(statistic.getPlayer(), statistic);
+    this.playerStatistic.put(uuid, playerStatistic);
+    return playerStatistic;
   }
 
   private void loadYml(File ymlFile) {
@@ -326,29 +163,6 @@ public class PlayerStatisticManager {
 
       this.fileDatabase = config;
 
-      ConfigurationSection dataSection = config.getConfigurationSection("data");
-      for (String key : dataSection.getKeys(false)) {
-        PlayerStatistic statistic = new PlayerStatistic();
-        ConfigurationSection dataEntry = dataSection.getConfigurationSection(key);
-
-        for (String field : statistic.getFields().keySet()) {
-          if (field.equalsIgnoreCase("id")) {
-            continue;
-          }
-
-          if (!dataEntry.contains(field)) {
-            continue;
-          }
-
-          Object value = dataEntry.get(field);
-          statistic.setValue(field, value);
-        }
-
-        statistic.setId(1);
-        map.put(Main.getInstance().getServer().getOfflinePlayer(UUID.fromString(key)), statistic);
-      }
-
-      this.playerStatistic = map;
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       ex.printStackTrace();
@@ -358,43 +172,32 @@ public class PlayerStatisticManager {
         .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done!"));
   }
 
-  private void storeDatabaseStatistic(PlayerStatistic statistic) {
-    if (!this.playerStatistic.containsKey(statistic.getPlayer())) {
-      return;
+  private void storeDatabaseStatistic(PlayerStatistic playerStatistic) {
+
+    Map<String, Object> statistic = playerStatistic.serialize();
+
+    try {
+      Connection connection = Main.getInstance().getDatabaseManager().getConnection();
+      connection.setAutoCommit(false);
+
+      PreparedStatement preparedStatement = connection.prepareStatement(WRITE_OBJECT_SQL);
+
+      preparedStatement.setString(1, playerStatistic.getId().toString());
+      preparedStatement.setString(2, playerStatistic.getName());
+      preparedStatement.setInt(3, playerStatistic.getDeaths());
+      preparedStatement.setInt(4, playerStatistic.getDestroyedBeds());
+      preparedStatement.setInt(5, playerStatistic.getKills());
+      preparedStatement.setInt(6, playerStatistic.getLoses());
+      preparedStatement.setInt(7, playerStatistic.getScore());
+      preparedStatement.setInt(8, playerStatistic.getWins());
+      preparedStatement.executeUpdate();
+      connection.commit();
+      preparedStatement.close();
+      connection.close();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
 
-    // duplicate entry fix
-    if (statistic.isNew()) {
-      ResultSet result = null;
-
-      try {
-        // check if is it really new ;)
-        String uuid = statistic.getUUID();
-        String sql = "SELECT id FROM `" + DatabaseManager.DBPrefix + statistic.getTableName()
-            + "` WHERE `uuid` = '" + uuid + "'";
-
-        result = Main.getInstance().getDatabaseManager().query(sql);
-
-        if (result.first()) {
-          statistic.setId(result.getLong(0));
-        }
-      } catch (Exception ex) {
-        Main.getInstance().getBugsnag().notify(ex);
-        // couldn't check, try to store anyway
-      } finally {
-        if (result != null) {
-          try {
-            Main.getInstance().getDatabaseManager().clean(result.getStatement().getConnection());
-          } catch (Exception ex) {
-            Main.getInstance().getBugsnag().notify(ex);
-            ex.printStackTrace();
-          }
-        }
-      }
-    }
-
-    String updateSql = this.getStoreSQL(statistic);
-    Main.getInstance().getDatabaseManager().update(updateSql);
   }
 
   public void storeStatistic(PlayerStatistic statistic) {
@@ -414,21 +217,14 @@ public class PlayerStatisticManager {
   }
 
   private synchronized void storeYamlStatistic(PlayerStatistic statistic) {
-    String keyValue = String.valueOf(statistic.getValue(statistic.getKeyField()));
-    if (keyValue == null || keyValue.equals("null")) {
-      return;
-    }
-
+    this.fileDatabase.set("data." + statistic.getId().toString(), statistic.serialize());
     try {
-      for (String field : statistic.getFields().keySet()) {
-        this.fileDatabase.set("data." + keyValue + "." + field, statistic.getValue(field));
-      }
-
       this.fileDatabase.save(this.databaseFile);
     } catch (Exception ex) {
       Main.getInstance().getBugsnag().notify(ex);
       Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(
-          ChatColor.RED + "Couldn't store statistic data for player with uuid: " + keyValue));
+          ChatColor.RED + "Couldn't store statistic data for player with uuid: " + statistic.getId()
+              .toString()));
     }
   }
 
@@ -437,5 +233,32 @@ public class PlayerStatisticManager {
       this.playerStatistic.remove(player);
     }
   }
+
+
+  public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
+      ChatColor nameColor,
+      ChatColor valueColor) {
+    return this.createStatisticLines(playerStatistic, withPrefix, nameColor.toString(),
+        valueColor.toString());
+  }
+
+  public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
+      String nameColor,
+      String valueColor) {
+    List<String> lines = new ArrayList<>();
+
+    for (Entry<String, Object> entry : playerStatistic.serialize().entrySet()) {
+      if (withPrefix) {
+        lines.add(ChatWriter.pluginMessage(nameColor + Main._l("stats." + entry.getKey()) + ": "
+            + valueColor + entry.getValue().toString()));
+      } else {
+        lines.add(nameColor + Main._l("stats." + entry.getKey()) + ": "
+            + valueColor + entry.getValue().toString());
+      }
+    }
+
+    return lines;
+  }
+
 
 }

@@ -771,8 +771,7 @@ public class Game {
     if (Main.getInstance().statisticsEnabled()) {
       PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
       statistic.setDestroyedBeds(statistic.getDestroyedBeds() + 1);
-      statistic
-          .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+      statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
     }
 
     // reward when destroy bed
@@ -1222,16 +1221,15 @@ public class Game {
         if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()
             && Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)) {
           statistic.setDeaths(statistic.getDeaths() + 1);
-          statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+          statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.die", 0));
           if (this.getPlayerDamager(p) != null) {
             PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
                 .getStatistic(this.getPlayerDamager(p));
             killerPlayer.setKills(killerPlayer.getKills() + 1);
-            killerPlayer
-                .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+            killerPlayer.setScore(killerPlayer.getScore() + Main.getInstance().getIntConfig("statistics.scores.kill", 10));
           }
           statistic.setLoses(statistic.getLoses() + 1);
-          statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.lose", 0));
+          statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.lose", 0));
         }
       }
     }
@@ -1276,10 +1274,7 @@ public class Game {
     }
 
     if (Main.getInstance().statisticsEnabled()) {
-      // store statistics and unload
-      statistic.setScore(statistic.getScore() + statistic.getCurrentScore());
-      statistic.setCurrentScore(0);
-      statistic.store();
+      Main.getInstance().getPlayerStatisticManager().storeStatistic(statistic);
 
       if (Main.getInstance().isHologramsEnabled()
           && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
