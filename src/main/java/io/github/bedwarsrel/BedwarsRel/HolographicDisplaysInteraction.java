@@ -276,7 +276,7 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
       // nothing to do
     }
 
-    List<String> lines = statistic.createStatisticLines(
+    List<String> lines = Main.getInstance().getPlayerStatisticManager().createStatisticLines(statistic,
         Main.getInstance().getBooleanConfig("holographic-stats.show-prefix", false), nameColor,
         valueColor);
 

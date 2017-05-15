@@ -43,9 +43,9 @@ public class HologramAPIInteraction implements IHologramInteraction {
     lines.add(ChatColor.translateAlternateColorCodes('&', Main.getInstance()
         .getStringConfig("holographic-stats.head-line", "Your &eBEDWARS&f stats")));
 
-    for (StatField statField : statistic.getStatFields()) {
-      lines.add(ChatColor.GRAY + Main._l("stats." + statField.name()) + ": " + ChatColor.YELLOW
-          + "%%" + statField.name() + "%%");
+    for (Entry<String, Object> entry : statistic.serialize().entrySet()) {
+      lines.add(ChatColor.GRAY + Main._l("stats." + entry.getKey()) + ": " + ChatColor.YELLOW
+          + "%%" + entry.getValue() + "%%");
     }
 
     int currentLine = 0;
@@ -59,14 +59,14 @@ public class HologramAPIInteraction implements IHologramInteraction {
         public String onView(Hologram hologram, Player player, String line) {
           PlayerStatistic playerStatistic =
               Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-          for (StatField statField : statistic.getStatFields()) {
-            String value = playerStatistic.getValue(statField.name()).toString();
-            if (statField.name().equals("kd")) {
+          for (Entry<String, Object> entry : statistic.serialize().entrySet()) {
+            String value = entry.getValue().toString();
+            if (entry.getKey().equals("kd")) {
               value =
                   (BigDecimal.valueOf(Double.valueOf(value)).setScale(2, BigDecimal.ROUND_HALF_UP))
                       .toPlainString();
             }
-            line = line.replace("%%" + statField.name() + "%%", value);
+            line = line.replace("%%" + entry.getKey() + "%%", value);
           }
           return line;
         }

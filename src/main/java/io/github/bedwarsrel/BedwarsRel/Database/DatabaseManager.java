@@ -1,20 +1,17 @@
 package io.github.bedwarsrel.BedwarsRel.Database;
 
-import io.github.bedwarsrel.BedwarsRel.Main;
-import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.TimeZone;
-import org.bukkit.ChatColor;
 
 public class DatabaseManager {
 
   public static String DBPrefix = "bw_";
   private static DatabaseManager instance = null;
   private String database = null;
+  private HikariDataSource dataSource = null;
   private String host = null;
   private String password = null;
   private int port = 3306;
@@ -28,187 +25,30 @@ public class DatabaseManager {
     this.database = database;
   }
 
-  public static Connection getConnection() {
-    DatabaseManager databaseManager = DatabaseManager.getInstance();
-    try {
-      if (Main.getInstance().getCurrentVersion().startsWith("v1_8") || Main.getInstance()
-          .getCurrentVersion().startsWith("v1_9") || Main.getInstance().getCurrentVersion()
-          .startsWith("v1_10") || Main.getInstance().getCurrentVersion().startsWith("v1_11")) {
-        Class.forName("com.mysql.jdbc.Driver");
-      } else {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-      }
-
-      return DriverManager.getConnection(
-          "jdbc:mysql://" + databaseManager.host + ":" + String.valueOf(databaseManager.port) + "/"
-              + databaseManager.database + "?serverTimezone=" + TimeZone
-              .getDefault().getID(),
-          databaseManager.user, databaseManager.password);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      Main.getInstance().getServer().getConsoleSender().sendMessage(ChatWriter
-          .pluginMessage(ChatColor.RED + "Couldn't connect to database: " + ex.getMessage()));
-    }
-    return null;
-  }
-
-  public static DatabaseManager getInstance() {
-    return DatabaseManager.instance;
-  }
-
-  public void clean(Connection dbConnection) {
-    try {
-      if (dbConnection == null) {
-        return;
-      }
-
-      if (!dbConnection.isClosed()) {
-        dbConnection.close();
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-  }
-
-  public void cleanResult(ResultSet result) {
-    try {
-      if (result == null) {
-        return;
-      }
-
-      if (!result.isClosed()) {
-        result.close();
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-  }
-
-  public void cleanStatement(Statement statement) {
-    try {
-      if (statement == null) {
-        return;
-      }
-
-      if (!statement.isClosed()) {
-        statement.close();
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
-  }
-
-  public void cleanUp() {
-  /*  if (this.dataSource != null) {
-      try {
-        this.dataSource.setMinPoolSize(0);
-        this.dataSource.setInitialPoolSize(0);
-        DataSources.destroy(this.dataSource);
-      } catch (SQLException e) {
-        Main.getInstance().getBugsnag().notify(e);
-        // just shutdown
-      }
-    } */
-  }
-
-  public void delete(String sql) {
-    this.update(sql);
-  }
-
-  public void execute(String... sqls) throws SQLException {
-    Connection con = null;
-    Statement statement = null;
-
-    if (sqls.length == 0) {
-      return;
-    }
-
-    try {
-      con = this.getConnection();
-      statement = con.createStatement();
-
-      if (sqls.length == 1) {
-        statement.execute(sqls[0]);
-      } else {
-        for (String sql : sqls) {
-          statement.addBatch(sql);
-        }
-
-        statement.executeBatch();
-      }
-    } finally {
-      this.clean(con);
-    }
-  }
-
-  private int getMaxPoolSizeConfig() {
-    return Main.getInstance().getIntConfig("database.connection-pooling.max-pool-size", 15);
-  }
-
-  private int getMinPoolSizeConfig() {
-    return Main.getInstance().getIntConfig("database.connection-pooling.min-pool-size", 3);
-  }
-
-  public int getRowCount(ResultSet result) {
-    int size = 0;
-    try {
-      result.last();
-      size = result.getRow();
-      result.beforeFirst();
-
-      return size;
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      return 0;
-    }
-  }
 
   public void initialize() {
     DatabaseManager.instance = this;
+
+    HikariConfig config = new HikariConfig();
+    config.setJdbcUrl("jdbc:mysql://" + this.host + ":" + String.valueOf(this.port) + "/"
+        + this.database + "?autoReconnect=true&serverTimezone=" + TimeZone
+        .getDefault().getID());
+    config.setUsername(this.user);
+    config.setPassword(this.password);
+    config.addDataSourceProperty("cachePrepStmts", "true");
+    config.addDataSourceProperty("prepStmtCacheSize", "250");
+    config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+
+    this.dataSource = new HikariDataSource(config);
   }
 
-  public void insert(String sql) {
-    this.update(sql);
-  }
-
-  public ResultSet query(String sql) {
-    Connection con = null;
-    Statement statement = null;
-    ResultSet result = null;
-
+  public Connection getConnection(){
     try {
-      con = this.getConnection();
-      statement = con.createStatement();
-      result = statement.executeQuery(sql);
-
-      return result;
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-      this.clean(con);
+      return this.dataSource.getConnection();
+    } catch (SQLException e) {
+      e.printStackTrace();
     }
-
     return null;
   }
 
-  public void update(String sql) {
-    Connection con = null;
-    Statement statement = null;
-
-    try {
-      con = this.getConnection();
-      statement = con.createStatement();
-
-      statement.executeUpdate(sql);
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    } finally {
-      this.clean(con);
-      this.cleanStatement(statement);
-    }
-  }
 }

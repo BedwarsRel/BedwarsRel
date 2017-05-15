@@ -250,6 +250,12 @@
       <version>1.7.22</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.zaxxer</groupId>
+      <artifactId>HikariCP-java7</artifactId>
+      <version>2.4.11</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -298,16 +304,16 @@
                   <shadedPattern>thirdparty.com.fasterxml.jackson</shadedPattern>
                 </relocation>
                 <relocation>
-                  <pattern>com.mchange</pattern>
-                  <shadedPattern>thirdparty.com.mchange</shadedPattern>
-                </relocation>
-                <relocation>
                   <pattern>org.apache.log4j</pattern>
                   <shadedPattern>thirdparty.org.apache.log4j</shadedPattern>
                 </relocation>
                 <relocation>
                   <pattern>org.slf4j</pattern>
                   <shadedPattern>thirdparty.org.slf4j</shadedPattern>
+                </relocation>
+                <relocation>
+                  <pattern>com.zaxxer</pattern>
+                  <shadedPattern>thirdparty.HikariCP-java7</shadedPattern>
                 </relocation>
               </relocations>
             </configuration>

@@ -61,7 +61,7 @@ public abstract class GameCycle {
     if (Main.getInstance().statisticsEnabled()) {
       PlayerStatistic statistic =
           Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-      placeholders.put("{score}", String.valueOf(statistic.getCurrentScore()));
+      placeholders.put("{score}", String.valueOf(statistic.getScore()));
     }
 
     return placeholders;
@@ -118,7 +118,7 @@ public abstract class GameCycle {
 
       if ((onlyOnBedDestroy && teamIsDead) || !onlyOnBedDestroy) {
         diePlayer.setDeaths(diePlayer.getDeaths() + 1);
-        diePlayer.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.die", 0));
+        diePlayer.setScore(diePlayer.getScore() + Main.getInstance().getIntConfig("statistics.scores.die", 0));
       }
 
       if (killer != null) {
@@ -126,8 +126,7 @@ public abstract class GameCycle {
           killerPlayer = Main.getInstance().getPlayerStatisticManager().getStatistic(killer);
           if (killerPlayer != null) {
             killerPlayer.setKills(killerPlayer.getKills() + 1);
-            killerPlayer
-                .addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+            killerPlayer.setScore(killerPlayer.getScore() + Main.getInstance().getIntConfig("statistics.scores.kill", 10));
           }
         }
       }
@@ -365,10 +364,10 @@ public abstract class GameCycle {
             PlayerStatistic statistic =
                 Main.getInstance().getPlayerStatisticManager().getStatistic(player);
             statistic.setWins(statistic.getWins() + 1);
-            statistic.addCurrentScore(Main.getInstance().getIntConfig("statistics.scores.win", 50));
+            statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.win", 50));
 
             if (madeRecord) {
-              statistic.addCurrentScore(
+              statistic.setScore(statistic.getScore() +
                   Main.getInstance().getIntConfig("statistics.scores.record", 100));
             }
           }

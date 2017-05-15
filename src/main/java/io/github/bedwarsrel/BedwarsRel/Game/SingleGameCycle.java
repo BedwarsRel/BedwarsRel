@@ -47,9 +47,7 @@ public class SingleGameCycle extends GameCycle {
     if (Main.getInstance().statisticsEnabled()) {
       PlayerStatistic statistic =
           Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-      statistic.setScore(statistic.getScore() + statistic.getCurrentScore());
-      statistic.setCurrentScore(0);
-      statistic.store();
+      Main.getInstance().getPlayerStatisticManager().storeStatistic(statistic);
 
       if (Main.getInstance().getBooleanConfig("statistics.show-on-game-end", true)) {
         Main.getInstance().getServer().dispatchCommand(player, "bw stats");
