@@ -39,6 +39,7 @@ public class PlayerStatistic implements ConfigurationSerializable {
   @Getter(AccessLevel.NONE)
   @Setter(AccessLevel.NONE)
   private UUID uuid;
+  @Setter(AccessLevel.NONE)
   private int wins = 0;
 
 
@@ -95,6 +96,8 @@ public class PlayerStatistic implements ConfigurationSerializable {
     this.currentDeaths = 0;
     this.destroyedBeds = this.destroyedBeds + this.currentDestroyedBeds;
     this.currentDestroyedBeds = 0;
+    this.games = this.games + this.currentGames;
+    this.currentGames = 0;
     this.kills = this.kills + this.currentKills;
     this.currentKills = 0;
     this.loses = this.loses + this.currentLoses;
@@ -150,6 +153,7 @@ public class PlayerStatistic implements ConfigurationSerializable {
     HashMap<String, Object> playerStatistic = new HashMap<>();
     playerStatistic.put("deaths", this.deaths);
     playerStatistic.put("destroyedBeds", this.destroyedBeds);
+    playerStatistic.put("games", this.games);
     playerStatistic.put("kills", this.kills);
     playerStatistic.put("loses", this.loses);
     playerStatistic.put("score", this.score);

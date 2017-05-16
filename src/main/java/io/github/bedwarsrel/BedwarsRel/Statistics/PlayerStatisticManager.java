@@ -73,6 +73,9 @@ public class PlayerStatisticManager {
     lines.add(this.getStatisticLine("loses", playerStatistic.getLoses(),
         playerStatistic.getCurrentLoses(), withPrefix, nameColor,
         valueColor));
+    lines.add(this.getStatisticLine("games", playerStatistic.getGames(),
+        playerStatistic.getCurrentGames(), withPrefix, nameColor,
+        valueColor));
     lines.add(this.getStatisticLine("destroyedBeds", playerStatistic.getDestroyedBeds(),
         playerStatistic.getCurrentDestroyedBeds(), withPrefix, nameColor,
         valueColor));

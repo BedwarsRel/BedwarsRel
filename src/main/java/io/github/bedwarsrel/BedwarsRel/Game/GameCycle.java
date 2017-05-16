@@ -363,7 +363,7 @@ public abstract class GameCycle {
           if (Main.getInstance().statisticsEnabled()) {
             PlayerStatistic statistic =
                 Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-            statistic.setWins(statistic.getWins() + 1);
+            statistic.setCurrentWins(statistic.getCurrentWins() + 1);
             statistic.setCurrentScore(statistic.getCurrentScore() + Main.getInstance().getIntConfig("statistics.scores.win", 50));
 
             if (madeRecord) {
