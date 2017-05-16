@@ -223,7 +223,7 @@ public class PlayerStatisticManager {
     return playerStatistic;
   }
 
-  private PlayerStatistic loadStatistic(UUID uuid) {
+  public PlayerStatistic loadStatistic(UUID uuid) {
     if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
       return this.loadYamlStatistic(uuid);
     } else {

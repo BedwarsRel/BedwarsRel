@@ -661,6 +661,10 @@ public class PlayerListener extends BaseListener {
 
     final Player player = je.getPlayer();
 
+    if (Main.getInstance().statisticsEnabled()) {
+      Main.getInstance().getPlayerStatisticManager().loadStatistic(player.getUniqueId());
+    }
+
     if (Main.getInstance().isHologramsEnabled()
         && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
         .getHolographicInteractor().getType().equalsIgnoreCase("HolographicDisplays")) {
@@ -1043,6 +1047,10 @@ public class PlayerListener extends BaseListener {
     }
 
     g.playerLeave(player, false);
+
+    if (Main.getInstance().statisticsEnabled()) {
+      Main.getInstance().getPlayerStatisticManager().unloadStatistic(player);
+    }
   }
 
   @EventHandler
