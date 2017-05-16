@@ -61,7 +61,7 @@ public class PlayerStatisticManager {
     lines.add(this.getStatisticLine("deaths", playerStatistic.getDeaths(),
         playerStatistic.getCurrentDeaths(), withPrefix, nameColor,
         valueColor));
-    Double kdDifference = playerStatistic.getKD() - playerStatistic.getCurrentKD();
+    Double kdDifference = playerStatistic.getCurrentKD() - playerStatistic.getKD();
     DecimalFormat df = new DecimalFormat("#.##");
     kdDifference = Double.valueOf(df.format(kdDifference));
     lines.add(
