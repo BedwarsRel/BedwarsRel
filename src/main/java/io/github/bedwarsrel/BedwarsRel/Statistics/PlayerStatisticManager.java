@@ -1,6 +1,5 @@
 package io.github.bedwarsrel.BedwarsRel.Statistics;
 
-import io.github.bedwarsrel.BedwarsRel.Database.DatabaseManager;
 import io.github.bedwarsrel.BedwarsRel.Events.BedwarsSavePlayerStatisticEvent;
 import io.github.bedwarsrel.BedwarsRel.Main;
 import io.github.bedwarsrel.BedwarsRel.Utils.ChatWriter;
@@ -24,9 +23,15 @@ import org.bukkit.entity.Player;
 
 public class PlayerStatisticManager {
 
-  static final String WRITE_OBJECT_SQL = "INSERT INTO bw_stats_players(uuid, name, deaths, destroyedBeds, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=VALUES(deaths),destroyedBeds=VALUES(destroyedBeds),kills=VALUES(kills),loses=VALUES(loses),score=VALUES(score),wins=VALUES(wins)";
-  static final String READ_OBJECT_SQL = "SELECT * FROM bw_stats_players WHERE uuid = ? LIMIT 1";
-
+  private static final String CREATE_TABLE_SQL =
+      "CREATE TABLE IF NOT EXISTS `" + Main.getInstance().getDatabaseManager().getTablePrefix()
+          + "stats_players` (`kills` int(11) NOT NULL DEFAULT '0', `wins` int(11) NOT NULL DEFAULT '0', `score` int(11) NOT NULL DEFAULT '0', `games` int(11) NOT NULL DEFAULT '0', `loses` int(11) NOT NULL DEFAULT '0', `name` varchar(255) NOT NULL, `destroyedBeds` int(11) NOT NULL DEFAULT '0', `uuid` varchar(255) NOT NULL, `deaths` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`uuid`))";
+  private static final String READ_OBJECT_SQL =
+      "SELECT * FROM " + Main.getInstance().getDatabaseManager().getTablePrefix()
+          + "stats_players WHERE uuid = ? LIMIT 1";
+  private static final String WRITE_OBJECT_SQL =
+      "INSERT INTO " + Main.getInstance().getDatabaseManager().getTablePrefix()
+          + "stats_players(uuid, name, deaths, destroyedBeds, games, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=VALUES(deaths),destroyedBeds=VALUES(destroyedBeds),games=VALUES(games),kills=VALUES(kills),loses=VALUES(loses),score=VALUES(score),wins=VALUES(wins)";
   private File databaseFile = null;
   private FileConfiguration fileDatabase = null;
   private Map<UUID, PlayerStatistic> playerStatistic = null;
@@ -34,6 +39,31 @@ public class PlayerStatisticManager {
   public PlayerStatisticManager() {
     this.playerStatistic = new HashMap<>();
     this.fileDatabase = null;
+  }
+
+  public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
+      ChatColor nameColor,
+      ChatColor valueColor) {
+    return this.createStatisticLines(playerStatistic, withPrefix, nameColor.toString(),
+        valueColor.toString());
+  }
+
+  public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
+      String nameColor,
+      String valueColor) {
+    List<String> lines = new ArrayList<>();
+
+    for (Entry<String, Object> entry : playerStatistic.serialize().entrySet()) {
+      if (withPrefix) {
+        lines.add(ChatWriter.pluginMessage(nameColor + Main._l("stats." + entry.getKey()) + ": "
+            + valueColor + entry.getValue().toString()));
+      } else {
+        lines.add(nameColor + Main._l("stats." + entry.getKey()) + ": "
+            + valueColor + entry.getValue().toString());
+      }
+    }
+
+    return lines;
   }
 
   public PlayerStatistic getStatistic(OfflinePlayer player) {
@@ -48,15 +78,13 @@ public class PlayerStatisticManager {
     return this.playerStatistic.get(player.getUniqueId());
   }
 
-
   public void initialize() {
     if (!Main.getInstance().getBooleanConfig("statistics.enabled", false)) {
       return;
     }
 
     if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
-      File file = new File(Main.getInstance().getDataFolder() + "/database/"
-          + DatabaseManager.DBPrefix + "stats_players.yml");
+      File file = new File(Main.getInstance().getDataFolder() + "/database/bw_stats_players.yml");
       this.loadYml(file);
     }
 
@@ -68,6 +96,20 @@ public class PlayerStatisticManager {
   public void initializeDatabase() {
     Main.getInstance().getServer().getConsoleSender().sendMessage(
         ChatWriter.pluginMessage(ChatColor.GREEN + "Loading Statistics from Database ..."));
+
+    try {
+      Connection connection = Main.getInstance().getDatabaseManager().getConnection();
+      connection.setAutoCommit(false);
+      PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TABLE_SQL);
+      preparedStatement.executeUpdate();
+      connection.commit();
+      preparedStatement.close();
+      connection.close();
+    } catch (Exception ex) {
+      Main.getInstance().getBugsnag().notify(ex);
+      ex.printStackTrace();
+    }
+
   }
 
   private PlayerStatistic loadDatabaseStatistic(UUID uuid) {
@@ -111,7 +153,7 @@ public class PlayerStatisticManager {
     return playerStatistic;
   }
 
-  public PlayerStatistic loadStatistic(UUID uuid) {
+  private PlayerStatistic loadStatistic(UUID uuid) {
     if (Main.getInstance().getStatisticStorageType() == StorageType.YAML) {
       return this.loadYamlStatistic(uuid);
     } else {
@@ -146,7 +188,7 @@ public class PlayerStatisticManager {
           ChatWriter.pluginMessage(ChatColor.GREEN + "Loading statistics from YAML-File ..."));
 
       YamlConfiguration config = null;
-      Map<OfflinePlayer, PlayerStatistic> map = new HashMap<OfflinePlayer, PlayerStatistic>();
+      Map<OfflinePlayer, PlayerStatistic> map = new HashMap<>();
 
       this.databaseFile = ymlFile;
 
@@ -173,9 +215,6 @@ public class PlayerStatisticManager {
   }
 
   private void storeDatabaseStatistic(PlayerStatistic playerStatistic) {
-
-    Map<String, Object> statistic = playerStatistic.serialize();
-
     try {
       Connection connection = Main.getInstance().getDatabaseManager().getConnection();
       connection.setAutoCommit(false);
@@ -186,10 +225,11 @@ public class PlayerStatisticManager {
       preparedStatement.setString(2, playerStatistic.getName());
       preparedStatement.setInt(3, playerStatistic.getDeaths());
       preparedStatement.setInt(4, playerStatistic.getDestroyedBeds());
-      preparedStatement.setInt(5, playerStatistic.getKills());
-      preparedStatement.setInt(6, playerStatistic.getLoses());
-      preparedStatement.setInt(7, playerStatistic.getScore());
-      preparedStatement.setInt(8, playerStatistic.getWins());
+      preparedStatement.setInt(5, playerStatistic.getGames());
+      preparedStatement.setInt(6, playerStatistic.getKills());
+      preparedStatement.setInt(7, playerStatistic.getLoses());
+      preparedStatement.setInt(8, playerStatistic.getScore());
+      preparedStatement.setInt(9, playerStatistic.getWins());
       preparedStatement.executeUpdate();
       connection.commit();
       preparedStatement.close();
@@ -230,34 +270,8 @@ public class PlayerStatisticManager {
 
   public void unloadStatistic(OfflinePlayer player) {
     if (Main.getInstance().getStatisticStorageType() != StorageType.YAML) {
-      this.playerStatistic.remove(player);
+      this.playerStatistic.remove(player.getUniqueId());
     }
-  }
-
-
-  public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
-      ChatColor nameColor,
-      ChatColor valueColor) {
-    return this.createStatisticLines(playerStatistic, withPrefix, nameColor.toString(),
-        valueColor.toString());
-  }
-
-  public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
-      String nameColor,
-      String valueColor) {
-    List<String> lines = new ArrayList<>();
-
-    for (Entry<String, Object> entry : playerStatistic.serialize().entrySet()) {
-      if (withPrefix) {
-        lines.add(ChatWriter.pluginMessage(nameColor + Main._l("stats." + entry.getKey()) + ": "
-            + valueColor + entry.getValue().toString()));
-      } else {
-        lines.add(nameColor + Main._l("stats." + entry.getKey()) + ": "
-            + valueColor + entry.getValue().toString());
-      }
-    }
-
-    return lines;
   }
 
 

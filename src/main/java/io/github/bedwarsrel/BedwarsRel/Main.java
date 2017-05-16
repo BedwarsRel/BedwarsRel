@@ -654,12 +654,13 @@ public class Main extends JavaPlugin {
     String user = this.getStringConfig("database.user", null);
     String password = this.getStringConfig("database.password", null);
     String db = this.getStringConfig("database.db", null);
+    String tablePrefix = this.getStringConfig("database.table-prefix", "bw_");
 
     if (host == null || user == null || password == null || db == null) {
       return;
     }
 
-    this.dbManager = new DatabaseManager(host, port, user, password, db);
+    this.dbManager = new DatabaseManager(host, port, user, password, db, tablePrefix);
     this.dbManager.initialize();
 
     this.getServer().getConsoleSender()

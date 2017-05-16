@@ -20,6 +20,7 @@ public class PlayerStatistic implements ConfigurationSerializable {
   private UUID uuid;
   private int deaths = 0;
   private int destroyedBeds = 0;
+  private int games = 0;
   private int kills = 0;
   private int loses = 0;
   private int score = 0;
@@ -43,6 +44,19 @@ public class PlayerStatistic implements ConfigurationSerializable {
 
   public PlayerStatistic() {
 
+  }
+
+  public double getKD() {
+    double kd = 0.0;
+    if (this.getDeaths() == 0) {
+      kd = this.getKills();
+    } else if (this.getKills() == 0) {
+      kd = 0.0;
+    } else {
+      kd = ((double) this.getKills()) / ((double) this.getDeaths());
+    }
+
+    return kd;
   }
 
   public UUID getId() {

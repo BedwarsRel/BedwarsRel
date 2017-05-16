@@ -518,26 +518,11 @@ database:
   # type: string
   # Password of database user for authentication
   password: secret
-  
-  # Connection-Pooling configuration (only professional use)
-  # For bungeecord servers it is recommended to use lower pool sizes because
-  # they have only one bedwars game per server and only need a 
-  # very small amount of connections
-  connection-pooling:
-  
-    # Min connection pool size
-    # type: int
-    # Defines how large the min pool size for connections should be
-    # the higher the value the higher the load of the database server
-    min-pool-size: 3
-    
-    # Max connection pool size
-    # type: int
-    # Defines how large the max pool size for connections should be
-    # the higher the value the higher is the security that no connection locks
-    # will occur. But the load of the database server will be higher when 
-    # many connections are used!
-    max-pool-size: 50
+
+  # Table prefix
+  # type: string
+  # A prefix for the database tables
+  table-prefix: bw_
     
 # Spectation enabled
 # Type: boolean

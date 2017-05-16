@@ -143,7 +143,6 @@ public class ConfigUpdater {
     // <1.2.0>
 
     // <1.2.1>
-    this.excludeShop();
     Main.getInstance().getConfig().addDefault("statistics.bed-destroyed-kills", false);
     Main.getInstance().getConfig().addDefault("rewards.player-destroy-bed",
         Arrays.asList("/example {player} {score}"));
@@ -190,7 +189,6 @@ public class ConfigUpdater {
     Main.getInstance().getConfig().addDefault("lobby-gamemode", 0);
     Main.getInstance().getConfig().addDefault("statistics.show-on-game-end", true);
     Main.getInstance().getConfig().addDefault("allow-crafting", false);
-    Main.getInstance().getConfig().addDefault("database.connection-pooling.max-pool-size", 50);
     // </1.2.7>
 
     // <1.2.8>
@@ -272,58 +270,7 @@ public class ConfigUpdater {
 
     // <1.3.5>
     Main.getInstance().getConfig().addDefault("spawn-resources-in-chest", true);
+    Main.getInstance().getConfig().addDefault("database.table-prefix", "bw_");
     // </1.3.5>
-  }
-
-  private void excludeShop() {
-    if (Main.getInstance().getConfig().contains("shop")) {
-      ConfigurationSection shop = Main.getInstance().getConfig().getConfigurationSection("shop");
-
-      // move to new file
-      File file = new File(Main.getInstance().getDataFolder(), "shop.yml");
-      if (file.exists()) {
-        // shop exists already, only remove old section
-        this.removeShopSection();
-        return;
-      }
-
-      // file not exists, so create one
-      try {
-        file.createNewFile();
-      } catch (IOException e) {
-        Main.getInstance().getBugsnag().notify(e);
-        // couldn't create file, exit
-        e.printStackTrace();
-        return;
-      }
-
-      YamlConfiguration config = new YamlConfiguration();
-      config.set("shop", shop);
-      this.saveShopFile(config, file);
-      this.removeShopSection();
-    }
-  }
-
-  private void removeShopSection() {
-    Main.getInstance().getConfig().set("shop", null);
-  }
-
-  private void saveShopFile(YamlConfiguration config, File file) {
-    try {
-      String data = Main.getInstance().getYamlDump(config);
-
-      FileOutputStream stream = new FileOutputStream(file);
-      OutputStreamWriter writer = new OutputStreamWriter(stream, "UTF-8");
-
-      try {
-        writer.write(data);
-      } finally {
-        writer.close();
-        stream.close();
-      }
-    } catch (Exception ex) {
-      Main.getInstance().getBugsnag().notify(ex);
-      ex.printStackTrace();
-    }
   }
 }
