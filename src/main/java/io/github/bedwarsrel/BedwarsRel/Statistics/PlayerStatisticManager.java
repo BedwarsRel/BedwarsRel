@@ -25,13 +25,13 @@ public class PlayerStatisticManager {
 
   private static final String CREATE_TABLE_SQL =
       "CREATE TABLE IF NOT EXISTS `" + Main.getInstance().getDatabaseManager().getTablePrefix()
-          + "stats_players` (`kills` int(11) NOT NULL DEFAULT '0', `wins` int(11) NOT NULL DEFAULT '0', `score` int(11) NOT NULL DEFAULT '0', `games` int(11) NOT NULL DEFAULT '0', `loses` int(11) NOT NULL DEFAULT '0', `name` varchar(255) NOT NULL, `destroyedBeds` int(11) NOT NULL DEFAULT '0', `uuid` varchar(255) NOT NULL, `deaths` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`uuid`))";
+          + "stats_players` (`kills` int(11) NOT NULL DEFAULT '0', `wins` int(11) NOT NULL DEFAULT '0', `score` int(11) NOT NULL DEFAULT '0', `loses` int(11) NOT NULL DEFAULT '0', `name` varchar(255) NOT NULL, `destroyedBeds` int(11) NOT NULL DEFAULT '0', `uuid` varchar(255) NOT NULL, `deaths` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`uuid`))";
   private static final String READ_OBJECT_SQL =
       "SELECT * FROM " + Main.getInstance().getDatabaseManager().getTablePrefix()
           + "stats_players WHERE uuid = ? LIMIT 1";
   private static final String WRITE_OBJECT_SQL =
       "INSERT INTO " + Main.getInstance().getDatabaseManager().getTablePrefix()
-          + "stats_players(uuid, name, deaths, destroyedBeds, games, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=deaths+VALUES(deaths),destroyedBeds=destroyedBeds+VALUES(destroyedBeds),games=games+VALUES(games),kills=kills+VALUES(kills),loses=loses+VALUES(loses),score=score+VALUES(score),wins=wins+VALUES(wins)";
+          + "stats_players(uuid, name, deaths, destroyedBeds, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=deaths+VALUES(deaths),destroyedBeds=destroyedBeds+VALUES(destroyedBeds),kills=kills+VALUES(kills),loses=loses+VALUES(loses),score=score+VALUES(score),wins=wins+VALUES(wins)";
   private File databaseFile = null;
   private FileConfiguration fileDatabase = null;
   private Map<UUID, PlayerStatistic> playerStatistic = null;
@@ -55,31 +55,39 @@ public class PlayerStatisticManager {
 
     lines.add(this.getStatisticLine("name", playerStatistic.getName(), null, withPrefix, nameColor,
         valueColor));
-    lines.add(this.getStatisticLine("kills", playerStatistic.getKills(),
+    lines.add(this.getStatisticLine("kills",
+        playerStatistic.getKills() + playerStatistic.getCurrentKills(),
         playerStatistic.getCurrentKills(), withPrefix, nameColor,
         valueColor));
-    lines.add(this.getStatisticLine("deaths", playerStatistic.getDeaths(),
+    lines.add(this.getStatisticLine("deaths",
+        playerStatistic.getDeaths() + playerStatistic.getCurrentDeaths(),
         playerStatistic.getCurrentDeaths(), withPrefix, nameColor,
         valueColor));
     Double kdDifference = playerStatistic.getCurrentKD() - playerStatistic.getKD();
     DecimalFormat df = new DecimalFormat("#.##");
     kdDifference = Double.valueOf(df.format(kdDifference));
     lines.add(
-        this.getStatisticLine("kd", playerStatistic.getKD(), kdDifference, withPrefix, nameColor,
+        this.getStatisticLine("kd", playerStatistic.getCurrentKD(), kdDifference, withPrefix,
+            nameColor,
             valueColor));
-    lines.add(this.getStatisticLine("wins", playerStatistic.getWins(),
-        playerStatistic.getCurrentWins(), withPrefix, nameColor,
-        valueColor));
-    lines.add(this.getStatisticLine("loses", playerStatistic.getLoses(),
+    lines.add(
+        this.getStatisticLine("wins", playerStatistic.getWins() + playerStatistic.getCurrentWins(),
+            playerStatistic.getCurrentWins(), withPrefix, nameColor,
+            valueColor));
+    lines.add(this.getStatisticLine("loses",
+        playerStatistic.getLoses() + playerStatistic.getCurrentLoses(),
         playerStatistic.getCurrentLoses(), withPrefix, nameColor,
         valueColor));
-    lines.add(this.getStatisticLine("games", playerStatistic.getGames(),
+    lines.add(this.getStatisticLine("games",
+        playerStatistic.getGames() + playerStatistic.getCurrentGames(),
         playerStatistic.getCurrentGames(), withPrefix, nameColor,
         valueColor));
-    lines.add(this.getStatisticLine("destroyedBeds", playerStatistic.getDestroyedBeds(),
+    lines.add(this.getStatisticLine("destroyedBeds",
+        playerStatistic.getDestroyedBeds() + playerStatistic.getCurrentDestroyedBeds(),
         playerStatistic.getCurrentDestroyedBeds(), withPrefix, nameColor,
         valueColor));
-    lines.add(this.getStatisticLine("score", playerStatistic.getScore(),
+    lines.add(this.getStatisticLine("score",
+        playerStatistic.getScore() + playerStatistic.getCurrentScore(),
         playerStatistic.getCurrentScore(), withPrefix, nameColor,
         valueColor));
 
@@ -124,10 +132,12 @@ public class PlayerStatisticManager {
     String line;
     if (value2 != null && value2 instanceof Integer && (int) value2 != 0) {
       line = nameColor + Main._l("stats." + name) + ": "
-          + valueColor + value1 + " " + this.getComparisonString((int) value2);
+          + valueColor + value1 + " " + nameColor + "(" + this.getComparisonString((int) value2)
+          + nameColor + ")";
     } else if (value2 != null && value2 instanceof Double && (double) value2 != 0.00) {
       line = nameColor + Main._l("stats." + name) + ": "
-          + valueColor + value1 + " " + this.getComparisonString((double) value2);
+          + valueColor + value1 + " " + nameColor + "(" + this.getComparisonString((double) value2)
+          + nameColor + ")";
     } else {
       line = nameColor + Main._l("stats." + name) + ": "
           + valueColor + value1;
@@ -285,11 +295,10 @@ public class PlayerStatisticManager {
       preparedStatement.setString(2, playerStatistic.getName());
       preparedStatement.setInt(3, playerStatistic.getCurrentDeaths());
       preparedStatement.setInt(4, playerStatistic.getCurrentDestroyedBeds());
-      preparedStatement.setInt(5, playerStatistic.getCurrentGames());
-      preparedStatement.setInt(6, playerStatistic.getCurrentKills());
-      preparedStatement.setInt(7, playerStatistic.getCurrentLoses());
-      preparedStatement.setInt(8, playerStatistic.getCurrentScore());
-      preparedStatement.setInt(9, playerStatistic.getCurrentWins());
+      preparedStatement.setInt(5, playerStatistic.getCurrentKills());
+      preparedStatement.setInt(6, playerStatistic.getCurrentLoses());
+      preparedStatement.setInt(7, playerStatistic.getCurrentScore());
+      preparedStatement.setInt(8, playerStatistic.getCurrentWins());
       preparedStatement.executeUpdate();
       connection.commit();
       preparedStatement.close();

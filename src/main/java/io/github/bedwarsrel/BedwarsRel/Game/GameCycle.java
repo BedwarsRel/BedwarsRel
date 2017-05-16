@@ -61,7 +61,7 @@ public abstract class GameCycle {
     if (Main.getInstance().statisticsEnabled()) {
       PlayerStatistic statistic =
           Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-      placeholders.put("{score}", String.valueOf(statistic.getScore()));
+      placeholders.put("{score}", String.valueOf(statistic.getCurrentScore()));
     }
 
     return placeholders;
