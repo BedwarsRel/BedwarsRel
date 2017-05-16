@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,10 +61,12 @@ public class PlayerStatisticManager {
     lines.add(this.getStatisticLine("deaths", playerStatistic.getDeaths(),
         playerStatistic.getCurrentDeaths(), withPrefix, nameColor,
         valueColor));
-
-    lines.add(this.getStatisticLine("kd", playerStatistic.getKD(),
-        playerStatistic.getKD() - playerStatistic.getCurrentKD(), withPrefix, nameColor,
-        valueColor));
+    Double kdDifference = playerStatistic.getKD() - playerStatistic.getCurrentKD();
+    DecimalFormat df = new DecimalFormat("#.##");
+    kdDifference = Double.valueOf(df.format(kdDifference));
+    lines.add(
+        this.getStatisticLine("kd", playerStatistic.getKD(), kdDifference, withPrefix, nameColor,
+            valueColor));
     lines.add(this.getStatisticLine("wins", playerStatistic.getWins(),
         playerStatistic.getCurrentWins(), withPrefix, nameColor,
         valueColor));
