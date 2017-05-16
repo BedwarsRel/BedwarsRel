@@ -1682,6 +1682,10 @@ public class Game {
             + Main._l(aPlayer, "ingame.gamestarted",
             ImmutableMap.of("game", this.getRegion().getName()))));
       }
+      Main.getInstance().getServer().getConsoleSender()
+          .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
+              + Main._l(Main.getInstance().getServer().getConsoleSender(), "ingame.gamestarted",
+              ImmutableMap.of("game", this.getRegion().getName()))));
     }
 
     BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
