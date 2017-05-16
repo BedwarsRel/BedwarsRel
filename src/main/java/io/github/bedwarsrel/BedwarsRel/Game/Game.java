@@ -446,6 +446,30 @@ public class Game {
     }
   }
 
+  private void dropTargetBlock(Block targetBlock) {
+    if (targetBlock.getType().equals(Material.BED_BLOCK)) {
+      Block bedHead;
+      Block bedFeet;
+      Bed bedBlock = (Bed) targetBlock.getState().getData();
+
+      if (!bedBlock.isHeadOfBed()) {
+        bedFeet = targetBlock;
+        bedHead = Utils.getBedNeighbor(bedFeet);
+      } else {
+        bedHead = targetBlock;
+        bedFeet = Utils.getBedNeighbor(bedHead);
+      }
+
+      if (!Main.getInstance().getCurrentVersion().startsWith("v1_12")) {
+        bedFeet.setType(Material.AIR);
+      } else {
+        bedHead.setType(Material.AIR);
+      }
+    } else {
+      targetBlock.setType(Material.AIR);
+    }
+  }
+
   private String formatLobbyScoreboardString(String str) {
     String finalStr = str;
 
@@ -770,8 +794,9 @@ public class Game {
     // set statistics
     if (Main.getInstance().statisticsEnabled()) {
       PlayerStatistic statistic = Main.getInstance().getPlayerStatisticManager().getStatistic(p);
-      statistic.setDestroyedBeds(statistic.getDestroyedBeds() + 1);
-      statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.bed-destroy", 25));
+      statistic.setCurrentDestroyedBeds(statistic.getCurrentDestroyedBeds() + 1);
+      statistic.setCurrentScore(statistic.getCurrentScore() + Main.getInstance()
+          .getIntConfig("statistics.scores.bed-destroy", 25));
     }
 
     // reward when destroy bed
@@ -830,13 +855,13 @@ public class Game {
     return this.autobalance;
   }
 
-  public boolean isFull() {
-    return (this.getMaxPlayers() <= this.getPlayerAmount());
-  }
-
   /*
    * GETTER / SETTER
    */
+
+  public boolean isFull() {
+    return (this.getMaxPlayers() <= this.getPlayerAmount());
+  }
 
   public boolean isInGame(Player p) {
     for (Team t : this.teams.values()) {
@@ -911,30 +936,6 @@ public class Game {
     List<MerchantCategory> list = new ArrayList<MerchantCategory>(this.shopCategories.values());
     Collections.sort(list, new MerchantCategoryComparator());
     return list;
-  }
-
-  private void dropTargetBlock(Block targetBlock) {
-    if (targetBlock.getType().equals(Material.BED_BLOCK)) {
-      Block bedHead;
-      Block bedFeet;
-      Bed bedBlock = (Bed) targetBlock.getState().getData();
-
-      if (!bedBlock.isHeadOfBed()) {
-        bedFeet = targetBlock;
-        bedHead = Utils.getBedNeighbor(bedFeet);
-      } else {
-        bedHead = targetBlock;
-        bedFeet = Utils.getBedNeighbor(bedHead);
-      }
-
-      if (!Main.getInstance().getCurrentVersion().startsWith("v1_12")) {
-        bedFeet.setType(Material.AIR);
-      } else {
-        bedHead.setType(Material.AIR);
-      }
-    } else {
-      targetBlock.setType(Material.AIR);
-    }
   }
 
   private void makeTeamsReady() {
@@ -1220,16 +1221,19 @@ public class Game {
       if (this.state == GameState.RUNNING && !this.getCycle().isEndGameRunning()) {
         if (!team.isDead(this) && !p.isDead() && Main.getInstance().statisticsEnabled()
             && Main.getInstance().getBooleanConfig("statistics.player-leave-kills", false)) {
-          statistic.setDeaths(statistic.getDeaths() + 1);
-          statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.die", 0));
+          statistic.setCurrentDeaths(statistic.getCurrentDeaths() + 1);
+          statistic.setCurrentScore(statistic.getCurrentScore() + Main.getInstance()
+              .getIntConfig("statistics.scores.die", 0));
           if (this.getPlayerDamager(p) != null) {
             PlayerStatistic killerPlayer = Main.getInstance().getPlayerStatisticManager()
                 .getStatistic(this.getPlayerDamager(p));
-            killerPlayer.setKills(killerPlayer.getKills() + 1);
-            killerPlayer.setScore(killerPlayer.getScore() + Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+            killerPlayer.setCurrentKills(killerPlayer.getCurrentKills() + 1);
+            killerPlayer.setCurrentScore(killerPlayer.getCurrentScore() + Main.getInstance()
+                .getIntConfig("statistics.scores.kill", 10));
           }
-          statistic.setLoses(statistic.getLoses() + 1);
-          statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.lose", 0));
+          statistic.setCurrentLoses(statistic.getCurrentLoses() + 1);
+          statistic.setCurrentScore(statistic.getCurrentScore() + Main.getInstance()
+              .getIntConfig("statistics.scores.lose", 0));
         }
       }
     }
@@ -1274,7 +1278,6 @@ public class Game {
     }
 
     if (Main.getInstance().statisticsEnabled()) {
-      Main.getInstance().getPlayerStatisticManager().storeStatistic(statistic);
 
       if (Main.getInstance().isHologramsEnabled()
           && Main.getInstance().getHolographicInteractor() != null && Main.getInstance()
@@ -1285,6 +1288,7 @@ public class Game {
       if (Main.getInstance().getBooleanConfig("statistics.show-on-game-end", true)) {
         Main.getInstance().getServer().dispatchCommand(p, "bw stats");
       }
+      Main.getInstance().getPlayerStatisticManager().storeStatistic(statistic);
 
       Main.getInstance().getPlayerStatisticManager().unloadStatistic(p);
     }

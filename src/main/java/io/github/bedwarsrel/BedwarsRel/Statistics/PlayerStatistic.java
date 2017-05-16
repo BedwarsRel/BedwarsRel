@@ -1,6 +1,7 @@
 package io.github.bedwarsrel.BedwarsRel.Statistics;
 
 import io.github.bedwarsrel.BedwarsRel.Main;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -15,17 +16,30 @@ import org.bukkit.entity.Player;
 @Setter
 public class PlayerStatistic implements ConfigurationSerializable {
 
+  private int currentDeaths = 0;
+  private int currentDestroyedBeds = 0;
+  private int currentGames = 0;
+  private int currentKills = 0;
+  private int currentLoses = 0;
+  private int currentScore = 0;
+  private int currentWins = 0;
+  @Setter(AccessLevel.NONE)
+  private int deaths = 0;
+  @Setter(AccessLevel.NONE)
+  private int destroyedBeds = 0;
+  @Setter(AccessLevel.NONE)
+  private int games = 0;
+  @Setter(AccessLevel.NONE)
+  private int kills = 0;
+  @Setter(AccessLevel.NONE)
+  private int loses = 0;
+  private String name = "";
+  @Setter(AccessLevel.NONE)
+  private int score = 0;
   @Getter(AccessLevel.NONE)
   @Setter(AccessLevel.NONE)
   private UUID uuid;
-  private int deaths = 0;
-  private int destroyedBeds = 0;
-  private int games = 0;
-  private int kills = 0;
-  private int loses = 0;
-  private int score = 0;
   private int wins = 0;
-  private String name = "";
 
 
   public PlayerStatistic(UUID uuid) {
@@ -44,27 +58,6 @@ public class PlayerStatistic implements ConfigurationSerializable {
 
   public PlayerStatistic() {
 
-  }
-
-  public double getKD() {
-    double kd = 0.0;
-    if (this.getDeaths() == 0) {
-      kd = this.getKills();
-    } else if (this.getKills() == 0) {
-      kd = 0.0;
-    } else {
-      kd = ((double) this.getKills()) / ((double) this.getDeaths());
-    }
-
-    return kd;
-  }
-
-  public UUID getId() {
-    return this.uuid;
-  }
-
-  public void setId(UUID uuid) {
-    this.uuid = uuid;
   }
 
   public PlayerStatistic(Map<String, Object> deserialize) {
@@ -95,6 +88,61 @@ public class PlayerStatistic implements ConfigurationSerializable {
     if (deserialize.containsKey("uuid")) {
       this.uuid = UUID.fromString((String) deserialize.get("uuid"));
     }
+  }
+
+  public void addCurrentValues() {
+    this.deaths = this.deaths + this.currentDeaths;
+    this.currentDeaths = 0;
+    this.destroyedBeds = this.destroyedBeds + this.currentDestroyedBeds;
+    this.currentDestroyedBeds = 0;
+    this.kills = this.kills + this.currentKills;
+    this.currentKills = 0;
+    this.loses = this.loses + this.currentLoses;
+    this.currentLoses = 0;
+    this.score = this.score + this.currentScore;
+    this.currentScore = 0;
+    this.wins = this.wins + this.currentWins;
+    this.currentWins = 0;
+
+  }
+
+  public double getCurrentKD() {
+    double kd = 0.0;
+    if (this.getDeaths() + this.getCurrentDeaths() == 0) {
+      kd = this.getKills();
+    } else if (this.getKills() + this.getCurrentKills() == 0) {
+      kd = 0.0;
+    } else {
+      kd = ((double) this.getKills() + this.getCurrentKills()) / ((double) this.getDeaths() + this
+          .getCurrentDeaths());
+    }
+    DecimalFormat df = new DecimalFormat("#.##");
+    kd = Double.valueOf(df.format(kd));
+
+    return kd;
+  }
+
+  public UUID getId() {
+    return this.uuid;
+  }
+
+  public void setId(UUID uuid) {
+    this.uuid = uuid;
+  }
+
+  public double getKD() {
+    double kd = 0.0;
+    if (this.getDeaths() == 0) {
+      kd = this.getKills();
+    } else if (this.getKills() == 0) {
+      kd = 0.0;
+    } else {
+      kd = ((double) this.getKills()) / ((double) this.getDeaths());
+    }
+    DecimalFormat df = new DecimalFormat("#.##");
+    kd = Double.valueOf(df.format(kd));
+
+    return kd;
   }
 
   @Override

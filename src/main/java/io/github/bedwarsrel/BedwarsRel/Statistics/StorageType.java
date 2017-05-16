@@ -10,13 +10,13 @@ public enum StorageType {
   }
 
   public static StorageType getByName(String name) {
-    for (StorageType type : StorageType.values()) {
+    for (StorageType type : values()) {
       if (type.getName().equals(name)) {
         return type;
       }
     }
 
-    return StorageType.YAML;
+    return YAML;
   }
 
   public String getName() {

@@ -117,16 +117,16 @@ public abstract class GameCycle {
       boolean teamIsDead = deathTeam.isDead(this.getGame());
 
       if ((onlyOnBedDestroy && teamIsDead) || !onlyOnBedDestroy) {
-        diePlayer.setDeaths(diePlayer.getDeaths() + 1);
-        diePlayer.setScore(diePlayer.getScore() + Main.getInstance().getIntConfig("statistics.scores.die", 0));
+        diePlayer.setCurrentDeaths(diePlayer.getCurrentDeaths() + 1);
+        diePlayer.setCurrentScore(diePlayer.getCurrentScore() + Main.getInstance().getIntConfig("statistics.scores.die", 0));
       }
 
       if (killer != null) {
         if ((onlyOnBedDestroy && teamIsDead) || !onlyOnBedDestroy) {
           killerPlayer = Main.getInstance().getPlayerStatisticManager().getStatistic(killer);
           if (killerPlayer != null) {
-            killerPlayer.setKills(killerPlayer.getKills() + 1);
-            killerPlayer.setScore(killerPlayer.getScore() + Main.getInstance().getIntConfig("statistics.scores.kill", 10));
+            killerPlayer.setCurrentKills(killerPlayer.getCurrentKills() + 1);
+            killerPlayer.setCurrentScore(killerPlayer.getCurrentScore() + Main.getInstance().getIntConfig("statistics.scores.kill", 10));
           }
         }
       }
@@ -228,7 +228,7 @@ public abstract class GameCycle {
       if (Main.getInstance().statisticsEnabled()) {
         PlayerStatistic statistic =
             Main.getInstance().getPlayerStatisticManager().getStatistic(player);
-        statistic.setLoses(statistic.getLoses() + 1);
+        statistic.setCurrentLoses(statistic.getCurrentLoses() + 1);
       }
 
       if (Main.getInstance().spectationEnabled()) {
@@ -364,10 +364,10 @@ public abstract class GameCycle {
             PlayerStatistic statistic =
                 Main.getInstance().getPlayerStatisticManager().getStatistic(player);
             statistic.setWins(statistic.getWins() + 1);
-            statistic.setScore(statistic.getScore() + Main.getInstance().getIntConfig("statistics.scores.win", 50));
+            statistic.setCurrentScore(statistic.getCurrentScore() + Main.getInstance().getIntConfig("statistics.scores.win", 50));
 
             if (madeRecord) {
-              statistic.setScore(statistic.getScore() +
+              statistic.setCurrentScore(statistic.getCurrentScore() +
                   Main.getInstance().getIntConfig("statistics.scores.record", 100));
             }
           }
