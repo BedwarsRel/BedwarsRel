@@ -1,21 +1,21 @@
 ---
 default:
   pages: "Page $current$ of $max$"
-  currently: Currently
+  currently: Trenutno
 errors:
-  argumentslength: "Number of arguments does not match the correct amount!"
+  argumentslength: "Broj argumenata se ne podudara sa traženim brojem argumenata!"
   holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
-  gameexists: "A game with this name already exists!"
+  gameexists: "Igra sa ovim imenom već postoji!"
   gamenotfound: "The game '$game$' could not be found!"
-  nofreegames: "There are no free games available."
+  nofreegames: "Sve arene su zauzete! Sacekajte par trenutaka!"
   gamenotfoundsimple: "Game not found!"
-  playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
-  teamcolornotallowed: "The given Team color isn't a allowed color"
+  playeramount: "Maksimalan broj igrača ne može biti manji od 1 i veći od 24!"
+  teamcolornotallowed: "Ova boja za Tim boju nije dozvoljena!"
   teamnamelength: "Team name must have between 2 and 20 characters!"
-  teamnotfound: "Team not found!"
-  notingame: "You are currently not in a game!"
+  teamnotfound: "Tim nije pronađen!"
+  notingame: "Trenutno nisi u igri!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
   regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
@@ -52,9 +52,9 @@ errors:
 success:
   gameadded: "New game '$game$' successfully added!"
   teamadded: "Team '$team$' successfully added!"
-  joined: "You successfully joined the game!"
-  left: "You successfully left the game!"
-  saved: "Game was successfully saved!"
+  joined: "Uspešno ste ubačeni u igru! Pripremite se!"
+  left: "Uspešno ste izašli iz igre!"
+  saved: "Igra je uspešno sačuvana!"
   bedset: "You sucessfully set the respawn block of team $team$!"
   regionset: "Game region location $location$ for Game $game$ was set successfully!"
   spawnset: "Spawn location for Team $team$ was set successfully!"
