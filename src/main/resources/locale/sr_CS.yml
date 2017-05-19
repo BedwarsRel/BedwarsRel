@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Jedan ili više timova nema postavljen krevet!"
   TEAM_NO_WRONG_TARGET: "Jedan ili više timova nemaju postavljen respawn blok!"
 ingame:
-  team: "Team"
+  team: "Tim"
   teams: "Timovi"
   all: "Sve"
   record: "&e$record$&a je rekord na ovoj mapi!"
