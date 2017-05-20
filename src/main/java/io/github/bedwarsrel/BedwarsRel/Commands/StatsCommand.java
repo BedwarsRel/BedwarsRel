@@ -38,9 +38,6 @@ public class StatsCommand extends BaseCommand implements ICommand {
       OfflinePlayer offPlayer = Main.getInstance().getServer().getPlayerExact(playerStats);
 
       if (offPlayer != null) {
-        player.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.GRAY + Main._l(player, "stats.name") + ": "
-                + ChatColor.YELLOW + offPlayer.getName()));
         PlayerStatistic statistic =
             Main.getInstance().getPlayerStatisticManager().getStatistic(offPlayer);
         if (statistic == null) {
