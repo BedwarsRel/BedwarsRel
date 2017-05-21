@@ -1,6 +1,6 @@
 ---
 default:
-  pages: "Le pagine $current$ di $max$"
+  pages: "La pagina $current$ di $max$"
   currently: Al momento
 errors:
   argumentslength: "Il numero di argomenti non corrisponde alla corretta quantità!"
