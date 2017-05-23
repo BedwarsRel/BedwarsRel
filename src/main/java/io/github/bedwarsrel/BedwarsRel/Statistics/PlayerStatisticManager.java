@@ -23,15 +23,6 @@ import org.bukkit.entity.Player;
 
 public class PlayerStatisticManager {
 
-  private static final String CREATE_TABLE_SQL =
-      "CREATE TABLE IF NOT EXISTS `" + Main.getInstance().getDatabaseManager().getTablePrefix()
-          + "stats_players` (`kills` int(11) NOT NULL DEFAULT '0', `wins` int(11) NOT NULL DEFAULT '0', `score` int(11) NOT NULL DEFAULT '0', `loses` int(11) NOT NULL DEFAULT '0', `name` varchar(255) NOT NULL, `destroyedBeds` int(11) NOT NULL DEFAULT '0', `uuid` varchar(255) NOT NULL, `deaths` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`uuid`))";
-  private static final String READ_OBJECT_SQL =
-      "SELECT * FROM " + Main.getInstance().getDatabaseManager().getTablePrefix()
-          + "stats_players WHERE uuid = ? LIMIT 1";
-  private static final String WRITE_OBJECT_SQL =
-      "INSERT INTO " + Main.getInstance().getDatabaseManager().getTablePrefix()
-          + "stats_players(uuid, name, deaths, destroyedBeds, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=deaths+VALUES(deaths),destroyedBeds=destroyedBeds+VALUES(destroyedBeds),kills=kills+VALUES(kills),loses=loses+VALUES(loses),score=score+VALUES(score),wins=wins+VALUES(wins)";
   private File databaseFile = null;
   private FileConfiguration fileDatabase = null;
   private Map<UUID, PlayerStatistic> playerStatistic = null;
@@ -170,7 +161,8 @@ public class PlayerStatisticManager {
     try {
       Connection connection = Main.getInstance().getDatabaseManager().getConnection();
       connection.setAutoCommit(false);
-      PreparedStatement preparedStatement = connection.prepareStatement(CREATE_TABLE_SQL);
+      PreparedStatement preparedStatement = connection
+          .prepareStatement(Main.getInstance().getDatabaseManager().CREATE_TABLE_SQL);
       preparedStatement.executeUpdate();
       connection.commit();
       preparedStatement.close();
@@ -191,7 +183,8 @@ public class PlayerStatisticManager {
     try {
       Connection connection = Main.getInstance().getDatabaseManager().getConnection();
 
-      PreparedStatement preparedStatement = connection.prepareStatement(READ_OBJECT_SQL);
+      PreparedStatement preparedStatement = connection
+          .prepareStatement(Main.getInstance().getDatabaseManager().READ_OBJECT_SQL);
       preparedStatement.setString(1, uuid.toString());
       ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -289,7 +282,8 @@ public class PlayerStatisticManager {
       Connection connection = Main.getInstance().getDatabaseManager().getConnection();
       connection.setAutoCommit(false);
 
-      PreparedStatement preparedStatement = connection.prepareStatement(WRITE_OBJECT_SQL);
+      PreparedStatement preparedStatement = connection
+          .prepareStatement(Main.getInstance().getDatabaseManager().WRITE_OBJECT_SQL);
 
       preparedStatement.setString(1, playerStatistic.getId().toString());
       preparedStatement.setString(2, playerStatistic.getName());

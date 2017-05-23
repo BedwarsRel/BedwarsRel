@@ -2,12 +2,24 @@ package io.github.bedwarsrel.BedwarsRel.Database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import io.github.bedwarsrel.BedwarsRel.Main;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.TimeZone;
 import lombok.Getter;
 
 public class DatabaseManager {
+
+  public final String CREATE_TABLE_SQL =
+      "CREATE TABLE IF NOT EXISTS `" + this.getTablePrefix()
+          + "stats_players` (`kills` int(11) NOT NULL DEFAULT '0', `wins` int(11) NOT NULL DEFAULT '0', `score` int(11) NOT NULL DEFAULT '0', `loses` int(11) NOT NULL DEFAULT '0', `name` varchar(255) NOT NULL, `destroyedBeds` int(11) NOT NULL DEFAULT '0', `uuid` varchar(255) NOT NULL, `deaths` int(11) NOT NULL DEFAULT '0', PRIMARY KEY (`uuid`))";
+  public final String READ_OBJECT_SQL =
+      "SELECT * FROM " + this.getTablePrefix()
+          + "stats_players WHERE uuid = ? LIMIT 1";
+  public final String WRITE_OBJECT_SQL =
+      "INSERT INTO " + this.getTablePrefix()
+          + "stats_players(uuid, name, deaths, destroyedBeds, kills, loses, score, wins) VALUES (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE uuid=VALUES(uuid),name=VALUES(name),deaths=deaths+VALUES(deaths),destroyedBeds=destroyedBeds+VALUES(destroyedBeds),kills=kills+VALUES(kills),loses=loses+VALUES(loses),score=score+VALUES(score),wins=wins+VALUES(wins)";
+
 
   @Getter
   private String tablePrefix = "bw_";
