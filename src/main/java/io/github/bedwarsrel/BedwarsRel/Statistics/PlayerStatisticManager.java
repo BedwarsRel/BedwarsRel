@@ -212,6 +212,11 @@ public class PlayerStatisticManager {
       playerStatistic = new PlayerStatistic(deserialize);
     }
 
+    Player player = Main.getInstance().getServer().getPlayer(uuid);
+    if (player != null && !playerStatistic.getName().equals(player.getName())) {
+      playerStatistic.setName(player.getName());
+    }
+
     this.playerStatistic.put(playerStatistic.getId(), playerStatistic);
     return playerStatistic;
   }
