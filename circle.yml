@@ -1,7 +1,7 @@
 version: 2
 executorType: docker
 containerInfo:
-  - image: circleci/java:8
+  - image: maven:3.5-jdk-8
 stages:
   build:
     workDir: ~/BedwarsRel
@@ -11,7 +11,6 @@ stages:
       - type: shell
         shell: /bin/bash --login
         command: |
-          apt-get install maven
           export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
           if [ "${CIRCLE_BRANCH}" == "master" ]
           then
