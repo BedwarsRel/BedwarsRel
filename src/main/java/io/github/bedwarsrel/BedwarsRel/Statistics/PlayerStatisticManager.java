@@ -162,7 +162,7 @@ public class PlayerStatisticManager {
       Connection connection = Main.getInstance().getDatabaseManager().getConnection();
       connection.setAutoCommit(false);
       PreparedStatement preparedStatement = connection
-          .prepareStatement(Main.getInstance().getDatabaseManager().CREATE_TABLE_SQL);
+          .prepareStatement(Main.getInstance().getDatabaseManager().getCreateTableSql());
       preparedStatement.executeUpdate();
       connection.commit();
       preparedStatement.close();
@@ -178,13 +178,12 @@ public class PlayerStatisticManager {
     if (this.playerStatistic.containsKey(uuid)) {
       return this.playerStatistic.get(uuid);
     }
-
     HashMap<String, Object> deserialize = new HashMap<>();
+
     try {
       Connection connection = Main.getInstance().getDatabaseManager().getConnection();
-
       PreparedStatement preparedStatement = connection
-          .prepareStatement(Main.getInstance().getDatabaseManager().READ_OBJECT_SQL);
+          .prepareStatement(Main.getInstance().getDatabaseManager().getReadObjectSql());
       preparedStatement.setString(1, uuid.toString());
       ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -211,7 +210,6 @@ public class PlayerStatisticManager {
     } else {
       playerStatistic = new PlayerStatistic(deserialize);
     }
-
     Player player = Main.getInstance().getServer().getPlayer(uuid);
     if (player != null && !playerStatistic.getName().equals(player.getName())) {
       playerStatistic.setName(player.getName());
@@ -288,7 +286,7 @@ public class PlayerStatisticManager {
       connection.setAutoCommit(false);
 
       PreparedStatement preparedStatement = connection
-          .prepareStatement(Main.getInstance().getDatabaseManager().WRITE_OBJECT_SQL);
+          .prepareStatement(Main.getInstance().getDatabaseManager().getWriteObjectSql());
 
       preparedStatement.setString(1, playerStatistic.getId().toString());
       preparedStatement.setString(2, playerStatistic.getName());
