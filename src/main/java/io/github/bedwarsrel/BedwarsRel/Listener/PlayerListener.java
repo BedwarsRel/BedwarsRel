@@ -1040,6 +1040,10 @@ public class PlayerListener extends BaseListener {
       Main.getInstance().getHolographicInteractor().unloadAllHolograms(player);
     }
 
+    if (Main.getInstance().statisticsEnabled()) {
+      Main.getInstance().getPlayerStatisticManager().unloadStatistic(player);
+    }
+
     Game g = Main.getInstance().getGameManager().getGameOfPlayer(player);
 
     if (g == null) {
@@ -1047,10 +1051,6 @@ public class PlayerListener extends BaseListener {
     }
 
     g.playerLeave(player, false);
-
-    if (Main.getInstance().statisticsEnabled()) {
-      Main.getInstance().getPlayerStatisticManager().unloadStatistic(player);
-    }
   }
 
   @EventHandler
