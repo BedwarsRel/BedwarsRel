@@ -240,7 +240,8 @@ public class NewItemShop {
         } else {
           PotionMeta iStackMeta = (PotionMeta) iStack.getItemMeta();
           PotionMeta stackMeta = (PotionMeta) stack.getItemMeta();
-          if (iStackMeta.getCustomEffects().equals(stackMeta.getCustomEffects())) {
+          if (iStackMeta.getBasePotionData().equals(stackMeta.getBasePotionData()) && iStackMeta
+              .getCustomEffects().equals(stackMeta.getCustomEffects())) {
             return trade;
           }
         }
