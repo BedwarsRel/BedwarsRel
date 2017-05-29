@@ -238,8 +238,9 @@ public class NewItemShop {
             return trade;
           }
         } else {
-          if (((PotionMeta) iStack.getItemMeta()).getBasePotionData()
-              .equals(((PotionMeta) stack.getItemMeta()).getBasePotionData())) {
+          PotionMeta iStackMeta = (PotionMeta) iStack.getItemMeta();
+          PotionMeta stackMeta = (PotionMeta) stack.getItemMeta();
+          if (iStackMeta.getCustomEffects().equals(stackMeta.getCustomEffects())) {
             return trade;
           }
         }
