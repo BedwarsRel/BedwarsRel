@@ -140,8 +140,9 @@ public class SingleGameCycle extends GameCycle {
         if (aPlayer.isOnline()) {
           aPlayer.sendMessage(
               ChatWriter.pluginMessage(
-                  ChatColor.AQUA + BedwarsRel._l(aPlayer, "ingame.backtolobby", ImmutableMap.of("sec",
-                      ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
+                  ChatColor.AQUA + BedwarsRel
+                      ._l(aPlayer, "ingame.backtolobby", ImmutableMap.of("sec",
+                          ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
         }
       }
     }
@@ -169,7 +170,8 @@ public class SingleGameCycle extends GameCycle {
 
         if (players.size() == 0) {
           player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "lobby.gamefullpremium")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "lobby.gamefullpremium")));
           return false;
         }
 
@@ -189,7 +191,8 @@ public class SingleGameCycle extends GameCycle {
         if (this.getGame().getState() == GameState.RUNNING
             && !BedwarsRel.getInstance().spectationEnabled()) {
           player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.cantjoingame")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.cantjoingame")));
           return false;
         }
       }

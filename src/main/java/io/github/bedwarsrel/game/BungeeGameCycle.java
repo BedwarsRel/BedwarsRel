@@ -29,7 +29,8 @@ public class BungeeGameCycle extends GameCycle {
     if (server == null) {
       player
           .sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.bungeenoserver")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.bungeenoserver")));
       return;
     }
 
@@ -82,7 +83,8 @@ public class BungeeGameCycle extends GameCycle {
           if (BedwarsRel.getInstance().isSpigot()
               && BedwarsRel.getInstance().getBooleanConfig("bungeecord.spigot-restart", true)) {
             BedwarsRel.getInstance().getServer()
-                .dispatchCommand(BedwarsRel.getInstance().getServer().getConsoleSender(), "restart");
+                .dispatchCommand(BedwarsRel.getInstance().getServer().getConsoleSender(),
+                    "restart");
           } else {
             Bukkit.shutdown();
           }
@@ -188,7 +190,8 @@ public class BungeeGameCycle extends GameCycle {
           aPlayer.sendMessage(ChatWriter
               .pluginMessage(ChatColor.AQUA + BedwarsRel
                   ._l(aPlayer, "ingame.serverrestart", ImmutableMap
-                  .of("sec", ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
+                      .of("sec",
+                          ChatColor.YELLOW.toString() + task.getCounter() + ChatColor.AQUA))));
         }
       }
     }
@@ -231,7 +234,8 @@ public class BungeeGameCycle extends GameCycle {
             @Override
             public void run() {
               BungeeGameCycle.this.sendBungeeMessage(p,
-                  ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(p, "lobby.gamefullpremium")));
+                  ChatWriter
+                      .pluginMessage(ChatColor.RED + BedwarsRel._l(p, "lobby.gamefullpremium")));
             }
           }.runTaskLater(BedwarsRel.getInstance(), 60L);
           return false;
@@ -253,7 +257,8 @@ public class BungeeGameCycle extends GameCycle {
           public void run() {
             BungeeGameCycle.this.sendBungeeMessage(kickedPlayer,
                 ChatWriter
-                    .pluginMessage(ChatColor.RED + BedwarsRel._l(kickedPlayer, "lobby.kickedbyvip")));
+                    .pluginMessage(
+                        ChatColor.RED + BedwarsRel._l(kickedPlayer, "lobby.kickedbyvip")));
           }
         }.runTaskLater(BedwarsRel.getInstance(), 60L);
       } else {
@@ -264,7 +269,8 @@ public class BungeeGameCycle extends GameCycle {
 
             @Override
             public void run() {
-              BungeeGameCycle.this.bungeeSendToServer(BedwarsRel.getInstance().getBungeeHub(), p, false);
+              BungeeGameCycle.this
+                  .bungeeSendToServer(BedwarsRel.getInstance().getBungeeHub(), p, false);
             }
 
           }.runTaskLater(BedwarsRel.getInstance(), 5L);

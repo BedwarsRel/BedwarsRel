@@ -14,7 +14,8 @@ public class MagnetShoe extends SpecialItem {
   @SuppressWarnings("deprecation")
   @Override
   public Material getItemMaterial() {
-    String item = BedwarsRel.getInstance().getStringConfig("specials.magnetshoe.boots", "IRON_BOOTS");
+    String item = BedwarsRel.getInstance()
+        .getStringConfig("specials.magnetshoe.boots", "IRON_BOOTS");
     Material material = null;
     if (Utils.isNumber(item)) {
       material = Material.getMaterial(Integer.valueOf(item));

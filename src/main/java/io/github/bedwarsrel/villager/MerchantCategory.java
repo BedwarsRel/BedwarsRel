@@ -106,7 +106,7 @@ public class MerchantCategory {
         ItemStack item1 = null;
 
         try {
-          item1 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(0)));
+          item1 = setResourceName(ItemStack.deserialize(offerSection.get("price").get(0)));
         } catch (Exception e) {
           // CATCH EXCEPTION
         }
@@ -114,7 +114,7 @@ public class MerchantCategory {
         ItemStack item2 = null;
         if (offerSection.get("price").size() == 2) {
           try {
-            item2 = setRessourceName(ItemStack.deserialize(offerSection.get("price").get(1)));
+            item2 = setResourceName(ItemStack.deserialize(offerSection.get("price").get(1)));
           } catch (Exception e) {
             // CATCH EXCEPTION
           }
@@ -190,27 +190,27 @@ public class MerchantCategory {
   }
 
   @SuppressWarnings("deprecation")
-  private static ItemStack setRessourceName(ItemStack item) {
+  private static ItemStack setResourceName(ItemStack item) {
 
     ItemMeta im = item.getItemMeta();
     String name = im.getDisplayName();
 
     // check if is ressource
-    ConfigurationSection ressourceSection =
-        BedwarsRel.getInstance().getConfig().getConfigurationSection("ressource");
-    for (String key : ressourceSection.getKeys(false)) {
-      Material ressMaterial = null;
-      String itemType = ressourceSection.getString(key + ".item");
+    ConfigurationSection resourceSection =
+        BedwarsRel.getInstance().getConfig().getConfigurationSection("resource");
+    for (String key : resourceSection.getKeys(false)) {
 
-      if (Utils.isNumber(itemType)) {
-        ressMaterial = Material.getMaterial(Integer.parseInt(itemType));
-      } else {
-        ressMaterial = Material.getMaterial(itemType);
-      }
+      List<Object> resourceList = (List<Object>) BedwarsRel.getInstance().getConfig()
+          .getList("resource." + key + ".item");
 
-      if (item.getType().equals(ressMaterial)) {
-        name =
-            ChatColor.translateAlternateColorCodes('&', ressourceSection.getString(key + ".name"));
+      for (Object resource : resourceList) {
+        ItemStack itemStack = ItemStack.deserialize((Map<String, Object>) resource);
+        if (itemStack != null && itemStack.getType().equals(item.getType())
+            && itemStack.getItemMeta() != null
+            && itemStack.getItemMeta().getDisplayName() != null) {
+          name =
+              ChatColor.translateAlternateColorCodes('&', itemStack.getItemMeta().getDisplayName());
+        }
       }
     }
 

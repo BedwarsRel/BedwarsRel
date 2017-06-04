@@ -97,7 +97,8 @@ public class Tracker extends SpecialItem {
     if (target == null) {
       this.player.sendMessage(ChatWriter
           .pluginMessage(
-              ChatColor.RED + BedwarsRel._l(this.player, "ingame.specials.tracker.no-target-found")));
+              ChatColor.RED + BedwarsRel
+                  ._l(this.player, "ingame.specials.tracker.no-target-found")));
       this.player.setCompassTarget(this.game.getPlayerTeam(this.player).getSpawnLocation());
       return;
     }

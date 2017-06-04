@@ -102,7 +102,8 @@ public class GameLobbyCountdown extends BukkitRunnable {
         for (Player aPlayer : players) {
           if (aPlayer.isOnline()) {
             aPlayer.sendMessage(ChatWriter.pluginMessage(
-                ChatColor.RED + BedwarsRel._l(aPlayer, "lobby.cancelcountdown.not_enough_players")));
+                ChatColor.RED + BedwarsRel
+                    ._l(aPlayer, "lobby.cancelcountdown.not_enough_players")));
           }
         }
       } else if (!this.game.hasEnoughTeams()) {

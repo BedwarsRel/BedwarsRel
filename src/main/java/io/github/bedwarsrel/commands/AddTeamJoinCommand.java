@@ -54,7 +54,8 @@ public class AddTeamJoinCommand extends BaseCommand {
     // only in lobby
     if (game.getLobby() == null || !player.getWorld().equals(game.getLobby().getWorld())) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.mustbeinlobbyworld")));
+          ChatWriter
+              .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.mustbeinlobbyworld")));
       return false;
     }
 
@@ -84,7 +85,8 @@ public class AddTeamJoinCommand extends BaseCommand {
 
     player.sendMessage(
         ChatWriter
-            .pluginMessage(ChatColor.GREEN + BedwarsRel._l(player, "success.selectteamjoinentity")));
+            .pluginMessage(
+                ChatColor.GREEN + BedwarsRel._l(player, "success.selectteamjoinentity")));
     return true;
   }
 

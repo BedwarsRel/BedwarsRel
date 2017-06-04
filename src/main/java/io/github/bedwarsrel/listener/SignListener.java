@@ -1,7 +1,7 @@
 package io.github.bedwarsrel.listener;
 
-import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.BedwarsRel;
+import io.github.bedwarsrel.game.Game;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

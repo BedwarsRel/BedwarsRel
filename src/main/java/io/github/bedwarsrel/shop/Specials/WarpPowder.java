@@ -125,7 +125,8 @@ public class WarpPowder extends SpecialItem {
     this.teleportingTask = new BukkitRunnable() {
 
       public String particle =
-          BedwarsRel.getInstance().getStringConfig("specials.warp-powder.particle", "fireworksSpark");
+          BedwarsRel.getInstance()
+              .getStringConfig("specials.warp-powder.particle", "fireworksSpark");
       public boolean showParticle =
           BedwarsRel.getInstance().getBooleanConfig("specials.warp-powder.show-particles", true);
       public double through = 0.0;

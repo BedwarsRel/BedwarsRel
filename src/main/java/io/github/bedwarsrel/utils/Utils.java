@@ -160,7 +160,8 @@ public final class Utils {
 
   public static Object getCraftPlayer(Player player) {
     try {
-      Class<?> craftPlayerClass = BedwarsRel.getInstance().getCraftBukkitClass("entity.CraftPlayer");
+      Class<?> craftPlayerClass = BedwarsRel.getInstance()
+          .getCraftBukkitClass("entity.CraftPlayer");
       Method getHandle = craftPlayerClass.getMethod("getHandle", new Class[]{});
       getHandle.setAccessible(true);
 

@@ -74,7 +74,8 @@ public class LocalizationConfig extends YamlConfiguration {
 
   public void loadLocale() {
     File locFile =
-        new File(BedwarsRel.getInstance().getDataFolder().getPath() + "/locale/" + this.locale + ".yml");
+        new File(
+            BedwarsRel.getInstance().getDataFolder().getPath() + "/locale/" + this.locale + ".yml");
     BufferedReader reader = null;
     InputStream inputStream = null;
     if (locFile.exists()) {

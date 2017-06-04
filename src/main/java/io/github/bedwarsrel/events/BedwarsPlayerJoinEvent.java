@@ -1,7 +1,7 @@
 package io.github.bedwarsrel.events;
 
-import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.BedwarsRel;
+import io.github.bedwarsrel.game.Game;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
@@ -37,12 +37,12 @@ public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
     return this.player;
   }
 
-  public void setKickOnCancel(Boolean kick){
-    this.kickOnCancel = kick;
-  }
-
   public Boolean getKickOnCancel() {
     return kickOnCancel;
+  }
+
+  public void setKickOnCancel(Boolean kick) {
+    this.kickOnCancel = kick;
   }
 
   @Override
@@ -56,7 +56,8 @@ public class BedwarsPlayerJoinEvent extends Event implements Cancellable {
   }
 
   public void setPlayerLocale(String locale) {
-    if (BedwarsRel.getInstance().getPlayerLocales().containsKey(this.player.getUniqueId()) && !locale
+    if (BedwarsRel.getInstance().getPlayerLocales().containsKey(this.player.getUniqueId())
+        && !locale
         .equals(BedwarsRel.getInstance().getPlayerLocales().get(this.player.getUniqueId()))) {
       BedwarsRel.getInstance().getPlayerLocales().remove(this.player.getUniqueId());
     }

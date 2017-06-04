@@ -1,7 +1,7 @@
 package io.github.bedwarsrel.commands;
 
-import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.BedwarsRel;
+import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.utils.ChatWriter;
 import java.util.ArrayList;
 import org.bukkit.command.CommandSender;
@@ -26,7 +26,8 @@ public class KickCommand extends BaseCommand implements ICommand {
     Player kickPlayer = BedwarsRel.getInstance().getServer().getPlayer(args.get(0).toString());
 
     if (game == null) {
-      player.sendMessage(ChatWriter.pluginMessage(BedwarsRel._l(player, "errors.notingameforkick")));
+      player
+          .sendMessage(ChatWriter.pluginMessage(BedwarsRel._l(player, "errors.notingameforkick")));
       return true;
     }
 

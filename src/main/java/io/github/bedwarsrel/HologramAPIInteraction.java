@@ -138,41 +138,42 @@ public class HologramAPIInteraction implements IHologramInteraction {
     }
 
     player.removeMetadata("bw-remove-holo", BedwarsRel.getInstance());
-    BedwarsRel.getInstance().getServer().getScheduler().runTask(BedwarsRel.getInstance(), new Runnable() {
+    BedwarsRel.getInstance().getServer().getScheduler()
+        .runTask(BedwarsRel.getInstance(), new Runnable() {
 
-      @Override
-      public void run() {
-        // remove all player holograms on this location
-        Location touchedSetLocation = null;
-        for (Entry<Location, List<Hologram>> hologramSet : HologramAPIInteraction.this
-            .getHologramSets().entrySet()) {
-          for (Hologram hologram : hologramSet.getValue()) {
-            if (hologram.equals(touchedHologram)) {
-              touchedSetLocation = hologramSet.getKey();
-              break;
+          @Override
+          public void run() {
+            // remove all player holograms on this location
+            Location touchedSetLocation = null;
+            for (Entry<Location, List<Hologram>> hologramSet : HologramAPIInteraction.this
+                .getHologramSets().entrySet()) {
+              for (Hologram hologram : hologramSet.getValue()) {
+                if (hologram.equals(touchedHologram)) {
+                  touchedSetLocation = hologramSet.getKey();
+                  break;
+                }
+              }
+
+              if (touchedSetLocation != null) {
+                break;
+              }
             }
+            if (touchedSetLocation != null) {
+              List<Hologram> touchedSetHolograms =
+                  HologramAPIInteraction.this.getHologramSets().get(touchedSetLocation);
+              for (Hologram hologram : touchedSetHolograms) {
+                hologram.despawn();
+              }
+              HologramAPIInteraction.this.getHologramSets().remove(touchedSetLocation);
+
+              HologramAPIInteraction.this.hologramLocations.remove(touchedSetLocation);
+              HologramAPIInteraction.this.updateHologramDatabase();
+            }
+            player.sendMessage(
+                ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l("success.holoremoved")));
           }
 
-          if (touchedSetLocation != null) {
-            break;
-          }
-        }
-        if (touchedSetLocation != null) {
-          List<Hologram> touchedSetHolograms =
-              HologramAPIInteraction.this.getHologramSets().get(touchedSetLocation);
-          for (Hologram hologram : touchedSetHolograms) {
-            hologram.despawn();
-          }
-          HologramAPIInteraction.this.getHologramSets().remove(touchedSetLocation);
-
-          HologramAPIInteraction.this.hologramLocations.remove(touchedSetLocation);
-          HologramAPIInteraction.this.updateHologramDatabase();
-        }
-        player.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l("success.holoremoved")));
-      }
-
-    });
+        });
 
   }
 

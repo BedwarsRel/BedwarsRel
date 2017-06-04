@@ -1,10 +1,10 @@
 package io.github.bedwarsrel.commands;
 
 import com.google.common.collect.ImmutableMap;
+import io.github.bedwarsrel.BedwarsRel;
 import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.game.GameState;
 import io.github.bedwarsrel.game.Team;
-import io.github.bedwarsrel.BedwarsRel;
 import io.github.bedwarsrel.utils.ChatWriter;
 import io.github.bedwarsrel.utils.Utils;
 import java.lang.reflect.Method;
@@ -105,7 +105,8 @@ public class SetTargetCommand extends BaseCommand implements ICommand {
 
     player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel
         ._l(player, "success.bedset",
-        ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
+            ImmutableMap
+                .of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
     return true;
   }
 

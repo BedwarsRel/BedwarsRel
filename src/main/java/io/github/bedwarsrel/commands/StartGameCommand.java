@@ -1,8 +1,8 @@
 package io.github.bedwarsrel.commands;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.BedwarsRel;
+import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.utils.ChatWriter;
 import java.util.ArrayList;
 import org.bukkit.ChatColor;

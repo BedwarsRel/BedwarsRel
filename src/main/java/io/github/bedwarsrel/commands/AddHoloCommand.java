@@ -30,7 +30,8 @@ public class AddHoloCommand extends BaseCommand implements ICommand {
     }
 
     Player player = (Player) sender;
-    BedwarsRel.getInstance().getHolographicInteractor().addHologramLocation(player.getEyeLocation());
+    BedwarsRel.getInstance().getHolographicInteractor()
+        .addHologramLocation(player.getEyeLocation());
     BedwarsRel.getInstance().getHolographicInteractor().updateHolograms();
     return true;
   }

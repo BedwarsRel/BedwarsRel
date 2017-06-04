@@ -43,14 +43,16 @@ public class RegionNameCommand extends BaseCommand implements ICommand {
 
     if (name.length() > 15) {
       player.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.toolongregionname")));
+          ChatWriter
+              .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.toolongregionname")));
       return true;
     }
 
     game.setRegionName(name);
     player
         .sendMessage(
-            ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l(player, "success.regionnameset")));
+            ChatWriter
+                .pluginMessage(ChatColor.GREEN + BedwarsRel._l(player, "success.regionnameset")));
     return true;
   }
 

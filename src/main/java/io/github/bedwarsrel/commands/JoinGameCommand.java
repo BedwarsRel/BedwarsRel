@@ -30,7 +30,8 @@ public class JoinGameCommand extends BaseCommand {
     if (gameOfPlayer != null) {
       if (gameOfPlayer.getState() == GameState.RUNNING) {
         sender.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.notwhileingame")));
+            ChatWriter
+                .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.notwhileingame")));
         return false;
       }
 

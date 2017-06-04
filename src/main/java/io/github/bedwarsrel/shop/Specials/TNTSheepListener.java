@@ -24,7 +24,8 @@ public class TNTSheepListener implements Listener {
   public TNTSheepListener() {
     try {
       // register entities
-      Class<?> tntRegisterClass = BedwarsRel.getInstance().getVersionRelatedClass("TNTSheepRegister");
+      Class<?> tntRegisterClass = BedwarsRel.getInstance()
+          .getVersionRelatedClass("TNTSheepRegister");
       ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
       register.registerEntities(
           BedwarsRel.getInstance().getIntConfig("specials.tntsheep.entity-id", 91));

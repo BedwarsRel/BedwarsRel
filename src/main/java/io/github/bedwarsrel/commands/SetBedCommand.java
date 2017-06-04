@@ -131,7 +131,8 @@ public class SetBedCommand extends BaseCommand implements ICommand {
 
     player.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel
         ._l(player, "success.bedset",
-        ImmutableMap.of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
+            ImmutableMap
+                .of("team", gameTeam.getChatColor() + gameTeam.getName() + ChatColor.GREEN))));
     return true;
   }
 

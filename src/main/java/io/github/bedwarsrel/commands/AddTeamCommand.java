@@ -62,7 +62,8 @@ public class AddTeamCommand extends BaseCommand {
     if (name.length() < 3 || name.length() > 20) {
       sender
           .sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.teamnamelength")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.teamnamelength")));
       return false;
     }
 
@@ -74,7 +75,8 @@ public class AddTeamCommand extends BaseCommand {
 
     game.addTeam(name, tColor, playerMax);
     sender.sendMessage(ChatWriter.pluginMessage(
-        ChatColor.GREEN + BedwarsRel._l(sender, "success.teamadded", ImmutableMap.of("team", name))));
+        ChatColor.GREEN + BedwarsRel
+            ._l(sender, "success.teamadded", ImmutableMap.of("team", name))));
     return true;
   }
 

@@ -48,7 +48,8 @@ public class PerformRespawnRunnable extends BukkitRunnable {
   @Override
   public void run() {
     try {
-      Class<?> enumClientCommand = BedwarsRel.getInstance().getMinecraftServerClass("EnumClientCommand");
+      Class<?> enumClientCommand = BedwarsRel.getInstance()
+          .getMinecraftServerClass("EnumClientCommand");
       Class<?> packetClass =
           BedwarsRel.getInstance().getMinecraftServerClass("PacketPlayInClientCommand");
       if (enumClientCommand == null) {
@@ -75,7 +76,8 @@ public class PerformRespawnRunnable extends BukkitRunnable {
       Object packetPlayInClientCommand = this.getPacketObject("PacketPlayInClientCommand",
           new Class[]{enumClientCommand}, new Object[]{respawnObject});
       Object craftPlayer = Utils.getCraftPlayer(this.player);
-      Class<?> craftPlayerClass = BedwarsRel.getInstance().getCraftBukkitClass("entity.CraftPlayer");
+      Class<?> craftPlayerClass = BedwarsRel.getInstance()
+          .getCraftBukkitClass("entity.CraftPlayer");
       Field playerConnectionField = craftPlayerClass.getField("playerConnection");
       playerConnectionField.setAccessible(true);
 

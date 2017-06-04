@@ -10,7 +10,8 @@ public abstract class BaseListener implements Listener {
   }
 
   private void registerEvents() {
-    BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(this, BedwarsRel.getInstance());
+    BedwarsRel.getInstance().getServer().getPluginManager()
+        .registerEvents(this, BedwarsRel.getInstance());
   }
 
 }

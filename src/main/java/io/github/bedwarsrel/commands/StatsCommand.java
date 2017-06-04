@@ -42,7 +42,8 @@ public class StatsCommand extends BaseCommand implements ICommand {
             BedwarsRel.getInstance().getPlayerStatisticManager().getStatistic(offPlayer);
         if (statistic == null) {
           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-              + BedwarsRel._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+              + BedwarsRel
+              ._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
           return true;
         }
 
@@ -55,7 +56,8 @@ public class StatsCommand extends BaseCommand implements ICommand {
         offUUID = UUIDFetcher.getUUIDOf(playerStats);
         if (offUUID == null) {
           player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-              + BedwarsRel._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+              + BedwarsRel
+              ._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
           return true;
         }
       } catch (Exception e) {
@@ -66,7 +68,8 @@ public class StatsCommand extends BaseCommand implements ICommand {
       offPlayer = BedwarsRel.getInstance().getServer().getOfflinePlayer(offUUID);
       if (offPlayer == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + BedwarsRel._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
+            + BedwarsRel
+            ._l(player, "stats.statsnotfound", ImmutableMap.of("player", playerStats))));
         return true;
       }
 
@@ -86,7 +89,8 @@ public class StatsCommand extends BaseCommand implements ICommand {
           BedwarsRel.getInstance().getPlayerStatisticManager().getStatistic(player);
       if (statistic == null) {
         player.sendMessage(ChatWriter.pluginMessage(ChatColor.RED
-            + BedwarsRel._l(player, "stats.statsnotfound", ImmutableMap.of("player", player.getName()))));
+            + BedwarsRel
+            ._l(player, "stats.statsnotfound", ImmutableMap.of("player", player.getName()))));
         return true;
       }
 

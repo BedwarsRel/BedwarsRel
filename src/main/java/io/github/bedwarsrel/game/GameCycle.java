@@ -136,10 +136,12 @@ public abstract class GameCycle {
       // dispatch reward commands directly
       if (BedwarsRel.getInstance().getBooleanConfig("rewards.enabled", false) && killer != null
           && ((onlyOnBedDestroy && teamIsDead) || !onlyOnBedDestroy)) {
-        List<String> commands = BedwarsRel.getInstance().getConfig().getStringList("rewards.player-kill");
+        List<String> commands = BedwarsRel.getInstance().getConfig()
+            .getStringList("rewards.player-kill");
         BedwarsRel.getInstance().dispatchRewardCommands(commands,
             ImmutableMap.of("{player}", killer.getName(), "{score}",
-                String.valueOf(BedwarsRel.getInstance().getIntConfig("statistics.scores.kill", 10))));
+                String
+                    .valueOf(BedwarsRel.getInstance().getIntConfig("statistics.scores.kill", 10))));
       }
     }
 
@@ -313,7 +315,8 @@ public abstract class GameCycle {
         || (BedwarsRel.getInstance().getBooleanConfig("titles.win.enabled", true))) {
       if (winner != null) {
         for (Player player : winner.getPlayers()) {
-          String title = this.winTitleReplace(BedwarsRel._l(player, "ingame.title.win-title"), winner);
+          String title = this
+              .winTitleReplace(BedwarsRel._l(player, "ingame.title.win-title"), winner);
           String subtitle = this
               .winTitleReplace(BedwarsRel._l(player, "ingame.title.win-subtitle"), winner);
           if (!"".equals(title) || !"".equals(subtitle)) {
@@ -325,7 +328,8 @@ public abstract class GameCycle {
 
                 if (!"".equals(title)) {
                   double titleFadeIn =
-                      BedwarsRel.getInstance().getConfig().getDouble("titles.win.title-fade-in", 1.5);
+                      BedwarsRel.getInstance().getConfig()
+                          .getDouble("titles.win.title-fade-in", 1.5);
                   double titleStay =
                       BedwarsRel.getInstance().getConfig().getDouble("titles.win.title-stay", 5.0);
                   double titleFadeOut =
@@ -343,7 +347,8 @@ public abstract class GameCycle {
                       BedwarsRel
                           .getInstance().getConfig().getDouble("titles.win.subtitle-fade-in", 1.5);
                   double subTitleStay =
-                      BedwarsRel.getInstance().getConfig().getDouble("titles.win.subtitle-stay", 5.0);
+                      BedwarsRel.getInstance().getConfig()
+                          .getDouble("titles.win.subtitle-stay", 5.0);
                   double subTitleFadeOut =
                       BedwarsRel
                           .getInstance().getConfig().getDouble("titles.win.subtitle-fade-out", 2.0);
@@ -362,8 +367,10 @@ public abstract class GameCycle {
 
           if (BedwarsRel.getInstance().getBooleanConfig("rewards.enabled", false)) {
             List<String> commands = new ArrayList<String>();
-            commands = (List<String>) BedwarsRel.getInstance().getConfig().getList("rewards.player-win");
-            BedwarsRel.getInstance().dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
+            commands = (List<String>) BedwarsRel.getInstance().getConfig()
+                .getList("rewards.player-win");
+            BedwarsRel.getInstance()
+                .dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
           }
 
           if (BedwarsRel.getInstance().statisticsEnabled()) {
@@ -389,8 +396,10 @@ public abstract class GameCycle {
         if (BedwarsRel.getInstance().getBooleanConfig("rewards.enabled", false)) {
           List<String> commands = new ArrayList<String>();
           commands =
-              (List<String>) BedwarsRel.getInstance().getConfig().getList("rewards.player-end-game");
-          BedwarsRel.getInstance().dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
+              (List<String>) BedwarsRel.getInstance().getConfig()
+                  .getList("rewards.player-end-game");
+          BedwarsRel.getInstance()
+              .dispatchRewardCommands(commands, this.getRewardPlaceholders(player));
         }
       }
     }

@@ -43,7 +43,8 @@ public class SetRegionCommand extends BaseCommand implements ICommand {
     if (!loc.equalsIgnoreCase("loc1") && !loc.equalsIgnoreCase("loc2")) {
       player
           .sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.regionargument")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "errors.regionargument")));
       return false;
     }
 

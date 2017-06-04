@@ -76,7 +76,8 @@ public class BlockListener extends BaseListener {
         return;
       }
 
-      Game game = BedwarsRel.getInstance().getGameManager().getGameBySignLocation(breaked.getLocation());
+      Game game = BedwarsRel.getInstance().getGameManager()
+          .getGameBySignLocation(breaked.getLocation());
       if (game == null) {
         return;
       }
@@ -132,7 +133,8 @@ public class BlockListener extends BaseListener {
 
           if (player.getLocation().getBlock().getRelative(BlockFace.DOWN).equals(e.getBlock())) {
             p.sendMessage(
-                ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(p, "ingame.no-friendlybreak")));
+                ChatWriter
+                    .pluginMessage(ChatColor.RED + BedwarsRel._l(p, "ingame.no-friendlybreak")));
             e.setCancelled(true);
             return;
           }
@@ -200,7 +202,8 @@ public class BlockListener extends BaseListener {
   @EventHandler(ignoreCancelled = true)
   public void onFade(BlockFadeEvent e) {
 
-    Game game = BedwarsRel.getInstance().getGameManager().getGameByLocation(e.getBlock().getLocation());
+    Game game = BedwarsRel.getInstance().getGameManager()
+        .getGameByLocation(e.getBlock().getLocation());
     if (game == null) {
       return;
     }
@@ -371,7 +374,8 @@ public class BlockListener extends BaseListener {
     }
 
     Game game =
-        BedwarsRel.getInstance().getGameManager().getGameByLocation(spread.getBlock().getLocation());
+        BedwarsRel.getInstance().getGameManager()
+            .getGameByLocation(spread.getBlock().getLocation());
     if (game == null) {
       return;
     }

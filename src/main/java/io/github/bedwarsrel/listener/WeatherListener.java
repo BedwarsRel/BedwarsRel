@@ -1,8 +1,8 @@
 package io.github.bedwarsrel.listener;
 
+import io.github.bedwarsrel.BedwarsRel;
 import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.game.GameState;
-import io.github.bedwarsrel.BedwarsRel;
 import java.util.List;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.weather.WeatherChangeEvent;

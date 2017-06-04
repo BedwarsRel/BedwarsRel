@@ -60,7 +60,7 @@ public class SetSpawnerCommand extends BaseCommand {
 
     Location location = player.getLocation();
     ResourceSpawner spawner = new ResourceSpawner(game, material, location);
-    game.addRessourceSpawner(spawner);
+    game.addResourceSpawner(spawner);
     player.sendMessage(
         ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l(player, "success.spawnerset",
             ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));

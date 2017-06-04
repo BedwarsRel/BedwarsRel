@@ -58,7 +58,8 @@ public class ProtectionWall extends SpecialItem {
     if (player.getEyeLocation().getBlock().getType() != Material.AIR) {
       player.sendMessage(
           ChatWriter
-              .pluginMessage(BedwarsRel._l(player, "ingame.specials.protection-wall.not-usable-here")));
+              .pluginMessage(
+                  BedwarsRel._l(player, "ingame.specials.protection-wall.not-usable-here")));
       return;
     }
 
@@ -71,7 +72,7 @@ public class ProtectionWall extends SpecialItem {
             player.sendMessage(
                 ChatWriter.pluginMessage(
                     BedwarsRel._l(player, "ingame.specials.protection-wall.left",
-                    ImmutableMap.of("time", String.valueOf(waitLeft)))));
+                        ImmutableMap.of("time", String.valueOf(waitLeft)))));
             return;
           }
         }
