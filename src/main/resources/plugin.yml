@@ -5,7 +5,7 @@ description: |
 author: "The BedwarsRel-Team | www.github.com/orgs/BedwarsRel/people"
 website: "www.github.com/BedwarsRel"
 
-main: io.github.bedwarsrel.BedwarsRel.Main
+main: io.github.bedwarsrel.BedwarsRel
 version: ${versionstring}
 
 awareness:
@@ -21,7 +21,7 @@ commands:
         permission: bw.base
     bw setspawner:
         description: Sets a ressource spawn point of a specific type
-        usage: /<command> [Game] [Ressource]
+        usage: /<command> [game] [Ressource]
         permission: bw.setup
     bw addgame:
         description: Add a new game
@@ -29,7 +29,7 @@ commands:
         permission: bw.setup
     bw start:
         description: Starts a game
-        usage: /<command> [Game]
+        usage: /<command> [game]
         permission: bw.setup
     bw addteam:
         description: Adds a team to a game
@@ -45,23 +45,23 @@ commands:
         permission: bw.setup
     bw join:
         description: Joins a specific team in a game
-        usage: /<command> [Game] [Team]
+        usage: /<command> [game] [Team]
         permission: bw.base
     bw setspawn:
         description: Sets the spawn of a team
-        usage: /<command> [Game] [Team]
+        usage: /<command> [game] [Team]
         permission: bw.setup
     bw setlobby:
         description: Sets the lobby location of a game
-        usage: /<command> [Game]
+        usage: /<command> [game]
         permission: bw.setup
     bw settarget:
         description: Sets the bed of a team in a game
-        usage: /<command> [Game] [Team]
+        usage: /<command> [game] [Team]
         permission: bw.setup
     bw setbed:
         description: Sets the bed of a team in a game
-        usage: /<command> [Game] [Team]
+        usage: /<command> [game] [Team]
         permission: bw.setup
     bw leave:
         description: Leaves the current game
