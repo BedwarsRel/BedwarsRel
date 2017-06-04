@@ -194,7 +194,8 @@ public class Game {
 
   public RespawnProtectionRunnable addProtection(Player player) {
     RespawnProtectionRunnable rpr =
-        new RespawnProtectionRunnable(this, player, BedwarsRel.getInstance().getRespawnProtectionTime());
+        new RespawnProtectionRunnable(this, player,
+            BedwarsRel.getInstance().getRespawnProtectionTime());
     this.respawnProtections.put(player, rpr);
 
     return rpr;
@@ -204,7 +205,7 @@ public class Game {
     this.recordHolders.add(holder);
   }
 
-  public void addRessourceSpawner(ResourceSpawner rs) {
+  public void addResourceSpawner(ResourceSpawner rs) {
     this.resourceSpawners.add(rs);
   }
 
@@ -389,9 +390,11 @@ public class Game {
           + BedwarsRel.getInstance().getCurrentVersion().toLowerCase() + ".Title");
       Method showTitle = clazz.getMethod("showTitle", Player.class, String.class, double.class,
           double.class, double.class);
-      double titleFadeIn = BedwarsRel.getInstance().getConfig().getDouble("titles.map.title-fade-in");
+      double titleFadeIn = BedwarsRel.getInstance().getConfig()
+          .getDouble("titles.map.title-fade-in");
       double titleStay = BedwarsRel.getInstance().getConfig().getDouble("titles.map.title-stay");
-      double titleFadeOut = BedwarsRel.getInstance().getConfig().getDouble("titles.map.title-fade-out");
+      double titleFadeOut = BedwarsRel.getInstance().getConfig()
+          .getDouble("titles.map.title-fade-out");
 
       showTitle.invoke(null, player, this.getRegion().getName(), titleFadeIn, titleStay,
           titleFadeOut);
@@ -401,7 +404,8 @@ public class Game {
             double.class, double.class, double.class);
         double subtitleFadeIn =
             BedwarsRel.getInstance().getConfig().getDouble("titles.map.subtitle-fade-in");
-        double subtitleStay = BedwarsRel.getInstance().getConfig().getDouble("titles.map.subtitle-stay");
+        double subtitleStay = BedwarsRel.getInstance().getConfig()
+            .getDouble("titles.map.subtitle-stay");
         double subtitleFadeOut =
             BedwarsRel.getInstance().getConfig().getDouble("titles.map.subtitle-fade-out");
 
@@ -439,11 +443,14 @@ public class Game {
         }
       }
 
-      player.sendMessage(ChatWriter.pluginMessage(BedwarsRel._l(player, "ingame.record-with-holders",
-          ImmutableMap.of("record", this.getFormattedRecord(), "holders", holders.toString()))));
+      player
+          .sendMessage(ChatWriter.pluginMessage(BedwarsRel._l(player, "ingame.record-with-holders",
+              ImmutableMap
+                  .of("record", this.getFormattedRecord(), "holders", holders.toString()))));
     } else {
       player.sendMessage(ChatWriter.pluginMessage(
-          BedwarsRel._l(player, "ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
+          BedwarsRel
+              ._l(player, "ingame.record", ImmutableMap.of("record", this.getFormattedRecord()))));
     }
   }
 
@@ -506,7 +513,8 @@ public class Game {
 
   private String formatScoreboardTitle() {
     String format =
-        BedwarsRel.getInstance().getStringConfig("scoreboard.format-title", "&e$region$&f - $time$");
+        BedwarsRel.getInstance()
+            .getStringConfig("scoreboard.format-title", "&e$region$&f - $time$");
 
     // replaces
     format = format.replace("$region$", this.getRegion().getName());
@@ -769,7 +777,8 @@ public class Game {
 
       if (bedBlock.equals(breakBlock)) {
         p.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(p, "ingame.blocks.ownbeddestroy")));
+            ChatWriter
+                .pluginMessage(ChatColor.RED + BedwarsRel._l(p, "ingame.blocks.ownbeddestroy")));
         return false;
       }
 
@@ -781,7 +790,8 @@ public class Game {
     } else {
       if (bedBlock.equals(block)) {
         p.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(p, "ingame.blocks.ownbeddestroy")));
+            ChatWriter
+                .pluginMessage(ChatColor.RED + BedwarsRel._l(p, "ingame.blocks.ownbeddestroy")));
         return false;
       }
 
@@ -795,7 +805,8 @@ public class Game {
 
     // set statistics
     if (BedwarsRel.getInstance().statisticsEnabled()) {
-      PlayerStatistic statistic = BedwarsRel.getInstance().getPlayerStatisticManager().getStatistic(p);
+      PlayerStatistic statistic = BedwarsRel.getInstance().getPlayerStatisticManager()
+          .getStatistic(p);
       statistic.setCurrentDestroyedBeds(statistic.getCurrentDestroyedBeds() + 1);
       statistic.setCurrentScore(statistic.getCurrentScore() + BedwarsRel.getInstance()
           .getIntConfig("statistics.scores.bed-destroy", 25));
@@ -805,9 +816,11 @@ public class Game {
     if (BedwarsRel.getInstance().getBooleanConfig("rewards.enabled", false)) {
       List<String> commands =
           BedwarsRel.getInstance().getConfig().getStringList("rewards.player-destroy-bed");
-      BedwarsRel.getInstance().dispatchRewardCommands(commands, ImmutableMap.of("{player}", p.getName(),
-          "{score}",
-          String.valueOf(BedwarsRel.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
+      BedwarsRel.getInstance()
+          .dispatchRewardCommands(commands, ImmutableMap.of("{player}", p.getName(),
+              "{score}",
+              String.valueOf(
+                  BedwarsRel.getInstance().getIntConfig("statistics.scores.bed-destroy", 25))));
     }
 
     BedwarsTargetBlockDestroyedEvent targetBlockDestroyedEvent =
@@ -819,16 +832,17 @@ public class Game {
         aPlayer.sendMessage(
             ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel
                 ._l(aPlayer, "ingame.blocks.beddestroyed",
-                ImmutableMap.of("team",
-                    bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED,
-                    "player",
-                    Game.getPlayerWithTeamString(p, team, ChatColor.RED)))));
+                    ImmutableMap.of("team",
+                        bedDestroyTeam.getChatColor() + bedDestroyTeam.getName() + ChatColor.RED,
+                        "player",
+                        Game.getPlayerWithTeamString(p, team, ChatColor.RED)))));
       }
     }
 
     this.broadcastSound(
         Sound.valueOf(
-            BedwarsRel.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL").toUpperCase()),
+            BedwarsRel.getInstance().getStringConfig("bed-sound", "ENDERDRAGON_GROWL")
+                .toUpperCase()),
         30.0F, 10.0F);
     this.updateScoreboard();
     return true;
@@ -988,7 +1002,8 @@ public class Game {
     int teamplayers = this.getTeamPlayers().size();
     int nom = (teamplayers % 9 == 0) ? 9 : (teamplayers % 9);
     int size = teamplayers + (9 - nom);
-    Inventory compass = Bukkit.createInventory(null, size, BedwarsRel._l(player, "ingame.spectator"));
+    Inventory compass = Bukkit
+        .createInventory(null, size, BedwarsRel._l(player, "ingame.spectator"));
     for (Team t : this.getTeams().values()) {
       for (Player p : t.getPlayers()) {
         ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
@@ -1041,7 +1056,7 @@ public class Game {
     player
         .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel
             ._l(player, "lobby.teamjoined",
-            ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
+                ImmutableMap.of("team", team.getDisplayName() + ChatColor.GREEN))));
   }
 
   public boolean playerJoins(final Player p) {
@@ -1264,8 +1279,10 @@ public class Game {
           if (aPlayer.isOnline()) {
             aPlayer.sendMessage(
                 ChatWriter.pluginMessage(
-                    ChatColor.RED + BedwarsRel._l(aPlayer, "ingame.player.left", ImmutableMap.of("player",
-                        Game.getPlayerWithTeamString(p, team, ChatColor.RED) + ChatColor.RED))));
+                    ChatColor.RED + BedwarsRel
+                        ._l(aPlayer, "ingame.player.left", ImmutableMap.of("player",
+                            Game.getPlayerWithTeamString(p, team, ChatColor.RED)
+                                + ChatColor.RED))));
           }
         }
       }
@@ -1399,7 +1416,8 @@ public class Game {
     if (this.state != GameState.STOPPED) {
       sender
           .sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.cantstartagain")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.cantstartagain")));
       return false;
     }
 
@@ -1435,8 +1453,9 @@ public class Game {
       return false;
     }
 
-    File gameConfig = new File(BedwarsRel.getInstance().getDataFolder() + "/" + GameManager.gamesPath
-        + "/" + this.name + "/game.yml");
+    File gameConfig = new File(
+        BedwarsRel.getInstance().getDataFolder() + "/" + GameManager.gamesPath
+            + "/" + this.name + "/game.yml");
     gameConfig.mkdirs();
 
     if (gameConfig.exists()) {
@@ -1450,8 +1469,9 @@ public class Game {
   }
 
   public void saveRecord() {
-    File gameConfig = new File(BedwarsRel.getInstance().getDataFolder() + "/" + GameManager.gamesPath
-        + "/" + this.name + "/game.yml");
+    File gameConfig = new File(
+        BedwarsRel.getInstance().getDataFolder() + "/" + GameManager.gamesPath
+            + "/" + this.name + "/game.yml");
 
     if (!gameConfig.exists()) {
       return;
@@ -1494,7 +1514,8 @@ public class Game {
 
     if (this.region != null && this.region.getWorld().equals(lobby.getWorld())) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.lobbyongameworld")));
+          ChatWriter
+              .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.lobbyongameworld")));
       return;
     }
 
@@ -1508,7 +1529,8 @@ public class Game {
       if (this.region.getWorld().equals(lobby.getWorld())) {
         BedwarsRel.getInstance().getServer().getConsoleSender().sendMessage(
             ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel
-                ._l(BedwarsRel.getInstance().getServer().getConsoleSender(), "errors.lobbyongameworld")));
+                ._l(BedwarsRel.getInstance().getServer().getConsoleSender(),
+                    "errors.lobbyongameworld")));
         return;
       }
     }
@@ -1623,7 +1645,8 @@ public class Game {
   public boolean start(CommandSender sender) {
     if (this.state != GameState.WAITING) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.startoutofwaiting")));
+          ChatWriter
+              .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.startoutofwaiting")));
       return false;
     }
 
@@ -1638,7 +1661,8 @@ public class Game {
     for (Player aPlayer : this.getPlayers()) {
       if (aPlayer.isOnline()) {
         aPlayer.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l(aPlayer, "ingame.gamestarting")));
+            ChatWriter
+                .pluginMessage(ChatColor.GREEN + BedwarsRel._l(aPlayer, "ingame.gamestarting")));
       }
     }
 
@@ -1691,7 +1715,7 @@ public class Game {
           .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
               + BedwarsRel
               ._l(BedwarsRel.getInstance().getServer().getConsoleSender(), "ingame.gamestarted",
-              ImmutableMap.of("game", this.getRegion().getName()))));
+                  ImmutableMap.of("game", this.getRegion().getName()))));
     }
 
     BedwarsGameStartedEvent startedEvent = new BedwarsGameStartedEvent(this);
@@ -1902,7 +1926,8 @@ public class Game {
     obj.setDisplayName(this.formatLobbyScoreboardString(
         BedwarsRel.getInstance().getStringConfig("lobby-scoreboard.title", "&eBEDWARS")));
 
-    List<String> rows = BedwarsRel.getInstance().getConfig().getStringList("lobby-scoreboard.content");
+    List<String> rows = BedwarsRel.getInstance().getConfig()
+        .getStringList("lobby-scoreboard.content");
     int rowMax = rows.size();
     if (rows == null || rows.isEmpty()) {
       return;
@@ -1971,7 +1996,7 @@ public class Game {
     try {
       File config = new File(
           BedwarsRel.getInstance().getDataFolder() + "/" + GameManager.gamesPath + "/"
-          + this.name + "/sign.yml");
+              + this.name + "/sign.yml");
 
       YamlConfiguration cfg = new YamlConfiguration();
       if (config.exists()) {

@@ -160,7 +160,7 @@ public class GameManager {
 
             ResourceSpawner rs = (ResourceSpawner) obj;
             rs.setGame(game);
-            game.addRessourceSpawner(rs);
+            game.addResourceSpawner(rs);
           }
         }
 
@@ -172,7 +172,7 @@ public class GameManager {
 
             ResourceSpawner rsp = (ResourceSpawner) rs;
             rsp.setGame(game);
-            game.addRessourceSpawner(rsp);
+            game.addResourceSpawner(rsp);
           }
         }
       }
@@ -319,7 +319,8 @@ public class GameManager {
       if (!g.run(BedwarsRel.getInstance().getServer().getConsoleSender())) {
         BedwarsRel.getInstance().getServer().getConsoleSender()
             .sendMessage(ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel
-                ._l(BedwarsRel.getInstance().getServer().getConsoleSender(), "errors.gamenotloaded")));
+                ._l(BedwarsRel.getInstance().getServer().getConsoleSender(),
+                    "errors.gamenotloaded")));
       } else {
         g.getCycle().onGameLoaded();
       }

@@ -364,7 +364,7 @@ public class BedwarsRel extends JavaPlugin {
           .sendMessage(ChatWriter.pluginMessage(
               ChatColor.RED + BedwarsRel
                   ._l(this.getServer().getConsoleSender(), "errors.classnotfound",
-                  ImmutableMap.of("package", "craftbukkit", "class", classname))));
+                      ImmutableMap.of("package", "craftbukkit", "class", classname))));
       return null;
     }
   }
@@ -449,7 +449,7 @@ public class BedwarsRel extends JavaPlugin {
           .sendMessage(ChatWriter.pluginMessage(
               ChatColor.RED + BedwarsRel
                   ._l(this.getServer().getConsoleSender(), "errors.classnotfound",
-                  ImmutableMap.of("package", "minecraft server", "class", classname))));
+                      ImmutableMap.of("package", "minecraft server", "class", classname))));
       return null;
     }
   }

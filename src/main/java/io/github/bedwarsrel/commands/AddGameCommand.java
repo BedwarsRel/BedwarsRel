@@ -44,7 +44,8 @@ public class AddGameCommand extends BaseCommand {
 
     addGame.setMinPlayers(min);
     sender.sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN
-        + BedwarsRel._l(sender, "success.gameadded", ImmutableMap.of("game", args.get(0).toString()))));
+        + BedwarsRel
+        ._l(sender, "success.gameadded", ImmutableMap.of("game", args.get(0).toString()))));
     return true;
   }
 

@@ -51,8 +51,8 @@ public class SetSpawnCommand extends BaseCommand implements ICommand {
     player
         .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel
             ._l(player, "success.spawnset",
-            ImmutableMap
-                .of("team", team.getChatColor() + team.getDisplayName() + ChatColor.GREEN))));
+                ImmutableMap
+                    .of("team", team.getChatColor() + team.getDisplayName() + ChatColor.GREEN))));
     return true;
   }
 

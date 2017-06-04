@@ -118,35 +118,37 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
     }
 
     player.removeMetadata("bw-remove-holo", BedwarsRel.getInstance());
-    BedwarsRel.getInstance().getServer().getScheduler().runTask(BedwarsRel.getInstance(), new Runnable() {
+    BedwarsRel.getInstance().getServer().getScheduler()
+        .runTask(BedwarsRel.getInstance(), new Runnable() {
 
-      @Override
-      public void run() {
-        // remove all player holograms on this location
-        for (Entry<Player, List<Hologram>> entry : HolographicDisplaysInteraction.this
-            .getHolograms().entrySet()) {
-          Iterator<Hologram> iterator = entry.getValue().iterator();
-          while (iterator.hasNext()) {
-            Hologram hologram = iterator.next();
-            if (hologram.getX() == holo.getX() && hologram.getY() == holo.getY()
-                && hologram.getZ() == holo.getZ()) {
-              hologram.delete();
-              iterator.remove();
+          @Override
+          public void run() {
+            // remove all player holograms on this location
+            for (Entry<Player, List<Hologram>> entry : HolographicDisplaysInteraction.this
+                .getHolograms().entrySet()) {
+              Iterator<Hologram> iterator = entry.getValue().iterator();
+              while (iterator.hasNext()) {
+                Hologram hologram = iterator.next();
+                if (hologram.getX() == holo.getX() && hologram.getY() == holo.getY()
+                    && hologram.getZ() == holo.getZ()) {
+                  hologram.delete();
+                  iterator.remove();
+                }
+              }
             }
+
+            Location holoLocation =
+                HolographicDisplaysInteraction.this
+                    .getHologramLocationByLocation(holo.getLocation());
+            if (holoLocation != null) {
+              HolographicDisplaysInteraction.this.hologramLocations.remove(holoLocation);
+              HolographicDisplaysInteraction.this.updateHologramDatabase();
+            }
+            player.sendMessage(
+                ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l("success.holoremoved")));
           }
-        }
 
-        Location holoLocation =
-            HolographicDisplaysInteraction.this.getHologramLocationByLocation(holo.getLocation());
-        if (holoLocation != null) {
-          HolographicDisplaysInteraction.this.hologramLocations.remove(holoLocation);
-          HolographicDisplaysInteraction.this.updateHologramDatabase();
-        }
-        player.sendMessage(
-            ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l("success.holoremoved")));
-      }
-
-    });
+        });
   }
 
   @Override
@@ -204,38 +206,41 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
 
   public void updateHolograms() {
     for (final Player player : BedwarsRel.getInstance().getServer().getOnlinePlayers()) {
-      BedwarsRel.getInstance().getServer().getScheduler().runTask(BedwarsRel.getInstance(), new Runnable() {
+      BedwarsRel.getInstance().getServer().getScheduler()
+          .runTask(BedwarsRel.getInstance(), new Runnable() {
 
-        @Override
-        public void run() {
-          for (Location holoLocation : HolographicDisplaysInteraction.this.hologramLocations) {
-            HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
-          }
-        }
-      });
+            @Override
+            public void run() {
+              for (Location holoLocation : HolographicDisplaysInteraction.this.hologramLocations) {
+                HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
+              }
+            }
+          });
     }
   }
 
   public void updateHolograms(final Player player) {
-    BedwarsRel.getInstance().getServer().getScheduler().runTask(BedwarsRel.getInstance(), new Runnable() {
+    BedwarsRel.getInstance().getServer().getScheduler()
+        .runTask(BedwarsRel.getInstance(), new Runnable() {
 
-      @Override
-      public void run() {
-        for (Location holoLocation : HolographicDisplaysInteraction.this.hologramLocations) {
-          HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
-        }
-      }
-    });
+          @Override
+          public void run() {
+            for (Location holoLocation : HolographicDisplaysInteraction.this.hologramLocations) {
+              HolographicDisplaysInteraction.this.updatePlayerHologram(player, holoLocation);
+            }
+          }
+        });
   }
 
   public void updateHolograms(final Player player, long delay) {
-    BedwarsRel.getInstance().getServer().getScheduler().runTaskLater(BedwarsRel.getInstance(), new Runnable() {
+    BedwarsRel.getInstance().getServer().getScheduler()
+        .runTaskLater(BedwarsRel.getInstance(), new Runnable() {
 
-      @Override
-      public void run() {
-        HolographicDisplaysInteraction.this.updateHolograms(player);
-      }
-    }, delay);
+          @Override
+          public void run() {
+            HolographicDisplaysInteraction.this.updateHolograms(player);
+          }
+        }, delay);
   }
 
   private void updatePlayerHologram(Player player, Location holoLocation) {
@@ -259,7 +264,8 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
   }
 
   private void updatePlayerStatisticHologram(Player player, final Hologram holo) {
-    PlayerStatistic statistic = BedwarsRel.getInstance().getPlayerStatisticManager().getStatistic(player);
+    PlayerStatistic statistic = BedwarsRel.getInstance().getPlayerStatisticManager()
+        .getStatistic(player);
     holo.clearLines();
 
     String nameColor = ChatColor.GRAY.toString();
@@ -276,9 +282,11 @@ public class HolographicDisplaysInteraction implements IHologramInteraction {
       // nothing to do
     }
 
-    List<String> lines = BedwarsRel.getInstance().getPlayerStatisticManager().createStatisticLines(statistic,
-        BedwarsRel.getInstance().getBooleanConfig("holographic-stats.show-prefix", false), nameColor,
-        valueColor);
+    List<String> lines = BedwarsRel.getInstance().getPlayerStatisticManager()
+        .createStatisticLines(statistic,
+            BedwarsRel.getInstance().getBooleanConfig("holographic-stats.show-prefix", false),
+            nameColor,
+            valueColor);
 
     String headline =
         BedwarsRel

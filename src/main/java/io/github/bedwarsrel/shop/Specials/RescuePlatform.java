@@ -43,7 +43,8 @@ public class RescuePlatform extends SpecialItem {
     this.game = game;
     this.owner = player;
 
-    int breakTime = BedwarsRel.getInstance().getIntConfig("specials.rescue-platform.break-time", 10);
+    int breakTime = BedwarsRel.getInstance()
+        .getIntConfig("specials.rescue-platform.break-time", 10);
     int waitTime = BedwarsRel
         .getInstance().getIntConfig("specials.rescue-platform.using-wait-time", 20);
     boolean canBreak =
@@ -60,7 +61,7 @@ public class RescuePlatform extends SpecialItem {
             player.sendMessage(
                 ChatWriter.pluginMessage(
                     BedwarsRel._l(player, "ingame.specials.rescue-platform.left",
-                    ImmutableMap.of("time", String.valueOf(waitLeft)))));
+                        ImmutableMap.of("time", String.valueOf(waitLeft)))));
             return;
           }
         }

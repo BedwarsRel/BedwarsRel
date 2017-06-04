@@ -47,7 +47,8 @@ public class StopGameCommand extends BaseCommand implements ICommand {
     if (!game.stop()) {
       sender
           .sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.gamenotrunning")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.gamenotrunning")));
       return false;
     }
 

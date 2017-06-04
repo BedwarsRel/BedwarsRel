@@ -145,7 +145,8 @@ public class PlayerStatisticManager {
     }
 
     if (BedwarsRel.getInstance().getStatisticStorageType() == StorageType.YAML) {
-      File file = new File(BedwarsRel.getInstance().getDataFolder() + "/database/bw_stats_players.yml");
+      File file = new File(
+          BedwarsRel.getInstance().getDataFolder() + "/database/bw_stats_players.yml");
       this.loadYml(file);
     }
 

@@ -74,7 +74,7 @@ public class ArrowBlocker extends SpecialItem {
     player
         .sendMessage(ChatWriter.pluginMessage(
             BedwarsRel._l(player, "ingame.specials.arrow-blocker.start",
-            ImmutableMap.of("time", String.valueOf(protectionTime)))));
+                ImmutableMap.of("time", String.valueOf(protectionTime)))));
 
     if (protectionTime > 0 || waitTime > 0) {
       isActive = true;

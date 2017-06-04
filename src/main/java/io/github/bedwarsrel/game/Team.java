@@ -189,16 +189,20 @@ public class Team implements ConfigurationSerializable {
     if (BedwarsRel.getInstance().isSpigot()) {
       for (String aPlayer : this.getScoreboardTeam().getEntries()) {
         Player player = BedwarsRel.getInstance().getServer().getPlayer(aPlayer);
-        if (player != null && BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player) != null
-            && !BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
+        if (player != null
+            && BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player) != null
+            && !BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player)
+            .isSpectator(player)) {
           players.add(player);
         }
       }
     } else {
       for (OfflinePlayer offlinePlayer : this.getScoreboardTeam().getPlayers()) {
         Player player = BedwarsRel.getInstance().getServer().getPlayer(offlinePlayer.getName());
-        if (player != null && BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player) != null
-            && !BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player).isSpectator(player)) {
+        if (player != null
+            && BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player) != null
+            && !BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player)
+            .isSpectator(player)) {
           players.add(player);
         }
       }

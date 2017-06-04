@@ -23,22 +23,25 @@ public abstract class SpecialItem {
     SpecialItem.availableSpecials.add(TNTSheep.class);
     SpecialItem.availableSpecials.add(Tracker.class);
     SpecialItem.availableSpecials.add(ArrowBlocker.class);
-    BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new RescuePlatformListener(),
-        BedwarsRel.getInstance());
+    BedwarsRel.getInstance().getServer().getPluginManager()
+        .registerEvents(new RescuePlatformListener(),
+            BedwarsRel.getInstance());
     BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new TrapListener(),
         BedwarsRel.getInstance());
     BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new MagnetShoeListener(),
         BedwarsRel.getInstance());
-    BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new ProtectionWallListener(),
-        BedwarsRel.getInstance());
+    BedwarsRel.getInstance().getServer().getPluginManager()
+        .registerEvents(new ProtectionWallListener(),
+            BedwarsRel.getInstance());
     BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new WarpPowderListener(),
         BedwarsRel.getInstance());
     BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new TNTSheepListener(),
         BedwarsRel.getInstance());
     BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new TrackerListener(),
         BedwarsRel.getInstance());
-    BedwarsRel.getInstance().getServer().getPluginManager().registerEvents(new ArrowBlockerListener(),
-        BedwarsRel.getInstance());
+    BedwarsRel.getInstance().getServer().getPluginManager()
+        .registerEvents(new ArrowBlockerListener(),
+            BedwarsRel.getInstance());
   }
 
   public abstract Material getActivatedMaterial();

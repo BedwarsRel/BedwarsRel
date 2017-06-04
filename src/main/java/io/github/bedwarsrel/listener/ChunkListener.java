@@ -11,8 +11,9 @@ public class ChunkListener implements Listener {
 
   @EventHandler
   public void onUnload(ChunkUnloadEvent unload) {
-    Game game = BedwarsRel.getInstance().getGameManager().getGameByChunkLocation(unload.getChunk().getX(),
-        unload.getChunk().getZ());
+    Game game = BedwarsRel.getInstance().getGameManager()
+        .getGameByChunkLocation(unload.getChunk().getX(),
+            unload.getChunk().getZ());
     if (game == null) {
       return;
     }

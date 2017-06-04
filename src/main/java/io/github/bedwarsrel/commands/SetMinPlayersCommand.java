@@ -41,14 +41,16 @@ public class SetMinPlayersCommand extends BaseCommand implements ICommand {
 
     if (!Utils.isNumber(minplayers)) {
       sender.sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.minplayersnumeric")));
+          ChatWriter
+              .pluginMessage(ChatColor.RED + BedwarsRel._l(sender, "errors.minplayersnumeric")));
       return true;
     }
 
     game.setMinPlayers(Integer.valueOf(minplayers));
     sender
         .sendMessage(
-            ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l(sender, "success.minplayersset")));
+            ChatWriter
+                .pluginMessage(ChatColor.GREEN + BedwarsRel._l(sender, "success.minplayersset")));
     return true;
   }
 

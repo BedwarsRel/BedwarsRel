@@ -1,10 +1,15 @@
 package io.github.bedwarsrel.updater;
 
 import io.github.bedwarsrel.BedwarsRel;
+import io.github.bedwarsrel.villager.ItemStackParser;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.bukkit.Sound;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -186,7 +191,8 @@ public class ConfigUpdater {
 
     // <1.3.1>
     if (BedwarsRel.getInstance().getConfig().isString("chat-to-all-prefix")) {
-      String chatToAllPrefixString = BedwarsRel.getInstance().getConfig().getString("chat-to-all-prefix");
+      String chatToAllPrefixString = BedwarsRel.getInstance().getConfig()
+          .getString("chat-to-all-prefix");
       BedwarsRel.getInstance().getConfig().set("chat-to-all-prefix",
           Arrays.asList(chatToAllPrefixString));
     }
@@ -228,7 +234,7 @@ public class ConfigUpdater {
     BedwarsRel.getInstance().getConfig().set("specials.trap.weakness", null);
     BedwarsRel.getInstance().getConfig().set("specials.trap.show-particles", null);
 
-    List<PotionEffect> potionEffectList = new ArrayList<PotionEffect>();
+    List<PotionEffect> potionEffectList = new ArrayList<>();
     potionEffectList.add(new PotionEffect(PotionEffectType.BLINDNESS, 5 * 20, 2, true, true));
     potionEffectList.add(new PotionEffect(PotionEffectType.WEAKNESS, 5 * 20, 2, true, true));
     potionEffectList.add(new PotionEffect(PotionEffectType.SLOW, 5 * 20, 2, true, true));
@@ -253,6 +259,28 @@ public class ConfigUpdater {
     // <1.3.5>
     BedwarsRel.getInstance().getConfig().addDefault("spawn-resources-in-chest", true);
     BedwarsRel.getInstance().getConfig().addDefault("database.table-prefix", "bw_");
+    Object ressourceObject = BedwarsRel.getInstance().getConfig().get("ressource");
+    if (ressourceObject != null) {
+      BedwarsRel.getInstance().getConfig().set("resource", ressourceObject);
+      BedwarsRel.getInstance().getConfig().set("ressource", null);
+    }
+
+    ConfigurationSection resourceSection = BedwarsRel.getInstance().getConfig()
+        .getConfigurationSection("resource");
+    for (Entry<String, Object> entry : resourceSection.getValues(false).entrySet()) {
+      if (!BedwarsRel.getInstance().getConfig().isList("resource." + entry.getKey() + ".item")) {
+        BedwarsRel.getInstance().getServer().getConsoleSender().sendMessage(entry.getKey());
+        ItemStackParser parser = new ItemStackParser(entry.getValue());
+        ItemStack item = parser.parse();
+        if (item != null) {
+          List<Map<String, Object>> itemList = new ArrayList<>();
+          itemList.add(item.serialize());
+          resourceSection.set(entry.getKey() + ".item", itemList);
+          resourceSection.set(entry.getKey() + ".amount", null);
+          resourceSection.set(entry.getKey() + ".name", null);
+        }
+      }
+    }
     // </1.3.5>
   }
 }

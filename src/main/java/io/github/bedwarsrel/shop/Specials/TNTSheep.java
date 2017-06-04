@@ -116,7 +116,8 @@ public class TNTSheep extends SpecialItem {
     if (targetPlayer == null) {
       this.player.sendMessage(ChatWriter
           .pluginMessage(
-              ChatColor.RED + BedwarsRel._l(this.player, "ingame.specials.tntsheep.no-target-found")));
+              ChatColor.RED + BedwarsRel
+                  ._l(this.player, "ingame.specials.tntsheep.no-target-found")));
       return;
     }
 
@@ -140,7 +141,8 @@ public class TNTSheep extends SpecialItem {
 
         try {
           // register entity
-          Class<?> tntRegisterClass = BedwarsRel.getInstance().getVersionRelatedClass("TNTSheepRegister");
+          Class<?> tntRegisterClass = BedwarsRel.getInstance()
+              .getVersionRelatedClass("TNTSheepRegister");
           ITNTSheepRegister register = (ITNTSheepRegister) tntRegisterClass.newInstance();
           TNTSheep.this.sheep = register.spawnCreature(that, start, TNTSheep.this.player, target,
               playerTeam.getColor().getDyeColor());
@@ -156,7 +158,7 @@ public class TNTSheep extends SpecialItem {
           }.runTaskLater(BedwarsRel.getInstance(),
               (long) ((
                   BedwarsRel.getInstance().getConfig().getDouble("specials.tntsheep.fuse-time", 8.0)
-                  * 20) - 5));
+                      * 20) - 5));
 
           new BukkitRunnable() {
 
@@ -169,7 +171,7 @@ public class TNTSheep extends SpecialItem {
           }.runTaskLater(BedwarsRel.getInstance(),
               (long) ((
                   BedwarsRel.getInstance().getConfig().getDouble("specials.tntsheep.fuse-time", 8.0)
-                  * 20) + 13));
+                      * 20) + 13));
 
           TNTSheep.this.game.addSpecialItem(that);
         } catch (Exception ex) {

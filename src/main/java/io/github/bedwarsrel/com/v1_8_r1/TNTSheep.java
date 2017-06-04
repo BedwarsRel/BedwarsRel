@@ -46,7 +46,8 @@ public class TNTSheep extends EntitySheep implements ITNTSheep {
       b.set(this.goalSelector, new ArrayList<>());
       this.getAttributeInstance(GenericAttributes.b).setValue(128D);
       this.getAttributeInstance(GenericAttributes.d)
-          .setValue(BedwarsRel.getInstance().getConfig().getDouble("specials.tntsheep.speed", 0.4D));
+          .setValue(
+              BedwarsRel.getInstance().getConfig().getDouble("specials.tntsheep.speed", 0.4D));
     } catch (Exception e) {
       BedwarsRel.getInstance().getBugsnag().notify(e);
       e.printStackTrace();

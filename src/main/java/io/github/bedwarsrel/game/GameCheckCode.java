@@ -22,11 +22,13 @@ public enum GameCheckCode {
 
   public String getCodeMessage(ImmutableMap<String, String> map) {
     return BedwarsRel
-        ._l(BedwarsRel.getInstance().getServer().getConsoleSender(), "gamecheck." + this.toString(), map);
+        ._l(BedwarsRel.getInstance().getServer().getConsoleSender(), "gamecheck." + this.toString(),
+            map);
   }
 
   public String getCodeMessage() {
     return BedwarsRel
-        ._l(BedwarsRel.getInstance().getServer().getConsoleSender(), "gamecheck." + this.toString());
+        ._l(BedwarsRel.getInstance().getServer().getConsoleSender(),
+            "gamecheck." + this.toString());
   }
 }

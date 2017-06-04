@@ -24,47 +24,49 @@ public class ItemsPasteCommand extends BaseCommand implements ICommand {
       return false;
     }
 
-    if(!(sender instanceof Player)){
+    if (!(sender instanceof Player)) {
       return false;
     }
 
     final Player player = (Player) sender;
-    BedwarsRel.getInstance().getServer().getScheduler().runTaskAsynchronously(BedwarsRel.getInstance(),
-        new Runnable() {
-          @Override
-          public void run() {
-            try {
+    BedwarsRel.getInstance().getServer().getScheduler()
+        .runTaskAsynchronously(BedwarsRel.getInstance(),
+            new Runnable() {
+              @Override
+              public void run() {
+                try {
 
-              ItemStack[] playerItems = player.getInventory().getContents();
+                  ItemStack[] playerItems = player.getInventory().getContents();
 
-              String uploadConfigFile;
+                  String uploadConfigFile;
 
-              ArrayList<Map<String, Object>> itemsList = new ArrayList<>();
-              for(ItemStack item : playerItems){
-                if(item == null){
-                  continue;
+                  ArrayList<Map<String, Object>> itemsList = new ArrayList<>();
+                  for (ItemStack item : playerItems) {
+                    if (item == null) {
+                      continue;
+                    }
+                    itemsList.add(item.serialize());
+                  }
+
+                  YamlConfiguration uploadConfig = new YamlConfiguration();
+                  uploadConfig.set("sampleItems", itemsList);
+
+                  StringBuilder b = new StringBuilder();
+                  b.append(
+                      "# Welcome to this paste\n# This might help you to better add your custom items to BedwarsRel's shop.yml\n\n");
+                  b.append(uploadConfig.saveToString());
+                  b.append("\n");
+                  b.append(
+                      "\n# This is not a working shop - it's just a list of items you can add to your shop!");
+
+                  String link = HastebinUtility.upload(b.toString());
+                  sender.sendMessage(ChatWriter
+                      .pluginMessage(ChatColor.GREEN + "Success! Items pasted on " + link));
+                } catch (IOException e) {
+                  e.printStackTrace();
                 }
-                itemsList.add(item.serialize());
               }
-
-              YamlConfiguration uploadConfig = new YamlConfiguration();
-              uploadConfig.set("sampleItems", itemsList);
-
-              StringBuilder b = new StringBuilder();
-              b.append(
-                  "# Welcome to this paste\n# This might help you to better add your custom items to BedwarsRel's shop.yml\n\n");
-              b.append(uploadConfig.saveToString());
-              b.append("\n");
-              b.append("\n# This is not a working shop - it's just a list of items you can add to your shop!");
-
-              String link = HastebinUtility.upload(b.toString());
-              sender.sendMessage(ChatWriter
-                  .pluginMessage(ChatColor.GREEN + "Success! Items pasted on " + link));
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-        });
+            });
     return true;
   }
 

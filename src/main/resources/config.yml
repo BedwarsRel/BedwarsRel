@@ -618,52 +618,48 @@ bungeecord:
 ### The fallback language is en_US (english).
 locale: en_US
 
-# Ressources config
-ressource:
+# Resources config
+resource:
 ## Custom spawners list
 ### Spawners (unique key!):
 ### item: 
-###  type: string or int
-###  Item-Name or Item-ID !! UNIQUE !!
+###  type: List of ItemStack (same as shop)
 ### spawn-interval:
 ###  type: int
 ###  The interval in milliseconds the ressource should spawn
-### amount: 
-###  type: int
-###  The stack amount the item should have
-### name:
-###  type: string (color codes with &)
-###  The name for the ressource which will be displayed
 ### spread:
 ###  type: double
 ###  How far the items should spread on drop
-### enchants:
-###  key: Has to be the enchant-ID or enchant-name!
-###  value: The level of the enchant
-### lore:
-###  type: list<string> (colorcodes with &)
-###  The lores this item should have
-### meta:
-###  type: short (potion) or byte (any other item)
-###  The meta byte which should be added to the item
   bronze:
-    item: CLAY_BRICK
+    item:
+    - type: CLAY_BRICK
+      amount: 1
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: "&4Bronze"
     spawn-interval: 1000
-    amount: 1
     spread: 1.0
-    name: "&4Bronze"
   iron:
-    item: IRON_INGOT
+    item:
+    - type: IRON_INGOT
+      amount: 1
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: "&7Iron"
     spawn-interval: 10000
-    amount: 1
     spread: 1.0
-    name: "&7Iron"
   gold:
-    item: GOLD_INGOT
+    item:
+    - type: GOLD_INGOT
+      amount: 1
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: "&6Gold"
     spawn-interval: 20000
-    amount: 1
     spread: 1.0
-    name: "&6Gold"
 
 # Check Updates
 # type: boolean

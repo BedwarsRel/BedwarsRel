@@ -222,11 +222,13 @@ public class PlayerListener extends BaseListener {
       String format = null;
       if (team == null) {
         format = this.getChatFormat(
-            BedwarsRel.getInstance().getStringConfig("lobby-chatformat", "$player$: $msg$"), null, false,
+            BedwarsRel.getInstance().getStringConfig("lobby-chatformat", "$player$: $msg$"), null,
+            false,
             true);
       } else {
         format = this.getChatFormat(
-            BedwarsRel.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"),
+            BedwarsRel.getInstance()
+                .getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"),
             team, false, true);
       }
 
@@ -269,12 +271,14 @@ public class PlayerListener extends BaseListener {
       if (!isSpectator && !(game.getCycle().isEndGameRunning()
           && BedwarsRel.getInstance().getBooleanConfig("global-chat-after-end", true))) {
         ce.setMessage(message.substring(toAllPrefix.length(), message.length()).trim());
-        format = this.getChatFormat(BedwarsRel.getInstance().getStringConfig("ingame-chatformat-all",
-            "[$all$] <$team$>$player$: $msg$"), team, false, true);
+        format = this
+            .getChatFormat(BedwarsRel.getInstance().getStringConfig("ingame-chatformat-all",
+                "[$all$] <$team$>$player$: $msg$"), team, false, true);
       } else {
         ce.setMessage(message);
         format = this.getChatFormat(
-            BedwarsRel.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"),
+            BedwarsRel.getInstance()
+                .getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"),
             team, isSpectator, true);
       }
 
@@ -305,7 +309,8 @@ public class PlayerListener extends BaseListener {
       message = message.trim();
       ce.setMessage(message);
       ce.setFormat(this.getChatFormat(
-          BedwarsRel.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"), team,
+          BedwarsRel.getInstance().getStringConfig("ingame-chatformat", "<$team$>$player$: $msg$"),
+          team,
           false, false));
 
       Iterator<Player> recipiens = ce.getRecipients().iterator();
@@ -774,7 +779,8 @@ public class PlayerListener extends BaseListener {
           Class<?> clazz = null;
           try {
             clazz = Class.forName("io.github.bedwarsrel.com."
-                + BedwarsRel.getInstance().getCurrentVersion().toLowerCase() + ".PerformRespawnRunnable");
+                + BedwarsRel.getInstance().getCurrentVersion().toLowerCase()
+                + ".PerformRespawnRunnable");
           } catch (ClassNotFoundException ex) {
             BedwarsRel.getInstance().getBugsnag().notify(ex);
             clazz = Class
@@ -836,7 +842,8 @@ public class PlayerListener extends BaseListener {
         return;
       }
 
-      Game game = BedwarsRel.getInstance().getGameManager().getGameBySignLocation(clicked.getLocation());
+      Game game = BedwarsRel.getInstance().getGameManager()
+          .getGameBySignLocation(clicked.getLocation());
       if (game == null) {
         return;
       }
@@ -932,7 +939,8 @@ public class PlayerListener extends BaseListener {
           player.openInventory(chestTeam.getInventory());
         } else {
           player.sendMessage(
-              ChatWriter.pluginMessage(ChatColor.RED + BedwarsRel._l(player, "ingame.noturteamchest")));
+              ChatWriter
+                  .pluginMessage(ChatColor.RED + BedwarsRel._l(player, "ingame.noturteamchest")));
         }
 
         return;
@@ -980,7 +988,8 @@ public class PlayerListener extends BaseListener {
               } else if (!g.hasEnoughTeams()) {
                 player.sendMessage(ChatWriter
                     .pluginMessage(
-                        ChatColor.RED + BedwarsRel._l(player, "lobby.cancelstart.not_enough_teams")));
+                        ChatColor.RED + BedwarsRel
+                            ._l(player, "lobby.cancelstart.not_enough_teams")));
               }
             }
           }
