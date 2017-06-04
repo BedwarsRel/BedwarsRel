@@ -269,7 +269,6 @@ public class ConfigUpdater {
         .getConfigurationSection("resource");
     for (Entry<String, Object> entry : resourceSection.getValues(false).entrySet()) {
       if (!BedwarsRel.getInstance().getConfig().isList("resource." + entry.getKey() + ".item")) {
-        BedwarsRel.getInstance().getServer().getConsoleSender().sendMessage(entry.getKey());
         ItemStackParser parser = new ItemStackParser(entry.getValue());
         ItemStack item = parser.parse();
         if (item != null) {
