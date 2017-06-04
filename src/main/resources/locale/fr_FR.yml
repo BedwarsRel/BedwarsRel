@@ -154,7 +154,7 @@ ingame:
       no-target-found: "Aucun joueur cible n'a été trouvé!"
       target-found: "$player$ est à $blocks$ bloc(s) de toi."
 lobby:
-  countdown: "La partie commence dans $sec$ seconde(s) Game will start in $sec$ second(s)!"
+  countdown: "La partie commence dans $sec$ seconde(s) game will start in $sec$ second(s)!"
   countdowncancel: "Plus de joueurs sont nécessaires. Compte à rebours annulé !"
   cancelcountdown:
     not_enough_players: "Plus de joueurs sont nécessaires. Compte à rebours annulé !"

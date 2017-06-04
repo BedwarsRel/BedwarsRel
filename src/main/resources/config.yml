@@ -23,7 +23,7 @@ chat-prefix: "&7[&bBedWars&7]&f"
 # type: boolean
 # Plugin Metrics sending anonymous data about your server
 # to store statistics about the bedwars plugin. This is really
-# helpful for me (Yannici, the developer of this plugin). You can
+# helpful for the developers of this plugin. You can
 # disable it anyway, that won't be a disadvantage
 plugin-metrics: true
 
@@ -50,7 +50,7 @@ global-autobalance: false
 # When true, after game ends all players + spectators can chat
 global-chat-after-end: true
 
-# Game length
+# game length
 # Type: int
 # The time the game should maximum run (in minutes). When the countdown expires
 # the game will end without a winner.
@@ -91,7 +91,7 @@ holographic-stats:
   # The color of the statistic values
   value-color: "&e"
   
-  # Statistics headline
+  # statistics headline
   # type: string
   # Leave the headline empty to remove the headline
   head-line: "Your &eBEDWARS&f stats"
@@ -390,7 +390,7 @@ friendlyfire: false
 # If false, it will be prevented to break block under team-member
 friendlybreak: true
 
-# Game over delay
+# game over delay
 # Type: int
 # How much time (in seconds) should be waited until all players
 # will be teleported after a game ends.
@@ -435,7 +435,7 @@ seperate-spectator-chat: false
 
 # Statistic-Configuration
 statistics:
-  # Statistics enable
+  # statistics enable
   # type: boolean
   # Set to true to enable statistics. Otherwise set to false
   enabled: false
@@ -491,53 +491,38 @@ statistics:
     # Sets the score which all team-players gets when they made a new record
     record: 100
   
-# Database (currently only mysql) configuration
+# database (currently only mysql) configuration
 database:
 
-  # Database host
+  # database host
   # type: string
   # Hostname of your database
   host: localhost
   
-  # Database port
+  # database port
   # type: int
   # Port of your database. Default mysql port: 3306
   port: 3306
   
-  # Database name
+  # database name
   # type: string
   # The name of your database
   db: database
   
-  # Database user
+  # database user
   # type: string
   # User for database authentication
   user: root
   
-  # Database password
+  # database password
   # type: string
   # Password of database user for authentication
   password: secret
-  
-  # Connection-Pooling configuration (only professional use)
-  # For bungeecord servers it is recommended to use lower pool sizes because
-  # they have only one bedwars game per server and only need a 
-  # very small amount of connections
-  connection-pooling:
-  
-    # Min connection pool size
-    # type: int
-    # Defines how large the min pool size for connections should be
-    # the higher the value the higher the load of the database server
-    min-pool-size: 3
-    
-    # Max connection pool size
-    # type: int
-    # Defines how large the max pool size for connections should be
-    # the higher the value the higher is the security that no connection locks
-    # will occur. But the load of the database server will be higher when 
-    # many connections are used!
-    max-pool-size: 50
+
+  # Table prefix
+  # type: string
+  # A prefix for the database tables
+  table-prefix: bw_
     
 # Spectation enabled
 # Type: boolean
@@ -625,7 +610,7 @@ bungeecord:
       $regionname$
       &7[&b$currentplayers$&7/&b$maxplayers$&7]
     
-### Localization (language)
+### localization (language)
 ### Type: string (length: 2)
 ### Sets the localization which should be used. 
 ### Check the plugin description for possible languages!
@@ -703,17 +688,17 @@ rewards:
   # Enables reward commands
   enabled: false
   
-  # Game win
+  # game win
   # type: List<string>
-  # Commands which will be executed for every player which wins
+  # commands which will be executed for every player which wins
   # possible placeholders: {player}, {score}
   # set the first command to "none", no commands will be executed
   player-win:
     - /example {player} 200
   
-  # Game end (every player in game)
+  # game end (every player in game)
   # type: List<string>
-  # Commands which will be execute for every player in game
+  # commands which will be execute for every player in game
   # after the game has end
   # possible placeholders: {player}, {score}
   # set the first command to "none", no commands will be executed
@@ -722,7 +707,7 @@ rewards:
     
   # Player destroy bed
   # type: List<string>
-  # Commands which will be executed for the player which
+  # commands which will be executed for the player which
   # destroys a bed of a enemy team
   # possible placeholders: {player}, {score}
   # {score} here is the score how much is configured 
@@ -733,7 +718,7 @@ rewards:
     
   # Player kill
   # type: List<string>
-  # Commands which will be executed for the player which
+  # commands which will be executed for the player which
   # kills a enemy player
   # possible placeholders: {player}, {score}
   # {score} here is the score how much is configured 
@@ -970,13 +955,13 @@ sign:
 # Configure player default settings  
 player-settings:
 
-  # Shop: One Stack on shift click
+  # shop: One Stack on shift click
   # type: boolean
   # Only one full stack when doing a shift click to buy items.
   # Player can change that in shop, this is just a default
   one-stack-on-shift: false
   
-  # Shop: Default shop on game start
+  # shop: Default shop on game start
   # type: boolean
   # Set the default shop on game start.
   # Player can change that in shop, this is just a default
