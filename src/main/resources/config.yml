@@ -637,7 +637,7 @@ resource:
       meta:
         ==: ItemMeta
         meta-type: UNSPECIFIC
-        display-name: "&4Bronze"
+        display-name: "§4Bronze"
     spawn-interval: 1000
     spread: 1.0
   iron:
@@ -647,7 +647,7 @@ resource:
       meta:
         ==: ItemMeta
         meta-type: UNSPECIFIC
-        display-name: "&7Iron"
+        display-name: "§7Iron"
     spawn-interval: 10000
     spread: 1.0
   gold:
@@ -657,7 +657,7 @@ resource:
       meta:
         ==: ItemMeta
         meta-type: UNSPECIFIC
-        display-name: "&6Gold"
+        display-name: "§6Gold"
     spawn-interval: 20000
     spread: 1.0
 
