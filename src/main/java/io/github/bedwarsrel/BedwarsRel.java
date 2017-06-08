@@ -82,6 +82,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -740,6 +741,19 @@ public class BedwarsRel extends JavaPlugin {
   @Override
   public void onEnable() {
     BedwarsRel.instance = this;
+
+    if (this.getDescription().getVersion().contains("-SNAPSHOT")
+        && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) {
+      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** Warning, you are using a development build ***"));
+      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** You will get NO support regarding this build ***"));
+      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** Please download a stable build from https://github.com/BedwarsRel/BedwarsRel/releases ***"));
+      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** Server will start in 10 seconds ***"));
+      try {
+        Thread.sleep(TimeUnit.SECONDS.toMillis(10));
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
 
     this.registerBugsnag();
 
