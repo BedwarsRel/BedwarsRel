@@ -224,7 +224,7 @@
       <artifactId>minecraft-server-1-12-0</artifactId>
       <version>1.11</version>
       <scope>system</scope>
-      <systemPath>${pom.basedir}/lib/spigot-1.12-pre2.jar</systemPath>
+      <systemPath>${pom.basedir}/lib/spigot-1.12-R1-ede465d-bb4ae3b.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
