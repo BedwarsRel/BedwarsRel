@@ -10,7 +10,7 @@ errors:
   gameexists: "A game with this name already exists!"
   gamenotfound: "اللعبة '$game$' لا يمكن ايجادها!"
   nofreegames: "لا الألعاب متوفرة الان."
-  gamenotfoundsimple: "Game not found!"
+  gamenotfoundsimple: "لا يمكن إيجاد اللعبة!"
   playeramount: "الحد الأقصى للاعبين لا يمكن ان يكون تحت 1 او اعلى من 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "اسم الفريق يجب ان يكون بين حرفين و 20 حرف!"
@@ -20,7 +20,7 @@ errors:
   regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
   blockdownnotfound: "The block you're standing on was not found!"
-  gamenotrunning: "Game isn't running!"
+  gamenotrunning: "اللعبة لا تعمل!"
   bungeenoserver: "Bungeecord Servers wasn't set properly! Talk to the server administrator!"
   cantstartagain: "Game is running! You can't start a running game again!"
   startoutofwaiting: "Game have to be started out of the waiting mode!"
@@ -54,7 +54,7 @@ success:
   teamadded: "الفريق '$team$' تم اضفاته بنجاح!"
   joined: "You successfully joined the game!"
   left: "You successfully left the game!"
-  saved: "Game was successfully saved!"
+  saved: "تم حفظ اللعبة بنجاح!"
   bedset: "You sucessfully set the respawn block of team $team$!"
   regionset: "Game region location $location$ for Game $game$ was set successfully!"
   spawnset: "Spawn location for Team $team$ was set successfully!"
@@ -64,7 +64,7 @@ success:
   gameloaded: "Game '$game$' successfully loaded!"
   reloadconfig: "Reload successful!"
   teamremoved: "تمت إزالة الفريق بنجاح!"
-  gameremoved: "Game was successfully removed!"
+  gameremoved: "تمت إزالة اللعبة بنجاح!"
   spawnercleared: "وقد أزيلت جميع منتجات الموارد!"
   gamerun: "You started the game, players can now join!"
   timeset: "Game time was successfully set!"
@@ -165,7 +165,7 @@ lobby:
   chooseteam: "اختر فريق"
   startgame: "بدء اللعبة"
   reduce_countdown: "تقليل العد التنازلي"
-  gamefull: "Game is full!"
+  gamefull: "لعبة ممتلئ!"
   gamefullpremium: "اللعبة بالكامل من اللاعبين الداعمين بالفعل!"
   teamjoined: "لقد انضممت الى الفريق $team$ بنجاح"
   leavegame: "ترك اللعبة"
@@ -196,19 +196,19 @@ stats:
   games: "الألعاب"
 commands:
   addgame:
-    name: "Add Game"
+    name: "إضافة لعبة"
     desc: "إضافة لعبة جديدة"
   addteam:
     name: "إضافة فريق"
     desc: "Adds a team to a specific game"
   join:
-    name: "Join Game"
+    name: "الانضمام إلى لعبة"
     desc: "Joins a specific game"
   leave:
-    name: "Leave Game"
+    name: "ترك اللعبة"
     desc: "Leave the current game"
   save:
-    name: "Save Game"
+    name: "حفظ اللعبة"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
     name: "تحديد الهدف"
