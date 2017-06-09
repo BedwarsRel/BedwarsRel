@@ -54,7 +54,7 @@ success:
   teamadded: "Team '$team$' successfully added!"
   joined: "Uspešno ste ubačeni u igru! Pripremite se!"
   left: "Uspešno ste izašli iz igre!"
-  saved: "Game was successfully saved!"
+  saved: "Igra je uspešno sačuvana!"
   bedset: "You sucessfully set the respawn block of team $team$!"
   regionset: "Game region location $location$ for Game $game$ was set successfully!"
   spawnset: "Spawn location for Team $team$ was set successfully!"
