@@ -101,7 +101,7 @@ ingame:
   draw: "Ничья"
   serverrestart: "Перезагрузка сервера через $sec$"
   gamestarting: "Игра начинается"
-  gamestarted: "Game '$game$' has just started!"
+  gamestarted: "Игра началась"
   backtolobby: "Вы телепортируетесь в лобби через $sec$"
   spectator: "Зритель"
   spectate: "&aСледить"
