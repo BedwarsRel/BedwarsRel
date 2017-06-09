@@ -10,7 +10,7 @@ errors:
   gameexists: "Igra sa ovim inenom već postoji!"
   gamenotfound: "Igra '$game$' nije pronađena!"
   nofreegames: "Nema slobodnih igri."
-  gamenotfoundsimple: "Game not found!"
+  gamenotfoundsimple: "Igra nije pronađena!"
   playeramount: "Maksimum igrača ne može biti manji od 1 ili veći od 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "Team name must have between 2 and 20 characters!"
