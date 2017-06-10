@@ -1,6 +1,5 @@
 package io.github.bedwarsrel.com.fallback;
 
-import com.avaje.ebeaninternal.server.lib.util.NotFoundException;
 import io.github.bedwarsrel.BedwarsRel;
 import io.github.bedwarsrel.utils.ChatWriter;
 import io.github.bedwarsrel.utils.Utils;
@@ -26,12 +25,12 @@ public class PerformRespawnRunnable extends BukkitRunnable {
     try {
       Class<?> clazz = BedwarsRel.getInstance().getMinecraftServerClass(packetName);
       if (clazz == null) {
-        throw new NotFoundException("packet not found");
+        // TODO
       }
 
       Constructor<?> constr = clazz.getDeclaredConstructor(constructorClasses);
       if (constr == null) {
-        throw new NotFoundException("constructor not found");
+        // TODO
       }
 
       constr.setAccessible(true);

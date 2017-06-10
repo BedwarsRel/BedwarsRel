@@ -12,13 +12,6 @@
   <artifactId>common</artifactId>
 
   <dependencies>
-
-    <dependency>
-      <groupId>org.spigotmc</groupId>
-      <artifactId>spigot-api</artifactId>
-      <version>1.12-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
     <dependency>
       <groupId>com.gmail.filoghost.holographicdisplays</groupId>
       <artifactId>api</artifactId>
@@ -31,48 +24,6 @@
       <artifactId>hologramapi</artifactId>
       <version>1.6.0</version>
       <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-8-4</artifactId>
-      <version>1.8.4</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/../lib/spigot-1.8.4-R3-5818108-a486600.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-9-2</artifactId>
-      <version>1.9.2</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/../lib/spigot-1.9.2-R1-e000104-4cb3258.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-9-4</artifactId>
-      <version>1.9.4</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/../lib/spigot-1.9.4-R2-4af49dc-23da8b0.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-10-0</artifactId>
-      <version>1.10</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/../lib/spigot-1.10-R1-da278d1-b2f31b7.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-11-0</artifactId>
-      <version>1.11</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/../lib/spigot-1.11-R1-16c940b-eed13ca.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>net.minecraft</groupId>
-      <artifactId>minecraft-server-1-12-0</artifactId>
-      <version>1.11</version>
-      <scope>system</scope>
-      <systemPath>${pom.basedir}/../lib/spigot-1.12-R1-ede465d-bb4ae3b.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.bugsnag</groupId>
