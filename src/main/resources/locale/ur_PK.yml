@@ -10,7 +10,7 @@ errors:
   gameexists: "اس نام کے ساتھ پہلے ہی ایک گیم موجود ہے!"
   gamenotfound: "The game '$game$' could not be found!"
   nofreegames: "کوئی مفت گیمز دستیاب نہیں ہیں۔"
-  gamenotfoundsimple: "گیمز نہیں ملیں!"
+  gamenotfoundsimple: "Game not found!"
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "Team name must have between 2 and 20 characters!"
@@ -283,9 +283,15 @@ commands:
     name: "Add team selection"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Remove hologram location"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

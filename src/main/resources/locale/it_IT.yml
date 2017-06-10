@@ -1,6 +1,6 @@
 ---
 default:
-  pages: "Le pagine $current$ di $max$"
+  pages: "La pagina $current$ di $max$"
   currently: Al momento
 errors:
   argumentslength: "Il numero di argomenti non corrisponde alla corretta quantità!"
@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Uno o più team non hanno il letto impostato!"
   TEAM_NO_WRONG_TARGET: "Uno o più team non hanno il blocco di respawn settato!"
 ingame:
-  team: "Team"
+  team: "Squadra"
   teams: "Squadre"
   all: "Globale"
   record: "&e$record$ &aè il record su questa mappa!"
@@ -283,9 +283,15 @@ commands:
     name: "Aggiungi selezione squadra"
     desc: "Segnala una creatura che può essere utilizzata per entrare in un team specifico!"
   addholo:
-    debugpaste: "Manda una data di debug"
-    desc: "Questo maderà qualche stringa del debug a hastebin e ti ritornerà come link che potrai condividere con gli sviluppatori"
+    name: "Aggiungi la posizione dell'ologramma"
+    desc: "Un ologramma verrà aggiunto nella posizione corrente !"
   removeholo:
     name: "Rimuovere la posizione di ologramma"
     desc: "Quando il comando viene eseguito, il giocatore può fare clic destro l'ologramma che dovrebbe essere rimosso."
     explain: "Eseguire un click sinistro entro 10 secondi l'ologramma che si desidera rimuovere."
+  debugpaste:
+    name: "Incolla i dati di debug"
+    desc: "Questo maderà qualche stringa del debug a hastebin e ti ritornerà come link che potrai condividere con gli sviluppatori"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

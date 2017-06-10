@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "More teams are needed to start the game!"
   chooseteam: "Choose a team"
-  startgame: "Start game"
+  startgame: "Hasi jokoa"
   reduce_countdown: "Reduce countdown"
   gamefull: "Jokoa beteta dago!"
   gamefullpremium: "The game is full of premium players already!"
@@ -283,9 +283,15 @@ commands:
     name: "Add team selection"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Ezabatu hologramaren kokalekua"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

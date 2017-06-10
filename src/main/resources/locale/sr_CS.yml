@@ -20,9 +20,9 @@ errors:
   regionargument: "Tvoj položaj argumenata mora biti „loc1” ili „loc2”!"
   spawnerargument: "Parametar resursa mora biti važeće konfigurisan resurs!"
   blockdownnotfound: "Blok na kom stojite nije pronađen!"
-  gamenotrunning: "Igra se ne pokreće!	"
+  gamenotrunning: "Igra se ne pokreće!"
   bungeenoserver: "Bungeecord Serveri nisu postavljeni kako treba! Razgovarajte sa administratorom servera!	"
-  cantstartagain: "Igra se pokreće! Ne možeš pokrenuti igru opet!	"
+  cantstartagain: "Igra se pokreće! Ne možeš pokrenuti igru opet!"
   startoutofwaiting: "Igra treba da se pokrene iz režima čekanja!	"
   cantjoingame: "Ne možeš se pridružiti igri koja je pokrenuta ili zaustavljena!"
   lobbyongameworld: "Predvorje ne može biti na svetu igre!"
@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Jedan ili više timova nema postavljen krevet!"
   TEAM_NO_WRONG_TARGET: "Jedan ili više timova nemaju postavljen respawn blok!"
 ingame:
-  team: "Team"
+  team: "Tim"
   teams: "Timovi"
   all: "Sve"
   record: "&e$record$&a je rekord na ovoj mapi!"
@@ -283,9 +283,15 @@ commands:
     name: "Dodaj izbor tima"
     desc: "Označi stvorenje koje može da se koristi da se pridruži posebnom timu!"
   addholo:
-    debugpaste: "Pošalji debug podatke"
-    desc: "Ovo će poslati neke debug podatke hastebin-u i vraća vezu koju možete da delite sa programerima"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Obriši lokaciju holograma"
     desc: "Kada je izvršena komanda, igrač može desnim klikom miša na holograma koji bi trebalo da bude uklonjen."
     explain: "Izvršiti levi klik u roku od 10 sekundi na hologram ako želite da ga uklonite."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "Ovo će poslati neke debug podatke hastebin-u i vraća vezu koju možete da delite sa programerima"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

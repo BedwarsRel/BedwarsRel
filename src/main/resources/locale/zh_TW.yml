@@ -283,9 +283,15 @@ commands:
     name: "添加隊伍選擇"
     desc: "在當前位置加入指定隊伍的標記!"
   addholo:
-    debugpaste: "發送除錯數據"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "刪除權限顯示"
     desc: "使用這個命令後玩家right-click即可移除全息圖."
     explain: "10秒只可執行一次"
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

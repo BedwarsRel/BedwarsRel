@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Jedno lub więcej drużyn nie ma ustawionego łóżka!"
   TEAM_NO_WRONG_TARGET: "Jedna lub więcej drużyn nie ma ustawionego spawnu!"
 ingame:
-  team: "Team"
+  team: "Zespół"
   teams: "Zespoły"
   all: "Wszystkie"
   record: "&e$record$&a To jest aktualny rekord mapy!"
@@ -283,9 +283,15 @@ commands:
     name: "Dodaj wybór drużyny"
     desc: "Stwórz istotę, która może być użyta aby dołączyć do konkretnej drużyny!"
   addholo:
-    debugpaste: "Wyślij dane debugowania"
-    desc: "To będzie wysyłać dane debugowania do hastebin i zwróci link który możesz udostępnić deweloperom"
+    name: "Dodaj lokalizację hologramu"
+    desc: "Hologramowe statystyki zostały dodane do tej lokalizacji!"
   removeholo:
     name: "Usuń lokalizację hologramu"
     desc: "Kiedy ta komenda zostanie wykonana, gracz może kliknąć prawym przyciskiem myszki na hologram aby go usunąć."
     explain: "Kliknij lewym przyciskiem myszki w ciągu 10 sekund na hologram, aby go usunąć."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "To będzie wysyłać dane debugowania do hastebin i zwróci link który możesz udostępnić deweloperom"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

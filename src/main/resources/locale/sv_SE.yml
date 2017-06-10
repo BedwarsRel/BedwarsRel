@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "En eller flera lag har ingen säng inställd!"
   TEAM_NO_WRONG_TARGET: "En eller flera lag har inget respawn block inställd!"
 ingame:
-  team: "Team"
+  team: "Lag"
   teams: "Lag"
   all: "Alla"
   record: "&e$record$&a är rekordet på denna kartan!"
@@ -283,9 +283,15 @@ commands:
     name: "Lägga till laget i selectionen"
     desc: "Markera en varelse som kan användas till ett specifikt lag!"
   addholo:
-    debugpaste: "Skicka debug data"
-    desc: "Detta kommer att skicka lite debug data till hastebin och ger tillbaka en länk som du kan dela med utvecklarna"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Ta bort hologram platsen"
     desc: "När kommandot utfördes, spelaren kan högerklicka på hologrammet som bör tas bort."
     explain: "Utföra en vänster klick inom 10 sekunder på hologrammet du vill ta bort."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "Detta kommer att skicka lite debug data till hastebin och ger tillbaka en länk som du kan dela med utvecklarna"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

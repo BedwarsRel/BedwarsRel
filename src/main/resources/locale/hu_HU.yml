@@ -56,12 +56,12 @@ success:
   left: "Sikeresen elhagytad a játékot!"
   saved: "A játék sikeresen mentve!"
   bedset: "A(z) $team$ csapat \"újraéledő blokkja\" sikeresen beállítva!"
-  regionset: "A(z) $game$ játékterület $location$-es helyzete sikeresen beállítva!"
+  regionset: "A játék régió helyszíne $location$, $game$ névvel sikeresen lett beállítva!"
   spawnset: "A(z) $team$ csapat kezdőpontja sikeresen beállítva!"
   spawnerset: "$name$ termelőhely sikeresen beállítva!"
   stopped: "A játék sikeresen leállt!"
   lobbyset: "A lobby sikeresen beállítva!"
-  gameloaded: "A(z) \"$game$\" játékaréna sikeresen betöltve!"
+  gameloaded: "Játék '$game$' sikeresen lett betöltve!"
   reloadconfig: "Sikeres újratöltés!"
   teamremoved: "A csapat sikeresen eltávolítva!"
   gameremoved: "A játékaréna sikeresen eltávolítva!"
@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Az egyik csapatnak nincs ágya!"
   TEAM_NO_WRONG_TARGET: "Egy vagy több csapatnak nincs újraéledő pontja!"
 ingame:
-  team: "Team"
+  team: "Csapat"
   teams: "Csapatok"
   all: "Mindenki"
   record: "&e$record$&7 A rekord ezen a mapon!"
@@ -283,9 +283,15 @@ commands:
     name: "Csapatválasztó hozzáadása"
     desc: "Mark egy lény, amely lehet használni, hogy csatlakozzon egy különleges csapatot!"
   addholo:
-    debugpaste: "Debug-adatok küldése"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "A hologram helyének hozzáadása"
+    desc: "A hologram sikeresen létrehozva!"
   removeholo:
     name: "Hologram törlése"
     desc: "Törli a kijelölődő statisztika hologramot. (Parancs lefuttatása után jobb klikk a hologramra)."
     explain: "Kattintson a eltávolítani kívánt hologramra 10 másodpercen belül."
+  debugpaste:
+    name: "Illessze be a hibakeresési adatokat"
+    desc: "Ez néhány hibakeresési adatot küld a hastebin-nek, és visszaküldi a fejlesztőkkel megosztott linket"
+  itemspaste:
+    name: "Illessze be a készletet egy fájlba"
+    desc: "Ez visszaad egy linket, ahol láthatja, hogy az aktuális leltárt sorba helyezték példaként a shop.yml számára"

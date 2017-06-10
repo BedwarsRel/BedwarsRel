@@ -21,14 +21,14 @@ errors:
   spawnerargument: "The resource parameter has to be a valid configured resource!"
   blockdownnotfound: "Üzerinde durduğuna blok bulunamadı!"
   gamenotrunning: "Oyun çalışmıyor!"
-  bungeenoserver: "Bungeecord Servers wasn't set properly! Talk to the server administrator!"
-  cantstartagain: "game is running! You can't start a running game again!"
-  startoutofwaiting: "game have to be started out of the waiting mode!"
-  cantjoingame: "You can't join a running or stopped game!"
-  lobbyongameworld: "Lobby can't be on the game world!"
+  bungeenoserver: "Bungeecord Sunucuları doğru ayarlanmadı! Sunucu yöneticisi ile konuşun!"
+  cantstartagain: "Game is running! You can't start a running game again!"
+  startoutofwaiting: "Game have to be started out of the waiting mode!"
+  cantjoingame: "Çalışan veya durdurulmuş bir oyuna katılamazsın!"
+  lobbyongameworld: "Lobi oyun dünyasında olamaz!"
   gamenotloaded: "Oyun başlatılamadı!"
   gameloaderror: "Loading game '$game$' throws an error!"
-  regionnotfound: "Region file does not exists!"
+  regionnotfound: "Bölge dosyası yok!"
   savesign: "Couldn't create a new sign config file!"
   nogames: "Oyun bulunamadı!"
   notenoughress: "You didn't have enough ressource to buy this item!"
@@ -52,11 +52,11 @@ errors:
 success:
   gameadded: "New game '$game$' successfully added!"
   teamadded: "Team '$team$' successfully added!"
-  joined: "You successfully joined the game!"
+  joined: "Oyuna Başarıyla Katıldın!"
   left: "Başarılı bir şekilde oyunu bıraktın!"
   saved: "Oyunu başarıyla kaydedildi!"
-  bedset: "You sucessfully set the respawn block of team $team$!"
-  regionset: "game region location $location$ for game $game$ was set successfully!"
+  bedset: "$team$ takımının yeniden doğma bloğu ayarlandı!"
+  regionset: "Game region location $location$ for Game $game$ was set successfully!"
   spawnset: "Spawn location for Team $team$ was set successfully!"
   spawnerset: "Ressource spawn location for $name$ was set successfully!"
   stopped: "Oyunu başarıyla durduruldu!"
@@ -68,7 +68,7 @@ success:
   spawnercleared: "Tüm Spawnerlar Silindi.\n"
   gamerun: "You started the game, players can now join!"
   timeset: "Oyun Saati Başarıyla Ayarlandı.\n"
-  regionnameset: "Region name was set successfully!"
+  regionnameset: "Bölge ismi oluşturuldu!"
   minplayersset: "En Az Oyuncu Belirlendi.\n"
   mainlobbyset: "Mainlobi Başarıyla Ayarlandı.\n"
   gametimeset: "Oyun Süresi Başarıyla Ayarlandı.\n"
@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "One or more teams have no bed set!"
   TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
-  team: "Team"
+  team: "Takım"
   teams: "Takımlar"
   all: "Tümü"
   record: "&e$record$&a is the record on this map!"
@@ -117,9 +117,9 @@ ingame:
     win-title: "&6Tebrikler"
     win-subtitle: "$team$&6 won in &e$time$"
   shop:
-    name: "Itemshop"
-    newshop: "Use new shop"
-    oldshop: "Use old shop"
+    name: "Market"
+    newshop: "Yeni dükkan kullan"
+    oldshop: "Eski marketi kullan"
     fullstackpershift: "Multiply stacks per shift click"
     onestackpershift: "One stack per shift click"
   player:
@@ -171,8 +171,8 @@ lobby:
   leavegame: "Odadan Ayrıl"
   playerjoin: "$player$ Oyuna Katıldı!"
   kickedbyvip: "Yetkili Tarafından Oyundan Atıldınız!"
-  moreplayersneeded: "$count$ more players needed."
-  moreplayersneeded-one: "$count$ more player needed."
+  moreplayersneeded: "$count$ daha fazla oyuncu gerek!"
+  moreplayersneeded-one: "$count$ daha fazla oyuncu gerek!"
   moreteamsneeded: "Oyunun Başlaması İçin Odada En Az 2 Oyuncu Olması Gerekir!"
 sign:
   firstline: "&6[Bedwars]"
@@ -184,8 +184,8 @@ sign:
     full: "Dolu!"
 stats:
   header: "Bedwars İstatistikleri"
-  kd: "K/D"
-  statsnotfound: "statistics of $player$ not found!"
+  kd: "Ölüm/Öldürme Oranı"
+  statsnotfound: "Statistics of $player$ not found!"
   name: "İsim"
   kills: "Öldürme"
   deaths: "Ölme"
@@ -218,27 +218,27 @@ commands:
     desc: "Sets the location of a team's bed block (Synonym for settarget)"
   setlobby:
     name: "Set lobby"
-    desc: "Sets the location of the gamelobby"
+    desc: "Oyun Lobisinin bölgesini ayarlar"
   setregion:
-    name: "Sets a region point"
-    desc: "Sets a region point for the game"
+    name: "bir bölge noktası oluşturur"
+    desc: "oyunun bölge noktasını oluşturur"
   setspawn:
-    name: "Sets a team spawn"
+    name: "Takımın doğacağı yeri ayarlar"
     desc: "Sets the spawn of the given team"
   setspawner:
     name: "Spawner Koy"
     desc: "Sets a spawner location of a specific ressource"
   start:
     name: "Oyunu Başlat"
-    desc: "Starts a game"
+    desc: "Oyun başlatır"
   stop:
-    name: "Stop game"
-    desc: "Stops a game"
+    name: "Oyunu Durdurur."
+    desc: "Bir oyunu durdurur"
   help:
-    name: "Show Help"
+    name: "Yardım sayfasını görüntüler"
     desc: "Display information about the plugin and its commands"
   reload:
-    name: "Reload"
+    name: "Yeniden yükler"
     desc: "Reloads the configurations and translations"
   setmainlobby:
     name: "MainLobiyi Ayarla"
@@ -283,9 +283,15 @@ commands:
     name: "Add team selection"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "Hologram Ekle"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Belirli Hologramı Yoket"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

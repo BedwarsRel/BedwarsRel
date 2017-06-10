@@ -185,7 +185,7 @@ sign:
 stats:
   header: "Bedwars statistieken"
   kd: "K/D"
-  statsnotfound: "statistieken van $player$ niet gevonden!"
+  statsnotfound: "Statistieken van $player$ niet gevonden!"
   name: "Naam"
   kills: "Doden"
   deaths: "Gedood"
@@ -283,9 +283,15 @@ commands:
     name: "Voeg team selector toe"
     desc: "Duid een monster aan dat als team selector gebruikt kan worden voor een specifiek team!"
   addholo:
-    debugpaste: "Verzend debug data"
-    desc: "Dit verzend debug data naar hastebin en geeft jou een link die je kan delen met de developer"
+    name: "Voeg een hologram toe"
+    desc: "Een hologram statistiek wordt toegevoegd op de plaats waar jij het zet!"
   removeholo:
     name: "Verwijder hologram locatie"
     desc: "Wanneer het command uitgevoerd is, moeten de spelers rechts-klik drukken op de hologram en het zou weg moeten gaan."
     explain: "Zorg ervoor dat je binnen 10 sec linker muisknop drukt op de hologram als deze wilt verwijderen."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "Dit verzend debug data naar hastebin en geeft jou een link die je kan delen met de developer"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

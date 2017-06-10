@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Viena ar daugiau komandu neturi nustatytos lovos!"
   TEAM_NO_WRONG_TARGET: "Vienas ar daugiau komandų neturi nustatyto prisikėlimo bloko!"
 ingame:
-  team: "Team"
+  team: "Komanda"
   teams: "Komandos"
   all: "Visi"
   record: "&e$record$&a yra sios arenos rekordas!"
@@ -283,9 +283,15 @@ commands:
     name: "Pridėti komandos pasirinkimą"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    debugpaste: "Send debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Remove hologram location"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

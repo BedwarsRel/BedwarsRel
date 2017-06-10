@@ -283,9 +283,15 @@ commands:
     name: "Team-Auswahl hinzufügen"
     desc: "Markiert eine Kreatur, die zur Team-Auswahl für ein bestimmtes Team verwendet werden kann"
   addholo:
-    debugpaste: "Sende Debug-Informationen"
-    desc: "Lade einige Debug-Informationen auf Hastebin hoch und erhalte einen Link, den du mit den Entwicklern teilen kannst"
+    name: "Hologram-Position hinzufügen"
+    desc: "Eine Hologram-Statistik wird auf die aktuelle, stehende Position hinzugefügt"
   removeholo:
     name: "Hologram-Position entfernen"
     desc: "Sobald der Command ausgelöst wurde, kann innerhalb von 10 Sekunden auf das entsprechende Hologram geklickt werden, um es zu entfernen"
     explain: "Mache nun einen Linksklick auf das Hologram das entfernt werden soll. Innerhalb von 10 Sekunden."
+  debugpaste:
+    name: "Debug-Daten senden"
+    desc: "Lade einige Debug-Informationen auf Hastebin hoch und erhalte einen Link, den du mit den Entwicklern teilen kannst"
+  itemspaste:
+    name: "Inventar in Datei speichern"
+    desc: "Lade dein aktuelles Inventar in serialisierter Form auf Hastebin hoch und schaue dir an, wie diese Items für deine shop.yml aussehen"
