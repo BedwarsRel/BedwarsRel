@@ -7,11 +7,13 @@ stages:
     workDir: ~/BedwarsRel
     steps:
       - type: checkout
-        
+      - run:
+        name: Install dependencies
+        command: |
+          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar && java -jar BuildTools.jar --rev 1.8 && java -jar BuildTools.jar --rev 1.8.3 && java -jar BuildTools.jar --rev 1.8.8 && java -jar BuildTools.jar --rev 1.9.2 && java -jar BuildTools.jar --rev 1.9.4 && java -jar BuildTools.jar --rev 1.10 && java -jar BuildTools.jar --rev 1.11 && java -jar BuildTools.jar --rev 1.12
       - type: shell
         shell: /bin/bash --login
         command: |
-          wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar && java -jar BuildTools.jar --rev 1.8 && java -jar BuildTools.jar --rev 1.8.3 && java -jar BuildTools.jar --rev 1.8.8 && java -jar BuildTools.jar --rev 1.9.2 && java -jar BuildTools.jar --rev 1.9.4 && java -jar BuildTools.jar --rev 1.10 && java -jar BuildTools.jar --rev 1.11 && java -jar BuildTools.jar --rev 1.12
           export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
           if [ "${CIRCLE_BRANCH}" == "master" ]
           then
