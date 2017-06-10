@@ -4,36 +4,36 @@ containerInfo:
   - image: maven:3.5-jdk-8
 stages:
   build:
-    workDir: ~/BedwarsRel
+    working_directory: ~/BedwarsRel
     steps:
       - type: checkout
       - run:
           name: "Downloading BuildTools.jar"
-          command: 'wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar'
+          command: 'cd BuildTools && wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar'
       - run:
           name: "Building CraftBukkit 1.8"
-          command: 'java -jar BuildTools.jar --rev 1.8'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.8'
       - run:
           name: "Building CraftBukkit 1.8.3"
-          command: 'java -jar BuildTools.jar --rev 1.8.3'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.8.3'
       - run:
           name: "Building CraftBukkit 1.8.8"
-          command: 'java -jar BuildTools.jar --rev 1.8.8'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.8.8'
       - run:
           name: "Building CraftBukkit 1.9.2"
-          command: 'java -jar BuildTools.jar --rev 1.9'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.9'
       - run:
           name: "Building CraftBukkit 1.9.4"
-          command: 'java -jar BuildTools.jar --rev 1.9.4'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.9.4'
       - run:
           name: "Building CraftBukkit 1.10.2"
-          command: 'java -jar BuildTools.jar --rev 1.10.2'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.10.2'
       - run:
           name: "Building CraftBukkit 1.11.2"
-          command: 'java -jar BuildTools.jar --rev 1.11.2'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.11.2'
       - run:
           name: "Building CraftBukkit 1.12"
-          command: 'java -jar BuildTools.jar --rev 1.12'
+          command: 'cd BuildTools && java -jar BuildTools.jar --rev 1.12'
       - run:
           name: "Building BedwarsRel"
           command: |
