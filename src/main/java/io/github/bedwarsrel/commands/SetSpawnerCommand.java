@@ -14,7 +14,6 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class SetSpawnerCommand extends BaseCommand {
 
@@ -29,7 +28,7 @@ public class SetSpawnerCommand extends BaseCommand {
     }
 
     Player player = (Player) sender;
-    ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(this.getRessources()));
+    ArrayList<String> arguments = new ArrayList<String>(Arrays.asList(this.getResources()));
     String material = args.get(1).toString().toLowerCase();
     Game game = this.getPlugin().getGameManager().getGame(args.get(0));
 
@@ -55,15 +54,12 @@ public class SetSpawnerCommand extends BaseCommand {
       return false;
     }
 
-    Object section = BedwarsRel.getInstance().getConfig().get("ressource." + material);
-    ItemStack stack = ResourceSpawner.createSpawnerStackByConfig(section);
-
     Location location = player.getLocation();
     ResourceSpawner spawner = new ResourceSpawner(game, material, location);
     game.addResourceSpawner(spawner);
     player.sendMessage(
         ChatWriter.pluginMessage(ChatColor.GREEN + BedwarsRel._l(player, "success.spawnerset",
-            ImmutableMap.of("name", stack.getItemMeta().getDisplayName() + ChatColor.GREEN))));
+            ImmutableMap.of("name", material + ChatColor.GREEN))));
     return true;
   }
 
@@ -92,19 +88,19 @@ public class SetSpawnerCommand extends BaseCommand {
     return "setup";
   }
 
-  private String[] getRessources() {
+  private String[] getResources() {
     ConfigurationSection section =
-        BedwarsRel.getInstance().getConfig().getConfigurationSection("ressource");
+        BedwarsRel.getInstance().getConfig().getConfigurationSection("resource");
     if (section == null) {
       return new String[]{};
     }
 
-    List<String> ressources = new ArrayList<String>();
+    List<String> resources = new ArrayList<String>();
     for (String key : section.getKeys(false)) {
-      ressources.add(key.toLowerCase());
+      resources.add(key.toLowerCase());
     }
 
-    return ressources.toArray(new String[ressources.size()]);
+    return resources.toArray(new String[resources.size()]);
   }
 
 }
