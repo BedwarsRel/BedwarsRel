@@ -10,7 +10,7 @@ errors:
   gameexists: "משחק עם השם הזה כבר קיים!"
   gamenotfound: "לא הייתה אפשרות למצוא את המשחק '$game$'!"
   nofreegames: "אין משחקים פנויים זמינים."
-  gamenotfoundsimple: "Game not found!"
+  gamenotfoundsimple: "משחק לא נמצא!"
   playeramount: "המספר המקסימלי של שחקנים לא יכול להיות נמוך מ-1 או גבוה מ-24!"
   teamcolornotallowed: "צבע הצוות שניתן הוא צבע לא מורשה"
   teamnamelength: "שם הקבוצה חייב להיות בין 2 ו-20 תווים!"
