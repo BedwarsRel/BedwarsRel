@@ -7,8 +7,8 @@ stages:
     working_directory: ~/BedwarsRel
     steps:
       - run:
-          name: "Downloading BuildTools.jar"
-          command: 'mkdir BuildTools && cd BuildTools && wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar'
+          name: "Preparing CraftBukkit Downloads"
+          command: 'mkdir CraftBukkit'
       - run:
           name: "Downloading CraftBukkit 1.8"
           command: |
