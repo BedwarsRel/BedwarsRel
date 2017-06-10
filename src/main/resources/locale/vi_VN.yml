@@ -117,7 +117,7 @@ ingame:
     win-title: "&6Xin chúc mừng!"
     win-subtitle: "$team$&6 won in &e$time$"
   shop:
-    name: "Shop"
+    name: "shop"
     newshop: "Use new shop"
     oldshop: "Use old shop"
     fullstackpershift: "Multiply stacks per shift click"
