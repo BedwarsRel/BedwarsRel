@@ -8,11 +8,34 @@ stages:
     steps:
       - type: checkout
       - run:
-          name: Get CraftBukkit dependencies
-          command: |
-            wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar && java -jar BuildTools.jar --rev 1.8 && java -jar BuildTools.jar --rev 1.8.3 && java -jar BuildTools.jar --rev 1.8.8 && java -jar BuildTools.jar --rev 1.9.2 && java -jar BuildTools.jar --rev 1.9.4 && java -jar BuildTools.jar --rev 1.10 && java -jar BuildTools.jar --rev 1.11 && java -jar BuildTools.jar --rev 1.12
+          name: Downloading BuildTools.jar
+          command: 'wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar'
       - run:
-          name: Build Project
+          name: Building CraftBukkit 1.8
+          command: 'java -jar BuildTools.jar --rev 1.8'
+      - run:
+          name: Building CraftBukkit 1.8.3
+          command: 'java -jar BuildTools.jar --rev 1.8.3'
+      - run:
+          name: Building CraftBukkit 1.8.8
+          command: 'java -jar BuildTools.jar --rev 1.8.8'
+      - run:
+          name: Building CraftBukkit 1.9.2
+          command: 'java -jar BuildTools.jar --rev 1.9'
+      - run:
+          name: Building CraftBukkit 1.9.4
+          command: 'java -jar BuildTools.jar --rev 1.9.4'
+      - run:
+          name: Building CraftBukkit 1.10.2
+          command: 'java -jar BuildTools.jar --rev 1.10.2'
+      - run:
+          name: Building CraftBukkit 1.11.2
+          command: 'java -jar BuildTools.jar --rev 1.11.2'
+      - run:
+          name: Building CraftBukkit 1.12
+          command: 'java -jar BuildTools.jar --rev 1.12'
+      - run:
+          name: Building BedwarsRel
           command: |
             export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
             if [ "${CIRCLE_BRANCH}" == "master" ]
@@ -24,9 +47,9 @@ stages:
             mkdir target/artifacts/
             cp target/BedwarsRel-*.jar target/artifacts/.
         
-      - type: deploy
-        shell: /bin/bash --login
-        command: |
+      - run:
+          name: Deploying BedwarsRel
+          command: |
           export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
           if [ "${CIRCLE_BRANCH}" == "master" ]
           then
