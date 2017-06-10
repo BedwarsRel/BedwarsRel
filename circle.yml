@@ -46,7 +46,6 @@ stages:
             fi
             mkdir target/artifacts/
             cp target/BedwarsRel-*.jar target/artifacts/.
-        
       - run:
           name: Deploying BedwarsRel
           command: |
@@ -58,11 +57,10 @@ stages:
           then
             mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources --settings settings.xml
           fi
-
       - type: artifacts-store
         path: target/artifacts
         destination: artifacts
-        
+
       - type: artifacts-store
         path: target/apidocs
         destination: apidocs
