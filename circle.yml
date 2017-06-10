@@ -8,34 +8,34 @@ stages:
     steps:
       - type: checkout
       - run:
-          name: Downloading BuildTools.jar
+          name: "Downloading BuildTools.jar"
           command: 'wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar'
       - run:
-          name: Building CraftBukkit 1.8
+          name: "Building CraftBukkit 1.8"
           command: 'java -jar BuildTools.jar --rev 1.8'
       - run:
-          name: Building CraftBukkit 1.8.3
+          name: "Building CraftBukkit 1.8.3"
           command: 'java -jar BuildTools.jar --rev 1.8.3'
       - run:
-          name: Building CraftBukkit 1.8.8
+          name: "Building CraftBukkit 1.8.8"
           command: 'java -jar BuildTools.jar --rev 1.8.8'
       - run:
-          name: Building CraftBukkit 1.9.2
+          name: "Building CraftBukkit 1.9.2"
           command: 'java -jar BuildTools.jar --rev 1.9'
       - run:
-          name: Building CraftBukkit 1.9.4
+          name: "Building CraftBukkit 1.9.4"
           command: 'java -jar BuildTools.jar --rev 1.9.4'
       - run:
-          name: Building CraftBukkit 1.10.2
+          name: "Building CraftBukkit 1.10.2"
           command: 'java -jar BuildTools.jar --rev 1.10.2'
       - run:
-          name: Building CraftBukkit 1.11.2
+          name: "Building CraftBukkit 1.11.2"
           command: 'java -jar BuildTools.jar --rev 1.11.2'
       - run:
-          name: Building CraftBukkit 1.12
+          name: "Building CraftBukkit 1.12"
           command: 'java -jar BuildTools.jar --rev 1.12'
       - run:
-          name: Building BedwarsRel
+          name: "Building BedwarsRel"
           command: |
             export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
             if [ "${CIRCLE_BRANCH}" == "master" ]
@@ -47,16 +47,16 @@ stages:
             mkdir target/artifacts/
             cp target/BedwarsRel-*.jar target/artifacts/.
       - run:
-          name: Deploying BedwarsRel
+          name: "Deploying BedwarsRel"
           command: |
-          export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
-          if [ "${CIRCLE_BRANCH}" == "master" ]
-          then
-            mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources --settings settings.xml
-          elif [ "${CIRCLE_BRANCH}" == "develop" ]
-          then
-            mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources --settings settings.xml
-          fi
+            export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+            then
+              mvn deploy -P ci-release,deploy-release,attach-javadocs,attach-sources --settings settings.xml
+            elif [ "${CIRCLE_BRANCH}" == "develop" ]
+            then
+              mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources --settings settings.xml
+            fi
       - type: artifacts-store
         path: target/artifacts
         destination: artifacts
