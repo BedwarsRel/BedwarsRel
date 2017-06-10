@@ -10,29 +10,43 @@ stages:
           name: "Downloading BuildTools.jar"
           command: 'mkdir BuildTools && cd BuildTools && wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar -O BuildTools.jar'
       - run:
-          name: "Building CraftBukkit 1.8"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.8'
+          name: "Downloading CraftBukkit 1.8"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.8-R0.1-SNAPSHOT-latest.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.8-R0.1-SNAPSHOT-latest.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8-R0.1-SNAPSHOT -Dpackaging=jar'
       - run:
           name: "Building CraftBukkit 1.8.3"
           command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.8.3'
       - run:
-          name: "Building CraftBukkit 1.8.8"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.8.8'
+          name: "Downloading CraftBukkit 1.8.8"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.8.3-R0.1-SNAPSHOT-latest.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.8.3-R0.1-SNAPSHOT-latest.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8.3-R0.1-SNAPSHOT -Dpackaging=jar'
       - run:
-          name: "Building CraftBukkit 1.9.2"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.9'
+          name: "Downloading CraftBukkit 1.9.2"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.9.2-R0.1-SNAPSHOT-latest.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.9.2-R0.1-SNAPSHOT-latest.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.9.2-R0.1-SNAPSHOT -Dpackaging=jar'
       - run:
-          name: "Building CraftBukkit 1.9.4"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.9.4'
+          name: "Downloading CraftBukkit 1.9.4"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.9.4-R0.1-SNAPSHOT-latest.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.9.4-R0.1-SNAPSHOT-latest.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.9.4-R0.1-SNAPSHOT -Dpackaging=jar'
       - run:
-          name: "Building CraftBukkit 1.10.2"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.10.2'
+          name: "Downloading CraftBukkit 1.10.2"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.10.2-R0.1-SNAPSHOT-latest.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.10.2-R0.1-SNAPSHOT-latest.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.10.2-R0.1-SNAPSHOT -Dpackaging=jar'
       - run:
-          name: "Building CraftBukkit 1.11.2"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.11.2'
+          name: "Downloading CraftBukkit 1.11.2"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.11.2.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.11.2.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.11.2-R0.1-SNAPSHOT -Dpackaging=jar'
       - run:
-          name: "Building CraftBukkit 1.12"
-          command: 'cd BuildTools && java -Xmx2048M -Xms2048M -jar BuildTools.jar --rev 1.12'
+          name: "Downloading CraftBukkit 1.12"
+          command: |
+            cd CraftBukkit && wget https://cdn.getbukkit.org/craftbukkit/craftbukkit-1.12.jar && \
+            mvn install:install-file -Dfile=craftbukkit-1.12.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.12-R0.1-SNAPSHOT -Dpackaging=jar'
       - type: checkout
       - run:
           name: "Building BedwarsRel"
@@ -40,9 +54,9 @@ stages:
             export SHORT_HASH=$(echo $CIRCLE_SHA1 | cut -c -7)
             if [ "${CIRCLE_BRANCH}" == "master" ]
             then
-              mvn clean install -P ci-release,attach-javadocs,attach-sources
+              mvn clean install -fae -P ci-release,attach-javadocs,attach-sources
             else
-              mvn clean install -P ci-snapshot,attach-javadocs,attach-sources
+              mvn clean install -fae -P ci-snapshot,attach-javadocs,attach-sources
             fi
             mkdir target/artifacts/
             cp target/BedwarsRel-*.jar target/artifacts/.
