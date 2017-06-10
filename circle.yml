@@ -20,7 +20,7 @@ stages:
             else
               mvn clean install -fae -P ci-snapshot,attach-javadocs,attach-sources
             fi
-            mkdir -R plugin/target/artifacts/
+            mkdir -r plugin/target/artifacts/
             cp plugin/target/BedwarsRel-*.jar plugin/target/artifacts/.
       - run:
           name: "Deploying BedwarsRel"
