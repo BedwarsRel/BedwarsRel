@@ -20,8 +20,8 @@ stages:
             else
               mvn clean install -fae -P ci-snapshot,attach-javadocs,attach-sources
             fi
-            mkdir target/artifacts/
-            cp target/BedwarsRel-*.jar target/artifacts/.
+            mkdir -R plugin/target/artifacts/
+            cp plugin/target/BedwarsRel-*.jar plugin/target/artifacts/.
       - run:
           name: "Deploying BedwarsRel"
           command: |
@@ -34,10 +34,10 @@ stages:
               mvn deploy -P ci-snapshot,deploy-snapshot,attach-javadocs,attach-sources --settings settings.xml
             fi
       - type: artifacts-store
-        path: target/artifacts
+        path: plugin/target/artifacts
         destination: artifacts
 
       - type: artifacts-store
-        path: target/apidocs
+        path: plugin/target/apidocs
         destination: apidocs
 
