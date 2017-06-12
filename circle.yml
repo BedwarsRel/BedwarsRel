@@ -38,6 +38,6 @@ stages:
         destination: artifacts
 
       - type: artifacts-store
-        path: plugin/target/apidocs
+        path: common/target/apidocs
         destination: apidocs
 
