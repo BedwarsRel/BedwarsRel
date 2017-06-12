@@ -291,7 +291,7 @@ commands:
     explain: "Nhấp chuột trái trong vòng 10 giây trên hình 3D bạn muốn xóa."
   debugpaste:
     name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "Thao tác này sẽ gửi một số dữ liệu gỡ lỗi cho hastebin và trả về một liên kết mà bạn có thể chia sẻ với các nhà phát triển"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
