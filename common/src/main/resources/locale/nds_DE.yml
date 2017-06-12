@@ -1,20 +1,20 @@
 ---
 default:
-  pages: "Page $current$ of $max$"
+  pages: "Seite $current$ von $max$"
   currently: Currently
 errors:
   argumentslength: "Number of arguments does not match the correct amount!"
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  holodependencynotfound: "$dependency$ konnte nicht gefunden werden für die Hologram-Statistik"
   packagenotfound: "Couldn't fetch $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
-  gameexists: "A game with this name already exists!"
-  gamenotfound: "The game '$game$' could not be found!"
+  gameexists: "Ein Spiel mit diesem Namen existiert bereits!"
+  gamenotfound: "Das Spiel $game$ konnte nicht gefunden werden!"
   nofreegames: "There are no free games available."
   gamenotfoundsimple: "Game not found!"
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "Team name must have between 2 and 20 characters!"
-  teamnotfound: "Team not found!"
+  teamnotfound: "Team nicht gefunden!"
   notingame: "You are currently not in a game!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
   regionargument: "Your location argument has to be 'loc1' or 'loc2'!"

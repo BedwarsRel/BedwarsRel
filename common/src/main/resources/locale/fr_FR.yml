@@ -149,7 +149,7 @@ ingame:
       cancel: "&4Annuler la téléportation"
       multiuse: "&cTu a déjà démarrer une téléportation!"
     tntsheep:
-      no-target-found: "Aucun joueur cible trouvé !"
+      no-target-found: "Aucun joueur cible n'a été trouvé!"
     tracker:
       no-target-found: "Aucun joueur cible n'a été trouvé!"
       target-found: "$player$ est à $blocks$ bloc(s) de toi."
@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "Plus de joueurs sont nécessaires pour commencer la partie !"
     not_enough_teams: "Plus d'équipes sont nécessaires pour commencer le jeu!"
   chooseteam: "Choisir une équipe"
-  startgame: "Démarrer la partie"
+  startgame: "Démarrer partie"
   reduce_countdown: "Réduire le compte à rebours"
   gamefull: "La partie est complète !"
   gamefullpremium: "La partie est déjà pleine de joueurs VIP !"

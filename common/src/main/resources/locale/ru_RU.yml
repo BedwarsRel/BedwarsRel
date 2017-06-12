@@ -1,7 +1,7 @@
 ---
 default:
   pages: "Страница: $current$ из $max$"
-  currently: Сейчас
+  currently: Сейчасcy cyka blyat
 errors:
   argumentslength: "Количество аргументов не соответствует правильному количество asd"
   holodependencynotfound: "Не удалось найти $dependency$ для статистики голограммы"
@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "Нужно больше игроков для начала игры"
     not_enough_teams: "Чтобы начать игру, необходимы дополнительные группы!"
   chooseteam: "Выберите команду:"
-  startgame: "Запустить игру"
+  startgame: "Начать игру"
   reduce_countdown: "Уменьшить обратный отсчёт"
   gamefull: "Игра заполнена!"
   gamefullpremium: "Игра уже полна премиум-игроков!"
@@ -291,7 +291,7 @@ commands:
     explain: "Выполните левый клик в течение 10 секунд на голограмме, которую вы хотите удалить."
   debugpaste:
     name: "Paste debug data"
-    desc: "Это отправляет данные для отладки в hastebin и предоставляет ссылку, которую вы можете отправить разработчикам"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

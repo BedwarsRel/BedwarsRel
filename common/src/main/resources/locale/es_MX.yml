@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "¡Se necesitan más jugadores para empezar el Juego!"
     not_enough_teams: "¡Se necesitan más equipos para empezar el Juego!"
   chooseteam: "Elige un equipo"
-  startgame: "Empezar Juego"
+  startgame: "Iniciar Juego"
   reduce_countdown: "Reducir la cuenta atrás"
   gamefull: "¡El Juego está lleno!"
   gamefullpremium: "¡El Juego está lleno de jugadores con rango!"
@@ -291,7 +291,7 @@ commands:
     explain: "Realice un click izquierdo dentro de 10 segundos en el holograma que desea eliminar."
   debugpaste:
     name: "Paste debug data"
-    desc: "Esto enviará datos de errores a Hastebin y te proporcionara un link que puedes compartir con los desarrolladores"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

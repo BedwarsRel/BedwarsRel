@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "Meer spelers zijn nodig om het spel te starten!"
     not_enough_teams: "Meer teams zijn nodig om het spel te starten!"
   chooseteam: "Kies een team"
-  startgame: "Start spel"
+  startgame: "Spel starten"
   reduce_countdown: "Aftelling verminderen"
   gamefull: "Spel is vol!"
   gamefullpremium: "Het spel is voll met premium spelers!"

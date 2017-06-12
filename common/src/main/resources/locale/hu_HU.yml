@@ -168,7 +168,7 @@ lobby:
   gamefull: "A játék megtelt!"
   gamefullpremium: "A játék tele van prémium játékosokkal!"
   teamjoined: "Csatlakoztál a(z) $team$ csapathoz"
-  leavegame: "Játék elhagyása"
+  leavegame: "Jelenlegi játék elhagyása"
   playerjoin: "$player$ csatlakozott a játékhoz!"
   kickedbyvip: "Kikerültél a játékból, mert egy prémium játékos csatlakozott!"
   moreplayersneeded: "$count$ játékosra van még szükség a játék indításához."

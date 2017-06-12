@@ -291,7 +291,7 @@ commands:
     explain: "10秒只可执行一次"
   debugpaste:
     name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "这将向 hastebin 计划发送一些调试数据，并返回一个连接以提供给开发人员"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

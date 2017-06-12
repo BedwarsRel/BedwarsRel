@@ -229,7 +229,7 @@ commands:
     name: "Set spawner"
     desc: "Imposta una posizione spawner di un specifico materiale"
   start:
-    name: "Inizia la partita"
+    name: "Avvia il gioco"
     desc: "Inizia una partita"
   stop:
     name: "Interrompere il gioco"

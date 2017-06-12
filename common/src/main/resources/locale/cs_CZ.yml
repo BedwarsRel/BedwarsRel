@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "Pro start hry je potreba vice hracu!"
     not_enough_teams: "Je potreba vice tymu pro start hry!"
   chooseteam: "Vyber si tym"
-  startgame: "Spustit hru"
+  startgame: "start"
   reduce_countdown: "Snížit odpočítávání"
   gamefull: "Hra je plna!"
   gamefullpremium: "Tato hra je jiz plna VIP hracu!"
@@ -291,7 +291,7 @@ commands:
     explain: "Uvnitr hologramu drz 10 sekund prave tlacitko!"
   debugpaste:
     name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "Odešle pár debug dat na hastebin a vytvoří Url link, který můžete sdílet s vývojáři"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

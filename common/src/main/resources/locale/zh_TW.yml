@@ -149,9 +149,9 @@ ingame:
       cancel: "&4取消傳送"
       multiuse: "&c你已經開始了一個傳送!"
     tntsheep:
-      no-target-found: "找不到目標玩家!"
+      no-target-found: "沒有找到目標玩家!"
     tracker:
-      no-target-found: "找不到目標玩家!"
+      no-target-found: "沒有找到目標玩家!"
       target-found: "$player$ 是$blocks$方塊遠離你."
 lobby:
   countdown: "遊戲將在 $sec$ 秒後開始!"

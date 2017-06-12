@@ -229,7 +229,7 @@ commands:
     name: "Set spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
+    name: "Trò chơi bắt đầu"
     desc: "Starts a game"
   stop:
     name: "Stop game"

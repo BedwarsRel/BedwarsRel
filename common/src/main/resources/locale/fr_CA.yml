@@ -7,7 +7,7 @@ errors:
   holodependencynotfound: "Impossible de trouver $dependency$ pour l'hologramme des statistiques"
   packagenotfound: "Impossible de récupérer le package $package$ !"
   classnotfound: "Impossible de récupérer la classe $class$ du package $package$ !"
-  gameexists: "Une partie portant ce nom existe déjà!"
+  gameexists: "Une partie de ce nom existe déjà !"
   gamenotfound: "La partie '$game$' est introuvable !"
   nofreegames: "Aucune partie disponible."
   gamenotfoundsimple: "Partie introuvale !"
@@ -56,7 +56,7 @@ success:
   left: "Vous avez quitté la partie !"
   saved: "Partie sauvegardé avec succès !"
   bedset: "Vous avez configuré avec succès le bloc de respawn de l'équie $team$ !"
-  regionset: "Position de la région de jeu $location$ configuré avec succès pour la partie $game$ !"
+  regionset: "Position  de la région de jeu $location$ configuré avec succès pour la partie $game$ !"
   spawnset: "Position du spawn de l'équipe $team$ configuré avec succès !"
   spawnerset: "Position du spawn de ressouces de $name$ configuré avec succès !"
   stopped: "Partie arrêtée !"
@@ -151,10 +151,10 @@ ingame:
     tntsheep:
       no-target-found: "Aucun joueur cible trouvé !"
     tracker:
-      no-target-found: "Aucun joueur cible n'a été trouvé!"
+      no-target-found: "Aucun joueur cible trouvé !"
       target-found: "$player$ est à $blocks$ bloc(s) de toi."
 lobby:
-  countdown: "La partie commence dans $sec$ seconde(s)!"
+  countdown: "La partie commence dans $sec$ seconde(s) Game will start in $sec$ second(s)!"
   countdowncancel: "Plus de joueurs sont nécessaires. Compte à rebours annulé !"
   cancelcountdown:
     not_enough_players: "Plus de joueurs sont nécessaires. Compte à rebours annulé !"
@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "Plus de joueurs sont nécessaires pour commencer la partie !"
     not_enough_teams: "Plus d'équipes sont nécessaires pour commencer le jeu!"
   chooseteam: "Choisir une équipe"
-  startgame: "Démarrer la partie"
+  startgame: "Démarrer partie"
   reduce_countdown: "Réduire le compte à rebours"
   gamefull: "La partie est complète !"
   gamefullpremium: "La partie est déjà pleine de joueurs VIP !"
@@ -220,7 +220,7 @@ commands:
     name: "Définir Lobby"
     desc: "Définit la position du lobby de jeu"
   setregion:
-    name: "Définit un point de région"
+    name: "Définit un point de région "
     desc: "Définit un point de région pour la partie"
   setspawn:
     name: "Définit un spawn d'équipe"

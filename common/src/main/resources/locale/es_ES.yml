@@ -163,7 +163,7 @@ lobby:
     not_enough_players: "¡Se necesitan más jugadores para empezar el Juego!"
     not_enough_teams: "¡Se necesitan más equipos para empezar el Juego!"
   chooseteam: "Elige un equipo"
-  startgame: "Empezar Juego"
+  startgame: "Iniciar Juego"
   reduce_countdown: "Reducir la cuenta atrás"
   gamefull: "¡El Juego está lleno!"
   gamefullpremium: "¡El Juego está lleno de jugadores con rango!"

@@ -151,7 +151,7 @@ ingame:
     tntsheep:
       no-target-found: "Nenhum player encontrado"
     tracker:
-      no-target-found: "No target player was found!"
+      no-target-found: "Nenhum player encontrado"
       target-found: "$player$ is $blocks$ block(s) away from you."
 lobby:
   countdown: "O jogo vai começar em $sec$ segundo(s)!"
@@ -229,7 +229,7 @@ commands:
     name: "Set spawner"
     desc: "Seta a localização do spawn de uma especifica ressource"
   start:
-    name: "Start game"
+    name: "Comecar o jogo"
     desc: "Começa o jogo"
   stop:
     name: "Stop game"
