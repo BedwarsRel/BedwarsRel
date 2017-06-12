@@ -151,16 +151,16 @@ ingame:
     tntsheep:
       no-target-found: "ไม่เจอผู้เล่นที่เป็นเป้าหมายเลย!"
     tracker:
-      no-target-found: "ไม่เจอผู้เล่นที่เป็นเป้าหมายเลย!"
+      no-target-found: "No target player was found!"
       target-found: "$player$ อยู่ห่าง $blocks$ บล็อคจากคุณ."
 lobby:
   countdown: "เกมจะเริ่มใน $sec$ วินาที!"
   countdowncancel: "ต้องการผู้เล่นอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!"
   cancelcountdown:
-    not_enough_players: "เกมนี้ต้องการผู้เล่นอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!"
+    not_enough_players: "More players needed. Countdown cancelled!"
     not_enough_teams: "เกมนี้ต้องการทีมอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!"
   cancelstart:
-    not_enough_players: "จำนวนผู้เล่นไม่เพียงพอต่อการเริ่มเกม!"
+    not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "จำนวนทีมไม่เพียงพอต่อการเริ่มเกม!"
   chooseteam: "เลือกทีม"
   startgame: "เริ่มเกม"
@@ -229,7 +229,7 @@ commands:
     name: "ตั้งspawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "เริ่มเกม"
+    name: "Start game"
     desc: "เริ่มเกม"
   stop:
     name: "หยุดเกม"
@@ -256,16 +256,16 @@ commands:
     name: "ลบเกมออก"
     desc: "ลบเกมและการตั้งค่าทั้งหมด"
   clearspawner:
-    name: "ลบspawnerออก"
+    name: "Clear spawners"
     desc: "Removes all spawners from the game. Saving needed."
   gametime:
-    name: "ตั้งเวลาเกม"
+    name: "Set game time"
     desc: "Sets the game time which should be used in the game-world"
   stats:
-    name: "สถิติ"
+    name: "Statistics"
     desc: "Shows your statistics"
   setbuilder:
-    name: "ตั้งคนสร้างแมพ"
+    name: "Sets builder of map"
     desc: "Sets the builder of the map which will be display in the title when game starts."
   setgameblock:
     name: "Set game block"
@@ -277,16 +277,16 @@ commands:
     name: "Set minimum players"
     desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "แตะผู้เล่น"
-    desc: "แตะผู้เล่นออกจากเกมนี้"
+    name: "Kick player"
+    desc: "Kicks a player from the current game!"
   addteamjoin:
-    name: "เพิ่มทีมตัวเลือก"
+    name: "Add team selection"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
     name: "Add hologram location"
     desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "ลบตำแหน่งของโฮโลแกรม"
+    name: "Remove hologram location"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
   debugpaste:
