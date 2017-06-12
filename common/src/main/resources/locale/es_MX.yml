@@ -291,7 +291,7 @@ commands:
     explain: "Realice un click izquierdo dentro de 10 segundos en el holograma que desea eliminar."
   debugpaste:
     name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "Esto enviará datos de errores a Hastebin y te proporcionara un link que puedes compartir con los desarrolladores"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
