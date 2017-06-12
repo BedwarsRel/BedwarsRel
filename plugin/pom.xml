@@ -73,7 +73,7 @@
   <build>
     <resources>
       <resource>
-        <directory>source/src/main/resources</directory>
+        <directory>../common/src/main/resources</directory>
         <filtering>true</filtering>
       </resource>
     </resources>
