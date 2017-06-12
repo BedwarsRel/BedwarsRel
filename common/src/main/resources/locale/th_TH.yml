@@ -1,0 +1,297 @@
+---
+default:
+  pages: "หน้า $current$ จาก $max$"
+  currently: ในขณะนี้
+errors:
+  argumentslength: "参数不正确!"
+  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  packagenotfound: "Couldn't fetch $package$ package!"
+  classnotfound: "Couldn't fetch $package$ class $class$!"
+  gameexists: "ชื่อเกมนี้ใช้ไปแล้ว"
+  gamenotfound: "ไม่พบเกม '$game$'"
+  nofreegames: "ไม่มีเกมส์ฟรีเปิดให้บริการ"
+  gamenotfoundsimple: "ไม่พบเกม"
+  playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
+  teamcolornotallowed: "สีทีมที่กำหนดไม่เป็นสีที่ใช้ได้"
+  teamnamelength: "ชื่อทีมต้องยาวระหว่าง 2 ถึง 20 ตัว"
+  teamnotfound: "ไม่พบทีม"
+  notingame: "คุณไม่อยู่ในเกมในขณะนี้"
+  bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
+  regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
+  spawnerargument: "The resource parameter has to be a valid configured resource!"
+  blockdownnotfound: "บล็อกที่คุณยืนอยู่ไม่มี"
+  gamenotrunning: "เกมยังไม่ทำงาน"
+  bungeenoserver: "Bungeecord Servers wasn't set properly! Talk to the server administrator!"
+  cantstartagain: "Game is running! You can't start a running game again!"
+  startoutofwaiting: "Game have to be started out of the waiting mode!"
+  cantjoingame: "You can't join a running or stopped game!"
+  lobbyongameworld: "Lobby can't be on the game world!"
+  gamenotloaded: "ไม่สามารถเริ่มเกมได้"
+  gameloaderror: "โหลดเกม '$game$ ' มีข้อผิดพลาด"
+  regionnotfound: "ไฟล์พื้นที่นี้ไม่มี"
+  savesign: "Couldn't create a new sign config file!"
+  nogames: "ไม่พบเกมใดๆ"
+  notenoughress: "คุณไม่มีทรัพยากรพอที่จะซื้อไอเทมนี้"
+  teamnameinuse: "ชื่อทีมนี้ถูกใช้แล้ว"
+  minplayersmustnumber: "ผู้เล่นขั้นต่ำต้องเป็นตัวเลข"
+  toolongregionname: "Maximum length of region name are 15 characters!"
+  notwhilegamerunning: "ไม่สามารถทำแบบนั้นในขณะเกมดำเนินอยู่"
+  notwhileingame: "Cannot do that while you're in a running game!"
+  timeincorrect: "Time has to be a number (0 ... 23000), 'day' or 'night'!"
+  minplayersnumeric: "The min-players parameter must be numeric!"
+  notinair: "คุณไม่ได้อยู่กลางอากาศ"
+  teamfull: "The team is full, please reopen the team selection menu!"
+  novalidmaterial: "Given block type (material) isn't correct!"
+  wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
+  playernotfound: "Given player was not found or isn't online!"
+  notingameforkick: "คุณต้องอยู่ในเกมจึงจะสามารถเตะผู้เล่นได้"
+  playernotingame: "ผู้เล่นนี้ไม่ได้อยู่ในเกม"
+  mustbeinlobbyworld: "You must be in the lobby world of the game"
+  addteamjoincancel: "The adding of team join was cancelled!"
+  entitynotcompatible: "This entity is not compatible with team join!"
+success:
+  gameadded: "New game '$game$' successfully added!"
+  teamadded: "'$team$ ' เพิ่มทีมเรียบร้อยแล้ว"
+  joined: "คุณได้เข้าเกมอย่างสมบูรณ์"
+  left: "คุณออกเกมเรียบร้อยแล้ว"
+  saved: "บันทึกเกมนี้เรียบร้อย"
+  bedset: "คุณได้เซ็ตจุดเกิดของทีม $team$ แล้ว"
+  regionset: "ตั้งค่าขอบเขตพิกัด $location$ สำหรับเกม $game$ เรียบร้อยแล้ว!"
+  spawnset: "Spawn location for Team $team$ was set successfully!"
+  spawnerset: "การวางจุดเกินของทีม $name$ เสร็จสมบูรณ์แล้ว"
+  stopped: "หยุดเกมเรียบร้อยแล้ว!"
+  lobbyset: "ตั้งค่าล็อบบี้เรียบร้อยแล้ว!"
+  gameloaded: "เกม $game$ ทำการโหลดสำเร็จแล้ว!"
+  reloadconfig: "รีโหลดสำเร็จ!"
+  teamremoved: "ลบทีมออกแล้วสำเร็จ!"
+  gameremoved: "ลบเกมออกแล้วสำเร็จ!"
+  spawnercleared: "จุดเกิดไอเท็มทั้งหมดได้ถูกเอาออก!"
+  gamerun: "คุณได้เปิดให้เล่นเกมนี้แล้ว, ผู้เล่นสามารถเข้าเล่นได้!"
+  timeset: "ตั้งเวลาในการเล่นเรียบร้อย!"
+  regionnameset: "ได้ตั้งชื่อพื้นที่นี้เรียบร้อย"
+  minplayersset: "เซ็ทจำนวนผู้เล่นอย่างน้อยสำเร็จแล้ว"
+  mainlobbyset: "การตั่งค่าของLobbyหลักเสร็จสมบูรณ์"
+  gametimeset: "กำหนดเวลาของเกมนี้เสร็จสมบูรณ์แล้ว"
+  materialset: "The respawn block type (material) was set succesfully!"
+  builderset: "The builder for the map was set successfully and will display in title!"
+  autobalanceseton: "Autobalanceได้เปิดเรียบร้อย"
+  autobalancesetoff: "Autobalance was successfully turned &coff&a!"
+  selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
+  teamjoinadded: "Entity was successfully marked as team selection for team $team$"
+  holoremoved: "Hologram-Statistic successfully removed!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Locations for the region were not set properly!"
+  TEAM_SIZE_LOW_ERROR: "ต้องตั้งทีมให้มากกว่านี้"
+  NO_RES_SPAWNER_ERROR: "คุณยังไม่ได้ตั้งspawnerทรัพยากร"
+  NO_LOBBY_SET: "คุณไม่ได้เซ็ทล็อบบี้"
+  TEAMS_WITHOUT_SPAWNS: "มีทีมที่มไม่มีจุดเกิด"
+  NO_ITEMSHOP_CATEGORIES: "ไม่มีเจอitemshopประเภทนี้"
+  NO_MAIN_LOBBY_SET: "You didn't set a main lobby even though you did set 'tomainlobby' to true"
+  TEAM_NO_WRONG_BED: "มีทีมที่ยังไม่ได้เซทเตียง"
+  TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
+ingame:
+  team: "Team"
+  teams: "ทีม"
+  all: "ทั้งหมด"
+  record: "&e$record$&a is the record on this map!"
+  record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
+  newrecord: '&aTeam $team$&a set a new record: &6$record$'
+  record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
+  teamwon: "ยินดีด้วย! ทีม $team$ ได้รับชัยชนะ!"
+  draw: "เกมได้จบลงแล้ว! ทุกคนเสมอ!"
+  serverrestart: "เซิฟเวอร์จะเริ่มใหม่ภายในเวลา $sec$ วินาที!"
+  gamestarting: "เกมกำลังเริ่ม ..."
+  gamestarted: "เกม '$game$' ได้เริ่มขึ้นแล้ว!"
+  backtolobby: "กลับไปล็อบบี้ใน $sec$ วินาที!"
+  spectator: "ผู้ชม"
+  spectate: "&aผู้ชม"
+  teamchest: "กล่องของทีม"
+  noturteamchest: "กล่องนี้ไม่ใช่กล่องของทีมคุณนะ!"
+  protectionleft: "Invulnerable for &c$length$&f second(s)!"
+  protectionend: "You're now &cvulnerable&f again!"
+  team-dead: "ทีม $team$ ได้ถูกทำลายแล้ว!"
+  no-friendlybreak: "&cคุณไม่สามารถทำลายบล็อคใต้สมาชิกทีมของคุณ!"
+  teamchestdestroy: "&cหนึ่งในกล่องทีมของคุณได้ถูกทำลายแล้ว!"
+  title:
+    map-builder: "สร้างโดย $builder$"
+    win-title: "&6ยินดีด้วย!"
+    win-subtitle: "$team$&6 ได้รับชัยชนะภายในเวลา &e$time$"
+  shop:
+    name: "ร้านไอเทม"
+    newshop: "ใช้ร้านค้ารูปแบบใหม่"
+    oldshop: "ใช้ร้านค้ารูปแบบเก่า"
+    fullstackpershift: "หลายแพ็คต่อกดshiftและคลิ๊กซ้าย"
+    onestackpershift: "1แพ็คต่อกดshiftและคลิ๊กซ้าย"
+  player:
+    left: "ผู้เล่น $player$ ผู้นี้ได้ออกจากเกมไปแล้ว!"
+    died: "$player$ ตาย!"
+    killed: "$killer$ ฆ่า $player$!"
+    kicked: "$player$ โดนเตะออก!"
+    waskicked: "คุณได้ถูกเตะออกแล้ว!"
+  blocks:
+    ownbeddestroy: "คุณไม่สามารถทุบเตียงทีมคุณเองนะ!"
+    beddestroyed: "$player$ ได้ทำลายเตียงของทีม $team$!"
+  specials:
+    rescue-platform:
+      left: "มีเวลา &c$time$&f วินาทีที่เหลือคุณถึงสามารถใช้แท่งช่วยชีวิตอีกได้!"
+    arrow-blocker:
+      start: "You are protected from being hit by arrows for &c$time$&f second(s)."
+      end: "&cการป้องกันธนูของคุณสิ้นสุดแล้ว"
+      left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
+    trap:
+      trapped: "&eบางคนได้ถูก &ctrap&e ของทีมของคุณ!"
+    protection-wall:
+      left: "มีเวลา &c$time$&f second(s) วินาทีที่เหลือคุณถึงสามารถใช้กำแพงป้องกันได้!"
+      not-usable-here: "คุณไม่สามารถใช้กำแพงป้องกันได้!"
+    warp-powder:
+      cancelled: "&cการเทเลพอร์ตของคุณได้ถูกยกเลิกแล้ว!"
+      start: "คุณจะถูกเทเลพอร์ตภายในเวลา &c$time$&f วินาที อย่าขยับ!"
+      cancel: "&4ยกเลิกเทเลพอร์ต"
+      multiuse: "&cคุณเพิ่งจะเทเลพอร์ตไปเอง!"
+    tntsheep:
+      no-target-found: "ไม่เจอผู้เล่นที่เป็นเป้าหมายเลย!"
+    tracker:
+      no-target-found: "ไม่เจอผู้เล่นที่เป็นเป้าหมายเลย!"
+      target-found: "$player$ อยู่ห่าง $blocks$ บล็อคจากคุณ."
+lobby:
+  countdown: "เกมจะเริ่มใน $sec$ วินาที!"
+  countdowncancel: "ต้องการผู้เล่นอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!"
+  cancelcountdown:
+    not_enough_players: "เกมนี้ต้องการผู้เล่นอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!"
+    not_enough_teams: "เกมนี้ต้องการทีมอีก การนับเวลาได้ถูกยกเลิกไปแล้ว!"
+  cancelstart:
+    not_enough_players: "จำนวนผู้เล่นไม่เพียงพอต่อการเริ่มเกม!"
+    not_enough_teams: "จำนวนทีมไม่เพียงพอต่อการเริ่มเกม!"
+  chooseteam: "เลือกทีม"
+  startgame: "เริ่มเกม"
+  reduce_countdown: "ลดเวลาในล็อบบี้"
+  gamefull: "เกมนี้คนเต็ม!"
+  gamefullpremium: "เกมนี้พึ่งเต็มไปด้วยผู้เล่นพิเศษเอง!"
+  teamjoined: "คุณได้เข้าร่วมทีม $team$"
+  leavegame: "ออกเกม"
+  playerjoin: "ผู้เล่น $player$ ได้เข้ามาในเกมแล้ว!"
+  kickedbyvip: "คุณถูกเตะโดยผู้เล่นพิเศษที่เข้ามาในห้องที่เต็ม!"
+  moreplayersneeded: "ขาดผู้เล่นอีก $count$ คน"
+  moreplayersneeded-one: "ขาดผู้เล่นอีก $count$ คน"
+  moreteamsneeded: "จำนวนทีมไม่พอในการเริ่มเกม!"
+sign:
+  firstline: "&6[Bedwars]"
+  players: "ผู้เล่น"
+  gamestate:
+    stopped: "&4เกมหยุดแล้ว!"
+    waiting: "&aกำลังรอคนเข้า..."
+    running: "&9เกมกำลังเริ่ม!"
+    full: "เต็ม!"
+stats:
+  header: "สถานะ Bedwars"
+  kd: "K/D"
+  statsnotfound: "สถานะของ $player$ ไม่พบ!"
+  name: "ขื่อ"
+  kills: "ฆ่า"
+  deaths: "ตาย"
+  wins: "ชนะ"
+  loses: "แพ้"
+  score: "คะแนน"
+  destroyedBeds: "ทำลายเตียง"
+  games: "เกม"
+commands:
+  addgame:
+    name: "สร้างเกม"
+    desc: "สร้างเกมใหม่"
+  addteam:
+    name: "เพิ่มทีม"
+    desc: "Adds a team to a specific game"
+  join:
+    name: "เข้าเกม"
+    desc: "เข้าร่วมในเกมนี้"
+  leave:
+    name: "ออกจากเกม"
+    desc: "ออกจากเกมในขณะนี้"
+  save:
+    name: "บันทึกเกม"
+    desc: "Saves a game (and map) to config file(s)"
+  settarget:
+    name: "กำหนดเป้าหมาย"
+    desc: "Sets the location of a team's target block"
+  setbed:
+    name: "Set bed (synonym for settarget)"
+    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+  setlobby:
+    name: "ตั้งค่าล็อบบี้"
+    desc: "Sets the location of the gamelobby"
+  setregion:
+    name: "Sets a region point"
+    desc: "Sets a region point for the game"
+  setspawn:
+    name: "ตั้งจุดเกิดทีม"
+    desc: "ตั้งจุดเกิดของทีมที่มี"
+  setspawner:
+    name: "ตั้งspawner"
+    desc: "Sets a spawner location of a specific ressource"
+  start:
+    name: "เริ่มเกม"
+    desc: "เริ่มเกม"
+  stop:
+    name: "หยุดเกม"
+    desc: "หยุดเกม"
+  help:
+    name: "แสดงวิธีใช้"
+    desc: "แสดงข้อมูลเกี่ยวกับปลักอินและคำสั่ง"
+  reload:
+    name: "รีโหลด"
+    desc: "รีโหลดการตั้งค่าและการแปล"
+  setmainlobby:
+    name: "ตั้งล็อบบี้หลัก"
+    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+  list:
+    name: "รายชื่อเกม"
+    desc: "Lists all available games"
+  regionname:
+    name: "ตั้งชื่อพื้นที่"
+    desc: "Sets an individual region name (instead of world name)"
+  removeteam:
+    name: "ลบทีมนี้ออก"
+    desc: "Removes a team from the game (only in stopped mode)"
+  removegame:
+    name: "ลบเกมออก"
+    desc: "ลบเกมและการตั้งค่าทั้งหมด"
+  clearspawner:
+    name: "ลบspawnerออก"
+    desc: "Removes all spawners from the game. Saving needed."
+  gametime:
+    name: "ตั้งเวลาเกม"
+    desc: "Sets the game time which should be used in the game-world"
+  stats:
+    name: "สถิติ"
+    desc: "Shows your statistics"
+  setbuilder:
+    name: "ตั้งคนสร้างแมพ"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
+  setgameblock:
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+  setautobalance:
+    name: "Set autobalance"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: "Set minimum players"
+    desc: "Sets the amount of players needed to start the game"
+  kick:
+    name: "แตะผู้เล่น"
+    desc: "แตะผู้เล่นออกจากเกมนี้"
+  addteamjoin:
+    name: "เพิ่มทีมตัวเลือก"
+    desc: "Mark a creature which can be used to join a specific team!"
+  addholo:
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
+  removeholo:
+    name: "ลบตำแหน่งของโฮโลแกรม"
+    desc: "When the command was executed, the player can right-click the hologram which should be removed."
+    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

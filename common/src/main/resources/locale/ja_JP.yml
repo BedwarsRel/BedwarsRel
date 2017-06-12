@@ -1,0 +1,297 @@
+---
+default:
+  pages: "$max$のページ$current$"
+  currently: 現在
+errors:
+  argumentslength: "因数の数が、正しい金額と一致していません。"
+  holodependencynotfound: "ホログラム統計のための $dependency$を見つけることができませんでした"
+  packagenotfound: "$package$というパッケージを取得できませんでした！"
+  classnotfound: "クラス $class$ $package$ を取得できませんでした!"
+  gameexists: "この名前のゲームは既に作成されてあります"
+  gamenotfound: "ゲーム '$game$ ' が見つかりませんでした!"
+  nofreegames: "利用可能な無料ゲームはありません。"
+  gamenotfoundsimple: "ゲームが見つかりませんでした!"
+  playeramount: "プレイヤーの最大人数は1より少なくする事や24よりも多くすることはできません！"
+  teamcolornotallowed: "与えられたチームカラーは色が許可されていません"
+  teamnamelength: "チーム名は、2〜20文字にしてください。"
+  teamnotfound: "チームが見つかりません!"
+  notingame: "あなたは現在ゲーム中ではありません！"
+  bedtargeting: "設定された 'ゲームブロック'タイプのブロックをターゲットにするか、その上に立つ必要があります。"
+  regionargument: "あなたの位置引数は 'loc1'または 'loc2'でなければなりません！"
+  spawnerargument: "リソースパラメータは有効な構成済リソースでなければなりません！"
+  blockdownnotfound: "上に立っているブロックが見つかりませんでした!"
+  gamenotrunning: "ゲームは開始されていません"
+  bungeenoserver: "Bungeecord サーバーが正しく設定されていません。サーバー管理者に連絡してください。"
+  cantstartagain: "ゲームは既に実行されています。"
+  startoutofwaiting: "Game have to be started out of the waiting mode!"
+  cantjoingame: "ゲーム中なので参加できません。"
+  lobbyongameworld: "ロビーをゲームのワールドに設定することはできません。"
+  gamenotloaded: "ゲームを開始できませんでした。"
+  gameloaderror: "ゲーム’$game$’をロードすると、エラーが発生します。"
+  regionnotfound: "Region ファイルが存在しません"
+  savesign: "看板の設定ファイルを作成できませんでした。"
+  nogames: "ゲームが見つかりませんでした"
+  notenoughress: "このアイテムを購入するのに十分なアイテムを持っていません。"
+  teamnameinuse: "そのチーム名は既に使用中です。"
+  minplayersmustnumber: "最小人数は数字でなければなりません。"
+  toolongregionname: "地域名の最大文字数は 15 文字です。"
+  notwhilegamerunning: "ゲームの実行中にそれを行うことはできません。"
+  notwhileingame: "実行中のゲームにいる間、それを行うことはできません。"
+  timeincorrect: "時間は数字 (0~23000)、'day' または 'night'　で設定してください。"
+  minplayersnumeric: "最少人数は、数字で設定してください"
+  notinair: "空気のない"
+  teamfull: "満員です。メニューからほかのチームに参加してください。"
+  novalidmaterial: "指定されたブロックのタイプ (素材) は不正です。"
+  wrongvalueonoff: "Wrong Parameter! Use true,on,1 to turn on - Use false,off,0 to turn off!"
+  playernotfound: "特定のプレーヤーは見つからないか、オンラインになっていません。"
+  notingameforkick: "プレーヤーをゲームからキックする必要があります!"
+  playernotingame: "そのプレーヤーはゲームに参加していません!"
+  mustbeinlobbyworld: "あなたはゲームのロビーのワールドにいないといけません。"
+  addteamjoincancel: "チーム参加の追加がキャンセルされました。"
+  entitynotcompatible: "このエンティティは、チーム参加と互換性がありません!"
+success:
+  gameadded: "新しいゲーム '$game$' を正常に追加されました!"
+  teamadded: "チーム '$team$' を正常に追加されました!"
+  joined: "あなたはゲームに参加しました。"
+  left: "ゲームから退出しました。"
+  saved: "ゲームは正常に保存されました!"
+  bedset: "チーム $team$のリスポーン地点を設定しました！"
+  regionset: "Game region location $location$ for Game $game$ was set successfully!"
+  spawnset: "Spawn location for Team $team$ was set successfully!"
+  spawnerset: "Ressource spawn location for $name$ was set successfully!"
+  stopped: "ゲームが停止しました!"
+  lobbyset: "ロビーを設定しました。"
+  gameloaded: "ゲーム '$game$' を読み込みました!"
+  reloadconfig: "リロードしました"
+  teamremoved: "チームを削除しました。"
+  gameremoved: "ゲームを削除しました!"
+  spawnercleared: "All ressource spawners has been removed!"
+  gamerun: "You started the game, players can now join!"
+  timeset: "Game time was successfully set!"
+  regionnameset: "Region name was set successfully!"
+  minplayersset: "Min players was set successfully!"
+  mainlobbyset: "Mainlobby was set successfully!"
+  gametimeset: "Game time was set successfully!"
+  materialset: "The respawn block type (material) was set succesfully!"
+  builderset: "The builder for the map was set successfully and will display in title!"
+  autobalanceseton: "Autobalance was successfully turned on!"
+  autobalancesetoff: "Autobalance was successfully turned &coff&a!"
+  selectteamjoinentity: "Now do a right click on the entity you want to use as team join!"
+  teamjoinadded: "Entity was successfully marked as team selection for team $team$"
+  holoremoved: "Hologram-Statistic successfully removed!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Locations for the region were not set properly!"
+  TEAM_SIZE_LOW_ERROR: "You have to set more teams!"
+  NO_RES_SPAWNER_ERROR: "You didn't set any resource spawner!"
+  NO_LOBBY_SET: "You didn't set a lobby!"
+  TEAMS_WITHOUT_SPAWNS: "There are team(s) without a spawn location!"
+  NO_ITEMSHOP_CATEGORIES: "No itemshop categories found!"
+  NO_MAIN_LOBBY_SET: "You didn't set a main lobby even though you did set 'tomainlobby' to true"
+  TEAM_NO_WRONG_BED: "One or more teams have no bed set!"
+  TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
+ingame:
+  team: "Team"
+  teams: "チーム"
+  all: "全て"
+  record: "&e$record$&a is the record on this map!"
+  record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
+  newrecord: '&aTeam $team$&a set a new record: &6$record$'
+  record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
+  teamwon: "Congratulations! Team $team$ won!"
+  draw: "The game ends with a draw!"
+  serverrestart: "Server restart in $sec$ second(s)!"
+  gamestarting: "Game starting ..."
+  gamestarted: "Game '$game$' has just started!"
+  backtolobby: "Back to lobby in $sec$ second(s)!"
+  spectator: "Spectator"
+  spectate: "&aSpectate"
+  teamchest: "チームチェスト"
+  noturteamchest: "このチェストはあなたのチームのチェストではありません。"
+  protectionleft: "Invulnerable for &c$length$&f second(s)!"
+  protectionend: "You're now &cvulnerable&f again!"
+  team-dead: "Team $team$ was destroyed!"
+  no-friendlybreak: "&cCan't break block under team-member!"
+  teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
+  title:
+    map-builder: "Built by $builder$"
+    win-title: "&6Congratulations!"
+    win-subtitle: "$team$&6 won in &e$time$"
+  shop:
+    name: "Itemshop"
+    newshop: "Use new shop"
+    oldshop: "Use old shop"
+    fullstackpershift: "Multiply stacks per shift click"
+    onestackpershift: "One stack per shift click"
+  player:
+    left: "Player $player$ has left the game!"
+    died: "$player$ died!"
+    killed: "$killer$ killed $player$!"
+    kicked: "$player$ was kicked!"
+    waskicked: "You were kicked from the game!"
+  blocks:
+    ownbeddestroy: "You can't destroy your own bed!"
+    beddestroyed: "$player$ destroyed bed of team $team$!"
+  specials:
+    rescue-platform:
+      left: "There are &c$time$&f second(s) left until you can use the next rescue platform!"
+    arrow-blocker:
+      start: "You are protected from being hit by arrows for &c$time$&f second(s)."
+      end: "&cYour arrow protection is over"
+      left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
+    trap:
+      trapped: "&eSomeone went into a &ctrap&e of your team!"
+    protection-wall:
+      left: "There are &c$time$&f second(s) left until you can use the next protection wall!"
+      not-usable-here: "You cannot use the protection wall here!"
+    warp-powder:
+      cancelled: "&cYour teleport was cancelled!"
+      start: "You will be teleported in &c$time$&f second(s). Don't move!"
+      cancel: "&4Cancel teleport"
+      multiuse: "&cYou started a teleportation already!"
+    tntsheep:
+      no-target-found: "No target player was found!"
+    tracker:
+      no-target-found: "No target player was found!"
+      target-found: "$player$ is $blocks$ block(s) away from you."
+lobby:
+  countdown: "Game will start in $sec$ second(s)!"
+  countdowncancel: "More players needed. Countdown was cancelled!"
+  cancelcountdown:
+    not_enough_players: "More players needed. Countdown cancelled!"
+    not_enough_teams: "More teams needed. Countdown cancelled!"
+  cancelstart:
+    not_enough_players: "More players are needed to start the game!"
+    not_enough_teams: "More teams are needed to start the game!"
+  chooseteam: "Choose a team"
+  startgame: "ゲームを開始"
+  reduce_countdown: "Reduce countdown"
+  gamefull: "満員です。"
+  gamefullpremium: "The game is full of premium players already!"
+  teamjoined: "You successfully joined the team $team$"
+  leavegame: "ゲームから抜ける"
+  playerjoin: "Player $player$ joined the game!"
+  kickedbyvip: "You were kicked by a vip player which has joined the full game!"
+  moreplayersneeded: "$count$ more players needed."
+  moreplayersneeded-one: "$count$ more player needed."
+  moreteamsneeded: "A minimum of two players in two different teams is needed to start the game!"
+sign:
+  firstline: "&6[Bedwars]"
+  players: "Players"
+  gamestate:
+    stopped: "&4Stopped!"
+    waiting: "&aWaiting ..."
+    running: "&9Running!"
+    full: "Full!"
+stats:
+  header: "Bedwars Stats"
+  kd: "K/D"
+  statsnotfound: "Statistics of $player$ not found!"
+  name: "Name"
+  kills: "Kills"
+  deaths: "Deaths"
+  wins: "Wins"
+  loses: "Loses"
+  score: "Scores"
+  destroyedBeds: "Destroyed Beds"
+  games: "Games"
+commands:
+  addgame:
+    name: "Add Game"
+    desc: "Adds a new game"
+  addteam:
+    name: "Add Team"
+    desc: "Adds a team to a specific game"
+  join:
+    name: "Join Game"
+    desc: "Joins a specific game"
+  leave:
+    name: "Leave Game"
+    desc: "Leave the current game"
+  save:
+    name: "Save Game"
+    desc: "Saves a game (and map) to config file(s)"
+  settarget:
+    name: "Set target"
+    desc: "Sets the location of a team's target block"
+  setbed:
+    name: "Set bed (synonym for settarget)"
+    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+  setlobby:
+    name: "Set lobby"
+    desc: "Sets the location of the gamelobby"
+  setregion:
+    name: "Sets a region point"
+    desc: "Sets a region point for the game"
+  setspawn:
+    name: "チームのスポーン地点を設定します。"
+    desc: "特定のチームスポーン地点を設定します。"
+  setspawner:
+    name: "スポナーのセット"
+    desc: "Sets a spawner location of a specific ressource"
+  start:
+    name: "ゲームを開始"
+    desc: "ゲームを開始"
+  stop:
+    name: "ゲームを停止"
+    desc: "ゲームを停止"
+  help:
+    name: "ヘルプを表示"
+    desc: "プラグインとコマンドの情報を表示します。"
+  reload:
+    name: "リロード"
+    desc: "設定、翻訳ファイルをリロードします。"
+  setmainlobby:
+    name: "メインロビーを設定"
+    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+  list:
+    name: "ゲームリスト"
+    desc: "現在利用可能なすべてのリストを表示します。"
+  regionname:
+    name: "リージョンの名前を設定します。"
+    desc: "Sets an individual region name (instead of world name)"
+  removeteam:
+    name: "チームを削除"
+    desc: "Removes a team from the game (only in stopped mode)"
+  removegame:
+    name: "ゲームを削除"
+    desc: "Removes a game and every configuration"
+  clearspawner:
+    name: "スポナーをクリア"
+    desc: "Removes all spawners from the game. Saving needed."
+  gametime:
+    name: "Set game time"
+    desc: "Sets the game time which should be used in the game-world"
+  stats:
+    name: "Statistics"
+    desc: "Shows your statistics"
+  setbuilder:
+    name: "Sets builder of map"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
+  setgameblock:
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+  setautobalance:
+    name: "Set autobalance"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: "Set minimum players"
+    desc: "Sets the amount of players needed to start the game"
+  kick:
+    name: "Kick player"
+    desc: "Kicks a player from the current game!"
+  addteamjoin:
+    name: "Add team selection"
+    desc: "Mark a creature which can be used to join a specific team!"
+  addholo:
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
+  removeholo:
+    name: "Remove hologram location"
+    desc: "When the command was executed, the player can right-click the hologram which should be removed."
+    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

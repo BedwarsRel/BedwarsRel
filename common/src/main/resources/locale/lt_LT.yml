@@ -1,0 +1,297 @@
+---
+default:
+  pages: "Puslapis $current$ iš $max$"
+  currently: Dabar
+errors:
+  argumentslength: "Argumentu skaicius neatitinka teisingo kiekio!"
+  holodependencynotfound: "Nepavyko rasti $dependency$ hologramines statistikos palaikymui"
+  packagenotfound: "Nepavyko apdoroti $package$ paketo!"
+  classnotfound: "Nepavyko apdoroti $package$ klases $class$!"
+  gameexists: "Zaidimas tokiu pavadinimu jau egzistuoja!"
+  gamenotfound: "Zaidimas '$game$' nerastas!"
+  nofreegames: "Nera jokiu galimu zaidimu."
+  gamenotfoundsimple: "Zaidimas nerastas!"
+  playeramount: "Maksimalus zaideju skaicius negali buti mazesnis negu 1 arba didesnis negu 24!"
+  teamcolornotallowed: "Nurodyta komandos spalva yra neleidziama"
+  teamnamelength: "Komandos pavadinima turi sudaryti nuo 2 iki 20 simboliu!"
+  teamnotfound: "Komanda nerasta!"
+  notingame: "Jus dabar nesate zaidime!"
+  bedtargeting: "Jus turite ziureti i 'game-block' tipo bloka arba stoveti ant jo!"
+  regionargument: "Vietos argumentas turi buti 'loc1' arba 'loc2'!"
+  spawnerargument: "Resurso parametras turi buti teisingas sukonfiguruotas resursas!"
+  blockdownnotfound: "Blokas, ant kurio stovite, nerastas!"
+  gamenotrunning: "Zaidimas dabar nevyksta!"
+  bungeenoserver: "Bungeecord serveriai nera teisingai sukonfiguruoti! Susisiekite su administracija!"
+  cantstartagain: "Zaidimas jau prasidejo! Negalite pradeti jau prasidejusio zaidimo!"
+  startoutofwaiting: "Zaidimas turi buti paleidziamas is laukimo rezimo!"
+  cantjoingame: "Negalite prisijungti prie vykstancio arba sustabdyto zaidimo!"
+  lobbyongameworld: "Lobby negali buti nustatytas zaidimo pasaulyje!"
+  gamenotloaded: "Nepavyko pradeti zaidimo!"
+  gameloaderror: "Paleidziant zaidima '$game$' ivyko klaida!"
+  regionnotfound: "Regiono failas neegzistuoja!"
+  savesign: "Nepavyko sukurti naujo konfiguracijos failo zenklui!"
+  nogames: "Nerasta jokiu zaidimu!"
+  notenoughress: "Jus neturite pakankamai resursu, kad galetumete tai nusipirkti!"
+  teamnameinuse: "Toks komandos pavadinimas jau naudojamas!"
+  minplayersmustnumber: "Minimalus zaideju kiekis turi buti rasomas skaiciu!"
+  toolongregionname: "Maksimalus regiono pavadinimo ilgis turi buti iki 15 simboliu!"
+  notwhilegamerunning: "Negalite atlikti sio veiksmo kai vyksta zaidimas!"
+  notwhileingame: "Negalite atlikti sio veiksmo zaidimo metu!"
+  timeincorrect: "Laikas turi buti skaicius (0 ... 23000), 'day' arba 'night'!"
+  minplayersnumeric: "Parametras min-players turi buti skaitinis!"
+  notinair: "Jus nesate ore!"
+  teamfull: "Pasirinkta komanda yra pilna, prasome pasirinkti kita komanda!"
+  novalidmaterial: "Nurodytas bloko tipas (material) nera teisingas!"
+  wrongvalueonoff: "Klaidingas parametras! Naudokite true,on,1 jei norite ijungti - Naudokite false,off,0 jei norite isjungti!"
+  playernotfound: "Nurodytas zaidejas nerastas arba nera prisijunges!"
+  notingameforkick: "Jus turite buti zaidime, kad galetumete ismesti zaideja is zaidimo!"
+  playernotingame: "Nurodytas zaidejas nera siame zaidime!"
+  mustbeinlobbyworld: "Jus turite buti zaidimo lobby pasaulyje"
+  addteamjoincancel: "Pridedamos komandos prisijungimas buvo atšauktas!"
+  entitynotcompatible: "Šis objektas nėra suderinama su komandos prisijungimu!"
+success:
+  gameadded: "Naujas zaidimas '$game$' sekmingai sukurtas!"
+  teamadded: "Komanda '$team$' sekmingai prideta!"
+  joined: "Prisijungete prie zaidimo!"
+  left: "Atsijungete nuo zaidimo!"
+  saved: "Zaidimas issaugotas!"
+  bedset: "Jūs sėkmingai nustatėte prisikėlimo bloką, komandos $team$!"
+  regionset: "Regiono vieta $location$ zaidime $game$ nustatyta!"
+  spawnset: "Atsiradimo vieta komandai $team$ nustatyta!"
+  spawnerset: "$name$ resursu atsiradimo vieta nustatyta!"
+  stopped: "Zaidimas sustabdytas!"
+  lobbyset: "Lobby nustatytas!"
+  gameloaded: "Zaidimas '$game$' sekmingai ikrautas!"
+  reloadconfig: "Perkrovimas sekmingas!"
+  teamremoved: "Komanda panaikinta!"
+  gameremoved: "Zaidimas panaikintas!"
+  spawnercleared: "Visi resursu generatoriai panaikinti!"
+  gamerun: "Pradejote zaidima, dabar zaidejai gali prisijungti!"
+  timeset: "Zaidimo laikas nustatytas sekmingai!"
+  regionnameset: "Regiono pavadinimas nustatytas sekmingai!"
+  minplayersset: "Minimalus zaideju skaicius nustatytas!"
+  mainlobbyset: "Pagrindinis lobby nustatytas!"
+  gametimeset: "Zaidimo laikas nustatytas!"
+  materialset: "Prisikėlimo bloko tipas (medžiaga) buvo nustatyta sėkmingai!"
+  builderset: "Pasaulio statytojas nustatytas ir bus rodomas antrasteje!"
+  autobalanceseton: "Autobalansas ijungtas!"
+  autobalancesetoff: "Autobalansas &cisjungtas&a!"
+  selectteamjoinentity: "Dabar, dešiniuoju pelės mygtuku spustelėkite objektą, kurį norite naudoti kaip komandos prisijungimą!"
+  teamjoinadded: "Objektas sėkmingai pažymėtas, kaip komandos pasitinkimas, komandai $team$"
+  holoremoved: "Hologram-Statistic panaikintas!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Regiono vietos buvo nustatytos neteisingai!"
+  TEAM_SIZE_LOW_ERROR: "Reikia nustatyti daugiau komandu!"
+  NO_RES_SPAWNER_ERROR: "Nenustatete jokio resursu generatoriaus!"
+  NO_LOBBY_SET: "Nenustatete lobby!"
+  TEAMS_WITHOUT_SPAWNS: "Yra komandu, kurios neturi atsiradimo vietos!"
+  NO_ITEMSHOP_CATEGORIES: "Nerasta jokiu itemshop kategoriju!"
+  NO_MAIN_LOBBY_SET: "Nenustatete pagrindinio lobby, nors 'tomainlobby' yra nustatytas kaip true"
+  TEAM_NO_WRONG_BED: "Viena ar daugiau komandu neturi nustatytos lovos!"
+  TEAM_NO_WRONG_TARGET: "Vienas ar daugiau komandų neturi nustatyto prisikėlimo bloko!"
+ingame:
+  team: "Komanda"
+  teams: "Komandos"
+  all: "Visi"
+  record: "&e$record$&a yra sios arenos rekordas!"
+  record-with-holders: '&aSioje arenoje yra rekordas &e$record$&a ir ji pasieke: $holders$'
+  newrecord: '&aKomanda $team$&a pasieke nauja rekorda: &6$record$'
+  record-nobeddestroy: "&cRekordas neissaugotas, nes lova nebuvo sugriauta!"
+  teamwon: "Sveikiname! Komanda $team$ laimejo!"
+  draw: "Zaidimas baigiasi lygiosiomis!"
+  serverrestart: "Serveris bus perkrautas po $sec$ sek!"
+  gamestarting: "Pradedamas zaidimas ..."
+  gamestarted: "Zaidimas '$game$' ka tik prasidejo!"
+  backtolobby: "Griztama i lobby po $sec$ sek!"
+  spectator: "Stebetojas"
+  spectate: "&aStebeti"
+  teamchest: "Komandos skrynia"
+  noturteamchest: "Tai nera jusu komandos skrynia!"
+  protectionleft: "Nesužeidžiamas &c$length$&f sek!"
+  protectionend: "Jūs dabar &cvulnerable&f vėl!"
+  team-dead: "Komanda $team$ buvo sunaikinta!"
+  no-friendlybreak: "& cNegalima naikinti bloko po komandos nariu!"
+  teamchestdestroy: "&cViena is jusu komandos skryniu buvo sunaikinta!"
+  title:
+    map-builder: "Pastate $builder$"
+    win-title: "&6Sveikiname!"
+    win-subtitle: "$team$&6 laimėjo per &e$time$"
+  shop:
+    name: "Parduotuvė"
+    newshop: "Naudokite naują parduotuvę"
+    oldshop: "Naudokite seną parduotuvę"
+    fullstackpershift: "Padauginti stakus per Shift paspaudimą"
+    onestackpershift: "Vienas stakas per Shift paspaudimą"
+  player:
+    left: "Zaidejas $player$ atsijunge nuo zaidimo!"
+    died: "$player$ mire!"
+    killed: "$killer$ nuzude zaideja $player$!"
+    kicked: "$player$ ismestas is zaidimo!"
+    waskicked: "Tu buvai ismestas/a is zaidimo!"
+  blocks:
+    ownbeddestroy: "Negalite sunaikinti savo lovos!"
+    beddestroyed: "$player$ sunaikino komandos $team$ lova!"
+  specials:
+    rescue-platform:
+      left: "Liko &c$time$&f sek., kol galėsite naudoti kitą išgelbėjimo platformą!"
+    arrow-blocker:
+      start: "Jūs esate apsaugoti nuo strėlių &c$time$&f sek."
+      end: "&cJūsų strėlių apsauga pasibaigė"
+      left: "Liko &c$time$&f sek., kol galėsite naudoti arrowbloker'į!"
+    trap:
+      trapped: "&eKazkas uzlipo ant jusu komandos &cspastu&e!"
+    protection-wall:
+      left: "Liko &c$time$&f sek., kol galėsite naudoti kitą apsaugos sieną!"
+      not-usable-here: "Negalite cia pastatyti apsaugos sienos!"
+    warp-powder:
+      cancelled: "&cTeleportacija atsaukta!"
+      start: "Busite nuteleportuoti po &c$time$&f sekundziu. Nejudekite!"
+      cancel: "& 4Atšaukti teleportaciją"
+      multiuse: "&cTeleportacija jau prasidejo!"
+    tntsheep:
+      no-target-found: "Nerasta žaidėjo taikinio!"
+    tracker:
+      no-target-found: "Nerasta žaidėjo taikinio!"
+      target-found: "$player$ yra $blocks$ blokų nutolęs nuo tavęs."
+lobby:
+  countdown: "Žaidimas prasidės po $sec $ sek.!"
+  countdowncancel: "Reikia daugiau žaidėjų. Žaidimas buvo atšauktas!"
+  cancelcountdown:
+    not_enough_players: "Reikia daugiau žaidėjų. Žaidimas atšauktas!"
+    not_enough_teams: "Reikia daugiau komandu. Laikas atsauktas!"
+  cancelstart:
+    not_enough_players: "Reikia daugiau žaidėjų iki žaidimo pradžios!"
+    not_enough_teams: "Reikia daugiau komandu, kad pradeti zaidima!"
+  chooseteam: "Pasirinkite komandą"
+  startgame: "Pradėti žaidimą"
+  reduce_countdown: "Sutrumpinti laika"
+  gamefull: "Žaidimas yra pilnas!"
+  gamefullpremium: "Žaidimas yra pilnas Premium žaidėjų!"
+  teamjoined: "Prisijungete prie komandos $team$"
+  leavegame: "Iseiti is zaidimo"
+  playerjoin: "Žaidėjas $player$ prisijungė prie žaidimo!"
+  kickedbyvip: "Jus buvote ismestas/a is zaidimo, nes prisijunge vip zaidejas i pilna zaidima!"
+  moreplayersneeded: "Dar reikia $count$ zaideju."
+  moreplayersneeded-one: "Dar reikia $count$ zaidejo."
+  moreteamsneeded: "Kad pradeti zaidima, reikia nors 2 zaideju, kurie butu skirtingose komandose!"
+sign:
+  firstline: "&6[Bedwars]"
+  players: "Žaidėjai"
+  gamestate:
+    stopped: "& 4Sustabdyta!"
+    waiting: "&aLaukiama..."
+    running: "& 9Žaidžiama!"
+    full: "Pilnas!"
+stats:
+  header: "Bedwars statistika"
+  kd: "K/D"
+  statsnotfound: "Žaidėjo $player$ statistika buvo nerasta!"
+  name: "Vardas"
+  kills: "Nuzudymai"
+  deaths: "Mirtys"
+  wins: "Laimejimai"
+  loses: "Pralaimejimai"
+  score: "Taskai"
+  destroyedBeds: "Sugriautos lovos"
+  games: "Zaista"
+commands:
+  addgame:
+    name: "Prideti zaidima"
+    desc: "Prideda nauja zaidima"
+  addteam:
+    name: "Prideti komanda"
+    desc: "Prideda komanda i nurodyta zaidima"
+  join:
+    name: "Prisijungti prie zaidimo"
+    desc: "Prisijungti prie nurodyto zaidimo"
+  leave:
+    name: "Iseiti is zaidimo"
+    desc: "Iseiti is dabartinio zaidimo"
+  save:
+    name: "Issaugoti zaidima"
+    desc: "Issaugo zaidima (ir pasauli) i konfiguracijos failus"
+  settarget:
+    name: "Nustatyti tikslą"
+    desc: "Nustato vietą komandos tikslo bloką"
+  setbed:
+    name: "Nustatyti lova (settarget sinonimas)"
+    desc: "Nustato vietą komandos lovos"
+  setlobby:
+    name: "Nustatyti lobby"
+    desc: "Nustato zaidimo lobby vieta"
+  setregion:
+    name: "Nustatytas regiono taškas"
+    desc: "Nustatytas regiono taškas žaidimui"
+  setspawn:
+    name: "Nustato komandos atsiradimo vietą"
+    desc: "Nustatyti komandos atsiradimo vieta"
+  setspawner:
+    name: "Nustatyti spawnerį"
+    desc: "Nustato resursų bronzo,metalo,aukso atsiradimo vieta"
+  start:
+    name: "Start game"
+    desc: "Žaidimas prasideda"
+  stop:
+    name: "Sustabdyti žaidimą"
+    desc: "Sustabdytas žaidimas"
+  help:
+    name: "Rodyti pagalbą"
+    desc: "Informacija apie įskiepa ir komandas"
+  reload:
+    name: "Perkrauti"
+    desc: "Perkrauti bedwars įskiepa"
+  setmainlobby:
+    name: "Nustatyti pagrindini atsiradimo tašką"
+    desc: "Nustatyta pagrindinė atsiradimo vieta! (Būtuina,kad konfiguracijose butu mainlobby-enabled,nes kitaip neveiks!)"
+  list:
+    name: "Arenu sąrašas"
+    desc: "Visi galimi žaidimai:"
+  regionname:
+    name: "Nustatyti regionio pavadinima"
+    desc: "Sets an individual region name (instead of world name)"
+  removeteam:
+    name: "Remove team"
+    desc: "Removes a team from the game (only in stopped mode)"
+  removegame:
+    name: "Remove game"
+    desc: "Removes a game and every configuration"
+  clearspawner:
+    name: "Clear spawners"
+    desc: "Removes all spawners from the game. Saving needed."
+  gametime:
+    name: "Set game time"
+    desc: "Sets the game time which should be used in the game-world"
+  stats:
+    name: "Statistika"
+    desc: "Shows your statistics"
+  setbuilder:
+    name: "Sets builder of map"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
+  setgameblock:
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+  setautobalance:
+    name: "Nustatyi auto balansavimą"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+  setminplayers:
+    name: "Nustatymi mažiausia žaidėjų skaičių"
+    desc: "Sets the amount of players needed to start the game"
+  kick:
+    name: "Išmesti žaidėją"
+    desc: "Kicks a player from the current game!"
+  addteamjoin:
+    name: "Pridėti komandos pasirinkimą"
+    desc: "Mark a creature which can be used to join a specific team!"
+  addholo:
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
+  removeholo:
+    name: "Remove hologram location"
+    desc: "When the command was executed, the player can right-click the hologram which should be removed."
+    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

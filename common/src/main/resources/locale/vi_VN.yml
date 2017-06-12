@@ -1,0 +1,297 @@
+---
+default:
+  pages: "Trang $current$ của $max$"
+  currently: Trym
+errors:
+  argumentslength: "Số lượng các đối số không khớp với số tiền chính xác!"
+  holodependencynotfound: "Không thể tìm thấy $dependency$ cho ba chiều-thống kê"
+  packagenotfound: "Không thể lấy $package$ gói!"
+  classnotfound: "Không thể lấy $package$ lớp $class$!"
+  gameexists: "Một trò chơi với tên này đã tồn tại!"
+  gamenotfound: "Không tìm thấy các trò chơi '$game$ '!"
+  nofreegames: "Không có không có trò chơi miễn phí."
+  gamenotfoundsimple: "Trò chơi không được tìm thấy!"
+  playeramount: "Số người chơi không thể ít hơn 1 hoặc nhiều hơn 24!"
+  teamcolornotallowed: "Màu của đội đã có không phải là màu cho phép"
+  teamnamelength: "Tên đội phải từ 2 đến 20 kí tự!"
+  teamnotfound: "Không tìm thấy đội!"
+  notingame: "Bạn hiện đang không ở trong một trò chơi!"
+  bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
+  regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
+  spawnerargument: "The resource parameter has to be a valid configured resource!"
+  blockdownnotfound: "Không tìm thấy khối bạn đang đứng!"
+  gamenotrunning: "Trò chơi chưa bắt đầu!"
+  bungeenoserver: "Máy chủ Bungeecord không được cài đặt đúng! Liên hệ với quản trị viên máy chủ!"
+  cantstartagain: "Trận đấu đang chạy! Bạn không thể khởi động 1 trận đấu đang chạy lần nữa!"
+  startoutofwaiting: "Trò chơi có thể chạy ra khỏi chế độ chờ!"
+  cantjoingame: "Bạn không thể tham gia 1 trận đấu đang hoạt động hoặc kết thúc!"
+  lobbyongameworld: "Sảnh chính không thể ở thế giới của trận đấu!"
+  gamenotloaded: "Không thể khởi động trận đấu!"
+  gameloaderror: "Đang tải game '$game$' lỗi!"
+  regionnotfound: "Thư mục chứa tập tin không tồn tại!"
+  savesign: "Không thể tạo 1 tập tin cấu hình mới!"
+  nogames: "Không tìm thấy trận đấu!"
+  notenoughress: "Bạn không đủ nguyên liệu để mua vật phẩm này!"
+  teamnameinuse: "Tên nhóm đã được sử dụng!"
+  minplayersmustnumber: "Số người tối thiểu phải là 1 số tự nhiên!"
+  toolongregionname: "Số kí tự tối đa của tên vùng là 15 kí tự!"
+  notwhilegamerunning: "Bạn không thể làm việc đó khi trò chơi đang chạy!"
+  notwhileingame: "Bạn không thể làm điều đó khi bạn đang ở trong 1 trận đấu!"
+  timeincorrect: "Thời gian phải là một số từ 0 đến 24000, 'day' (ngày) hoặc 'night' (đêm)!"
+  minplayersnumeric: "Số người tối thiểu phải là 1 số!"
+  notinair: "Bạn không phải ở khoảng không!"
+  teamfull: "Đội này đã đủ người, xin vui lòng mở lại menu chọn đội!"
+  novalidmaterial: "Tên kiểu khối đã cho không chính xác!"
+  wrongvalueonoff: "Tham số sai! Sử dụng 'true' (đúng), 'on' (bật), 1 để bật - Sử dụng 'false' (sai), 'off' (tắt), 0 để tắt!"
+  playernotfound: "Tên cầu thủ đã cho không tìm thấy hoặc chưa online!"
+  notingameforkick: "Bạn phải ở trong 1 trận đấu mới có quyền đuổi 1 người chơi!"
+  playernotingame: "Tên người chơi đã cho không ở trong 1 trận đấu!"
+  mustbeinlobbyworld: "Bạn phải ở sảnh chính mới có thể làm việc này!"
+  addteamjoincancel: "Tham gia nhóm đã bị hủy bỏ!"
+  entitynotcompatible: "Thực thể này không phải là không tương thích với các đội tham gia!"
+success:
+  gameadded: "Trò chơi mới '$game$' đã được thêm!"
+  teamadded: "Đội '$team$' đã thêm thành công!"
+  joined: "Bạn đã tham gia trò chơi!"
+  left: "Bạn thành công để lại các trò chơi!"
+  saved: "Trò chơi đã được lưu thành công!"
+  bedset: "Thiết lập thành công vị trí respawn của đội $team$!"
+  regionset: "Trò chơi vùng vị trí $location$ cho trò chơi $game$ đã được thiết lập thành công!"
+  spawnset: "Đẻ trứng vị trí cho nhóm $team$ đã được thiết lập thành công!"
+  spawnerset: "Địa điểm đẻ trứng ressource cho $name$ đã được thiết lập thành công!"
+  stopped: "Trò chơi dừng lại thành công!"
+  lobbyset: "Tiền sảnh được thiết lập thành công!"
+  gameloaded: "Trò chơi '$game$ ' nạp thành công!"
+  reloadconfig: "Tải lại thành công!"
+  teamremoved: "Đội bóng đã được loại bỏ thành công!"
+  gameremoved: "Trò chơi đã được loại bỏ thành công!"
+  spawnercleared: "Tất cả các điểm hồi sinh đã được gỡ bỏ!"
+  gamerun: "Bạn đã bắt đầu trò chơi, người chơi khác có thể tham gia bây giờ!"
+  timeset: "Thời gian trò chơi đã được thiết lập!"
+  regionnameset: "Tên vùng đã được thiết lập thành công!"
+  minplayersset: "Tối thiểu số người đã được thiết lập!"
+  mainlobbyset: "Sảnh chính đã được thiết lập!"
+  gametimeset: "Thời gian trò chơi đã được thiết lập!"
+  materialset: "Respawn vào khối(vật liệu) đã được thiết lập!"
+  builderset: "Bản đồ đã được thiết lập và sẽ hiển thị trong tiêu đề!"
+  autobalanceseton: "Autobalance đổi thành công và đã bật!"
+  autobalancesetoff: "Autobalance đã chuyển thành công &coff&a!"
+  selectteamjoinentity: "Hãy nhấp chuột phải vào một cái gì đó mà bạn muốn sử dụng khi tham gia nhóm!"
+  teamjoinadded: "Thực thể đã được đánh dấu thành công và lựa chọn đội cho đội $team$"
+  holoremoved: "Bảng thống kê 3D đã bị loại bỏ!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Địa điểm cho các vùng đã được thiết lập không đúng!"
+  TEAM_SIZE_LOW_ERROR: "Bạn phải thiết lập thêm đội!"
+  NO_RES_SPAWNER_ERROR: "Bạn không thiết lập bất kỳ một spawner nào!"
+  NO_LOBBY_SET: "Bạn chưa đặt sảnh!"
+  TEAMS_WITHOUT_SPAWNS: "Có những đội (s) bạn chưa đặt vị trí spawn!"
+  NO_ITEMSHOP_CATEGORIES: "Không có loại itemshop được tìm thấy!"
+  NO_MAIN_LOBBY_SET: "Bạn không đặt sảnh chính mặc dù bạn đã đặt 'tomainlobby' đúng"
+  TEAM_NO_WRONG_BED: "Một hoặc nhiều đội đã không có giường để thiết lập!"
+  TEAM_NO_WRONG_TARGET: "Một hay một số đội không có khối respawn!"
+ingame:
+  team: "Team"
+  teams: "Các đội"
+  all: "Tất cả"
+  record: "&e$record$&a được ghi trên bản đồ này!"
+  record-with-holders: '&aBản ghi trên bản đồ này là &e$record$&a và được giữ bởi: $holders$'
+  newrecord: '&aĐội $team$&a đã được thiết lập một kỷ lục mới: &6$record'
+  record-nobeddestroy: "&cBản ghi sẽ không được lưu lại, bởi vì một giường nào đó đã bị phá hủy!"
+  teamwon: "Đội $team$ thắng!"
+  draw: "Trò chơi kết thúc!"
+  serverrestart: "Khởi động lại máy chủ trong $sec$ giây(s)!"
+  gamestarting: "Trò chơi bắt đầu..."
+  gamestarted: "Trò chơi '$game$' vừa mới bắt đầu!"
+  backtolobby: "Quay lại sảnh trong $sec$ giây(s)!"
+  spectator: "Khán giả"
+  spectate: "& aNhìn"
+  teamchest: "Hòm Đội"
+  noturteamchest: "Rương này không phải là rương của nhóm bạn!"
+  protectionleft: "Bất khả xâm phạm cho &c$length$&f giây(s)!"
+  protectionend: "Giờ bạn &cdễ bị tấn công&f một lần nữa!"
+  team-dead: "Đội $team$ đã bị phá hủy!"
+  no-friendlybreak: "Không thể phá vỡ khối theo đội chả thành viên!"
+  teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
+  title:
+    map-builder: "Được xây dựng bởi $builder$"
+    win-title: "&6Xin chúc mừng!"
+    win-subtitle: "$team$&6 won in &e$time$"
+  shop:
+    name: "Shop"
+    newshop: "Use new shop"
+    oldshop: "Use old shop"
+    fullstackpershift: "Multiply stacks per shift click"
+    onestackpershift: "Một ngăn xếp cho mỗi nhấp chuột thay đổi"
+  player:
+    left: "Người chơi $player$ đã rời trò chơi!"
+    died: "$player$ đã chết!"
+    killed: "$killer$ bị giết bởi $player$!"
+    kicked: "$player$ đã bị đá!"
+    waskicked: "Bạn đã bị đuổi khỏi trò chơi!"
+  blocks:
+    ownbeddestroy: "Bạn không thể phá hủy giường của đội bạn!"
+    beddestroyed: "$player$ đã phá hủy giường của đội $team$!"
+  specials:
+    rescue-platform:
+      left: "Còn &c$time$&f giây(s) để bạn có thể sử dụng lần cứu hộ tiếp theo!"
+    arrow-blocker:
+      start: "Bạn được bảo vệ khỏi các mũi tên trong &c$time$&f giây(s)."
+      end: "&cBảo vệ bạn khỏi các mũi tên đã kết thúc"
+      left: "Chờ &c$time$&f giây(s) sau mới có thể sử dụng đợt bảo vệ khỏi các mũi tên tiếp theo!"
+    trap:
+      trapped: "&eCó người đã rơi vào &ctrap&e của đội bạn!"
+    protection-wall:
+      left: "Chờ &c$time$&f giây(s) sau mới có thể sử dụng màn bảo vệ kế tiếp!"
+      not-usable-here: "Bạn không thể sử dụng màn chắn bảo vệ ở đây!"
+    warp-powder:
+      cancelled: "&cĐiểm teleport của bạn đã bị hủy!"
+      start: "Bạn sẽ được chuyển đến sau &c$time$&f giây(s). Đừng di chuyển!"
+      cancel: "&4Hủy teleport"
+      multiuse: "&cBạn đã bắt đầu một teleportation rồi!"
+    tntsheep:
+      no-target-found: "Không tìm thấy người chơi!"
+    tracker:
+      no-target-found: "Không tìm thấy người chơi!"
+      target-found: "$player$ is $blocks$ block(s) away from you."
+lobby:
+  countdown: "Trò chơi sẽ bắt đầu trong $sec$ giây(s)!"
+  countdowncancel: "Cần thêm người chơi. Đếm ngược đã bị hủy bỏ!"
+  cancelcountdown:
+    not_enough_players: "Cần thêm người chơi. Đếm ngược đã bị hủy bỏ!"
+    not_enough_teams: "Cần nhiều đội hơn. Đếm ngược đã hủy bỏ!"
+  cancelstart:
+    not_enough_players: "Cần thêm người chơi để bắt đầu trò chơi!"
+    not_enough_teams: "Cần thêm nhiều đội để bắt đầu trò chơi!"
+  chooseteam: "Hãy chọn một đội"
+  startgame: "Trò chơi bắt đầu"
+  reduce_countdown: "Giảm đếm ngược"
+  gamefull: "Trò chơi đã đầy!"
+  gamefullpremium: "The game is full of premium players already!"
+  teamjoined: "Bạn đã gia nhập đội $team$"
+  leavegame: "Thoát trò chơi"
+  playerjoin: "Người chơi $player$ đã tham gia vào trò chơi!"
+  kickedbyvip: "Bạn đã bị đá ra ngoài bởi một người chơi Vip khi phòng đã đầy!"
+  moreplayersneeded: "Cần $count$ nhiều người chơi."
+  moreplayersneeded-one: "Cần $count$ người chơi."
+  moreteamsneeded: "Tối thiểu cần hai người chơi ở hai đội khác nhau để bắt đầu các trò chơi!"
+sign:
+  firstline: "& 6[Bedwars]"
+  players: "Người chơi"
+  gamestate:
+    stopped: "& 4Dừng lại!"
+    waiting: "&Đang chờ..."
+    running: "& 9Đang chạy!"
+    full: "Đầy!"
+stats:
+  header: "Bedwars số liệu thống kê"
+  kd: "K/D"
+  statsnotfound: "Số liệu thống kê của $player$ không tìm thấy!"
+  name: "Tên"
+  kills: "Giết"
+  deaths: "Chết"
+  wins: "Thắng"
+  loses: "Thua"
+  score: "Điểm"
+  destroyedBeds: "Giường đã bị phá hủy"
+  games: "Trò chơi"
+commands:
+  addgame:
+    name: "Thêm trò chơi"
+    desc: "Thêm mới một trò chơi"
+  addteam:
+    name: "Thêm nhóm"
+    desc: "Thêm đội vào một trò chơi"
+  join:
+    name: "Tham gia trò chơi"
+    desc: "Tham gia một trò chơi cụ thể"
+  leave:
+    name: "Thoát trò chơi"
+    desc: "Rời khỏi trò chơi hiện tại"
+  save:
+    name: "Lưu trò chơi"
+    desc: "Lưu một trò chơi (bản đồ) vào tệp tin config(s)"
+  settarget:
+    name: "Đặt mục tiêu"
+    desc: "Sets the location of a team's target block"
+  setbed:
+    name: "Đặt giường (đồng nghĩa với mục tiêu đặt)"
+    desc: "Sets the location of a team's bed block (Synonym for settarget)"
+  setlobby:
+    name: "Set lobby"
+    desc: "Sets the location of the gamelobby"
+  setregion:
+    name: "Sets a region point"
+    desc: "Sets a region point for the game"
+  setspawn:
+    name: "Sets a team spawn"
+    desc: "Sets the spawn of the given team"
+  setspawner:
+    name: "Set spawner"
+    desc: "Sets a spawner location of a specific ressource"
+  start:
+    name: "Trò chơi bắt đầu"
+    desc: "Starts a game"
+  stop:
+    name: "Stop game"
+    desc: "Stops a game"
+  help:
+    name: "Show Help"
+    desc: "Display information about the plugin and its commands"
+  reload:
+    name: "Reload"
+    desc: "Reloads the configurations and translations"
+  setmainlobby:
+    name: "Set main lobby"
+    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+  list:
+    name: "Danh sách trò chơi"
+    desc: "Liệt kê tất cả các trò chơi có sẵn"
+  regionname:
+    name: "Đặt tên vùng"
+    desc: "Đặt tên vùng riêng lẻ (thay vì tên thế giới)"
+  removeteam:
+    name: "Xóa nhóm"
+    desc: "Loại bỏ một đội từ trò chơi (chỉ ở chế độ dừng)"
+  removegame:
+    name: "Loại bỏ trò chơi"
+    desc: "Loại bỏ một trò chơi và mọi cấu hình"
+  clearspawner:
+    name: "Làm sạch spawners"
+    desc: "Loại bỏ tất cả spawners khỏi trò chơi. Tiết kiệm cần thiết."
+  gametime:
+    name: "Đặt thời gian chơi"
+    desc: "Thiết lập thời gian trò chơi cần được sử dụng trong trò chơi"
+  stats:
+    name: "Số liệu thống kê"
+    desc: "Cho thấy số liệu thống kê của bạn"
+  setbuilder:
+    name: "Bộ xây dựng bản đồ"
+    desc: "Bộ xây dựng bản đồ này sẽ hiển thị trong tiêu đề khi trò chơi bắt đầu."
+  setgameblock:
+    name: "Đặt khối trò chơi"
+    desc: "Bộ các loại trò chơi khối cho trò chơi này mà nên được sử dụng thay vì cấu hình 'trò chơi khối'. Viết 'Mặc định' như loại sử dụng loại cấu hình một lần nữa"
+  setautobalance:
+    name: "Thiết lập autobalance"
+    desc: "Nếu 'tự động cân bằng toàn cầu' được đặt thành 'sai', với lệnh này, bạn có thể đặt đội tự động cân bằng cho mỗi trò chơi để bật hoặc tắt!"
+  setminplayers:
+    name: "Đặt mức người chơi tối thiểu"
+    desc: "Đặt số lượng người chơi cần thiết để bắt đầu trò chơi"
+  kick:
+    name: "Đá người chơi"
+    desc: "Đá người chơi từ trò chơi hiện tại!"
+  addteamjoin:
+    name: "Thêm nhóm lựa chọn"
+    desc: "Đánh dấu một sinh vật có thể được sử dụng để tham gia một nhóm cụ thể!"
+  addholo:
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
+  removeholo:
+    name: "Xóa vị trí ảnh 3D"
+    desc: "Khi lệnh đã được thực hiện, người chơi có thể nhấp chuột phải vào hình 3D cần được loại bỏ."
+    explain: "Nhấp chuột trái trong vòng 10 giây trên hình 3D bạn muốn xóa."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

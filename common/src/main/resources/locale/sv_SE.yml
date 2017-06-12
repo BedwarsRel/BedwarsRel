@@ -1,0 +1,297 @@
+---
+default:
+  pages: "Sida $current$ av $max$"
+  currently: För närvarande
+errors:
+  argumentslength: "Antal argument matchar inte rätt mängd!"
+  holodependencynotfound: "Kunde inte hitta $dependency$ för Hologram-statistik"
+  packagenotfound: "Kunde inte hämta $package$ paketet!"
+  classnotfound: "Kunde inte hämta $package$ klass $class$!"
+  gameexists: "Ett spel med detta namn finns redan!"
+  gamenotfound: "Spelet '$game$' kunde inte hittas!"
+  nofreegames: "Det finns inga lediga spel."
+  gamenotfoundsimple: "Spel hittades inte!"
+  playeramount: "Max spelare får inte vara lägre än 1 eller högre än 24!"
+  teamcolornotallowed: "Vald lag färg är inte en tillåten färg"
+  teamnamelength: "Lag namn måste ha mellan 2 och 20 bokstäver!"
+  teamnotfound: "Team hittades inte!"
+  notingame: "Du är för närvarande inte i ett spel!"
+  bedtargeting: "Du har att rikta eller stå på ett block av den Konfigurerade 'game-block' typen!"
+  regionargument: "Ditt plats argument måste vara 'loc1' eller 'loc2'!"
+  spawnerargument: "Parametern resurs måste vara ett giltigt konfigurerade resurs!"
+  blockdownnotfound: "Blocket du står på hittades inte!"
+  gamenotrunning: "Spelet är inte igång!"
+  bungeenoserver: "Bungeecord Servrarna var inte korrekt inställd! Prata med serveradministratören!"
+  cantstartagain: "Spelet är igång! Du kan inte starta ett spel som redan är igång!"
+  startoutofwaiting: "Spelet behöver startas från väntar-läget!"
+  cantjoingame: "Du kan inte ansluta till ett spel som är igång eller stoppat!"
+  lobbyongameworld: "Lobbyn kan inte i spel världen!"
+  gamenotloaded: "Kunde inte starta upp spelet!"
+  gameloaderror: "Ladda spelet '$game$' skapar ett fel!"
+  regionnotfound: "Region filen finns inte!"
+  savesign: "Kunde inte skapa en ny skylt config fil!"
+  nogames: "Inga spel hittades!"
+  notenoughress: "Du hade inte tillräckligt resurser för att köpa detta föremål!"
+  teamnameinuse: "Lag namnet används redan!"
+  minplayersmustnumber: "Minst spelare måste vara ett tal!"
+  toolongregionname: "Maxlängden för Region namnet är 15 bokstäver!"
+  notwhilegamerunning: "Kan inte göra det medan spelet är igång!"
+  notwhileingame: "Kan inte göra det medan du är i ett spel som är igång!"
+  timeincorrect: "Tid måste vara en siffra mellan (0 ... 23000) eller 'day' or 'night'!"
+  minplayersnumeric: "Parametern min-players måste vara en siffra!"
+  notinair: "Du är inte i luften!"
+  teamfull: "Laget är full, vänligen öppna lag menyn igen!"
+  novalidmaterial: "Vald block typ (material) är inte rätt!"
+  wrongvalueonoff: "Fel Parameter! Använd true,on,1 för att slå på - Använd false,off,0 för att inaktivera!"
+  playernotfound: "Vald spelare kunde inte hittas eller är inte online!"
+  notingameforkick: "Du måste vara i ett spel att sparka en spelare!"
+  playernotingame: "Vald spelare är inte i detta spel!"
+  mustbeinlobbyworld: "Du måste vara i lobby världen av spelet"
+  addteamjoincancel: "Tillägg av lag join avbröts!"
+  entitynotcompatible: "Denna entity är inte kompatibel med lag join!"
+success:
+  gameadded: "Nytt spel '$game$' har lagts till!"
+  teamadded: "Lag '$team$' har lagts till!"
+  joined: "Du har gått med spelet!"
+  left: "Du har lämnat spelet!"
+  saved: "Spelet sparades!"
+  bedset: "Du har ställt in respawn blocket av laget $team$!"
+  regionset: "Spel region platsen $location$ för spelet $game$ sattes!"
+  spawnset: "Spawn plats för laget $team$ sattes!"
+  spawnerset: "Resurs spawn platsen för $name$ var satt!"
+  stopped: "Spelet stoppades!"
+  lobbyset: "Lobbyn var satt!"
+  gameloaded: "Spelet '$game$' lästs in!"
+  reloadconfig: "Reload klar!"
+  teamremoved: "Laget har tagits bort!"
+  gameremoved: "Laget har tagits bort!"
+  spawnercleared: "Alla resurser spawners har tagits bort!"
+  gamerun: "Du startade spelet, spelare kan nu gå med!"
+  timeset: "Speltiden var ställd!"
+  regionnameset: "Regionens namn sattes framgångsrikt!"
+  minplayersset: "Minst spelare sattes!"
+  mainlobbyset: "Mainlobby sattes!"
+  gametimeset: "Spel tid sattes!"
+  materialset: "Respawn blocktyp (material) sattes framgångsrikt!"
+  builderset: "Byggaren för kartan sattes framgångsrikt och visas i titel!"
+  autobalanceseton: "Autobalance aktiverades!"
+  autobalancesetoff: "Autobalance &cstängdes av&a!"
+  selectteamjoinentity: "Nu högerklicka på den entitien som du vill använda som lag koppling!"
+  teamjoinadded: "Entitien var markerad som lag val för laget $team$"
+  holoremoved: "Hologram-statistiken har tagits bort!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Platser för regionen var inte korrekt inställd!"
+  TEAM_SIZE_LOW_ERROR: "Du måste ställa in fler lag!"
+  NO_RES_SPAWNER_ERROR: "Du inte har angett någon resurs spawners!"
+  NO_LOBBY_SET: "Du har inte ställt in en lobby!"
+  TEAMS_WITHOUT_SPAWNS: "Det finns lag utan en spawn plats!"
+  NO_ITEMSHOP_CATEGORIES: "Inga itemshop kategorier hittades!"
+  NO_MAIN_LOBBY_SET: "Du ställde inte in en mainlobby även fast du ställde 'tomainlobby' till true"
+  TEAM_NO_WRONG_BED: "En eller flera lag har ingen säng inställd!"
+  TEAM_NO_WRONG_TARGET: "En eller flera lag har inget respawn block inställd!"
+ingame:
+  team: "Lag"
+  teams: "Lag"
+  all: "Alla"
+  record: "&e$record$&a är rekordet på denna kartan!"
+  record-with-holders: '&aRekordet på denna karta är &e$record$&a och hålls av: $holders$'
+  newrecord: '&aLag $team$&a satte ett nytt rekord: &6$record$'
+  record-nobeddestroy: "&cRekordet sparas inte, eftersom att inga sängar blev förstörda!"
+  teamwon: "Grattis! Lag $team$ vann!"
+  draw: "Spelet slutar med oavgjort!"
+  serverrestart: "Startar om servern om $sec$ sekund(er)!"
+  gamestarting: "Spelet startar..."
+  gamestarted: "Spelet '$game$' har precis börjat!"
+  backtolobby: "Tillbaka till lobbyn om $sec$ sekund(er)!"
+  spectator: "Åskådare"
+  spectate: "&aÅskådare"
+  teamchest: "Lag kista"
+  noturteamchest: "Denna kista är inte en kista från ditt lag!"
+  protectionleft: "Odödlig för &c$length$&f sekund(er)!"
+  protectionend: "Du är nu &codödlig&f igen!"
+  team-dead: "Lag $team$ förstördes!"
+  no-friendlybreak: "&cKan inte förstöra block under lag medlem!"
+  teamchestdestroy: "&cEn av ditt lags kistor har blivit förstörd!"
+  title:
+    map-builder: "Byggd av $builder$"
+    win-title: "&6Gratulerar!"
+    win-subtitle: "$team$&6 vann i &e$time$"
+  shop:
+    name: "ItemShop"
+    newshop: "Använd ny shop"
+    oldshop: "Använda gaml shop"
+    fullstackpershift: "Multiplicera stackar per Skift klick"
+    onestackpershift: "En stack per Skift klick"
+  player:
+    left: "Spelaren $player$ har lämnat spelet!"
+    died: "$player$ dog!"
+    killed: "$killer$ dödade $player$!"
+    kicked: "$player$ sparkades!"
+    waskicked: "Du sparkades från spelet!"
+  blocks:
+    ownbeddestroy: "Du kan inte förstöra din egen säng!"
+    beddestroyed: "$player$ förstörde bädd av laget $team$!"
+  specials:
+    rescue-platform:
+      left: "Det finns &c$time$ &fsekund(er) kvar tills du kan använda nästa räddning plattform!"
+    arrow-blocker:
+      start: "Du skyddas från att träffas av pilar för &c$time$ &fsekund(er)."
+      end: "&cDitt pil skydd är över"
+      left: "Det finns &c$time$ &fsekund(er) kvar tills du kan använda den nästa pilblockerare!"
+    trap:
+      trapped: "&eNågon gick in i en &ctrap&e i ditt lag!"
+    protection-wall:
+      left: "Det finns &c$time$ &fsekund(er) kvar tills du kan använda nästa skydds vägg!"
+      not-usable-here: "Du kan inte använda skydd väggen här!"
+    warp-powder:
+      cancelled: "&cDin teleportering avbröts!"
+      start: "Du kommer att teleporteras om &c$time$ &fsekund(er). Rör dig inte!"
+      cancel: "&4Teleporteringen avbröts"
+      multiuse: "&cDu har redan startat en teleportering!"
+    tntsheep:
+      no-target-found: "Ingen target spelare hittades!"
+    tracker:
+      no-target-found: "Ingen target spelare hittades!"
+      target-found: "$player$ är $blocks$ block ifrån dig."
+lobby:
+  countdown: "Spelet börjar om $sec$ sekund(er)!"
+  countdowncancel: "Fler spelare behövs. Nedräkningen avbröts!"
+  cancelcountdown:
+    not_enough_players: "Fler spelare behövs. Nedräkningen avbröts!"
+    not_enough_teams: "Fler lag behövs. Nedräkningen avbröts!"
+  cancelstart:
+    not_enough_players: "Fler spelare behövs för att starta spelet!"
+    not_enough_teams: "Fler lag behövs för att starta spelet!"
+  chooseteam: "Välj ett lag"
+  startgame: "Starta Spel"
+  reduce_countdown: "Minska nedräkning"
+  gamefull: "Spelet är fullt!"
+  gamefullpremium: "Spelet är fullt av premium spelare redan!"
+  teamjoined: "Du gått med i laget $team$"
+  leavegame: "Lämna spel"
+  playerjoin: "Spelare $player$ gick med i spelet!"
+  kickedbyvip: "Du sparkades av en vip-spelare som gått med i det fulla spelet!"
+  moreplayersneeded: "$count$ fler spelare behövs."
+  moreplayersneeded-one: "$count$ fler spelare behövs."
+  moreteamsneeded: "Minst två spelare i två olika lag som behövs för att starta spelet!"
+sign:
+  firstline: "&6[Bedwars]"
+  players: "Spelare"
+  gamestate:
+    stopped: "&4Stoppad!"
+    waiting: "&aväntar ..."
+    running: "&9På!"
+    full: "Full!"
+stats:
+  header: "Bedwars statistik"
+  kd: "K/D"
+  statsnotfound: "Statistik över $player$ hittades inte!"
+  name: "Namn"
+  kills: "Antal dödade"
+  deaths: "Dödsfall"
+  wins: "Vinster"
+  loses: "Förluster"
+  score: "Poäng"
+  destroyedBeds: "Förstörda sängar"
+  games: "Spel"
+commands:
+  addgame:
+    name: "Lägg till spel"
+    desc: "Lägger till ett nytt spel"
+  addteam:
+    name: "Lägg till ett lag"
+    desc: "Lägger till ett team för ett specifikt spel"
+  join:
+    name: "Gå med i spelet"
+    desc: "Ansluter till ett specifikt spel"
+  leave:
+    name: "Lämna spel"
+    desc: "Lämna det aktuella spelet"
+  save:
+    name: "Spara Spelet"
+    desc: "Sparar ett spel (och karta) till config fil(er)"
+  settarget:
+    name: "Ange mål"
+    desc: "Anger platsen för en lagets mål block"
+  setbed:
+    name: "Ställ sängen (synonym för settarget)"
+    desc: "Anger platsen för ett lags säng block (Synonym för settarget)"
+  setlobby:
+    name: "Ange lobbyn"
+    desc: "Anger platsen för gamelobby"
+  setregion:
+    name: "Anger en region punkt"
+    desc: "Anger en region punkt för spelet"
+  setspawn:
+    name: "Anger ett lags spawn"
+    desc: "Sätter spawn av det valda laget"
+  setspawner:
+    name: "Ställ in spawner"
+    desc: "Anger en spawner placering av en specifik Resurs"
+  start:
+    name: "Starta Spel"
+    desc: "Startar ett spel"
+  stop:
+    name: "Stoppa spelet"
+    desc: "Stannar ett spel"
+  help:
+    name: "Visa hjälp"
+    desc: "Visa information om plugin och dess kommandon"
+  reload:
+    name: "Ladda om"
+    desc: "Laddar om konfigurationer och översättningar"
+  setmainlobby:
+    name: "Ange huvudlobbyn"
+    desc: "Anger huvudlobbyn av ett spel (behövs när mainlobby-enabled ställs in till true)"
+  list:
+    name: "Lista spel"
+    desc: "Listar alla tillgängliga spel"
+  regionname:
+    name: "Ange regionens namn"
+    desc: "Anger en enskild regions namn (istället för världens namn)"
+  removeteam:
+    name: "Ta bort lag"
+    desc: "Tar bort ett lag från spelet (endast i stoppat läge)"
+  removegame:
+    name: "Ta bort spelet"
+    desc: "Tar bort ett spel och varje konfiguration"
+  clearspawner:
+    name: "Ta bort spawners"
+    desc: "Tar bort alla spawners från spelet. Sparande behövs."
+  gametime:
+    name: "Ställ in spelet tid"
+    desc: "Anger den spela tid som bör användas i spel-världen"
+  stats:
+    name: "Statistik"
+    desc: "Visar din statistik"
+  setbuilder:
+    name: "Väljer byggaren av kartan"
+    desc: "Väljer byggaren av kartan som kommer att visas i titeln när spelet startar."
+  setgameblock:
+    name: "Ställa in spel blocket"
+    desc: "Anger blocktyp för detta spel som bör användas i stället för 'game-block' konfigurationen. Skriv 'Standard' som du vill använda typ av konfigurationen igen"
+  setautobalance:
+    name: "Ställ in autobalance"
+    desc: "Om 'global-autobalance' är 'false', med detta kommando kan du ange team-autobalance per match till att aktivera eller inaktivera!"
+  setminplayers:
+    name: "Ange minst spelare"
+    desc: "Anger mängden spelare som behövs för att starta spelet"
+  kick:
+    name: "Sparka spelare"
+    desc: "Sparkar en spelare från det aktuella spelet!"
+  addteamjoin:
+    name: "Lägga till laget i selectionen"
+    desc: "Markera en varelse som kan användas till ett specifikt lag!"
+  addholo:
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
+  removeholo:
+    name: "Ta bort hologram platsen"
+    desc: "När kommandot utfördes, spelaren kan högerklicka på hologrammet som bör tas bort."
+    explain: "Utföra en vänster klick inom 10 sekunder på hologrammet du vill ta bort."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

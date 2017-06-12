@@ -1,0 +1,297 @@
+---
+default:
+  pages: "$current$/$max$ oldal"
+  currently: Jelenleg
+errors:
+  argumentslength: "Nincs elegendő kritérium a parancs végrehajtásához!"
+  holodependencynotfound: "Nem találtam Hologram-Statisztikát"
+  packagenotfound: "Nem tudtam letölteni a $package$ csomagot!"
+  classnotfound: "Nem tudtam letölteni a(z)  $package$ osztályt $class$!"
+  gameexists: "Már létezik ilyen nevű aréna!"
+  gamenotfound: "A(z) \"$game$\" játékaréna nem található!"
+  nofreegames: "Nincs elérhető szabad játék."
+  gamenotfoundsimple: "A játék nem található!"
+  playeramount: "A maximális, a játékosok nem lehet 1-nél kisebb vagy nagyobb 24-nél!"
+  teamcolornotallowed: "Az adott csapat szín nem engedélyezett szín"
+  teamnamelength: "A csapatnév 2-20 betű hosszúságú lehet!"
+  teamnotfound: "A csapat nem található!"
+  notingame: "Jelen pillanatban nem vagy játékban!"
+  bedtargeting: "Tartsd a célkeresztet a(z) \"újraéledő blokkra\" és jobb klikkeljen rá, hogy elmentse a konfigurációt!"
+  regionargument: "Az elhelyezés parancsai a \"loc1\" vagy \"loc2\"!"
+  spawnerargument: "Az erőforrás-paraméter az érvényes beállított forrás!"
+  blockdownnotfound: "Nem található álló blokk!"
+  gamenotrunning: "A játék nem fut!"
+  bungeenoserver: "Bungeecord szerverek nincsenek beállítva! Érdeklődjön a kiszolgáló rendszergazdájánál!"
+  cantstartagain: "A játék már fut! Futó játékot nem indíthatsz el újra!"
+  startoutofwaiting: "A játék elvan indítva, várakozó módban!"
+  cantjoingame: "Nem lehet csatlakozni egy futó, vagy megállt játékhoz!"
+  lobbyongameworld: "Nincs lobby a játék világában!"
+  gamenotloaded: "Nem indul el a játék!"
+  gameloaderror: "Játék betöltése '$ játék $ \"hibát dob!"
+  regionnotfound: "\"Nyelv\" fájl nem létezik!"
+  savesign: "Nem sikerült létrehozni egy új táblát létrehozni a konfig fájlban!"
+  nogames: "Nem található játék!"
+  notenoughress: "Nincsen elég nyersanyagod, hogy megvedd a tárgyat!"
+  teamnameinuse: "A csapatnév már használva van!"
+  minplayersmustnumber: "Min. játékos számnak kell lennie!"
+  toolongregionname: "A maximum régió név hossza 15 karakter!"
+  notwhilegamerunning: "Nem tehetem, játék futása közben!"
+  notwhileingame: "Nem tehetem a futó játék közben!"
+  timeincorrect: "Az időnek számnak (0-23000), \"day\" vagy \"night\" szónak kell lenni!"
+  minplayersnumeric: "A min-játékosok paraméter numerikus kell lennie!"
+  notinair: "Nem vagy a levegőben!"
+  teamfull: "A csapat teljes, kérjük nyissa meg újra a csapat választó menüt!"
+  novalidmaterial: "Adott blokk típus (anyag) nem helyes!"
+  wrongvalueonoff: "Hibás paraméter! Használja, igaz, 1 kapcsolja be-ki, 0, hogy kapcsolja ki a hamis!"
+  playernotfound: "Az adott játékos nem található vagy nem online!"
+  notingameforkick: "Meg kell rúgni a játékos egy játékban!"
+  playernotingame: "Az adott játékos nem szerepel ebben a játékban!"
+  mustbeinlobbyworld: "Te most a lobby világban vagy"
+  addteamjoincancel: "A csapathoz való csatlakozás visszavonva!"
+  entitynotcompatible: "Ez az entitás nem kompatibilis a csapat csatlakozó eszközével!"
+success:
+  gameadded: "$game$ sikeresen létrehozva!"
+  teamadded: "$team$ csapat sikeresen létrehozva!"
+  joined: "Sikerült csatlakozni a játékhoz!"
+  left: "Sikeresen elhagytad a játékot!"
+  saved: "A játék sikeresen mentve!"
+  bedset: "A(z) $team$ csapat \"újraéledő blokkja\" sikeresen beállítva!"
+  regionset: "A játék régió helyszíne $location$, $game$ névvel sikeresen lett beállítva!"
+  spawnset: "A(z) $team$ csapat kezdőpontja sikeresen beállítva!"
+  spawnerset: "$name$ termelőhely sikeresen beállítva!"
+  stopped: "A játék sikeresen leállt!"
+  lobbyset: "A lobby sikeresen beállítva!"
+  gameloaded: "Játék '$game$' sikeresen lett betöltve!"
+  reloadconfig: "Sikeres újratöltés!"
+  teamremoved: "A csapat sikeresen eltávolítva!"
+  gameremoved: "A játékaréna sikeresen eltávolítva!"
+  spawnercleared: "Minden termelőhely sikeresen törölve!"
+  gamerun: "Elindítottad a játékot, a játékosok tudnak csatlakozni!"
+  timeset: "A játékidő sikeresen beállítva!"
+  regionnameset: "A játékterület neve sikeresen beállítva!"
+  minplayersset: "A minimális játékosszám sikeresen beállítva!"
+  mainlobbyset: "A főlobby sikeresen beállítva!"
+  gametimeset: "A játék ideje sikeresen beállítva!"
+  materialset: "Az újraéledő blokk sikeresen beállítva!"
+  builderset: "A pálya építője sikeresen beállítva, ami megjelenik a játék indulásakor (ha az be van állítva)!"
+  autobalanceseton: "Automata csapatelosztás sikeresen elindítva!"
+  autobalancesetoff: "Automata csapatelosztás sikeresen elindítva!"
+  selectteamjoinentity: "Jobb katt az entitánsra ha szeretnél csatlakozni a csapatba!"
+  teamjoinadded: "Entitáns csapat $team$ volt sikeresen megjelölve."
+  holoremoved: "A statisztika hologram sikeresen eltávolítva!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Elhelyezkedés a régóban iincs mehfelelően."
+  TEAM_SIZE_LOW_ERROR: "Te tudsz beállítani több csapatot!"
+  NO_RES_SPAWNER_ERROR: "Nem állítottad be az összes érclelő helyet!"
+  NO_LOBBY_SET: "Még, nem állítottad be az elosztót!"
+  TEAMS_WITHOUT_SPAWNS: "Csapat vagy csapatoknak nincsen kezdő pontja!"
+  NO_ITEMSHOP_CATEGORIES: "Nemtalál tárgybolt kategóriákat!"
+  NO_MAIN_LOBBY_SET: "Nem állítottál be váró spawnt pedig \"true\" ra van állítva"
+  TEAM_NO_WRONG_BED: "Az egyik csapatnak nincs ágya!"
+  TEAM_NO_WRONG_TARGET: "Egy vagy több csapatnak nincs újraéledő pontja!"
+ingame:
+  team: "Csapat"
+  teams: "Csapatok"
+  all: "Mindenki"
+  record: "&e$record$&7 A rekord ezen a mapon!"
+  record-with-holders: '&aA rekord ezen a mapon &e$record$&a csúcstartó $holders$'
+  newrecord: '&eCsapat $team$&e Új rekordot csinált: &6$record$'
+  record-nobeddestroy: "Rekord nem menthető mert az ágy eltörött!"
+  teamwon: "Gratulálunk! A(z) $team$ csapat nyert!"
+  draw: "A játék döntetlennel véget ért!"
+  serverrestart: "A szerver újraindul $sec$ másodperc múlva!"
+  gamestarting: "A játék indítása ..."
+  gamestarted: "Játék '$game$' elindult!"
+  backtolobby: "Visszatérés a lobbyba $sec$ másodperc múlva!"
+  spectator: "Néző"
+  spectate: "&aNéző"
+  teamchest: "Csapatláda"
+  noturteamchest: "Ez a láda nem a te csapatodé!"
+  protectionleft: "Sebezhetetlen vagy &c$length$&f másodpercig!"
+  protectionend: "Most már újra &csebezhető&f vagy!"
+  team-dead: "A(z) $team$ csapat kiesett a játékból!"
+  no-friendlybreak: "&cNem törhetsz építő elemet a csapat társaid alatt!"
+  teamchestdestroy: "&cCsapatláda vagy ládák ki lettek törve!"
+  title:
+    map-builder: "Építette: $builder$"
+    win-title: "&6Gratulálunk!"
+    win-subtitle: "A(z) $team$&6 csapat nyert, &e$time$ &6idő alatt"
+  shop:
+    name: "Bolt"
+    newshop: "Új bolt használata"
+    oldshop: "Régi bolt használata"
+    fullstackpershift: "Több stack per Shift + klikk"
+    onestackpershift: "Egy stack per Shift + klikk"
+  player:
+    left: "$player$ elhagyta a játékot!"
+    died: "$player$ meghalt!"
+    killed: "$killer$ megölte $player$-t!"
+    kicked: "$player$ kirúgva a játékból!"
+    waskicked: "Ki vagy rúgva ebből a játékból!"
+  blocks:
+    ownbeddestroy: "Saját ágyadat nem tudod széttörni!"
+    beddestroyed: "$player$ kiütötte a(z) $team$ csapat ágyát!"
+  specials:
+    rescue-platform:
+      left: " &c$time$ & f másodperc van hátra hogy, tudd használ a következő mentési platformot!"
+    arrow-blocker:
+      start: "Védelem alatt álsz a nyilak becsapódása ellen &c$time$&f másodpercig."
+      end: "&cA te nyíl védelmednek vége!"
+      left: "&c$time$ &f Másodperc van hátra a következő \"Nyíl blokkoló\" használatához!"
+    trap:
+      trapped: "&evalaki bejött a &ctrap&e, a csapatba!"
+    protection-wall:
+      left: "Védelmi falat még &c$time$&f másodpercig használhatod!"
+      not-usable-here: "Te nem tudod hasz álni védelem alatt áll!"
+    warp-powder:
+      cancelled: "&cA teleportálás megszakadt!"
+      start: "A teleportálás &c$time$&f másodperc múlva megkezdődik. Ne mozogj!"
+      cancel: "&cTeldportálás nem lett végrehajtva"
+      multiuse: "Már folyamatban van a teleportáció!"
+    tntsheep:
+      no-target-found: "Nincs beállítva játékos megtalálva!"
+    tracker:
+      no-target-found: "Nincs beállítva játékos megtalálva!"
+      target-found: "$player$ $blocks$ blokkra van tőled."
+lobby:
+  countdown: "A játék $sec$ másodperc múlva kezdetét veszi!"
+  countdowncancel: "Nincs elég játékos, a visszaszámlálás leállt!"
+  cancelcountdown:
+    not_enough_players: "Több játékost igényel! Állotsd át."
+    not_enough_teams: "Több csapat kell! Csinálj még csapatot."
+  cancelstart:
+    not_enough_players: "Több játékos kell a játék elkezdéséhez!"
+    not_enough_teams: "Több csapat kell a játék elkezdéséhez!"
+  chooseteam: "Csapat választás"
+  startgame: "Játék indítása"
+  reduce_countdown: "Csökken a visszaszámlálás"
+  gamefull: "A játék megtelt!"
+  gamefullpremium: "A játék tele van prémium játékosokkal!"
+  teamjoined: "Csatlakoztál a(z) $team$ csapathoz"
+  leavegame: "Jelenlegi játék elhagyása"
+  playerjoin: "$player$ csatlakozott a játékhoz!"
+  kickedbyvip: "Kikerültél a játékból, mert egy prémium játékos csatlakozott!"
+  moreplayersneeded: "$count$ játékosra van még szükség a játék indításához."
+  moreplayersneeded-one: "$count$ játékosra van még szükség a játék indításához."
+  moreteamsneeded: "Legalább két különböző csapatra van szükség a játék indításához!"
+sign:
+  firstline: "&6[BedWars]"
+  players: "Játékosok"
+  gamestate:
+    stopped: "&4Leállítva!"
+    waiting: "&aVárakozás ..."
+    running: "&9Játékban!"
+    full: "Tele!"
+stats:
+  header: "Bedwars statisztika"
+  kd: "Ö/H"
+  statsnotfound: "$player$ statisztikái nem találhatóak!"
+  name: "Név"
+  kills: "Ölések"
+  deaths: "Halálozások"
+  wins: "Győzelmek"
+  loses: "Vereségek"
+  score: "Pontok"
+  destroyedBeds: "Széttört ágyak"
+  games: "Játszmák"
+commands:
+  addgame:
+    name: "Játék hozzáadás"
+    desc: "Új játék létrehozása"
+  addteam:
+    name: "Csapat hozzáadása"
+    desc: "Adj hozzá csapatokat"
+  join:
+    name: "Belépés"
+    desc: "Belépés játékokba"
+  leave:
+    name: "Játék elhagyása"
+    desc: "Jelenlegi játék elhagyása"
+  save:
+    name: "Játék mentése"
+    desc: "Menti a játékot (és a mapot) a konfigurációs fájl(ok)-ba"
+  settarget:
+    name: "Célpont beállítása"
+    desc: "Egy csapat célblokkjának beállítása"
+  setbed:
+    name: "Ágy beállítása (a \"settarget\" szinonimája)"
+    desc: "Egy csapat ágyának beállítása (a \"settarget\" szinonimája)"
+  setlobby:
+    name: "Állitsd be az elosztót!"
+    desc: "Add meg a helyzetét a játék elosztónak!"
+  setregion:
+    name: "Játékterület sarkainak beállítása"
+    desc: "Egy játékterület sarkainak beállítása"
+  setspawn:
+    name: "Újraéledőhely beállítása"
+    desc: "Egy adott csapat újraéledőhelyének beállítása"
+  setspawner:
+    name: "Spawner lehelyezése"
+    desc: "Egy adott nyersanyag termelőhelyének lehelyezése"
+  start:
+    name: "Játék indítása"
+    desc: "Indul a játék"
+  stop:
+    name: "Játék leállítása"
+    desc: "Leállt a játék"
+  help:
+    name: "Súgó"
+    desc: "Mutasd az információkat a pluginról"
+  reload:
+    name: "Újratöltés"
+    desc: "Konfiguráció és fordítás újratöltése"
+  setmainlobby:
+    name: "Fő lobby beállítása"
+    desc: "Beállítja a főlobby helyét. (szükséges a \"mainlobby-enable: true\" beállítás)"
+  list:
+    name: "Játékok listája"
+    desc: "Kilistáza a játékokat"
+  regionname:
+    name: "Játéktér helyének beállítása"
+    desc: "Beállítja egy egyéni régió nevét (nem a világ neve)"
+  removeteam:
+    name: "Csapat törlése"
+    desc: "Egy csapat eltávolítása a játékból (csak megállított játék esetén lehetséges)"
+  removegame:
+    name: "Játék törlése"
+    desc: "Eltávolítja a játékot a konfigurációval együtt"
+  clearspawner:
+    name: "Spawner törlése"
+    desc: "Eltávolítja az összes spawnert a játékból. Mentés szükséges."
+  gametime:
+    name: "Játék idó beállítása"
+    desc: "Beállítja a játék ideje, amelyet akkor kell használni a játék-világ"
+  stats:
+    name: "Statisztika"
+    desc: "Statisztika mutatása"
+  setbuilder:
+    name: "Építő beállítása"
+    desc: "Beállítja a építész nevét, amely megjelenik a játék indulásakor."
+  setgameblock:
+    name: "Játék blokk beállítása"
+    desc: "Ez a játék, amelyet akkor kell használni, nem a \"játék-block\" konfigurációs játék blokk típust állít be. Írni a \"DEFAULT\" típust használ a típusú config újra"
+  setautobalance:
+    name: "Automatikus csapatelosztás beállítása"
+    desc: "Automatikus csapatelosztás be-ki kapcsolása. Ha \"false\" szabad a csapatválasztás."
+  setminplayers:
+    name: "Minimális játékosszám beállítása"
+    desc: "Beállítja hogy hány játékos kell a játék indulásához"
+  kick:
+    name: "Játékos kirúgása"
+    desc: "Egy játékos kirúgása a jelenlegi játékból!"
+  addteamjoin:
+    name: "Csapatválasztó hozzáadása"
+    desc: "Mark egy lény, amely lehet használni, hogy csatlakozzon egy különleges csapatot!"
+  addholo:
+    name: "A hologram helyének hozzáadása"
+    desc: "A hologram sikeresen létrehozva!"
+  removeholo:
+    name: "Hologram törlése"
+    desc: "Törli a kijelölődő statisztika hologramot. (Parancs lefuttatása után jobb klikk a hologramra)."
+    explain: "Kattintson a eltávolítani kívánt hologramra 10 másodpercen belül."
+  debugpaste:
+    name: "Illessze be a hibakeresési adatokat"
+    desc: "Ez néhány hibakeresési adatot küld a hastebin-nek, és visszaküldi a fejlesztőkkel megosztott linket"
+  itemspaste:
+    name: "Illessze be a készletet egy fájlba"
+    desc: "Ez visszaad egy linket, ahol láthatja, hogy az aktuális leltárt sorba helyezték példaként a shop.yml számára"

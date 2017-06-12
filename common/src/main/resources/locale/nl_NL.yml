@@ -1,0 +1,297 @@
+---
+default:
+  pages: "Pagina $current$ van $max$"
+  currently: momenteel
+errors:
+  argumentslength: "Nummer van argumenten klopt niet met het juiste aantal!"
+  holodependencynotfound: "Kon $dependency$ voor Hologram-Statistiek niet vinden"
+  packagenotfound: "Kon pakket $package$ niet ophalen!"
+  classnotfound: "Kon pakket $package$ van klasse $class$ niet ophalen!"
+  gameexists: "Een spel met deze naam bestaat al!"
+  gamenotfound: "Het spel '$game$' werdt niet gevonden!"
+  nofreegames: "Er zijn geen gratis spellen beschikbaar."
+  gamenotfoundsimple: "Spel niet gevonden!"
+  playeramount: "Het max van spelers kan niet lager dan 1 of hoger dan 24 zijn!"
+  teamcolornotallowed: "Het gegeven team kleur is geen toegelaten kleur"
+  teamnamelength: "Team naam moet tussen 2 en 20 karakters bestaan!"
+  teamnotfound: "Team niet gevonden!"
+  notingame: "Je bent op dit moment niet in een spel!"
+  bedtargeting: "Je moet op het blok staan of er naar kijken om het 'game-block' type te configureren!"
+  regionargument: "Je locatie argumenten moeten 'loc1' of 'loc2' zijn!"
+  spawnerargument: "De parameter bron moet een geldige geconfigureerde hulpmiddel zijn"
+  blockdownnotfound: "Het blok waar je op staat is niet gevonden!"
+  gamenotrunning: "Spel is niet bezig!"
+  bungeenoserver: "Bungeecord Servers is niet juist opgesteld! Spreek met de server administrator!"
+  cantstartagain: "Spel is bezig! Je kan geen spel opnieuw starten wat al bezig is!"
+  startoutofwaiting: "Spel moet gestart worden waneer deze uit wacht modus is!"
+  cantjoingame: "Je kan geen gestopt of spel wat bezig is joinen!"
+  lobbyongameworld: "Lobby kan niet op de wereld gezet worden als het spel zelf!"
+  gamenotloaded: "Kon het spel niet opstarten!"
+  gameloaderror: "Laden van het spel '$game$' geeft een error!"
+  regionnotfound: "Regio bestand bestaat niet!"
+  savesign: "Kon geen nieuw bord config bestand aanmaken!"
+  nogames: "Geen spellen gevonden!"
+  notenoughress: "Je hebt niet genoeg resources om dit item te kopen!"
+  teamnameinuse: "Team naam is al in gebruik!"
+  minplayersmustnumber: "Min spelers moet een nummer zijn!"
+  toolongregionname: "Maximum lengte van een regio naam zijn 15 karakters!"
+  notwhilegamerunning: "Kan dit niet doen wanneer het spel bezig is!"
+  notwhileingame: "Je kan dit niet doen wanneer het spel bezig is!"
+  timeincorrect: "Tijd moet een nummer zijn (0 ... 23000), 'day' or 'night'!"
+  minplayersnumeric: "De min spelers parameter moeten nummers zijn!"
+  notinair: "Je bent niet in de lucht!"
+  teamfull: "Het team zit vol, gelieve het team selctie menu te heropenen!"
+  novalidmaterial: "Gegeven blok type (materiaal) is niet correct!"
+  wrongvalueonoff: "Verkeerde parameter! Gebruik true,on,1 om aan te zetten - gebruik false,off,0 oom af te zetten!"
+  playernotfound: "Gegeven speler is niet gevonden of niet online!"
+  notingameforkick: "Je moet in een spel zitten om iemand te kikken!"
+  playernotingame: "Gegeven speler is niet in dit spel!"
+  mustbeinlobbyworld: "Je moet in de lobby werled van de game zitten"
+  addteamjoincancel: "Het toevoegen van team join is geanuleerd!"
+  entitynotcompatible: "Deze entity is niet bruikbaar met team join!"
+success:
+  gameadded: "Nieuw spel '$game$' succesvol toegevoegd!"
+  teamadded: "Team '$team$' succesvol toegevoegd!"
+  joined: "Je hebt met succes het spel gejoined!"
+  left: "Je hebt met succes het spel verlaten!"
+  saved: "Spel is met met succes opgeslagen!"
+  bedset: "Je hebt met succes het respawn block gezet van team $team$!"
+  regionset: "Spel regio locatie $location$ voor spel $game$ is succesvol gezet!"
+  spawnset: "Spawn locatie voor team $team$ is succesvol gezet!"
+  spawnerset: "Ressource spawn locatie voor $name$ is succesvol gezet!"
+  stopped: "Spel succesvol gestopt!"
+  lobbyset: "Lobby is succesvol gezet!"
+  gameloaded: "Spel '$game$' succesvol geladen!"
+  reloadconfig: "Reload successvol!"
+  teamremoved: "Team is succesvol verwijderd!"
+  gameremoved: "Spel is succesvol verwijderd!"
+  spawnercleared: "Al de resource spawners zijn verwijderd!"
+  gamerun: "Je hebt het spel gestart, spelers kunnen nu joinen!"
+  timeset: "Spel tijd is succesvol gezet!"
+  regionnameset: "Regio naam is succesvol gezet!"
+  minplayersset: "Min spelers is succesvol gezet!"
+  mainlobbyset: "Hoofdlobby is succesvol gezet!"
+  gametimeset: "Spel tijd is succesvol gezet!"
+  materialset: "Het respawn blok type (material) is succesvol gezet!"
+  builderset: "De bouwer voor de map is succesvol gezet en wordt getoond in de titel!"
+  autobalanceseton: "Autobalanse is succesvol op gezet!"
+  autobalancesetoff: "Autobalanse is succesvol &cuit gezet&a!"
+  selectteamjoinentity: "Doe nu rechter muisklik op de entity die je als team selector wilt!"
+  teamjoinadded: "Entity is succesvol aangeduid als team selector voor team $team$"
+  holoremoved: "Hologram-Statistic succesvol verwijderd!"
+gamecheck:
+  LOC_NOT_SET_ERROR: "Locatie's voor de regio zijn niet gezet!"
+  TEAM_SIZE_LOW_ERROR: "Je moet meet teams hebben!"
+  NO_RES_SPAWNER_ERROR: "Je hebt geen resource spawners gezet!"
+  NO_LOBBY_SET: "Je hebt geen lobby gezet!"
+  TEAMS_WITHOUT_SPAWNS: "Er zijn team(s) zonder een spawn locatie!"
+  NO_ITEMSHOP_CATEGORIES: "Geen itemshops categorieën gevonden!"
+  NO_MAIN_LOBBY_SET: "Je hebt geen hoofd lobby gezet ook al heb je 'tomainlobby' op true gezet"
+  TEAM_NO_WRONG_BED: "Eén of meer teams heeft geen bed!"
+  TEAM_NO_WRONG_TARGET: "Eén of meer teams heeft geen respawn blok gezet!"
+ingame:
+  team: "Team"
+  teams: "Ploegen"
+  all: "Al"
+  record: "&e$record$&a Is het record van deze map!"
+  record-with-holders: '&aHet record op deze map is &e$record$&a en is gehouden door $holders$'
+  newrecord: '&aTeam $team$&a heeft een nieuw record gezet: &6$record$'
+  record-nobeddestroy: "&cRecord wordt niet opgeslagen want er is geen bed afgebroken!"
+  teamwon: "Gefeliciteert! Team $team$ heeft gewonnen!"
+  draw: "Het spel eindigt met een gelijkspel!"
+  serverrestart: "Server herstart in $sec$ second(en)!"
+  gamestarting: "Spel is aan het starten ..."
+  gamestarted: "Spel '$game$' is juist gestart!"
+  backtolobby: "Terug naar lobby in $sec$ seconden!"
+  spectator: "Toeschouwer"
+  spectate: "&aToeschouwen"
+  teamchest: "Team kist"
+  noturteamchest: "Deze kist is geen kist van jouw team!"
+  protectionleft: "Beveiligd voor &c$length$&f second(en)!"
+  protectionend: "Je bent nu opnieuw &cbeveiligd&f!"
+  team-dead: "Team $team$ is vernietigd!"
+  no-friendlybreak: "&cKan geen blok breken onder team genoot!"
+  teamchestdestroy: "&cEén van je team kisten is vernietigd!"
+  title:
+    map-builder: "Gebouwd door $builder$"
+    win-title: "&6Gefeliciteerd!"
+    win-subtitle: "$team$&6 gewonnen in &e$time$"
+  shop:
+    name: "Itemwinkel"
+    newshop: "Gebruik nieuwe shop"
+    oldshop: "Gebruik oude shop"
+    fullstackpershift: "Vermenigvuldigende staks met shift klik"
+    onestackpershift: "Eén stack met shift klik"
+  player:
+    left: "Speler $player$ heeft het game verlaten!"
+    died: "$player$ is gestorven!"
+    killed: "$killer$ heeft $player$ vermoord!"
+    kicked: "$player$ is gekickt!"
+    waskicked: "Je bent gekickt van het spel!"
+  blocks:
+    ownbeddestroy: "Je kan je eigen bed niet kapot maken!"
+    beddestroyed: "$player$ heeft het bed van $team$ afgebroken!"
+  specials:
+    rescue-platform:
+      left: "Er is &c$time$&f seconden over voordat je het volgende beveiligings platform kunt gebruiken!"
+    arrow-blocker:
+      start: "Je bent beschermd om geraakt te woorden door pijlen voor &c$time$&f second(en)."
+      end: "&cJe bescherming tegen pijlen is verlopen"
+      left: "Je moet nog &c$time$&f seconde(n) wachten totdat u weer arrowblocker kunt gebruiken!"
+    trap:
+      trapped: "&eIemand is in een &ctrap&e geweest van jouw team!"
+    protection-wall:
+      left: "Er zijn &c$time$&f second(en) over voordat je de volgende protectie muur kan gebruiken!"
+      not-usable-here: "Je kan geen protectie muur hier gebruiken!"
+    warp-powder:
+      cancelled: "&cJe tp is geanuleerd!"
+      start: "Je wordt geteleporteert in &c$time$&f second(en). Niet bewegen!"
+      cancel: "&4teleport geanuleerd"
+      multiuse: "&cJe hebt al een teleport gestart!"
+    tntsheep:
+      no-target-found: "Geen doelwit speler is gevonden!"
+    tracker:
+      no-target-found: "Geen doelwit speler is gevonden!"
+      target-found: "$player$ is $blocks$ zoveel blok(ken) van je weg."
+lobby:
+  countdown: "Spel gaat starten in $sec$ second(en)!"
+  countdowncancel: "Meer spelers nodig. aftelling is afgelast!"
+  cancelcountdown:
+    not_enough_players: "Meer spelers nodig. Aftelling is afgelast!"
+    not_enough_teams: "Meer teams nodig. Aftellen is gestopt!"
+  cancelstart:
+    not_enough_players: "Meer spelers zijn nodig om het spel te starten!"
+    not_enough_teams: "Meer teams zijn nodig om het spel te starten!"
+  chooseteam: "Kies een team"
+  startgame: "Spel starten"
+  reduce_countdown: "Aftelling verminderen"
+  gamefull: "Spel is vol!"
+  gamefullpremium: "Het spel is voll met premium spelers!"
+  teamjoined: "Je hebt met succes het $team$ team gejoined"
+  leavegame: "Spel verlaten"
+  playerjoin: "Speler $player$ heeft het spel gejoined!"
+  kickedbyvip: "Je bent gekit door een een VIP speler die het spel joint wanneer het spel vol is!"
+  moreplayersneeded: "$count$ meer spelers nodig."
+  moreplayersneeded-one: "$count$ speler meer nodig."
+  moreteamsneeded: "Een minimum van 2 spelers in 2 verschillende teams is nodig om het spel te starten!"
+sign:
+  firstline: "&6[Bedwars]"
+  players: "Spelers"
+  gamestate:
+    stopped: "&4Gestopt!"
+    waiting: "&aWachten ..."
+    running: "&9Bezig!"
+    full: "Vol!"
+stats:
+  header: "Bedwars statistieken"
+  kd: "K/D"
+  statsnotfound: "Statistieken van $player$ niet gevonden!"
+  name: "Naam"
+  kills: "Doden"
+  deaths: "Gedood"
+  wins: "Overwinningen"
+  loses: "Verloren"
+  score: "Scores"
+  destroyedBeds: "vernietigde Bedden"
+  games: "Spellen"
+commands:
+  addgame:
+    name: "Spel toevoegen"
+    desc: "Voegt een nieuw spel toe"
+  addteam:
+    name: "Team toevoegen"
+    desc: "Voegt een team toe aan een specifieke game"
+  join:
+    name: "Join Spel"
+    desc: "Joins een specifiek spel"
+  leave:
+    name: "Verlaat spel"
+    desc: "Verlaat het huidige spel"
+  save:
+    name: "Spel opslaan"
+    desc: "Slaat het spel (en map) op naar de config map(pen)"
+  settarget:
+    name: "Zetten van target"
+    desc: "Zet de locatie van het teams doel blok"
+  setbed:
+    name: "Zet bed (synoniem voor zetten van target)"
+    desc: "Zet de locatie van het teams bed blok (synoniem voor zetten van target)"
+  setlobby:
+    name: "Zetten van lobby"
+    desc: "Zet de locatie van de gamelobby"
+  setregion:
+    name: "Zetten van een regio punt"
+    desc: "Zet een regio punt voor het spel"
+  setspawn:
+    name: "Zetten van een team spawn"
+    desc: "Zet de spawn van een gegeven team"
+  setspawner:
+    name: "Zetten van spawner"
+    desc: "Zet de spawner locatie van een specifieke ressource"
+  start:
+    name: "Spel starten"
+    desc: "Starten van een spel"
+  stop:
+    name: "Spel stoppen"
+    desc: "Stopt een spel"
+  help:
+    name: "help"
+    desc: "Geeft info over de plugin en de commands"
+  reload:
+    name: "Herladen"
+    desc: "Herlaad de config en vertalingen"
+  setmainlobby:
+    name: "Zetten van hoofd lobby"
+    desc: "Zet de hoofd lobby van een spel (Is nodig wanneer mainlobby-enabled is gezet op true)"
+  list:
+    name: "Spel lijst"
+    desc: "Lijst van alle spellen die beschikbaar zijn"
+  regionname:
+    name: "Zetten van regio naam"
+    desc: "Zet een individuele regio naam (inplaats van de wereld naam)"
+  removeteam:
+    name: "Verwijder team"
+    desc: "Verwijderd een team van het spel (alleen in stop modus)"
+  removegame:
+    name: "Verwijder het spel"
+    desc: "Verwijderd een spel en iedere configuratie"
+  clearspawner:
+    name: "Verwijder spawners"
+    desc: "Verwijderd al de spawners van het spel. Opslaan is nodig."
+  gametime:
+    name: "Zetten van spel tijd"
+    desc: "Zet het spel tijd wat gebruikt moet worden in het spel-wereld"
+  stats:
+    name: "Statistieken"
+    desc: "Laat je statistieken zien"
+  setbuilder:
+    name: "Zet de bouwer van de map"
+    desc: "Zet de map maker van de map wat op het scherm komt in de titel als het spel start."
+  setgameblock:
+    name: "Zetten van spel blok"
+    desc: "zet het spel blok type voor dit spel wat"
+  setautobalance:
+    name: "Zetten van autobalance"
+    desc: "Als 'globale-autobalance' gezet is op vals, met dit commando kan je team-autobalance per spel op aan of uit zetten"
+  setminplayers:
+    name: "Zet minimaal aantal spelers"
+    desc: "Zet het aantal spelers dat nodig is om het spel te starten"
+  kick:
+    name: "Kick speler"
+    desc: "Kick een speler van het spel dat nu gespeeld wordt!"
+  addteamjoin:
+    name: "Voeg team selector toe"
+    desc: "Duid een monster aan dat als team selector gebruikt kan worden voor een specifiek team!"
+  addholo:
+    name: "Voeg een hologram toe"
+    desc: "Een hologram statistiek wordt toegevoegd op de plaats waar jij het zet!"
+  removeholo:
+    name: "Verwijder hologram locatie"
+    desc: "Wanneer het command uitgevoerd is, moeten de spelers rechts-klik drukken op de hologram en het zou weg moeten gaan."
+    explain: "Zorg ervoor dat je binnen 10 sec linker muisknop drukt op de hologram als deze wilt verwijderen."
+  debugpaste:
+    name: "Paste debug data"
+    desc: "Dit verzend debug data naar hastebin en geeft jou een link die je kan delen met de developer"
+  itemspaste:
+    name: "Paste your inventory to a file"
+    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
