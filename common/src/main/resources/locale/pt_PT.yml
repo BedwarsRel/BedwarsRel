@@ -56,7 +56,7 @@ success:
   left: "Saiste do jogo!"
   saved: "O jogo foi salvado com sucesso"
   bedset: "Setaste o bloco de respawn com sucesso na team $team$!"
-  regionset: "game region location $location$ for game $game$ was set successfully!"
+  regionset: "Game region location $location$ for Game $game$ was set successfully!"
   spawnset: "O spawn da team $team$ foi setado com sucesso"
   spawnerset: "O spawn da ressource $name$ foi adicionada com sucesso!"
   stopped: "O jogo foi parado com sucesso!"
@@ -151,7 +151,7 @@ ingame:
     tntsheep:
       no-target-found: "Nenhum player encontrado"
     tracker:
-      no-target-found: "No target player was found!"
+      no-target-found: "Nenhum player encontrado"
       target-found: "$player$ is $blocks$ block(s) away from you."
 lobby:
   countdown: "O jogo vai começar em $sec$ segundo(s)!"
@@ -196,19 +196,19 @@ stats:
   games: "Jogos"
 commands:
   addgame:
-    name: "Add game"
+    name: "Add Game"
     desc: "Adiciona um novo jogo"
   addteam:
     name: "Add Team"
     desc: "Adiciona uma nova team num determinado mapa"
   join:
-    name: "Join game"
+    name: "Join Game"
     desc: "Entra num jogo de um mapa determinado"
   leave:
-    name: "Leave game"
+    name: "Leave Game"
     desc: "Sais do jogo corrente"
   save:
-    name: "Save game"
+    name: "Save Game"
     desc: "Guarda o jogo (e mapa) para os ficheiros da config"
   settarget:
     name: "Set target"
@@ -229,7 +229,7 @@ commands:
     name: "Set spawner"
     desc: "Seta a localização do spawn de uma especifica ressource"
   start:
-    name: "Start game"
+    name: "Comecar o jogo"
     desc: "Começa o jogo"
   stop:
     name: "Stop game"
@@ -262,7 +262,7 @@ commands:
     name: "Set game time"
     desc: "Seta o tempo de jogo de um determinado jogo"
   stats:
-    name: "statistics"
+    name: "Statistics"
     desc: "Mostra as estatisticas"
   setbuilder:
     name: "Sets builder of map"
