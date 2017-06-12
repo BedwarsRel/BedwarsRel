@@ -85,7 +85,7 @@ gamecheck:
   NO_RES_SPAWNER_ERROR: "Du hast keinen Ressourcen-Spawner gesetzt!"
   NO_LOBBY_SET: "Es wurde keine Lobby gesetzt!"
   TEAMS_WITHOUT_SPAWNS: "Ein oder mehrere Teams haben keinen Spawn-Punkt!"
-  NO_ITEMSHOP_CATEGORIES: "shop hat keine Kategorien/Angebote gefunden!"
+  NO_ITEMSHOP_CATEGORIES: "Shop hat keine Kategorien/Angebote gefunden!"
   NO_MAIN_LOBBY_SET: "Du hast keine Main-Lobby gesetzt, obwohl 'tomainlobby' auf true gesetzt wurde!"
   TEAM_NO_WRONG_BED: "Ein oder mehrere Teams haben kein Bett gesetzt bekommen!"
   TEAM_NO_WRONG_TARGET: "Ein oder mehrere Teams haben kein Respawn-Block gesetzt bekommen!"
@@ -118,8 +118,8 @@ ingame:
     win-subtitle: "&6Team $team$ &6hat in &e$time$ &6gewonnen!"
   shop:
     name: "Itemshop"
-    newshop: "Neuen shop verwenden"
-    oldshop: "Alten shop verwenden"
+    newshop: "Neuen Shop verwenden"
+    oldshop: "Alten Shop verwenden"
     fullstackpershift: "Mehrere Stacks bei Shift-Klick"
     onestackpershift: "Ein Stack bei Shift-Klick"
   player:
@@ -266,7 +266,7 @@ commands:
     desc: "Zeigt deine Statistik an."
   setbuilder:
     name: "Setzt Map-Info Bauer"
-    desc: "Setzt den Bauer der Map eines bestimmten Spiels, der im io.github.bedwarsrel.com.v1_8_r1.Title beim Start des Spiels angezeigt wird."
+    desc: "Setzt den Bauer der Map eines bestimmten Spiels, der im Title beim Start des Spiels angezeigt wird."
   setgameblock:
     name: "Spiel-lock setzen"
     desc: "Setzt den Respawn Block-Typ. Dies überschreibt die 'game-block' config für dieses eine Spiel. Schreibe 'DEFAULT' als Typ, um den Typ aus der Config zu verwenden"

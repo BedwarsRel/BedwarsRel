@@ -61,7 +61,7 @@ success:
   spawnerset: "Ressource spawn location for $name$ was set successfully!"
   stopped: "Oyunu başarıyla durduruldu!"
   lobbyset: "Lobi başarıyla kuruldu!"
-  gameloaded: "game '$game$' successfully loaded!"
+  gameloaded: "Game '$game$' successfully loaded!"
   reloadconfig: "Yeniden başlatma başarılı."
   teamremoved: "Takım Başarıyla Silindi.\n"
   gameremoved: "Oyun Başarıyla Silindi."
@@ -101,7 +101,7 @@ ingame:
   draw: "The game ends with a draw!"
   serverrestart: "Server restart in $sec$ second(s)!"
   gamestarting: "Oyun Başlatılıyor..."
-  gamestarted: "game '$game$' has just started!"
+  gamestarted: "Game '$game$' has just started!"
   backtolobby: "Back to lobby in $sec$ second(s)!"
   spectator: "İzleyiciler"
   spectate: "&aİzleyici"
@@ -205,10 +205,10 @@ commands:
     name: "Oyuna Katıl"
     desc: "Joins a specific game"
   leave:
-    name: "Leave game"
+    name: "Leave Game"
     desc: "Leave the current game"
   save:
-    name: "Save game"
+    name: "Save Game"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
     name: "Set target"

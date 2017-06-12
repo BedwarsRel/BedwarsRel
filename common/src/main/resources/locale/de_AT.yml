@@ -266,7 +266,7 @@ commands:
     desc: "Zeigt deine Statistik an."
   setbuilder:
     name: "Setzt Map-Info Bauer"
-    desc: "Setzt den Bauer der Map eines bestimmten Spiels, der im io.github.bedwarsrel.com.v1_8_r1.Title beim Start des Spiels angezeigt wird."
+    desc: "Setzt den Bauer der Map eines bestimmten Spiels, der im Title beim Start des Spiels angezeigt wird."
   setgameblock:
     name: "Spiel-lock setzen"
     desc: "Setzt den Respawn Block-Typ. Dies überschreibt die 'game-block' config für dieses eine Spiel. Schreibe 'DEFAULT' als Typ, um den Typ aus der Config zu verwenden"
