@@ -291,7 +291,7 @@ commands:
     explain: "Выполните левый клик в течение 10 секунд на голограмме, которую вы хотите удалить."
   debugpaste:
     name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "Это отправляет данные для отладки в hastebin и предоставляет ссылку, которую вы можете отправить разработчикам"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
