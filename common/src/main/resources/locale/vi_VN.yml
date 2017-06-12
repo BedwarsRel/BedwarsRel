@@ -151,16 +151,16 @@ ingame:
     tntsheep:
       no-target-found: "Không tìm thấy người chơi!"
     tracker:
-      no-target-found: "No target player was found!"
+      no-target-found: "Không tìm thấy người chơi!"
       target-found: "$player$ is $blocks$ block(s) away from you."
 lobby:
   countdown: "Trò chơi sẽ bắt đầu trong $sec$ giây(s)!"
   countdowncancel: "Cần thêm người chơi. Đếm ngược đã bị hủy bỏ!"
   cancelcountdown:
-    not_enough_players: "More players needed. Countdown cancelled!"
+    not_enough_players: "Cần thêm người chơi. Đếm ngược đã bị hủy bỏ!"
     not_enough_teams: "Cần nhiều đội hơn. Đếm ngược đã hủy bỏ!"
   cancelstart:
-    not_enough_players: "More players are needed to start the game!"
+    not_enough_players: "Cần thêm người chơi để bắt đầu trò chơi!"
     not_enough_teams: "Cần thêm nhiều đội để bắt đầu trò chơi!"
   chooseteam: "Hãy chọn một đội"
   startgame: "Trò chơi bắt đầu"
@@ -229,7 +229,7 @@ commands:
     name: "Set spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
+    name: "Trò chơi bắt đầu"
     desc: "Starts a game"
   stop:
     name: "Stop game"
@@ -250,45 +250,45 @@ commands:
     name: "Đặt tên vùng"
     desc: "Đặt tên vùng riêng lẻ (thay vì tên thế giới)"
   removeteam:
-    name: "Remove team"
-    desc: "Removes a team from the game (only in stopped mode)"
+    name: "Xóa nhóm"
+    desc: "Loại bỏ một đội từ trò chơi (chỉ ở chế độ dừng)"
   removegame:
-    name: "Remove game"
-    desc: "Removes a game and every configuration"
+    name: "Loại bỏ trò chơi"
+    desc: "Loại bỏ một trò chơi và mọi cấu hình"
   clearspawner:
-    name: "Clear spawners"
-    desc: "Removes all spawners from the game. Saving needed."
+    name: "Làm sạch spawners"
+    desc: "Loại bỏ tất cả spawners khỏi trò chơi. Tiết kiệm cần thiết."
   gametime:
-    name: "Set game time"
-    desc: "Sets the game time which should be used in the game-world"
+    name: "Đặt thời gian chơi"
+    desc: "Thiết lập thời gian trò chơi cần được sử dụng trong trò chơi"
   stats:
-    name: "Statistics"
-    desc: "Shows your statistics"
+    name: "Số liệu thống kê"
+    desc: "Cho thấy số liệu thống kê của bạn"
   setbuilder:
-    name: "Sets builder of map"
-    desc: "Sets the builder of the map which will be display in the title when game starts."
+    name: "Bộ xây dựng bản đồ"
+    desc: "Bộ xây dựng bản đồ này sẽ hiển thị trong tiêu đề khi trò chơi bắt đầu."
   setgameblock:
-    name: "Set game block"
-    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    name: "Đặt khối trò chơi"
+    desc: "Bộ các loại trò chơi khối cho trò chơi này mà nên được sử dụng thay vì cấu hình 'trò chơi khối'. Viết 'Mặc định' như loại sử dụng loại cấu hình một lần nữa"
   setautobalance:
-    name: "Set autobalance"
-    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    name: "Thiết lập autobalance"
+    desc: "Nếu 'tự động cân bằng toàn cầu' được đặt thành 'sai', với lệnh này, bạn có thể đặt đội tự động cân bằng cho mỗi trò chơi để bật hoặc tắt!"
   setminplayers:
-    name: "Set minimum players"
-    desc: "Sets the amount of players needed to start the game"
+    name: "Đặt mức người chơi tối thiểu"
+    desc: "Đặt số lượng người chơi cần thiết để bắt đầu trò chơi"
   kick:
-    name: "Kick player"
-    desc: "Kicks a player from the current game!"
+    name: "Đá người chơi"
+    desc: "Đá người chơi từ trò chơi hiện tại!"
   addteamjoin:
-    name: "Add team selection"
-    desc: "Mark a creature which can be used to join a specific team!"
+    name: "Thêm nhóm lựa chọn"
+    desc: "Đánh dấu một sinh vật có thể được sử dụng để tham gia một nhóm cụ thể!"
   addholo:
     name: "Add hologram location"
     desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "Remove hologram location"
-    desc: "When the command was executed, the player can right-click the hologram which should be removed."
-    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+    name: "Xóa vị trí ảnh 3D"
+    desc: "Khi lệnh đã được thực hiện, người chơi có thể nhấp chuột phải vào hình 3D cần được loại bỏ."
+    explain: "Nhấp chuột trái trong vòng 10 giây trên hình 3D bạn muốn xóa."
   debugpaste:
     name: "Paste debug data"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
