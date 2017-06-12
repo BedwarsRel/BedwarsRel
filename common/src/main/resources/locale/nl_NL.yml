@@ -151,19 +151,19 @@ ingame:
     tntsheep:
       no-target-found: "Geen doelwit speler is gevonden!"
     tracker:
-      no-target-found: "Geen doelwit speler is gevonden!"
+      no-target-found: "No target player was found!"
       target-found: "$player$ is $blocks$ zoveel blok(ken) van je weg."
 lobby:
   countdown: "Spel gaat starten in $sec$ second(en)!"
   countdowncancel: "Meer spelers nodig. aftelling is afgelast!"
   cancelcountdown:
-    not_enough_players: "Meer spelers nodig. Aftelling is afgelast!"
+    not_enough_players: "More players needed. Countdown cancelled!"
     not_enough_teams: "Meer teams nodig. Aftellen is gestopt!"
   cancelstart:
-    not_enough_players: "Meer spelers zijn nodig om het spel te starten!"
+    not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "Meer teams zijn nodig om het spel te starten!"
   chooseteam: "Kies een team"
-  startgame: "Start spel"
+  startgame: "Spel starten"
   reduce_countdown: "Aftelling verminderen"
   gamefull: "Spel is vol!"
   gamefullpremium: "Het spel is voll met premium spelers!"
@@ -205,93 +205,93 @@ commands:
     name: "Join Spel"
     desc: "Joins een specifiek spel"
   leave:
-    name: "Verlaat spel"
-    desc: "Verlaat het huidige spel"
+    name: "Leave Game"
+    desc: "Leave the current game"
   save:
-    name: "Spel opslaan"
-    desc: "Slaat het spel (en map) op naar de config map(pen)"
+    name: "Save Game"
+    desc: "Saves a game (and map) to config file(s)"
   settarget:
-    name: "Zetten van target"
-    desc: "Zet de locatie van het teams doel blok"
+    name: "Set target"
+    desc: "Sets the location of a team's target block"
   setbed:
-    name: "Zet bed (synoniem voor zetten van target)"
-    desc: "Zet de locatie van het teams bed blok (synoniem voor zetten van target)"
+    name: "Set bed (synonym for settarget)"
+    desc: "Sets the location of a team's bed block (Synonym for settarget)"
   setlobby:
-    name: "Zetten van lobby"
-    desc: "Zet de locatie van de gamelobby"
+    name: "Set lobby"
+    desc: "Sets the location of the gamelobby"
   setregion:
-    name: "Zetten van een regio punt"
-    desc: "Zet een regio punt voor het spel"
+    name: "Sets a region point"
+    desc: "Sets a region point for the game"
   setspawn:
-    name: "Zetten van een team spawn"
-    desc: "Zet de spawn van een gegeven team"
+    name: "Sets a team spawn"
+    desc: "Sets the spawn of the given team"
   setspawner:
-    name: "Zetten van spawner"
-    desc: "Zet de spawner locatie van een specifieke ressource"
+    name: "Set spawner"
+    desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Spel starten"
-    desc: "Starten van een spel"
+    name: "Start game"
+    desc: "Starts a game"
   stop:
-    name: "Spel stoppen"
-    desc: "Stopt een spel"
+    name: "Stop game"
+    desc: "Stops a game"
   help:
-    name: "help"
-    desc: "Geeft info over de plugin en de commands"
+    name: "Show Help"
+    desc: "Display information about the plugin and its commands"
   reload:
-    name: "Herladen"
-    desc: "Herlaad de config en vertalingen"
+    name: "Reload"
+    desc: "Reloads the configurations and translations"
   setmainlobby:
-    name: "Zetten van hoofd lobby"
-    desc: "Zet de hoofd lobby van een spel (Is nodig wanneer mainlobby-enabled is gezet op true)"
+    name: "Set main lobby"
+    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
   list:
-    name: "Spel lijst"
-    desc: "Lijst van alle spellen die beschikbaar zijn"
+    name: "List games"
+    desc: "Lists all available games"
   regionname:
-    name: "Zetten van regio naam"
-    desc: "Zet een individuele regio naam (inplaats van de wereld naam)"
+    name: "Set region name"
+    desc: "Sets an individual region name (instead of world name)"
   removeteam:
-    name: "Verwijder team"
-    desc: "Verwijderd een team van het spel (alleen in stop modus)"
+    name: "Remove team"
+    desc: "Removes a team from the game (only in stopped mode)"
   removegame:
-    name: "Verwijder het spel"
-    desc: "Verwijderd een spel en iedere configuratie"
+    name: "Remove game"
+    desc: "Removes a game and every configuration"
   clearspawner:
-    name: "Verwijder spawners"
-    desc: "Verwijderd al de spawners van het spel. Opslaan is nodig."
+    name: "Clear spawners"
+    desc: "Removes all spawners from the game. Saving needed."
   gametime:
-    name: "Zetten van spel tijd"
-    desc: "Zet het spel tijd wat gebruikt moet worden in het spel-wereld"
+    name: "Set game time"
+    desc: "Sets the game time which should be used in the game-world"
   stats:
-    name: "Statistieken"
-    desc: "Laat je statistieken zien"
+    name: "Statistics"
+    desc: "Shows your statistics"
   setbuilder:
-    name: "Zet de bouwer van de map"
-    desc: "Zet de map maker van de map wat op het scherm komt in de titel als het spel start."
+    name: "Sets builder of map"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
   setgameblock:
-    name: "Zetten van spel blok"
-    desc: "zet het spel blok type voor dit spel wat"
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
-    name: "Zetten van autobalance"
-    desc: "Als 'globale-autobalance' gezet is op vals, met dit commando kan je team-autobalance per spel op aan of uit zetten"
+    name: "Set autobalance"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
-    name: "Zet minimaal aantal spelers"
-    desc: "Zet het aantal spelers dat nodig is om het spel te starten"
+    name: "Set minimum players"
+    desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Kick speler"
-    desc: "Kick een speler van het spel dat nu gespeeld wordt!"
+    name: "Kick player"
+    desc: "Kicks a player from the current game!"
   addteamjoin:
-    name: "Voeg team selector toe"
-    desc: "Duid een monster aan dat als team selector gebruikt kan worden voor een specifiek team!"
+    name: "Add team selection"
+    desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    name: "Voeg een hologram toe"
-    desc: "Een hologram statistiek wordt toegevoegd op de plaats waar jij het zet!"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "Verwijder hologram locatie"
-    desc: "Wanneer het command uitgevoerd is, moeten de spelers rechts-klik drukken op de hologram en het zou weg moeten gaan."
-    explain: "Zorg ervoor dat je binnen 10 sec linker muisknop drukt op de hologram als deze wilt verwijderen."
+    name: "Remove hologram location"
+    desc: "When the command was executed, the player can right-click the hologram which should be removed."
+    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
   debugpaste:
     name: "Paste debug data"
-    desc: "Dit verzend debug data naar hastebin en geeft jou een link die je kan delen met de developer"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
