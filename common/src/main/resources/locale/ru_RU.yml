@@ -151,16 +151,16 @@ ingame:
     tntsheep:
       no-target-found: "Игрок не был найден!"
     tracker:
-      no-target-found: "No target player was found!"
+      no-target-found: "Игрок не был найден!"
       target-found: "$player$ имеет $blocks$ блок(ов) вдалеке от вас."
 lobby:
   countdown: "Игра начнётся через $sec$"
   countdowncancel: "Нужно больше игроков. Отчёт времени отменён"
   cancelcountdown:
-    not_enough_players: "More players needed. Countdown cancelled!"
+    not_enough_players: "Нужно больше игроков. Отчёт времени отменён"
     not_enough_teams: "Необходимо больше команд. Обратный отсчёт отменён!"
   cancelstart:
-    not_enough_players: "More players are needed to start the game!"
+    not_enough_players: "Нужно больше игроков для начала игры"
     not_enough_teams: "Чтобы начать игру, необходимы дополнительные группы!"
   chooseteam: "Выберите команду:"
   startgame: "Начать игру"
@@ -229,7 +229,7 @@ commands:
     name: "Установить спаунер"
     desc: "установить спавнер ресурсов"
   start:
-    name: "Start game"
+    name: "Начать игру"
     desc: "начать игру"
   stop:
     name: "Остановить игру"
@@ -238,57 +238,57 @@ commands:
     name: "Показать справку"
     desc: "посмотреть информацию о плагине"
   reload:
-    name: "Reload"
-    desc: "Reloads the configurations and translations"
+    name: "Перезагрузить"
+    desc: "перезагрузить конфиг"
   setmainlobby:
-    name: "Set main lobby"
-    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
+    name: "Установить главную лобби"
+    desc: "установить локацию для главного лобби"
   list:
-    name: "List games"
-    desc: "Lists all available games"
+    name: "Список игр"
+    desc: "список доступных игр"
   regionname:
-    name: "Set region name"
-    desc: "Sets an individual region name (instead of world name)"
+    name: "Установить название региона"
+    desc: "задать имя для региона"
   removeteam:
-    name: "Remove team"
-    desc: "Removes a team from the game (only in stopped mode)"
+    name: "Удалить команду"
+    desc: "удалить команду из игры"
   removegame:
-    name: "Remove game"
-    desc: "Removes a game and every configuration"
+    name: "Удалить игру"
+    desc: "удалить игру и её настройки"
   clearspawner:
-    name: "Clear spawners"
-    desc: "Removes all spawners from the game. Saving needed."
+    name: "Очистить спаунеры"
+    desc: "удалить все спавнеры предметов"
   gametime:
-    name: "Set game time"
-    desc: "Sets the game time which should be used in the game-world"
+    name: "Установка игрового времени"
+    desc: "установить тип игры"
   stats:
-    name: "Statistics"
-    desc: "Shows your statistics"
+    name: "Статистика"
+    desc: "показать вашу статистику"
   setbuilder:
-    name: "Sets builder of map"
-    desc: "Sets the builder of the map which will be display in the title when game starts."
+    name: "Устанавливает имя строителя карты"
+    desc: "Устанавливает строителя карты, которая будет отображаться в заголовке, когда игра начинается."
   setgameblock:
-    name: "Set game block"
-    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    name: "Установить блок"
+    desc: "Устанавливает тип игры блока для этой игры, которую следует использовать вместо настройки \"игровой блок\". Запись \"ПО УМОЛЧАНИЮ\" как тип, чтобы снова использовать тип настроек"
   setautobalance:
-    name: "Set autobalance"
-    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    name: "Набор автобаланса"
+    desc: "Если глобальный автобаланс имеет значение \"false\", с этой командой. вы можете установить автобаланс команды или отключить!"
   setminplayers:
-    name: "Set minimum players"
-    desc: "Sets the amount of players needed to start the game"
+    name: "Установить минимальное число игроков"
+    desc: "Устанавливает количество игроков, необходимое для начала игры"
   kick:
-    name: "Kick player"
-    desc: "Kicks a player from the current game!"
+    name: "Выгнать игрока"
+    desc: "Выгнать игрока из текущей игры!"
   addteamjoin:
-    name: "Add team selection"
-    desc: "Mark a creature which can be used to join a specific team!"
+    name: "Добавить выбор команды"
+    desc: "Отмеченный моб, который может использоваться для конкретной команды!"
   addholo:
-    name: "Add hologram location"
-    desc: "A hologram statistic will be added at the current position!"
+    name: "Добавить расположение голограммы"
+    desc: "Статистика голограммы будет добавлена в текущей позиции!"
   removeholo:
-    name: "Remove hologram location"
-    desc: "When the command was executed, the player can right-click the hologram which should be removed."
-    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+    name: "Удалить расположение голограммы"
+    desc: "Когда была выполнена команда, игрок может нажать на правую кнопку мыши голограммы, которая должна быть удалена."
+    explain: "Выполните левый клик в течение 10 секунд на голограмме, которую вы хотите удалить."
   debugpaste:
     name: "Paste debug data"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
