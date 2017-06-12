@@ -151,16 +151,16 @@ ingame:
     tntsheep:
       no-target-found: "¡No se encontró ningún jugador objetivo!"
     tracker:
-      no-target-found: "No target player was found!"
+      no-target-found: "¡No se encontró ningún jugador objetivo!"
       target-found: "$player$ está a $blocks$ bloque(s) lejos de ti."
 lobby:
   countdown: "¡El Juego comenzará en $sec$ segundo(s)!"
   countdowncancel: "Se necesitan más jugadores. ¡La cuenta atrás fue cancelada!"
   cancelcountdown:
-    not_enough_players: "More players needed. Countdown cancelled!"
+    not_enough_players: "Se necesitan más jugadores. ¡Cuenta regresiva cancelada!"
     not_enough_teams: "Se necesitan más equipos. ¡Cuenta regresiva cancelada!"
   cancelstart:
-    not_enough_players: "More players are needed to start the game!"
+    not_enough_players: "¡Se necesitan más jugadores para empezar el Juego!"
     not_enough_teams: "¡Se necesitan más equipos para empezar el Juego!"
   chooseteam: "Elige un equipo"
   startgame: "Iniciar Juego"
@@ -229,7 +229,7 @@ commands:
     name: "Establecer Spawner"
     desc: "Establece una ubicación de spawner de un recurso específico"
   start:
-    name: "Start game"
+    name: "Iniciar Juego"
     desc: "Iniciar un Juego"
   stop:
     name: "Parar Juego"
@@ -260,35 +260,35 @@ commands:
     desc: "Elimina todos los Spawners del Juego. Guardado necesario."
   gametime:
     name: "Establecer el tiempo del Juego"
-    desc: "Sets the game time which should be used in the game-world"
+    desc: "Establece el tiempo del Juego que se desea usar en el mundo de juego"
   stats:
-    name: "Statistics"
-    desc: "Shows your statistics"
+    name: "Estadísticas"
+    desc: "Muestra tus estadísticas"
   setbuilder:
-    name: "Sets builder of map"
-    desc: "Sets the builder of the map which will be display in the title when game starts."
+    name: "Establece el constructor del mapa"
+    desc: "Establece el constructor del mapa que se mostrará en el título cuando comience el Juego."
   setgameblock:
-    name: "Set game block"
-    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
+    name: "Establecer el bloque del Juego"
+    desc: "Establece el tipo de bloque de juego para este juego que debe utilizarse en la configuración de \"game-block\". Escriba 'DEFAULT' como tipo para usar el tipo de configuración de nuevo"
   setautobalance:
-    name: "Set autobalance"
-    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
+    name: "Establecer el autobalance"
+    desc: "¡Si 'global-autobalance' se establece en 'false', con este comando puede configurar el equipo-autobalance por Juego; ha encendido o apagado!"
   setminplayers:
-    name: "Set minimum players"
-    desc: "Sets the amount of players needed to start the game"
+    name: "Establecer el mínimo de jugadores"
+    desc: "Establece la cantidad de jugadores necesarios para iniciar el Juego"
   kick:
-    name: "Kick player"
-    desc: "Kicks a player from the current game!"
+    name: "Expulsar jugador"
+    desc: "¡Expulsar un jugador del juego actual!"
   addteamjoin:
-    name: "Add team selection"
-    desc: "Mark a creature which can be used to join a specific team!"
+    name: "Añadir selección de equipo"
+    desc: "¡Marca una criatura que pueda ser usada para unirse a un equipo específico!"
   addholo:
-    name: "Add hologram location"
-    desc: "A hologram statistic will be added at the current position!"
+    name: "Añadir ubicación del holograma"
+    desc: "¡Se agregará un holograma de estadísticas en la posición actual!"
   removeholo:
-    name: "Remove hologram location"
-    desc: "When the command was executed, the player can right-click the hologram which should be removed."
-    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+    name: "Quitar la ubicación del holograma"
+    desc: "Cuando el comando es ejecutado, el jugador debe dar click-derecho en el holograma para eliminarlo."
+    explain: "Realice un click izquierdo dentro de 10 segundos en el holograma que desea eliminar."
   debugpaste:
     name: "Paste debug data"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
