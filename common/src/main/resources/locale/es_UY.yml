@@ -151,19 +151,19 @@ ingame:
     tntsheep:
       no-target-found: "¡No se encontró ningún jugador objetivo!"
     tracker:
-      no-target-found: "¡No se encontró ningún jugador objetivo!"
+      no-target-found: "No target player was found!"
       target-found: "$player$ está a $blocks$ bloque(s) lejos de ti."
 lobby:
   countdown: "¡El Juego comenzará en $sec$ segundo(s)!"
   countdowncancel: "Se necesitan más jugadores. ¡La cuenta atrás fue cancelada!"
   cancelcountdown:
-    not_enough_players: "Se necesitan más jugadores. ¡Cuenta regresiva cancelada!"
+    not_enough_players: "More players needed. Countdown cancelled!"
     not_enough_teams: "Se necesitan más equipos. ¡Cuenta regresiva cancelada!"
   cancelstart:
-    not_enough_players: "¡Se necesitan más jugadores para empezar el Juego!"
+    not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "¡Se necesitan más equipos para empezar el Juego!"
   chooseteam: "Elige un equipo"
-  startgame: "Empezar Juego"
+  startgame: "Iniciar Juego"
   reduce_countdown: "Reducir la cuenta atrás"
   gamefull: "¡El Juego está lleno!"
   gamefullpremium: "¡El Juego está lleno de jugadores con rango!"
@@ -229,7 +229,7 @@ commands:
     name: "Establecer Spawner"
     desc: "Establece una ubicación de spawner de un recurso específico"
   start:
-    name: "Iniciar Juego"
+    name: "Start game"
     desc: "Iniciar un Juego"
   stop:
     name: "Parar Juego"
@@ -244,54 +244,54 @@ commands:
     name: "Establecer Lobby Principal"
     desc: "Establece el Lobby Principal de un Juego (se necesita que mainlobby-enabled esté en true)"
   list:
-    name: "Lista de Juegos"
-    desc: "Lista de todos los Juegos disponibles"
+    name: "List games"
+    desc: "Lists all available games"
   regionname:
-    name: "Establecer el nombre de la región"
-    desc: "Establece un nombre de región individual (en lugar del nombre del mundo)"
+    name: "Set region name"
+    desc: "Sets an individual region name (instead of world name)"
   removeteam:
-    name: "Eliminar equipo"
-    desc: "Elimina un equipo del Juego (sólo si está en modo detenido)"
+    name: "Remove team"
+    desc: "Removes a team from the game (only in stopped mode)"
   removegame:
-    name: "Eliminar Juego"
-    desc: "Eliminar un Juego y toda su configuración"
+    name: "Remove game"
+    desc: "Removes a game and every configuration"
   clearspawner:
-    name: "Liberar Spawners"
-    desc: "Elimina todos los Spawners del Juego. Guardado necesario."
+    name: "Clear spawners"
+    desc: "Removes all spawners from the game. Saving needed."
   gametime:
-    name: "Establecer el tiempo del Juego"
-    desc: "Establece el tiempo del Juego que se desea usar en el mundo de juego"
+    name: "Set game time"
+    desc: "Sets the game time which should be used in the game-world"
   stats:
-    name: "Estadísticas"
-    desc: "Muestra tus estadísticas"
+    name: "Statistics"
+    desc: "Shows your statistics"
   setbuilder:
-    name: "Establece el constructor del mapa"
-    desc: "Establece el constructor del mapa que se mostrará en el título cuando comience el Juego."
+    name: "Sets builder of map"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
   setgameblock:
-    name: "Establecer el bloque del Juego"
-    desc: "Establece el tipo de bloque de juego para este juego que debe utilizarse en la configuración de \"game-block\". Escriba 'DEFAULT' como tipo para usar el tipo de configuración de nuevo"
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
-    name: "Establecer el autobalance"
-    desc: "¡Si 'global-autobalance' se establece en 'false', con este comando puede configurar el equipo-autobalance por Juego; ha encendido o apagado!"
+    name: "Set autobalance"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
-    name: "Establecer el mínimo de jugadores"
-    desc: "Establece la cantidad de jugadores necesarios para iniciar el Juego"
+    name: "Set minimum players"
+    desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Expulsar jugador"
-    desc: "¡Expulsar un jugador del juego actual!"
+    name: "Kick player"
+    desc: "Kicks a player from the current game!"
   addteamjoin:
-    name: "Añadir selección de equipo"
-    desc: "¡Marca una criatura que pueda ser usada para unirse a un equipo específico!"
+    name: "Add team selection"
+    desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    name: "Añadir ubicación del holograma"
-    desc: "¡Se agregará un holograma de estadísticas en la posición actual!"
+    name: "Add hologram location"
+    desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "Quitar la ubicación del holograma"
-    desc: "Cuando el comando es ejecutado, el jugador debe dar click-derecho en el holograma para eliminarlo."
-    explain: "Realice un click izquierdo dentro de 10 segundos en el holograma que desea eliminar."
+    name: "Remove hologram location"
+    desc: "When the command was executed, the player can right-click the hologram which should be removed."
+    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
   debugpaste:
     name: "Paste debug data"
-    desc: "Esto enviará datos de errores a Hastebin y te proporcionara un link que puedes compartir con los desarrolladores"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
