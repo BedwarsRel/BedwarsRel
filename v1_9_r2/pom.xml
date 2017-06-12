@@ -10,12 +10,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.bedwarsrel.com</groupId>
-  <artifactId>v1_9_r2</artifactId>
+  <artifactId>BedwarsRel-v1_9_r2</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>io.github.bedwarsrel</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>BedwarsRel-Common</artifactId>
       <version>${project.parent.version}</version>
       <scope>provided</scope>
     </dependency>
