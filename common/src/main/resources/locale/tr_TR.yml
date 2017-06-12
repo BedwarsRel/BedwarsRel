@@ -61,7 +61,7 @@ success:
   spawnerset: "Ressource spawn location for $name$ was set successfully!"
   stopped: "Oyunu başarıyla durduruldu!"
   lobbyset: "Lobi başarıyla kuruldu!"
-  gameloaded: "game '$game$' successfully loaded!"
+  gameloaded: "Game '$game$' successfully loaded!"
   reloadconfig: "Yeniden başlatma başarılı."
   teamremoved: "Takım Başarıyla Silindi.\n"
   gameremoved: "Oyun Başarıyla Silindi."
@@ -101,7 +101,7 @@ ingame:
   draw: "The game ends with a draw!"
   serverrestart: "Server restart in $sec$ second(s)!"
   gamestarting: "Oyun Başlatılıyor..."
-  gamestarted: "game '$game$' has just started!"
+  gamestarted: "Game '$game$' has just started!"
   backtolobby: "Back to lobby in $sec$ second(s)!"
   spectator: "İzleyiciler"
   spectate: "&aİzleyici"
@@ -151,16 +151,16 @@ ingame:
     tntsheep:
       no-target-found: "Hedef Oyuncu Bulunamadı!"
     tracker:
-      no-target-found: "Hedef Oyuncu Bulunamadı!"
+      no-target-found: "No target player was found!"
       target-found: " $player$ Senden $block$ Blok Ötede."
 lobby:
   countdown: "Oyunun Başlamasına $sec$ Saniye Kaldı."
   countdowncancel: "Az Oyuncu Olduğundan Geri Sayım Durduruldu! "
   cancelcountdown:
-    not_enough_players: "Az Oyuncu Olduğundan Geri Sayım Durduruldu!"
+    not_enough_players: "More players needed. Countdown cancelled!"
     not_enough_teams: "Yeteri Kadar Takım Olmadığından Geri Sayım Durduruldu!\n"
   cancelstart:
-    not_enough_players: "Oyunun Başlaması İçin Daha Fazla Oyuncuya İhtiyaç Var."
+    not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "Yeteri Kadar Takım Olmadığından Oyun Başlatılamadı!"
   chooseteam: "Takım Seç"
   startgame: "Oyunu Başlat"
@@ -205,10 +205,10 @@ commands:
     name: "Oyuna Katıl"
     desc: "Joins a specific game"
   leave:
-    name: "Leave game"
+    name: "Leave Game"
     desc: "Leave the current game"
   save:
-    name: "Save game"
+    name: "Save Game"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
     name: "Set target"
@@ -229,7 +229,7 @@ commands:
     name: "Spawner Koy"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Oyunu Başlat"
+    name: "Start game"
     desc: "Oyun başlatır"
   stop:
     name: "Oyunu Durdurur."
@@ -256,37 +256,37 @@ commands:
     name: "Oyunu Sil"
     desc: "Removes a game and every configuration"
   clearspawner:
-    name: "Spawnerları Sil"
+    name: "Clear spawners"
     desc: "Removes all spawners from the game. Saving needed."
   gametime:
     name: "Set game time"
     desc: "Sets the game time which should be used in the game-world"
   stats:
-    name: "İstatistikleri"
+    name: "Statistics"
     desc: "Shows your statistics"
   setbuilder:
     name: "Sets builder of map"
     desc: "Sets the builder of the map which will be display in the title when game starts."
   setgameblock:
-    name: "Oyun Bloğunu Ayarla"
+    name: "Set game block"
     desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
     name: "Set autobalance"
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
-    name: "En Az Oyuncuyu Ayarla"
+    name: "Set minimum players"
     desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Oyuncuyu Oyundan At"
+    name: "Kick player"
     desc: "Kicks a player from the current game!"
   addteamjoin:
     name: "Add team selection"
     desc: "Mark a creature which can be used to join a specific team!"
   addholo:
-    name: "Hologram Ekle"
+    name: "Add hologram location"
     desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "Belirli Hologramı Yoket"
+    name: "Remove hologram location"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
   debugpaste:
