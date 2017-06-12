@@ -10,12 +10,12 @@ errors:
   gameexists: "A game with this name already exists!"
   gamenotfound: "The game '$game$' could not be found!"
   nofreegames: "There are no free games available."
-  gamenotfoundsimple: "Game not found!"
+  gamenotfoundsimple: "Jokua ez da aurkitu!"
   playeramount: "The maxium of players can't be lower than 1 or higher than 24!"
   teamcolornotallowed: "The given Team color isn't a allowed color"
   teamnamelength: "Team name must have between 2 and 20 characters!"
-  teamnotfound: "Team not found!"
-  notingame: "You are currently not in a game!"
+  teamnotfound: "Taldea ez da aurkitu!"
+  notingame: "Ez zaude joku batean!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
   regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
@@ -26,7 +26,7 @@ errors:
   startoutofwaiting: "Game have to be started out of the waiting mode!"
   cantjoingame: "You can't join a running or stopped game!"
   lobbyongameworld: "Lobby can't be on the game world!"
-  gamenotloaded: "Couldn't start up the game!"
+  gamenotloaded: "Ezin izan da jokua hasi!"
   gameloaderror: "Loading game '$game$' throws an error!"
   regionnotfound: "Region file does not exists!"
   savesign: "Couldn't create a new sign config file!"
@@ -59,15 +59,15 @@ success:
   regionset: "Game region location $location$ for Game $game$ was set successfully!"
   spawnset: "Spawn location for Team $team$ was set successfully!"
   spawnerset: "Ressource spawn location for $name$ was set successfully!"
-  stopped: "Game successfully stopped!"
-  lobbyset: "Lobby was set successfully!"
+  stopped: "Jokoa ongi gelditua!"
+  lobbyset: "Lobbya ongi ezarri da!"
   gameloaded: "Game '$game$' successfully loaded!"
-  reloadconfig: "Reload successful!"
-  teamremoved: "Team was successfully removed!"
-  gameremoved: "Game was successfully removed!"
+  reloadconfig: "Ongi birkargatuta!"
+  teamremoved: "Taldea ongi ezabatu da!"
+  gameremoved: "Jokua ongi ezabatu da!"
   spawnercleared: "All ressource spawners has been removed!"
   gamerun: "You started the game, players can now join!"
-  timeset: "Game time was successfully set!"
+  timeset: "Jokuaren denbora ongi ezarri da!"
   regionnameset: "Region name was set successfully!"
   minplayersset: "Min players was set successfully!"
   mainlobbyset: "Mainlobby was set successfully!"
@@ -91,8 +91,8 @@ gamecheck:
   TEAM_NO_WRONG_TARGET: "One or more teams have no respawn block set!"
 ingame:
   team: "Team"
-  teams: "Teams"
-  all: "All"
+  teams: "Taldeak"
+  all: "Denak"
   record: "&e$record$&a is the record on this map!"
   record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
   newrecord: '&aTeam $team$&a set a new record: &6$record$'
@@ -100,12 +100,12 @@ ingame:
   teamwon: "Congratulations! Team $team$ won!"
   draw: "The game ends with a draw!"
   serverrestart: "Server restart in $sec$ second(s)!"
-  gamestarting: "Game starting ..."
+  gamestarting: "Jokoa hasten ..."
   gamestarted: "Game '$game$' has just started!"
   backtolobby: "Back to lobby in $sec$ second(s)!"
-  spectator: "Spectator"
+  spectator: "Ikuslea"
   spectate: "&aSpectate"
-  teamchest: "Team chest"
+  teamchest: "Taldearen kutxa"
   noturteamchest: "This chest isn't a chest of your team!"
   protectionleft: "Invulnerable for &c$length$&f second(s)!"
   protectionend: "You're now &cvulnerable&f again!"
@@ -114,22 +114,22 @@ ingame:
   teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
   title:
     map-builder: "Built by $builder$"
-    win-title: "&6Congratulations!"
+    win-title: "&6Zorionak!"
     win-subtitle: "$team$&6 won in &e$time$"
   shop:
-    name: "Itemshop"
-    newshop: "Use new shop"
+    name: "Itemdenda"
+    newshop: "Erabili denda berria"
     oldshop: "Use old shop"
     fullstackpershift: "Multiply stacks per shift click"
     onestackpershift: "One stack per shift click"
   player:
     left: "Player $player$ has left the game!"
-    died: "$player$ died!"
-    killed: "$killer$ killed $player$!"
+    died: "$player$ hil egin da!"
+    killed: "$killer$-ek $player$ hil du!"
     kicked: "$player$ was kicked!"
     waskicked: "You were kicked from the game!"
   blocks:
-    ownbeddestroy: "You can't destroy your own bed!"
+    ownbeddestroy: "Ezin duzu zure ohea suntsitu!"
     beddestroyed: "$player$ destroyed bed of team $team$!"
   specials:
     rescue-platform:
@@ -163,12 +163,12 @@ lobby:
     not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "More teams are needed to start the game!"
   chooseteam: "Choose a team"
-  startgame: "Start game"
+  startgame: "Hasi jokoa"
   reduce_countdown: "Reduce countdown"
-  gamefull: "Game is full!"
+  gamefull: "Jokoa beteta dago!"
   gamefullpremium: "The game is full of premium players already!"
   teamjoined: "You successfully joined the team $team$"
-  leavegame: "Leave game"
+  leavegame: "Irten jokotik"
   playerjoin: "Player $player$ joined the game!"
   kickedbyvip: "You were kicked by a vip player which has joined the full game!"
   moreplayersneeded: "$count$ more players needed."
@@ -178,37 +178,37 @@ sign:
   firstline: "&6[Bedwars]"
   players: "Players"
   gamestate:
-    stopped: "&4Stopped!"
-    waiting: "&aWaiting ..."
+    stopped: "&4Geldituta!"
+    waiting: "&aItsaroten ..."
     running: "&9Running!"
-    full: "Full!"
+    full: "Beterik!"
 stats:
   header: "Bedwars Stats"
   kd: "K/D"
   statsnotfound: "Statistics of $player$ not found!"
-  name: "Name"
-  kills: "Kills"
-  deaths: "Deaths"
-  wins: "Wins"
-  loses: "Loses"
+  name: "Izena"
+  kills: "Hilketak"
+  deaths: "Heriotzak"
+  wins: "Irabaziak"
+  loses: "Galduak"
   score: "Scores"
-  destroyedBeds: "Destroyed Beds"
-  games: "Games"
+  destroyedBeds: "Suntsitutako Oheak"
+  games: "Jokoak"
 commands:
   addgame:
-    name: "Add Game"
+    name: "Gehitu Jokoa"
     desc: "Adds a new game"
   addteam:
-    name: "Add Team"
+    name: "Gehitu Taldea"
     desc: "Adds a team to a specific game"
   join:
-    name: "Join Game"
+    name: "Sartu Jokora"
     desc: "Joins a specific game"
   leave:
-    name: "Leave Game"
+    name: "Jokotik Irten"
     desc: "Leave the current game"
   save:
-    name: "Save Game"
+    name: "Jokoa Gorde"
     desc: "Saves a game (and map) to config file(s)"
   settarget:
     name: "Set target"
@@ -217,7 +217,7 @@ commands:
     name: "Set bed (synonym for settarget)"
     desc: "Sets the location of a team's bed block (Synonym for settarget)"
   setlobby:
-    name: "Set lobby"
+    name: "Ezarri Lobbya"
     desc: "Sets the location of the gamelobby"
   setregion:
     name: "Sets a region point"
@@ -229,16 +229,16 @@ commands:
     name: "Set spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
+    name: "Hasi jokoa"
     desc: "Starts a game"
   stop:
-    name: "Stop game"
+    name: "Gelditu Jokoa"
     desc: "Stops a game"
   help:
-    name: "Show Help"
+    name: "Erakutsi Laguntza"
     desc: "Display information about the plugin and its commands"
   reload:
-    name: "Reload"
+    name: "Birkargatu"
     desc: "Reloads the configurations and translations"
   setmainlobby:
     name: "Set main lobby"
@@ -250,7 +250,7 @@ commands:
     name: "Set region name"
     desc: "Sets an individual region name (instead of world name)"
   removeteam:
-    name: "Remove team"
+    name: "Ezabatu taldea"
     desc: "Removes a team from the game (only in stopped mode)"
   removegame:
     name: "Remove game"
@@ -259,11 +259,11 @@ commands:
     name: "Clear spawners"
     desc: "Removes all spawners from the game. Saving needed."
   gametime:
-    name: "Set game time"
+    name: "Ezarri jokoaren denbora"
     desc: "Sets the game time which should be used in the game-world"
   stats:
-    name: "Statistics"
-    desc: "Shows your statistics"
+    name: "Estatistikak"
+    desc: "Zure estatistikak erakusten ditu"
   setbuilder:
     name: "Sets builder of map"
     desc: "Sets the builder of the map which will be display in the title when game starts."
@@ -274,10 +274,10 @@ commands:
     name: "Set autobalance"
     desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
-    name: "Set minimum players"
+    name: "Ezarri gutxienezko jokalariak"
     desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Kick player"
+    name: "Kanporatu jokalaria"
     desc: "Kicks a player from the current game!"
   addteamjoin:
     name: "Add team selection"
@@ -286,7 +286,7 @@ commands:
     name: "Add hologram location"
     desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "Remove hologram location"
+    name: "Ezabatu hologramaren kokalekua"
     desc: "When the command was executed, the player can right-click the hologram which should be removed."
     explain: "Perform a left click within 10 seconds on the hologram you want to remove."
   debugpaste:
