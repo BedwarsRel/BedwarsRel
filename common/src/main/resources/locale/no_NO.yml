@@ -229,7 +229,7 @@ commands:
     name: "Angi spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
+    name: "Start spillet"
     desc: "Starter ett spill"
   stop:
     name: "Stopp spillet"
