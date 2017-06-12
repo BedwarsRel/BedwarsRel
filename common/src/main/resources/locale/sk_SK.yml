@@ -9,7 +9,7 @@ errors:
   classnotfound: "Nejde nacitat $package$ class $class$!"
   gameexists: "Hra s tymto menom uz existuje!"
   gamenotfound: "Hra '$game$' nebola najdena!"
-  nofreegames: "There are no free games available."
+  nofreegames: "Nie sú žiadne hry voľné."
   gamenotfoundsimple: "Hra nenajdena!"
   playeramount: "Pocet hracov nesmie byt mensi ako 1 a vyssi ako 24!"
   teamcolornotallowed: "Tato farba nie je pre timy povolena."
@@ -157,10 +157,10 @@ lobby:
   countdown: "Hra zacne za $sec$ sekund!"
   countdowncancel: "Je treba viac hracov! Odpocet bol zastaveny."
   cancelcountdown:
-    not_enough_players: "Je potreba viac hracov! Odpocet bol zastaveny."
+    not_enough_players: "More players needed. Countdown cancelled!"
     not_enough_teams: "More teams needed. Countdown cancelled!"
   cancelstart:
-    not_enough_players: "Pre start hry je treba viac hracov!"
+    not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "More teams are needed to start the game!"
   chooseteam: "Vyber si tim"
   startgame: "Spustit hru"
@@ -229,59 +229,59 @@ commands:
     name: "Nastavit spawner"
     desc: "Nastavi mista pre spawnovanie surovin"
   start:
-    name: "Spustit hru"
-    desc: "Spusti hru"
+    name: "Start game"
+    desc: "Starts a game"
   stop:
-    name: "Ukoncit hru"
-    desc: "Ukonci hru"
+    name: "Stop game"
+    desc: "Stops a game"
   help:
-    name: "Ukazat pomoc"
-    desc: "Ukaze informacie o tomto plugine a prikazoch"
+    name: "Show Help"
+    desc: "Display information about the plugin and its commands"
   reload:
-    name: "Znova nacitat"
-    desc: "Znova nacita vsetky konfiguracie a jazyky"
+    name: "Reload"
+    desc: "Reloads the configurations and translations"
   setmainlobby:
-    name: "Nastavit Main lobby"
-    desc: "Nastavi hlavne lobby, kam sa po hre teleportuju hraci. (je treba pokial je mainlobby-enabled nastavene na true)"
+    name: "Set main lobby"
+    desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
   list:
-    name: "List hier"
-    desc: "Zobrazi vsetky dostupne hry"
+    name: "List games"
+    desc: "Lists all available games"
   regionname:
-    name: "Nastavit meno regionu"
-    desc: "Nastavi individualne meno hry (nezalezi na svete)"
+    name: "Set region name"
+    desc: "Sets an individual region name (instead of world name)"
   removeteam:
-    name: "Odstranit tim"
-    desc: "Zmaze tim z hry (iba vo vypnutej hre)"
+    name: "Remove team"
+    desc: "Removes a team from the game (only in stopped mode)"
   removegame:
-    name: "Odstranit hru"
-    desc: "Zmaze hru a konfiguraciu"
+    name: "Remove game"
+    desc: "Removes a game and every configuration"
   clearspawner:
-    name: "Zmazat spawnery"
-    desc: "Odstrani vsetky spawnery surovin. Ulozenie areny je nutne."
+    name: "Clear spawners"
+    desc: "Removes all spawners from the game. Saving needed."
   gametime:
-    name: "Nastavit cas hry"
-    desc: "Nastavi cas, ktory bude v arene po dobu hry"
+    name: "Set game time"
+    desc: "Sets the game time which should be used in the game-world"
   stats:
-    name: "Statistiky"
-    desc: "Zobrazi tvoje statistiky"
+    name: "Statistics"
+    desc: "Shows your statistics"
   setbuilder:
-    name: "Nastavit stavitela mapy"
-    desc: "Nastavi stavitela mapy, ktory sa bude zobrazovat v title."
+    name: "Sets builder of map"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
   setgameblock:
-    name: "Nastavit herny blok"
-    desc: "Nastavi blok hry, ktory moze byt pouzity miesto 'game-block' nastavenia. Napis 'DEFAULT' pre znova pouzitie bloku z konfiguracie."
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
-    name: "Nastavit automaticke vyvazovanie"
-    desc: "Pokial je 'global-autobalance' nastavene na 'false', tak mozes pomocou tohto prikazu nastavit automaticke vyvazovanie pre tuto hru!"
+    name: "Set autobalance"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
     name: "Set minimum players"
     desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Vyhodit hraca"
-    desc: "Vyhodi hraca z aktualnej hry!"
+    name: "Kick player"
+    desc: "Kicks a player from the current game!"
   addteamjoin:
-    name: "Pridat vyberanie timu"
-    desc: "Vyberie bytost, pomocou ktorej sa budes moct pripojit do timu!"
+    name: "Add team selection"
+    desc: "Mark a creature which can be used to join a specific team!"
   addholo:
     name: "Add hologram location"
     desc: "A hologram statistic will be added at the current position!"
