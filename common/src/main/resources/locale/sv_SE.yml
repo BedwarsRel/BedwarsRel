@@ -151,16 +151,16 @@ ingame:
     tntsheep:
       no-target-found: "Ingen target spelare hittades!"
     tracker:
-      no-target-found: "Ingen target spelare hittades!"
+      no-target-found: "No target player was found!"
       target-found: "$player$ är $blocks$ block ifrån dig."
 lobby:
   countdown: "Spelet börjar om $sec$ sekund(er)!"
   countdowncancel: "Fler spelare behövs. Nedräkningen avbröts!"
   cancelcountdown:
-    not_enough_players: "Fler spelare behövs. Nedräkningen avbröts!"
+    not_enough_players: "More players needed. Countdown cancelled!"
     not_enough_teams: "Fler lag behövs. Nedräkningen avbröts!"
   cancelstart:
-    not_enough_players: "Fler spelare behövs för att starta spelet!"
+    not_enough_players: "More players are needed to start the game!"
     not_enough_teams: "Fler lag behövs för att starta spelet!"
   chooseteam: "Välj ett lag"
   startgame: "Starta Spel"
@@ -229,7 +229,7 @@ commands:
     name: "Ställ in spawner"
     desc: "Anger en spawner placering av en specifik Resurs"
   start:
-    name: "Starta Spel"
+    name: "Start game"
     desc: "Startar ett spel"
   stop:
     name: "Stoppa spelet"
@@ -263,35 +263,35 @@ commands:
     desc: "Anger den spela tid som bör användas i spel-världen"
   stats:
     name: "Statistik"
-    desc: "Visar din statistik"
+    desc: "Shows your statistics"
   setbuilder:
-    name: "Väljer byggaren av kartan"
-    desc: "Väljer byggaren av kartan som kommer att visas i titeln när spelet startar."
+    name: "Sets builder of map"
+    desc: "Sets the builder of the map which will be display in the title when game starts."
   setgameblock:
-    name: "Ställa in spel blocket"
-    desc: "Anger blocktyp för detta spel som bör användas i stället för 'game-block' konfigurationen. Skriv 'Standard' som du vill använda typ av konfigurationen igen"
+    name: "Set game block"
+    desc: "Sets the game block type for this game which should be used instead of the 'game-block' configuration. Write 'DEFAULT' as type to use the type of config again"
   setautobalance:
-    name: "Ställ in autobalance"
-    desc: "Om 'global-autobalance' är 'false', med detta kommando kan du ange team-autobalance per match till att aktivera eller inaktivera!"
+    name: "Set autobalance"
+    desc: "If 'global-autobalance' is set to 'false', with this command you can set team-autobalance per game to on or off!"
   setminplayers:
-    name: "Ange minst spelare"
-    desc: "Anger mängden spelare som behövs för att starta spelet"
+    name: "Set minimum players"
+    desc: "Sets the amount of players needed to start the game"
   kick:
-    name: "Sparka spelare"
-    desc: "Sparkar en spelare från det aktuella spelet!"
+    name: "Kick player"
+    desc: "Kicks a player from the current game!"
   addteamjoin:
-    name: "Lägga till laget i selectionen"
-    desc: "Markera en varelse som kan användas till ett specifikt lag!"
+    name: "Add team selection"
+    desc: "Mark a creature which can be used to join a specific team!"
   addholo:
     name: "Add hologram location"
     desc: "A hologram statistic will be added at the current position!"
   removeholo:
-    name: "Ta bort hologram platsen"
-    desc: "När kommandot utfördes, spelaren kan högerklicka på hologrammet som bör tas bort."
-    explain: "Utföra en vänster klick inom 10 sekunder på hologrammet du vill ta bort."
+    name: "Remove hologram location"
+    desc: "When the command was executed, the player can right-click the hologram which should be removed."
+    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
   debugpaste:
     name: "Paste debug data"
-    desc: "Detta kommer att skicka lite debug data till hastebin och ger tillbaka en länk som du kan dela med utvecklarna"
+    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
