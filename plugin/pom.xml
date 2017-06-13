@@ -3,7 +3,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>BedwarsRel</artifactId>
+    <artifactId>BedwarsRel-Parent</artifactId>
     <groupId>io.github.bedwarsrel</groupId>
     <version>1.3.5</version>
   </parent>
@@ -11,60 +11,60 @@
 
   <version>${versionstring}</version>
 
-  <artifactId>plugin</artifactId>
+  <artifactId>BedwarsRel</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>io.github.bedwarsrel</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>BedwarsRel-Common</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_8_r1</artifactId>
+      <artifactId>BedwarsRel-v1_8_r1</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_8_r2</artifactId>
+      <artifactId>BedwarsRel-v1_8_r2</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_8_r3</artifactId>
+      <artifactId>BedwarsRel-v1_8_r3</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_9_r1</artifactId>
+      <artifactId>BedwarsRel-v1_9_r1</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_9_r2</artifactId>
+      <artifactId>BedwarsRel-v1_9_r2</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_10_r1</artifactId>
+      <artifactId>BedwarsRel-v1_10_r1</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_11_r1</artifactId>
+      <artifactId>BedwarsRel-v1_11_r1</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.github.bedwarsrel.com</groupId>
-      <artifactId>v1_12_r1</artifactId>
+      <artifactId>BedwarsRel-v1_12_r1</artifactId>
       <version>${project.parent.version}</version>
       <scope>compile</scope>
     </dependency>

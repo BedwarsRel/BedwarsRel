@@ -3,19 +3,19 @@
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <artifactId>BedwarsRel</artifactId>
+    <artifactId>BedwarsRel-Parent</artifactId>
     <groupId>io.github.bedwarsrel</groupId>
     <version>1.3.5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.bedwarsrel.com</groupId>
-  <artifactId>v1_8_r3</artifactId>
+  <artifactId>BedwarsRel-v1_8_r3</artifactId>
 
   <dependencies>
     <dependency>
       <groupId>io.github.bedwarsrel</groupId>
-      <artifactId>common</artifactId>
+      <artifactId>BedwarsRel-Common</artifactId>
       <version>${project.parent.version}</version>
       <scope>provided</scope>
     </dependency>

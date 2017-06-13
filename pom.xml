@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.bedwarsrel</groupId>
-  <artifactId>BedwarsRel</artifactId>
+  <artifactId>BedwarsRel-Parent</artifactId>
   <packaging>pom</packaging>
   <version>1.3.5</version>
 
@@ -59,14 +59,14 @@
       </activation>
       <properties>
         <versionstring>${project.parent.version}-SNAPSHOT</versionstring>
-        <filename>${project.parent.artifactId}-${project.parent.version}-SNAPSHOT</filename>
+        <filename>${project.artifactId}-${project.parent.version}-SNAPSHOT</filename>
       </properties>
     </profile>
     <profile>
       <id>ci-snapshot</id>
       <properties>
         <versionstring>${project.parent.version}-${env.SHORT_HASH}-SNAPSHOT</versionstring>
-        <filename>${project.parent.artifactId}-${project.parent.version}-SNAPSHOT</filename>
+        <filename>${project.artifactId}-${project.parent.version}-SNAPSHOT</filename>
       </properties>
     </profile>
     <profile>
@@ -91,7 +91,7 @@
       <id>ci-release</id>
       <properties>
         <versionstring>${project.parent.version}</versionstring>
-        <filename>${project.parent.artifactId}-${project.parent.version}</filename>
+        <filename>${project.artifactId}-${project.parent.version}</filename>
       </properties>
     </profile>
     <profile>

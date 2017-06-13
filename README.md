@@ -12,7 +12,17 @@ For general information about BedwarsRel **[go to www.spigotmc.org](https://www.
 
 If you are experiencing any problems with BedwarsRel, please open a new issue. Remember the content of the wiki-page **["HowTo: Write an issue"](https://github.com/BedwarsRel/BedwarsRel/wiki/HowTo:-Write-an-Issue)** you already read before.
 
-BedwarsRel is compatible with `CraftBukkit/Spigot 1.8 - 1.8.8`, `CraftBukkit/Spigot 1.9 - 1.9.4`, `CraftBukkit/Spigot 1.10 - 1.10.2 and CraftBukkit/Spigot 1.11`.
+BedwarsRel is compatible with `CraftBukkit/Spigot 1.8 - 1.8.8`, `CraftBukkit/Spigot 1.9 - 1.9.4`, `CraftBukkit/Spigot 1.10 - 1.10.2`, `CraftBukkit/Spigot 1.11 - 1.11.2` and `CraftBukkit/Spigot 1.12`.
 
 # Developers
+## Contributing to BedwarsRel
 If you would like to contribute to this repository, feel free to [fork the repo](https://help.github.com/articles/fork-a-repo/) and then [create a pull request](https://help.github.com/articles/creating-a-pull-request/) to our current `dev` branch. This project uses [Project Lombok](https://projectlombok.org), so you will need to have this [installed in your IDE](https://projectlombok.org/download.html). For code formatting, we recommand using the [Google Java Style](https://google.github.io/styleguide/javaguide.html) ([Eclipse Profile](https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml)).
+
+## Implementing BedwarsRel
+```xml
+<dependency>
+  <groupId>io.github.bedwarsrel</groupId>
+  <artifactId>BedwarsRel</artifactId>
+  <version>1.3.5</version>
+</dependency>
+```
