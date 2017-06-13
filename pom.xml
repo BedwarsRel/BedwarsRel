@@ -37,7 +37,6 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-
   <modules>
     <module>v1_8_r1</module>
     <module>v1_8_r2</module>
@@ -70,47 +69,11 @@
       </properties>
     </profile>
     <profile>
-      <id>deploy-snapshot</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.7</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>sonatype-nexus-snapshots</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>ci-release</id>
       <properties>
         <versionstring>${project.parent.version}</versionstring>
         <filename>${project.artifactId}-${project.parent.version}</filename>
       </properties>
-    </profile>
-    <profile>
-      <id>deploy-release</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.7</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>sonatype-nexus-releases</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
     </profile>
     <profile>
       <id>attach-javadocs</id>
@@ -126,6 +89,12 @@
                 <goals>
                   <goal>jar</goal>
                 </goals>
+                <configuration>
+                  <includeDependencySources>true</includeDependencySources>
+                  <dependencySourceIncludes>
+                    <dependencySourceInclude>io.github.bedwarsrel:*</dependencySourceInclude>
+                  </dependencySourceIncludes>
+                </configuration>
               </execution>
             </executions>
           </plugin>
@@ -193,6 +162,5 @@
       </plugin>
     </plugins>
   </build>
-
 
 </project>

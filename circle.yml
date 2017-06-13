@@ -42,5 +42,5 @@ jobs:
         destination: artifacts
 
       - type: artifacts-store
-        path: common/target/apidocs
+        path: plugin/target/apidocs
         destination: apidocs
