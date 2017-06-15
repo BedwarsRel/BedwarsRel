@@ -118,8 +118,7 @@ public class PlayerStatistic implements ConfigurationSerializable {
       kd = ((double) this.getKills() + this.getCurrentKills()) / ((double) this.getDeaths() + this
           .getCurrentDeaths());
     }
-    DecimalFormat df = new DecimalFormat("#.##");
-    kd = Double.valueOf(df.format(kd));
+    kd = Math.round(kd * 100.0) / 100.0;
 
     return kd;
   }
