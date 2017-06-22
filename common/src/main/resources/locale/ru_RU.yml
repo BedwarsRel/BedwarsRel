@@ -1,9 +1,9 @@
 ---
 default:
   pages: "Страница: $current$ из $max$"
-  currently: Сейчасcy cyka blyat
+  currently: Сейчас
 errors:
-  argumentslength: "Количество аргументов не соответствует правильному количество asd"
+  argumentslength: "Количество аргументов не соответствует правильному количеству!"
   holodependencynotfound: "Не удалось найти $dependency$ для статистики голограммы"
   packagenotfound: "Не удалось получить $package$ пакет"
   classnotfound: "Не удалось получить пакет $package$ для класса $class$"
@@ -14,8 +14,8 @@ errors:
   playeramount: "Максимальное к-во игроков не может быть ниже 1 и выше 24"
   teamcolornotallowed: "Данный командный цвет не допускается"
   teamnamelength: "название команды должно быть от 2 до 20 символов"
-  teamnotfound: "Команда не найдена"
-  notingame: "В настоящее время вы вне игры"
+  teamnotfound: "Команда не найдена!"
+  notingame: "В настоящее время вы вне игры!"
   bedtargeting: "Вы должны стоять на блоке который вы указали в конфиге вместо кровати"
   regionargument: "Допустимые аргументы: 'loc1' или 'loc2'"
   spawnerargument: "Параметр ресурса должен быть допустимым настроенным ресурсом!"
@@ -290,8 +290,8 @@ commands:
     desc: "Когда была выполнена команда, игрок может нажать на правую кнопку мыши голограммы, которая должна быть удалена."
     explain: "Выполните левый клик в течение 10 секунд на голограмме, которую вы хотите удалить."
   debugpaste:
-    name: "Paste debug data"
+    name: "Вставить данные отладки"
     desc: "Это отправляет данные для отладки в hastebin и предоставляет ссылку, которую вы можете отправить разработчикам"
   itemspaste:
-    name: "Paste your inventory to a file"
-    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
+    name: "Записать содержимое инвентаря в файл"
+    desc: "Вы получите ссылку, где можно будет посмотреть предметы вашего инвентаря в виде примера для конфигурации shop.yml"
