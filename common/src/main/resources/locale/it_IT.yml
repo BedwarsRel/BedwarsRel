@@ -1,7 +1,7 @@
 ---
 default:
-  pages: "La pagina $current$ di $max$"
-  currently: Al momento
+  pages: "Pagina $current$ di $max$"
+  currently: Attualmente
 errors:
   argumentslength: "Il numero di argomenti non corrisponde alla corretta quantità!"
   holodependencynotfound: "Non riusciva a trovare $dependency$ per ologramma-statistica"
@@ -31,7 +31,7 @@ errors:
   regionnotfound: "File di regione non esiste!"
   savesign: "Impossibile creare un nuovo file di configurazione di segno!"
   nogames: "Nessun gioco trovato!"
-  notenoughress: "Non avevi abbastanza ressource a comprare questo oggetto!"
+  notenoughress: "Non hai abbastanza risorse per acquistare questo oggetto!"
   teamnameinuse: "Nome della squadra è già in uso!"
   minplayersmustnumber: "Minimo giocatori devono essere un numero!"
   toolongregionname: "Lunghezza massima del nome della regione sono 15 caratteri!"
@@ -293,5 +293,5 @@ commands:
     name: "Incolla i dati di debug"
     desc: "Questo maderà qualche stringa del debug a hastebin e ti ritornerà come link che potrai condividere con gli sviluppatori"
   itemspaste:
-    name: "Paste your inventory to a file"
-    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
+    name: "Incolla il tuo inventario in un file"
+    desc: "Questo restituirà un collegamento in cui è possibile vedere che l'inventario corrente viene serializzato come esempio per il tuo shop.yml"
