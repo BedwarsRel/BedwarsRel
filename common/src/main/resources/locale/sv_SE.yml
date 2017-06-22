@@ -283,15 +283,15 @@ commands:
     name: "Lägga till laget i selectionen"
     desc: "Markera en varelse som kan användas till ett specifikt lag!"
   addholo:
-    name: "Add hologram location"
-    desc: "A hologram statistic will be added at the current position!"
+    name: "Lägg till hologram plats"
+    desc: "Ett statistik hologram kommer att placeras vid din position!"
   removeholo:
     name: "Ta bort hologram platsen"
     desc: "När kommandot utfördes, spelaren kan högerklicka på hologrammet som bör tas bort."
     explain: "Utföra en vänster klick inom 10 sekunder på hologrammet du vill ta bort."
   debugpaste:
-    name: "Paste debug data"
+    name: "Klistra in debug data"
     desc: "Detta kommer att skicka lite debug data till hastebin och ger tillbaka en länk som du kan dela med utvecklarna"
   itemspaste:
-    name: "Paste your inventory to a file"
-    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
+    name: "Skicka ditt inventory till en fil"
+    desc: "Detta kommer att återvända en länk där du kan se ditt nuvarande inventory som ett exempel för din shop.yml"
