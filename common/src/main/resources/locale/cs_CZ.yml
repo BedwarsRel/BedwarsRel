@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Jeden nebo vice tymu nemaji nastavenou postel!"
   TEAM_NO_WRONG_TARGET: "Jeden nebo vice tymu nemaji nastaveny respawn block!"
 ingame:
-  team: "Team"
+  team: "Tým"
   teams: "Tymy"
   all: "Vsichni"
   record: "&e$record$&a je rekord na teto mape!"
@@ -293,5 +293,5 @@ commands:
     name: "Paste debug data"
     desc: "Odešle pár debug dat na hastebin a vytvoří Url link, který můžete sdílet s vývojáři"
   itemspaste:
-    name: "Paste your inventory to a file"
+    name: "Vložte váš inventář do souboru"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
