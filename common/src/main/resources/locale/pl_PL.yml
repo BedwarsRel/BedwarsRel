@@ -229,7 +229,7 @@ commands:
     name: "Ustaw spawner"
     desc: "Ustaw spawner dla konkretnego itemu"
   start:
-    name: "Start game"
+    name: "Rozpocznij grę"
     desc: "Gra się rozpoczyna"
   stop:
     name: "Zatrzymaj grę"
@@ -291,7 +291,7 @@ commands:
     explain: "Kliknij lewym przyciskiem myszki w ciągu 10 sekund na hologram, aby go usunąć."
   debugpaste:
     name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "To będzie wysyłać dane debugowania do hastebin i zwróci link który możesz udostępnić deweloperom"
   itemspaste:
     name: "Paste your inventory to a file"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
