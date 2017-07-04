@@ -5,7 +5,7 @@
   <parent>
     <artifactId>BedwarsRel-Parent</artifactId>
     <groupId>io.github.bedwarsrel</groupId>
-    <version>1.3.6</version>
+    <version>1.3.7</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 

@@ -23,6 +23,6 @@ If you would like to contribute to this repository, feel free to [fork the repo]
 <dependency>
   <groupId>io.github.bedwarsrel</groupId>
   <artifactId>BedwarsRel</artifactId>
-  <version>1.3.6</version>
+  <version>1.3.7</version>
 </dependency>
 ```
