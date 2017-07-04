@@ -229,7 +229,7 @@ commands:
     name: "Nustatyti spawnerį"
     desc: "Nustato resursų bronzo,metalo,aukso atsiradimo vieta"
   start:
-    name: "Start game"
+    name: "Pradėti žaidimą"
     desc: "Žaidimas prasideda"
   stop:
     name: "Sustabdyti žaidimą"

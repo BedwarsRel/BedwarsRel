@@ -8,11 +8,11 @@ errors:
   packagenotfound: "Kunne ikke finne $package$ package!"
   classnotfound: "Couldn't fetch $package$ class $class$!"
   gameexists: "Et spill med dette navnet finnes allerede."
-  gamenotfound: "The game '$game$' could not be found!"
+  gamenotfound: "Runden '$game$' kunne ikke bli funnet!"
   nofreegames: "Det er ingen ledige spill tilgjengelige."
   gamenotfoundsimple: "Spill ikke funnet!"
   playeramount: "Maks antall spillere kan ikke være lavere enn 1 eller høyere enn 24!"
-  teamcolornotallowed: "The given Team color isn't a allowed color"
+  teamcolornotallowed: "Denne lag fargen er ikke tiltatt"
   teamnamelength: "Lag navn må ha mellom 2 og 20 tegn!"
   teamnotfound: "Team ikke funnet!"
   notingame: "Du er ikke i et spill!"
@@ -229,7 +229,7 @@ commands:
     name: "Angi spawner"
     desc: "Sets a spawner location of a specific ressource"
   start:
-    name: "Start game"
+    name: "Start spillet"
     desc: "Starter ett spill"
   stop:
     name: "Stopp spillet"

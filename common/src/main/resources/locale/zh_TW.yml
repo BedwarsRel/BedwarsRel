@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "有隊伍沒有設置床!"
   TEAM_NO_WRONG_TARGET: "有隊伍沒有設置重生點!"
 ingame:
-  team: "Team"
+  team: "陣營"
   teams: "團隊"
   all: "全部"
   record: "&e$record$&a 是這個地圖的記錄!"
@@ -166,7 +166,7 @@ lobby:
   startgame: "開始遊戲"
   reduce_countdown: "減少倒計時"
   gamefull: "遊戲已滿!"
-  gamefullpremium: "The game is full of premium players already!"
+  gamefullpremium: "遊戲人數已滿"
   teamjoined: "您成功加入了團隊 $team$"
   leavegame: "離開遊戲"
   playerjoin: "玩家 $player$ 加入了遊戲!"

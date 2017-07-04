@@ -290,8 +290,8 @@ commands:
     desc: "Une statistique d'hologramme sera ajoutée à la position actuelle."
     explain: "Effectue un clique gauche dans les 10 secondes sur l'hologramme que vous souhaitez supprimer."
   debugpaste:
-    name: "Paste debug data"
+    name: "Coller les données de débogage"
     desc: "Cette option enverra des informations de debug à Hastebin et vous donnera un lien que vous pourrez partager avec les devellopeurs"
   itemspaste:
-    name: "Paste your inventory to a file"
-    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
+    name: "Collez votre inventaire dans un fichier"
+    desc: "Cela renverra un lien où vous pouvez voir votre inventaire actuel sérialisé comme exemple pour votre shop.yml"
