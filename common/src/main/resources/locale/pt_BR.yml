@@ -291,7 +291,7 @@ commands:
     explain: "Execute um clique esquerdo em 10 segundos no holograma que deseja remover."
   debugpaste:
     name: "Colar dados de depuração"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    desc: "Isto irá enviar alguns dados de debug para hastebin e retorna um link que você pode compartilhar com desenvolvedores"
   itemspaste:
     name: "Cole seu inventário para um arquivo"
     desc: "Isso retornará um link onde você pode ver seu inventário atual que será usado como um exemplo para seu shop.yml"
