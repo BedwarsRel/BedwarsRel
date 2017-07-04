@@ -86,7 +86,11 @@ public class ServerListener extends BaseListener {
 
     finalLine = finalLine.replace("$title$", BedwarsRel._l("sign.firstline"));
     finalLine = finalLine.replace("$gamename$", game.getName());
-    finalLine = finalLine.replace("$regionname$", game.getRegion().getName());
+    if (game.getRegion().getName() != null) {
+      finalLine = finalLine.replace("$regionname$", game.getRegion().getName());
+    } else {
+      finalLine = finalLine.replace("$regionname$", game.getName());
+    }
     finalLine = finalLine.replace("$maxplayers$", getMaxPlayersString(game));
     finalLine = finalLine.replace("$currentplayers$", getCurrentPlayersString(game));
     finalLine = finalLine.replace("$status$", getStatus(game));

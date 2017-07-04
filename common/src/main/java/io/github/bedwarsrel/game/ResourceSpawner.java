@@ -50,7 +50,7 @@ public class ResourceSpawner implements Runnable, ConfigurationSerializable {
             BedwarsRel.getInstance().getIntConfig("resource." + name + ".spawn-interval", 1000);
         this.spread =
             BedwarsRel.getInstance().getConfig().getDouble("resource." + name + ".spread", 1.0);
-
+        this.name = name;
       } else {
         List<Object> resourceList = (List<Object>) BedwarsRel.getInstance().getConfig()
             .getList("resource." + name + ".item");
