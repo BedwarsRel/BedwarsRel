@@ -27,7 +27,7 @@ errors:
   cantjoingame: "Çalışan veya durdurulmuş bir oyuna katılamazsın!"
   lobbyongameworld: "Lobi oyun dünyasında olamaz!"
   gamenotloaded: "Oyun başlatılamadı!"
-  gameloaderror: "Loading game '$game$' throws an error!"
+  gameloaderror: "Oyun '$game$' yüklenirken bir hata oluştu!"
   regionnotfound: "Bölge dosyası yok!"
   savesign: "Couldn't create a new sign config file!"
   nogames: "Oyun bulunamadı!"
