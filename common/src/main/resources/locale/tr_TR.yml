@@ -17,7 +17,7 @@ errors:
   teamnotfound: "Takım bulunamadı!"
   notingame: "Şuan'da bir oyunda değilsin!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
-  regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
+  regionargument: "Konum değişkeniniz 'loc1' veya 'loc2' olmalı!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
   blockdownnotfound: "Üzerinde durduğuna blok bulunamadı!"
   gamenotrunning: "Oyun çalışmıyor!"
