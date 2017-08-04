@@ -293,5 +293,5 @@ commands:
     name: "Paste debug data"
     desc: "To będzie wysyłać dane debugowania do hastebin i zwróci link który możesz udostępnić deweloperom"
   itemspaste:
-    name: "Paste your inventory to a file"
+    name: "Wklej swój ekwipunek do pliku"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
