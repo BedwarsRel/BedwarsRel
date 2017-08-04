@@ -230,7 +230,9 @@ public class PlayerStatisticManager {
 
   private PlayerStatistic loadYamlStatistic(UUID uuid) {
 
-    if (this.fileDatabase == null || !this.fileDatabase.contains("data." + uuid.toString())) {
+    if (this.fileDatabase == null || !this.fileDatabase.contains("data." + uuid.toString())
+        || this.fileDatabase.getConfigurationSection("data." + uuid.toString()).getValues(false)
+        == null) {
       PlayerStatistic playerStatistic = new PlayerStatistic(uuid);
       this.playerStatistic.put(uuid, playerStatistic);
       return playerStatistic;
