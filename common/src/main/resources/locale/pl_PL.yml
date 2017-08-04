@@ -290,8 +290,8 @@ commands:
     desc: "Kiedy ta komenda zostanie wykonana, gracz może kliknąć prawym przyciskiem myszki na hologram aby go usunąć."
     explain: "Kliknij lewym przyciskiem myszki w ciągu 10 sekund na hologram, aby go usunąć."
   debugpaste:
-    name: "Paste debug data"
+    name: "Wklejanie danych debugowania"
     desc: "To będzie wysyłać dane debugowania do hastebin i zwróci link który możesz udostępnić deweloperom"
   itemspaste:
     name: "Wklej swój ekwipunek do pliku"
-    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
+    desc: "Spowoduje to przywrócenie link gdzie można zobaczyć Twój bieżących zapasów, jest serializowana jako przykład dla Twojego shop.yml"
