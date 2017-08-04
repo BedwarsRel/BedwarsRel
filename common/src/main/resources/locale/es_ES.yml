@@ -290,7 +290,7 @@ commands:
     desc: "Cuando el comando es ejecutado, el jugador debe dar click-derecho en el holograma para eliminarlo."
     explain: "Realice un click izquierdo dentro de 10 segundos en el holograma que desea eliminar."
   debugpaste:
-    name: "Paste debug data"
+    name: "Pegar datos de errores"
     desc: "Esto enviará datos de errores a Hastebin y te proporcionara un link que puedes compartir con los desarrolladores"
   itemspaste:
     name: "Pegar tu inventario a un archivo"
