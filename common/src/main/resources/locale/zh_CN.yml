@@ -22,7 +22,7 @@ errors:
   blockdownnotfound: "在你所站的地方没有方块！"
   gamenotrunning: "游戏不能运行!"
   bungeenoserver: "Bungeecord服务器设置不正确！请联系管理员！"
-  cantstartagain: "游戏运行中! 你不能再次开始这个游戏!"
+  cantstartagain: "游戏正在运行中! 你不能再次开始这个游戏!"
   startoutofwaiting: "游戏已在等待时开始！"
   cantjoingame: "你不能加入正在进行或已经开始的游戏！"
   lobbyongameworld: "大厅不能与游戏场地在同一个世界！"
@@ -90,7 +90,7 @@ gamecheck:
   TEAM_NO_WRONG_BED: "有队伍没有设置床!"
   TEAM_NO_WRONG_TARGET: "有队伍没有设置重生点!"
 ingame:
-  team: "Team"
+  team: "队伍"
   teams: "队伍"
   all: "全部"
   record: "&e$record$&a 是这个地图的记录!"
