@@ -1,14 +1,15 @@
-package io.github.bedwarsrel.listener;
+package io.github.bedwarsrel.listener.events;
 
 import io.github.bedwarsrel.BedwarsRel;
 import io.github.bedwarsrel.game.BungeeGameCycle;
 import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.game.GameState;
+import io.github.bedwarsrel.listener.BaseListener;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
-public class Player19Listener extends BaseListener {
+public class PlayerSwapHandItemsEventListener extends BaseListener {
 
   @EventHandler
   public void onPlayerSwapHandItems(PlayerSwapHandItemsEvent event) {
