@@ -48,12 +48,14 @@ import io.github.bedwarsrel.listener.BlockListener;
 import io.github.bedwarsrel.listener.ChunkListener;
 import io.github.bedwarsrel.listener.EntityListener;
 import io.github.bedwarsrel.listener.HangingListener;
-import io.github.bedwarsrel.listener.Player19Listener;
 import io.github.bedwarsrel.listener.PlayerListener;
 import io.github.bedwarsrel.listener.PlayerSpigotListener;
 import io.github.bedwarsrel.listener.ServerListener;
 import io.github.bedwarsrel.listener.SignListener;
 import io.github.bedwarsrel.listener.WeatherListener;
+import io.github.bedwarsrel.listener.events.EntityPickupItemEventListener;
+import io.github.bedwarsrel.listener.events.PlayerPickUpItemEventListener;
+import io.github.bedwarsrel.listener.events.PlayerSwapHandItemsEventListener;
 import io.github.bedwarsrel.localization.LocalizationConfig;
 import io.github.bedwarsrel.shop.Specials.SpecialItem;
 import io.github.bedwarsrel.statistics.PlayerStatistic;
@@ -744,10 +746,14 @@ public class BedwarsRel extends JavaPlugin {
 
     if (this.getDescription().getVersion().contains("-SNAPSHOT")
         && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) {
-      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** Warning, you are using a development build ***"));
-      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** You will get NO support regarding this build ***"));
-      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** Please download a stable build from https://github.com/BedwarsRel/BedwarsRel/releases ***"));
-      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED + "*** Server will start in 10 seconds ***"));
+      this.getServer().getConsoleSender().sendMessage(ChatWriter
+          .pluginMessage(ChatColor.RED + "*** Warning, you are using a development build ***"));
+      this.getServer().getConsoleSender().sendMessage(ChatWriter
+          .pluginMessage(ChatColor.RED + "*** You will get NO support regarding this build ***"));
+      this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
+          + "*** Please download a stable build from https://github.com/BedwarsRel/BedwarsRel/releases ***"));
+      this.getServer().getConsoleSender().sendMessage(
+          ChatWriter.pluginMessage(ChatColor.RED + "*** Server will start in 10 seconds ***"));
       try {
         Thread.sleep(TimeUnit.SECONDS.toMillis(10));
       } catch (InterruptedException e) {
@@ -882,7 +888,15 @@ public class BedwarsRel extends JavaPlugin {
     new BlockListener();
     new PlayerListener();
     if (!BedwarsRel.getInstance().getCurrentVersion().startsWith("v1_8")) {
-      new Player19Listener();
+      new PlayerSwapHandItemsEventListener();
+    }
+    if (BedwarsRel.getInstance().getCurrentVersion().startsWith("v1_8")
+        || BedwarsRel.getInstance().getCurrentVersion().startsWith("v1_9") | BedwarsRel
+        .getInstance().getCurrentVersion().startsWith("v1_10") || BedwarsRel.getInstance()
+        .getCurrentVersion().startsWith("v1_11")) {
+      new PlayerPickUpItemEventListener();
+    } else {
+      new EntityPickupItemEventListener();
     }
     new HangingListener();
     new EntityListener();
