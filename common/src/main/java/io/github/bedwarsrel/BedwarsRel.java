@@ -86,8 +86,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -112,7 +112,9 @@ public class BedwarsRel extends JavaPlugin {
   private Bugsnag bugsnag;
   private ArrayList<BaseCommand> commands = new ArrayList<>();
   private Package craftbukkit = null;
-  private DatabaseManager dbManager = null;
+  @Getter
+  @Setter
+  private DatabaseManager databaseManager = null;
   @Getter
   private GameManager gameManager = null;
   private IHologramInteraction holographicInteraction = null;
@@ -376,10 +378,6 @@ public class BedwarsRel extends JavaPlugin {
 
   public String getCurrentVersion() {
     return this.version;
-  }
-
-  public DatabaseManager getDatabaseManager() {
-    return this.dbManager;
   }
 
   public String getFallbackLocale() {
@@ -661,9 +659,9 @@ public class BedwarsRel extends JavaPlugin {
     String tablePrefix = this.getStringConfig("database.table-prefix", "bw_");
 
     if (BedwarsRel.getInstance().getStatisticStorageType() == StorageType.YAML) {
-      this.dbManager = new YamlDatabaseManager();
+      this.databaseManager = new YamlDatabaseManager();
     } else if (BedwarsRel.getInstance().getStatisticStorageType() == StorageType.DATABASE) {
-      this.dbManager = new MysqlDatabaseManager(host, port, user, password, db, tablePrefix);
+      this.databaseManager = new MysqlDatabaseManager(host, port, user, password, db, tablePrefix);
     }
 
     if (BedwarsRel.getInstance().getStatisticStorageType() != StorageType.YAML
@@ -674,7 +672,7 @@ public class BedwarsRel extends JavaPlugin {
     this.getServer().getConsoleSender()
         .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Initialize database ..."));
 
-    this.dbManager.initialize();
+    this.databaseManager.initialize();
   }
 
   private void loadLocalization(String locale) {

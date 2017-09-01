@@ -3,30 +3,23 @@ package io.github.bedwarsrel.statistics;
 import io.github.bedwarsrel.BedwarsRel;
 import io.github.bedwarsrel.events.BedwarsSavePlayerStatisticEvent;
 import io.github.bedwarsrel.utils.ChatWriter;
-import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 public class PlayerStatisticManager {
 
-  private Map<UUID, PlayerStatistic> playerStatistic;
+  @Getter
+  private Map<UUID, PlayerStatistic> playerStatistics;
 
   public PlayerStatisticManager() {
-    this.playerStatistic = new HashMap<>();
+    this.playerStatistics = new HashMap<>();
   }
 
   public List<String> createStatisticLines(PlayerStatistic playerStatistic, boolean withPrefix,
@@ -107,11 +100,11 @@ public class PlayerStatisticManager {
       return null;
     }
 
-    if (!this.playerStatistic.containsKey(player.getUniqueId())) {
+    if (!this.playerStatistics.containsKey(player.getUniqueId())) {
       return this.loadStatistic(player.getUniqueId());
     }
 
-    return this.playerStatistic.get(player.getUniqueId());
+    return this.playerStatistics.get(player.getUniqueId());
   }
 
   private String getStatisticLine(String name, Object value1, Object value2, Boolean withPrefix,
@@ -138,12 +131,15 @@ public class PlayerStatisticManager {
 
 
   public PlayerStatistic loadStatistic(UUID uuid) {
-    if (this.playerStatistic.containsKey(uuid)) {
-      return this.playerStatistic.get(uuid);
+    if (this.playerStatistics.containsKey(uuid)) {
+      return this.playerStatistics.get(uuid);
     }
 
     PlayerStatistic statistic = BedwarsRel.getInstance().getDatabaseManager().loadStatistic(uuid);
-    this.playerStatistic.put(uuid, statistic);
+    if(statistic != null && statistic.getId() == null){
+      statistic.setId(uuid);
+    }
+    this.playerStatistics.put(uuid, statistic);
 
     return statistic;
   }
@@ -164,7 +160,7 @@ public class PlayerStatisticManager {
 
   public void unloadStatistic(OfflinePlayer player) {
     if (BedwarsRel.getInstance().getStatisticStorageType() != StorageType.YAML) {
-      this.playerStatistic.remove(player.getUniqueId());
+      this.playerStatistics.remove(player.getUniqueId());
     }
   }
 
