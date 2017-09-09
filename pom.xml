@@ -196,6 +196,10 @@
       <id>inventive-repo</id>
       <url>https://repo.inventivetalent.org/content/repositories/releases</url>
     </repository>
+    <repository>
+      <id>nmscraft-repo</id>
+      <url>http://nmscraft.com/artifactory/public/</url>
+    </repository>
   </repositories>
 
   <dependencies>
