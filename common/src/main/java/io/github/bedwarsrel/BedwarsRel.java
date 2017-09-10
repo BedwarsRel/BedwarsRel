@@ -39,6 +39,8 @@ import io.github.bedwarsrel.commands.StartGameCommand;
 import io.github.bedwarsrel.commands.StatsCommand;
 import io.github.bedwarsrel.commands.StopGameCommand;
 import io.github.bedwarsrel.database.DatabaseManager;
+import io.github.bedwarsrel.database.MysqlDatabaseManager;
+import io.github.bedwarsrel.database.YamlDatabaseManager;
 import io.github.bedwarsrel.game.Game;
 import io.github.bedwarsrel.game.GameManager;
 import io.github.bedwarsrel.game.GameState;
@@ -84,8 +86,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -110,7 +112,9 @@ public class BedwarsRel extends JavaPlugin {
   private Bugsnag bugsnag;
   private ArrayList<BaseCommand> commands = new ArrayList<>();
   private Package craftbukkit = null;
-  private DatabaseManager dbManager = null;
+  @Getter
+  @Setter
+  private DatabaseManager databaseManager = null;
   @Getter
   private GameManager gameManager = null;
   private IHologramInteraction holographicInteraction = null;
@@ -374,10 +378,6 @@ public class BedwarsRel extends JavaPlugin {
 
   public String getCurrentVersion() {
     return this.version;
-  }
-
-  public DatabaseManager getDatabaseManager() {
-    return this.dbManager;
   }
 
   public String getFallbackLocale() {
@@ -647,13 +647,9 @@ public class BedwarsRel extends JavaPlugin {
   }
 
   private void loadDatabase() {
-    if (!this.getBooleanConfig("statistics.enabled", false)
-        || !"database".equals(this.getStringConfig("statistics.storage", "yaml"))) {
+    if (!this.getBooleanConfig("statistics.enabled", false)) {
       return;
     }
-
-    this.getServer().getConsoleSender()
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Initialize database ..."));
 
     String host = this.getStringConfig("database.host", null);
     int port = this.getIntConfig("database.port", 3306);
@@ -662,18 +658,21 @@ public class BedwarsRel extends JavaPlugin {
     String db = this.getStringConfig("database.db", null);
     String tablePrefix = this.getStringConfig("database.table-prefix", "bw_");
 
-    if (host == null || user == null || password == null || db == null) {
+    if (BedwarsRel.getInstance().getStatisticStorageType() == StorageType.YAML) {
+      this.databaseManager = new YamlDatabaseManager();
+    } else if (BedwarsRel.getInstance().getStatisticStorageType() == StorageType.DATABASE) {
+      this.databaseManager = new MysqlDatabaseManager(host, port, user, password, db, tablePrefix);
+    }
+
+    if (BedwarsRel.getInstance().getStatisticStorageType() != StorageType.YAML
+        && BedwarsRel.getInstance().getStatisticStorageType() != StorageType.DATABASE) {
       return;
     }
 
-    this.dbManager = new DatabaseManager(host, port, user, password, db, tablePrefix);
-    this.dbManager.initialize();
-
     this.getServer().getConsoleSender()
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Update database ..."));
+        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Initialize database ..."));
 
-    this.getServer().getConsoleSender()
-        .sendMessage(ChatWriter.pluginMessage(ChatColor.GREEN + "Done."));
+    this.databaseManager.initialize();
   }
 
   private void loadLocalization(String locale) {
@@ -713,7 +712,6 @@ public class BedwarsRel extends JavaPlugin {
 
   private void loadStatistics() {
     this.playerStatisticManager = new PlayerStatisticManager();
-    this.playerStatisticManager.initialize();
   }
 
   private String loadVersion() {
@@ -752,13 +750,6 @@ public class BedwarsRel extends JavaPlugin {
           .pluginMessage(ChatColor.RED + "*** You will get NO support regarding this build ***"));
       this.getServer().getConsoleSender().sendMessage(ChatWriter.pluginMessage(ChatColor.RED
           + "*** Please download a stable build from https://github.com/BedwarsRel/BedwarsRel/releases ***"));
-      this.getServer().getConsoleSender().sendMessage(
-          ChatWriter.pluginMessage(ChatColor.RED + "*** Server will start in 10 seconds ***"));
-      try {
-        Thread.sleep(TimeUnit.SECONDS.toMillis(10));
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
     }
 
     this.registerBugsnag();
