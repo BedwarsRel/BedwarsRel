@@ -75,7 +75,7 @@ public class RescuePlatform extends SpecialItem {
     }
 
     Location mid = player.getLocation().clone();
-    mid.setY(mid.getY() - 1.0D);
+    mid.setY(mid.getY() - BedwarsRel.getInstance().getIntConfig("specials.rescue-platform.distance", 1));
 
     Team team = game.getPlayerTeam(player);
 
