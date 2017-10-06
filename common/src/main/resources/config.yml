@@ -738,6 +738,11 @@ specials:
     # The seconds how long a player has to wait until he can 
     # use a rescue platform again
     using-wait-time: 20
+
+    # Distance
+    # type: int
+    # The distance in blocks between the player and the platform to create
+    distance: 1
     
     # Item
     # type: int or string
