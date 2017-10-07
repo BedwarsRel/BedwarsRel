@@ -1697,7 +1697,7 @@ public class Game {
     // Update world time before game starts
     this.getRegion().getWorld().setTime(this.time);
 
-    this.teleportPlayersToTeamSpawn();
+    this.teleportPlayersToTeamSpawn(true);
 
     this.state = GameState.RUNNING;
 
@@ -1844,6 +1844,10 @@ public class Game {
   }
 
   private void teleportPlayersToTeamSpawn() {
+    this.teleportPlayersToTeamSpawn(false);
+  }
+
+  private void teleportPlayersToTeamSpawn(boolean retainPlayerStorage) {
     for (Team team : this.teams.values()) {
       for (Player player : team.getPlayers()) {
         if (!player.getWorld().equals(team.getSpawnLocation().getWorld())) {
@@ -1852,7 +1856,7 @@ public class Game {
         player.setVelocity(new Vector(0, 0, 0));
         player.setFallDistance(0.0F);
         player.teleport(team.getSpawnLocation());
-        if (this.getPlayerStorage(player) != null) {
+        if (!retainPlayerStorage && this.getPlayerStorage(player) != null) {
           this.getPlayerStorage(player).clean();
         }
       }
