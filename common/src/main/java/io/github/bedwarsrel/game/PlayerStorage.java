@@ -17,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.material.Wool;
 import org.bukkit.potion.PotionEffect;
 
@@ -121,6 +122,52 @@ public class PlayerStorage {
 
     for (PotionEffect e : this.player.getActivePotionEffects()) {
       this.player.removePotionEffect(e.getType());
+    }
+
+    this.player.updateInventory();
+  }
+
+  private void equipPlayerWithLeather(TeamColor color) {
+    // helmet
+    ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
+    LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
+    meta.setColor(color.getColor());
+    helmet.setItemMeta(meta);
+
+    // chestplate
+    ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
+    meta = (LeatherArmorMeta) chestplate.getItemMeta();
+    meta.setColor(color.getColor());
+    chestplate.setItemMeta(meta);
+
+    // leggings
+    ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
+    meta = (LeatherArmorMeta) leggings.getItemMeta();
+    meta.setColor(color.getColor());
+    leggings.setItemMeta(meta);
+
+    // boots
+    ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
+    meta = (LeatherArmorMeta) boots.getItemMeta();
+    meta.setColor(color.getColor());
+    boots.setItemMeta(meta);
+
+    player.getInventory().setHelmet(helmet);
+    player.getInventory().setChestplate(chestplate);
+    player.getInventory().setLeggings(leggings);
+    player.getInventory().setBoots(boots);
+    player.updateInventory();
+  }
+
+  public void prepareForBattle() {
+    ItemStack sword = new ItemStack(Material.WOOD_SWORD, 1);
+    player.getInventory().setItem(0, sword);
+    player.getInventory().setHeldItemSlot(0);
+
+    Game game = BedwarsRel.getInstance().getGameManager().getGameOfPlayer(this.player);
+    Team team = game.getPlayerTeam(this.player);
+    if (team != null) {
+      this.equipPlayerWithLeather(team.getColor());
     }
 
     this.player.updateInventory();

@@ -20,8 +20,6 @@ import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 @Data
 @SerializableAs("Team")
@@ -114,7 +112,7 @@ public class Team implements ConfigurationSerializable {
     } else {
       this.getScoreboardTeam().addPlayer(player);
     }
-    this.equipPlayerWithLeather(player);
+    BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player).getPlayerStorage(player).prepareForBattle();
 
     return true;
   }
@@ -123,38 +121,6 @@ public class Team implements ConfigurationSerializable {
     Inventory inventory =
         Bukkit.createInventory(null, InventoryType.ENDER_CHEST, BedwarsRel._l("ingame.teamchest"));
     this.setInventory(inventory);
-  }
-
-  private void equipPlayerWithLeather(Player player) {
-    // helmet
-    ItemStack helmet = new ItemStack(Material.LEATHER_HELMET, 1);
-    LeatherArmorMeta meta = (LeatherArmorMeta) helmet.getItemMeta();
-    meta.setColor(this.getColor().getColor());
-    helmet.setItemMeta(meta);
-
-    // chestplate
-    ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
-    meta = (LeatherArmorMeta) chestplate.getItemMeta();
-    meta.setColor(this.getColor().getColor());
-    chestplate.setItemMeta(meta);
-
-    // leggings
-    ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS, 1);
-    meta = (LeatherArmorMeta) leggings.getItemMeta();
-    meta.setColor(this.getColor().getColor());
-    leggings.setItemMeta(meta);
-
-    // boots
-    ItemStack boots = new ItemStack(Material.LEATHER_BOOTS, 1);
-    meta = (LeatherArmorMeta) boots.getItemMeta();
-    meta.setColor(this.getColor().getColor());
-    boots.setItemMeta(meta);
-
-    player.getInventory().setHelmet(helmet);
-    player.getInventory().setChestplate(chestplate);
-    player.getInventory().setLeggings(leggings);
-    player.getInventory().setBoots(boots);
-    player.updateInventory();
   }
 
   public ChatColor getChatColor() {

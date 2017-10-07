@@ -226,8 +226,9 @@ public abstract class GameCycle {
       return;
     }
 
+    PlayerStorage storage = this.getGame().getPlayerStorage(player);
+
     if (team.isDead(this.getGame())) {
-      PlayerStorage storage = this.getGame().getPlayerStorage(player);
 
       if (BedwarsRel.getInstance().statisticsEnabled()) {
         PlayerStatistic statistic =
@@ -274,6 +275,8 @@ public abstract class GameCycle {
         protection.runProtection();
       }
       pre.setRespawnLocation(team.getSpawnLocation());
+
+      storage.prepareForBattle();
     }
 
     new BukkitRunnable() {
