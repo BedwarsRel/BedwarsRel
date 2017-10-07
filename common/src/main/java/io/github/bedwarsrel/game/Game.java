@@ -318,6 +318,12 @@ public class Game {
     }
   }
 
+  private void prepareUsersForBattle() {
+    for (PlayerStorage storage : this.playerStorages.values()) {
+      storage.prepareForBattle();
+    }
+  }
+
   public void clearProtections() {
     for (RespawnProtectionRunnable protection : this.respawnProtections.values()) {
       try {
@@ -1687,6 +1693,7 @@ public class Game {
 
     this.runningTasks.clear();
     this.cleanUsersInventory();
+    this.prepareUsersForBattle();
     this.clearProtections();
     this.moveFreePlayersToTeam();
     this.makeTeamsReady();
@@ -1858,6 +1865,7 @@ public class Game {
         player.teleport(team.getSpawnLocation());
         if (!retainPlayerStorage && this.getPlayerStorage(player) != null) {
           this.getPlayerStorage(player).clean();
+          this.getPlayerStorage(player).prepareForBattle();
         }
       }
     }
