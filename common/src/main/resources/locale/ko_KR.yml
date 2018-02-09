@@ -94,8 +94,8 @@ ingame:
   teams: "팀"
   all: "All"
   record: "&a이 맵의 최단 기록: &e$record$"
-  record-with-holders: '&a이 맵의 최단 기록: &e$record$&a by&b $holders$'
-  newrecord: '&a$team$&a팀이 최단 플레이 시간 기록을 갱신했습니다: &6$record$'
+  record-with-holders: "&a이 맵의 최단 기록: &e$record$&a by&b $holders$"
+  newrecord: "&a$team$&a팀이 최단 플레이 시간 기록을 갱신했습니다: &6$record$"
   record-nobeddestroy: "&c침대를 파괴하지 않았으므로 기록이 저장되지 않습니다."
   teamwon: "Congratulations! Team $team$ won!"
   draw: "The game ends with a draw!"
