@@ -94,8 +94,8 @@ ingame:
   teams: "Squadre"
   all: "Globale"
   record: "&e$record$ &aè il record su questa mappa!"
-  record-with-holders: '&aIl record di questa mappa è &e$record$&a ed è mantenuto da $holders$'
-  newrecord: '&aTeam $team$ &a ha impostato un nuovo record: &6$record$'
+  record-with-holders: "&aIl record di questa mappa è &e$record$&a ed è mantenuto da $holders$"
+  newrecord: "&aTeam $team$ &a ha impostato un nuovo record: &6$record$"
   record-nobeddestroy: "&cQuesto record non verrà salvato, perché nessun letto è stato distrutto!"
   teamwon: "Congratulazioni! Squadra $team dollari vinti!"
   draw: "Il gioco è finito in pareggio!"
