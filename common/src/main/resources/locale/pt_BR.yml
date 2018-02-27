@@ -94,8 +94,8 @@ ingame:
   teams: "Times"
   all: "Todos"
   record: "&e$record$&a foi o tempo recorde deste mapa!"
-  record-with-holders: '&aO recorde deste mapa &e$record$&a e foi feito por: $holders$'
-  newrecord: '&aO time $team$&a realizou um novo recorde: &6$record$ Parabéns'
+  record-with-holders: "&aO recorde deste mapa &e$record$&a e foi feito por: $holders$"
+  newrecord: "&aO time $team$&a realizou um novo recorde: &6$record$ Parabéns"
   record-nobeddestroy: "&cRecorde não será salvo, porque a cama não foi destruída!"
   teamwon: "Parabéns ao vencedor: Time $team$!"
   draw: "A partida acabou empatado!"
