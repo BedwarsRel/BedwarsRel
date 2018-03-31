@@ -94,8 +94,8 @@ ingame:
   teams: "Tymy"
   all: "Vsichni"
   record: "&e$record$&a je rekord na teto mape!"
-  record-with-holders: '&aRekord na této mape je &e$record$&a ziskany hracmi: $holders$'
-  newrecord: '&aTym $team$&a ziskal novy rekord: &6$record$'
+  record-with-holders: "&aRekord na této mape je &e$record$&a ziskany hracmi: $holders$"
+  newrecord: "&aTym $team$&a ziskal novy rekord: &6$record$"
   record-nobeddestroy: "&cRekord nemohl byt ulozen, jelikoz &lnebyla &cznicena zadna postel!"
   teamwon: "Gratulace! Tym $team$ vyhral!"
   draw: "Hra skoncila remizou."
