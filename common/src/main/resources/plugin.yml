@@ -6,12 +6,11 @@ author: "The BedwarsRel-Team | www.github.com/orgs/BedwarsRel/people"
 website: "www.github.com/BedwarsRel"
 
 main: io.github.bedwarsrel.BedwarsRel
-version: ${versionstring}
+version: ${full.version}
 
 awareness:
     - !@UTF8
 
-depend: []
 softdepend: [Multiverse-Core, Multiworld, MultiWorld, HolographicDisplays, HologramAPI, UltimateCore]
 
 commands:
