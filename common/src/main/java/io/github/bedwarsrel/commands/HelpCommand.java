@@ -21,7 +21,7 @@ public class HelpCommand extends BaseCommand {
       arg = arg + " {" + argument + "}";
     }
 
-    if (command.getCommand().equals("help")) {
+    if (command.getCommand().equalsIgnoreCase("help")) {
       arg = " {page?}";
     } else if (command.getCommand().equalsIgnoreCase("list")) {
       arg = " {page?}";
