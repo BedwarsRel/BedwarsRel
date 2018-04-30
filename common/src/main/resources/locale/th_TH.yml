@@ -94,8 +94,8 @@ ingame:
   teams: "ทีม"
   all: "ทั้งหมด"
   record: "&e$record$&a ได้ทำ สถิติไหม่แล้วว!"
-  record-with-holders: '&aคนที่ทำสถิติของแมพนี้ที่เร็วที่สุดคือ &e$record$&a และ: $holders$'
-  newrecord: '&aทีม $team$&a ได้ทำสถิติไหม่แล้วคือ: &6$record$'
+  record-with-holders: "&aคนที่ทำสถิติของแมพนี้ที่เร็วที่สุดคือ &e$record$&a และ: $holders$"
+  newrecord: "&aทีม $team$&a ได้ทำสถิติไหม่แล้วคือ: &6$record$"
   record-nobeddestroy: "&cสถิติถูกยกเลิก สาเหตุ เพราะ เตียงไม่ได้โดนทำลาย!"
   teamwon: "ยินดีด้วย! ทีม $team$ ได้รับชัยชนะ!"
   draw: "เกมได้จบลงแล้ว! ทุกคนเสมอ!"
