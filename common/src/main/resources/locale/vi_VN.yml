@@ -94,8 +94,8 @@ ingame:
   teams: "Các đội"
   all: "Tất cả"
   record: "&e$record$&a được ghi trên bản đồ này!"
-  record-with-holders: '&aBản ghi trên bản đồ này là &e$record$&a và được giữ bởi: $holders$'
-  newrecord: '&aĐội $team$&a đã được thiết lập một kỷ lục mới: &6$record'
+  record-with-holders: "&aBản ghi trên bản đồ này là &e$record$&a và được giữ bởi: $holders$"
+  newrecord: "&aĐội $team$&a đã được thiết lập một kỷ lục mới: &6$record"
   record-nobeddestroy: "&cBản ghi sẽ không được lưu lại, bởi vì một giường nào đó đã bị phá hủy!"
   teamwon: "Đội $team$ thắng!"
   draw: "Trò chơi kết thúc!"
