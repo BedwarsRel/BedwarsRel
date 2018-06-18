@@ -94,8 +94,8 @@ ingame:
   teams: "Lag"
   all: "Alle"
   record: "&e$record$&a er rekorden på dette mappet!"
-  record-with-holders: '&aRekorden på dette mappet er &e$record$&a og er holdt av: $holders$'
-  newrecord: '&aTeam $team$&a har satt en ny rekord: &6$record$'
+  record-with-holders: "&aRekorden på dette mappet er &e$record$&a og er holdt av: $holders$"
+  newrecord: "&aTeam $team$&a har satt en ny rekord: &6$record$"
   record-nobeddestroy: "&cRekorden blir ikke lagret, Siden ingen seng var ødelagt!"
   teamwon: "Gratulerer! Team $team$ vant!"
   draw: "Spillet ender uavgjort!"
