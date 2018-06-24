@@ -94,8 +94,8 @@ ingame:
   teams: "Lag"
   all: "Alla"
   record: "&e$record$&a är rekordet på denna kartan!"
-  record-with-holders: '&aRekordet på denna karta är &e$record$&a och hålls av: $holders$'
-  newrecord: '&aLag $team$&a satte ett nytt rekord: &6$record$'
+  record-with-holders: "&aRekordet på denna karta är &e$record$&a och hålls av: $holders$"
+  newrecord: "&aLag $team$&a satte ett nytt rekord: &6$record$"
   record-nobeddestroy: "&cRekordet sparas inte, eftersom att inga sängar blev förstörda!"
   teamwon: "Grattis! Lag $team$ vann!"
   draw: "Spelet slutar med oavgjort!"
