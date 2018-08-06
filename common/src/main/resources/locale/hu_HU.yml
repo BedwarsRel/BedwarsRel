@@ -94,8 +94,8 @@ ingame:
   teams: "Csapatok"
   all: "Mindenki"
   record: "&e$record$&7 A rekord ezen a mapon!"
-  record-with-holders: '&aA rekord ezen a mapon &e$record$&a csúcstartó $holders$'
-  newrecord: '&eCsapat $team$&e Új rekordot csinált: &6$record$'
+  record-with-holders: "&aA rekord ezen a mapon &e$record$&a csúcstartó $holders$"
+  newrecord: "&eCsapat $team$&e Új rekordot csinált: &6$record$"
   record-nobeddestroy: "Rekord nem menthető mert az ágy eltörött!"
   teamwon: "Gratulálunk! A(z) $team$ csapat nyert!"
   draw: "A játék döntetlennel véget ért!"

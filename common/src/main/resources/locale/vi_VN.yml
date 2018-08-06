@@ -1,14 +1,14 @@
 ---
 default:
   pages: "Trang $current$ của $max$"
-  currently: Trym
+  currently: Hiện tại
 errors:
   argumentslength: "Số lượng các đối số không khớp với số tiền chính xác!"
   holodependencynotfound: "Không thể tìm thấy $dependency$ cho ba chiều-thống kê"
   packagenotfound: "Không thể lấy $package$ gói!"
   classnotfound: "Không thể lấy $package$ lớp $class$!"
   gameexists: "Một trò chơi với tên này đã tồn tại!"
-  gamenotfound: "Không tìm thấy các trò chơi '$game$ '!"
+  gamenotfound: "Không tìm thấy trò chơi '$game$ '!"
   nofreegames: "Không có không có trò chơi miễn phí."
   gamenotfoundsimple: "Trò chơi không được tìm thấy!"
   playeramount: "Số người chơi không thể ít hơn 1 hoặc nhiều hơn 24!"
@@ -90,12 +90,12 @@ gamecheck:
   TEAM_NO_WRONG_BED: "Một hoặc nhiều đội đã không có giường để thiết lập!"
   TEAM_NO_WRONG_TARGET: "Một hay một số đội không có khối respawn!"
 ingame:
-  team: "Team"
+  team: "Đội"
   teams: "Các đội"
   all: "Tất cả"
   record: "&e$record$&a được ghi trên bản đồ này!"
-  record-with-holders: '&aBản ghi trên bản đồ này là &e$record$&a và được giữ bởi: $holders$'
-  newrecord: '&aĐội $team$&a đã được thiết lập một kỷ lục mới: &6$record'
+  record-with-holders: "&aBản ghi trên bản đồ này là &e$record$&a và được giữ bởi: $holders$"
+  newrecord: "&aĐội $team$&a đã được thiết lập một kỷ lục mới: &6$record"
   record-nobeddestroy: "&cBản ghi sẽ không được lưu lại, bởi vì một giường nào đó đã bị phá hủy!"
   teamwon: "Đội $team$ thắng!"
   draw: "Trò chơi kết thúc!"
@@ -115,11 +115,11 @@ ingame:
   title:
     map-builder: "Được xây dựng bởi $builder$"
     win-title: "&6Xin chúc mừng!"
-    win-subtitle: "$team$&6 won in &e$time$"
+    win-subtitle: "$team$&6 đã giành chiến thắng trong thời gian &e$time$"
   shop:
     name: "Shop"
-    newshop: "Use new shop"
-    oldshop: "Use old shop"
+    newshop: "Sử dụng cửa hàng mới"
+    oldshop: "Sử dụng cửa hàng cũ"
     fullstackpershift: "Multiply stacks per shift click"
     onestackpershift: "Một ngăn xếp cho mỗi nhấp chuột thay đổi"
   player:
@@ -152,7 +152,7 @@ ingame:
       no-target-found: "Không tìm thấy người chơi!"
     tracker:
       no-target-found: "Không tìm thấy người chơi!"
-      target-found: "$player$ is $blocks$ block(s) away from you."
+      target-found: "Người chơi $player$ cách xa khoảng $blocks$ khối(s)."
 lobby:
   countdown: "Trò chơi sẽ bắt đầu trong $sec$ giây(s)!"
   countdowncancel: "Cần thêm người chơi. Đếm ngược đã bị hủy bỏ!"
@@ -166,7 +166,7 @@ lobby:
   startgame: "Trò chơi bắt đầu"
   reduce_countdown: "Giảm đếm ngược"
   gamefull: "Trò chơi đã đầy!"
-  gamefullpremium: "The game is full of premium players already!"
+  gamefullpremium: "Trò chơi này đã đầy!"
   teamjoined: "Bạn đã gia nhập đội $team$"
   leavegame: "Thoát trò chơi"
   playerjoin: "Người chơi $player$ đã tham gia vào trò chơi!"
@@ -212,36 +212,36 @@ commands:
     desc: "Lưu một trò chơi (bản đồ) vào tệp tin config(s)"
   settarget:
     name: "Đặt mục tiêu"
-    desc: "Sets the location of a team's target block"
+    desc: "Đặt vị trí của khối ngắm mục tiêu cho đội"
   setbed:
     name: "Đặt giường (đồng nghĩa với mục tiêu đặt)"
     desc: "Sets the location of a team's bed block (Synonym for settarget)"
   setlobby:
-    name: "Set lobby"
-    desc: "Sets the location of the gamelobby"
+    name: "Đặt sảnh"
+    desc: "Đặt vị trí sảnh của game"
   setregion:
     name: "Sets a region point"
     desc: "Sets a region point for the game"
   setspawn:
     name: "Sets a team spawn"
-    desc: "Sets the spawn of the given team"
+    desc: "Đặt vị trí bắt đầu của mỗi đội"
   setspawner:
-    name: "Set spawner"
-    desc: "Sets a spawner location of a specific ressource"
+    name: "Đặt máy sản xuất"
+    desc: "Đặt máy sản xuất cụ thể với khoáng sản"
   start:
     name: "Trò chơi bắt đầu"
-    desc: "Starts a game"
+    desc: "Bắt đầu trò chơi"
   stop:
-    name: "Stop game"
+    name: "Dừng trò chơi"
     desc: "Stops a game"
   help:
-    name: "Show Help"
-    desc: "Display information about the plugin and its commands"
+    name: "Hiển thị trợ giúp"
+    desc: "Hiển thị thông tin về plugin và các lệnh"
   reload:
-    name: "Reload"
+    name: "Tải lại"
     desc: "Reloads the configurations and translations"
   setmainlobby:
-    name: "Set main lobby"
+    name: "Đặt sảnh chính"
     desc: "Sets the main lobby of a game (is needed when mainlobby-enabled is set to true)"
   list:
     name: "Danh sách trò chơi"
@@ -283,15 +283,15 @@ commands:
     name: "Thêm nhóm lựa chọn"
     desc: "Đánh dấu một sinh vật có thể được sử dụng để tham gia một nhóm cụ thể!"
   addholo:
-    name: "Add hologram location"
+    name: "Thêm vị trí của ảnh ba chiều"
     desc: "A hologram statistic will be added at the current position!"
   removeholo:
     name: "Xóa vị trí ảnh 3D"
     desc: "Khi lệnh đã được thực hiện, người chơi có thể nhấp chuột phải vào hình 3D cần được loại bỏ."
     explain: "Nhấp chuột trái trong vòng 10 giây trên hình 3D bạn muốn xóa."
   debugpaste:
-    name: "Paste debug data"
+    name: "Dán dữ liệu được gỡ lỗi"
     desc: "Thao tác này sẽ gửi một số dữ liệu gỡ lỗi cho hastebin và trả về một liên kết mà bạn có thể chia sẻ với các nhà phát triển"
   itemspaste:
-    name: "Paste your inventory to a file"
+    name: "Dán thông tin túi đồ vào một tệp"
     desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"

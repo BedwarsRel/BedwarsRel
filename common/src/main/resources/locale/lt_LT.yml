@@ -94,8 +94,8 @@ ingame:
   teams: "Komandos"
   all: "Visi"
   record: "&e$record$&a yra sios arenos rekordas!"
-  record-with-holders: '&aSioje arenoje yra rekordas &e$record$&a ir ji pasieke: $holders$'
-  newrecord: '&aKomanda $team$&a pasieke nauja rekorda: &6$record$'
+  record-with-holders: "&aSioje arenoje yra rekordas &e$record$&a ir ji pasieke: $holders$"
+  newrecord: "&aKomanda $team$&a pasieke nauja rekorda: &6$record$"
   record-nobeddestroy: "&cRekordas neissaugotas, nes lova nebuvo sugriauta!"
   teamwon: "Sveikiname! Komanda $team$ laimejo!"
   draw: "Zaidimas baigiasi lygiosiomis!"

@@ -4,7 +4,7 @@ default:
   currently: Aktualna
 errors:
   argumentslength: "Pocet argumentov prikazu neodpoveda spravnemu mnozstvu!"
-  holodependencynotfound: "Couldn't find $dependency$ for Hologram-Statistic"
+  holodependencynotfound: "Nemozno najst plugin $dependency$, ktory je potrebny pre Hologram-Statistic"
   packagenotfound: "Nejde nacitat $package$ package!"
   classnotfound: "Nejde nacitat $package$ class $class$!"
   gameexists: "Hra s tymto menom uz existuje!"
@@ -18,7 +18,7 @@ errors:
   notingame: "Nie si v hre!"
   bedtargeting: "Musis stat na bloku, ktory je v konfiguracii zapisany ako 'game-block'!"
   regionargument: "Mozes zadat iba 'loc1' alebo 'loc2'!"
-  spawnerargument: "The resource parameter has to be a valid configured resource!"
+  spawnerargument: "Parameter spawneru musi byt spravne nakonfigurovany!"
   blockdownnotfound: "Blok na ktorom stojis nebol najdeny!"
   gamenotrunning: "Hra nebezi!"
   bungeenoserver: "Bungeecord server nie je spravne nastaveny! Kontaktuj administratora!"
@@ -78,7 +78,7 @@ success:
   autobalancesetoff: "Automaticke vyvazovanie bolo &cvypnute&a!"
   selectteamjoinentity: "Teraz klikni pravym na entitu, ktoru chces pouzit!"
   teamjoinadded: "Entita bola uspesne ulozena pre tim $team$"
-  holoremoved: "Hologram-Statistic successfully removed!"
+  holoremoved: "Hologram-Statistic bol uspesne odstraneny!"
 gamecheck:
   LOC_NOT_SET_ERROR: "Lokacia pre tuto hru nebola dobre nastavena!"
   TEAM_SIZE_LOW_ERROR: "Musis nastavit viac timov!"
@@ -111,7 +111,7 @@ ingame:
   protectionend: "Uz si &czranitelny&f!"
   team-dead: "Tim $team$ bol zniceny!"
   no-friendlybreak: "&cNemozes znicit blok pod hracom svojho tymu!"
-  teamchestdestroy: "&cOne of your teamchest(s) has been destroyed!"
+  teamchestdestroy: "&cJedna z vasich teamchest(iek) bola znicena!"
   title:
     map-builder: "Mapu postavil/a $builder$"
     win-title: "&a&lGratulacia!"
@@ -135,9 +135,9 @@ ingame:
     rescue-platform:
       left: "&cMusis pockat &e$time$&f sekund(u) pred pouzitim dalsej zachrannej platformy!"
     arrow-blocker:
-      start: "You are protected from being hit by arrows for &c$time$&f second(s)."
-      end: "&cYour arrow protection is over"
-      left: "There are &c$time$&f second(s) left until you can use the next arrowblocker!"
+      start: "Ste odolny voci zasahu sipom po dobu &c$time$f sekund(y)."
+      end: "&cOchrana pred sipmi vyprsala"
+      left: "Musis pockat &c$time$&f sekund(u) pred pouzitim arrowblocker-u!"
     trap:
       trapped: "&eNiekto stupil do &cpaste&e tvojho timu!"
     protection-wall:
@@ -147,33 +147,33 @@ ingame:
       cancelled: "&cTeleportacia zrusena!"
       start: "Budes teleportovany za &c$time$&f sekund!"
       cancel: "&4Zrusit Teleport"
-      multiuse: "&cYou started a teleportation already!"
+      multiuse: "&cUz si zacal teleportaciu!"
     tntsheep:
       no-target-found: "Ziadny ciel nebol najdeny!"
     tracker:
       no-target-found: "Ziadny ciel nebol najdeny!"
-      target-found: "$player$ is $blocks$ block(s) away from you."
+      target-found: "$player$ je vzdialeny $blocks$ blok(ov) od teba."
 lobby:
   countdown: "Hra zacne za $sec$ sekund!"
   countdowncancel: "Je treba viac hracov! Odpocet bol zastaveny."
   cancelcountdown:
     not_enough_players: "Je potreba viac hracov! Odpocet bol zastaveny."
-    not_enough_teams: "More teams needed. Countdown cancelled!"
+    not_enough_teams: "Je potreba viac teamov! Odpocet bol zastaveny!"
   cancelstart:
     not_enough_players: "Pre start hry je treba viac hracov!"
-    not_enough_teams: "More teams are needed to start the game!"
+    not_enough_teams: "Je potreba viac teamov pre zacatie hry!"
   chooseteam: "Vyber si tim"
   startgame: "Spustit hru"
-  reduce_countdown: "Reduce countdown"
+  reduce_countdown: "Znizit odpocet"
   gamefull: "Hra je plna!"
   gamefullpremium: "VIP sloty su uz zaplnene!"
   teamjoined: "Uspesne si sa pripojil do timu $team$"
   leavegame: "Opustit hru"
   playerjoin: "Hrac $player$ sa pripojil do hry!"
   kickedbyvip: "Bol si vyhodeny z hry, pretoze se pripojil VIP hrac."
-  moreplayersneeded: "$count$ more players needed."
+  moreplayersneeded: "Je potrebnych o $count$ hracov viac."
   moreplayersneeded-one: "$count$ more player needed."
-  moreteamsneeded: "A minimum of two players in two different teams is needed to start the game!"
+  moreteamsneeded: "Pre zacatie hry su potrebni 2 hraci v 2 roznych teamoch!"
 sign:
   firstline: "&8[&4&lBed&f&lWars&8]"
   players: "Hraci"
@@ -274,8 +274,8 @@ commands:
     name: "Nastavit automaticke vyvazovanie"
     desc: "Pokial je 'global-autobalance' nastavene na 'false', tak mozes pomocou tohto prikazu nastavit automaticke vyvazovanie pre tuto hru!"
   setminplayers:
-    name: "Set minimum players"
-    desc: "Sets the amount of players needed to start the game"
+    name: "Nastavit minimum hracov"
+    desc: "Nastavit minimalny pocet hracov pre start hry"
   kick:
     name: "Vyhodit hraca"
     desc: "Vyhodi hraca z aktualnej hry!"
@@ -283,15 +283,15 @@ commands:
     name: "Pridat vyberanie timu"
     desc: "Vyberie bytost, pomocou ktorej sa budes moct pripojit do timu!"
   addholo:
-    name: "Add hologram location"
-    desc: "A hologram statistic will be added at the current position!"
+    name: "Nastavit poziciu hologramu"
+    desc: "Hologram bude pridany na aktualnu poziciu!"
   removeholo:
-    name: "Remove hologram location"
-    desc: "When the command was executed, the player can right-click the hologram which should be removed."
-    explain: "Perform a left click within 10 seconds on the hologram you want to remove."
+    name: "Vymazat poziciu hologramu"
+    desc: "Po spusteni prikazu moze hrac PTM zvolit hologram ktory bude vymazany."
+    explain: "Drz PTM po dobu 10 sekund na hologram ktory chces vymazat."
   debugpaste:
-    name: "Paste debug data"
-    desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
+    name: "Vlozenie debug dat"
+    desc: "Odosle debug data na hastebin a vytvori link, ktory mozete zdielat s developermi"
   itemspaste:
-    name: "Paste your inventory to a file"
-    desc: "This will return a link where you can see your current inventory being serialized as an example for your shop.yml"
+    name: "Ulozte svoj inventar do suboru"
+    desc: "Vrati link, kde mozete vidiet vas aktualny serializovany inventar na priklad pre shop.yml"

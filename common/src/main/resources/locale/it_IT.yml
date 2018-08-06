@@ -65,7 +65,7 @@ success:
   reloadconfig: "Ricaricato con successo!"
   teamremoved: "Team rimosso con successo!"
   gameremoved: "Partita rimossa con successo!"
-  spawnercleared: "Tutte gli spawner per le risorse sono stati rimossi!"
+  spawnercleared: "Tutti gli spawner per le risorse sono stati rimossi!"
   gamerun: "Hai abbiato la partita, i giocatori possono entrare adesso!"
   timeset: "Tempo per la partita settato con successo!"
   regionnameset: "Nome dell' area settato con successo!"
@@ -94,9 +94,9 @@ ingame:
   teams: "Squadre"
   all: "Globale"
   record: "&e$record$ &aè il record su questa mappa!"
-  record-with-holders: '&aIl record di questa mappa è &e$record$&a ed è mantenuto da $holders$'
-  newrecord: '& aTeam $team$ & un insieme un nuovo record: & 6$record$'
-  record-nobeddestroy: "& cRecord non verranno salvate, perché nessun letto è stata distrutta!"
+  record-with-holders: "&aIl record di questa mappa è &e$record$&a ed è mantenuto da $holders$"
+  newrecord: "&aTeam $team$ &a ha impostato un nuovo record: &6$record$"
+  record-nobeddestroy: "&cQuesto record non verrà salvato, perché nessun letto è stato distrutto!"
   teamwon: "Congratulazioni! Squadra $team dollari vinti!"
   draw: "Il gioco è finito in pareggio!"
   serverrestart: "Riavvio del server in $sec$ secondi!"
@@ -104,18 +104,18 @@ ingame:
   gamestarted: "Gioco '$game$ ' è appena iniziato!"
   backtolobby: "Torna alla lobby in $sec$ secondi!"
   spectator: "Spettatori"
-  spectate: "& aSpectate"
-  teamchest: "Cesta di squadra"
+  spectate: "&aSpettatore"
+  teamchest: "Cassa di squadra"
   noturteamchest: "Questo cesta non è una cassa della tua squadra!"
-  protectionleft: "Invulnerabilità per & c$length$ & f secondi!"
-  protectionend: "Ora sei ancora &cvulnerable&f!"
+  protectionleft: "Invulnerabilità per &c$length$ &f secondi!"
+  protectionend: "Ora sei ancora &cvulnerabile&f!"
   team-dead: "La squadra $team$ è stato distrutto!"
   no-friendlybreak: "& cNon puoi piazzare i blocchi sotto il membro del tuo team!"
   teamchestdestroy: "&c La cassa di squadra è stata distrutta!"
   title:
     map-builder: "Costruito da $builder$"
     win-title: "& 6Congratulazioni!"
-    win-subtitle: "$team$ & 6 ha vinto & e$time$"
+    win-subtitle: "$team$ &6 ha vinto &e$time$"
   shop:
     name: "Venditore"
     newshop: "Utilizza il nuovo negozio"
@@ -133,20 +133,20 @@ ingame:
     beddestroyed: "$player$ ha distrutto il letto della squadra $team$!"
   specials:
     rescue-platform:
-      left: "In altri & c$time$ & f secondi potrai usare un'altra piattaforma!"
+      left: "In altri &c$time$ &f secondi potrai usare un'altra piattaforma!"
     arrow-blocker:
-      start: "Sei protetto dalle freccie & c$time$ & f secondi."
+      start: "Sei protetto dalle freccie &c$time$ &f secondi."
       end: "&cLa protezione dalle freccie è terminata"
-      left: "In & c$time$ & f secondi potrai usare un'altro arroblocker!"
+      left: "In &c$time$ &f secondi potrai usare un'altro arrowblocker!"
     trap:
-      trapped: "& eQualcuno è salito su una &ctrap&e della tua squadra!"
+      trapped: "&eQualcuno è salito su una &ctrappola&e della tua squadra!"
     protection-wall:
-      left: "Attenti & c$time$ & f secondi per creare un altro muro protettivo!"
+      left: "Attenti &c$time$ &f secondi per creare un altro muro protettivo!"
       not-usable-here: "Non è possibile utilizzare il muro di protezione qui!"
     warp-powder:
       cancelled: "&c Il tuo teletrasporto è stato annullato!"
-      start: "Sarai teletrasportato in & c$time$ & f secondi. Non ti muovere!"
-      cancel: "&4 teletrasporto cancellato"
+      start: "Sarai teletrasportato in &c$time$ &f secondi. Non ti muovere!"
+      cancel: "&4 Teletrasporto cancellato"
       multiuse: "&cHai già iniziato un teletrasporto!"
     tntsheep:
       no-target-found: "Nessun bersaglio identificato!"
@@ -227,7 +227,7 @@ commands:
     desc: "Imposta lo spawn del team specificato"
   setspawner:
     name: "Set spawner"
-    desc: "Imposta una posizione spawner di un specifico materiale"
+    desc: "Imposta la posizione dello spawner di uno specifico materiale"
   start:
     name: "Avvia il gioco"
     desc: "Inizia una partita"

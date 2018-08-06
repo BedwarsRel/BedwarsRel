@@ -17,7 +17,7 @@ errors:
   teamnotfound: "Takım bulunamadı!"
   notingame: "Şuan'da bir oyunda değilsin!"
   bedtargeting: "You have to target or stand on a block of the configured 'game-block' type!"
-  regionargument: "Your location argument has to be 'loc1' or 'loc2'!"
+  regionargument: "Konum değişkeniniz 'loc1' veya 'loc2' olmalı!"
   spawnerargument: "The resource parameter has to be a valid configured resource!"
   blockdownnotfound: "Üzerinde durduğuna blok bulunamadı!"
   gamenotrunning: "Oyun çalışmıyor!"
@@ -27,7 +27,7 @@ errors:
   cantjoingame: "Çalışan veya durdurulmuş bir oyuna katılamazsın!"
   lobbyongameworld: "Lobi oyun dünyasında olamaz!"
   gamenotloaded: "Oyun başlatılamadı!"
-  gameloaderror: "Loading game '$game$' throws an error!"
+  gameloaderror: "Oyun '$game$' yüklenirken bir hata oluştu!"
   regionnotfound: "Bölge dosyası yok!"
   savesign: "Couldn't create a new sign config file!"
   nogames: "Oyun bulunamadı!"
@@ -94,8 +94,8 @@ ingame:
   teams: "Takımlar"
   all: "Tümü"
   record: "&e$record$&a is the record on this map!"
-  record-with-holders: '&aThe record on this map is &e$record$&a and is held by: $holders$'
-  newrecord: '&aTeam $team$&a set a new record: &6$record$'
+  record-with-holders: "&aThe record on this map is &e$record$&a and is held by: $holders$"
+  newrecord: "&aTeam $team$&a set a new record: &6$record$"
   record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
   teamwon: "Congratulations! Team $team$ won!"
   draw: "The game ends with a draw!"

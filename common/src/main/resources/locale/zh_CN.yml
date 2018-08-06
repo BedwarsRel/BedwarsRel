@@ -5,8 +5,8 @@ default:
 errors:
   argumentslength: "参数不正确!"
   holodependencynotfound: "全息显示前置插件缺失 $dependency$"
-  packagenotfound: "无法获得$package$ 包!"
-  classnotfound: "无法获得包 $package$ 的类$class$!"
+  packagenotfound: "无法获取$package$ 包!"
+  classnotfound: "无法获取包 $package$ 的类$class$!"
   gameexists: "以此为名的游戏已经存在！"
   gamenotfound: "游戏 '$game$' 不存在！"
   nofreegames: "暂时没有可以加入的游戏。"
@@ -22,8 +22,8 @@ errors:
   blockdownnotfound: "在你所站的地方没有方块！"
   gamenotrunning: "游戏不能运行!"
   bungeenoserver: "Bungeecord服务器设置不正确！请联系管理员！"
-  cantstartagain: "游戏运行中! 你不能再次开始这个游戏!"
-  startoutofwaiting: "游戏已在等待时开始！"
+  cantstartagain: "游戏正在运行中! 你不能再次开始这个游戏!"
+  startoutofwaiting: "游戏需要在等待模式开始！"
   cantjoingame: "你不能加入正在进行或已经开始的游戏！"
   lobbyongameworld: "大厅不能与游戏场地在同一个世界！"
   gamenotloaded: "游戏无法开始!"
@@ -90,12 +90,12 @@ gamecheck:
   TEAM_NO_WRONG_BED: "有队伍没有设置床!"
   TEAM_NO_WRONG_TARGET: "有队伍没有设置重生点!"
 ingame:
-  team: "Team"
+  team: "队伍"
   teams: "队伍"
   all: "全部"
   record: "&e$record$&a 是这个地图的记录!"
-  record-with-holders: '&a这个地图的记录是&e$record$&a记录者: $holders$'
-  newrecord: '&a$team$&a队设置一个新的记录: &6$record$'
+  record-with-holders: "&a这个地图的记录是&e$record$&a记录者: $holders$"
+  newrecord: "&a$team$&a队设置一个新的记录: &6$record$"
   record-nobeddestroy: "&c记录不能保存, 因为没有床被摧毁!"
   teamwon: "恭喜 ！$team$队获得胜利!"
   draw: "游戏以平局结束！"

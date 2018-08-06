@@ -290,7 +290,7 @@ commands:
     desc: "使用這個命令後玩家right-click即可移除全息圖."
     explain: "10秒只可執行一次"
   debugpaste:
-    name: "Paste debug data"
+    name: "粘貼調試資料"
     desc: "This will send some debug data to hastebin and returns a link you can share with the developers"
   itemspaste:
     name: "Paste your inventory to a file"

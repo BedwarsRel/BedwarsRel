@@ -94,8 +94,8 @@ ingame:
   teams: "Hold"
   all: "Alle"
   record: "&e$record$&a er rekorden på dette map!"
-  record-with-holders: '&aRekorden på dette map er &e$record$&a og er i besiddelse af: $holders$'
-  newrecord: '&aTeam $team$&a set a new record: &6$record$'
+  record-with-holders: "&aRekorden på dette map er &e$record$&a og er i besiddelse af: $holders$"
+  newrecord: "&aTeam $team$&a set a new record: &6$record$"
   record-nobeddestroy: "&cRecord won't be saved, because no bed was destroyed!"
   teamwon: "Congratulations! Team $team$ won!"
   draw: "The game ends with a draw!"

@@ -94,8 +94,8 @@ ingame:
   teams: "Команде"
   all: "Всем"
   record: "&aЖелаем &cВам &bприятной &eигры"
-  record-with-holders: '&aЖелаем &cВам &bприятной &eигры'
-  newrecord: '&aЖелаем &cВам &bприятной &eигры'
+  record-with-holders: "&aЖелаем &cВам &bприятной &eигры"
+  newrecord: "&aЖелаем &cВам &bприятной &eигры"
   record-nobeddestroy: "&aЖелаем &cВам &bприятной &eигры"
   teamwon: "Поздравляем! Команда $team$ победила"
   draw: "Ничья"
