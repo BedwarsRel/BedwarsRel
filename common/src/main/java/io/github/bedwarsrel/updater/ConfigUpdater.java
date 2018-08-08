@@ -281,5 +281,9 @@ public class ConfigUpdater {
       }
     }
     // </1.3.5>
+
+    // <1.3.7>
+    BedwarsRel.getInstance().getConfig().addDefault("specials.rescue-platform.distance", 1);
+    // </1.3.7>
   }
 }

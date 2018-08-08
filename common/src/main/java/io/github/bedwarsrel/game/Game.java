@@ -58,6 +58,9 @@ import org.bukkit.util.Vector;
 @Data
 public class Game {
 
+  private static final int MAX_OBJECTIVE_DISPLAY_LENGTH = 32;
+  private static final int MAX_SCORE_LENGTH = 40;
+
   private boolean autobalance = false;
   private String builder = null;
   private YamlConfiguration config = null;
@@ -486,7 +489,10 @@ public class Game {
     finalStr = finalStr.replace("$players$", String.valueOf(this.getPlayerAmount()));
     finalStr = finalStr.replace("$maxplayers$", String.valueOf(this.getMaxPlayers()));
 
-    return ChatColor.translateAlternateColorCodes('&', finalStr);
+    finalStr = ChatColor.translateAlternateColorCodes('&', finalStr);
+    //this is used for display name of the object and score name
+    //the display name is only smaller so choose this limit
+    return limitScoreboardLength(finalStr, MAX_OBJECTIVE_DISPLAY_LENGTH);
   }
 
   private String formatScoreboardTeam(Team team, boolean destroyed) {
@@ -508,7 +514,8 @@ public class Game {
     format = format.replace("$status$", (destroyed) ? Game.bedLostString() : Game.bedExistString());
     format = format.replace("$team$", team.getChatColor() + team.getName());
 
-    return ChatColor.translateAlternateColorCodes('&', format);
+    format = ChatColor.translateAlternateColorCodes('&', format);
+    return limitScoreboardLength(format, MAX_SCORE_LENGTH);
   }
 
   private String formatScoreboardTitle() {
@@ -521,7 +528,16 @@ public class Game {
     format = format.replace("$game$", this.name);
     format = format.replace("$time$", this.getFormattedTimeLeft());
 
-    return ChatColor.translateAlternateColorCodes('&', format);
+    format = ChatColor.translateAlternateColorCodes('&', format);
+    return limitScoreboardLength(format, MAX_OBJECTIVE_DISPLAY_LENGTH);
+  }
+
+  private String limitScoreboardLength(String fullText, int maxLength) {
+    if (fullText.length() > maxLength) {
+      return fullText.substring(0, maxLength);
+    }
+
+    return fullText;
   }
 
   public int getCurrentPlayerAmount() {

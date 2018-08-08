@@ -738,25 +738,6 @@ public class PlayerListener extends BaseListener {
     player.closeInventory();
   }
 
-  @EventHandler
-  public void onPickup(PlayerPickupItemEvent ppie) {
-    Player player = ppie.getPlayer();
-    Game game = BedwarsRel.getInstance().getGameManager().getGameOfPlayer(player);
-
-    if (game == null) {
-      game = BedwarsRel.getInstance().getGameManager().getGameByLocation(player.getLocation());
-      if (game == null) {
-        return;
-      }
-    }
-
-    if (game.getState() != GameState.WAITING && game.isInGame(player)) {
-      return;
-    }
-
-    ppie.setCancelled(true);
-  }
-
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onPlayerDie(PlayerDeathEvent pde) {
     final Player player = pde.getEntity();

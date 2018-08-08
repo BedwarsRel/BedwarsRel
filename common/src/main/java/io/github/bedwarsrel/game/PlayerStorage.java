@@ -251,7 +251,7 @@ public class PlayerStorage {
   public void store() {
     this.inventory = this.player.getInventory().getContents();
     this.armor = this.player.getInventory().getArmorContents();
-    this.xp = Float.valueOf(this.player.getExp());
+    this.xp = this.player.getExp();
     this.effects = this.player.getActivePotionEffects();
     this.mode = this.player.getGameMode();
     this.left = this.player.getLocation();
