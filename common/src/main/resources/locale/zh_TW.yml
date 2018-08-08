@@ -94,8 +94,8 @@ ingame:
   teams: "團隊"
   all: "全部"
   record: "&e$record$&a 是這個地圖的記錄!"
-  record-with-holders: '&a這個地圖的記錄是&e$record$&a記錄者: $holders$'
-  newrecord: '&a$team$&a隊設置一個新的記錄: &6$record$'
+  record-with-holders: "&a這個地圖的記錄是&e$record$&a記錄者: $holders$"
+  newrecord: "&a$team$&a隊設置一個新的記錄: &6$record$"
   record-nobeddestroy: "&c記錄不能保存, 因為沒有床被摧毀!"
   teamwon: "恭喜! 隊伍 $team$ 獲勝!"
   draw: "遊戲以平局結束!"
