@@ -354,7 +354,7 @@ public class McStatsMetrics {
       }
     } catch (Exception ex) {
       if (debug) {
-        Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+        Bukkit.getLogger().log(Level.INFO, "[BStatsMetrics] " + ex.getMessage());
       }
     }
 
@@ -387,12 +387,12 @@ public class McStatsMetrics {
         configuration.load(getConfigFile());
       } catch (IOException ex) {
         if (debug) {
-          Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+          Bukkit.getLogger().log(Level.INFO, "[BStatsMetrics] " + ex.getMessage());
         }
         return true;
       } catch (InvalidConfigurationException ex) {
         if (debug) {
-          Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
+          Bukkit.getLogger().log(Level.INFO, "[BStatsMetrics] " + ex.getMessage());
         }
         return true;
       }
@@ -522,7 +522,7 @@ public class McStatsMetrics {
     connection.setDoOutput(true);
 
     if (debug) {
-      System.out.println("[Metrics] Prepared request for " + pluginName + " uncompressed="
+      System.out.println("[BStatsMetrics] Prepared request for " + pluginName + " uncompressed="
           + uncompressed.length + " compressed=" + compressed.length);
     }
 
@@ -615,7 +615,7 @@ public class McStatsMetrics {
             firstPost = false;
           } catch (IOException e) {
             if (debug) {
-              Bukkit.getLogger().log(Level.INFO, "[Metrics] " + e.getMessage());
+              Bukkit.getLogger().log(Level.INFO, "[BStatsMetrics] " + e.getMessage());
             }
           }
         }

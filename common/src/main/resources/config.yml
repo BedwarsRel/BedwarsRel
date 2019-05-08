@@ -19,9 +19,9 @@
 
 chat-prefix: "&7[&bBedWars&7]&f"
 
-# Enabled Metrics
+# Enabled BStatsMetrics
 # type: boolean
-# Plugin Metrics sending anonymous data about your server
+# Plugin BStatsMetrics sending anonymous data about your server
 # to store statistics about the bedwars plugin. This is really
 # helpful for the developers of this plugin. You can
 # disable it anyway, that won't be a disadvantage

@@ -61,11 +61,7 @@ public class MerchantCategory {
       String permission = "bw.base";
       int order = 0;
 
-      if (!Utils.isNumber(item)) {
-        catItem = Material.getMaterial(section.getString(cat + ".item"));
-      } else {
-        catItem = Material.getMaterial(section.getInt(cat + ".item"));
-      }
+      catItem = Material.getMaterial(section.getString(cat + ".item"));
 
       if (section.contains(cat + ".lore")) {
         for (Object lore : section.getList(cat + ".lore")) {
@@ -178,7 +174,7 @@ public class MerchantCategory {
       inv.addItem(is);
     }
 
-    ItemStack snow = new ItemStack(Material.SNOW_BALL, 1);
+    ItemStack snow = new ItemStack(Material.SNOWBALL, 1);
     ItemMeta snowMeta = snow.getItemMeta();
 
     snowMeta.setDisplayName(BedwarsRel._l(p, "ingame.shop.newshop"));

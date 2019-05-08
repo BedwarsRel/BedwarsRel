@@ -12,6 +12,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
@@ -26,10 +27,9 @@ import org.bukkit.material.Redstone;
 public class Region {
 
   public final static int CHUNK_SIZE = 16;
-  private HashMap<Block, Byte> breakedBlockData = null;
+  private HashMap<Block, BlockData> breakedBlockData = null;
   private HashMap<Block, BlockFace> breakedBlockFace = null;
   private HashMap<Block, Boolean> breakedBlockPower = null;
-  private HashMap<Block, Integer> breakedBlockTypes = null;
   private List<Block> breakedBlocks = null;
   private List<Inventory> inventories = null;
   private Location maxCorner = null;
@@ -53,8 +53,7 @@ public class Region {
     this.setMinMax(pos1, pos2);
     this.placedBlocks = new ArrayList<Block>();
     this.breakedBlocks = new ArrayList<Block>();
-    this.breakedBlockTypes = new HashMap<Block, Integer>();
-    this.breakedBlockData = new HashMap<Block, Byte>();
+    this.breakedBlockData = new HashMap<>();
     this.breakedBlockFace = new HashMap<Block, BlockFace>();
     this.placedUnbreakableBlocks = new ArrayList<Block>();
     this.breakedBlockPower = new HashMap<Block, Boolean>();
@@ -75,8 +74,7 @@ public class Region {
           ((Directional) bedBlock.getState().getData()).getFacing());
     }
 
-    this.breakedBlockTypes.put(bedBlock, bedBlock.getTypeId());
-    this.breakedBlockData.put(bedBlock, bedBlock.getData());
+    this.breakedBlockData.put(bedBlock, bedBlock.getBlockData());
 
     if (bedBlock.getState().getData() instanceof Redstone) {
       this.breakedBlockPower.put(bedBlock, ((Redstone) bedBlock.getState().getData()).isPowered());
@@ -98,7 +96,6 @@ public class Region {
             ((Directional) replacedBlock.getData()).getFacing());
       }
 
-      this.breakedBlockTypes.put(replacedBlock.getBlock(), replacedBlock.getTypeId());
       this.breakedBlockData.put(replacedBlock.getBlock(), replacedBlock.getData().getData());
 
       this.breakedBlocks.add(replacedBlock.getBlock());
@@ -114,7 +111,6 @@ public class Region {
             ((Directional) replaced.getData()).getFacing());
       }
 
-      this.breakedBlockTypes.put(replaced.getBlock(), replaced.getTypeId());
       this.breakedBlockData.put(replaced.getBlock(), replaced.getData().getData());
       this.breakedBlocks.add(replaced.getBlock());
 
@@ -253,8 +249,7 @@ public class Region {
 
     for (Block block : this.breakedBlocks) {
       Block theBlock = this.getWorld().getBlockAt(block.getLocation());
-      theBlock.setTypeId(this.breakedBlockTypes.get(block));
-      theBlock.setData(this.breakedBlockData.get(block));
+      theBlock.setBlockData(this.breakedBlockData.get(block));
 
       if (this.breakedBlockFace.containsKey(theBlock)) {
         MaterialData data = theBlock.getState().getData();

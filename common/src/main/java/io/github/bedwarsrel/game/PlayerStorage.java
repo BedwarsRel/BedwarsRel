@@ -136,7 +136,7 @@ public class PlayerStorage {
     // choose team only when autobalance is disabled
     if (!game.isAutobalanceEnabled()) {
       // Choose team (Wool)
-      ItemStack teamSelection = new ItemStack(Material.BED, 1);
+      ItemStack teamSelection = new ItemStack(Material.RED_BED, 1);
       im = teamSelection.getItemMeta();
       im.setDisplayName(BedwarsRel._l(this.player, "lobby.chooseteam"));
       teamSelection.setItemMeta(im);

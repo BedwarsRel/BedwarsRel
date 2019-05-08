@@ -292,7 +292,7 @@ public class Game {
 
       Material targetMaterial = this.getTargetMaterial();
 
-      if (targetMaterial.equals(Material.BED_BLOCK)) {
+      if (targetMaterial.toString().endsWith("_BED")) {
         if ((t.getHeadTarget() == null || t.getFeetTarget() == null)
             || (!Utils.isBedBlock(t.getHeadTarget()) || !Utils.isBedBlock(t.getFeetTarget()))) {
           return GameCheckCode.TEAM_NO_WRONG_BED;
@@ -458,7 +458,7 @@ public class Game {
   }
 
   private void dropTargetBlock(Block targetBlock) {
-    if (targetBlock.getType().equals(Material.BED_BLOCK)) {
+    if (targetBlock.getBlockData() instanceof org.bukkit.block.data.type.Bed) {
       Block bedHead;
       Block bedFeet;
       Bed bedBlock = (Bed) targetBlock.getState().getData();
@@ -710,7 +710,7 @@ public class Game {
 
   public Material getTargetMaterial() {
     if (this.targetMaterial == null) {
-      return Utils.getMaterialByConfig("game-block", Material.BED_BLOCK);
+      return Utils.getMaterialByConfig("game-block", Material.RED_BED);
     }
 
     return this.targetMaterial;
@@ -779,7 +779,7 @@ public class Game {
     Team bedDestroyTeam = null;
     Block bedBlock = team.getHeadTarget();
 
-    if (block.getType().equals(Material.BED_BLOCK)) {
+    if (block.getBlockData() instanceof org.bukkit.block.data.type.Bed) {
       Block breakBlock = block;
       Block neighbor = null;
       Bed breakBed = (Bed) breakBlock.getState().getData();
@@ -1022,10 +1022,11 @@ public class Game {
         .createInventory(null, size, BedwarsRel._l(player, "ingame.spectator"));
     for (Team t : this.getTeams().values()) {
       for (Player p : t.getPlayers()) {
-        ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+
+        ItemStack head = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) head.getItemMeta();
         meta.setDisplayName(t.getChatColor() + p.getDisplayName());
-        meta.setLore(Arrays.asList(t.getChatColor() + t.getDisplayName()));
+        meta.setLore(Collections.singletonList(t.getChatColor() + t.getDisplayName()));
         meta.setOwner(p.getName());
         head.setItemMeta(meta);
 

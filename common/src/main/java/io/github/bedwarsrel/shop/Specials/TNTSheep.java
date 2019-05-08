@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Sheep;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.SpawnEgg;
@@ -132,6 +133,15 @@ public class TNTSheep extends SpecialItem {
     final Player target = event.getTargetPlayer();
     final Location start = event.getStartLocation();
 
+    Sheep sheep = (Sheep) start.getWorld().spawnEntity(start, EntityType.SHEEP);
+    sheep.setTarget(target);
+    sheep.setColor(playerTeam.getColor().getDyeColor());
+    TNTPrimed tnt = (TNTPrimed) start.getWorld().spawnEntity(start, EntityType.PRIMED_TNT);
+    sheep.addPassenger(tnt);
+
+
+
+/*
     // as task
     new BukkitRunnable() {
 
@@ -180,6 +190,8 @@ public class TNTSheep extends SpecialItem {
         }
       }
     }.runTask(BedwarsRel.getInstance());
+
+    */
   }
 
   public void updateTNT() {
