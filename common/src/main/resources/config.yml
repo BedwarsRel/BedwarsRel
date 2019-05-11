@@ -932,7 +932,7 @@ specials:
     # type: int or string
     # The item id or string which indicates which item should be in the
     # hand to execute the arrow-blocker on interaction
-    item: ender_eye
+    item: EYE_OF_ENDER
   
 # Sign configuration
 # You can use following placeholder (colors with &):
