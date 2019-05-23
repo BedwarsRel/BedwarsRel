@@ -35,7 +35,7 @@ public class ArrowBlocker extends SpecialItem {
     int protectionTime = BedwarsRel.getInstance()
         .getIntConfig("specials.arrow-blocker.protection-time", 10);
     int waitTime = BedwarsRel
-        .getInstance().getIntConfig("specials.arrow-blocker.using-wait-time", 30);
+        .getInstance().getIntConfig("specials.arrow-blocker.using-wait-time", 30) + protectionTime;
 
     if (waitTime > 0) {
       ArrayList<ArrowBlocker> livingBlockers = this.getLivingBlocker();
