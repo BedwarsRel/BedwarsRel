@@ -161,7 +161,7 @@ shop:
             DURABILITY: 1
             KNOCKBACK: 1
   bows:
-    item: 261
+    item: BOW
     name: "Bows"
     order: 30
     permission: bw.base
